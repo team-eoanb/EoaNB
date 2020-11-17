@@ -15,24 +15,31 @@ country_event = { # Grigore asks napoleon for audience
 	title = grigore_ghica.1.t
 	desc = grigore_ghica.1.d
 	picture = GFX_grigore_ghica2
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 
 	trigger = {
 		AND = {
-			date > 1857.7.15
+			#date > 1857.7.15
 			original_tag = FRA
 			exists = yes
 		}
 	}
-	
+
 	immediate = { # Optional : all the following will occur once the event occurs
 		set_global_flag = ghica_asks_for_audience
 	}
-	
+
 	option = { # Napoleon accepts Ghika's offer, no Paris convention will happen and England will get angry
 		name = grigore_ghica.1.a
-		ai_chance = { factor = 0 }
+		ai_chance = { 
+			factor = 25
+			modifier = { 
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 		ENG = {
 			country_event = {
 				id = grigore_ghica.2
@@ -69,10 +76,10 @@ country_event = { # Grigore asks napoleon for audience
 			set_global_flag = ghicas_road_to_union
 		}
 	}
-	
+
 	option = { # Napoleon rejects Ghika's offer, if Vogoride will execute the electoral fraud the Paris convention will happen, England is happy with this but Ghika will suffer and commit suicide
 		name = grigore_ghica.1.b
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 75 }
 		custom_effect_tooltip = reject_ghika_tt
 		hidden_effect = {
 			news_event = {
@@ -89,18 +96,18 @@ country_event = { # anti-unionist powers of Austria, Russia, Ottoman Empire and 
 	title = grigore_ghica.2.t
 	desc = grigore_ghica.2.d
 	picture = GFX_grigore_ghica2
-	
+
 	is_triggered_only = yes
 
 	trigger = {
 		NOT = { has_country_flag = great_powers_revoke_guarantee }
 		has_global_flag = ghicas_road_to_union
 	}
-	
+
 	immediate = { # Optional : all the following will occur once the event occurs
 		set_country_flag = great_powers_revoke_guarantee
 	}
-	
+
 	option = { # revoke_guarantee
 		name = grigore_ghica.2.a
 		ai_chance = { factor = 25 }
@@ -115,18 +122,18 @@ country_event = { # anti-unionist powers of Austria, Russia, Ottoman Empire and 
 			active = no
 		}
 	}
-	
+
 	option = { # stand_with_ghica
 		name = grigore_ghica.2.b
-		ai_chance = { 
+		ai_chance = {
 			factor = 75
 			modifier = {
-			factor = 0
-			 OR = { 
-				tag = OTO
-				tag = AUS
+				factor = 0
+					OR = {
+						tag = OTO
+						tag = AUS
+					}
 				}
-			}
 		}
 		remove_opinion_modifier = {
 			target = FRA
@@ -140,11 +147,11 @@ news_event = {
 	title = grigore_ghica.6.t
 	desc = grigore_ghica.6.d
 	picture = GFX_grigore_ghica1
-	
+
 	major = yes
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		OR = {
 			TAG = FRA
@@ -152,14 +159,14 @@ news_event = {
 			TAG = MOL
 		}
 	}
-	
+
 	immediate = { # Optional : all the following will occur once the event occurs
 		set_global_flag = ghika_dead
 	}
-	
+
 	option = {
 		name = grigore_ghica.6.a
-		trigger = { 
+		trigger = {
 			OR = {
 				TAG = ROM
 				TAG = MOL
@@ -173,7 +180,7 @@ news_event = {
 	option = {
 		name = grigore_ghica.6.b
 		trigger = {
-			NOR = {
+			NOT = {
 				TAG = ROM
 				TAG = MOL
 				TAG = FRA
@@ -194,12 +201,12 @@ country_event = { # Romanians call for fair elections
 	title = walalchian_union.1.t
 	desc = walalchian_union.1.d
 	#picture = GFX_grigore_ghica2
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 
 	trigger = {
-		always = no
-		date > 1858.8.9
+		date > 1858.8.8
 		original_tag = OTO
 		ROM={
 			exists = yes
@@ -212,26 +219,35 @@ country_event = { # Romanians call for fair elections
 			}
 		}
 	}
-	
+
 	immediate = { # occurs
 		set_global_flag = ROM_WAL_road_to_unifaction
 	}
-	
+
 	option = { # reject
 		name = walalchian_union.1.a
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 75 }
 		add_political_power = 50
 		MOL={
 			country_event={id = walalchian_union.2 days = 2}
 		}
 	}
-	
+
 	option = { # agree
 		name = walalchian_union.1.b
-		ai_chance = { factor = 0 }
+		ai_chance = { 
+			factor = 25 
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 		add_political_power = -50
 		MOL={#new elections held
-			country_event = {id = walalchian_union.5 days = 44}
+			country_event = {id = walalchian_union.6 days = 44}
+		}
+		ROM={#new elections held
+			country_event = {id = walalchian_union.7 days = 44}
 		}
 	}
 }
@@ -240,12 +256,12 @@ country_event = { # Ottomans reject call
 	title = walalchian_union.2.t
 	desc = walalchian_union.2.d
 	#picture = GFX_grigore_ghica2
-	
+
 	is_triggered_only = yes
-	
+
 	option = { # complain to the guarantors
 		name = walalchian_union.2.a
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 75 }
 		FRA={
 			country_event={id = walalchian_union.3 days = 2}
 		}
@@ -261,11 +277,268 @@ country_event = { # Ottomans reject call
 		RUS={
 			country_event={id = walalchian_union.3 days = 2}
 		}
+		OTO={
+			set_variable = { ROM_guarantors_backing_relection = 0}
+			set_variable = { ROM_guarantors_decided = 0}
+		}
 	}
-	
+
 	option = { # if they say it is lejitimate, it is
-		name = walalchian_union.1.b
-		ai_chance = { factor = 0 }
+		name = walalchian_union.2.b
+		ai_chance = { 
+			factor = 25 
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 		add_political_power = -50
+	}
+}
+country_event = { # walalchia complains to the guarantors
+	id = walalchian_union.3
+	title = walalchian_union.3.t
+	desc = walalchian_union.3.d
+	#picture = GFX_grigore_ghica2
+
+	is_triggered_only = yes
+	immediate={
+		OTO={add_to_variable = { ROM_guarantors_decided = 1}}
+	}
+
+	option = { # back them
+		name = walalchian_union.3.a
+		ai_chance = { factor = 75 }
+		add_political_power = -20
+		OTO={
+			add_to_variable = { ROM_guarantors_backing_relection = 1}
+			country_event={id = walalchian_union.4 days = 2}
+		}
+	}
+
+	option = { # ignore them
+		name = walalchian_union.3.b
+		ai_chance = { 
+			factor = 25 
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		#add_political_power = -50
+	}
+}
+country_event = { # guarantor Blocks trade
+	id = walalchian_union.4
+	title = walalchian_union.4.t
+	desc = walalchian_union.4.d
+	#picture = GFX_grigore_ghica2
+
+	is_triggered_only = yes
+
+	option = { # damn
+		name = walalchian_union.4.a
+		ai_chance = { factor = 100 }
+		add_political_power = -50
+		add_stability = -0.05
+	}
+}
+country_event = { # majorities of guarantors Block trade
+	id = walalchian_union.5
+	title = walalchian_union.5.t
+	desc = walalchian_union.5.d
+	#picture = GFX_grigore_ghica2
+
+	trigger={
+		tag = OTO
+		check_variable = {ROM_guarantors_backing_relection > 2}
+		check_variable = {ROM_guarantors_decided > 4}
+	}
+
+	fire_only_once = yes
+	mean_time_to_happen={
+		days = 8
+	}
+
+	option = { # give them the damn vote
+		name = walalchian_union.5.a
+		ai_chance = { factor = 90 }
+		if={
+			limit={
+				check_variable = {ROM_guarantors_backing_relection > 4}
+			}
+			add_political_power = 125
+			add_stability = 0.25
+		}
+		else_if={
+			limit={
+				check_variable = {ROM_guarantors_backing_relection > 3}
+			}
+			add_political_power = 100
+			add_stability = 0.20
+		}
+		else_if={
+			limit={
+				check_variable = {ROM_guarantors_backing_relection > 2}
+			}
+			add_political_power = 75
+			add_stability = 0.15
+		}
+		else_if={
+			limit={
+				check_variable = {ROM_guarantors_backing_relection > 1}
+			}
+			add_political_power = 50
+			add_stability = 0.10
+		}
+		else={
+			add_political_power = 25
+			add_stability = 0.05
+		}
+		MOL={
+			country_event={id = walalchian_union.6 days = 2}
+		}
+		ROM={
+			country_event={id = walalchian_union.7 days = 2}
+		}
+		clear_variable = ROM_guarantors_backing_relection
+		clear_variable = ROM_guarantors_decided
+	}
+	option = { # Ignore them
+		name = walalchian_union.5.a
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
+	}
+}
+country_event = { # OTO Calls for a new election
+	id = walalchian_union.6
+	title = walalchian_union.6.t
+	desc = walalchian_union.6.d
+	#picture = GFX_grigore_ghica2
+
+	is_triggered_only = yes
+
+	option = { # ok
+		name = walalchian_union.6.a
+		ai_chance = { factor = 100 }
+		MOL={
+			country_event={id = walalchian_union.8 days = 44}
+		}
+	}
+}
+country_event = { # OTO Calls for a new election due to MOL
+	id = walalchian_union.7
+	title = walalchian_union.7.t
+	desc = walalchian_union.7.d
+	#picture = GFX_grigore_ghica2
+
+	is_triggered_only = yes
+
+	option = { # ok
+		name = walalchian_union.7.a
+		ai_chance = { factor = 100 }
+		ROM={
+			country_event={id = walalchian_union.9 days = 44}
+		}
+	}
+}
+country_event = { # MOL - 1858 election
+	id = walalchian_union.8
+	title = walalchian_union.8.t
+	desc = walalchian_union.8.d
+	#picture = GFX_grigore_ghica2
+
+	is_triggered_only = yes
+
+	option = { # Alexandru Ioan Cuza
+		name = walalchian_union.8.a
+		ai_chance = { factor = 100 }
+		create_country_leader = {
+			name = "Alexandru Ioan Cuza"
+			desc = "ALEXANDRU_IOAN_CUZA_DESC"
+			picture = "Portrait_ROM_Alexander_Ioan_Cuza.dds"
+			expire = "1900.1.1"
+			ideology = despotism
+			traits = {
+			}
+		}
+	}
+}
+country_event = { # ROM - 1858 election
+	id = walalchian_union.9
+	title = walalchian_union.9.t
+	desc = walalchian_union.9.d
+	#picture = GFX_grigore_ghica2
+
+	is_triggered_only = yes
+
+	option = { # Alexandru Ioan Cuza
+		name = walalchian_union.9.a
+		ai_chance = { factor = 100 }
+		create_country_leader = {
+			name = "Alexandru Ioan Cuza"
+			desc = "ALEXANDRU_IOAN_CUZA_DESC"
+			picture = "Portrait_ROM_Alexander_Ioan_Cuza.dds"
+			expire = "1900.1.1"
+			ideology = despotism
+			traits = {
+			}
+		}
+	}
+}
+country_event = { # ROM calls for unification
+	id = walalchian_union.10
+	title = walalchian_union.10.t
+	desc = walalchian_union.10.d
+	#picture = GFX_grigore_ghica2
+
+	fire_only_once = yes
+	#is_triggered_only = yes
+	trigger={
+		tag = OTO
+		ROM={
+			has_country_leader = {
+				name = "Alexandru Ioan Cuza"
+				ruling_only = yes
+			}
+		}
+		MOL={
+			has_country_leader = {
+				name = "Alexandru Ioan Cuza"
+				ruling_only = yes
+			}
+		}
+	}
+
+	immediate={
+		hidden_effect={
+			ROM = {
+				MOL = {set_country_flag = is_junior_personal_union_member}
+				if = {
+					limit = {
+						has_dlc = "Together for Victory"
+					}
+					set_autonomy = {
+						target = MOL
+						autonomy_state = autonomy_personal_union
+					}
+				}
+				else = {
+					puppet = MOL
+				}
+			}
+		}
+	}
+
+	option = { # ok
+		name = walalchian_union.10.a
+		ai_chance = { factor = 100 }
+		unlock_decision_tooltip = OTO_grant_romanian_union
 	}
 }

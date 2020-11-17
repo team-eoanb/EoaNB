@@ -6,7 +6,7 @@ country_event = {
 	immediate = {log = "[GetDateText]: [Root.GetName]: event  nzl_nzw.1"}
 	title =  nzl_nzw.1.t
 	desc =  nzl_nzw.1.d
-	#picture = 
+	#picture =
 
 	fire_only_once = yes
 	#is_triggered_only = yes
@@ -44,8 +44,8 @@ country_event = {
 			add_core_of = TAA
 			remove_core_of = NZL
 			add_claim_by = NZL
-			TAA = { 
-				transfer_state = PREV 
+			TAA = {
+				transfer_state = PREV
 				add_ideas = {nzl_maori_buffs}
 			}
 		}
@@ -74,7 +74,7 @@ country_event = {
 # waikato breaks loose
 country_event = {
 	id = nzl_nzw.3
-	immediate = {log = "[GetDateText]: [Root.GetName]: event  nzl_nzw.2"}
+	immediate = {log = "[GetDateText]: [Root.GetName]: event  nzl_nzw.3"}
 	title =  nzl_nzw.3.t
 	desc =  nzl_nzw.3.d
 
@@ -151,10 +151,9 @@ country_event = {
 }
 country_event = {
 	id = nzl_nzw.4
-	immediate = {log = "[GetDateText]: [Root.GetName]: event  nzl_nzw.2"}
 	title =  nzl_nzw.4.t
 	desc =  nzl_nzw.4.d
-	 
+
 
 	fire_only_once = yes
 	#is_triggered_only = yes
@@ -176,7 +175,7 @@ country_event = {
 
 	immediate = {
 		hidden_effect={
-	
+
 			1077={
 				set_demilitarized_zone = yes
 			}
@@ -202,7 +201,7 @@ country_event = {
 	id = nzl_nzw.5
 	title =  nzl_nzw.5.t
 	desc =  nzl_nzw.5.d
-	 
+
 
 	fire_only_once = yes
 	#is_triggered_only = yes
@@ -212,15 +211,15 @@ country_event = {
 		tag = NZL
 		#NOT = { date > 1961.10.1 }
 		1077 = { #Waikato
-			is_owned_and_controlled_by = NZL 
+			is_owned_and_controlled_by = NZL
 			is_core_of = KIN
-		} 
+		}
 		has_country_flag = waikato_invasion_war
 		has_country_flag = nzl_maori_agatate_in_waikato
 	}
 
 	mean_time_to_happen = {
-		days = 1
+		days = 3
 	}
 
 	immediate = {
@@ -245,7 +244,7 @@ country_event = {
 	id = nzl_nzw.6
 	title =  nzl_nzw.6.t
 	desc =  nzl_nzw.6.d
-	 
+
 
 	fire_only_once = yes
 	#is_triggered_only = yes
@@ -253,7 +252,6 @@ country_event = {
 	trigger = {
 		KIN = {
 			exists = yes
-			has_war = no
 		}
 		tag = NZL
 		#NOT = { date > 1961.10.1 }
@@ -262,10 +260,11 @@ country_event = {
 		}
 		has_country_flag = waikato_invasion_war
 		has_country_flag = nzl_maori_agatate_in_waikato
+		surrender_progress > 0.33
 	}
 
 	mean_time_to_happen = {
-		days = 1
+		days = 3
 	}
 
 	immediate = {
@@ -286,14 +285,29 @@ country_event = {
 country_event = {#first taranaki war ends in defeat
 	id = nzl_nzw.8
 	title =  nzl_nzw.8.t
-	desc =  nzl_nzw.8.d
-	 
+
+	desc =  {
+		trigger={
+			has_war_with = TAA
+		}
+		text = nzl_nzw.8.d
+	}
+	desc =  {
+		trigger={
+			NOT={has_war_with = TAA}
+		}
+		text = nzl_nzw.8.db
+	}
+
 
 	fire_only_once = yes
 	is_triggered_only = yes
 
 	option = {
 		name = nzl_nzw.8.a #yes we can't afford to keep pushing
+		trigger={
+			has_war_with = TAA
+		}
 		white_peace = TAA
 		1077={
 			set_demilitarized_zone = yes
@@ -310,11 +324,28 @@ country_event = {#first taranaki war ends in defeat
 		trigger = {
 			has_stability > 0.15
 			has_war_support > 0.30
+			has_war_with = TAA
 		}
 		ai_chance = {
             factor = 0
         }
 		add_stability = -0.5
+	}
+	option = {
+		name = nzl_nzw.8.c#unrest over the occupation of taranaki
+		trigger={
+			NOT={has_war_with = TAA}
+		}
+		white_peace = TAA
+		1077={
+			set_demilitarized_zone = yes
+		}
+		1079={
+			set_demilitarized_zone = yes
+		}
+		ai_chance = {
+            factor = 100
+        }
 	}
 }
 # second Taranaki War begins
@@ -323,7 +354,7 @@ country_event = {
 	immediate = {log = "[GetDateText]: [Root.GetName]: event  nzl_nzw.9"}
 	title =  nzl_nzw.9.t
 	desc =  nzl_nzw.9.d
-	 
+
 
 	fire_only_once = yes
 	#is_triggered_only = yes
@@ -363,7 +394,9 @@ country_event = {
 						NOT = {has_completed_focus = nzl_vic_push_into_the_waikato_heartlands}
 					}
 				}
-				load_oob = TAA_nzl_1
+				TAA={
+					load_oob = TAA_nzl_1
+				}
 			}
 			#
 			country_event = {id = nzl_nzw.8 days = 90}
@@ -380,7 +413,7 @@ country_event = {
 	immediate = {log = "[GetDateText]: [Root.GetName]: event  nzl_nzw.10"}
 	title =  nzl_nzw.10.t
 	desc =  nzl_nzw.10.d
-	 
+
 
 	fire_only_once = yes
 
@@ -394,7 +427,7 @@ country_event = {
 			date > 1865.04.1
 			has_completed_focus = nzl_vic_kingitanga_backing_for_crushing_bay_of_plenty_radicals
 		}
-		NOT = { date > 1966.01.1 }
+		NOT = { date > 1866.01.1 }
 		#OR = {
 			1079 = { is_owned_and_controlled_by = NZL } #Bay of Plenty
 		#}
@@ -417,19 +450,11 @@ country_event = {
 			add_core_of = PAI
 			remove_core_of = NZL
 			add_claim_by = NZL
-			PAI = { 
-				transfer_state = PREV 
+			PAI = {
+				transfer_state = PREV
 				add_ideas = {nzl_maori_buffs}
 				}
 		}
-		#CNT = {
-		#	set_cosmetic_tag = CNT_FAI
-		#	transfer_technology = yes
-		#}
-	}
-
-	option = {
-		name = nzl_nzw.10.a #shit
 		hidden_effect = {
 			PAI ={
 				load_oob = PAI_revolt_1
@@ -442,6 +467,10 @@ country_event = {
 				producer = PAI
 			}
 		}
+	}
+
+	option = {
+		name = nzl_nzw.10.a #shit
 		declare_war_on = {
 			target = PAI
 			type = annex_everything
@@ -452,9 +481,10 @@ country_event = {
 					exists = yes
 					is_subject_of = NZL
 				}
+				has_completed_focus = nzl_vic_the_kingitanga_deal
 			}
 			KIN = {
-				add_to_war = { 
+				add_to_war = {
 					targeted_alliance = NZL
 					enemy = PAI
 					hostility_reason = asked_to_join
@@ -468,7 +498,7 @@ country_event = {
 	id = nzl_nzw.11
 	title =  nzl_nzw.11.t
 	desc =  nzl_nzw.11.d
-	 
+
 
 	fire_only_once = yes
 	#is_triggered_only = yes
@@ -478,15 +508,15 @@ country_event = {
 		tag = NZL
 		#NOT = { date > 1961.10.1 }
 		1079 = { #Bay of plenty
-			is_owned_and_controlled_by = NZL 
+			is_owned_and_controlled_by = NZL
 			is_core_of = PAI
-		} 
+		}
 		has_country_flag = east_cape_war
 		has_country_flag = nzl_maori_agatate_in_bay_of_plenty
 	}
 
 	mean_time_to_happen = {
-		days = 1
+		days = 3
 	}
 
 	immediate = {
@@ -510,7 +540,7 @@ country_event = {
 	id = nzl_nzw.12
 	title =  nzl_nzw.12.t
 	desc =  nzl_nzw.12.d
-	 
+
 
 	fire_only_once = yes
 	#is_triggered_only = yes
@@ -518,19 +548,17 @@ country_event = {
 	trigger = {
 		PAI = {
 			exists = yes
-			has_war = no
 		}
 		tag = NZL
 		#NOT = { date > 1961.10.1 }
-		OR = {
-			1077 = { is_owned_and_controlled_by = KIN } #Waikato
-		}
+		1079 = { is_owned_and_controlled_by = PAI } #Bay of Plenty
 		has_country_flag = east_cape_war
 		has_country_flag = nzl_maori_agatate_in_bay_of_plenty
+		surrender_progress > 0.33
 	}
 
 	mean_time_to_happen = {
-		days = 1
+		days = 3
 	}
 
 	immediate = {
@@ -538,7 +566,7 @@ country_event = {
 		hidden_effect={
 			remove_ideas={ nzl_maori_agatation_bay_of_plenty}
 		}
-		
+
 		set_country_flag = lost_east_cape_war
 		if = {
 			limit = {
@@ -562,7 +590,7 @@ country_event = {
 	id = nzl_nzw.13
 	title =  nzl_nzw.13.t
 	desc =  nzl_nzw.13.d
-	 
+
 
 	#fire_only_once = yes
 	is_triggered_only = yes
@@ -604,7 +632,7 @@ country_event = { # Pa building
 	id = nzl_nzw.14
 	title =  nzl_nzw.14.t
 	desc =  nzl_nzw.14.d
-	 
+
 
 	fire_only_once = yes
 	#is_triggered_only = yes
@@ -625,7 +653,7 @@ country_event = { # Pa building
 	}
 
 	mean_time_to_happen = {
-		days = 1
+		days = 3
 	}
 
 	immediate = {
@@ -640,14 +668,14 @@ country_event = { # Pa building
 	}
 	option = {
 		name = nzl_nzw.14.a #builds pa quickly
-		
+
 	}
 }
 country_event = {#second taranaki war ends in defeat
 	id = nzl_nzw.15
 	title = nzl_nzw.15.t
 	desc = nzl_nzw.15.d
-	 
+
 	fire_only_once = yes
 	#is_triggered_only = yes
 	trigger = {
@@ -655,8 +683,10 @@ country_event = {#second taranaki war ends in defeat
 		has_war = yes
 		TAA = {
 			exists = yes
-			has_war = yes
 		}
+		1078 = { is_owned_and_controlled_by = TAA } #Taranaki
+		surrender_progress > 0.33
+		NOT={has_country_flag = second_TAA_war_defeat}
 	}
 	immediate = {
 		add_stability = -0.10
@@ -668,7 +698,15 @@ country_event = {#second taranaki war ends in defeat
 	option = {
 		name = nzl_nzw.15.a #we have lost
 		white_peace = TAA
-		country_event = {id = nzl_nzw.3 days = 1}
+		set_country_flag = second_TAA_war_defeat
+		if={
+			limit={
+				KIN={
+					is_puppet_of = NZL
+				}
+			}
+			country_event = {id = nzl_nzw.3 days = 1}
+		}
 		if = {
 			limit = {
 				1079 = {
@@ -687,5 +725,301 @@ country_event = {#second taranaki war ends in defeat
 			has_war_support > 0.40
 		}
 		add_stability = -0.33
+	}
+}
+
+country_event = {#NZL Falls Apart
+	id = nzl_nzw.16
+	title = nzl_nzw.16.t
+	desc = nzl_nzw.16.d
+
+	fire_only_once = yes
+	#is_triggered_only = yes
+	trigger = {
+		has_war = yes
+		OR={#lost control of a major region
+			NOT={controls_state = 1080}
+			NOT={controls_state = 284}
+		}
+		OR={#taranaki is gone
+			TAA={
+				exists= yes
+				controls_state = 1078
+				has_war = yes
+			}
+			has_country_flag = nzl_maori_agatate_in_taranaki
+		}
+		OR={#waikato is gone
+			KIN={
+				exists= yes
+				controls_state = 1077
+				has_war = yes
+			}
+			has_country_flag = nzl_maori_agatate_in_waikato
+			has_country_flag = lost_waikato_invasion
+		}
+		OR={#bay of plenty is gone
+			PAI={
+				exists= yes
+				controls_state = 1079
+				has_war = yes
+			}
+			has_country_flag = nzl_maori_agatate_in_bay_of_plenty
+			has_country_flag = lost_east_cape_war
+		}
+		surrender_progress > 0.33#highish surrender
+	}
+	immediate = {
+		#add_stability = -0.50
+		#add_war_support = -0.50
+		set_country_flag = NZL_shattered
+	}
+	option = {
+		name = nzl_nzw.16.a #we have lost
+		#set up taranaki scenario
+		if={
+			limit={
+				TAA = {
+					exists = yes
+					has_war = yes
+				}
+			}
+			white_peace = TAA
+		}
+		else_if ={
+			limit={
+				TAA={exists = no}
+			}
+			1078 = {
+				remove_claim_by = TAA
+				add_core_of = TAA
+				remove_core_of = NZL
+				add_claim_by = NZL
+				TAA = {
+					transfer_state = PREV
+					add_ideas = {nzl_maori_buffs}
+				}
+			}
+		}
+		TAA={set_cosmetic_tag = TAA_inde}
+		#set up kingitanga scenario
+		if={
+			limit={
+				KIN = {
+					has_war = yes
+					exists = yes
+				}
+			}
+			white_peace = KIN
+		}
+		else_if ={
+			limit={
+				KIN={
+					exists = yes
+					has_war = no
+					is_subject_of = NZL
+				}
+			}
+			NZL = {
+				end_puppet = KIN
+			}
+		}
+		#set up pai marire scenario
+		if={
+			limit={
+				PAI = {
+					has_war = yes
+					exists = yes
+				}
+			}
+			white_peace = PAI
+		}
+		else_if ={
+			limit={
+				PAI={exists = no}
+			}
+			1079 = {
+				remove_claim_by = PAI
+				add_core_of = PAI
+				remove_core_of = NZL
+				add_claim_by = NZL
+				PAI = {
+					transfer_state = PREV
+					add_ideas = {nzl_maori_buffs}
+				}
+			}
+		}
+		PAI={
+			set_cosmetic_tag = PAI_inde
+			add_ideas = {
+				nzl_pink_white_terraces
+			}
+		}
+		#set up new Munster scenario
+		set_cosmetic_tag = NZL_new_munster
+		if={
+			limit={
+				1080 = {is_capital = yes}
+			}
+			set_capital = 284
+		}
+		add_ideas={
+			nzl_collapsed_gov
+		}
+		remove_ideas = {
+			nzl_pink_white_terraces
+		}
+		#Uk is asked about a Auckland setup
+		ENG = {country_event = {id = nzl_nzw.17}}
+		#remove any remaining agaitation variables
+		if={
+			limit={
+				has_country_flag = nzl_maori_agatate_in_taranaki
+			}
+			clr_country_flag = nzl_maori_agatate_in_taranaki
+			remove_ideas={
+				nzl_maori_agatation_taranaki
+			}
+		}
+		if={
+			limit={
+				has_country_flag = nzl_maori_agatate_in_waikato
+			}
+			clr_country_flag = nzl_maori_agatate_in_waikato
+			remove_ideas={
+				nzl_maori_agatation_waikato
+			}
+		}
+		if={
+			limit={
+				has_country_flag = nzl_maori_agatate_in_bay_of_plenty
+			}
+			clr_country_flag = nzl_maori_agatate_in_bay_of_plenty
+			remove_ideas={
+				nzl_maori_agatation_bay_of_plenty
+			}
+		}
+	}
+}
+
+country_event = {#ENG - Auckland request to be split off
+	id = nzl_nzw.17
+	title = nzl_nzw.17.t
+	desc = nzl_nzw.17.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nzl_nzw.17.a #turn auckland into its own colony
+		1080 = {
+			remove_claim_by = NZA
+			add_core_of = NZA
+			remove_core_of = NZL
+			add_claim_by = NZL
+			NZA = {
+				transfer_state = PREV
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = NZA
+				autonomy_state = autonomy_colony
+			}
+		}
+		else = {
+			puppet = NZA
+		}
+		hidden_effect={
+			NZA={
+				set_popularities = {
+					anarchism = 0
+					vanguard_communism = 0
+					collectivist_socialism = 0
+					social_egalitarianism = 0
+					centrism = 0
+					traditional_conservatism = 0
+					radical_democracy = 0
+					chauvinist_populism = 0
+					autocracy = 100
+					fundamentalism = 0
+				}
+				set_politics = {
+					ruling_party = autocracy
+				}
+				#ruler is the current superintendent of Auckland
+				if={
+					limit={
+						date > 1867.04.18
+					}
+					create_country_leader = {
+						name = "John Williamson"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_NZA_John_Williamson.dds"
+						expire = 1875.02.16
+						ideology = despotism
+					}
+				}
+				else_if={
+					limit={
+						date > 1865.09.25
+					}
+					create_country_leader = {
+						name = "Frederick Whitaker"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_NZA_Frederick_Whitaker.dds"
+						expire = 1891.12.04
+						ideology = despotism
+					}
+				}
+				else_if={
+					limit={
+						date > 1862.12.11
+					}
+					create_country_leader = {
+						name = "Robert Graham"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_NZA_Robert_Graham.dds"
+						expire = 1885.05.15
+						ideology = despotism
+					}
+				}
+				else={
+					create_country_leader = {
+						name = "John Williamson"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_NZA_John_Williamson.dds"
+						expire = 1875.02.16
+						ideology = despotism
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = nzl_nzw.17.b #stick it under NSW
+		NSW = {
+			transfer_state = 1080
+		}
+		1080={
+			add_core_of = NSW
+			remove_core_of = NZL
+			add_claim_by = NZL
+		}
+		add_political_power = -50
+	}
+	option = {
+		name = nzl_nzw.17.c #take over administration ourselves
+		ROOT = {
+			transfer_state = 1080
+		}
+		add_political_power = -100
+	}
+	option = {
+		name = nzl_nzw.17.e #leave it be
+		add_political_power = -25
 	}
 }

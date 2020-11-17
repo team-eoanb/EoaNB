@@ -3,309 +3,338 @@ add_namespace = OTO_Succession
 add_namespace = OTO_general_death
 add_namespace = OTO_vassal_tribute
 add_namespace = OTO_events
+add_namespace = OTO_russio_turkish_war
 
-#Tribute payment from the vassals
-country_event = {
-	id = OTO_vassal_tribute.1
-	title = OTO_vassal_tribute.1.t
-	desc = OTO_vassal_tribute.1.d
-	picture = GFX_event_test
-	
-	trigger = {
-		date > 1858.1.1
-		ROOT = {
-			AND = {
-				is_subject_of = OTO
-				OR = {
-					has_autonomy_state = autonomy_eyalet
-					has_autonomy_state = autonomy_khedive
-				}
-				NOT = {
-					has_idea = OTO_paid_tribute
-				}
-			}
-		}
-	}
-	mean_time_to_happen = { days = 2 }
-	hidden = yes
-	
-	immediate = {
-		country_event = { hours = 1 id = OTO_vassal_tribute.2 } 
-		add_timed_idea = {
-			idea = OTO_paid_tribute
-			days = 365
-		}
-	}
-}
+# #Tribute payment from the vassals
+# country_event = {
+	# id = OTO_vassal_tribute.1
+	# title = OTO_vassal_tribute.1.t
+	# desc = OTO_vassal_tribute.1.d
+	# picture = GFX_event_test
 
-country_event = {
-	id = OTO_vassal_tribute.2
-	title = OTO_vassal_tribute.2.t
-	desc = { 
-		text =  OTO_vassal_tribute.2.descEyalet
-		trigger = { 
-			AND = {
-				has_autonomy_state = autonomy_eyalet
-				NOT = {
-					has_country_flag = OTO_loyalty_enforced
-				}
-			}
-		}
-	}
-	desc = { 
-		text =  OTO_vassal_tribute.2.descEyaletEnforced
-		trigger = { 
-			AND = {
-				has_autonomy_state = autonomy_eyalet
-				has_country_flag = OTO_loyalty_enforced
-			}
-		}
-	}
-	desc = { 
-		text =  OTO_vassal_tribute.2.descKhedive
-		trigger = {
-			has_autonomy_state = autonomy_khedive
-		}
-	}
-	picture = GFX_event_test
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = OTO_vassal_tribute.2.a
-		trigger = {
-			has_autonomy_state = autonomy_eyalet
-			NOT = {
-				has_country_flag = OTO_loyalty_enforced
-			}
-		}
-		ai_chance = {
-			factor = 50
-		}
-		add_political_power = -50
-		hidden_effect = {
-			OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.3} }
-		}
-	}
-	
-	option = {
-		name = OTO_vassal_tribute.2.b
-		trigger = {
-			has_autonomy_state = autonomy_khedive
-		}
-		ai_chance = {
-			factor = 50 
-		}
-		add_political_power = -25
-		hidden_effect = {
-			OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.3} }
-		}
-	}
-	 option = {
-		name = OTO_vassal_tribute.2.c
-		trigger = {
-			has_country_flag = OTO_loyalty_enforced
-		}
-		add_political_power = -100
-		hidden_effect = {
-			OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.3} }
-		}
-	}
-	
-	option = {
-		name = OTO_vassal_tribute.2.d
-		trigger = { 
-			NOT = { has_country_flag = OTO_loyalty_enforced }
-		}
-		hidden_effect = {
-			OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.4} }
-		}
-	}
-}
+	# trigger = {
+		# date > 1858.1.1
+		# ROOT = {
+			# AND = {
+				# is_subject_of = OTO
+				# OR = {
+					# has_autonomy_state = autonomy_eyalet
+					# has_autonomy_state = autonomy_khedive
+				# }
+				# NOT = {
+					# has_idea = OTO_paid_tribute
+				# }
+			# }
+		# }
+	# }
+	# mean_time_to_happen = { days = 2 }
+	# hidden = yes
 
-country_event = {
-	id = OTO_vassal_tribute.3
-	title = OTO_vassal_tribute.3.t
-	desc = { 
-		text =  OTO_vassal_tribute.3.descEyalet
-		trigger = { 
-			FROM = { has_autonomy_state = autonomy_eyalet }
-		}
-	}
-	desc = { 
-		text =  OTO_vassal_tribute.3.descKhedive
-		trigger = {
-			FROM = { has_autonomy_state = autonomy_khedive }
-		}
-	}
-	picture = GFX_event_test
-	
-	is_triggered_only = yes
-	
-	option = { 
-		name = OTO_vassal_tribute.3.a
-		trigger = {
-			FROM = { has_autonomy_state = autonomy_eyalet }
-			NOT = {
-				FROM = { has_country_flag = OTO_loyalty_enforced }
-			}
-		}
-		add_political_power = 50
-	}
-	
-	option = {
-		name = OTO_vassal_tribute.3.b
-		trigger = {
-			FROM = { has_autonomy_state = autonomy_khedive }
-		}
-		add_political_power = 25
-	}
-	
-	option = {
-		name = OTO_vassal_tribute.3.c
-		trigger = {
-			FROM = { has_country_flag = OTO_loyalty_enforced}
-		}
-		add_political_power = 100
-	}
-}
+	# immediate = {
+		# country_event = { hours = 1 id = OTO_vassal_tribute.2 }
+		# add_timed_idea = {
+			# idea = OTO_paid_tribute
+			# days = 365
+		# }
+	# }
+# }
 
-country_event = {
-	id = OTO_vassal_tribute.4
-	title = OTO_vassal_tribute.4.t
-	desc = { 
-		text =  OTO_vassal_tribute.4.descEyalet
-		trigger = { 
-			FROM = { has_autonomy_state = autonomy_eyalet }
-		}
-	}
-	desc = { 
-		text =  OTO_vassal_tribute.4.descKhedive
-		trigger = {
-			FROM = { has_autonomy_state = autonomy_khedive }
-		}
-	}
-	picture = GFX_event_test
-	
-	is_triggered_only = yes
-	
-	option = { 
-		name = OTO_vassal_tribute.4.a
-		trigger = {
-			FROM = { has_autonomy_state = autonomy_eyalet }
-		}
-		ROOT = { 
-			set_autonomy = {
-				target = FROM
-				autonomy_state = autonomy_free
-			}
-			declare_war_on = {
-				target = FROM
-				type = puppet_wargoal_focus
-			}
-			FROM = { add_ideas = hidden_idea_never_surrender }
-		}
-		hidden_effect = {
-			FROM = { set_country_flag = OTO_rebellious_vassal }
-		}
-	}
-	
-	option = {
-		name = OTO_vassal_tribute.4.b
-		trigger = {
-			FROM = { has_autonomy_state = autonomy_khedive }
-		}
-		ROOT = { 
-			set_autonomy = {
-				target = FROM
-				autonomy_state = autonomy_free
-			}
-			declare_war_on = {
-				target = FROM
-				type = puppet_wargoal_focus
-			}
-			FROM = { add_ideas = hidden_idea_never_surrender }
-		}
-		hidden_effect = {
-			FROM = { set_country_flag = OTO_rebellious_vassal }
-		}
-	}
-	
-	option = {
-		name = OTO_vassal_tribute.4.c
-	}
-}
+# country_event = {
+	# id = OTO_vassal_tribute.2
+	# title = OTO_vassal_tribute.2.t
+	# desc = {
+		# text =  OTO_vassal_tribute.2.descEyalet
+		# trigger = {
+			# AND = {
+				# has_autonomy_state = autonomy_eyalet
+				# NOT = {
+					# has_country_flag = OTO_loyalty_enforced
+				# }
+			# }
+		# }
+	# }
+	# desc = {
+		# text =  OTO_vassal_tribute.2.descEyaletEnforced
+		# trigger = {
+			# AND = {
+				# has_autonomy_state = autonomy_eyalet
+				# has_country_flag = OTO_loyalty_enforced
+			# }
+		# }
+	# }
+	# desc = {
+		# text =  OTO_vassal_tribute.2.descKhedive
+		# trigger = {
+			# has_autonomy_state = autonomy_khedive
+		# }
+	# }
+	# picture = GFX_event_test
+
+	# is_triggered_only = yes
+
+	# option = {
+		# name = OTO_vassal_tribute.2.a
+		# trigger = {
+			# has_autonomy_state = autonomy_eyalet
+			# NOT = {
+				# has_country_flag = OTO_loyalty_enforced
+			# }
+		# }
+		# ai_chance = {
+			# factor = 25
+		# }
+		# add_political_power = -25
+		# hidden_effect = {
+			# OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.3} }
+		# }
+	# }
+
+	# option = {
+		# name = OTO_vassal_tribute.2.b
+		# trigger = {
+			# has_autonomy_state = autonomy_khedive
+		# }
+		# ai_chance = {
+			# factor = 50
+		# }
+		# add_political_power = -10
+		# hidden_effect = {
+			# OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.3} }
+		# }
+	# }
+	 # option = {
+		# name = OTO_vassal_tribute.2.c
+		# trigger = {
+			# has_country_flag = OTO_loyalty_enforced
+		# }
+		# add_political_power = -50
+		# hidden_effect = {
+			# OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.3} }
+		# }
+	# }
+
+	# option = {
+		# name = OTO_vassal_tribute.2.d
+		# trigger = {
+			# NOT = { has_country_flag = OTO_loyalty_enforced }
+		# }
+		# ai_chance = {
+			# factor = 5
+		# }
+		# hidden_effect = {
+			# OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.4} }
+		# }
+	# }
+# }
+
+# country_event = {
+	# id = OTO_vassal_tribute.3
+	# title = OTO_vassal_tribute.3.t
+	# desc = {
+		# text =  OTO_vassal_tribute.3.descEyalet
+		# trigger = {
+			# FROM = { has_autonomy_state = autonomy_eyalet }
+		# }
+	# }
+	# desc = {
+		# text =  OTO_vassal_tribute.3.descKhedive
+		# trigger = {
+			# FROM = { has_autonomy_state = autonomy_khedive }
+		# }
+	# }
+	# picture = GFX_event_test
+
+	# is_triggered_only = yes
+
+	# option = {
+		# name = OTO_vassal_tribute.3.a
+		# trigger = {
+			# FROM = { has_autonomy_state = autonomy_eyalet }
+			# NOT = {
+				# FROM = { has_country_flag = OTO_loyalty_enforced }
+			# }
+		# }
+		# add_political_power = 25
+	# }
+
+	# option = {
+		# name = OTO_vassal_tribute.3.b
+		# trigger = {
+			# FROM = { has_autonomy_state = autonomy_khedive }
+		# }
+		# add_political_power = 10
+	# }
+
+	# option = {
+		# name = OTO_vassal_tribute.3.c
+		# trigger = {
+			# FROM = { has_country_flag = OTO_loyalty_enforced}
+		# }
+		# add_political_power = 50
+	# }
+# }
+
+# country_event = {
+	# id = OTO_vassal_tribute.4
+	# title = OTO_vassal_tribute.4.t
+	# desc = {
+		# text =  OTO_vassal_tribute.4.descEyalet
+		# trigger = {
+			# FROM = { has_autonomy_state = autonomy_eyalet }
+		# }
+	# }
+	# desc = {
+		# text =  OTO_vassal_tribute.4.descKhedive
+		# trigger = {
+			# FROM = { has_autonomy_state = autonomy_khedive }
+		# }
+	# }
+	# picture = GFX_event_test
+
+	# is_triggered_only = yes
+
+	# option = {
+		# name = OTO_vassal_tribute.4.a
+		# trigger = {
+			# FROM = { has_autonomy_state = autonomy_eyalet }
+		# }
+		# ROOT = {
+			# if = {
+				# limit = {
+					# has_dlc = "Together for Victory"
+				# }
+				# set_autonomy = {
+					# target = FROM
+					# autonomy_state = autonomy_free
+				# }
+				# else = {
+					# end_puppet = FROM
+				# }
+			# }
+			# declare_war_on = {
+				# target = FROM
+				# type = puppet_wargoal_focus
+			# }
+			# FROM = { add_ideas = hidden_idea_never_surrender }
+		# }
+		# hidden_effect = {
+			# FROM = { set_country_flag = OTO_rebellious_vassal }
+		# }
+	# }
+
+	# option = {
+		# name = OTO_vassal_tribute.4.b
+		# trigger = {
+			# FROM = { has_autonomy_state = autonomy_khedive }
+		# }
+		# ROOT = {
+			# if = {
+				# limit = {
+					# has_dlc = "Together for Victory"
+				# }
+				# set_autonomy = {
+					# target = FROM
+					# autonomy_state = autonomy_free
+				# }
+				# else = {
+					# end_puppet = FROM
+				# }
+			# }
+			# declare_war_on = {
+				# target = FROM
+				# type = puppet_wargoal_focus
+			# }
+			# FROM = { add_ideas = hidden_idea_never_surrender }
+		# }
+		# hidden_effect = {
+			# FROM = { set_country_flag = OTO_rebellious_vassal }
+		# }
+	# }
+
+	# option = {
+		# name = OTO_vassal_tribute.4.c
+	# }
+# }
 
 
-country_event = {
-	id = OTO_vassal_tribute.5
-	title = OTO_vassal_tribute.5.t
-	desc = OTO_vassal_tribute.5.d
-	picture = GFX_event_test
-	
-	trigger = {
-		ROOT = { 
-			AND = {
-				has_country_flag = OTO_rebellious_vassal
-				has_war_with = OTO
-				surrender_progress > 0.4
-			}
-		}
-	}
-	mean_time_to_happen = { days = 2 }
-	hidden = yes
-	
-	immediate = {
-		OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.5 } }
-		every_country = {
-			if = {
-				limit = { has_war_together_with = ROOT }
-			}
-			white_peace = OTO
-		}
-		ROOT = { clr_country_flag = OTO_rebellious_vassal }
-		
-	}
-}
+# country_event = {
+	# id = OTO_vassal_tribute.5
+	# title = OTO_vassal_tribute.5.t
+	# desc = OTO_vassal_tribute.5.d
+	# picture = GFX_event_test
 
-country_event = {
-	id = OTO_vassal_tribute.6
-	title = OTO_vassal_tribute.6.t
-	desc = OTO_vassal_tribute.6.d
-	picture = GFX_event_test
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = OTO_vassal_tribute.6.a 
-		ROOT = { white_peace = FROM }
-		ROOT = { 
-			set_autonomy = {
-				target = FROM
-				autonomy_state = autonomy_eyalet
-			}
-		}
-		ROOT = { add_political_power = 100 }
-		hidden_effect= {
-			FROM = { set_country_flag = OTO_loyalty_enforced }
-			FROM = { add_political_power = -100 }
-		}
-	}
-}	
-			
-	
+	# trigger = {
+		# ROOT = {
+			# AND = {
+				# has_country_flag = OTO_rebellious_vassal
+				# has_war_with = OTO
+				# surrender_progress > 0.4
+			# }
+		# }
+	# }
+	# mean_time_to_happen = { days = 2 }
+	# hidden = yes
+
+	# immediate = {
+		# OTO = { country_event = { hours = 1 id = OTO_vassal_tribute.5 } }
+		# every_country = {
+			# if = {
+				# limit = { has_war_together_with = ROOT }
+			# }
+			# white_peace = OTO
+		# }
+		# ROOT = { clr_country_flag = OTO_rebellious_vassal }
+
+	# }
+# }
+
+# country_event = {
+	# id = OTO_vassal_tribute.6
+	# title = OTO_vassal_tribute.6.t
+	# desc = OTO_vassal_tribute.6.d
+	# picture = GFX_event_test
+
+	# is_triggered_only = yes
+
+	# option = {
+		# name = OTO_vassal_tribute.6.a
+		# ROOT = { white_peace = FROM }
+		# ROOT = {
+			# if = {
+				# limit = {
+					# has_dlc = "Together for Victory"
+				# }
+				# set_autonomy = {
+					# target = FROM
+					# autonomy_state = autonomy_free
+				# }
+				# else = {
+					# end_puppet = FROM
+				# }
+			# }
+		# }
+		# ROOT = { add_political_power = 100 }
+		# hidden_effect= {
+			# FROM = { set_country_flag = OTO_loyalty_enforced }
+			# FROM = { add_political_power = -100 }
+		# }
+	# }
+# }
+
+
 #Death of Abdulmajid I and Abdulaziz Succesion
 country_event = {
-	id = OTO_Succession.1 
+	id = OTO_Succession.1
 	title = OTO_Succession.1.t
 	desc = OTO_Succession.1.d
 	picture = report_event_likfard
-	
+
 	fire_only_once = yes
-	
+	is_triggered_only = yes
+
 	trigger = {
 		TAG = OTO
-		date > 1861.6.25
+		#date > 1861.6.25
 	}
 
 	option = {
@@ -342,16 +371,17 @@ country_event = {
 	title = OTO_general_death.1.t
 	desc = OTO_general_death.1.d
 	picture = report_event_likfard
-	
+
 	fire_only_once = yes
-	
+	is_triggered_only = yes
+
 	trigger = {
 		TAG = OTO
-		date > 1871.4.17
+		#date > 1871.4.17
 	}
-	
+
 	hidden = yes
-	
+
 	immediate = {
 		remove_unit_leader = 1877
 	}
@@ -363,16 +393,17 @@ country_event = {
 	title = OTO_general_death.2.t
 	desc = OTO_general_death.2.d
 	picture = report_event_likfard
-	
+
 	fire_only_once = yes
-	
+	is_triggered_only = yes
+
 	trigger = {
 		TAG = OTO
-		date > 1900.4.5
+		#date > 1900.4.5
 	}
-	
+
 	hidden = yes
-	
+
 	immediate = {
 		remove_unit_leader = 1878
 	}
@@ -384,16 +415,17 @@ country_event = {
 	title = OTO_general_death.3.t
 	desc = OTO_general_death.3.d
 	picture = report_event_likfard
-	
+
 	fire_only_once = yes
-	
+	is_triggered_only = yes
+
 	trigger = {
 		TAG = OTO
-		date > 1883.02.19
+		#date > 1883.02.19
 	}
-	
+
 	hidden = yes
-	
+
 	immediate = {
 		remove_unit_leader = 1879
 	}
@@ -405,37 +437,39 @@ country_event = {
 	title = OTO_general_death.4.t
 	desc = OTO_general_death.4.d
 	picture = report_event_likfard
-	
+
 	fire_only_once = yes
-	
+	is_triggered_only = yes
+
 	trigger = {
 		TAG = OTO
-		date > 1861.6.1
+		#date > 1861.6.1
 	}
-	
+
 	hidden = yes
-	
+
 	immediate = {
 		remove_unit_leader = 1881
 	}
 }
-		
+
 #Death of General Abdülkerim Nadir Pasha
 country_event = {
 	id = OTO_general_death.5
 	title = OTO_general_death.5.t
 	desc = OTO_general_death.5.d
 	picture = report_event_likfard
-	
+
 	fire_only_once = yes
-	
+	is_triggered_only = yes
+
 	trigger = {
 		TAG = OTO
-		date > 1883.6.1
+		#date > 1883.6.1
 	}
-	
+
 	hidden = yes
-	
+
 	immediate = {
 		remove_unit_leader = 1882
 	}
@@ -447,14 +481,18 @@ country_event = {
 	title = OTO_battleofgrahovac.1.t
 	desc = OTO_battleofgrahovac.1.desc
 	picture = GFX_event_test
-	
+
 	fire_only_once = yes
-	
+	is_triggered_only = yes
+
 	trigger = {
-		TAG = OTO 
-		date > 1858.4.37
-	}	
-	
+		tag = OTO
+		MNT={
+			exists = yes
+		}
+		#date > 1858.4.3
+	}
+
 	option = {
 		name = OTO_battleofgrahovac.1.a
 		ai_chance = { factor = 80}
@@ -462,18 +500,34 @@ country_event = {
 		MNT = {
 			country_event = {days = 1 id = OTO_battleofgrahovac.2}
 		}
-		set_autonomy = {
-			target = MNT
-			autonomy_state = autonomy_free
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = MNT
+				autonomy_state = autonomy_free
+			}
+		}
+		else = {
+			end_puppet = MNT
 		}
 	}
-	
+
 	option = {
 		name = OTO_battleofgrahovac.1.b
 		ai_chance = { factor = 20}
-		set_autonomy = {
-			target = MNT
-			autonomy_state = autonomy_free
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = MNT
+				autonomy_state = autonomy_free
+			}
+		}
+		else = {
+			end_puppet = MNT
 		}
 	}
 }
@@ -483,10 +537,10 @@ country_event = {
 	title = OTO_battleofgrahovac.2.t
 	desc = OTO_battleofgrahovac.2.desc
 	picture = GFX_event_test
-	
+
 	fire_only_once = yes
 	is_triggered_only = yes
-	
+
 	option = {
 		name = OTO_battleofgrahovac.2.a
 		ai_chance = { factor = 1}
@@ -497,36 +551,44 @@ country_event = {
 country_event = {
 	id = OTO_battleofgrahovac.3
 	title = OTO_battleofgrahovac.3.t
-	desc = { 
+	desc = {
 		text = OTO_battleofgrahovac.3.descOTO
-		trigger = { 
+		trigger = {
 			TAG = OTO
 		}
 	}
-	desc = { 
+	desc = {
 		text = OTO_battleofgrahovac.3.descMNT
 		trigger = {
 			TAG = MNT
 		}
 	}
 	picture = GFX_event_test
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = OTO_battleofgrahovac.3.a
 		trigger = {
 			TAG = OTO
 		}
 		ai_chance = { factor = 1}
-		OTO = { 
-			set_autonomy = {
-				target = MNT
-				autonomy_state = autonomy_eyalet
+		OTO = {
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+					target = MNT
+					autonomy_state = autonomy_eyalet
+				}
+			}
+			else = {
+				puppet = MNT
 			}
 		}
 	}
-	
+
 	option = {
 		name = OTO_battleofgrahovac.3.b
 		trigger = {
@@ -540,13 +602,13 @@ country_event = {
 country_event = {
 	id = OTO_battleofgrahovac.4
 	title = OTO_battleofgrahovac.4.t
-	desc = { 
+	desc = {
 		text = OTO_battleofgrahovac.4.descOTO
-		trigger = { 
+		trigger = {
 			TAG = OTO
 		}
 	}
-	desc = { 
+	desc = {
 		text = OTO_battleofgrahovac.4.descMNT
 		trigger = {
 			TAG = MNT
@@ -556,7 +618,7 @@ country_event = {
 
 	is_triggered_only = yes
 
-	option = { 
+	option = {
 		name = OTO_battleofgrahovac.4.a
 		trigger = {
 			TAG = OTO
@@ -576,9 +638,17 @@ country_event = {
 			TAG = MNT
 		}
 		ai_chance = { factor = 1}
-		set_autonomy = {
-			target = MNT
-			autonomy_state = autonomy_free
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = MNT
+				autonomy_state = autonomy_free
+			}
+		}
+		else = {
+			end_puppet = MNT
 		}
 		MNT = {
 			add_equipment_to_stockpile = {
@@ -611,18 +681,26 @@ country_event = {
 	title = OTO_battleofgrahovac.6.t
 	desc = OTO_battleofgrahovac.6.desc
 	picture = GFX_event_test
-	
+
 	fire_only_once = yes
 	is_triggered_only = yes
-	
+
 	option = {
 		name = OTO_battleofgrahovac.6.a
 		ai_chance = { factor = 1}
 		add_war_support= -10
 		add_stability= -0.06
-		set_autonomy = {
-			target = MNT
-			autonomy_state = autonomy_free
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = MNT
+				autonomy_state = autonomy_free
+			}
+		}
+		else = {
+			end_puppet = MNT
 		}
 		declare_war_on = { target = MNT type = puppet_wargoal_focus }
 	}
@@ -630,11 +708,18 @@ country_event = {
 	option = {
 		name = OTO_battleofgrahovac.6.b
 		ai_chance = { factor = 1}
-		set_autonomy = {
-			target = MNT
-			autonomy_state = autonomy_free
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = MNT
+				autonomy_state = autonomy_eyalet
+			}
 		}
-		
+		else = {
+			puppet = MNT
+		}
 	}
 }
 
@@ -643,10 +728,10 @@ country_event = {#OTO - Religion question
 	title = OTO_events.1.t
 	desc = OTO_events.1.d
 	picture = GFX_event_test
-	
+
 	fire_only_once = yes
 	is_triggered_only = yes
-	
+
 	option = {
 		name = OTO_events.1.a
 		ai_chance = { factor = 1}
@@ -665,10 +750,10 @@ country_event = {#debt_question
 	title = OTO_events.2.t
 	desc = OTO_events.2.d
 	picture = GFX_event_test
-	
+
 	fire_only_once = yes
 	is_triggered_only = yes
-	
+
 	option = {
 		name = OTO_events.2.a
 		ai_chance = { factor = 1}
@@ -687,7 +772,7 @@ country_event = {#debt_question
 			add_idea = OTO_crimean_war_debt_spend_1
 			remove_idea = OTO_crimean_war_debt
 		}
-		
+
 	}
 }
 
@@ -696,19 +781,20 @@ country_event = {#OTO - question of the grand vizers pay
 	title = OTO_events.3.t
 	desc = OTO_events.3.d
 	picture = GFX_event_test
-	
+
 	fire_only_once = yes
 	is_triggered_only = yes
-	
+
 	option = {#increase
 		name = OTO_events.3.a
 		ai_chance = { factor = 1}
+		set_country_flag = grand_vizer_pay_increased
 		add_popularity = {
 			ideology = traditional_conservatism
 			popularity = 0.05
 		}
 	}
-	
+
 	option = {#status Quo
 		name = OTO_events.3.b
 		ai_chance = { factor = 1}
@@ -718,11 +804,12 @@ country_event = {#OTO - question of the grand vizers pay
 	option = {#reduce
 		name = OTO_events.3.c
 		ai_chance = { factor = 1}
+		set_country_flag = grand_vizer_pay_reduced
 		add_popularity = {
 			ideology = centrism
 			popularity = 0.05
 		}
-		
+
 	}
 }
 
@@ -731,14 +818,14 @@ country_event = {#OTO - Religion question
 	title = OTO_events.4.t
 	desc = OTO_events.4.d
 	picture = GFX_event_test
-	
+
 	fire_only_once = yes
 	is_triggered_only = yes
-	
+
 	option = {
 		name = OTO_events.4.a
 		ai_chance = { factor = 1}
-		#has_country_leader 
+		#has_country_leader
 		create_country_leader = {
 			name = "Abdulmecid"
 			desc = "POLITICS_ABDULMECID_DESC"
@@ -746,7 +833,7 @@ country_event = {#OTO - Religion question
 			expire = "1861.6.1"
 			ideology = conserv_liberal
 			traits = {
-				
+
 			}
 		}
 		#set_country_leader_ideology = conserv_liberal
@@ -762,14 +849,72 @@ country_event = {#OTO - debt_increases
 	title = OTO_events.5.t
 	desc = OTO_events.5.d
 	picture = GFX_event_test
-	
+
 	trigger = {
 		tag = OTO
 		has_variable = debt_level
 		NOT={has_country_flag = OTO_spending_managed}
 	}
-	mean_time_to_happen = { days = 400 }
-	
+	mean_time_to_happen = {
+		days = 400
+		modifier = {
+			factor = 0.8
+			has_completed_focus = OTO_vic_increase_spending
+		}
+		modifier = {
+			factor = 0.9
+			date > 1865.01.01
+		}
+		modifier = {
+			factor = 0.9
+			date > 1869.01.01
+		}
+		modifier = {
+			factor = 0.9
+			date > 1874.01.01
+		}
+		modifier = {
+			factor = 0.9
+			check_variable = { debt_level > 10 }
+		}
+		modifier = {
+			factor = 0.9
+			check_variable = { debt_level > 20 }
+		}
+		modifier = {
+			factor = 0.9
+			num_divisions > 39
+		}
+		modifier = {
+			factor = 0.9
+			num_divisions > 59
+		}
+		modifier = {
+			factor = 0.9
+			num_divisions > 79
+		}
+		modifier = {
+			factor = 0.9
+			num_divisions > 99
+		}
+		modifier={
+			factor = 1.2
+			has_country_flag = grand_vizer_pay_reduced
+		}
+		modifier={
+			factor = 0.9
+			has_country_flag = grand_vizer_pay_increased
+		}
+		modifier={
+			factor = 1.5
+			has_completed_focus = OTO_mac_reduce_spending
+		}
+		modifier={
+			factor = 1.5
+			has_idea = ACE_ottoman_aceh_oil_company_master
+		}
+	}
+
 	option = {
 		name = OTO_events.5.a
 		ai_chance = { factor = 1}
@@ -779,4 +924,1443 @@ country_event = {#OTO - debt_increases
 		}
 	}
 
+}
+
+country_event = {#OTO - Great Grain Crisis
+	id = OTO_events.6
+	title = OTO_events.6.t
+	desc = OTO_events.6.d
+	picture = GFX_report_event_indian_famine#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		date > 1872.05.01
+		date < 1875.01.01
+		tag = OTO
+		NOT={ has_idea = OTO_mac_grain_crisis}
+	}
+	mean_time_to_happen = {
+		days = 120
+	}
+	immediate={
+		hidden_effect={
+			add_ideas={OTO_mac_grain_crisis}
+			183={
+				damage_building = {
+					type = infrastructure
+					damage = 1
+				}
+			}
+			1240={
+				damage_building = {
+					type = infrastructure
+					damage = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = OTO_events.6.a
+		ai_chance = { factor = 1}
+
+		effect_tooltip = {
+			add_ideas={OTO_mac_grain_crisis}
+			183={
+				damage_building = {
+					type = infrastructure
+					damage = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = {#OTO - Bulgarian Exarchate formed
+	id = OTO_events.7
+	title = OTO_events.7.t
+	desc = OTO_events.7.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		date > 1870.05.01
+		date < 1870.06.06
+		tag = OTO
+		NOT={BUL={has_country_flag = BUL_exarchate_formed}}
+	}
+	mean_time_to_happen = {
+		days = 30
+	}
+	immediate={
+
+	}
+	option = {#do it
+		name = OTO_events.7.a
+		ai_chance = { factor = 1}
+		BUL={set_country_flag = BUL_exarchate_formed}
+		GRE={country_event={id=OTO_events.8}}
+	}
+}
+
+
+country_event = {#GRE - BUL exarchate formed
+	id = OTO_events.8
+	title = OTO_events.8.t
+	desc = OTO_events.8.d
+	picture = GFX_report_event_indian_famine#place holder for now
+
+	is_triggered_only = yes
+	option = {#heretics
+		name = OTO_events.8.a
+		ai_chance = { factor = 100}
+		set_country_flag = GRE_denouced_BUL_church
+	}
+	option = {#
+		name = OTO_events.8.b
+		ai_chance = { factor = 0}
+		add_stability = -0.1
+	}
+}
+country_event = {#GRE - OTO gives the exarchate maceadonia
+	id = OTO_events.9
+	title = OTO_events.9.t
+	desc = OTO_events.9.d
+	picture = GFX_report_event_indian_famine#place holder for now
+
+	is_triggered_only = yes
+	immediate={
+	}
+	option = {
+		name = OTO_events.9.a
+		ai_chance = { factor = 1}
+
+	}
+}
+
+country_event = {#OTO - errent bosnian tax collectors
+	id = OTO_events.10
+	title = OTO_events.10.t
+	desc = OTO_events.10.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		date > 1874.01.01
+		date < 1875.06.06
+		tag = OTO
+	}
+	mean_time_to_happen = {
+		days = 120
+	}
+	immediate={
+
+	}
+	option = {#damn
+		name = OTO_events.10.a
+		ai_chance = { factor = 1}
+		add_political_power = -100
+	}
+}
+
+country_event = {#OTO - errent bosnian crop failure
+	id = OTO_events.11
+	title = OTO_events.11.t
+	desc = OTO_events.11.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		date > 1874.05.01
+		date < 1875.06.06
+		tag = OTO
+	}
+	mean_time_to_happen = {
+		days = 120
+	}
+	immediate={
+		hidden_effect={
+			set_country_flag = BOS_crop_failure
+			every_controlled_state={
+				limit={
+					OR={
+						state = 104
+						state = 1207
+						state = 1208
+						state = 1272
+						state = 1205
+					}
+				}
+				#add_resistance = 30
+				add_resistance_target = {
+					amount = 45 #original tag of new country
+					occupied = BOS #if set, the resistance target will only apply if the occupied country is GER
+					occupier = OTO #if set, the resistance target will only apply if the occupier country is ENG
+					days = 240 #if set the newly added resistance target will be only active for this many days
+					tooltip = "Bosnian crop failure" #tooltip loc key to display in resistance target tooltips
+				}
+			}
+		}
+	}
+	option = {#damn
+		name = OTO_events.11.a
+		ai_chance = { factor = 1}
+		effect_tooltip={
+			every_controlled_state={
+				limit={
+					OR={
+						state = 104
+						state = 1207
+						state = 1208
+						state = 1272
+						state = 1205
+					}
+				}
+				#add_resistance = 30
+				add_resistance_target = {
+					amount = 45 #original tag of new country
+					occupied = BOS #if set, the resistance target will only apply if the occupied country is GER
+					occupier = OTO #if set, the resistance target will only apply if the occupier country is ENG
+					days = 240 #if set the newly added resistance target will be only active for this many days
+					tooltip = "Bosnian crop failure" #tooltip loc key to display in resistance target tooltips
+				}
+			}
+		}
+	}
+}
+
+country_event = {#OTO - nevesinje rebellion
+	id = OTO_events.12
+	title = OTO_events.12.t
+	desc = OTO_events.12.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		date > 1875.06.01
+		date < 1876.01.01
+		tag = OTO
+		has_country_flag = BOS_crop_failure
+	}
+	mean_time_to_happen = {
+		days = 50
+	}
+	immediate={
+		hidden_effect={
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+					target = BOS
+					autonomy_state = autonomy_free
+				}
+			}
+			else = {
+				end_puppet = BOS
+			}
+			BOS={
+				set_state_owner = 1205
+				set_state_owner = 1272
+				set_state_owner = 104
+				set_state_owner = 1207
+				set_state_owner = 1208
+				set_province_controller = 606
+				set_province_controller = 11845
+				set_province_controller = 9894
+				set_province_controller = 13873
+				set_province_controller = 13874
+				set_province_controller = 11899
+				set_province_controller = 13877
+				set_province_controller = 6983
+				if={
+					limit={
+						OTO={has_completed_focus = OTO_mac_BOS_garrisons}
+					}
+					load_oob = "BOS_nevesinje_weakened"
+				}
+				else={
+					load_oob = "BOS_nevesinje"
+				}
+				add_ideas = {OTO_balkan_rebellion}
+			}
+			add_state_claim = 1205
+			add_state_claim = 1272
+			add_state_claim = 104
+			add_state_claim = 1207
+			add_state_claim = 1208
+			declare_war_on = {
+				target = BOS
+				type = annex_everything
+			}
+		set_country_flag = OTO_great_eastern_crisis
+		}
+	}
+	option = {#send in the troops
+		name = OTO_events.12.a
+		ai_chance = { factor = 1}
+	}
+}
+
+country_event = {#OTO - BRCC founding
+	id = OTO_events.13
+	title = OTO_events.13.t
+	desc = OTO_events.13.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		date > 1875.01.01
+		date < 1880.01.01
+		tag = OTO
+		has_country_flag = OTO_great_eastern_crisis
+	}
+	mean_time_to_happen = {
+		days = 50
+	}
+	immediate={
+		BUL={set_country_flag = OTO_BRCC_founded}
+	}
+	option = {#damn
+		name = OTO_events.13.a
+		ai_chance = { factor = 1}
+	}
+}
+
+country_event = {#OTO - nevesinje rebellion victorius
+	id = OTO_events.14
+	title = OTO_events.14.t
+	desc = OTO_events.14.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		has_country_flag = BOS_nevesinje
+		tag = OTO
+		BOS = {
+			controls_state = 104
+			controls_state = 1207
+			controls_state = 1208
+			controls_state = 1272
+			controls_state = 1205
+		}
+	}
+	mean_time_to_happen = {
+		days = 20
+	}
+	immediate={
+		white_peace = BOS
+	}
+	option = {#a laughing stock
+		name = OTO_events.14.a
+		ai_chance = { factor = 1}
+	}
+}
+
+country_event = {#OTO - 1st consitutional era
+	id = OTO_events.15
+	title = OTO_events.15.t
+	desc = OTO_events.15.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	option = {#an experiment to calm the libs
+		name = OTO_events.15.a
+		ai_chance = { factor = 5}
+		set_country_flag = OTO_1_contitution_era
+		hidden_effect={
+			add_ideas={limited_constitution}
+		}
+		#add_ideas={OTO_1st_cont_1}
+		country_event = {id= OTO_events.29}
+	}
+	option = {#let us sit on this until the proper moment
+		name = OTO_events.15.b
+		ai_chance = { factor = 95}
+		set_country_flag = OTO_1_contitution_era_postponed
+	}
+}
+
+country_event = {#SER - Serbia calmors for war
+	id = OTO_events.16
+	title = OTO_events.16.t
+	desc = OTO_events.16.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		date > 1876.04.01
+		date < 1880.01.01
+		tag = SER
+		OTO={has_country_flag = OTO_great_eastern_crisis}
+	}
+	mean_time_to_happen = {
+		days = 80
+	}
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#Seize the moment
+		name = OTO_events.16.a
+		ai_chance = { factor = 95}
+		OTO={
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+					target = PREV
+					autonomy_state = autonomy_free
+				}
+			}
+			else = {
+				end_puppet = PREV
+			}
+			country_event = {id = OTO_events.17}
+		}
+		country_event = {id = OTO_events.18 days = 7}
+		load_oob=SER_citizen_draft_1876
+	}
+	option = {#lets not be hasty
+		name = OTO_events.16.a
+		ai_chance = { factor = 0}#temp
+		#add decision to delcare later
+		add_stability = -0.01
+	}
+}
+
+country_event = {#OTO - Serbia mobilises
+	id = OTO_events.17
+	title = OTO_events.17.t
+	desc = OTO_events.17.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	option = {#time to prepare
+		name = OTO_events.17.a
+		ai_chance = { factor = 1}
+
+		#add_ideas={OTO_1st_cont_1}
+	}
+}
+
+country_event = {#SER - To WAR!
+	id = OTO_events.18
+	title = OTO_events.18.t
+	desc = OTO_events.18.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	option = {#the die is cast
+		name = OTO_events.18.a
+		ai_chance = { factor = 1}
+		set_country_flag = OTO_SER_war_1876
+		hidden_effect={
+			ENG={
+				diplomatic_relation = {
+					country = OTO
+					relation = guarantee
+					active = no
+				}
+			}
+		}
+		declare_war_on = {
+			target = OTO
+			type = take_state_focus
+		}
+		hidden_effect={
+			ENG={
+				diplomatic_relation = {
+					country = OTO
+					relation = guarantee
+					active = yes
+				}
+			}
+		}
+	}
+}
+
+country_event = {#RUS - Serbia collapses
+	id = OTO_events.19
+	title = OTO_events.19.t
+	desc = OTO_events.19.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		tag = RUS
+		SER={
+			has_country_flag = OTO_SER_war_1876
+		}
+		SER={
+			surrender_progress > 0.19
+		}
+	}
+	mean_time_to_happen = {
+		days = 2
+	}
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#Interve to save serbia
+		name = OTO_events.19.a
+		ai_chance = { factor = 95}
+		OTO={#recives demand
+			country_event = {id = OTO_events.20}
+		}
+	}
+	option = {#lets consentrate on the bulgars
+		name = OTO_events.19.b
+		ai_chance = { factor = 5}#temp
+		#add decision to delcare later
+		custom_effect_tooltip = RUS_leave_SER_to_die
+	}
+}
+
+country_event = {#OTO - Russia warns intervention if we don't white peace SER
+	id = OTO_events.20
+	title = OTO_events.20.t
+	desc = OTO_events.20.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	option = {#the die is cast
+		name = OTO_events.20.a
+		ai_chance = { factor = 1}
+		SER={
+			clr_country_flag = OTO_SER_war_1876
+			delete_unit_template_and_units = {
+				division_template = "Serbian Citizen Army"
+				disband = no #
+			}
+		}
+		white_peace = SER
+		SER={store_current_ideologies = yes}
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = SER
+				autonomy_state = autonomy_eyalet
+			}
+		}
+		else = {
+			puppet = SER
+		}
+		SER={load_prevous_ideologies = yes}
+	}
+}
+
+country_event = {#OTO - Serbia wins
+	id = OTO_events.21
+	title = OTO_events.21.t
+	desc = OTO_events.21.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		tag = OTO
+		surrender_progress > 0.10
+		SER={
+			has_country_flag = OTO_SER_war_1876
+			controls_state = 108
+		}
+	}
+	mean_time_to_happen = {
+		days = 2
+	}
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#give them what they want
+		name = OTO_events.21.a
+		ai_chance = { factor = 95}
+		OTO_sicker_man_of_europe = yes
+		white_peace = SER
+		SER={
+			transfer_state = 108
+		}
+	}
+}
+
+country_event = {#OTO - Bulgarian Revolution
+	id = OTO_events.22
+	title = OTO_events.22.t
+	desc = OTO_events.22.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		date > 1876.04.01
+		date < 1878.01.01
+		tag = OTO
+		BUL={has_country_flag = OTO_BRCC_founded}
+		has_country_flag = OTO_great_eastern_crisis
+	}
+	mean_time_to_happen = {
+		days = 50
+	}
+	immediate={
+		hidden_effect={
+			BUL={
+				set_state_owner = 963
+				set_state_owner = 1023
+				set_state_owner = 48
+				set_state_owner = 211
+				set_state_owner = 810
+				set_province_controller = 13819
+				set_province_controller = 13863
+				set_province_controller = 6982
+				set_province_controller = 3937
+				set_province_controller = 9818
+				set_province_controller = 13857
+				set_province_controller = 11813
+				if={
+					limit={
+						OTO={has_completed_focus = OTO_mac_BUL_garrisons}
+					}
+					load_oob = "BUL_BRCC_weak"
+				}
+				else={
+					load_oob = "BUL_BRCC_stronk"
+				}
+				add_ideas = {OTO_balkan_rebellion}
+			}
+			declare_war_on = {
+				target = BUL
+				type = annex_everything
+			}
+			set_country_flag = OTO_bulgarian_revolt_1876
+		}
+	}
+	option = {#send in the troops
+		name = OTO_events.22.a
+		ai_chance = { factor = 1}
+	}
+}
+
+country_event = {#OTO - results of the berlin congress(OTO loss)
+	id = OTO_events.23
+	title = OTO_events.23.t
+	desc = OTO_events.23.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#give them what they want
+		name = OTO_events.23.a
+		ai_chance = { factor = 95}
+
+	}
+}
+
+country_event = {#OTO - Attrositys commited by our men
+	id = OTO_events.24
+	title = OTO_events.24.t
+	desc = OTO_events.24.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		tag = OTO
+		has_war_with = BUL
+		has_country_flag = OTO_bulgarian_revolt_1876
+	}
+	mean_time_to_happen = {
+		days = 15
+	}
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#well shit
+		name = OTO_events.24.a
+		ai_chance = { factor = 95}
+		add_stability = -0.05
+		set_country_flag = OTO_bulgarian_atrocities
+	}
+}
+
+country_event = {#OTO - Constantinople Conference
+	id = OTO_events.25
+	title = OTO_events.25.t
+	desc = OTO_events.25.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		tag = OTO
+		OTO={has_country_flag = OTO_great_eastern_crisis}
+		date > 1877.12.8
+	}
+	mean_time_to_happen = {
+		days = 5
+	}
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#lets see what they say
+		name = OTO_events.25.a
+		ai_chance = { factor = 95}
+		every_country = {
+			limit={
+				is_great_power = yes
+			}
+			country_event ={id=OTO_events.26}
+		}
+		country_event ={id=OTO_events.27 days = 20}
+	}
+}
+
+country_event = {#GP - Constantinople Conference
+	id = OTO_events.26
+	title = OTO_events.26.t
+	desc = OTO_events.26.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#we will attend
+		name = OTO_events.26.a
+		ai_chance = { factor = 95}
+		#country_event ={id=OTO_events.26}
+	}
+	option = {#we will not attend
+		name = OTO_events.26.a
+		ai_chance = { factor = 5}
+		#country_event ={id=OTO_events.26}
+	}
+}
+
+country_event = {#OTO - Constantinople Conference
+	id = OTO_events.27
+	title = OTO_events.27.t
+	desc = OTO_events.27.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#this is outragous
+		name = OTO_events.27.a
+		ai_chance = { factor = 100}
+		ENG={
+			diplomatic_relation = {
+				country = OTO
+				relation = guarantee
+				active = no
+			}
+		}
+		#country_event ={id=OTO_events.26}
+	}
+	option = {#submit to it
+		name = OTO_events.27.a
+		ai_chance = { factor = 0}
+		#country_event ={id=OTO_events.26}
+	}
+}
+
+country_event = {#OTO - Prizen league
+	id = OTO_events.28
+	title = OTO_events.28.t
+	desc = OTO_events.28.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		tag = OTO
+		has_global_flag = OTO_berlin_congress
+		has_country_flag = OTO_great_eastern_crisis
+		date > 1878.6.1
+	}
+	mean_time_to_happen = {
+		days = 15
+	}
+	immediate={
+		set_country_flag = OTO_albanians_take_up_arms
+		ALB={
+			set_cosmetic_tag = ALB_prizren
+			transfer_state = 44
+			add_state_core = 44
+			transfer_state = 1200
+			add_state_core = 1200
+			transfer_state = 1201
+			add_state_core = 1201
+			transfer_state = 966
+			add_state_core = 966
+			transfer_state = 105
+			add_state_core = 105
+			if={
+				limit = {
+					OTO={owns_state = 1202}
+				}
+				transfer_state = 1202
+			}
+			add_state_core = 1202
+			load_oob = ALB_popular_army
+		}
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = ALB
+				autonomy_state = autonomy_eyalet
+			}
+		}
+		else = {
+			puppet = ALB
+		}
+	}
+	option = {#A rebellion on our side?
+		name = OTO_events.28.a
+		ai_chance = { factor = 95}
+
+	}
+}
+
+news_event = {#OTO - Contitution adopted
+	id = OTO_events.29
+	title = OTO_events.29.t
+	desc = OTO_events.29.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	major = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#WAT
+		name = OTO_events.29.a
+		ai_chance = { factor = 100}
+		#country_event ={id=OTO_events.26}
+	}
+}
+
+country_event = {#OTO - first general Assembly
+	id = OTO_events.30
+	title = OTO_events.30.t
+	desc = OTO_events.30.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#
+		name = OTO_events.30.a
+		ai_chance = { factor = 100}
+		#country_event ={id=OTO_events.26}
+	}
+}
+
+country_event = {#ALB - Ottomans back us
+	id = OTO_events.31
+	title = OTO_events.31.t
+	desc = OTO_events.31.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#integrate into their army
+		name = OTO_events.31.a
+		ai_chance = { factor = 80}
+		OTO={
+			annex_country = {
+				target = ROOT
+				transfer_troops = yes
+			}
+		}
+	}
+	option = {#offer to hold the land ourselves
+		name = OTO_events.31.a
+		ai_chance = { factor = 20}
+		OTO={
+			country_event = {id=OTO_events.32}
+		}
+	}
+}
+country_event = {#OTO - a Albanian offer
+	id = OTO_events.32
+	title = OTO_events.32.t
+	desc = OTO_events.32.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#agree
+		name = OTO_events.32.a
+		ai_chance = { factor = 80}
+		
+	}
+	option = {#crush them
+		name = OTO_events.31.a
+		ai_chance = { factor = 20}
+		declare_war_on = {
+			target = ALB
+			type = annex_everything
+		}
+	}
+}
+
+country_event = {#RUS - ottoman weakness
+	id = OTO_russio_turkish_war.1
+	title = OTO_russio_turkish_war.1.t
+	desc = OTO_russio_turkish_war.1.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		tag = RUS
+		OTO={
+			has_country_flag = OTO_great_eastern_crisis
+			NOT={
+				is_guaranteed_by = ENG
+			}
+		}
+		date > 1877.04.01
+	}
+	mean_time_to_happen = {
+		days = 15
+	}
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#get a guarantee from austria
+		name = OTO_russio_turkish_war.1.a
+		ai_chance = { factor = 95}
+		AUS= {country_event ={id=OTO_russio_turkish_war.2}}
+	}
+	option = {#Prepare a invasion
+		name = OTO_russio_turkish_war.1.b
+		ai_chance = { factor = 5}
+
+	}
+	option = {#drop the idea
+		name = OTO_russio_turkish_war.1.c
+		ai_chance = { factor = 0}
+
+	}
+}
+country_event = {#AUS - ottoman weakness
+	id = OTO_russio_turkish_war.2
+	title = OTO_russio_turkish_war.2.t
+	desc = OTO_russio_turkish_war.2.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#agree to the proposal
+		name = OTO_russio_turkish_war.2.a
+		ai_chance = { factor = 95}
+		set_country_flag = OTO_AUS_agreed_to_RUS_deal
+		RUS= {country_event ={id=OTO_russio_turkish_war.3 days = 3}}
+	}
+	option = {#refuse
+		name = OTO_russio_turkish_war.2.b
+		ai_chance = { factor = 5}
+
+	}
+}
+country_event = {#RUS - Austria Agrees
+	id = OTO_russio_turkish_war.3
+	title = OTO_russio_turkish_war.3.t
+	desc = OTO_russio_turkish_war.3.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#To WAR!
+		name = OTO_russio_turkish_war.3.a
+		ai_chance = { factor = 100}
+		create_faction = OTO_RUS_allies
+		declare_war_on = {
+			target = OTO
+			type = annex_everything
+		}
+		set_country_flag = OTO_russio-turkish_war
+		OTO= {country_event ={id=OTO_russio_turkish_war.4}}
+		ROM= {country_event ={id=OTO_russio_turkish_war.5}}
+		SER= {country_event ={id=OTO_russio_turkish_war.6}}
+		ENG= {news_event ={id=OTO_russio_turkish_war.7}}#major news event
+
+	}
+}
+country_event = {#OTO - Russio-turkish war
+	id = OTO_russio_turkish_war.4
+	title = OTO_russio_turkish_war.4.t
+	desc = OTO_russio_turkish_war.4.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#to war
+		name = OTO_russio_turkish_war.4.a
+		ai_chance = { factor = 100}
+
+	}
+}
+country_event = {#ROM - time to aid the russians
+	id = OTO_russio_turkish_war.5
+	title = OTO_russio_turkish_war.5.t
+	desc = OTO_russio_turkish_war.5.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#To WAR!
+		name = OTO_russio_turkish_war.5.a
+		ai_chance = { factor = 100}
+		FROM={add_to_faction = ROOT}
+		add_to_war = {
+			targeted_alliance = FROM
+			enemy = OTO
+			hostility_reason = asked_to_join
+		}
+	}
+}
+country_event = {#SER - time to aid the russians
+	id = OTO_russio_turkish_war.6
+	title = OTO_russio_turkish_war.6.t
+	desc = OTO_russio_turkish_war.6.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#To WAR!
+		name = OTO_russio_turkish_war.6.a
+		ai_chance = { factor = 100}
+		load_oob = SER_citizen_draft_1877
+		FROM={add_to_faction = ROOT}
+		add_to_war = {
+			targeted_alliance = FROM
+			enemy = OTO
+			hostility_reason = asked_to_join
+		}
+	}
+}
+news_event = {#Global - Russio-Turkish War
+	id = OTO_russio_turkish_war.7
+	title = OTO_russio_turkish_war.7.t
+	desc = OTO_russio_turkish_war.7.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	major = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#The balkans are on fire once again
+		name = OTO_russio_turkish_war.7.a
+		ai_chance = { factor = 100}
+	}
+	option = {#we must aid the turks
+		name = OTO_russio_turkish_war.7.b
+		trigger = {tag=ENG}
+		ai_chance = { factor = 0}
+	}
+}
+country_event = {#RUS - VICTORY(historical)
+	id = OTO_russio_turkish_war.8
+	title = OTO_russio_turkish_war.8.t
+	desc = OTO_russio_turkish_war.8.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		tag = RUS
+		has_country_flag = OTO_russio-turkish_war
+		OTO={
+			has_country_flag = OTO_great_eastern_crisis
+			surrender_progress > 0.2
+		}
+		has_war_with = OTO
+	}
+	mean_time_to_happen = {
+		days = 10
+	}
+	option = {#we have won
+		name = OTO_russio_turkish_war.8.a
+		ai_chance = { factor = 100}
+		#peace everyone out
+		white_peace=OTO
+		dismantle_faction = yes
+
+		#the treaty of san sefano proposal(this will cause the berlin congress)
+		OTO={country_event = {id= OTO_russio_turkish_war.10}}
+	}
+}
+country_event = {#RUS - DEFEAT
+	id = OTO_russio_turkish_war.9
+	title = OTO_russio_turkish_war.9.t
+	desc = OTO_russio_turkish_war.9.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	trigger={
+		tag = RUS
+		has_country_flag = OTO_russio-turkish_war
+		OTO={
+			has_country_flag = OTO_great_eastern_crisis
+		}
+		has_war_with = OTO
+		surrender_progress > 0.2
+	}
+	mean_time_to_happen = {
+		days = 10
+	}
+	option = {#
+		name = OTO_russio_turkish_war.9.a
+		ai_chance = { factor = 100}
+		white_peace=OTO
+		dismantle_faction = yes
+		OTO={
+			set_country_flag = rus_oto_war_won
+			country_event = {id= OTO_russio_turkish_war.16}
+		}
+	}
+}
+country_event = {#OTO - Treaty of san stefano
+	id = OTO_russio_turkish_war.10
+	title = OTO_russio_turkish_war.10.t
+	desc = OTO_russio_turkish_war.10.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	option = {#
+		name = OTO_russio_turkish_war.10.a
+		ai_chance = { factor = 100}
+		#peace everyone out
+		set_country_flag = OTO_treaty_san_stefano
+		activate_mission = OTO_treaty_of_san_stefano
+		#ENG,FRA,AUS get event about the treaty, if any reject it, trigger berlin congress
+		every_country={
+			limit={
+				OR={
+					tag = FRA
+					tag = ENG
+					tag = AUS
+				}
+			}
+			country_event = {id= OTO_russio_turkish_war.11}
+		}
+	}
+}
+country_event = {# - Treaty of san setanfo reaction
+	id = OTO_russio_turkish_war.11
+	title = OTO_russio_turkish_war.11.t
+	desc = OTO_russio_turkish_war.11.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	is_triggered_only = yes
+	option = {#dispute it
+		name = OTO_russio_turkish_war.11.a
+		ai_chance = { factor = 95}
+		if={
+			limit={
+				NOT={has_global_flag = OTO_berlin_congress}
+			}
+			PRS={country_event = {id= OTO_russio_turkish_war.12}}
+			set_global_flag = OTO_berlin_congress
+		}
+	}
+	option = {#The ottomans are a lost cause
+		name = OTO_russio_turkish_war.11.a
+		ai_chance = { factor = 5}
+
+	}
+}
+news_event = {#PRS - Berlin Congress
+	id = OTO_russio_turkish_war.12
+	title = OTO_russio_turkish_war.12.t
+	desc = OTO_russio_turkish_war.12.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	major = yes
+	is_triggered_only = yes
+	option = {#Let us begin
+		name = OTO_russio_turkish_war.12.a
+		trigger={
+			tag = PRS
+		}
+		ai_chance = { factor = 100}
+		hidden_effect={
+			OTO={country_event = {id= OTO_russio_turkish_war.13 days = 10}}
+		}
+
+	}
+	option = {#ok
+		name = OTO_russio_turkish_war.12.b
+		trigger={
+			NOT={tag = PRS}
+		}
+		ai_chance = { factor = 100}
+
+	}
+}
+
+country_event = {#OTO - results of the berlin congress(OTO loss)
+	id = OTO_russio_turkish_war.13
+	title = OTO_russio_turkish_war.13.t
+	desc = OTO_russio_turkish_war.13.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#give them what they want
+		name = OTO_russio_turkish_war.13.a
+		ai_chance = { factor = 95}
+		OTO_sicker_man_of_europe = yes
+		#bulgaria
+		BUL={
+			transfer_state = 211
+			transfer_state = 48
+			transfer_state = 77
+			transfer_state = 1273
+		}
+		#eastern rumalia
+		1023 = {set_demilitarized_zone = yes}
+		#romainiaNo
+		ROM={
+			transfer_state = 748
+			transfer_state = 1241
+		}
+		RUS={
+			transfer_state = 1126
+		}
+		#Serbia
+		SER={
+			transfer_state = 108
+			transfer_state = 965
+		}
+		#austrian gains
+		if={
+			limit={
+				BOS={exists = no}
+			}
+			release = BOS
+		}
+		AUS={
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+					target = BOS
+					autonomy_state = autonomy_colony
+				}
+			}
+			else = {
+				puppet = BOS
+			}
+		}
+		966 = {set_demilitarized_zone = yes}
+		1202 = {set_demilitarized_zone = yes}
+		#montenegro
+		MNT={
+			transfer_state = 1204
+		}
+	}
+}
+
+country_event = {#PRS - Berlin Congress
+	id = OTO_russio_turkish_war.14
+	title = OTO_russio_turkish_war.14.t
+	desc = OTO_russio_turkish_war.14.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	major = yes
+	is_triggered_only = yes
+	option = {#Let us begin
+		name = OTO_russio_turkish_war.14.a
+		ai_chance = { factor = 100}
+
+
+	}
+}
+
+country_event = {#OTO - results of the Treaty of San Stefano
+	id = OTO_russio_turkish_war.15
+	title = OTO_russio_turkish_war.15.t
+	desc = OTO_russio_turkish_war.15.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#give them what they want
+		name = OTO_russio_turkish_war.15.a
+		ai_chance = { factor = 95}
+		OTO_sicker_man_of_europe = yes
+		#Greater bulgaria
+		BUL={
+			transfer_state = 211
+			transfer_state = 48
+			transfer_state = 77
+			transfer_state = 1273
+			transfer_state = 1023
+			transfer_state = 212
+			transfer_state = 963
+			transfer_state = 810
+			transfer_state = 106
+			transfer_state = 1199
+			transfer_state = 731
+			transfer_state = 965
+
+		}
+		#romainiaNo
+		ROM={
+			transfer_state = 748
+			transfer_state = 1241
+		}
+		RUS={
+			transfer_state = 1126
+		}
+		#Serbia
+		SER={
+			transfer_state = 108
+		}
+		#austrian gains
+		if={
+			limit={
+				BOS={exists = no}
+			}
+			release = BOS
+		}
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = BOS
+				autonomy_state = autonomy_eyalet
+			}
+		}
+		else = {
+			puppet = BOS
+		}
+		966 = {set_demilitarized_zone = yes}
+		#montenegro
+		MNT={
+			transfer_state = 1204
+			transfer_state = 1202
+		}
+	}
+}
+
+country_event = {#OTO - results of the Treaty of San Stefano (victory)
+	id = OTO_russio_turkish_war.16
+	title = OTO_russio_turkish_war.16.t
+	desc = OTO_russio_turkish_war.16.d
+	picture = GFX_report_event_generic_read_write#place holder for now
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# immediate={
+		# BUL={set_country_flag = OTO_BRCC_founded}
+	# }
+	option = {#give them what they want
+		name = OTO_russio_turkish_war.16.a
+		ai_chance = { factor = 95}
+		OTO_sicker_man_of_europe = yes
+		##romina
+		ROM={
+			store_current_ideologies = yes
+		}
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			set_autonomy = {
+				target = ROM
+				autonomy_state = autonomy_eyalet
+			}
+		}
+		else = {
+			puppet = ROM
+		}
+		ROM={
+			load_prevous_ideologies = yes
+			transfer_state = 78
+			add_state_core = 78
+			transfer_state = 791
+			transfer_state = 1127
+			add_state_core = 1127
+		}
+		#serbia
+		SER={
+			store_current_ideologies = yes
+		}
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			set_autonomy = {
+				target = SER
+				autonomy_state = autonomy_eyalet
+			}
+		}
+		else = {
+			puppet = SER
+		}
+		SER={
+			load_prevous_ideologies = yes
+		}
+		#Montenegro
+		MNT={
+			store_current_ideologies = yes
+		}
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			set_autonomy = {
+				target = MNT
+				autonomy_state = autonomy_eyalet
+			}
+		}
+		else = {
+			puppet = MNT
+		}
+		MNT={
+			load_prevous_ideologies = yes
+		}
+		#
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			set_autonomy = {
+				target = ARM
+				autonomy_state = autonomy_eyalet
+			}
+		}
+		else = {
+			puppet = ARM
+		}
+		ARM={
+			transfer_state = 230
+			transfer_state = 1238
+			transfer_state = 1239
+			transfer_state = 1120
+		}
+		transfer_state = 1119
+		add_state_core = 1119
+	}
 }

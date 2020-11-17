@@ -1083,6 +1083,10 @@ colonial_culture_setup = {
 	set_variable = { global.texan = 412 }
 	set_variable = { global.yankee = 413 }
 	set_variable = { global.alaskan = 414 }
+	set_variable = { global.mormon_culture = 447 }
+	set_variable = { global.cascadian = 446 }
+	set_variable = { global.midwesterner = 448 }
+	set_variable = { global.newyorker = 449 }
 	set_variable = { global.quebecois = 415 }
 	set_variable = { global.originaires = 416 }
 	set_variable = { global.afro-american = 417 }
@@ -1101,6 +1105,10 @@ colonial_culture_setup = {
 	add_to_array = { global.anglo_american_array = global.texan }
 	add_to_array = { global.anglo_american_array = global.yankee }
 	add_to_array = { global.anglo_american_array = global.alaskan }
+	add_to_array = { global.anglo_american_array = global.mormon_culture }
+	add_to_array = { global.anglo_american_array = global.cascadian }
+	add_to_array = { global.anglo_american_array = global.midwesterner }
+	add_to_array = { global.anglo_american_array = global.newyorker }
 	
 	add_to_array = { global.francophone_array = global.quebecois }
 	add_to_array = { global.francophone_array = global.originaires }
@@ -1136,9 +1144,9 @@ latin_american_culture_setup = {
 }
 
 native_american_culture_setup = {
-	set_variable = { global.cherokee = 430 }
-	set_variable = { global.cree = 431 }
-	set_variable = { global.dakota = 432 }
+	set_variable = { global.iroquoian = 430 }
+	set_variable = { global.native_gulf = 431 }
+	set_variable = { global.salish = 432 }
 	set_variable = { global.inuit = 433 }
 	set_variable = { global.navajo = 434 }
 	set_variable = { global.pueblo = 435 }
@@ -1152,14 +1160,27 @@ native_american_culture_setup = {
 	set_variable = { global.quechua = 443 }
 	set_variable = { global.tupinamba = 444 }
 	set_variable = { global.amazonian = 445 }
+	set_variable = { global.basin = 450 }
+	set_variable = { global.algonquin = 451 }
+	set_variable = { global.sioux = 452 }
+	set_variable = { global.athapaskan = 453 }
+	set_variable = { global.penutian = 454 }
+	set_variable = { global.cherokee = 455 }
+	
 		
-	add_to_array = { global.northern_american_array = global.cherokee }#southeastern
-	add_to_array = { global.northern_american_array = global.cree }#eastern Canada
-	add_to_array = { global.northern_american_array = global.dakota }#Soiux
-	add_to_array = { global.northern_american_array = global.inuit }#western Canada
-	add_to_array = { global.northern_american_array = global.navajo }#cali
-	add_to_array = { global.northern_american_array = global.pueblo }#southwest
+	add_to_array = { global.northern_american_array = global.iroquoian }#
+	add_to_array = { global.northern_american_array = global.native_gulf }#
+	add_to_array = { global.northern_american_array = global.salish }#
+	add_to_array = { global.northern_american_array = global.inuit }#
+	add_to_array = { global.northern_american_array = global.navajo }#
+	add_to_array = { global.northern_american_array = global.pueblo }#
 	add_to_array = { global.northern_american_array = global.nahua }#aztec
+	add_to_array = { global.northern_american_array = global.basin }#
+	add_to_array = { global.northern_american_array = global.algonquin }#
+	add_to_array = { global.northern_american_array = global.sioux }#
+	add_to_array = { global.northern_american_array = global.athapaskan }#
+	add_to_array = { global.northern_american_array = global.penutian }#
+	add_to_array = { global.northern_american_array = global.cherokee }#
 	
 	add_to_array = { global.southern_american_array = global.aimara }
 	add_to_array = { global.southern_american_array = global.tupi }
@@ -1553,4 +1574,55 @@ update_culture_unrest = {
 		    # value = national_culture_array_2_unrest_temp 
 		# }
     }
+}
+
+d_check_culture = {
+	set_temp_variable = { amount = 0 }
+	every_state = {
+		limit = {
+			find_highest_in_array = { array = state_culture_array_num }
+			check_variable = { v > 0 }
+		}
+		set_temp_variable = { cult_total = 0 }
+		for_each_loop = {
+			array = state_culture_array_num
+			value = v
+			add_to_temp_variable = { cult_total = v }
+		}
+		if = {
+			limit = {
+				NOT = {
+					check_variable = { cult_total = 1.00 }
+				}
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Culture error found at state [THIS.GetID]. The total is equal to [?cult_total], not 1."
+		}
+	}
+	log = "Culture error checking finished. Total amount of states with errors: [?amount]" 
+}
+d_check_religion = {
+	set_temp_variable = { amount = 0 }
+	every_state = {
+		limit = {
+			find_highest_in_array = { array = state_religion_array_num }
+			check_variable = { v > 0 }
+		}
+		set_temp_variable = { rel_total = 0 }
+		for_each_loop = {
+			array = state_religion_array_num
+			value = v
+			add_to_temp_variable = { rel_total = v }
+		}
+		if = {
+			limit = {
+				NOT = {
+					check_variable = { rel_total = 1.00 }
+				}
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Religion error found at state [THIS.GetID]. The total is equal to [?rel_total], not 1."
+		}
+	}
+	log = "Religion error checking finished. Total amount of states with errors: [?amount]" 
 }

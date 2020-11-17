@@ -1,0 +1,260 @@
+﻿add_namespace = secschwar_denmark
+add_namespace = denmark_focus
+
+country_event = {  #German Conscripts Deserted 
+		id = secschwar_denmark.1
+		title = secschwar_denmark.1.t
+		desc = secschwar_denmark.1.d
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+		    tag = DEN
+			has_global_flag = eoanb_flag_second_schleswig_war
+		    #date > 1863.12.01
+		    #date < 1864.01.21
+		}
+		
+		option = {
+			name = secschwar_denmark.1.a
+			    add_timed_idea = {
+			        idea = DEN_german_conscripts_deserted
+			        days = 31
+		        }
+		}
+	}
+	
+country_event = {  #East Pomerania Blockade
+		id = secschwar_denmark.2
+		title = secschwar_denmark.2.t
+		desc = secschwar_denmark.2.d
+		
+		fire_only_once = yes
+
+        is_triggered_only = yes
+		
+		option = { ###Leave them, focus on land war
+			name = secschwar_denmark.2.a
+		}
+		
+		option = { ###Send navy
+			name = secschwar_denmark.2.b
+			hidden_effect = {
+			PRS = { country_event = { days = 10 id = secschwar_denmark.3 } }
+		}
+	}
+}
+
+country_event = {  #Prussian navy is coming
+		id = secschwar_denmark.3
+		title = secschwar_denmark.3.t
+		desc = secschwar_denmark.3.d
+		
+		fire_only_once = yes
+
+        is_triggered_only = yes
+		
+		option = { ###Fuck
+			name = secschwar_denmark.3.a
+			hidden_effect = {
+			random_list = {
+                70 = {
+                    PRS = { country_event = { days = 10 id = secschwar_denmark.4 } }
+					DEN = { country_event = { days = 10 id = secschwar_denmark.5 } }
+                    }
+                30 = {
+                    PRS = { country_event = { days = 10 id = secschwar_denmark.6 } }
+					DEN = { country_event = { days = 10 id = secschwar_denmark.7 } }
+                }
+		    }
+	    }
+    }
+}
+
+country_event = {  #Prussian loose 
+		id = secschwar_denmark.4
+		title = secschwar_denmark.4.t
+		desc = secschwar_denmark.4.d
+		
+		fire_only_once = yes
+
+        is_triggered_only = yes
+		
+		option = { 
+			name = secschwar_denmark.4.a
+		}
+    }
+	
+country_event = {  #Alexander III and our princess
+		id = denmark_focus.1
+		title = denmark_focus.1.t
+		desc = denmark_focus.1.d
+		
+		fire_only_once = yes
+
+        is_triggered_only = yes
+		
+		option = { ###We agree to that
+			name = denmark_focus.1.a
+			ai_chance = { factor = 80 }
+			hidden_effect = {
+			DEN = { country_event = { days = 90 id = denmark_focus.2 } }
+		}
+	}
+		
+		option = { ###We dont agree to that
+			name = denmark_focus.1.b
+			ai_chance = { factor = 20 }
+			hidden_effect = {
+			RUS = { country_event = { days = 10 id = denmark_focus.3 } }
+		}
+	}
+}
+
+country_event = {  #Marriage
+		id = denmark_focus.2
+		title = denmark_focus.2.t
+		desc = denmark_focus.2.d
+		
+		fire_only_once = yes
+
+        is_triggered_only = yes
+		
+		option = { 
+			name = denmark_focus.2.a
+                add_opinion_modifier = { target = RUS modifier = PRS_ENG_WEDDING }
+			    reverse_add_opinion_modifier = { target = RUS modifier = PRS_ENG_WEDDING }
+	}
+}
+
+country_event = {  #Trade w Japan
+		id = denmark_focus.4
+		title = denmark_focus.4.t
+		desc = denmark_focus.4.d
+		
+		fire_only_once = yes
+
+        is_triggered_only = yes
+		
+		option = { 
+			name = denmark_focus.4.a
+			ai_chance = { factor = 80 }
+                JAP = { add_timed_idea = {
+		    	idea = DEN_danish_japanese_trade
+		    	days = 720
+		    }
+		}
+		add_timed_idea = {
+		    	idea = DEN_danish_japanese_trade
+		    	days = 720
+		    }
+        add_political_power = 25
+		    add_opinion_modifier = {
+				target = JAP 
+				modifier = small_increase  
+			}
+	    }
+		
+		option = { 
+			name = denmark_focus.4.b
+			ai_chance = { factor = 20 }
+                add_opinion_modifier = { target = JAP modifier = eoanb_om_RUS_decrease_medium }
+			    reverse_add_opinion_modifier = { target = JAP modifier = eoanb_om_RUS_decrease_medium }
+	    }
+    } 
+	
+#Treaty of Peace, Amity and Trade - step 1 Denmark
+country_event = {
+		id = denmark_focus.5
+		title = denmark_focus.5.t
+		desc = denmark_focus.5.d
+		picture = GFX_report_event_generic_sign_treaty2
+
+        is_triggered_only = yes
+		
+		option = {
+			name = denmark_focus.5.a
+			ai_chance = { factor = 80 }
+			hidden_effect = {
+			add_political_power = -50
+			TSH = { country_event = { days = 60 id = denmark_focus.6 } }
+		}
+	}
+		
+		option = {
+			name = denmark_focus.5.b
+			ai_chance = { factor = 20 }
+			hidden_effect = {
+			add_political_power = -100
+			add_stability = -0.01
+			add_war_support = 0.03
+		}
+    }
+}
+
+#Treaty of Peace, Amity and Trade - step 2 Tokugawa	
+country_event = { 
+		id = denmark_focus.6
+		title = denmark_focus.6.t
+		desc = denmark_focus.6.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { 
+			name = denmark_focus.6.a
+			ai_chance = { factor = 80 }
+			hidden_effect = {
+			add_political_power = -25
+			DEN = { country_event = { days = 60 id = denmark_focus.8 } }
+			}
+		}
+			
+		option = { 
+			name = denmark_focus.6.b
+			ai_chance = { factor = 20 }
+			hidden_effect = {
+			add_political_power = -50
+			DEN = { country_event = { days = 60 id = denmark_focus.7 } }
+
+	    }
+	}
+}
+
+#Treaty of Peace, Amity and Trade - step 4 Denmark - failure
+country_event = { 
+		id = denmark_focus.7
+		title = denmark_focus.7.t
+		desc = denmark_focus.7.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { 
+			name = denmark_focus.7.a
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_RUS_decrease_small }
+			reverse_add_opinion_modifier = { target = TSH modifier = eoanb_om_RUS_decrease_small }
+			}
+	    }
+		
+#Treaty of Peace, Amity and Trade - step 3 Denmark - success
+country_event = { 
+		id = denmark_focus.8
+		title = denmark_focus.8.t
+		desc = denmark_focus.8.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { 
+			name = denmark_focus.8.a
+			add_political_power = 100
+			TSH = { add_political_power = 100 }
+			hidden_effect = {
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = TSH modifier = eoanb_om_RUS_increase_very_small }
+			}
+		}
+	}
+

@@ -1,0 +1,6064 @@
+focus_tree = {
+	id = canada_focus
+	continuous_focus_position = { x = 5400 y = 1600 }
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 1
+			tag = CAN
+		}
+	}
+	
+	default = no
+
+#####################ACW BRANCH#############################
+
+	focus = {
+		id = CAN_ACW
+		icon = GFX_goal_focus_american_civil_war
+		x = 3
+		y = 0
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+			NOT = { has_idea = CAN_idea_political_deadlock }
+			has_global_flag = ACW_American_Civil_War
+		}
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = CAN_Help_Free_States
+		icon = GFX_goal_tripartite_pact
+		x = 1
+		y = 1
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		prerequisite = { focus = CAN_ACW }
+	
+		mutually_exclusive = { focus = CAN_Help_Union focus = CAN_Stay_behind_Britain }
+
+		available = {
+			country_exists = NEG
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup
+		}
+		
+		completion_reward = {
+			add_opinion_modifier = { target = NEG modifier = improved_relations_light }
+			reverse_add_opinion_modifier = { target = NEG modifier = improved_relations_light }
+		}
+	}
+
+	focus = {
+		id = CAN_Organize_Support
+		icon = GFX_goal_focus_popularize
+		x = 1
+		y = 2
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}			
+
+		available = {
+			country_exists = NEG
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup	
+		}
+
+		prerequisite = { focus = CAN_Help_Free_States }
+		
+		completion_reward = {
+			add_political_power = 25
+			add_popularity = {
+    		ideology = radical_democracy
+    		popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Lead_goods_Free_states
+		icon = GFX_goal_focus_newspapers
+		x = 1
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		prerequisite = { focus = CAN_Organize_Support }			
+		
+		available = {
+			country_exists = NEG
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup
+		}
+
+		completion_reward = {
+			reverse_add_opinion_modifier = { target = NEG modifier = improved_relations_light }
+		}
+	}
+
+	focus = {
+		id = CAN_Support_Volunteers_FSA
+		icon = GFX_focus_PIE_Casus_Belli
+		x = 1
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}			
+
+		available = {
+			country_exists = NEG
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup		
+		}
+
+		prerequisite = { focus = CAN_Lead_goods_Free_states }
+		
+		completion_reward = {
+			NEG = {
+				add_opinion_modifier = { target = CAN modifier = improved_relations }
+				add_manpower = 7500
+				add_equipment_to_stockpile = {
+					type = uniform_equipment_0
+					amount = 500
+					producer = ENG
+				}
+				hidden_effect = { country_event = can.27 }
+			}
+		}
+	}	
+
+	focus = {
+		id = CAN_Assylum_non_slaves
+		icon = GFX_goal_generic_defence
+		x = 1
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			country_exists = NEG
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup	
+		}
+
+		prerequisite = { focus = CAN_Support_Volunteers_FSA }
+		
+		completion_reward = {
+			add_timed_idea = {
+				idea = CAN_idea_Assylum_non_slaves
+				days = 750
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Help_Union
+		icon = GFX_focus_chi_mission_to_the_us
+		x = 3
+		y = 1
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}		
+
+		available = {
+			country_exists = USA
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup
+		}
+
+		prerequisite = { focus = CAN_ACW }
+	
+		mutually_exclusive = { focus = CAN_Help_Free_States focus = CAN_Stay_behind_Britain }
+		
+		completion_reward = {
+			add_opinion_modifier = { target = USA modifier = improved_relations_light }
+			reverse_add_opinion_modifier = { target = USA modifier = improved_relations_light }
+		}
+	}
+
+	focus = {
+		id = CAN_Change_Trade_treaty
+		icon = GFX_goal_focus_enact_law
+		x = 3
+		y = 2
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			country_exists = USA
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup			
+		}
+
+		prerequisite = { focus = CAN_Help_Union }
+		
+		completion_reward = {	
+		swap_ideas = {
+			remove_idea = CAN_idea_canadian_american_reciprocity_treaty_2
+			add_idea = CAN_idea_canadian_american_reciprocity_treaty_3_Union
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Support_Volunteers_Union
+		icon = GFX_focus_PIE_Casus_Belli
+		x = 3
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			country_exists = USA
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup		
+		}
+
+		prerequisite = { focus = CAN_Change_Trade_treaty }
+		
+		completion_reward = {
+		USA = {
+			country_event = {
+		id = can.28
+		days = 1
+				}		
+			}		
+		USA = {
+		add_opinion_modifier = { target = CAN modifier = improved_relations }
+		add_manpower = 7500
+		add_equipment_to_stockpile = {
+    		type = uniform_equipment_0
+    		amount = 500
+    		producer = ENG
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Arrest_Confederates
+		icon = GFX_goal_continuous_boost_freedom
+		x = 3
+		y = 4
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			country_exists = USA
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup	
+		}
+
+		prerequisite = { focus = CAN_Support_Volunteers_Union }
+		
+		completion_reward = {			
+		add_stability = -0.01
+		USA = {
+		add_stability = 0.01
+		add_war_support = 0.01
+			}
+		reverse_add_opinion_modifier = { target = USA modifier = improved_relations_light }
+		}
+	}
+
+	focus = {
+		id = CAN_Assylum_Slaves
+		icon = GFX_goal_generic_defence
+		x = 3
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			country_exists = USA
+			has_global_flag = ACW_American_Civil_War
+			has_global_flag = ACW_Radical_Coup	
+		}
+
+		prerequisite = { focus = CAN_Arrest_Confederates }
+		
+		completion_reward = {
+			add_timed_idea = {
+				idea = CAN_idea_Assylum_Slaves
+				days = 1000
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Stay_behind_Britain
+		icon = GFX_goal_focus_merchants_british
+		x = 5
+		y = 1
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}	
+
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			OR = {
+				is_puppet_of = ENG
+				is_subject_of = ENG
+			}	
+		}
+
+		prerequisite = { focus = CAN_ACW }
+	
+		mutually_exclusive = { focus = CAN_Help_Union focus = CAN_Help_Free_States }
+		
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = CAN_Equal_deals
+		icon = GFX_goal_focus_support_liberalism
+		x = 5
+		y = 2
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}		
+
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			OR = {
+				is_puppet_of = ENG
+				is_subject_of = ENG
+			}
+		}	
+
+		prerequisite = { focus = CAN_Stay_behind_Britain }
+		
+		completion_reward = {
+			reverse_add_opinion_modifier = { target = USA modifier = improved_relations_light }
+			reverse_add_opinion_modifier = { target = NEG modifier = improved_relations_light }
+			reverse_add_opinion_modifier = { target = CSA modifier = improved_relations_light }
+			swap_ideas = {
+				remove_idea = CAN_idea_canadian_american_reciprocity_treaty_2
+				add_idea = CAN_idea_canadian_american_reciprocity_treaty_3_equal
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Create_Grand_trunk_brigade
+		icon = GFX_focus_secret_rearmament
+		x = 5
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}		
+
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			OR = {
+				is_puppet_of = ENG
+				is_subject_of = ENG
+			}	
+		}
+
+		prerequisite = { focus = CAN_Equal_deals }
+		
+		completion_reward = {
+			add_manpower = -250
+			add_stability = 0.01
+			add_war_support = 0.01
+			country_event = {
+				id = can.8
+				days = 1
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Prepare_Secenario_1812
+		icon = GFX_goal_focus_british_military_government
+		x = 5
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}		
+
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			OR = {
+				is_puppet_of = ENG
+				is_subject_of = ENG
+			}
+		}
+
+		prerequisite = { focus = CAN_Create_Grand_trunk_brigade }
+		
+		completion_reward = {
+			add_war_support = 0.02
+			add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = CAN_Assylum_for_all
+		icon = GFX_goal_generic_defence
+		x = 5
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}		
+
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			OR = {
+				is_puppet_of = ENG
+				is_subject_of = ENG
+			}
+		}
+
+		prerequisite = { focus = CAN_Prepare_Secenario_1812 }
+		
+		completion_reward = {
+			add_timed_idea = {
+				idea = CAN_idea_Assylum_for_all
+				days = 1250
+			}
+		}
+	}
+	
+	focus = {
+		id = CAN_Conclusion_ACW
+		icon = GFX_goal_focus_american_civil_war
+		x = 3
+		y = 6
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+		available = {
+			has_global_flag = ACW_American_Civil_War_Happened
+		}
+
+		prerequisite = { focus = CAN_Assylum_non_slaves focus = CAN_Assylum_Slaves focus = CAN_Assylum_for_all }
+		
+		completion_reward = {
+			add_political_power = 150
+		}
+	}	
+
+######################ARMY BRANCH###########################
+
+	focus = {
+		id = CAN_Canadian_Militia
+		icon = GFX_focus_generic_little_entente
+		x = 8
+		y = 8
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		
+		completion_reward = {
+			army_experience = 5
+		}
+	}
+
+	focus = {
+		id = CAN_Learn_1812
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		x = 5
+		y = 10
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+
+		prerequisite = { focus = CAN_Canadian_Militia }
+		
+		completion_reward = {
+		add_tech_bonus = {
+    		bonus = 0.10
+    		uses = 1
+    		category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Learn_European_Wars
+		icon = GFX_goal_generic_army_doctrines
+		x = 5
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+
+		prerequisite = { focus = CAN_Learn_1812 }
+		
+		completion_reward = {
+		add_tech_bonus = {
+    		bonus = 0.10
+    		uses = 1
+    		category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Revive_Military
+		icon = GFX_focus_generic_military_mission
+		x = 11
+		y = 10
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Canadian_Militia }
+		
+		completion_reward = {
+		remove_ideas = CAN_idea_dead_Military_Spirit
+		}
+	}
+
+	focus = {
+		id = CAN_Excempt_immigrants
+		icon = GFX_focus_generic_treaty 
+		x = 11
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+
+		prerequisite = { focus = CAN_Revive_Military }
+		
+		completion_reward = {
+		add_ideas = CAN_idea_Excempt_immigrants
+		}
+	}
+
+	focus = {
+		id = CAN_New_British_Rifle_Designs
+		icon = GFX_focus_secret_rearmament
+		x = 8
+		y = 9
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}
+		
+		Bypass = {
+		NOT = {
+		is_subject_of = ENG
+			}
+		}
+
+		prerequisite = { focus = CAN_Canadian_Militia }
+		
+		completion_reward = {
+		add_tech_bonus = {
+    		bonus = 1
+    		uses = 1
+    		category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_New_Uniform_Designs
+		icon = GFX_focus_generic_commonwealth_build_infantry
+		x = 9
+		y = 10
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}	
+
+		prerequisite = { focus = CAN_New_British_Rifle_Designs }
+		
+		completion_reward = {
+		add_tech_bonus = {
+    		bonus = 1
+    		uses = 1
+    		category = tech_category_uniforms
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_New_Artillery_Designs
+		icon = GFX_goal_generic_army_artillery2
+		x = 7
+		y = 10
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}
+
+		prerequisite = { focus = CAN_New_British_Rifle_Designs }
+		
+		completion_reward = {
+		add_tech_bonus = {
+    		bonus = 1
+    		uses = 1
+    		category = artillery
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_British_Equipment
+		icon = GFX_focus_ENG_arms_sale
+		x = 7
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		
+		available = {
+		is_subject_of = ENG
+		}		
+
+		prerequisite = { focus = CAN_New_Artillery_Designs }
+		prerequisite = { focus = CAN_New_Uniform_Designs }
+
+		mutually_exclusive = { focus = CAN_Start_Military_Industry }
+		
+		completion_reward = {
+		add_equipment_to_stockpile = {
+    		type = infantry_equipment_rifle_1
+    		amount = 1000
+    		producer = ENG
+			}
+		add_equipment_to_stockpile = {
+    		type = uniform_equipment_1
+    		amount = 1000
+    		producer = ENG
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Start_Military_Industry
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 9
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+		available = {
+			CAN = { controls_state = 276 }	
+		num_of_available_civilian_factories > 0
+		}
+		
+		prerequisite = { focus = CAN_New_Artillery_Designs }
+		prerequisite = { focus = CAN_New_Uniform_Designs }
+
+		mutually_exclusive = { focus = CAN_British_Equipment }
+		
+		completion_reward = {
+		activate_decision = CAN_mission_Military_Industry_Start
+		}
+	}
+
+	focus = {
+		id = CAN_Increasing_Self_Reliance
+		icon = GFX_goal_focus_military_reforms
+		x = 8
+		y = 12
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_British_Equipment focus = CAN_Start_Military_Industry }
+		prerequisite = { focus = CAN_Learn_European_Wars }
+		prerequisite = { focus = CAN_Excempt_immigrants }	
+	
+		completion_reward = {
+		add_war_support = 0.05
+		add_stability = -0.01
+		}
+	}
+
+############################################################
+#################POLITICS BRANCH############################
+############################################################
+
+	focus = {
+		id = CAN_Fight_Deadlock
+		icon = GFX_goal_generic_demand_territory
+		x = 12
+		y = 1
+		cost = 7
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		date > 1862.01.01
+		NOT = {
+		has_completed_focus = CAN_Thoughts_Independence
+			}
+		}
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = CAN_External_Threats
+		icon = GFX_goal_focus_american_civil_war
+		x = 10
+		y = 2
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Fight_Deadlock }
+
+			available = {
+				USA = {	
+		has_global_flag = ACW_American_Civil_War
+		has_global_flag = ACW_American_Civil_War_Happened
+			}
+		}	
+
+		mutually_exclusive = { focus = CAN_Internal_Threats }	
+	
+		completion_reward = {
+		add_stability = 0.01
+		}
+	}
+
+
+	focus = {
+		id = CAN_Alliance
+		icon = GFX_goal_SWE_compromise_liberals
+		x = 10
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_External_Threats }	
+	
+		completion_reward = {
+		hidden_effect = {
+		country_event = {
+		id = can.4
+		days = 1
+				}
+			}	
+		}
+	}
+
+	focus = {
+		id = CAN_Structural_Change
+		icon = GFX_goal_SWE_legislative_agenda
+		x = 10
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Alliance }	
+	
+		completion_reward = {
+		add_stability = 0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Unify
+		icon = GFX_goal_generic_national_unity
+		x = 10
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Structural_Change }	
+	
+		completion_reward = {
+		hidden_effect = {
+		country_event = {
+		id = can.5
+		days = 1
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = CAN_Internal_Threats
+		icon = Unknown
+		x = 14
+		y = 2
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		date > 1864.01.01
+		NOT = {
+				USA = {
+		has_global_flag = ACW_American_Civil_War
+		has_global_flag = ACW_American_Civil_War_Happened
+				}
+			}
+		}	
+
+		prerequisite = { focus = CAN_Fight_Deadlock }
+
+		mutually_exclusive = { focus = CAN_External_Threats }	
+	
+		completion_reward = {
+		add_stability = -0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Blame_Conservatives
+		icon = GFX_goal_SWE_manipulate_the_poor
+		x = 13
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}	
+
+		prerequisite = { focus = CAN_Internal_Threats }
+
+		mutually_exclusive = { focus = CAN_Blame_Reformers }	
+	
+		completion_reward = {
+			decrease_ps_by_one = yes
+			add_timed_idea = {
+				idea = CAN_idea_Blame_Conservatives
+				days = 500
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Reformers_Power
+		icon = GFX_goal_SWE_unity
+		x = 13
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		traditional_conservatism < 0.3
+		}		
+
+		prerequisite = { focus = CAN_Blame_Conservatives }	
+	
+		completion_reward = {
+		swap_ideas = { 
+		remove_idea = CAN_idea_quebec_separatism
+		add_idea = CAN_idea_quebec_separatism_1_refo
+			}
+			remove_ideas = CAN_idea_political_deadlock
+		}
+	}
+
+	focus = {
+		id = CAN_Blame_Reformers
+		icon = GFX_goal_SWE_manipulate_the_poor
+		x = 15
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Internal_Threats }
+
+		mutually_exclusive = { focus = CAN_Blame_Conservatives }	
+	
+		completion_reward = {
+		decrease_ps_by_one = yes
+		add_timed_idea = {
+		idea = CAN_idea_Blame_Reformers
+		days = 500
+			}
+		}	
+	}
+
+	focus = {
+		id = CAN_Conservatives_Power
+		icon = GFX_goal_SWE_purge_liberals
+		x = 15
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+		centrism < 0.3
+		}
+
+		prerequisite = { focus = CAN_Blame_Reformers }	
+	
+		completion_reward = {
+		swap_ideas = { 
+		remove_idea = CAN_idea_quebec_separatism
+		add_idea = CAN_idea_quebec_separatism_1_cons
+			}
+			remove_ideas = CAN_idea_political_deadlock
+		}
+	}
+
+	focus = {
+		id = CAN_Great_Party
+		icon = GFX_focus_generic_support_the_left_right
+		x = 14
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Conservatives_Power focus = CAN_Reformers_Power }	
+	
+		completion_reward = {
+		if = {
+			limit = { 
+		has_political_power < -250
+			}
+		set_political_power = -250
+			}
+		else = {
+		add_political_power = 50
+			}
+		}
+	}	
+	
+	focus = {
+		id = CAN_Focus_Confederation
+		icon = GFX_goal_focus_decentralisation_power
+		x = 12
+		y = 6
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+		is_subject_of = ENG	
+		}	
+
+		prerequisite = { focus = CAN_Unify focus = CAN_Great_Party }	
+	
+		completion_reward = {
+		activate_decision = CAN_mission_Charlottetown_counter
+		}
+	}	
+
+############################################################
+#########################NAVAL BRANCH#######################
+############################################################
+
+	focus = {
+		id = CAN_Colony_Merchants
+		icon = GFX_goal_focus_international_investments
+		x = 18
+		y = 9
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}	
+	
+		completion_reward = {
+		if = {
+			limit = {
+			has_tech = doctrine_victorian_naval_trade 
+			}
+		add_tech_bonus = {
+   	 	bonus = 1
+    		uses = 1
+    		category = naval_doctrine
+			}
+		set_technology = {
+    		doctrine_victorian_naval_trade = 1
+			}
+		}
+		
+		if = {
+		limit = {
+			has_tech = doctrine_victorian_naval_light 
+			has_tech = doctrine_victorian_naval_heavy		
+		}
+		add_tech_bonus = {
+   	 	bonus = 1
+    		uses = 2
+    		category = naval_doctrine
+			}
+		}	
+			
+		else = {
+		set_technology = {
+    		doctrine_victorian_naval_trade = 1
+			naval_doctrine_victorian = 1
+				}
+			}			
+		}
+	}	
+
+	focus = {
+		id = CAN_Merchant_Ship_Designs
+		icon = GFX_goal_focus_mass_produce_ships
+		x = 16
+		y = 10
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		prerequisite = { focus = CAN_Colony_Merchants }	
+	
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.50
+    		uses = 1
+    		category = naval_mtg_module_transport_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Small_Ship
+		icon = GFX_focus_gunboat_basic
+		x = 15
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		prerequisite = { focus = CAN_Merchant_Ship_Designs }	
+	
+		completion_reward = {
+		if = {
+			limit = {
+			has_tech = tech_naval_mtg_early_gunboat
+			}
+		add_tech_bonus = {
+   	 	bonus = 1
+    		uses = 1
+    		category = naval_mtg_gunboat_hulls_tech
+				}
+			}
+			else = {
+			set_technology = {
+				tech_naval_mtg_early_gunboat = 1
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Examine_British_Tactics
+		icon = GFX_goal_generic_navy_cruiser
+		x = 17
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		Bypass = {
+		NOT = {
+		is_subject_of = ENG
+			}
+		}
+
+		prerequisite = { focus = CAN_Merchant_Ship_Designs }	
+	
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.50
+    		uses = 1
+    		category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Establish_Comission
+		icon = GFX_goal_generic_build_navy
+		x = 20
+		y = 10
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		prerequisite = { focus = CAN_Colony_Merchants }	
+	
+		completion_reward = {
+		468 = {
+			add_building_construction = {
+				type = naval_base
+				level = 1
+				instant_build = yes
+				province = 12149
+			}
+		}
+    }
+}
+
+	focus = {
+		id = CAN_Start_Shipbuilding_Industry
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 19
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		available = {
+			CAN = { controls_state = 468 }
+		num_of_available_civilian_factories > 0	
+		}
+		prerequisite = { focus = CAN_Establish_Comission }	
+	
+		completion_reward = {
+		activate_decision = CAN_mission_Shipbuilding_Industry_Start
+		}
+	}
+
+	focus = {
+		id = CAN_Inspire_Shipbuilding_Industry
+		icon = GFX_goal_focus_mass_produce_ships
+		x = 21
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		
+		available = {
+		num_of_available_naval_factories > 1 }
+
+		prerequisite = { focus = CAN_Establish_Comission }	
+	
+		completion_reward = {
+		add_timed_idea = {
+			idea = CAN_idea_Inspire_Shipbuilding_Industry
+			days = 500
+			} 
+		}
+	}
+
+	focus = {
+		id = CAN_Trust_Royal_Navy
+		icon = GFX_goal_focus_JAP_science_eng_navy
+		x = 18
+		y = 12
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}		
+
+		prerequisite = { focus = CAN_Examine_British_Tactics }	
+		prerequisite = { focus = CAN_Small_Ship }
+		prerequisite = { focus = CAN_Start_Shipbuilding_Industry }
+		prerequisite = { focus = CAN_Inspire_Shipbuilding_Industry }	
+
+		completion_reward = {
+		add_stability = 0.03
+		add_war_support = -0.01
+		}
+	}
+
+############################################################
+######################INDUSTRY BRANCH#######################
+############################################################
+
+	focus = {
+		id = CAN_Agrarian_Colony
+		icon = GFX_focus_ITA_Farms
+		x = 29
+		y = 0
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = biochemistry_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Matter_Agriculture
+		icon = GFX_goal_focus_agriculture
+		x = 24
+		y = 1
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Agrarian_Colony }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 2
+    		category = biochemistry_tech
+			}
+		}
+	}
+
+
+
+
+
+	focus = {
+		id = CAN_Lower_Canada
+		icon = GFX_goal_focus_develop_canada
+		x = 20
+		y = 2
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Matter_Agriculture }	
+
+		completion_reward = {
+		add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = CAN_Effort_self_sufficient
+		icon = GFX_focus_ITA_Wheat
+		x = 19
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+
+		prerequisite = { focus = CAN_Lower_Canada }
+
+		mutually_exclusive = { focus = CAN_Support_Shift_stock_raising }	
+
+		completion_reward = {
+		add_stability = 0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Combat_Poverty_traditional
+		icon = GFX_focus_generic_concessions
+		x = 19
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+
+		prerequisite = { focus = CAN_Effort_self_sufficient }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Combat_Poverty_traditional
+		}
+	}
+
+	focus = {
+		id = CAN_Subsidize_Farms
+		icon = GFX_goal_focus_banks
+		x = 19
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+
+		prerequisite = { focus = CAN_Combat_Poverty_traditional }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Subsidize_Farms
+		}
+	}
+
+	focus = {
+		id = CAN_Support_Shift_stock_raising
+		icon = GFX_goal_SWE_agricultural_economy
+		x = 21
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Lower_Canada }
+
+		mutually_exclusive = { focus = CAN_Effort_self_sufficient }	
+
+		completion_reward = {
+		add_stability = -0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Educate_Farmers
+		icon = GFX_focus_generic_military_academy
+		x = 21
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Support_Shift_stock_raising }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Educate_Farmers
+		}
+	}
+
+	focus = {
+		id = CAN_Organise_Agricultural_Press
+		icon = GFX_goal_focus_freedom_press
+		x = 21
+		y = 5
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Educate_Farmers }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Organise_Agricultural_Press
+		If = {
+		limit = {
+		has_completed_focus = CAN_Encourage_Cheese_Factories
+			}
+		hidden_effect = {
+		country_event = {
+		id = can.11
+		days = 2000
+					}
+				}
+			}		
+		}
+	}
+
+
+
+
+	focus = {
+		id = CAN_Upper_Canada
+		icon = GFX_goal_focus_develop_canada
+		x = 28
+		y = 2
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Matter_Agriculture }	
+
+		completion_reward = {
+		add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = CAN_New_Industrial_Equipment
+		icon = GFX_goal_generic_production
+		x = 27
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Upper_Canada }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = biochemistry_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Support_Local_Farmers
+		icon = GFX_goal_focus_fund_partisans
+		x = 29
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 4
+		}
+
+		prerequisite = { focus = CAN_Upper_Canada }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Support_Local_Farmers
+		}
+	}
+
+	focus = {
+		id = CAN_Support_Shift_Livestook
+		icon = GFX_goal_SWE_agricultural_economy
+		x = 27
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_New_Industrial_Equipment }
+		prerequisite = { focus = CAN_Support_Local_Farmers }
+
+		mutually_exclusive = { focus = CAN_Promote_Wheat }	
+
+		completion_reward = {
+		add_stability = -0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Encourage_Cheese_Factories
+		icon = GFX_goal_focus_enact_law
+		x = 27
+		y = 5
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Support_Shift_Livestook }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Encourage_Cheese_Factories
+		hidden_effect = {
+		If = {
+		limit = {
+		has_completed_focus = CAN_Organise_Agricultural_Press 
+		}
+		country_event = {
+		id = can.11
+		days = 2000
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Promote_Wheat
+		icon = GFX_goal_focus_agriculture
+		x = 29
+		y = 4
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+
+		prerequisite = { focus = CAN_New_Industrial_Equipment }
+		prerequisite = { focus = CAN_Support_Local_Farmers }
+
+		mutually_exclusive = { focus = CAN_Support_Shift_Livestook }	
+
+		completion_reward = {
+		add_stability = 0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Subsidize_Wheat_Farms
+		icon = GFX_goal_focus_banks
+		x = 29
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+
+		prerequisite = { focus = CAN_Promote_Wheat }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Subsidize_Wheat_Farms
+		}
+	}
+
+	focus = {
+		id = CAN_Exports_To_Britain
+		icon = GFX_goal_focus_british_isolationism
+		x = 24
+		y = 7
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		cancel_if_invalid = yes
+		
+		Bypass = {
+		NOT = {
+			is_subject_of = ENG
+			}
+		}
+		
+		prerequisite = { focus = CAN_Subsidize_Wheat_Farms focus = CAN_Encourage_Cheese_Factories }	
+		prerequisite = { focus = CAN_Organise_Agricultural_Press focus = CAN_Subsidize_Farms }
+
+		completion_reward = {
+		reverse_add_opinion_modifier = { target = ENG modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = ENG modifier = eoanb_om_ENG_empire_trade }
+		add_ideas = CAN_idea_Exports_to_Britain
+		}
+	}
+
+
+
+
+
+	focus = {
+		id = CAN_Buildup_Infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 35
+		y = 1
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Agrarian_Colony }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = mechanical_engineering_tech
+			}
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = transport_tech
+			}	
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = process_engineering_tech
+			}	
+		}
+	}
+
+	focus = {
+		id = CAN_Fund_Projects_Saint
+		icon = GFX_goal_focus_banks
+		x = 34
+		y = 2
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 4
+		}
+		available = {
+			CAN = { controls_state = 468 }
+		}
+		prerequisite = { focus = CAN_Buildup_Infrastructure }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Saint_Lawrence_Infrastructure
+		}
+	}
+
+	focus = {
+		id = CAN_Construct_New_Canals
+		icon = GFX_goal_continuous_non_factory_construct
+		x = 34
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 4
+		}
+		available = {
+			CAN = { controls_state = 1311 }
+			CAN = { controls_state = 1310 }
+		}
+		prerequisite = { focus = CAN_Fund_Projects_Saint }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_New_Canals
+		}
+	}
+
+	focus = {
+		id = CAN_Drain_Old_Canals
+		icon = GFX_goal_focus_berlin_anhalt_rail
+		x = 34
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 4
+		}
+		available = {
+			CAN = { controls_state = 1311 }
+			CAN = { controls_state = 1310 }
+			CAN = { controls_state = 468 }
+			CAN = { controls_state = 276 }
+		}
+		prerequisite = { focus = CAN_Construct_New_Canals }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Drain_Old_Canals
+		}
+	}
+
+	focus = {
+		id = CAN_Establish_Ferry_Services
+		icon = GFX_goal_generic_build_navy
+		x = 34
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 4
+		}
+		available = {
+			CAN = { controls_state = 276 }
+		}
+		prerequisite = { focus = CAN_Drain_Old_Canals }	
+
+		completion_reward = {
+		activate_decision = CAN_mission_Establish_Ferry_Services
+		}
+	}
+
+	focus = {
+		id = CAN_Learn_New_Infrastructure
+		icon = GFX_goal_generic_production2
+		x = 36
+		y = 2
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}
+
+		prerequisite = { focus = CAN_Buildup_Infrastructure }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = transport_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Introduce_Macadam_Method
+		icon = GFX_goal_generic_construction
+		x = 36
+		y = 3
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}
+
+		prerequisite = { focus = CAN_Learn_New_Infrastructure }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = mechanical_engineering_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Learn_Erie_Canal
+		icon = GFX_goal_generic_construction2
+		x = 36
+		y = 4
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}
+
+		prerequisite = { focus = CAN_Introduce_Macadam_Method }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = mechanical_engineering_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Introduce_Telegraphic_Services
+		icon = GFX_goal_focus_telegraph_lines
+		x = 36
+		y = 5
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}
+
+		prerequisite = { focus = CAN_Learn_Erie_Canal }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = mechanical_engineering_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Modernizing_Infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 35
+		y = 7
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Introduce_Telegraphic_Services }	
+		prerequisite = { focus = CAN_Establish_Ferry_Services }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.25
+    		uses = 1
+    		category = mechanical_engineering_tech
+			}
+		add_tech_bonus = {
+   	 	bonus = 0.25
+    		uses = 1
+    		category = transport_tech
+			}	
+		}
+	}
+
+
+
+
+
+	focus = {
+		id = CAN_Industrialising_Industry
+		icon = GFX_goal_focus_industrial_revolution
+		x = 30
+		y = 8
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Modernizing_Infrastructure }	
+		prerequisite = { focus = CAN_Exports_To_Britain }	
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = mechanical_engineering_tech
+			}
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = biochemistry_tech
+			}	
+		add_tech_bonus = {
+   	 	bonus = 0.1
+    		uses = 1
+    		category = process_engineering_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Urbanisation
+		icon = GFX_focus_generic_industry_3
+		x = 29
+		y = 9
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Industrialising_Industry }		
+
+		completion_reward = {
+			add_timed_idea = {
+			idea = CAN_idea_Urbanisation
+			days = 2500
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Growing_Manufactaring
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 27
+		y = 9
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Industrialising_Industry }		
+
+		completion_reward = {
+			add_timed_idea = {
+			idea = CAN_idea_Growing_Manufacturing
+			days = 2500
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Industrial_Textile_Industry
+		icon = GFX_focus_generic_industry_2
+		x = 31
+		y = 9
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		available = {
+			CAN = { controls_state = 276 }
+			CAN = { controls_state = 468 }
+		}
+		prerequisite = { focus = CAN_Industrialising_Industry }		
+
+		completion_reward = {
+		activate_decision = CAN_mission_Industrial_Textile_Industry
+		}
+	}
+
+	focus = {
+		id = CAN_Industrialising_Farms
+		icon = GFX_goal_generic_production
+		x = 33
+		y = 9
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Industrialising_Industry }		
+
+		completion_reward = {	
+		if = {
+		limit = {
+			has_tech = mechanized_farming		
+		}
+		add_tech_bonus = {
+   	 	bonus = 1
+    		uses = 1
+    		category = biochemistry_tech
+			}
+		}	
+		else = {
+		set_technology = {
+    		mechanized_farming = 1
+				}
+			}			
+		}
+	}
+
+	focus = {
+		id = CAN_Industrialising_Society
+		icon = GFX_goal_focus_industrial_revolution
+		x = 30
+		y = 10
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Industrialising_Farms }	
+		prerequisite = { focus = CAN_Industrial_Textile_Industry }	
+		prerequisite = { focus = CAN_Growing_Manufactaring }	
+		prerequisite = { focus = CAN_Urbanisation }		
+
+		completion_reward = {
+		add_tech_bonus = {
+   	 	bonus = 0.5
+    		uses = 2
+    		category = humanities_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Productivity_First
+		icon = GFX_goal_focus_the_elite
+		x = 28
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		prerequisite = { focus = CAN_Industrialising_Society }
+
+		mutually_exclusive = { focus = CAN_Workers_Right }	
+
+		completion_reward = {
+		add_popularity = { ideology = social_egalitarianism popularity = 0.05 }
+		decrease_ps_by_one = yes
+		add_ideas = CAN_idea_Productivity_First
+		if = {
+		limit = {
+		has_idea = fourteen_hour_work_day
+		}
+		swap_ideas = {
+		remove_idea = fourteen_hour_work_day
+		add_idea = unlimited_work_day
+			}
+		}	
+		if = {
+		limit = {
+		has_idea = twelve_hour_work_day
+		}
+		swap_ideas = {
+		remove_idea = twelve_hour_work_day
+		add_idea = fourteen_hour_work_day
+			}
+		}
+		if = {
+		limit = {
+		has_idea = ten_hour_work_day
+		}
+		swap_ideas = {
+		remove_idea = ten_hour_work_day
+		add_idea = twelve_hour_work_day
+			}
+		}
+		if = {
+		limit = {
+		has_idea = eight_hour_work_day
+		}
+		swap_ideas = {
+		remove_idea = eight_hour_work_day
+		add_idea = ten_hour_work_day
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Workers_Right
+		icon = GFX_goal_focus_the_workers
+		x = 30
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}
+		
+		available = {
+		NOT = {
+		has_idea = CAN_idea_political_deadlock
+			}
+		}		
+		
+		Bypass = {
+		Has_idea = ten_hour_work_day
+		Has_idea = eight_hour_work_day
+		}
+
+		prerequisite = { focus = CAN_Industrialising_Society }
+
+		mutually_exclusive = { focus = CAN_Productivity_First }	
+
+		completion_reward = {
+		add_popularity = { ideology = centrism popularity = 0.05 }
+		add_popularity = { ideology = traditional_conservatism popularity = 0.05 }
+			if = {
+				limit = {
+					has_idea = unlimited_work_day
+				}
+				swap_ideas = {
+					remove_idea = unlimited_work_day
+					add_idea = ten_hour_work_day
+				}
+			}
+			if = {
+				limit = {
+					has_idea = fourteen_hour_work_day
+				}
+				swap_ideas = {
+					remove_idea = fourteen_hour_work_day
+					add_idea = ten_hour_work_day
+				}
+			}
+			if = {
+				limit = {
+					has_idea = twelve_hour_work_day
+				}
+				swap_ideas = {
+					remove_idea = twelve_hour_work_day
+					add_idea = ten_hour_work_day
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Trade_Union_Act
+		icon = GFX_focus_generic_treaty
+		x = 32
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 4
+		}
+		
+		available = {
+		NOT = {
+		has_idea = CAN_idea_political_deadlock
+			}
+		}		
+		
+		Bypass = {
+		OR = {
+		has_idea = foa_non_socialist
+		has_idea = foa_free_assembly
+			}
+		}
+		available = {
+		NOT = {
+		has_idea = CAN_idea_political_deadlock
+			}
+		}
+
+		prerequisite = { focus = CAN_Industrialising_Society }
+
+		completion_reward = {
+		If = {
+		limit = {
+		has_idea = foa_restricted_attendance
+		}
+		swap_ideas = {
+		remove_idea = foa_restricted_attendance
+		add_idea = foa_non_socialist
+				}
+			}
+		If = {
+		limit = {
+		has_idea = foa_state_only
+		}
+		swap_ideas = {
+		remove_idea = foa_state_only
+		add_idea = foa_non_socialist
+				}
+		add_political_power = -25		
+			}
+				If = {
+		limit = {
+		has_idea = foa_banned
+		}
+		swap_ideas = {
+		remove_idea = foa_banned
+		add_idea = foa_non_socialist
+				}
+		add_political_power = -50		
+			}			
+		}
+	}
+
+	focus = {
+		id = CAN_Industrialising_Nation
+		icon = GFX_focus_ITA_Industry
+		x = 30
+		y = 12
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		prerequisite = { focus = CAN_Trade_Union_Act }
+		prerequisite = { focus = CAN_Productivity_First focus = CAN_Workers_Right }
+
+		completion_reward = {
+				swap_ideas = {
+					remove_idea = agrarian
+					add_idea = industrializing
+			}		
+		}
+	}
+
+############################################################
+##################CONFEDERATION BRANCH######################
+############################################################
+
+	focus = {
+		id = CAN_Way_Confederation
+		icon = GFX_goal_focus_develop_canada
+		x = 48
+		y = 0
+		cost = 140
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 8
+		}
+		available = {
+		has_completed_focus = CAN_Focus_Confederation
+		OR = {	
+		is_puppet_of = ENG
+		is_subject_of = ENG
+		}
+	}	
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = CAN_Grant_Rights_French
+		icon = GFX_goal_focus_ally_FRA
+		x = 47
+		y = 1
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 8
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}	
+		
+		prerequisite = { focus = CAN_Way_Confederation }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_1_refo
+				}
+				swap_ideas = {
+					remove_idea = CAN_idea_quebec_separatism_1_refo
+					add_idea = CAN_idea_quebec_separatism_Rights_refo
+				}
+			}
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_Chruch_refo
+				}
+					remove_ideas = CAN_idea_quebec_separatism_Chruch_refo
+				}
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_1_cons
+				}
+				swap_ideas = {
+					remove_idea = CAN_idea_quebec_separatism_1_cons
+					add_idea = CAN_idea_quebec_separatism_Rights_cons
+				}
+			}
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_Church_cons
+				}
+				swap_ideas = {
+					remove_idea = CAN_idea_quebec_separatism_Church_cons
+					add_idea = CAN_idea_quebec_separatism_Church_Rights_cons
+				}	
+			}
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_unify
+				}
+				swap_ideas = {
+					remove_idea = CAN_idea_quebec_separatism_unify
+					add_idea = CAN_idea_quebec_separatism_unify_Rights
+				}
+			}	
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_unify_Church
+				}
+					remove_ideas = CAN_idea_quebec_separatism_unify_Church
+			}	
+			if = {
+				limit = {
+					has_completed_focus = CAN_Support_Catholic_Church
+				}
+			CAN = {
+			news_event = {
+			id = can.22
+			days = 1
+					}
+				}
+			}			
+		}
+	}
+
+	focus = {
+		id = CAN_Support_Catholic_Church
+		icon = GFX_goal_focus_enact_law
+		x = 49
+		y = 1
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 8
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}		
+
+		prerequisite = { focus = CAN_Way_Confederation }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_1_refo
+				}
+				swap_ideas = {
+					remove_idea = CAN_idea_quebec_separatism_1_refo
+					add_idea = CAN_idea_quebec_separatism_Chruch_refo
+				}
+			}
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_Rights_refo
+				}
+					remove_ideas = CAN_idea_quebec_separatism_Rights_refo
+				}
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_1_cons
+				}
+				swap_ideas = {
+					remove_idea = CAN_idea_quebec_separatism_1_cons
+					add_idea = CAN_idea_quebec_separatism_Church_cons
+				}
+			}
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_Rights_cons
+				}
+				swap_ideas = {
+					remove_idea = CAN_idea_quebec_separatism_Rights_cons
+					add_idea = CAN_idea_quebec_separatism_Church_Rights_cons
+				}	
+			}
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_unify
+				}
+				swap_ideas = {
+					remove_idea = CAN_idea_quebec_separatism_unify
+					add_idea = CAN_idea_quebec_separatism_unify_Church
+				}
+			}	
+			if = {
+				limit = {
+					has_idea = CAN_idea_quebec_separatism_unify_Rights
+				}
+					remove_ideas = CAN_idea_quebec_separatism_unify_Rights
+				}
+			if = {
+				limit = {
+					has_completed_focus = CAN_Support_Catholic_Church
+				}
+			CAN = {
+			news_event = {
+			id = can.22
+			days = 1
+					}
+				}
+			}			
+		}
+	}					
+
+
+
+
+	focus = {
+		id = CAN_Prime_Minister
+		icon = SWE_LIB_election_tt
+		x = 48
+		y = 2
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+		always = no
+		}	
+		
+		prerequisite = { focus = CAN_Support_Catholic_Church }
+		prerequisite = { focus = CAN_Grant_Rights_French }
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = CAN_Conservative_Prime_Minister
+		icon = GFX_goal_SWE_disawow_left
+		x = 45
+		y = 3
+		cost = 21
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		NOT = { has_completed_focus = CAN_Blame_Conservatives }
+		}			
+
+		prerequisite = { focus = CAN_Prime_Minister }
+
+		mutually_exclusive = { focus = CAN_Liberal_Prime_Minister }
+
+		completion_reward = {
+		add_popularity = { ideology = traditional_conservatism popularity = 0.05 }
+		}
+	}
+
+	focus = {
+		id = CAN_George_Etrienne_Prime_Minister
+		icon = GFX_goal_focus_support_conservatism
+		x = 44
+		y = 4
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}			
+
+		prerequisite = { focus = CAN_Conservative_Prime_Minister }
+
+		mutually_exclusive = { focus = CAN_John_Macdonald_Prime_Minister }
+
+		completion_reward = {
+		set_politics = { ruling_party = traditional_conservatism }
+		add_ideas = CAN_idea_George_Etrienne_Prime
+		complete_national_focus = CAN_Dominions_Prime_Minister
+		}
+	}
+
+	focus = {
+		id = CAN_John_Macdonald_Prime_Minister
+		icon = GFX_goal_focus_support_liberalism
+		x = 46
+		y = 4
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}			
+
+		prerequisite = { focus = CAN_Conservative_Prime_Minister }
+
+		mutually_exclusive = { focus = CAN_George_Etrienne_Prime_Minister }
+
+		completion_reward = {
+		set_politics = { ruling_party = traditional_conservatism }
+		set_party_name = { 
+		ideology = traditional_conservatism
+		long_name = CAN_conserv_party_name_short
+		name = CAN_conserv_party_name_long
+		}
+		create_country_leader = {
+		name = "John A. Macdonald"
+		desc = "POLITICS_ÉDOUARD_DALADIER_DESC"
+		picture = "Portrait_CAN_John_A.MacDonald.dds"
+		expire = "2100.1.1"
+		ideology = conserv
+		traits = {}
+			}
+		unlock_decision_tooltip = CAN_National_Policy
+		add_ideas = CAN_idea_John_MacDonald_Prime
+		complete_national_focus = CAN_Dominions_Prime_Minister
+		}
+	}
+
+	focus = {
+		id = CAN_Liberal_Prime_Minister
+		icon = GFX_goal_SWE_ally_with_left
+		x = 51
+		y = 3
+		cost = 21
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 3
+		}
+		
+		available = {
+			NOT = { has_completed_focus = CAN_Blame_Reformers }
+		}			
+
+		prerequisite = { focus = CAN_Prime_Minister }
+
+		mutually_exclusive = { focus = CAN_Conservative_Prime_Minister }
+
+		completion_reward = {
+		add_popularity = { ideology = centrism popularity = 0.05 }
+		}
+	}
+
+	focus = {
+		id = CAN_George_Brown_Prime_Minister
+		icon = GFX_goal_focus_support_conservatism
+		x = 51
+		y = 4
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}		
+
+		prerequisite = { focus = CAN_Liberal_Prime_Minister }
+
+		completion_reward = {
+			set_politics = { ruling_party = centrism }
+		add_ideas = CAN_idea_George_Brown_Prime	
+		complete_national_focus = CAN_Dominions_Prime_Minister
+		}
+	}
+
+	focus = {
+		id = CAN_Dominions_Prime_Minister
+		icon = GFX_goal_focus_popularize
+		x = 48
+		y = 5
+		cost = 1
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}		
+
+		prerequisite = { focus = CAN_George_Etrienne_Prime_Minister focus = CAN_John_Macdonald_Prime_Minister focus = CAN_George_Brown_Prime_Minister }
+
+		completion_reward = {
+		remove_ideas = CAN_idea_Election_In_Pr	
+		}
+	}
+
+
+
+	focus = {
+		id = CAN_CPR
+		icon = GFX_goal_focus_develop_canada
+		x = 48
+		y = 6
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		has_completed_focus = CAN_Modernizing_Infrastructure
+		has_completed_focus = CAN_John_Macdonald_Prime_Minister
+		}		
+
+		prerequisite = { focus = CAN_Dominions_Prime_Minister }
+
+		completion_reward = {
+		add_ideas = Canadian
+		}
+	}	
+	
+
+
+
+	focus = {
+		id = CAN_Enrollment_Old_Militias
+		icon = GFX_focus_generic_military_mission
+		x = 43
+		y = 6
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 8
+		}
+		
+		available = {
+		has_completed_focus = CAN_Increasing_Self_Reliance
+		is_subject_of = ENG	
+		}		
+
+		prerequisite = { focus = CAN_Dominions_Prime_Minister }
+
+		completion_reward = {
+		add_manpower = 5000
+		add_equipment_to_stockpile = {
+    		type = infantry_equipment_rifle_1
+    		amount = 500
+    		producer = ENG
+			}
+		add_equipment_to_stockpile = {
+    		type = uniform_equipment_1
+    		amount = 500
+    		producer = ENG
+			}
+		if = {
+			limit = {
+			has_idea = one_percent
+			}	
+		add_ideas = CAN_idea_lack_funding_1
+			}
+		if = {
+			limit = {
+			has_idea = two_percent
+			}	
+		add_ideas = CAN_idea_lack_funding_1
+			}				
+		}
+	}
+
+	focus = {
+		id = CAN_Militia_Act_1868
+		icon = GFX_focus_generic_treaty
+		x = 43
+		y = 7
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}		
+
+		prerequisite = { focus = CAN_Enrollment_Old_Militias }
+
+		completion_reward = {
+		add_war_support = 0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Curtail_Enrollment
+		icon = GFX_goal_focus_military_reforms
+		x = 42
+		y = 8
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}			
+
+		prerequisite = { focus = CAN_Militia_Act_1868 }
+
+		mutually_exclusive = { focus = CAN_Increase_Funds }
+
+		completion_reward = {
+		remove_ideas = CAN_idea_lack_funding_1
+		add_timed_idea = {
+		idea = CAN_idea_Curtail_Enrollment
+		days = 2500
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Increase_Funds
+		icon = GFX_goal_focus_banks
+		x = 44
+		y = 8
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		
+		Bypass = {
+		NOT = {
+		has_idea = one_percent
+		has_idea = two_percent
+			}
+		}
+
+		prerequisite = { focus = CAN_Militia_Act_1868 }
+
+		mutually_exclusive = { focus = CAN_Curtail_Enrollment }
+
+		completion_reward = {	
+		if = {
+			limit = {
+			has_idea = one_percent
+			}
+		swap_ideas = {	
+		remove_idea = one_percent
+		add_idea = three_percent
+				}
+			}	
+		if = {
+			limit = {
+			has_idea = two_percent
+			}
+		swap_ideas = {	
+		remove_idea = two_percent
+		add_idea = three_percent
+				}
+			}
+		remove_ideas = CAN_idea_lack_funding_1
+		}		
+	}
+
+	focus = {
+		id = CAN_Full_Fledged_Canadian_Military
+		icon = GFX_focus_generic_little_entente
+		x = 43
+		y = 9
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}			
+
+		prerequisite = { focus = CAN_Increase_Funds focus = CAN_Curtail_Enrollment }
+
+		completion_reward = {
+		add_timed_idea = {
+		idea = CAN_idea_Full_Fledged_Canadian_Military
+		days = 500
+			}
+		}
+	}
+
+	
+
+	focus = {
+		id = CAN_Trade_Policy
+		icon = Unknown
+		x = 53
+		y = 6
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}			
+
+		prerequisite = { focus = CAN_Dominions_Prime_Minister }
+
+		completion_reward = {
+		add_political_power = 50
+
+		}
+	}	
+
+	focus = {
+		id = CAN_Protective_Tariffs
+		icon = GFX_goal_generic_positive_trade_relations
+		x = 50
+		y = 7
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}			
+
+		prerequisite = { focus = CAN_Trade_Policy }
+
+		mutually_exclusive = { focus = CAN_Balanced_Export }
+		mutually_exclusive = { focus = CAN_Free_Trade }
+
+		bypass = {
+			has_idea = limited_exports 
+		}
+
+		completion_reward = {
+		add_stability = 0.05
+			if = {
+				limit = {
+					CAN = { has_idea = export_focus }
+				}
+					swap_ideas = { remove_idea = export_focus add_idea = limited_exports }
+				}
+
+			if = {
+				limit = {
+					CAN = { has_idea = free_trade }
+				}
+				swap_ideas = { remove_idea = free_trade add_idea = limited_exports }
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Trade_Relations_Empire
+		icon = GFX_goal_focus_merchants_british
+		x = 50
+		y = 8
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}			
+
+		prerequisite = { focus = CAN_Protective_Tariffs }
+
+		completion_reward = {
+		IF = {
+			limit = {
+				ENG = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = ENG modifier = improved_relations_light }
+		add_opinion_modifier = { target = ENG modifier = improved_relations_light }
+			}	
+		If = {
+			limit = {
+		SRC = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = SRC modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = SRC modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		ION = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = ION modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = ION modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		VIC = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = VIC modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = VIC modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		SAS = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = SAS modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = SAS modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		SAF = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = SAF modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = SAF modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		RAJ = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = RAJ modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = RAJ modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		NZL = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = NZL modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = NZL modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		NSW = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = NSW modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = NSW modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		TSM = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = TSM modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = TSM modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		NEP = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = NEP modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = NEP modifier = eoanb_om_ENG_empire_trade }
+			}
+		If = {
+			limit = {
+		TCS = {
+		is_puppet_of = ENG }
+				}
+		reverse_add_opinion_modifier = { target = TCS modifier = eoanb_om_ENG_empire_trade }
+		add_opinion_modifier = { target = TCS modifier = eoanb_om_ENG_empire_trade }
+			}
+		add_war_support = +0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Balanced_Export
+		icon = GFX_goal_focus_support_liberalism
+		x = 53
+		y = 7
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}			
+
+		prerequisite = { focus = CAN_Trade_Policy }
+
+		mutually_exclusive = { focus = CAN_Protective_Tariffs }
+		mutually_exclusive = { focus = CAN_Free_Trade }
+		
+		bypass = {
+			has_idea = export_focus 
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					CAN = { has_idea = limited_exports }
+				}
+					swap_ideas = { remove_idea = limited_exports add_idea = export_focus }
+				}
+
+			if = {
+				limit = {
+					CAN = { has_idea = free_trade }
+				}
+				swap_ideas = { remove_idea = free_trade add_idea = export_focus }
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Balanced_Trade_Relations
+		icon = GFX_goal_generic_neutrality_focus
+		x = 53
+		y = 8
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+		is_subject_of = ENG	
+		}		
+
+		prerequisite = { focus = CAN_Balanced_Export }
+
+		completion_reward = {
+		IF = {
+			limit = {
+				ENG = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = ENG modifier = improved_relations_light }
+		add_opinion_modifier = { target = ENG modifier = improved_relations_light }
+			}		
+		IF = {
+			limit = {
+				USA = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = USA modifier = improved_relations_light }
+		add_opinion_modifier = { target = USA modifier = improved_relations_light }
+			}		
+		IF = {
+			limit = {
+				NEG = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = NEG modifier = improved_relations_light }
+		add_opinion_modifier = { target = NEG modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				CSA = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = CSA modifier = improved_relations_light }
+		add_opinion_modifier = { target = CSA modifier = improved_relations_light }
+			}		
+		add_war_support = -0.01
+		}
+	}
+
+	focus = {
+		id = CAN_Free_Trade
+		icon = GFX_goal_focus_freedom_economy
+		x = 56
+		y = 7
+		cost = 105
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 2
+		}		
+
+		prerequisite = { focus = CAN_Trade_Policy }
+
+		available = {
+		NOT = {
+		has_completed_focus = CAN_John_Macdonald_Prime_Minister }
+			OR = {
+		is_puppet_of = ENG
+		is_subject_of = ENG	
+			}
+		}		
+
+		mutually_exclusive = { focus = CAN_Protective_Tariffs }
+		mutually_exclusive = { focus = CAN_Balanced_Export }
+
+		bypass = {
+			has_idea = free_trade 
+		}
+
+		completion_reward = {
+		add_stability = -0.05
+			if = {
+				limit = {
+					CAN = { has_idea = limited_exports }
+				}
+					swap_ideas = { remove_idea = limited_exports add_idea = free_trade }
+				}
+
+			if = {
+				limit = {
+					CAN = { has_idea = export_focus }
+				}
+				swap_ideas = { remove_idea = export_focus add_idea = free_trade }
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Outside_Trade_Relations
+		icon = GFX_goal_focus_foreign_diplomacy
+		x = 56
+		y = 8
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}			
+
+		prerequisite = { focus = CAN_Free_Trade }
+
+		completion_reward = {
+		IF = {
+			limit = {
+				USA = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = USA modifier = improved_relations_light }
+		add_opinion_modifier = { target = USA modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				MEX = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = MEX modifier = improved_relations_light }
+		add_opinion_modifier = { target = MEX modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				FRA = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = FRA modifier = improved_relations_light }
+		add_opinion_modifier = { target = FRA modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				HOL = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = HOL modifier = improved_relations_light }
+		add_opinion_modifier = { target = HOL modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				SPR = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = SPR modifier = improved_relations_light }
+		add_opinion_modifier = { target = SPR modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				RUS = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = RUS modifier = improved_relations_light }
+		add_opinion_modifier = { target = RUS modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				POR = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = POR modifier = improved_relations_light }
+		add_opinion_modifier = { target = POR modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				BEL = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = BEL modifier = improved_relations_light }
+		add_opinion_modifier = { target = BEL modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				PRS = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = PRS modifier = improved_relations_light }
+		add_opinion_modifier = { target = PRS modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				PIE = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = PIE modifier = improved_relations_light }
+		add_opinion_modifier = { target = PIE modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				GRE = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = GRE modifier = improved_relations_light }
+		add_opinion_modifier = { target = GRE modifier = improved_relations_light }
+			}
+		IF = {
+			limit = {
+				NEG = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = NEG modifier = improved_relations }
+		add_opinion_modifier = { target = NEG modifier = improved_relations }
+			}
+		IF = {
+			limit = {
+				CSA = {
+				exists = yes }
+				}
+		reverse_add_opinion_modifier = { target = CSA modifier = improved_relations }
+		add_opinion_modifier = { target = CSA modifier = improved_relations }
+			}					
+		add_war_support = -0.03
+		}
+	}
+	
+	focus = {
+		id = CAN_Defined_Trade_Policy
+		icon = GFX_focus_generic_treaty
+		x = 53
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}			
+
+		prerequisite = { focus = CAN_Outside_Trade_Relations focus = CAN_Balanced_Trade_Relations focus = CAN_Trade_Relations_Empire }
+
+		completion_reward = {
+		add_political_power = 25
+		}
+	}		
+		
+	
+
+
+	focus = {
+		id = CAN_Encourage_Westward_Settlement
+		icon = GFX_focus_generic_support_the_left_right
+		x = 48
+		y = 10
+		cost = 140
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}			
+
+		prerequisite = { focus = CAN_Full_Fledged_Canadian_Military }
+		prerequisite = { focus = CAN_Defined_Trade_Policy }
+
+		completion_reward = {
+		682 = {
+		add_manpower = 5000 }
+		683 = {
+		add_manpower = 2500 }
+		467 = {
+		add_manpower = 5000 }
+		469 = {
+		add_manpower = 5000 }
+		470 = {
+		add_manpower = 2500 }
+		}
+	}
+	
+	focus = {
+		id = CAN_Takeover_Ruperts_Land
+		icon = GFX_idea_ENG_focus_enact_law_uk
+		x = 48
+		y = 11
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}
+		
+		prerequisite = { focus = CAN_Encourage_Westward_Settlement }
+
+		completion_reward = {
+		activate_decision = CAN_Negotiatens_ruperts_Land	
+		}
+	}
+
+	focus = {
+		id = CAN_Protect_Rights_Native_Citiziens
+		icon = GFX_goal_focus_enact_law
+		x = 47
+		y = 12
+		cost = 140
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}			
+
+		prerequisite = { focus = CAN_Takeover_Ruperts_Land }
+
+		mutually_exclusive = { focus = CAN_More_Rights_English_Settlers }
+
+		completion_reward = {
+		CAN = {	
+		country_event = {
+		id = can.30
+		days = 1
+				}
+			}		
+		}
+	}
+
+	focus = {
+		id = CAN_More_Rights_English_Settlers
+		icon = GFX_focus_CZE_german_puppet
+		x = 49
+		y = 12
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}		
+
+		prerequisite = { focus = CAN_Takeover_Ruperts_Land }
+
+		mutually_exclusive = { focus = CAN_Protect_Rights_Native_Citiziens }
+
+		completion_reward = {
+		CAN = {	
+		country_event = {
+		id = can.31
+		days = 1
+				}
+			}		
+		}
+	}
+
+	focus = {
+		id = CAN_British_Columbia_For_Railway
+		icon = GFX_goal_generic_improve_relations
+		x = 48
+		y = 13
+		cost = 140
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}				
+
+		prerequisite = { focus = CAN_More_Rights_English_Settlers focus = CAN_Protect_Rights_Native_Citiziens }
+
+		completion_reward = {
+		if = {
+			limit = {
+				has_completed_focus = CAN_John_Macdonald_Prime_Minister 
+			}
+		activate_decision = CAN_mission_Build_Railway_1 
+		}
+		
+		if = {
+			limit = {
+				has_completed_focus = CAN_George_Etrienne_Prime_Minister
+				has_completed_focus = CAN_George_Brown_Prime_Minister 
+			}
+		activate_decision = CAN_mission_Build_Railway_2 
+		}
+				
+		hidden_effect = {
+		CAN = {	
+		news_event = {
+		id = can.29
+		days = 1
+					}
+				}
+			}
+		}		
+	}	
+
+	focus = {
+		id = CAN_Create_North_Mounted_Police
+		icon = GFX_focus_secret_rearmament
+		x = 48
+		y = 14
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}		
+
+		prerequisite = { focus = CAN_British_Columbia_For_Railway }
+
+		completion_reward = {
+		add_stability = 0.02
+		add_manpower = -1000
+		}
+	}	
+
+	focus = {
+		id = CAN_Peace_Order_Government
+		icon = GFX_goal_generic_neutrality_focus
+		x = 48
+		y = 15
+		cost = 70
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+		
+		available = {
+		is_subject_of = ENG	
+		}			
+
+		prerequisite = { focus = CAN_Create_North_Mounted_Police }
+
+		completion_reward = {
+		add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = CAN_Treaties_Indigiounes
+		icon = GFX_goal_focus_enact_law
+		x = 48
+		y = 16
+		cost = 140
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}			
+
+		prerequisite = { focus = CAN_Peace_Order_Government }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_Treaties_Info
+		hidden_effect = {
+		unlock_decision_tooltip = CAN_decisions_sign_1
+			}
+		}		
+	}
+
+	focus = {
+		id = CAN_Canada_British_Rule
+		icon = GFX_focus_generic_home_defense
+		x = 48
+		y = 17
+		cost = 1
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+		has_completed_focus = CAN_Industrialising_Nation
+		has_completed_focus = CAN_Trust_Royal_Navy
+		is_subject_of = ENG
+		}	
+	
+		mutually_exclusive = { focus = CAN_Independent_Canada focus = CAN_Independent_Failed }
+		
+		prerequisite = { focus = CAN_Treaties_Indigiounes }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_END
+		}
+	}
+
+############################################################
+###############INDEPENDENCE BRANCH##########################
+############################################################
+
+	focus = {
+		id = CAN_Thoughts_Independence
+		icon = GFX_focus_generic_support_the_left_right
+		x = 70
+		y = 0
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+		always = no
+		}
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = CAN_Regulate_Debates
+		icon = GFX_goal_continuous_def_against_influence
+		x = 72
+		y = 1
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		bypass = {
+		NOT = {
+		has_idea = CAN_idea_Thoughts_of_Independence
+			}
+		}
+		
+		prerequisite = { focus = CAN_Thoughts_Independence }
+
+		mutually_exclusive = { focus = CAN_Open_Debates }
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_idea = free_press 
+		}
+		swap_ideas = {
+		remove_idea = free_press
+		add_idea = censored_press
+			}
+		}
+		If = {
+		limit = {
+		has_idea = foa_free_assembly
+		}
+		swap_ideas = {
+		remove_idea = foa_free_assembly
+		add_idea = foa_restricted_attendance
+				}
+			}
+		If = {
+		limit = {
+		has_idea = foa_non_socialist
+		}
+		swap_ideas = {
+		remove_idea = foa_non_socialist
+		add_idea = foa_restricted_attendance
+				}		
+			}
+		modify_timed_idea = {
+		idea = CAN_idea_Thoughts_of_Independence
+		days = 100
+			}
+		add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = CAN_Arrest_Wrong_Thinkers
+		icon = GFX_goal_continuous_boost_freedom
+		x = 71
+		y = 2
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 10
+		}	
+		
+		bypass = {
+		NOT = {
+		has_idea = CAN_idea_Thoughts_of_Independence
+			}
+		}		
+		
+		prerequisite = { focus = CAN_Regulate_Debates }
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_idea = foa_non_socialist 
+		}
+		swap_ideas = {
+		remove_idea = foa_non_socialist
+		add_idea = foa_restricted_attendance
+			}
+		}
+		if = {
+		limit = {
+			has_idea = foa_free_assembly 
+		}
+		swap_ideas = {
+		remove_idea = foa_free_assembly
+		add_idea = foa_restricted_attendance
+			}
+		}
+		modify_timed_idea = {
+		idea = CAN_idea_Thoughts_of_Independence
+		days = -250
+			}
+		add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = CAN_Pro-British-Speeches
+		icon = GFX_goal_focus_british_colonial_empire
+		x = 73
+		y = 2
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		bypass = {
+		NOT = {
+		has_idea = CAN_idea_Thoughts_of_Independence
+			}
+		}		
+		
+		prerequisite = { focus = CAN_Regulate_Debates }
+
+		completion_reward = {
+		modify_timed_idea = {
+		idea = CAN_idea_Thoughts_of_Independence
+		days = -50
+			}
+		add_stability = -0.02
+		}
+	}
+
+	focus = {
+		id = CAN_Wiped_Thoughts
+		icon = GFX_goal_SWE_manipulate_the_poor
+		x = 72
+		y = 3
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+
+		available = {
+		NOT = {
+		has_idea = CAN_idea_Thoughts_of_Independence
+			}
+		}	
+		
+		prerequisite = { focus = CAN_Pro-British-Speeches focus = CAN_Arrest_Wrong_Thinkers }
+
+		completion_reward = {
+		unlock_national_focus = CAN_Fight_Deadlock
+		CAN = {
+		country_event = {
+		id = can.39
+		days = 0
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Open_Debates
+		icon = GFX_goal_focus_popularize
+		x = 68
+		y = 1
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}	
+		
+		prerequisite = { focus = CAN_Thoughts_Independence }
+		
+		mutually_exclusive = { focus = CAN_Regulate_Debates }
+
+		completion_reward = {
+		add_stability = 0.05
+		if = {
+		limit = {
+			has_idea = censored_press 
+		}
+		swap_ideas = {
+		remove_idea = censored_press
+		add_idea = free_press
+			}
+		}
+		if = {
+		limit = {
+			has_idea = state_controlled_press 
+		}
+		swap_ideas = {
+		remove_idea = state_controlled_press
+		add_idea = free_press
+			}
+		}
+		modify_timed_idea = {
+		idea = CAN_idea_Thoughts_of_Independence
+		days = +150
+			}
+		hidden_effect = {
+		set_party_name = { 
+		ideology = radical_democracy
+		long_name = CAN_anti-britsh_short
+		name = CAN_anti-british_name_long
+			}
+		create_country_leader = {
+		name = "Anti-Colonial Committee"
+		desc = "POLITICS_ÉDOUARD_DALADIER_DESC"
+		picture = "placeholder.dds"
+		expire = "2100.1.1"
+		ideology = reactionary
+		traits = {}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Allow_Anti-Colonial_Speeches
+		icon = GFX_goal_focus_british_colonial_empire
+		x = 68
+		y = 2
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 50
+		}	
+		
+		prerequisite = { focus = CAN_Open_Debates }
+
+		completion_reward = {
+		modify_timed_idea = {
+		idea = CAN_idea_Thoughts_of_Independence
+		days = +150
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Allow_Anti-British_Politicians
+		icon = GFX_goal_focus_enact_law
+		x = 70
+		y = 4
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 50
+		}	
+		
+		available = {
+		radical_democracy > 0.3
+		}
+		
+		prerequisite = { focus = CAN_Allow_Anti-Colonial_Speeches }
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_idea = pp_ban_extremist_parties 
+		}
+		swap_ideas = {
+		remove_idea = pp_ban_extremist_parties
+		add_idea = pp_open_politics
+			}
+		}
+		if = {
+		limit = {
+			has_idea = pp_limited_party_freedom 
+		}
+		swap_ideas = {
+		remove_idea = pp_limited_party_freedom
+		add_idea = pp_open_politics
+			}
+		}
+		if = {
+		limit = {
+			has_idea = pp_underground_parties 
+		}
+		swap_ideas = {
+		remove_idea = pp_underground_parties
+		add_idea = pp_open_politics
+			}
+		}
+		modify_timed_idea = {
+		idea = CAN_idea_Thoughts_of_Independence
+		days = +150
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Prepare_Canadian_War_of_Independence
+		icon = GFX_focus_PIE_Casus_Belli
+		x = 70
+		y = 5
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 5
+		}
+
+		available = {
+		radical_democracy > 0.5
+		NOT = {
+		has_idea = CAN_idea_dead_Military_Spirit
+			}
+		}		
+		
+		prerequisite = { focus = CAN_Allow_Anti-British_Politicians }
+
+		completion_reward = {
+		activate_decision = CAN_IND_WAR_Secret_Network_Established
+		}
+	}
+
+	focus = {
+		id = CAN_Influence_Media_other_Provinces
+		icon = GFX_goal_focus_popularize
+		x = 70
+		y = 6
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+		has_completed_focus = CAN_Prepare_Canadian_War_of_Independence
+		NOT = {
+		has_decision = CAN_IND_WAR_Secret_Network_Established
+			}
+		}
+		
+		prerequisite = { focus = CAN_Prepare_Canadian_War_of_Independence }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_Media
+		hidden_effect = {
+		unlock_decision_tooltip = CAN_IND_fund_movements_Maritime
+		unlock_decision_tooltip = CAN_IND_fund_movements_Hudson
+		unlock_decision_tooltip = CAN_IND_fund_movements_Caledonia
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_prepare_diplomatically
+		icon = GFX_goal_generic_improve_relations
+		x = 64
+		y = 6
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		has_completed_focus = CAN_Prepare_Canadian_War_of_Independence
+		NOT = {
+		has_decision = CAN_IND_WAR_Secret_Network_Established
+			}
+		}
+		
+		prerequisite = { focus = CAN_Prepare_Canadian_War_of_Independence }
+
+		completion_reward = {
+		add_political_power = 25
+		}
+	}	
+	
+	focus = {
+		id = CAN_Ask_France_support
+		icon = GFX_focus_chi_reach_out_to_france
+		x = 60
+		y = 7
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		FRA = {
+		exists = yes 
+		is_subject = no
+			}		
+		}
+		
+		prerequisite = { focus = CAN_prepare_diplomatically }
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_opinion = {
+			target = FRA
+			value < -25
+				}
+			}
+		FRA = {
+		country_event = {
+		id = can.46
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = FRA
+			value > -25
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 25
+					}
+				}
+			}
+		FRA = {
+		country_event = {
+		id = can.47
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = FRA
+			value > 25
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 50
+					}
+				}
+			}
+		FRA = {
+		country_event = {
+		id = can.48
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = FRA
+			value > 50
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 75
+					}
+				}
+			}
+		FRA = {
+		country_event = {
+		id = can.49
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = FRA
+			value > 75
+				}
+			}
+		FRA = {
+		country_event = {
+		id = can.50
+		days = 0
+				}
+			}
+		}
+		else = {
+		FRA = {
+		country_event = {
+		id = can.51
+		days = 0
+				}
+			}
+		}
+		custom_effect_tooltip = CAN_IND_Diplomacy_Advice
+		}
+	}
+	
+	focus = {
+		id = CAN_Colonial_Goods_Civ
+		icon = GFX_focus_generic_home_defense
+		x = 59
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		is_guaranteed_by = FRA
+		}	
+		
+		prerequisite = { focus = CAN_Ask_France_support }
+		
+		mutually_exclusive = { focus = CAN_Colonial_Goods_Mil }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_EFFECT_WAR_START		
+		}
+	}
+	
+	focus = {
+		id = CAN_Colonial_Goods_Mil
+		icon = GFX_goal_generic_trade
+		x = 61
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		is_guaranteed_by = FRA
+		}		
+		
+		prerequisite = { focus = CAN_Ask_France_support }
+		
+		mutually_exclusive = { focus = CAN_Colonial_Goods_Civ }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_EFFECT_WAR_START		
+		}
+	}
+	
+	focus = {
+		id = CAN_Campaigns_Fra
+		icon = GFX_goal_focus_popularize
+		x = 59
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+
+		prerequisite = { focus = CAN_Colonial_Goods_Civ focus = CAN_Colonial_Goods_Mil }
+
+		completion_reward = {		
+		if = {
+		limit = {
+		has_idea = CAN_idea_foreign_Campaigns_1
+			}
+		swap_ideas = {
+		remove_idea = CAN_idea_foreign_Campaigns_1
+		add_idea = CAN_idea_foreign_Campaigns_2
+			}
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_foreign_Campaigns_2
+		}
+		swap_ideas = {
+		remove_idea = CAN_idea_foreign_Campaigns_2
+		add_idea = CAN_idea_foreign_Campaigns_3
+			}
+		}
+		else = {
+		add_ideas = CAN_idea_foreign_Campaigns_1
+			}
+		}
+	}
+	
+	focus = {
+		id = CAN_Buy_French_ships
+		icon = GFX_goal_focus_defy_british_navy
+		x = 61
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		FRA = {
+		has_navy_size = {
+		size > 124
+				}
+			}
+		}		
+		
+		prerequisite = { focus = CAN_Colonial_Goods_Civ focus = CAN_Colonial_Goods_Mil }
+
+		completion_reward = {
+		FRA = {
+		country_event = {
+		id = can.69
+		days = 0
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = CAN_Ask_Russia_support
+		icon = GFX_goal_focus_negotiate_russia
+		x = 64
+		y = 7
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		RUS = {
+		exists = yes 
+		is_subject = no
+			}		
+		}		
+		
+		prerequisite = { focus = CAN_prepare_diplomatically }
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_opinion = {
+			target = RUS
+			value < -25
+				}
+			}
+		RUS = {
+		country_event = {
+		id = can.46
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = RUS
+			value > -25
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 25
+					}
+				}
+			}
+		RUS = {
+		country_event = {
+		id = can.47
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = RUS
+			value > 25
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 50
+					}
+				}
+			}
+		RUS = {
+		country_event = {
+		id = can.48
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = RUS
+			value > 50
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 75
+					}
+				}
+			}
+		RUS = {
+		country_event = {
+		id = can.49
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = RUS
+			value > 75
+				}
+			}
+		RUS = {
+		country_event = {
+		id = can.50
+		days = 0
+				}
+			}
+		}
+		else = {
+		RUS = {
+		country_event = {
+		id = can.51
+		days = 0
+				}
+			}
+		}
+		custom_effect_tooltip = CAN_IND_Diplomacy_Advice
+		}
+	}
+	
+	focus = {
+		id = CAN_Food_Civ
+		icon = GFX_focus_generic_home_defense
+		x = 63
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		is_guaranteed_by = RUS
+		}		
+		
+		prerequisite = { focus = CAN_Ask_Russia_support }
+		
+		mutually_exclusive = { focus = CAN_Food_Mil }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_EFFECT_WAR_START		
+		}
+	}
+	
+	focus = {
+		id = CAN_Food_Mil
+		icon = GFX_goal_generic_trade
+		x = 65
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		is_guaranteed_by = RUS
+		}		
+		
+		prerequisite = { focus = CAN_Ask_Russia_support }
+		
+		mutually_exclusive = { focus = CAN_Food_Civ }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_EFFECT_WAR_START
+		}
+	}
+	
+	focus = {
+		id = CAN_Campaigns_Rus
+		icon = GFX_goal_focus_popularize
+		x = 63
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+
+		prerequisite = { focus = CAN_Food_Mil focus = CAN_Food_Civ }
+
+		completion_reward = {
+		if = {
+		limit = {
+		has_idea = CAN_idea_foreign_Campaigns_1
+			}
+		swap_ideas = {
+		remove_idea = CAN_idea_foreign_Campaigns_1
+		add_idea = CAN_idea_foreign_Campaigns_2
+			}
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_foreign_Campaigns_2
+		}
+		swap_ideas = {
+		remove_idea = CAN_idea_foreign_Campaigns_2
+		add_idea = CAN_idea_foreign_Campaigns_3
+			}
+		}
+		else = {
+		add_ideas = CAN_idea_foreign_Campaigns_1
+			}
+		}
+	}
+	
+	focus = {
+		id = CAN_Buy_Resources
+		icon = GFX_goal_generic_positive_trade_relations
+		x = 65
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+	
+		prerequisite = { focus = CAN_Food_Mil focus = CAN_Food_Civ }
+
+		completion_reward = {
+		CAN = {
+		country_event = {
+		id = can.52
+		days = 0
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = CAN_Ask_Usa_support
+		icon = GFX_focus_chi_mission_to_the_us
+		x = 68
+		y = 7
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		USA = {
+		exists = yes 
+		is_subject = no
+			}
+		}		
+		
+		prerequisite = { focus = CAN_prepare_diplomatically }
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_opinion = {
+			target = USA
+			value < -25
+				}
+			}
+		USA = {
+		country_event = {
+		id = can.46
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = USA
+			value > -25
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 25
+					}
+				}
+			}
+		USA = {
+		country_event = {
+		id = can.47
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = USA
+			value > 25
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 50
+					}
+				}
+			}
+		USA = {
+		country_event = {
+		id = can.48
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = USA
+			value > 50
+				}
+			NOT = {
+			has_opinion = {
+			target = FRA
+			value < 75
+					}
+				}
+			}
+		USA = {
+		country_event = {
+		id = can.49
+		days = 0
+				}
+			}
+		}
+		if = {
+		limit = {
+			has_opinion = {
+			target = USA
+			value > 75
+				}
+			}
+		USA = {
+		country_event = {
+		id = can.50
+		days = 0
+				}
+			}
+		}
+		else = {
+		USA = {
+		country_event = {
+		id = can.51
+		days = 0
+				}
+			}
+		}
+		custom_effect_tooltip = CAN_IND_Diplomacy_Advice
+		}
+	}
+	
+	focus = {
+		id = CAN_Industry_Civ
+		icon = GFX_focus_generic_industry_2
+		x = 67
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		is_guaranteed_by = USA
+		}		
+		
+		prerequisite = { focus = CAN_Ask_Usa_support }
+		
+		mutually_exclusive = { focus = CAN_Industry_Mil }
+
+		completion_reward = {
+		add_offsite_building = { type = industrial_complex level = 1 }
+		activate_decision = CAN_IND_payments_factory
+		custom_effect_tooltip = CAN_IND_IND_ADVICE
+		}
+	}
+	
+	focus = {
+		id = CAN_Industry_Mil
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 69
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		is_guaranteed_by = USA
+		}		
+		
+		prerequisite = { focus = CAN_Ask_Usa_support }
+		
+		mutually_exclusive = { focus = CAN_Industry_Civ }
+
+		completion_reward = {
+		add_offsite_building = { type = arms_factory level = 1 }
+		activate_decision = CAN_IND_payments_factory
+		custom_effect_tooltip = CAN_IND_IND_ADVICE
+		}
+	}
+	
+	focus = {
+		id = CAN_Campaigns_Usa
+		icon = GFX_goal_focus_popularize
+		x = 67
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		NOT = {
+		has_completed_focus = CAN_Freedom_Canada
+			}
+		}		
+		
+		prerequisite = { focus = CAN_Industry_Civ focus = CAN_Industry_Mil }
+
+		completion_reward = {
+		if = {
+		limit = {
+		has_idea = CAN_idea_foreign_Campaigns_1
+			}
+		swap_ideas = {
+		remove_idea = CAN_idea_foreign_Campaigns_1
+		add_idea = CAN_idea_foreign_Campaigns_2
+			}
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_foreign_Campaigns_2
+		}
+		swap_ideas = {
+		remove_idea = CAN_idea_foreign_Campaigns_2
+		add_idea = CAN_idea_foreign_Campaigns_3
+			}
+		}
+		else = {
+		add_ideas = CAN_idea_foreign_Campaigns_1
+			}
+		}
+	}
+	
+	focus = {
+		id = CAN_Buy_Military_Equipment
+		icon = GFX_goal_focus_napoleonic_tactics
+		x = 69
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		NOT = {
+		has_completed_focus = CAN_Freedom_Canada
+			}
+		}		
+		
+		prerequisite = { focus = CAN_Industry_Civ focus = CAN_Industry_Mil }
+
+		completion_reward = {
+		unlock_decision_tooltip = CAN_IND_buy_military_equipment_rifles
+		unlock_decision_tooltip = CAN_IND_buy_military_equipment_uniforms
+		unlock_decision_tooltip = CAN_IND_buy_military_equipment_cannons
+		}
+	}
+	
+	focus = {
+		id = CAN_Diplomatically_Prepared
+		icon = GFX_goal_focus_develop_canada
+		x = 64
+		y = 10
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}			
+		
+		prerequisite = { focus = CAN_Buy_Military_Equipment focus = CAN_Campaigns_Usa focus = CAN_Campaigns_Rus focus = CAN_Buy_Resources focus = CAN_Campaigns_Fra focus = CAN_Buy_French_ships }
+
+		completion_reward = {
+		add_war_support = 0.01
+		}
+	}
+	
+	focus = {
+		id = CAN_prepare_internally
+		icon = GFX_goal_generic_production
+		x = 76
+		y = 6
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		has_completed_focus = CAN_Prepare_Canadian_War_of_Independence
+		NOT = {
+		has_decision = CAN_IND_WAR_Secret_Network_Established
+			}
+		}
+		
+		prerequisite = { focus = CAN_Prepare_Canadian_War_of_Independence }
+
+		completion_reward = {
+		add_stability = 0.01
+		}
+	}
+	
+	focus = {
+		id = CAN_Secure_loyalty_army
+		icon = GFX_focus_generic_military_mission
+		x = 74
+		y = 7
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}			
+		
+		available = {
+		has_completed_focus = CAN_Revive_Military
+		}
+		
+		prerequisite = { focus = CAN_prepare_internally }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_Loyalty_Army_info
+		}
+	}
+	
+	focus = {
+		id = CAN_Convince_French_Irish
+		icon = GFX_goal_generic_improve_relations
+		x = 73
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}		
+		
+		prerequisite = { focus = CAN_Secure_loyalty_army }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_French_Irish_Info
+		}
+	}
+	
+	focus = {
+		id = CAN_Convince_Indiginous
+		icon = GFX_goal_generic_improve_relations
+		x = 75
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}			
+		
+		prerequisite = { focus = CAN_Secure_loyalty_army }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_Indiginous_Info
+		}
+	}
+	
+	focus = {
+		id = CAN_prepare_military
+		icon = GFX_goal_generic_position_armies
+		x = 74
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}			
+		
+		prerequisite = { focus = CAN_Convince_Indiginous focus = CAN_Convince_French_Irish }
+
+		completion_reward = {
+		add_tech_bonus = {
+		bonus = 0.5
+		uses = 1
+		category = land_doctrine
+			}
+		custom_effect_tooltip = CAN_IND_Military_preparing
+		}
+	}
+	
+	focus = {
+		id = CAN_prepare_economy_pop
+		icon = GFX_goal_focus_industrial_revolution
+		x = 78
+		y = 7
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+
+		prerequisite = { focus = CAN_prepare_internally }
+
+		completion_reward = {
+		add_stability = 0.01
+		}
+	}
+	
+	focus = {
+		id = CAN_secure_supplies_civ
+		icon = GFX_goal_focus_the_workers
+		x = 77
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 50
+		}	
+
+		prerequisite = { focus = CAN_prepare_economy_pop }
+		
+		mutually_exclusive = { focus = CAN_secure_supplies_mil }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_EFFECT_WAR_START
+		}
+	}
+	
+	focus = {
+		id = CAN_secure_supplies_mil
+		icon = GFX_focus_generic_military_mission
+		x = 79
+		y = 8
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		prerequisite = { focus = CAN_prepare_economy_pop }
+
+		mutually_exclusive = { focus = CAN_secure_supplies_civ }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_EFFECT_WAR_START
+		}
+	}
+	
+	focus = {
+		id = CAN_prepare_financial_aid_economy
+		icon = GFX_focus_generic_concessions
+		x = 77
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+
+		mutually_exclusive = { focus = CAN_direct_money_Military }
+		
+		prerequisite = { focus = CAN_secure_supplies_mil focus = CAN_secure_supplies_civ }
+
+		completion_reward = {
+		custom_effect_tooltip = CAN_IND_EFFECT_WAR_START
+		}
+	}
+	
+	focus = {
+		id = CAN_direct_money_Military
+		icon = GFX_goal_focus_banks
+		x = 79
+		y = 9
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 50
+		}	
+
+		mutually_exclusive = { focus = CAN_prepare_financial_aid_economy }
+		
+		prerequisite = { focus = CAN_secure_supplies_mil focus = CAN_secure_supplies_civ }
+
+		completion_reward = {
+		if = {
+			limit = {
+			has_idea = one_percent
+			}
+		swap_ideas = {	
+		remove_idea = one_percent
+		add_idea = ten_percent
+				}
+			}
+		if = {
+			limit = {
+			has_idea = two_percent
+			}
+		swap_ideas = {	
+		remove_idea = two_percent
+		add_idea = ten_percent
+				}
+			}
+		if = {
+			limit = {
+			has_idea = three_percent
+			}
+		swap_ideas = {	
+		remove_idea = three_percent
+		add_idea = ten_percent
+				}
+			}
+		if = {
+			limit = {
+			has_idea = five_percent 
+			}
+		swap_ideas = {	
+		remove_idea = five_percent 
+		add_idea = ten_percent
+				}
+			}
+		else = {
+		army_experience = 25
+		navy_experience = 5
+			}
+		}
+	}
+	
+	focus = {
+		id = CAN_internally_prepared
+		icon = GFX_goal_focus_develop_canada
+		x = 76
+		y = 10
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		prerequisite = { focus = CAN_direct_money_Military focus = CAN_prepare_financial_aid_economy }
+		prerequisite = { focus = CAN_prepare_military }
+
+		completion_reward = {
+		add_war_support = 0.01
+		}
+	}
+	
+	focus = {
+		id = CAN_Freedom_Canada
+		icon = GFX_focus_violent_revolution
+		x = 70
+		y = 11
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}
+
+		will_lead_to_war_with = ENG		
+		
+		prerequisite = { focus = CAN_Diplomatically_Prepared }
+		prerequisite = { focus = CAN_internally_prepared }
+
+		completion_reward = {
+		add_state_claim = 682
+		add_state_claim = 683
+		add_state_claim = 467
+		add_state_claim = 469
+		add_state_claim = 465
+		add_state_claim = 464
+		add_state_claim = 331
+		add_state_claim = 466
+		add_state_claim = 472
+		add_state_claim = 470
+		add_state_claim = 473
+		add_state_claim = 740
+		add_state_claim = 739
+		add_state_claim = 1137
+		add_state_claim = 471
+		set_politics = {
+		ruling_party = radical_democracy
+		}
+		end_puppet = ENG
+		remove_ideas = 	ENG_colonial_Victoria
+		if = {
+		limit = {
+		has_idea = CAN_idea_Exports_to_Britain
+		}
+		remove_ideas = CAN_idea_Exports_to_Britain
+		}
+		remove_ideas = AFR_british_colony
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_Chruch_refo
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_Chruch_refo
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_Rights_refo
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_Rights_refo
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_1_refo
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_1_refo
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_Church_Rights_cons
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_Church_Rights_cons
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_Church_cons
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_Church_cons
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_Rights_cons
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_Rights_cons
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_1_cons
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_1_cons
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_unify_Church
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_unify_Church
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_unify_Rights
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_unify_Rights
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism_unify
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism_unify
+		}
+		if = {
+		limit = {
+		has_idea = CAN_idea_quebec_separatism
+		has_completed_focus = CAN_Convince_French_Irish
+			}
+		remove_ideas = CAN_idea_quebec_separatism
+		}
+		ENG = {
+		country_event = {
+		id = can.75
+		days = 0
+				}
+			}
+		hidden_effect = {
+			473 = {
+			set_building_level = {
+			type = infrastructure
+			level = 4
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			739 = {
+			set_building_level = {
+			type = infrastructure
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+				}
+			}
+			740 = {
+			set_building_level = {
+			type = infrastructure
+			level = 2
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			332 = {
+			set_building_level = {
+			type = infrastructure
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			472 = {
+			set_building_level = {
+			type = infrastructure
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+				}
+			}
+			1137 = {
+			set_building_level = {
+			type = infrastructure
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+				}
+			}
+			471 = {
+			set_building_level = {
+			type = infrastructure
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+				}
+			}
+			682 = {
+			set_building_level = {
+			type = infrastructure
+			level = 3
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 1
+			instant_build = yes
+					}
+				}
+			466 = {
+			set_building_level = {
+			type = infrastructure
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 1
+			instant_build = yes
+					}
+				}
+			683 = {
+			set_building_level = {
+			type = infrastructure
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			683 = {
+			set_building_level = {
+			type = infrastructure
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			467 = {
+			set_building_level = {
+			type = infrastructure
+			level = 2
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			469 = {
+			set_building_level = {
+			type = infrastructure
+			level = 2
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			470 = {
+			set_building_level = {
+			type = infrastructure
+			level = 3
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			465 = {
+			set_building_level = {
+			type = infrastructure
+			level = 4
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			464 = {
+			set_building_level = {
+			type = infrastructure
+			level = 3
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			331 = {
+			set_building_level = {
+			type = infrastructure
+			level = 3
+			instant_build = yes
+			}
+			set_building_level = {
+			type = dockyard
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = arms_factory
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = industrial_complex 
+			level = 1
+			instant_build = yes
+			}
+			set_building_level = {
+			type = cotton_farm  
+			level = 0
+			instant_build = yes
+			}
+			set_building_level = {
+			type = logging_camp   
+			level = 0
+			instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_Policies_War
+		icon = GFX_focus_generic_treaty
+		x = 70
+		y = 12
+		cost = 7
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}	
+		
+		available = {
+		has_war_with = ENG
+		}
+		
+		prerequisite = { focus = CAN_Freedom_Canada }
+
+		completion_reward = {
+		add_political_power = 25
+		}
+	}
+	
+	focus = {
+		id = CAN_Hard_times_people
+		icon = GFX_focus_CZE_german_puppet
+		x = 69
+		y = 13
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 50
+		}	
+		
+		available = {
+		has_war_with = ENG
+		}		
+		
+		bypass = {
+		has_idea = free_press
+		}
+		
+		prerequisite = { focus = CAN_Policies_War }
+		
+		mutually_exclusive = { focus = CAN_Great_times_people }
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_idea = censored_press
+		}
+		swap_ideas = {
+		remove_idea = censored_press
+		add_idea = free_press
+			}
+		}
+		if = {
+		limit = {
+			has_idea = state_controlled_press
+		}
+		swap_ideas = {
+		remove_idea = state_controlled_press
+		add_idea = free_press
+			}
+		}
+		activate_decision = CAN_IND_WAR_Consequence_Hard_times
+		custom_effect_tooltip = CAN_IND_WAR_Unknown_Consequences
+		}
+	}
+	
+	focus = {
+		id = CAN_Great_times_people
+		icon = GFX_goal_focus_popularize
+		x = 71
+		y = 13
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}	
+		
+		available = {
+		has_war_with = ENG
+		}		
+		
+		bypass = {
+		has_idea = state_controlled_press
+		}
+		
+		prerequisite = { focus = CAN_Policies_War }
+		
+		mutually_exclusive = { focus = CAN_Hard_times_people }
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_idea = free_press
+		}
+		swap_ideas = {
+		remove_idea = free_press
+		add_idea = state_controlled_press
+			}
+		}
+		if = {
+		limit = {
+			has_idea = censored_press
+		}
+		swap_ideas = {
+		remove_idea = censored_press
+		add_idea = state_controlled_press
+			}
+		}
+		activate_decision = CAN_IND_WAR_Consequence_Great_times
+		custom_effect_tooltip = CAN_IND_WAR_Unknown_Consequences
+		}
+	}
+
+	focus = {
+		id = CAN_Private_Economy
+		icon = GFX_focus_generic_industry_3
+		x = 67
+		y = 14
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 50
+		}	
+		
+		available = {
+		has_war_with = ENG
+		}		
+		
+		bypass = {
+		has_idea = civilian_economy
+		}
+		
+		prerequisite = { focus = CAN_Hard_times_people focus = CAN_Great_times_people }
+		
+		mutually_exclusive = { focus = CAN_Middle_Way focus = CAN_Nationalise_Economy}
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_idea = low_economic_mobilisation
+		}
+		swap_ideas = {
+		remove_idea = low_economic_mobilisation
+		add_idea = civilian_economy
+			}
+		}
+		if = {
+		limit = {
+			has_idea = partial_economic_mobilisation
+		}
+		swap_ideas = {
+		remove_idea = partial_economic_mobilisation
+		add_idea = civilian_economy
+			}
+		}
+		if = {
+		limit = {
+			has_idea = war_economy
+		}
+		swap_ideas = {
+		remove_idea = war_economy
+		add_idea = civilian_economy
+			}
+		}
+		if = {
+		limit = {
+			has_idea = tot_economic_mobilisation
+		}
+		swap_ideas = {
+		remove_idea = tot_economic_mobilisation
+		add_idea = civilian_economy
+				}
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown
+		}
+		swap_ideas = {
+		remove_idea = CAN_IND_idea_Industry_Breakdown
+		add_idea = CAN_IND_idea_Industry_Breakdown_1
+				}
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown_USA
+		}
+		swap_ideas = {
+		remove_idea = CAN_IND_idea_Industry_Breakdown_USA
+		add_idea = CAN_IND_idea_Industry_Breakdown_1_USA
+				}
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown_Financ_USA
+		}
+		swap_ideas = {
+		remove_idea = CAN_IND_idea_Industry_Breakdown_Financ_USA
+		add_idea = CAN_IND_idea_Industry_Breakdown_1_Financ_USA
+				}
+			}
+		add_stability = 0.05
+		}
+	}
+	
+	focus = {
+		id = CAN_Middle_Way
+		icon = GFX_goal_generic_military_deal
+		x = 70
+		y = 14
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}	
+		
+		available = {
+		has_war_with = ENG
+		}		
+		
+		bypass = {
+		has_idea = partial_economic_mobilisation
+		}
+		
+		prerequisite = { focus = CAN_Great_times_people focus = CAN_Hard_times_people }
+		
+		mutually_exclusive = { focus = CAN_Private_Economy focus = CAN_Nationalise_Economy}
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_idea = civilian_economy
+		}
+		swap_ideas = {
+		remove_idea = civilian_economy
+		add_idea = partial_economic_mobilisation
+			}
+		}
+		if = {
+		limit = {
+			has_idea = low_economic_mobilisation
+		}
+		swap_ideas = {
+		remove_idea = low_economic_mobilisation
+		add_idea = partial_economic_mobilisation
+			}
+		}
+		if = {
+		limit = {
+			has_idea = war_economy
+		}
+		swap_ideas = {
+		remove_idea = war_economy
+		add_idea = partial_economic_mobilisation
+			}
+		}
+		if = {
+		limit = {
+			has_idea = tot_economic_mobilisation
+		}
+		swap_ideas = {
+		remove_idea = tot_economic_mobilisation
+		add_idea = partial_economic_mobilisation
+				}
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown
+		}
+		swap_ideas = {
+		remove_idea = CAN_IND_idea_Industry_Breakdown
+		add_idea = CAN_IND_idea_Industry_Breakdown_2
+				}
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown_USA
+		}
+		swap_ideas = {
+		remove_idea = CAN_IND_idea_Industry_Breakdown_USA
+		add_idea = CAN_IND_idea_Industry_Breakdown_2_USA
+				}
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown_Financ_USA
+		}
+		remove_ideas = CAN_IND_idea_Industry_Breakdown_Financ_USA
+		}
+		add_stability = -0.05
+		}
+	}
+	
+	focus = {
+		id = CAN_Nationalise_Economy
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 73
+		y = 14
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 25
+		}	
+		
+		available = {
+		has_war_with = ENG
+		}
+		
+		bypass = {
+		has_idea = war_economy
+		}
+		
+		prerequisite = { focus = CAN_Great_times_people }
+		
+		mutually_exclusive = { focus = CAN_Private_Economy focus = CAN_Middle_Way}
+
+		completion_reward = {
+		if = {
+		limit = {
+			has_idea = civilian_economy
+		}
+		swap_ideas = {
+		remove_idea = civilian_economy
+		add_idea = war_economy
+			}
+		}
+		if = {
+		limit = {
+			has_idea = low_economic_mobilisation
+		}
+		swap_ideas = {
+		remove_idea = low_economic_mobilisation
+		add_idea = war_economy
+			}
+		}
+		if = {
+		limit = {
+			has_idea = partial_economic_mobilisation
+		}
+		swap_ideas = {
+		remove_idea = partial_economic_mobilisation
+		add_idea = war_economy
+			}
+		}
+		if = {
+		limit = {
+			has_idea = tot_economic_mobilisation
+		}
+		swap_ideas = {
+		remove_idea = tot_economic_mobilisation
+		add_idea = war_economy
+				}
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown
+		}
+		swap_ideas = {
+		remove_idea = CAN_IND_idea_Industry_Breakdown
+		add_idea = CAN_IND_idea_Industry_Breakdown_3
+				}
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown_USA
+		}
+		remove_ideas = CAN_IND_idea_Industry_Breakdown_USA
+			}
+		If = {
+		limit = {
+		has_idea = CAN_IND_idea_Industry_Breakdown_Financ_USA
+		}
+		swap_ideas = {
+		remove_idea = CAN_IND_idea_Industry_Breakdown_Financ_USA
+		add_idea = CAN_IND_idea_Slow_Recovery_1_Financ_USA
+				}
+			}
+				add_stability = -0.1
+		}
+	}
+	
+	focus = {
+		id = CAN_Emergency_Powers
+		icon = GFX_goal_generic_forceful_treaty
+		x = 70
+		y = 15
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}	
+		
+		available = {
+		has_war_with = ENG
+		}
+		
+		prerequisite = { focus = CAN_Nationalise_Economy focus = CAN_Private_Economy focus = CAN_Middle_Way }
+
+		completion_reward = {
+		add_ideas = { CAN_IND_Emergency_powers }
+		}
+	}
+	
+	focus = {
+		id = CAN_Negotiatens_Britain
+		icon = GFX_goal_focus_merchants_british
+		x = 70
+		y = 16
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}	
+		
+		cancel_if_invalid = yes
+		
+		available = {
+		has_war_with = ENG
+		}
+		
+		cancel_if_invalid = yes
+
+		available = {
+		CAN = { controls_state = 682 }
+		CAN = { controls_state = 276 }
+		CAN = { controls_state = 1310 }
+		CAN = { controls_state = 1311 }
+		CAN = { controls_state = 468 }
+		CAN = { controls_state = 473 }
+		CAN = { controls_state = 467 }		
+		CAN = { controls_state = 469 }
+		CAN = { controls_state = 470 }
+		CAN = { controls_state = 740 }
+		}
+		prerequisite = { focus = CAN_Emergency_Powers }
+
+		completion_reward = {
+		ENG = {
+		country_event = {
+		id = can.79
+		days = 0
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = CAN_Independent_Canada
+		icon = GFX_focus_rom_abdicate
+		x = 70
+		y = 17
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 100
+		}	
+		
+		available = {
+		has_war = no
+		OR = {
+		is_puppet = no
+		is_subject = no
+			}
+		}
+		
+		mutually_exclusive = { focus = CAN_Canada_British_Rule focus = CAN_Independent_Failed }
+
+		completion_reward = {
+		load_focus_tree = Canada_WON_Ind_Focus
+		custom_effect_tooltip = CAN_END
+		}
+	}
+	
+	focus = {
+		id = CAN_Independent_Failed
+		icon = GFX_focus_CZE_german_puppet
+		x = 72
+		y = 17
+		cost = 35
+		available_if_capitulated = no   
+		ai_will_do = {
+			factor = 1
+		}	
+		
+		available = {
+		always = no
+		}
+		
+		mutually_exclusive = { focus = CAN_Canada_British_Rule focus = CAN_Independent_Canada }
+
+		completion_reward = {
+		load_focus_tree = Canada_Failed_Ind_Focus
+		custom_effect_tooltip = CAN_END
+		}
+	}
+	
+	
+##Historical:##
+#CAN_British_Equipment#
+#CAN_External_Threats#
+#CAN_Support_Shift_stock_raising#
+#CAN_Support_Shift_Livestook#
+#CAN_Productivity_First#
+#CAN_Conservative_Prime_Minister#
+#CAN_John_Macdonald_Prime_Minister#
+#CAN_Protective_Tariffs#
+#CAN_Increase_Funds#
+#CAN_Protect_Rights_Native_Citiziens#

@@ -20,6 +20,282 @@ add_namespace = EGY_mahdist_insurgency
 add_namespace = ORO_south_eritrea_oromo_tribe_uprising
 add_namespace = ORO_gedaref_oromo_tribe_uprising
 add_namespace = ETH_martyr_created_event
+add_namespace = ETH_oromo_militia_crushed
+add_namespace = ETH_ALZ_EGY_sudan_truce
+add_namespace = ETH_ALZ_EGY_alliance
+add_namespace = ETH_EGY_joint_war_against_ottoman
+add_namespace = ethiopia_islamic_raid_rebound
+add_namespace = afr_raid_christian_neighbor_detect_raid
+
+country_event = {
+	id = ETH_EGY_joint_war_against_ottoman.1
+	title = ETH_EGY_joint_war_against_ottoman.1.t
+	desc = ETH_EGY_joint_war_against_ottoman.1.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ETH_EGY_joint_war_against_ottoman.1.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			
+		}
+		ALZ = { country_event = {id = afr_EGY_vic.4} }
+	}
+	
+	option = {
+		name = ETH_EGY_joint_war_against_ottoman.1.c
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+country_event = {
+	id = ETH_ALZ_EGY_alliance.1
+	title = ETH_ALZ_EGY_alliance.1.t
+	desc = ETH_ALZ_EGY_alliance.1.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ETH_ALZ_EGY_alliance.1.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			TAG = EGY
+			OR = {
+				ALZ = { any_owned_state = { is_claimed_by = EGY } }
+				ALZ = { any_owned_state = { is_core_of = EGY } }
+				EGY = { any_owned_state = { is_claimed_by = ALZ } }
+				EGY = { any_owned_state = { is_core_of = ALZ } }
+			}
+		}
+		create_faction = ETH_nile_prosperity_pact
+		EGY = { add_to_faction = ETH }
+		ALZ = { country_event = {id = afr_EGY_vic.4} }
+	}
+	
+	option = {
+		name = ETH_ALZ_EGY_alliance.1.c
+		ai_chance = {
+			factor = 0
+		}
+		create_faction = ETH_nile_prosperity_pact
+		EGY = { add_to_faction = ETH }
+	}
+}
+
+country_event = {
+	id = ETH_ALZ_EGY_sudan_truce.1
+	title = ETH_ALZ_EGY_sudan_truce.1.t
+	desc = ETH_ALZ_EGY_sudan_truce.1.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ETH_ALZ_EGY_sudan_truce.1.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			TAG = EGY
+			NOT = {
+				EGY = { any_owned_state = { is_claimed_by = ETH } }
+				EGY = { any_owned_state = { is_core_of = ETH } }
+				ETH = { any_owned_state = { is_claimed_by = EGY } }
+				ETH = { any_owned_state = { is_core_of = EGY } }
+				ALZ = { any_owned_state = { is_claimed_by = EGY } }
+				ALZ = { any_owned_state = { is_core_of = EGY } }
+				EGY = { any_owned_state = { is_claimed_by = ALZ } }
+				EGY = { any_owned_state = { is_core_of = ALZ } }
+			}
+		}
+		EGY = {
+			set_truce = {
+				target = ALZ
+				days = 5400
+			}
+			set_truce = {
+				target = ETH
+				days = 5400
+			}
+			hidden_effect = {
+				reverse_add_opinion_modifier = {
+					target = ETH
+					modifier = small_increase
+				}
+				add_opinion_modifier = {
+					target = ETH
+					modifier = small_increase
+				}
+				reverse_add_opinion_modifier = {
+					target = ALZ
+					modifier = small_increase
+				}
+				add_opinion_modifier = {
+					target = ALZ
+					modifier = small_increase
+				}
+			}
+		}
+		hidden_effect = { 
+			HRR = {
+				remove_ideas = ETH_idea_rally_with_egypt 
+			}
+			MED = {
+				remove_ideas = ETH_idea_rally_with_egypt 
+			}
+			AWS = {
+				remove_ideas = ETH_idea_rally_with_egypt 
+			}
+		}
+	}
+	option = {
+		name = ETH_ALZ_EGY_sudan_truce.1.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			TAG = ALZ
+		}
+		ALZ = {
+			set_truce = {
+				target = ETH
+				days = 5400
+			}
+			hidden_effect = {
+				reverse_add_opinion_modifier = {
+					target = ETH
+					modifier = small_increase
+				}
+				add_opinion_modifier = {
+					target = ETH
+					modifier = small_increase
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = ETH_ALZ_EGY_sudan_truce.1.b
+		ai_chance = { factor = 100 }
+		trigger = {
+			TAG = EGY
+			OR = {
+				ALZ = { any_owned_state = { is_claimed_by = EGY } }
+				ALZ = { any_owned_state = { is_core_of = EGY } }
+				EGY = { any_owned_state = { is_claimed_by = ALZ } }
+				EGY = { any_owned_state = { is_core_of = ALZ } }
+			}
+		}
+		EGY = {
+			set_truce = {
+				target = ETH
+				days = 5400
+			}
+			hidden_effect = {
+				reverse_add_opinion_modifier = {
+					target = ETH
+					modifier = small_increase
+				}
+				add_opinion_modifier = {
+					target = ETH
+					modifier = small_increase
+				}
+			}
+		}
+		hidden_effect = { 
+			HRR = {
+				remove_ideas = ETH_idea_rally_with_egypt 
+			}
+			MED = {
+				remove_ideas = ETH_idea_rally_with_egypt 
+			}
+			AWS = {
+				remove_ideas = ETH_idea_rally_with_egypt 
+			}
+		}
+	}
+	
+	option = {
+		name = ETH_ALZ_EGY_sudan_truce.1.c
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+
+country_event = {
+	id = ETH_oromo_militia_crushed.1
+	title = ETH_oromo_militia_crushed.1.t
+	desc = ETH_oromo_militia_crushed.1.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ETH_oromo_militia_crushed.1.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			command_power > 99.9
+		}
+		activate_decision = ETH_crush_the_south_eritrea_oromo
+	}
+	
+	option = {
+		name = ETH_oromo_militia_crushed.1.b
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				command_power > 99.9
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ETH_oromo_militia_crushed.2
+	title = ETH_oromo_militia_crushed.2.t
+	desc = ETH_oromo_militia_crushed.2.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ETH_oromo_militia_crushed.2.a
+		ai_chance = { factor = 100 }
+		trigger = {
+			command_power > 99.9
+		}
+		activate_decision = ETH_crush_the_gedaref_oromo
+	}
+	
+	option = {
+		name = ETH_oromo_militia_crushed.2.b
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				command_power > 99.9
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ETH_oromo_militia_crushed.3
+	title = ETH_oromo_militia_crushed.3.t
+	desc = ETH_oromo_militia_crushed.3.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ETH_oromo_militia_crushed.3.a
+		ai_chance = { factor = 100 }
+	}
+}
 
 country_event = {
 	id = ETH_martyr_created_event.815
@@ -29,13 +305,72 @@ country_event = {
 
 	is_triggered_only = yes
 	
+	immediate = {
+		if = {
+			limit = {
+				AND = {
+					817 = { has_state_flag = ETH_martyr_created }
+					815 = { has_state_flag = ETH_martyr_created }
+					816 = { has_state_flag = ETH_martyr_created }
+				}
+			}
+			hidden_effect = {
+				ETH = {
+					start_civil_war = {
+						ruling_party = PREV
+						ideology = chauvinist_populism
+						size = 0.01
+						capital = 815
+						states = { 
+							815 817
+						}
+					}
+				}
+				#ETH = { country_event = {id = afr_rrp_racial_tension_increase.2} }
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					817 = { has_state_flag = ETH_martyr_created }
+					816 = { has_state_flag = ETH_martyr_created }
+				}
+				815 = { has_state_flag = ETH_martyr_created }
+			}
+			hidden_effect = {
+				ETH = {
+					start_civil_war = {
+						ruling_party = PREV
+						ideology = chauvinist_populism
+						size = 0.01
+						capital = 815
+						states = { 
+							815 
+						}
+					}
+					
+				}
+				#ETH = { country_event = {id = afr_rrp_racial_tension_increase.1} }
+			}
+		}
+	}
+	
 	option = {
 		name = ETH_martyr_created_event.1.a
 		ai_chance = { factor = 100 }
 		trigger = {
-			815 = { has_state_flag = ETH_martyr_created }
+			OR = {
+				815 = { has_state_flag = ETH_martyr_created }
+				816 = { has_state_flag = ETH_martyr_created }
+				817 = { has_state_flag = ETH_martyr_created }
+			}
+		}
+		if = {
+			limit = { has_civil_war = yes }
+			hidden_effect = { 815 = { owner = { country_event = { id = ORO_south_eritrea_oromo_tribe_uprising.1 } } } }
 		}
 		815 = { set_state_flag = ETH_oromo_independance_martyrs }
+		hidden_effect = { 817 = { set_state_flag = ETH_martyr_created } }
 	}
 	
 	option = {
@@ -43,6 +378,8 @@ country_event = {
 		ai_chance = { factor = 100 }
 		trigger = {
 			815 = { NOT = { has_state_flag = ETH_martyr_created } }
+			816 = { NOT = { has_state_flag = ETH_martyr_created } }
+			817 = { NOT = { has_state_flag = ETH_martyr_created } }
 		}
 	}
 }
@@ -55,20 +392,36 @@ country_event = {
 
 	is_triggered_only = yes
 	
+	
+	
 	option = {
 		name = ETH_martyr_created_event.1.a
 		ai_chance = { factor = 100 }
 		trigger = {
-			816 = { has_state_flag = ETH_martyr_created }
+			OR = {
+				815 = { has_state_flag = ETH_martyr_created }
+				816 = { has_state_flag = ETH_martyr_created }
+				817 = { has_state_flag = ETH_martyr_created }
+			}
 		}
-		816 = { set_state_flag = ETH_oromo_independance_martyrs }
+		if = {
+			limit = { has_civil_war = no }
+			hidden_effect = { country_event = { id = ETH_martyr_created_event.815 days = 3 } }
+		}
+		hidden_effect = {
+			815 = { set_state_flag = ETH_martyr_created }
+			816 = { set_state_flag = ETH_martyr_created }
+			817 = { set_state_flag = ETH_martyr_created }
+		}
 	}
 	
 	option = {
 		name = ETH_martyr_created_event.1.b
 		ai_chance = { factor = 100 }
 		trigger = {
+			815 = { NOT = { has_state_flag = ETH_martyr_created } }
 			816 = { NOT = { has_state_flag = ETH_martyr_created } }
+			817 = { NOT = { has_state_flag = ETH_martyr_created } }
 		}
 	}
 }
@@ -81,11 +434,40 @@ country_event = {
 
 	is_triggered_only = yes
 	
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					815 = { has_state_flag = ETH_martyr_created }
+					816 = { has_state_flag = ETH_martyr_created }
+				}
+				817 = { has_state_flag = ETH_martyr_created }
+			}
+			hidden_effect = {
+				ETH = {
+					start_civil_war = {
+						ruling_party = PREV
+						ideology = chauvinist_populism
+						size = 0
+						capital = 817
+						states = { 
+							817 
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	option = {
 		name = ETH_martyr_created_event.1.a
 		ai_chance = { factor = 100 }
 		trigger = {
 			817 = { has_state_flag = ETH_martyr_created }
+		}
+		if = {
+			limit = { has_civil_war = yes }
+			hidden_effect = { 817 = { owner = { country_event = { id = ORO_gedaref_oromo_tribe_uprising.1 } } } }
 		}
 		817 = { set_state_flag = ETH_oromo_independance_martyrs }
 	}
@@ -94,6 +476,8 @@ country_event = {
 		name = ETH_martyr_created_event.1.b
 		ai_chance = { factor = 100 }
 		trigger = {
+			815 = { NOT = { has_state_flag = ETH_martyr_created } }
+			816 = { NOT = { has_state_flag = ETH_martyr_created } }
 			817 = { NOT = { has_state_flag = ETH_martyr_created } }
 		}
 	}
@@ -111,10 +495,8 @@ country_event = {
 	hidden = yes
 
 	immediate = {
-		hidden_effect = {
-			815 = {
-				set_state_flag = ORO_south_eritrea_oromo_tribe_uprising
-				owner = {
+				set_country_flag = ORO_south_eritrea_oromo_tribe_uprising
+				hidden_effect = {
 					add_to_variable = {Tribal_army_num = 2000}
 					set_cosmetic_tag = ORO_south_eritrea_oromo_tribe
 					set_country_flag = ORO_south_eritrea_oromo_tribe
@@ -194,8 +576,6 @@ country_event = {
 					
 					country_event = { id = ORO_south_eritrea_oromo_tribe_uprising.2 }
 				}
-			}
-		}
 	}
 }
 
@@ -217,11 +597,62 @@ country_event = {
 			relation = non_aggression_pact
 			active = yes
 		}
-		hidden_effect = {
-			remove_state_core = 816
-			remove_state_core = 817
-			afr_call_warriors = yes
-			set_country_flag = Tribal_Army_Raised
+		ORO = { country_event = { id = ORO_south_eritrea_oromo_tribe_uprising.3 days = 1 } }
+		if = {
+			limit = { 
+				NOT = { has_country_flag = Tribal_Army_Raised } 
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			hidden_effect = {
+				set_country_flag = Tribal_Army_Raised
+				afr_call_warriors = yes
+				afr_call_tribal_horse_cavalry = yes
+				afr_call_tribal_horse_pistoleer_cavalry = yes
+				afr_call_tribal_camel_cavalry = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ORO_south_eritrea_oromo_tribe_uprising.3
+	title = ORO_south_eritrea_oromo_tribe_uprising.3.t
+	desc = ORO_south_eritrea_oromo_tribe_uprising.3.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ORO_south_eritrea_oromo_tribe_uprising.3.a
+		ai_chance = { factor = 100 }
+		FROM = {
+			add_manpower = 500
+			add_war_support = 0.15
+			add_command_power = 100
+			add_equipment_to_stockpile = {
+				type = tribal_weapons_0
+				amount = 150
+				producer = ORO
+			}
+		}
+		add_war_support = 0.05
+		add_stability = 0.075
+		if = {
+			limit = { 817 = { has_state_flag = ETH_martyr_created } }
+			add_state_core = 817
+		}
+		if = {
+			limit = { 816 = { has_state_flag = ETH_martyr_created } }
+			add_state_core = 816
+		}
+		if = {
+			limit = { 815 = { has_state_flag = ETH_martyr_created } }
+			add_state_core = 815
 		}
 	}
 }
@@ -237,10 +668,8 @@ country_event = {
 	hidden = yes
 
 	immediate = {
-		hidden_effect = {
-			817 = {
-				set_state_flag = ORO_gedaref_oromo_tribe_uprising
-				owner = {
+				set_country_flag = ORO_gedaref_oromo_tribe_uprising
+				hidden_effect = {
 					add_to_variable = {Tribal_army_num = 2000}
 					set_cosmetic_tag = ORO_gedaref_oromo_tribe
 					set_country_flag = ORO_gedaref_oromo_tribe
@@ -320,8 +749,6 @@ country_event = {
 					
 					country_event = { id = ORO_gedaref_oromo_tribe_uprising.2 }
 				}
-			}
-		}
 	}
 }
 
@@ -343,11 +770,62 @@ country_event = {
 			relation = non_aggression_pact
 			active = yes
 		}
-		hidden_effect = {
-			remove_state_core = 816
-			remove_state_core = 815
-			afr_call_warriors = yes
-			set_country_flag = Tribal_Army_Raised
+		ORO = { country_event = { id = ORO_gedaref_oromo_tribe_uprising.3 days = 1 } }
+		if = {
+			limit = { 
+				NOT = { has_country_flag = Tribal_Army_Raised } 
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			hidden_effect = {
+				set_country_flag = Tribal_Army_Raised
+				afr_call_warriors = yes
+				afr_call_tribal_horse_cavalry = yes
+				afr_call_tribal_horse_pistoleer_cavalry = yes
+				afr_call_tribal_camel_cavalry = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ORO_gedaref_oromo_tribe_uprising.3
+	title = ORO_gedaref_oromo_tribe_uprising.3.t
+	desc = ORO_gedaref_oromo_tribe_uprising.3.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	
+	option = {
+		name = ORO_gedaref_oromo_tribe_uprising.3.a
+		ai_chance = { factor = 100 }
+		FROM = {
+			add_manpower = 500
+			add_war_support = 0.15
+			add_command_power = 100
+			add_equipment_to_stockpile = {
+				type = tribal_weapons_0
+				amount = 150
+				producer = ORO
+			}
+		}
+		add_war_support = 0.05
+		add_stability = 0.075
+		if = {
+			limit = { 817 = { has_state_flag = ETH_martyr_created } }
+			add_state_core = 817
+		}
+		if = {
+			limit = { 816 = { has_state_flag = ETH_martyr_created } }
+			add_state_core = 816
+		}
+		if = {
+			limit = { 815 = { has_state_flag = ETH_martyr_created } }
+			add_state_core = 815
 		}
 	}
 }
@@ -558,7 +1036,7 @@ country_event = {
 		name = ethiopia_egypt_relations.1.a
 		ai_chance = { factor = 100 }
 		add_political_power = 100
-		add_timed_idea = { idea = ETH_idea_eritrean_sale_profits days = 3650 }
+		#add_timed_idea = { idea = ETH_idea_eritrean_sale_profits days = 3650 }
 		IF={
 			limit ={
 				has_idea = egy_vic_debt
@@ -591,7 +1069,8 @@ country_event = {
 		name = ethiopia_egypt_relations.2.a
 		ai_chance = { factor = 100 }
 		ETH = { transfer_state = 550 }
-		add_timed_idea = { idea = ETH_idea_eritrean_sale_costs days = 3650 }
+		custom_effect_tooltip = ETH_exploit_egyption_economic_crises_debt_tooltip
+		#add_timed_idea = { idea = ETH_idea_eritrean_sale_costs days = 3650 }
 	}
 	
 }
@@ -1162,7 +1641,6 @@ country_event = {
 						ruling_party = PREV
 						ideology = fundamentalism
 						size = 0.10
-						only_own_territory = yes
 						capital = 549
 						states = { 
 							549 1191
@@ -1312,9 +1790,23 @@ country_event = {
 				}
 			}
 		}
-		hidden_effect = { 
-			afr_call_warriors = yes
-			set_country_flag = Tribal_Army_Raised
+		if = {
+			limit = { 
+				NOT = { has_country_flag = Tribal_Army_Raised } 
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			hidden_effect = {
+				set_country_flag = Tribal_Army_Raised
+				afr_call_warriors = yes
+				afr_call_tribal_horse_cavalry = yes
+				afr_call_tribal_horse_pistoleer_cavalry = yes
+				afr_call_tribal_camel_cavalry = yes
+			}
 		}
 		add_manpower = 3000
 		add_war_support = 0.5
@@ -1371,9 +1863,23 @@ country_event = {
 				}
 			}
 		}
-		hidden_effect = { 
-			afr_call_warriors = yes
-			set_country_flag = Tribal_Army_Raised
+		if = {
+			limit = { 
+				NOT = { has_country_flag = Tribal_Army_Raised } 
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			hidden_effect = {
+				set_country_flag = Tribal_Army_Raised
+				afr_call_warriors = yes
+				afr_call_tribal_horse_cavalry = yes
+				afr_call_tribal_horse_pistoleer_cavalry = yes
+				afr_call_tribal_camel_cavalry = yes
+			}
 		}
 		SKT = { country_event = { id = EGY_mahdist_insurgency.3 days = 3 } }
 		add_manpower = 3000
@@ -2150,13 +2656,14 @@ country_event = {
 		kill_country_leader = yes
 		hidden_effect = {
 			create_country_leader = {
-						name = "Menelik II"
-						desc = ""
-						picture = "gfx/leaders/Europe/Portrait_Europe_Generic_5.dds"
-						expire = "1965.1.1"
-						ideology = absolutism
-						traits = {
-						}
+				name = "Menelik II"
+				desc = ""
+				picture = "gfx/leaders/Europe/Portrait_Europe_Generic_5.dds"
+				expire = "1965.1.1"
+				ideology = absolutism
+				traits = {
+				
+				}
 			}
 		}
 	}
@@ -2735,6 +3242,44 @@ country_event = {
 #Initiate Islamic Raids
 
 country_event = {
+	id = afr_raid_christian_neighbor_detect_raid.1
+	title = afr_raid_christian_neighbor_detect_raid.1.t
+	desc = afr_raid_christian_neighbor_detect_raid.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_raid_christian_neighbor_detect_raid.1.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = set_border_war_data_afr_raid_christian_neighbor_detect_raid_combat_width_tooltip
+		if = {
+			limit = { 
+				afr_is_tribal = yes
+				NOT = { has_country_flag = Tribal_Army_Raised } 
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			hidden_effect = {
+				set_country_flag = Tribal_Army_Raised_Due_To_Border_War
+				ROOT = { country_event = { id = first_nations_tribal_army_flag_change.1 days = 35 } }
+				set_country_flag = Tribal_Army_Raised
+				afr_call_warriors = yes
+				afr_call_tribal_horse_cavalry = yes
+				afr_call_tribal_horse_pistoleer_cavalry = yes
+				afr_call_tribal_camel_cavalry = yes
+			}
+		}
+	}
+}
+
+country_event = {
 	id = ethiopia_initiate_islamic_raid.1
 	title = ethiopia_initiate_islamic_raid.1.t
 	desc = ethiopia_initiate_islamic_raid.1.d
@@ -2745,64 +3290,17 @@ country_event = {
 	option = {
 		name = ethiopia_initiate_islamic_raid.1.a
 		ai_chance = { factor = 100 }
-		hidden_effect = {
-			if = {
-				limit = {
-					AND = {
-						ETH = {
-							owns_state = 816
-						}
-						any_neighbor_country ={
-							AND = {
-								tag = HRR
-								owns_state = 818
-							}
-						}
-					}
-				}
-				HRR = {
-
-				}
-			}
-			if = {
-				limit = {
-					AND = {
-						ETH = {
-							owns_state = 816
-						}
-						any_neighbor_country ={
-							AND = {
-								tag = AWS
-								owns_state = 819
-							}
-						}
-					}
-				}
-				AWS = {
-	
-				}
-				
-			}
-			if = {
-				limit = {
-					AND = {
-						ETH = {
-							owns_state = 816
-						}
-						any_neighbor_country ={
-							AND = {
-								tag = MED
-								owns_state = 550
-							}
-						}
-					}
-				}
-				MED = {
-	
-				}
-			}
-		}
 		
+	}
+}
+
+country_event = {
+	id = ethiopia_islamic_raid_rebound.1
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = { FROM = { country_event = { id = ethiopia_islamic_raid.1 } } }
 	}
 }
 
@@ -2818,98 +3316,6 @@ country_event = {
 	option = {
 		name = ethiopia_islamic_raid.1.a
 		ai_chance = { factor = 100 }
-		if = {
-			limit = {
-				tag = HRR
-			}
-			HRR = {
-				start_border_war = {
-					change_state_after_war = no
-					attacker = {
-						state = 818
-						num_provinces = 3
-						on_win = ethiopia_islamic_raid.2
-						on_lose = ethiopia_islamic_raid.3
-						on_cancel = ethiopia_islamic_raid.4
-					}
-				
-					defender = {
-						state = 816
-						num_provinces = 6
-						on_win = ethiopia_islamic_raid_defender.2
-						on_lose = ethiopia_islamic_raid_defender.3
-						on_cancel = ethiopia_islamic_raid_defender.4
-					}
-				}
-				set_border_war_data = {
-					attacker = 818
-					defender = 816
-					combat_width = 10
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				tag = AWS
-			}
-			AWS = {
-				start_border_war = {
-					change_state_after_war = no
-					attacker = {
-						state = 819
-						num_provinces = 4
-						on_win = ethiopia_islamic_raid.2
-						on_lose = ethiopia_islamic_raid.3
-						on_cancel = ethiopia_islamic_raid.4
-					}
-				
-					defender = {
-						state = 816
-						num_provinces = 6
-						on_win = ethiopia_islamic_raid_defender.2
-						on_lose = ethiopia_islamic_raid_defender.3
-						on_cancel = ethiopia_islamic_raid_defender.4
-					}
-				}
-				set_border_war_data = {
-					attacker = 819
-					defender = 816
-					combat_width = 10
-				}
-			}
-			
-		}
-		else_if = {
-			limit = {
-				tag = MED
-			}
-			MED = {
-				start_border_war = {
-					change_state_after_war = no
-					attacker = {
-						state = 550
-						num_provinces = 4
-						on_win = ethiopia_islamic_raid.2
-						on_lose = ethiopia_islamic_raid.3
-						on_cancel = ethiopia_islamic_raid.4
-					}
-				
-					defender = {
-						state = 816
-						num_provinces = 6
-						on_win = ethiopia_islamic_raid_defender.2
-						on_lose = ethiopia_islamic_raid_defender.3
-						on_cancel = ethiopia_islamic_raid_defender.4
-					}
-				}
-				set_border_war_data = {
-					attacker = 550
-					defender = 816
-					combat_width = 10
-				}
-			}
-		}
-		set_country_flag = raiding_neighbour
 	}
 	
 }
@@ -2925,75 +3331,13 @@ country_event = {
 	option = {
 		name = ethiopia_islamic_raid.2.a
 		ai_chance = { factor = 100 }
-		if = {
-			limit = {
-				tag = HRR
-			}
-			HRR = {
-				army_experience = 5
-				add_equipment_to_stockpile = {
-					type = infantry_equipment_rifle_0
-					amount = 50
-					producer = ETH
-				}
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-				#custom_effect_tooltip= EDC_remove_500_to_tribal_army
-				#add_to_variable = {Tribal_army_num = -500}
-			}
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_raid_christian_neighbor_flag } }
 		}
-		if = {
-			limit = {
-				tag = AWS
-			}
-			AWS = {
-				army_experience = 5
-				add_equipment_to_stockpile = {
-					type = infantry_equipment_rifle_0
-					amount = 50
-					producer = ETH
-				}
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-				#custom_effect_tooltip= EDC_remove_500_to_tribal_army
-				#add_to_variable = {Tribal_army_num = -500}
-			}
-		}
-		if = {
-			limit = {
-				tag = MED
-			}
-			MED = {
-				army_experience = 5
-				add_equipment_to_stockpile = {
-					type = infantry_equipment_rifle_0
-					amount = 50
-					producer = ETH
-				}
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-				#custom_effect_tooltip= EDC_remove_500_to_tribal_army
-				#add_to_variable = {Tribal_army_num = -500}
-			}
-		}
+		army_experience = 5
+		hidden_effect = { add_to_variable = {Tribal_army_num = -100} }
+		custom_effect_tooltip= afr_remove_100_to_tribal_army
 	}
 	
 }
@@ -3009,60 +3353,13 @@ country_event = {
 	option = {
 		name = ethiopia_islamic_raid.3.a
 		ai_chance = { factor = 100 }
-		if = {
-			limit = {
-				tag = HRR
-			}
-			HRR = {
-				army_experience = 1
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-				#custom_effect_tooltip= EDC_remove_1500_to_tribal_army
-				#add_to_variable = {Tribal_army_num = -1500}
-			}
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_raid_christian_neighbor_flag } }
 		}
-		if = {
-			limit = {
-				tag = AWS
-			}
-			AWS = {
-				army_experience = 1
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-				#custom_effect_tooltip= EDC_remove_1500_to_tribal_army
-				#add_to_variable = {Tribal_army_num = -1500}
-			}
-		}
-		if = {
-			limit = {
-				tag = MED
-			}
-			MED = {
-				army_experience = 1
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-				#custom_effect_tooltip= EDC_remove_1500_to_tribal_army
-				#add_to_variable = {Tribal_army_num = -1500}
-			}
-		}
+		army_experience = 2
+		hidden_effect = { add_to_variable = {Tribal_army_num = -500} }
+		custom_effect_tooltip= afr_remove_500_to_tribal_army
 	}
 	
 }
@@ -3078,54 +3375,11 @@ country_event = {
 	option = {
 		name = ethiopia_islamic_raid.4.a
 		ai_chance = { factor = 100 }
-		if = {
-			limit = {
-				tag = HRR
-			}
-			HRR = {
-				army_experience = 1
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-			}
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_raid_christian_neighbor_flag } }
 		}
-		if = {
-			limit = {
-				tag = AWS
-			}
-			AWS = {
-				army_experience = 1
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-			}
-		}
-		if = {
-			limit = {
-				tag = MED
-			}
-			MED = {
-				army_experience = 1
-				hidden_effect = {
-					delete_unit_template_and_units = {
-						division_template = "Elite Tribal Infantry"
-					}
-					remove_ideas = ETH_generals_inspire
-					clr_country_flag = raiding_neighbour
-					set_country_flag = ETH_border_war_ended
-				}
-			}
-		}
+		ROOT = { army_experience = 2 }
 	}
 	
 }
@@ -3141,7 +3395,7 @@ country_event = {
 	option = {
 		name = ethiopia_islamic_raid_defender.1.a
 		ai_chance = { factor = 100 }
-		set_country_flag = ETH_caliphate_raid
+		
 	}
 	
 }
@@ -3157,18 +3411,18 @@ country_event = {
 	option = {
 		name = ethiopia_islamic_raid_defender.2.a
 		ai_chance = { factor = 100 }
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_raid_christian_neighbor_flag } }
+		}
+		army_experience = 5
+		add_stability = 0.01
+		hidden_effect = {
+			clr_country_flag = ETH_caliphate_raid
+		}
 		if = {
-			limit = {
-				tag = ETH
-			}
-			ETH = {
-				army_experience = 5
-				add_stability = 0.01
-				hidden_effect = {
-					clr_country_flag = ETH_caliphate_raid
-				}
-				
-			}
+			limit = { check_variable = { var = afr_border_war_defender_flag value = 1 compare = greater_than_or_equals } }
+			hidden_effect = { subtract_from_variable = { afr_border_war_defender_flag = 1 } }
 		}
 	}
 	
@@ -3185,17 +3439,18 @@ country_event = {
 	option = {
 		name = ethiopia_islamic_raid_defender.3.a
 		ai_chance = { factor = 100 }
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_raid_christian_neighbor_flag } }
+		}
+		army_experience = 1
+		add_stability = -0.01
+		hidden_effect = {
+			clr_country_flag = ETH_caliphate_raid
+		}
 		if = {
-			limit = {
-				tag = ETH
-			}
-			ETH = {
-				army_experience = 1
-				add_stability = -0.01
-				hidden_effect = {
-					clr_country_flag = ETH_caliphate_raid
-				}
-			}
+			limit = { check_variable = { var = afr_border_war_defender_flag value = 1 compare = greater_than_or_equals } }
+			hidden_effect = { subtract_from_variable = { afr_border_war_defender_flag = 1 } }
 		}
 	}
 	
@@ -3212,16 +3467,17 @@ country_event = {
 	option = {
 		name = ethiopia_islamic_raid_defender.4.a
 		ai_chance = { factor = 100 }
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_raid_christian_neighbor_flag } }
+		}
+		army_experience = 1
+		hidden_effect = {
+			clr_country_flag = ETH_caliphate_raid
+		}
 		if = {
-			limit = {
-				tag = ETH
-			}
-			ETH = {
-				army_experience = 1
-				hidden_effect = {
-					clr_country_flag = ETH_caliphate_raid
-				}
-			}
+			limit = { check_variable = { var = afr_border_war_defender_flag value = 1 compare = greater_than_or_equals } }
+			hidden_effect = { subtract_from_variable = { afr_border_war_defender_flag = 1 } }
 		}
 	}
 	
@@ -3234,10 +3490,8 @@ country_event = {
 	picture = GFX_report_event_soviet_finnish_pact
 	
 	is_triggered_only = yes
-	
-	option = {
-		name = ETH_raid_damage.1.a
-		ai_chance = { factor = 100 }
+	hidden = yes
+	immediate = {
 		816 = {
 			damage_building = {
 				type = infrastructure
@@ -3256,10 +3510,8 @@ country_event = {
 	picture = GFX_report_event_soviet_finnish_pact
 	
 	is_triggered_only = yes
-	
-	option = {
-		name = ETH_raid_damage.2.a
-		ai_chance = { factor = 100 }
+	hidden = yes
+	immediate = {
 		816 = {
 			damage_building = {
 				type = infrastructure
@@ -3277,10 +3529,8 @@ country_event = {
 	picture = GFX_report_event_soviet_finnish_pact
 	
 	is_triggered_only = yes
-	
-	option = {
-		name = ETH_raid_damage.3.a
-		ai_chance = { factor = 100 }
+	hidden = yes
+	immediate = {
 		816 = {
 			damage_building = {
 				type = infrastructure

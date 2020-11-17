@@ -1,0 +1,3654 @@
+# American Civil War
+shared_focus = {
+	id = afr_colony_generic_american_civil_war
+	icon = GFX_goal_focus_american_civil_war
+	cost = 70
+	x = 8
+	y = 0
+	ai_will_do = { factor = 10000 }
+	available = {
+		american_civil_war_focus_scripted_trigger = yes
+		if = { 
+			limit = {
+				OR = {
+					has_idea = AFR_french_colony
+					has_idea = AFR_french_colony_tribute
+					has_idea = AFR_british_colony
+					has_idea = AFR_british_colony_tribute
+					has_idea = AFR_netherland_colony
+					has_idea = AFR_netherland_colony_tribute
+					has_idea = AFR_spanish_colony
+					has_idea = AFR_spanish_colony_tribute
+				}
+			}
+			has_completed_focus = afr_colony_generic_focus_strengthen_government
+		}
+	}
+	completion_reward = {
+		add_political_power = -50
+		add_stability = -0.01
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_strict_neutrality
+	icon = GFX_goal_generic_alliance
+	cost = 70
+	ai_will_do = { factor = 1 }
+	available = {
+	}
+	prerequisite = {
+		focus = afr_colony_generic_american_civil_war
+	}
+	#mutually_exclusive = {
+	#	focus = afr_colony_generic_recognize_csa
+	#	focus = afr_colony_generic_aid_the_usa
+	#}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_american_civil_war
+	completion_reward = {
+		add_stability = 0.05	
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_equal_trade
+	icon = GFX_goal_generic_intelligence_exchange
+	cost = 70
+	ai_will_do = { factor = 1 }
+	prerequisite = {
+		focus = afr_colony_generic_strict_neutrality
+	}
+	completion_reward = {
+	add_political_power = -5
+	add_stability = 0.01
+	}
+	x = 0
+	y = 2
+	relative_position_id = afr_colony_generic_american_civil_war
+}
+shared_focus = {
+	id = afr_colony_generic_take_in_refugees
+	icon = GFX_goal_continuous_boost_freedom
+	cost = 70
+	ai_will_do = { factor = 1 }
+	prerequisite = {
+		focus = afr_colony_generic_equal_trade
+	}
+	completion_reward = {
+	capital_scope = {
+		add_manpower = 15000
+	}
+	}
+	x = 0
+	y = 3
+	relative_position_id = afr_colony_generic_american_civil_war
+}
+shared_focus = {
+	id = afr_colony_generic_regional_investment
+	icon = GFX_goal_focus_international_investments
+	x = 3
+	y = 6
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 100
+	}
+	available = {
+		if = { 
+			limit = {
+				OR = {
+					has_idea = AFR_french_colony
+					has_idea = AFR_french_colony_tribute
+					has_idea = AFR_british_colony
+					has_idea = AFR_british_colony_tribute
+					has_idea = AFR_netherland_colony
+					has_idea = AFR_netherland_colony_tribute
+					has_idea = AFR_spanish_colony
+					has_idea = AFR_spanish_colony_tribute
+				}
+			}
+			has_completed_focus = afr_colony_generic_focus_strengthen_government
+		}
+	}
+	completion_reward = {
+		set_country_flag = afr_colony_generic_colonial_investments_decisions_flag
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+}
+
+# Generic Industry/Industrialization
+shared_focus = {
+	id = afr_colony_generic_regional_industry
+	icon = GFX_goal_continuous_research
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_regional_investment
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 100
+	}
+	prerequisite = { focus = afr_colony_generic_regional_investment }
+	
+	completion_reward = {
+		custom_effect_tooltip = afr_colony_generic_regional_industry_tooltip
+		hidden_effect = {
+			set_country_flag = afr_colony_generic_regional_industry_decision_mission
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_regional_industry_completed
+	icon = GFX_focus_focus_generic_industry_1
+	x = 0
+	y = 3
+	relative_position_id = afr_colony_generic_regional_investment
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		has_country_flag = afr_colony_generic_regional_industry_completed
+	}
+	ai_will_do = {
+		factor = 100
+	}
+	prerequisite = { focus = afr_colony_generic_regional_victorian_era }
+	
+	completion_reward = {
+
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_regional_resources
+	icon = GFX_goal_continuous_non_factory_construct
+	x = -2
+	y = 1
+	relative_position_id = afr_colony_generic_regional_investment
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 100
+	}
+	prerequisite = { focus = afr_colony_generic_regional_investment }
+	
+	completion_reward = {
+		custom_effect_tooltip = afr_colony_generic_regional_resources_tooltip
+		hidden_effect = {
+			set_country_flag = afr_colony_generic_regional_resources_decision_mission
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_regional_resources_completed
+	icon = GFX_goal_generic_construct_civ_factory
+	x = -2
+	y = 3
+	relative_position_id = afr_colony_generic_regional_investment
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		has_country_flag = afr_colony_generic_regional_resources_completed
+	}
+	ai_will_do = {
+		factor = 100
+	}
+	prerequisite = { focus = afr_colony_generic_regional_victorian_era }
+	
+	completion_reward = {
+
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_regional_infrastructure
+	icon = GFX_goal_continuous_repairments
+	x = 2
+	y = 1
+	relative_position_id = afr_colony_generic_regional_investment
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 100
+	}
+	prerequisite = { focus = afr_colony_generic_regional_investment }
+	
+	completion_reward = {
+		custom_effect_tooltip = afr_colony_generic_regional_infrastructure_tooltip
+		hidden_effect = {
+			set_country_flag = afr_colony_generic_regional_infrastructure_decision_mission
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_regional_infrastructure_completed
+	icon = GFX_goal_focus_railroad_development
+	x = 2
+	y = 3
+	relative_position_id = afr_colony_generic_regional_investment
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		has_country_flag = afr_colony_generic_regional_infrastructure_completed
+	}
+	ai_will_do = {
+		factor = 100
+	}
+	prerequisite = { focus = afr_colony_generic_regional_victorian_era }
+	
+	completion_reward = {
+		if = {
+			limit = {
+				has_idea = AF_T_small_scale_railways
+			}
+			swap_ideas={
+				add_idea=AF_T_medium_scale_railways
+				remove_idea=AF_T_small_scale_railways
+			}
+		}
+		if = {
+			limit = {
+				has_idea = AF_T_small_scale_railways_2
+			}
+			swap_ideas={
+				add_idea=AF_T_medium_scale_railways
+				remove_idea=AF_T_small_scale_railways_2
+			}
+		}
+		else_if = {
+			add_ideas = AF_T_medium_scale_railways
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_regional_victorian_era
+	icon = GFX_goal_focus_industrial_revolution
+	x = 0
+	y = 2
+	relative_position_id = afr_colony_generic_regional_investment
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		date > 1862.01.01
+		has_country_flag = afr_colony_generic_regional_resources_decision_flag
+		has_country_flag = afr_colony_generic_regional_industry_decision_flag
+		has_country_flag = afr_colony_generic_regional_infrastructure_decision_flag
+	}
+	ai_will_do = {
+		factor = 100
+	}
+	prerequisite = { focus = afr_colony_generic_regional_infrastructure }
+	prerequisite = { focus = afr_colony_generic_regional_industry }
+	prerequisite = { focus = afr_colony_generic_regional_resources }
+	
+	completion_reward = {
+		swap_ideas={
+			add_idea=victorian_era
+			remove_idea=pre_industrial_era
+		}
+	}
+	bypass = {
+		custom_trigger_tooltip = {	
+			tooltip = afr_colony_generic_regional_victorian_era_tooltip
+			has_idea = victorian_era
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_regional_industrializing
+	icon = GFX_goal_generic_production2
+	x = 0
+	y = 4
+	relative_position_id = afr_colony_generic_regional_investment
+	cost = 75
+	available_if_capitulated = no
+	available = {
+	}
+	ai_will_do = {
+		factor = 100
+	}
+	prerequisite = { focus = afr_colony_generic_regional_infrastructure_completed }
+	prerequisite = { focus = afr_colony_generic_regional_industry_completed }
+	prerequisite = { focus = afr_colony_generic_regional_resources_completed }
+	
+	completion_reward = {
+		swap_ideas={
+			add_idea=industrializing
+			remove_idea=agrarian
+		}
+	}
+}
+# Medical Reforms
+shared_focus = {
+	id = afr_colony_generic_focus_social_reforms
+	icon = GFX_goal_continuous_increase_nu
+	x = 1
+	y = 0
+	cost = 70
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1000
+	}
+	completion_reward = {
+		add_stability = 0.07
+	
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_reform_health_pamphlets
+	icon = GFX_goal_focus_popularize
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_focus_social_reforms
+	cost = 70
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1000
+	}
+	available = {
+		has_tech = early_medicine
+	}
+	prerequisite = { 
+		focus = afr_colony_generic_focus_social_reforms
+	}
+	bypass = {
+		custom_trigger_tooltip = {
+			tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+			OR = {
+				has_country_flag = afr_mandatory_vaccines_everyone_done
+				has_country_flag = afr_mandatory_vaccines_colonists_done
+			}
+		}
+	}
+	completion_reward = {
+		if = {
+			limit = { 
+				NOT = { has_tech = hygiene }
+			}
+			set_technology = { hygiene = 1 }
+		}
+		if = { 
+			limit = { 
+				has_idea = afr_colonial_malaria_scourge
+			}
+			swap_ideas = { add_idea = afr_colonial_malaria_scourge_1 remove_idea = afr_colonial_malaria_scourge }
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_reform_health_pamphlets_tooltip
+		set_country_flag = afr_reform_distributed_health_pamphlets
+	}
+	allow_branch = {
+		OR = {
+			has_idea = afr_colonial_malaria_scourge
+			has_idea = afr_colonial_malaria_scourge_1
+			has_idea = afr_colonial_malaria_scourge_2
+			has_idea = afr_colonial_malaria_scourge_3
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_reform_regional_hospitals
+	icon = GFX_goal_generic_construction2
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_focus_reform_health_pamphlets
+	cost = 75
+	available_if_capitulated = no
+	available = { 
+		has_tech = antiseptics
+	}
+	ai_will_do = {
+		factor = 1000
+	}
+	prerequisite = {
+		focus = afr_colony_generic_focus_reform_health_pamphlets
+	}
+	bypass = {
+		custom_trigger_tooltip = {
+			tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+			OR = {
+				has_country_flag = afr_mandatory_vaccines_everyone_done
+				has_country_flag = afr_mandatory_vaccines_colonists_done
+			}
+		}
+	}
+	completion_reward = {
+		add_tech_bonus = {
+			bonus = 1
+			uses = 1
+			technology = early_hospitals
+		}
+		if = { 
+			limit = { 
+				has_idea = afr_colonial_malaria_scourge_1
+			}
+			swap_ideas = { add_idea = afr_colonial_malaria_scourge_2 remove_idea = afr_colonial_malaria_scourge_1 }
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_reform_regional_hospitals_tooltip
+		set_country_flag = afr_colony_generic_focus_reform_regional_hospitals_flag
+	}
+	allow_branch = {
+		OR = {
+			has_idea = afr_colonial_malaria_scourge
+			has_idea = afr_colonial_malaria_scourge_1
+			has_idea = afr_colonial_malaria_scourge_2
+			has_idea = afr_colonial_malaria_scourge_3
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_reform_mosquito_brigades
+	icon = GFX_goal_demand_sudetenland
+	x = 0
+	y = 2
+	relative_position_id = afr_colony_generic_focus_reform_health_pamphlets
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1000
+	}
+	available = {
+		has_tech = copper_salts_pesticides
+	}
+	prerequisite = {
+		focus = afr_colony_generic_focus_reform_regional_hospitals
+	}
+	bypass = {
+		custom_trigger_tooltip = {
+			tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+			OR = {
+				has_country_flag = afr_mandatory_vaccines_everyone_done
+				has_country_flag = afr_mandatory_vaccines_colonists_done
+			}
+		}
+	}
+	completion_reward = {
+		if = { 
+			limit = { 
+				has_idea = afr_colonial_malaria_scourge_2
+			}
+			swap_ideas = { add_idea = afr_colonial_malaria_scourge_3 remove_idea = afr_colonial_malaria_scourge_2 }
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_reform_mosquito_brigades_tooltip
+		set_country_flag = afr_colony_generic_focus_reform_mosquito_brigades_flag
+	}
+	allow_branch = {
+		OR = {
+			has_idea = afr_colonial_malaria_scourge
+			has_idea = afr_colonial_malaria_scourge_1
+			has_idea = afr_colonial_malaria_scourge_2
+			has_idea = afr_colonial_malaria_scourge_3
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_reform_distribute_vaccines
+	icon = GFX_focus_generic_concessions
+	x = 0
+	y = 3
+	relative_position_id = afr_colony_generic_focus_reform_health_pamphlets
+	cost = 75
+	available_if_capitulated = no
+	available = { 
+		has_tech = early_vaccination
+	}
+	ai_will_do = {
+		factor = 1000
+	}
+	prerequisite = {
+		focus = afr_colony_generic_focus_reform_mosquito_brigades
+	}
+	bypass = {
+		custom_trigger_tooltip = {
+			tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+			OR = {
+				has_country_flag = afr_mandatory_vaccines_everyone_done
+				has_country_flag = afr_mandatory_vaccines_colonists_done
+			}
+			NOT = { has_country_flag = afr_reform_distributed_health_pamphlets }
+		}
+	}
+	completion_reward = {
+		if = { 
+			limit = { 
+				has_idea = afr_colonial_malaria_scourge_3
+			}
+			remove_ideas = afr_colonial_malaria_scourge_3
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_reform_distribute_vaccines_tooltip
+	}
+	allow_branch = {
+		OR = {
+			has_idea = afr_colonial_malaria_scourge
+			has_idea = afr_colonial_malaria_scourge_1
+			has_idea = afr_colonial_malaria_scourge_2
+			has_idea = afr_colonial_malaria_scourge_3
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_reform_regional_schools
+	icon = GFX_focus_generic_self_management
+	x = 2
+	y = 1
+	relative_position_id = afr_colony_generic_focus_social_reforms
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		OR = {
+			has_completed_focus = afr_colony_generic_focus_strengthen_government
+			is_subject = no
+		}
+	}
+	prerequisite = { 
+		focus = afr_colony_generic_focus_social_reforms
+	}
+	ai_will_do = {
+		factor = 1000
+	}
+	
+	completion_reward = {
+		if = { 
+			limit = { 
+				has_idea = Oceania_colonial_reforming_kingdom
+			}
+			swap_ideas = { add_idea = Oceania_colonial_reforming_kingdom_1 remove_idea = Oceania_colonial_reforming_kingdom }
+		}
+		if = { 
+			limit = { 
+				has_idea = afr_colonial_reforming_kingdom
+			}
+			swap_ideas = { add_idea = afr_colonial_reforming_kingdom_1 remove_idea = afr_colonial_reforming_kingdom }
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_reform_regional_schools_tooltip
+	}
+	allow_branch = {
+		OR = {
+			has_idea = Oceania_colonial_reforming_kingdom
+			has_idea = afr_colonial_reforming_kingdom
+			has_idea = Oceania_colonial_reforming_kingdom_1
+			has_idea = afr_colonial_reforming_kingdom_1
+			has_idea = Oceania_colonial_reforming_kingdom_2
+			has_idea = afr_colonial_reforming_kingdom_2
+			has_idea = Oceania_colonial_reforming_kingdom_3
+			has_idea = afr_colonial_reforming_kingdom_3
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_reform_regional_military
+	icon = GFX_focus_generic_military_mission
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_focus_reform_regional_schools
+	cost = 75
+	available_if_capitulated = no
+	available = { 
+		OR = {
+			has_completed_focus = afr_colony_generic_focus_spread_military
+			has_completed_focus = afr_colony_generic_focus_centralized_army
+		}
+	}
+	ai_will_do = {
+		factor = 1000
+	}
+	prerequisite = {
+		focus = afr_colony_generic_focus_reform_regional_schools
+	}
+	completion_reward = {
+		if = { 
+			limit = { 
+				has_idea = Oceania_colonial_reforming_kingdom_1
+			}
+			swap_ideas = { add_idea = Oceania_colonial_reforming_kingdom_2 remove_idea = Oceania_colonial_reforming_kingdom_1 }
+		}
+		if = { 
+			limit = { 
+				has_idea = afr_colonial_reforming_kingdom_1
+			}
+			swap_ideas = { add_idea = afr_colonial_reforming_kingdom_2 remove_idea = afr_colonial_reforming_kingdom_1 }
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_reform_regional_military_tooltip
+	}
+	allow_branch = {
+		OR = {
+			has_idea = Oceania_colonial_reforming_kingdom
+			has_idea = afr_colonial_reforming_kingdom
+			has_idea = Oceania_colonial_reforming_kingdom_1
+			has_idea = afr_colonial_reforming_kingdom_1
+			has_idea = Oceania_colonial_reforming_kingdom_2
+			has_idea = afr_colonial_reforming_kingdom_2
+			has_idea = Oceania_colonial_reforming_kingdom_3
+			has_idea = afr_colonial_reforming_kingdom_3
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_reform_regional_policies
+	icon = GFX_goal_focus_reform_government
+	x = 0
+	y = 2
+	relative_position_id = afr_colony_generic_focus_reform_regional_schools
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1000
+	}
+	available = {
+		has_completed_focus = afr_colony_generic_focus_limited_constitution
+	}
+	prerequisite = {
+		focus = afr_colony_generic_focus_reform_regional_military
+	}
+	completion_reward = {
+		if = { 
+			limit = { 
+				has_idea = Oceania_colonial_reforming_kingdom_2
+			}
+			swap_ideas = { add_idea = Oceania_colonial_reforming_kingdom_3 remove_idea = Oceania_colonial_reforming_kingdom_2 }
+		}
+		if = { 
+			limit = { 
+				has_idea = afr_colonial_reforming_kingdom_2
+			}
+			swap_ideas = { add_idea = afr_colonial_reforming_kingdom_3 remove_idea = afr_colonial_reforming_kingdom_2 }
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_reform_regional_policies_tooltip
+	}
+	allow_branch = {
+		OR = {
+			has_idea = Oceania_colonial_reforming_kingdom
+			has_idea = afr_colonial_reforming_kingdom
+			has_idea = Oceania_colonial_reforming_kingdom_1
+			has_idea = afr_colonial_reforming_kingdom_1
+			has_idea = Oceania_colonial_reforming_kingdom_2
+			has_idea = afr_colonial_reforming_kingdom_2
+			has_idea = Oceania_colonial_reforming_kingdom_3
+			has_idea = afr_colonial_reforming_kingdom_3
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_complete_reform
+	icon = GFX_focus_generic_home_defense
+	x = 0
+	y = 3
+	relative_position_id = afr_colony_generic_focus_reform_regional_schools
+	cost = 75
+	available_if_capitulated = no
+	available = { 
+		OR = {
+			has_idea = Oceania_colonial_reforming_kingdom_3
+			has_idea = afr_colonial_reforming_kingdom_3
+		}
+	}
+	ai_will_do = {
+		factor = 1000
+	}
+	prerequisite = {
+		focus = afr_colony_generic_focus_reform_regional_policies
+	}
+	completion_reward = {
+		if = { 
+			limit = { 
+				has_idea = Oceania_colonial_reforming_kingdom_3
+			}
+			remove_ideas = Oceania_colonial_reforming_kingdom_3
+		}
+		if = { 
+			limit = { 
+				has_idea = afr_colonial_reforming_kingdom_3
+			}
+			remove_ideas = afr_colonial_reforming_kingdom_3
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_complete_reform_tooltip
+	}
+	allow_branch = {
+		OR = {
+			has_idea = Oceania_colonial_reforming_kingdom
+			has_idea = afr_colonial_reforming_kingdom
+			has_idea = Oceania_colonial_reforming_kingdom_1
+			has_idea = afr_colonial_reforming_kingdom_1
+			has_idea = Oceania_colonial_reforming_kingdom_2
+			has_idea = afr_colonial_reforming_kingdom_2
+			has_idea = Oceania_colonial_reforming_kingdom_3
+			has_idea = afr_colonial_reforming_kingdom_3
+		}
+	}
+}
+# Generic Government Reforms
+shared_focus = {
+	id = afr_colony_generic_focus_increase_export_quota
+	icon = GFX_goal_focus_enact_law
+	x = 15
+	y = 1
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	completion_reward = {
+		add_political_power = -25
+		if = {
+			limit = {
+				NOT = { has_tech = tech_humanities_mercantilism }
+			}
+			set_technology = { tech_humanities_mercantilism = 1 }
+		}
+		if = {
+			limit = { has_idea = limited_exports }
+			hidden_effect = { swap_ideas = { add_idea = closed_economy remove_idea = limited_exports } }
+		}
+		if = {
+			limit = { has_idea = export_focus }
+			hidden_effect = { swap_ideas = { add_idea = closed_economy remove_idea = export_focus } }
+		}
+		if = {
+			limit = { has_idea = free_trade }
+			hidden_effect = { swap_ideas = { add_idea = closed_economy remove_idea = free_trade } }
+		}
+		if = {
+			limit = { has_country_flag = AFR_is_a_colonial_company_flag }
+			if = {
+				limit = { has_idea = AF_T_idea_trading_nation }
+				swap_ideas = { remove_idea = AF_T_idea_trading_nation add_idea = AF_T_idea_trading_nation_4 }
+			}
+			else_if = {
+				limit = { has_idea = AF_T_idea_trading_nation_2 }
+				swap_ideas = { remove_idea = AF_T_idea_trading_nation_2 add_idea = AF_T_idea_trading_nation_4 }
+			}
+			else_if = {
+				limit = { has_idea = AF_T_idea_trading_nation_3 }
+				swap_ideas = { remove_idea = AF_T_idea_trading_nation_3 add_idea = AF_T_idea_trading_nation_4 }
+			}
+			else = {
+				add_ideas = AF_T_idea_trading_nation_4
+			}
+		}
+		if = {
+			limit = { NOT = { has_country_flag = AFR_is_a_colonial_company_flag } }
+			if = {
+				limit = { has_idea = AF_T_idea_trading_nation }
+				remove_ideas = AF_T_idea_trading_nation
+			}
+			else_if = {
+				limit = { has_idea = AF_T_idea_trading_nation_2 }
+				remove_ideas = AF_T_idea_trading_nation_2
+			}
+			else_if = {
+				limit = { has_idea = AF_T_idea_trading_nation_3 }
+				remove_ideas = AF_T_idea_trading_nation_3
+			}
+		}
+		add_equipment_to_stockpile = { type = convoy_1 amount = 45 }
+	}
+	allow_branch = {
+		is_subject = yes
+		OR = {
+			has_idea = AFR_french_colony
+			has_idea = AFR_french_colony_tribute
+			has_idea = AFR_british_colony
+			has_idea = AFR_british_colony_tribute
+			has_idea = AFR_netherland_colony
+			has_idea = AFR_netherland_colony_tribute
+			has_idea = AFR_spanish_colony
+			has_idea = AFR_spanish_colony_tribute
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_pay_tribute
+	icon = GFX_focus_generic_treaty
+	x = 17
+	y = 1
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	dynamic = yes
+	completion_reward = {
+		if = {
+			limit = {
+				is_subject = yes
+				NOT = {
+					has_idea = AFR_french_colony
+					has_idea = AFR_french_colony_tribute
+					has_idea = AFR_british_colony
+					has_idea = AFR_british_colony_tribute
+					has_idea = AFR_netherland_colony
+					has_idea = AFR_netherland_colony_tribute
+					has_idea = AFR_spanish_colony
+					has_idea = AFR_spanish_colony_tribute
+				}
+			}
+			if = {
+				limit = { is_subject_of = FRA }
+				add_ideas = AFR_french_colony_tribute
+			}	
+			if = {
+				limit = { is_subject_of = ENG }
+				add_ideas = AFR_british_colony_tribute
+			}
+			if = {
+				limit = { is_subject_of = HOL }
+				add_ideas = AFR_netherland_colony_tribute
+			}
+			if = {
+				limit = { is_subject_of = SPR }
+				add_ideas = AFR_spanish_colony_tribute
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_idea = AFR_french_colony
+					has_idea = AFR_british_colony
+					has_idea = AFR_netherland_colony
+					has_idea = AFR_spanish_colony
+				}
+			}
+			if = {
+				limit = {
+					has_idea = AFR_french_colony
+				}
+				swap_ideas = {
+					remove_idea = AFR_french_colony
+					add_idea = AFR_french_colony_tribute
+				}
+			}	
+			if = {
+				limit = {
+					has_idea = AFR_british_colony
+				}
+				swap_ideas = {
+					remove_idea = AFR_british_colony
+					add_idea = AFR_british_colony_tribute
+				}
+			}
+			if = {
+				limit = {
+					has_idea = AFR_netherland_colony
+				}
+				swap_ideas = {
+					remove_idea = AFR_netherland_colony
+					add_idea = AFR_netherland_colony_tribute
+				}
+			}
+			if = {
+				limit = {
+					has_idea = AFR_spanish_colony
+				}
+				swap_ideas = {
+					remove_idea = AFR_spanish_colony
+					add_idea = AFR_spanish_colony_tribute
+				}
+			}
+		}
+	}
+	allow_branch = {
+		is_subject = yes
+		OR = {
+			has_idea = AFR_french_colony
+			has_idea = AFR_french_colony_tribute
+			has_idea = AFR_british_colony
+			has_idea = AFR_british_colony_tribute
+			has_idea = AFR_netherland_colony
+			has_idea = AFR_netherland_colony_tribute
+			has_idea = AFR_spanish_colony
+			has_idea = AFR_spanish_colony_tribute
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_strengthen_government
+	icon = GFX_goal_focus_reform_administration
+	x = 16
+	y = 3
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_increase_export_quota }
+	prerequisite = { focus = afr_colony_generic_focus_pay_tribute }
+	completion_reward = {
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			add_political_power = -100
+			add_autonomy_ratio = {
+				value = 0.075
+				localization = afr_colony_generic_focus_strengthen_government
+			}
+		}
+		else = {
+			add_political_power = -50
+			army_experience = 5
+		}
+		if = {
+			limit = { TAG = SNG }
+			complete_national_focus = afr_colony_generic_french_approval
+		}
+	}
+	allow_branch = {
+		is_subject = yes
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_decide_future_gov
+	icon = GFX_goal_focus_elections
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_focus_strengthen_government
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		date > 1850.01.01
+	}
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_strengthen_government }
+	
+	completion_reward = {
+		#country_event = { id = afr_colony_generic.1 days = 1 }
+		add_political_power = 100
+	}
+	allow_branch = {
+		always = yes
+	}
+}
+# Centralized Government
+shared_focus = {
+	id = afr_colony_generic_focus_gov_centralized
+	icon = GFX_goal_focus_the_elite
+	x = -2
+	y = 1
+	relative_position_id = afr_colony_generic_focus_decide_future_gov
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 2
+		modifier = {
+			factor = 100
+			has_government = autocracy
+		}
+	}
+	prerequisite = { focus = afr_colony_generic_focus_decide_future_gov }
+	available = {
+		
+	}
+	mutually_exclusive = {  focus = afr_colony_generic_focus_gov_decentralized }
+	
+	completion_reward = {
+		add_war_support = 0.15
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		capital_scope = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_1
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 trigger_for = controller } }
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_centralized_administration
+	icon = GFX_focus_generic_treaty
+	x = -1
+	y = 1
+	relative_position_id = afr_colony_generic_focus_gov_centralized
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_gov_centralized }
+	
+	completion_reward = {
+		add_political_power = 150
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_centralized_economic_management
+	icon = GFX_goal_focus_banks
+	x = -1
+	y = 3
+	relative_position_id = afr_colony_generic_focus_gov_centralized
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_centralized_administration }
+	
+	completion_reward = {
+		add_stability = 0.02
+		add_political_power = 20
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_encroach_tribal_lands
+	icon = GFX_focus_generic_provoke_border_clashes
+	x = 0
+	y = 2
+	relative_position_id = afr_colony_generic_focus_gov_centralized
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_centralized_administration }
+	prerequisite = { focus = afr_colony_generic_focus_centralized_army }
+	completion_reward = {
+		if = {
+			limit = {
+				any_owned_state = {
+					any_neighbor_state = { 
+						is_core_of = ROOT 
+						is_owned_by = ROOT
+					}
+					NOT = { is_core_of = ROOT }
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = { 
+						is_core_of = ROOT 
+						is_owned_by = ROOT
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				if = {
+					limit = {
+						free_building_slots = {
+							building = infrastructure
+							size > 1
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+				else_if = {
+					limit = {
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+				if = {
+					limit = { state_population < 300000 }
+					add_core_of = ROOT
+				}
+				else = {
+					add_extra_state_shared_building_slots = 2
+				}
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.6 trigger_for = controller } }
+				custom_effect_tooltip = AFR_Racial_Tension_plus_6
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_state = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = infrastructure
+						size > 1
+					}
+				}
+			}
+			random_owned_controlled_state ={
+				limit = { 
+					free_building_slots = {
+						building = infrastructure
+						size > 1
+					}
+					is_core_of = ROOT
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 trigger_for = controller } }
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_state = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+					}
+				}
+			}
+			random_owned_controlled_state ={
+				limit = { 
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+					}
+					is_core_of = ROOT
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 trigger_for = controller } }
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+			}
+		}
+		else = {
+			random_owned_controlled_state ={
+				limit = { 
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 trigger_for = controller } }
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+			}
+		}
+			
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_centralized_army
+	icon = GFX_focus_generic_little_entente
+	x = 1
+	y = 1
+	relative_position_id = afr_colony_generic_focus_gov_centralized
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_gov_centralized }
+	completion_reward = {
+		#hidden_effect = {
+			ROOT = {
+				division_template = {
+					name = "Colonial Elite Infantry"
+					priority = 2
+					division_names_group = AFR_COLONIAL_INFANTRY_01
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 1 y = 0 }
+					}
+				}
+			}
+			random_owned_state ={
+				create_unit = {
+					division = "name = \"Colonial Elite Infantry\" division_template = \"Colonial Elite Infantry\" start_experience_factor = 3.0" 
+					owner = ROOT
+				}
+			}
+		#}
+		custom_effect_tooltip = afr_colony_generic_focus_centralized_army_tooltip
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_high_command_reform
+	icon = GFX_goal_focus_conscription
+	x = 1
+	y = 3
+	relative_position_id = afr_colony_generic_focus_gov_centralized
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_centralized_army }
+	completion_reward = {
+		add_war_support = 0.05
+		army_experience = 20
+		hidden_effect = {
+			create_corps_commander = {
+				name = "Colonial General"
+				picture = "Portrait_France_Jean_de_Lattre_de_Tassigny.dds"
+				traits = { trickster skilled_staffer expert_delegator desert_fox expert_improviser }
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				planning_skill = 4
+				logistics_skill = 4
+			}
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_high_command_reform_tooltip
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_stabilized_centralization
+	icon = GFX_focus_generic_diplomatic_treaty
+	x = 0
+	y = 4
+	relative_position_id = afr_colony_generic_focus_gov_centralized
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_high_command_reform }
+	prerequisite = { focus = afr_colony_generic_focus_centralized_economic_management }
+	
+	completion_reward = {
+		add_stability = 0.05
+	}
+}
+# Decentralized Government
+shared_focus = {
+	id = afr_colony_generic_focus_gov_decentralized
+	icon = GFX_goal_focus_decentralisation_power
+	x = 2
+	y = 1
+	relative_position_id = afr_colony_generic_focus_decide_future_gov
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_decide_future_gov }
+	available = {
+	
+	}
+	mutually_exclusive = {  focus = afr_colony_generic_focus_gov_centralized }
+	
+	completion_reward = {
+		add_popularity = {
+			ideology = radical_democracy
+			popularity = 0.07
+		}
+		add_war_support = -0.1
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		capital_scope = { 
+			custom_effect_tooltip = AFR_Racial_Tension_minus_1
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.1 trigger_for = controller } }
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_decentralized_autonomy
+	icon = GFX_goal_generic_national_unity
+	x = -1
+	y = 1
+	relative_position_id = afr_colony_generic_focus_gov_decentralized
+	cost = 120
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_gov_decentralized }
+	
+	completion_reward = {
+		add_political_power = -100
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_laissez_faire_markets
+	icon = GFX_goal_focus_increase_wages
+	x = -1
+	y = 3
+	relative_position_id = afr_colony_generic_focus_gov_decentralized
+	cost = 120
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_decentralized_autonomy }
+	
+	completion_reward = {
+		if = {
+			limit = {
+				has_idea = closed_economy
+			}
+			swap_ideas = { add_idea = limited_exports remove_idea = closed_economy }
+		}
+		else_if = {
+			add_ideas = limited_exports
+		}
+		#custom_effect_tooltip = afr_colony_generic_focus_laissez_faire_markets_tooltip
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_spread_military
+	icon = GFX_focus_generic_military_academy
+	x = 1
+	y = 1
+	relative_position_id = afr_colony_generic_focus_gov_decentralized
+	cost = 120
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_gov_decentralized }
+	
+	completion_reward = {
+		#hidden_effect = {
+			ROOT = {
+				division_template = {
+					name = "Native Integrated Infantry"
+					priority = 1
+					division_names_group = AFR_NATIVE_INFANTRY_01
+					regiments = {
+						tribal_infantry = { x = 1 y = 0 }
+						infantry = { x = 0 y = 0 }
+					}
+				}
+			}
+			random_owned_state ={
+				create_unit = {
+					division = "name = \"Native Integrated Infantry\" division_template = \"Native Integrated Infantry\" start_experience_factor = 3.0" 
+					owner = ROOT
+				}
+			}
+		#}
+		custom_effect_tooltip = afr_colony_generic_focus_spread_military_tooltip
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_native_reservations
+	icon = GFX_goal_focus_gerrymandering
+	x = 0
+	y = 2
+	relative_position_id = afr_colony_generic_focus_gov_decentralized
+	cost = 120
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 0.50
+	}
+	available = {
+		any_owned_state = {
+			is_capital = no
+			NOT = { is_core_of = ROOT }
+			custom_trigger_tooltip={
+				tooltip = afr_colony_generic_focus_native_reservations_tooltip_trigger_1
+				check_variable = { detrimental_colonial_impact_value < 11 }
+			}
+		}
+		custom_trigger_tooltip={
+			tooltip= afr_colony_generic_focus_native_reservations_tooltip_trigger_2
+			NOT = { has_idea = tribal_slavery }				
+			NOT = { has_idea = usa_slavery_law }
+			NOT = { has_idea = slavery }
+		}
+	}
+	prerequisite = { focus = afr_colony_generic_focus_decentralized_autonomy }
+	prerequisite = { focus = afr_colony_generic_focus_spread_military }
+	completion_reward = {
+		hidden_effect = { add_popularity = { ideology = social_egalitarianism popularity = 0.05 } }
+		if = {
+			limit = {
+				any_owned_state = {
+					check_variable = { detrimental_colonial_impact_value > 5 }
+					NOT = { is_core_of = ROOT }
+					any_country = { PREV = { is_core_of = PREV } }
+				}
+				always = no
+			}
+			add_ideas = AFR_colonial_native_reservations
+			custom_effect_tooltip = afr_colony_generic_focus_native_reservations_tooltip
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			random_owned_controlled_state = {
+				limit = {
+					check_variable = { detrimental_colonial_impact_value > 5 }
+					NOT = { is_core_of = ROOT }
+					any_country = { PREV = { is_core_of = PREV } }
+					is_capital = no
+				}
+				set_state_flag = afr_colonial_native_reservation_state_flag
+				if = {
+					limit = { Oceania_infrastructure_for_clearing_building_slots_trigger = yes }
+					add_to_variable = { Oceania_extra_state_shared_building_slots = -1 }
+					add_extra_state_shared_building_slots = -1
+				}
+				custom_effect_tooltip = AFR_Racial_Tension_minus_6
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.6 trigger_for = controller } }
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_state = {
+					NOT = { is_core_of = ROOT }
+					all_neighbor_state = { is_capital = no }
+					state_population < 30000
+				}
+			}
+			add_ideas = AFR_colonial_native_reservations
+			custom_effect_tooltip = afr_colony_generic_focus_native_reservations_tooltip
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { is_core_of = ROOT }
+					all_neighbor_state = { is_capital = no }
+					is_capital = no
+					state_population < 30000
+				}
+				set_state_flag = afr_colonial_native_reservation_state_flag
+				if = {
+					limit = { Oceania_infrastructure_for_clearing_building_slots_trigger = yes }
+					add_to_variable = { Oceania_extra_state_shared_building_slots = -1 }
+					add_extra_state_shared_building_slots = -1
+				}
+				if = {
+					limit = { check_variable = { detrimental_colonial_impact_value > 2 } }
+					custom_effect_tooltip = AFR_Racial_Tension_minus_3
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.3 trigger_for = controller } }
+				}
+				else_if = {
+					limit = { check_variable = { detrimental_colonial_impact_value > 1 } }
+					custom_effect_tooltip = AFR_Racial_Tension_minus_2
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.2 trigger_for = controller } }
+				}
+				else_if = {
+					limit = { check_variable = { detrimental_colonial_impact_value > 0 } }
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.1 trigger_for = controller } }
+				}
+			}
+		}
+		else = {
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			random_owned_controlled_state = {
+				limit = {
+					check_variable = { detrimental_colonial_impact_value > 0 }
+					NOT = { is_core_of = ROOT }
+					is_capital = no
+				}
+				if = {
+					limit = { check_variable = { detrimental_colonial_impact_value > 1 } }
+					custom_effect_tooltip = AFR_Racial_Tension_minus_2
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.2 trigger_for = controller } }
+				}
+				else_if = {
+					limit = { check_variable = { detrimental_colonial_impact_value > 0 } }
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.1 trigger_for = controller } }
+				}
+			}
+		}
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_native_integrated_command
+	icon = GFX_focus_RAJ_indian_gurkhas
+	x = 1
+	y = 3
+	relative_position_id = afr_colony_generic_focus_gov_decentralized
+	cost = 120
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_spread_military }
+	
+	completion_reward = {
+		hidden_effect = {
+			create_corps_commander = {
+				name = "Tribal Warlord"
+				picture = "generic_leader_tribe_3.dds"
+				traits = { jungle_rat desert_fox adaptable commando skirmisher}
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				planning_skill = 1
+				logistics_skill = 4
+			}
+		}
+		custom_effect_tooltip = afr_colony_generic_focus_native_integrated_command_tooltip
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_decentralized_government
+	icon = GFX_goal_focus_support_liberalism
+	x = 0
+	y = 4
+	relative_position_id = afr_colony_generic_focus_gov_decentralized
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_laissez_faire_markets }
+	prerequisite = { focus = afr_colony_generic_focus_native_integrated_command }
+	
+	completion_reward = {
+		add_political_power = 20
+		add_stability = 0.02
+		add_war_support = 0.02
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_limited_constitution
+	icon = GFX_goal_focus_newspapers
+	x = 0
+	y = 6
+	relative_position_id = afr_colony_generic_focus_decide_future_gov
+	cost = 75
+	available_if_capitulated = no
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_decentralized_government focus = afr_colony_generic_focus_stabilized_centralization }
+	available = {
+		has_idea = no_constitution
+	}
+	bypass = {
+		NOT = {
+			has_idea = no_constitution
+		}
+	}
+	
+	completion_reward = {
+		swap_ideas = { add_idea = limited_constitution remove_idea = no_constitution }
+	}
+}
+# 1860 Reforms
+shared_focus = {
+	id = afr_colony_generic_focus_decide_future_gov_1860
+	icon = GFX_goal_focus_elections
+	x = 9
+	y = 1
+	relative_position_id = afr_colony_generic_focus_strengthen_government
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		date > 1860.01.01
+	}
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_strengthen_government }
+	
+	completion_reward = {
+		#country_event = { id = afr_colony_generic.1 days = 1 }
+		add_political_power = 100
+	}
+	allow_branch = {
+		always = yes
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_focus_1860_gov_port_town
+	icon = GFX_goal_generic_construct_naval_dockyard
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_focus_decide_future_gov_1860
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		if = {
+			limit = { 
+				TAG = SNG 
+				owns_state = 1108
+			}
+		}
+		else_if = {
+			limit = { 
+				all_owned_state = { naval_base < 1 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = Ocenaia_has_infrastructure_to_support_new_buildings_on_coast
+				Oceania_one_extra_building_slots_supported_for_coast_not_core_trigger = yes
+			}
+		}
+		else = {
+			any_owned_state = {
+				is_coastal = yes
+				naval_base > 0
+			}
+		}
+	}
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_decide_future_gov_1860 }
+	completion_reward = {
+		if = {
+			limit = { 
+				TAG = GDC
+				owns_state = 1108
+			}
+			add_political_power = -250
+			1108 = {
+				set_state_flag = afr_port_town
+				hidden_effect = {
+					add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+				}
+				add_extra_state_shared_building_slots = 1
+				afr_add_one_building_naval_base_scripted_effect = yes
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				if = {
+					limit = { THIS = { NOT = { is_core_of = ROOT } } }
+					add_core_of = ROOT
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+				add_manpower = 6325
+			}
+		}
+		else_if = {
+			limit = { 
+				all_owned_state = { naval_base < 1 }
+				all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+				capital_scope = { is_coastal = no }
+			}
+			add_political_power = -250
+			random_owned_controlled_state = {
+				limit = {
+					Oceania_infrastructure_for_extra_building_slots_trigger = yes
+					is_coastal = yes
+				}
+				set_state_flag = afr_port_town
+				hidden_effect = {
+					add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+				}
+				add_extra_state_shared_building_slots = 1
+				afr_add_one_building_naval_base_scripted_effect = yes
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				if = {
+					limit = { THIS = { NOT = { is_core_of = ROOT } } }
+					add_core_of = ROOT
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+				add_manpower = 6325
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_state = { has_state_flag = afr_port_town }
+			}
+			add_political_power = -100
+			random_owned_controlled_state = {
+				limit = {
+					has_state_flag = afr_port_town
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				if = {
+					limit = { THIS = { NOT = { is_core_of = ROOT } } }
+					add_core_of = ROOT
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+				add_manpower = 6325
+			}
+		}
+		else_if = {
+			limit = {
+				all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+				capital_scope = { is_coastal = yes naval_base < 1 }
+			}
+			add_political_power = -250
+			random_owned_state = {
+				limit = {
+					is_coastal = yes
+					is_capital = yes
+				}
+				set_state_flag = afr_port_town
+				hidden_effect = {
+					add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+				}
+				add_extra_state_shared_building_slots = 1
+				afr_add_one_building_naval_base_scripted_effect = yes
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+				capital_scope = { is_coastal = yes naval_base > 0 }
+			}
+			add_political_power = -100
+			random_owned_state = {
+				limit = {
+					is_coastal = yes
+					is_capital = yes
+				}
+				set_state_flag = afr_port_town
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		else = {
+			add_political_power = -100
+			random_owned_controlled_state = {
+				limit = {
+					naval_base > 0
+					is_coastal = yes
+				}
+				set_state_flag = afr_port_town
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				if = {
+					limit = { THIS = { NOT = { is_core_of = ROOT } } }
+					add_core_of = ROOT
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+				add_manpower = 6325
+			}
+		}
+		add_equipment_to_stockpile = { type = convoy_1 amount = 45 }
+	}
+	bypass = { if = { limit = { TAG = SNG } has_country_flag = FRA_develop_port_dakar_flag } else = { always = no } }
+}
+shared_focus = {
+	id = afr_colony_generic_focus_1860_gov_naval_base
+	icon = GFX_goal_generic_navy_cruiser
+	x = 0
+	y = 2
+	relative_position_id = afr_colony_generic_focus_decide_future_gov_1860
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = Ocenaia_has_infrastructure_to_support_new_buildings_on_coast
+			Oceania_one_extra_building_slots_supported_for_coast_not_core_trigger = yes
+		}
+		any_owned_state = { has_state_flag = afr_port_town }
+	}
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_1860_gov_port_town }
+	completion_reward = {
+		if = {
+			limit = {
+				ROOT = { any_owned_state = { has_state_flag = afr_port_town } }
+			}
+			random_owned_controlled_state = {
+				limit = {
+					Oceania_infrastructure_for_extra_building_slots_trigger = yes
+					has_state_flag = afr_port_town
+				}
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		else = {
+			custom_effect_tooltip = afr_colony_generic_focus_1860_gov_naval_base_tooltip
+		}
+		hidden_effect = {
+			if = {
+				limit = { NOT = { has_tech = tech_naval_corvette } }
+				set_technology = { tech_naval_corvette = 1 }
+			}
+			if = {
+				limit = { NOT = { has_tech = tech_naval_corvette_1 } }
+				set_technology = { tech_naval_corvette_1 = 1 }
+			}
+		}
+		add_equipment_production = {
+			equipment = {
+				type = ship_hull_corvette_0
+			}
+			requested_factories = 1
+			progress = 0.90
+			amount = 1
+		}
+		hidden_effect = {
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_corvette_0
+				}
+				requested_factories = 1
+				progress = 0.77
+				amount = 1
+			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_corvette_0
+				}
+				requested_factories = 1
+				progress = 0.63
+				amount = 1
+			}
+		}
+	}
+	bypass = { if = { limit = { TAG = SNG } has_country_flag = FRA_develop_port_dakar_flag } else = { always = no } }
+}
+shared_focus = {
+	id = afr_colony_generic_focus_1860_gov_colonial_navy
+	icon = GFX_goal_focus_mass_produce_ships
+	x = 0
+	y = 3
+	relative_position_id = afr_colony_generic_focus_decide_future_gov_1860
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		
+	}
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_1860_gov_naval_base }
+	completion_reward = {
+		hidden_effect = {
+			if = {
+				limit = { NOT = { has_tech = tech_naval_capital_ship_naval_transportation } }
+				set_technology = { tech_naval_capital_ship_naval_transportation = 1 }
+			}
+		}
+		if = {
+			limit = { NOT = { has_tech = tech_infantry_special_infantry_corps } }
+			set_technology = { tech_infantry_special_infantry_corps = 1 }
+		}
+		if = {
+			limit = { NOT = { has_tech = tech_infantry_colonial_marines } }
+			set_technology = { tech_infantry_colonial_marines = 1 }
+		}
+		
+	}
+	bypass = { if = { limit = { TAG = SNG } has_country_flag = FRA_develop_port_dakar_flag } else = { always = no } }
+}
+shared_focus = {
+	id = afr_colony_generic_focus_1860_gov_colonial_navy_admiral
+	icon = GFX_goal_generic_build_navy
+	x = 0
+	y = 4
+	relative_position_id = afr_colony_generic_focus_decide_future_gov_1860
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		
+	}
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_1860_gov_colonial_navy }
+	
+	completion_reward = {
+		
+	}
+	bypass = { if = { limit = { TAG = SNG } has_country_flag = FRA_develop_port_dakar_flag } else = { always = no } }
+}
+#1870 Reforms
+shared_focus = {
+	id = afr_colony_generic_focus_decide_future_gov_1870
+	icon = GFX_goal_focus_elections
+	x = 18
+	y = 1
+	relative_position_id = afr_colony_generic_focus_strengthen_government
+	cost = 75
+	available_if_capitulated = no
+	available = {
+		date > 1870.01.01
+	}
+	ai_will_do = {
+		factor = 1
+	}
+	prerequisite = { focus = afr_colony_generic_focus_strengthen_government }
+	
+	completion_reward = {
+		#country_event = { id = afr_colony_generic.1 days = 1 }
+		add_political_power = 100
+	}
+	
+	allow_branch = {
+		always = yes
+	}
+}
+# Dutch East Indies
+shared_focus = {
+	id = afr_colony_generic_respect_treaty
+	icon = GFX_idea_ENG_focus_enact_law_uk
+	cost = 75
+	available = {
+		has_completed_focus = afr_colony_generic_focus_reform_regional_military
+	}
+	mutually_exclusive = {
+		focus = afr_colony_generic_ignore_treaty
+	}
+	x = 31
+	y = 0
+	completion_reward = {
+		add_political_power = 100
+		673 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+		667 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+		1187 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 100
+				}
+			}
+		}
+		1188 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 100
+				}
+			}
+		}
+		1189 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_ignore_treaty
+	icon = GFX_focus_renounce_the_treaty_of_trianon
+	cost = 75
+	available = {
+		#has_completed_focus = afr_colony_generic_focus_reform_regional_military
+		always = no
+	}
+	mutually_exclusive = {
+		focus = afr_colony_generic_respect_treaty
+	}
+	x = 27
+	y = 0
+	completion_reward = {
+		add_political_power = -150
+		673 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+		667 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+		1187 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 100
+				}
+			}
+		}
+		1188 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 100
+				}
+			}
+		}
+		1189 = {
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_while_brunei_is_alone
+	icon = GFX_goal_generic_more_territorial_claims
+	cost = 75
+	available = {
+		919 = {
+			OWNER = {
+				if = {
+					limit = { 
+						OR = {
+							TAG = BUN
+							TAG = SAM
+						}
+					}
+					NOT = { has_completed_focus = Oceania_generic_pursue_dutch_cooperation }
+				}
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_colonial_subject
+					NOT = {
+						is_subject_of = FRA
+						is_subject_of = ENG
+						AND = {
+							is_subject_of = CCH
+							CCH = { is_subject_of = FRA }
+						}
+						AND = {
+							is_subject_of = SRW
+							SRW = { is_subject_of = ENG }
+						}
+					}
+					NOT = { is_subject_of = OTO }
+				}
+			}
+		}
+		if = {
+			limit = {
+				1177 = {
+					OWNER = {
+						NOT = { owns_state = 919 }
+					}
+				}
+			}
+			1177 = {
+				OWNER = {
+					if = {
+						limit = { 
+							OR = {
+								TAG = BUN
+								TAG = SAM
+							}
+						}
+						NOT = { has_completed_focus = Oceania_generic_pursue_dutch_cooperation }
+					}
+					custom_trigger_tooltip = {
+						tooltip = Oceania_is_colonial_subject
+						NOT = {
+							is_subject_of = FRA
+							is_subject_of = ENG
+							AND = {
+								is_subject_of = CCH
+								CCH = { is_subject_of = FRA }
+							}
+							AND = {
+								is_subject_of = SRW
+								SRW = { is_subject_of = ENG }
+							}
+						}
+						NOT = { is_subject_of = OTO }
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				1178 = {
+					OWNER = {
+						NOT = { owns_state = 919 }
+					}
+				}
+			}
+			1178 = {
+				OWNER = {
+					if = {
+						limit = { 
+							OR = {
+								TAG = BUN
+								TAG = SAM
+							}
+						}
+						NOT = { has_completed_focus = Oceania_generic_pursue_dutch_cooperation }
+					}
+					custom_trigger_tooltip = {
+						tooltip = Oceania_is_colonial_subject
+						NOT = {
+							is_subject_of = FRA
+							is_subject_of = ENG
+							AND = {
+								is_subject_of = CCH
+								CCH = { is_subject_of = FRA }
+							}
+							AND = {
+								is_subject_of = SRW
+								SRW = { is_subject_of = ENG }
+							}
+						}
+						NOT = { is_subject_of = OTO }
+					}
+				}
+			}
+		}
+	}
+	prerequisite = {
+		focus = afr_colony_generic_ignore_treaty
+	}
+	x = -4
+	y = 1
+	relative_position_id = afr_colony_generic_ignore_treaty
+	completion_reward = {	
+		1178 = {
+			add_claim_by = ROOT
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 75
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 75
+					}
+				}
+			}
+		}
+		1177 = {
+			add_claim_by = ROOT
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 75
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 75
+					}
+				}
+			}
+		}
+		919 = {
+			add_claim_by = ROOT
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 75
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 75
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_we_can_claim_them
+	icon = GFX_focus_RAJ_lions_of_the_great_war
+	cost = 180
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = INS_indonesia_colonial_expansion_war_exhaustion_trigger
+			NOT = { has_idea = INS_indonesia_colonial_expansion_war_exhaustion_idea }
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_not_in_colonial_expansion_war_trigger
+			NOT = {
+				has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			}
+		}
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_while_brunei_is_alone
+	prerequisite = {
+		focus = afr_colony_generic_while_brunei_is_alone
+	}
+	completion_reward = {
+		1178 = {
+			OWNER = {
+				ROOT = {
+					if = {
+						limit = { NOT = { has_wargoal_against = PREV } }
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+		1177 = {
+			OWNER = {
+				ROOT = {
+					if = {
+						limit = { NOT = { has_wargoal_against = PREV } }
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+		919 = {
+			OWNER = {
+				ROOT = {
+					if = {
+						limit = { NOT = { has_wargoal_against = PREV } }
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_while_sarawak_is_independent
+	icon = GFX_goal_generic_more_territorial_claims
+	cost = 75
+	available = {
+		920 = {
+			OWNER = {
+				if = {
+					limit = { 
+						OR = {
+							TAG = BUN
+							TAG = SAM
+						}
+					}
+					NOT = { has_completed_focus = Oceania_generic_pursue_dutch_cooperation }
+				}
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_colonial_subject
+					NOT = {
+						is_subject_of = FRA
+						is_subject_of = ENG
+						AND = {
+							is_subject_of = CCH
+							CCH = { is_subject_of = FRA }
+						}
+						AND = {
+							is_subject_of = SRW
+							SRW = { is_subject_of = ENG }
+						}
+					}
+					NOT = { is_subject_of = OTO }
+				}
+			}
+		}
+	}
+	prerequisite = {
+		focus = afr_colony_generic_ignore_treaty
+	}
+	x = -2
+	y = 1
+	relative_position_id = afr_colony_generic_ignore_treaty
+	completion_reward = {	
+		920 = {
+			add_claim_by = ROOT
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 200
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_we_can_strike_them
+	icon = GFX_focus_RAJ_lions_of_the_great_war
+	cost = 180
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = INS_indonesia_colonial_expansion_war_exhaustion_trigger
+			NOT = { has_idea = INS_indonesia_colonial_expansion_war_exhaustion_idea }
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_not_in_colonial_expansion_war_trigger
+			NOT = {
+				has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			}
+		}
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_while_sarawak_is_independent
+	prerequisite = {
+		focus = afr_colony_generic_while_sarawak_is_independent
+	}
+	completion_reward = {	
+		920 = {
+			OWNER = {
+				ROOT = {
+					if = {
+						limit = { NOT = { has_wargoal_against = PREV } }
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_as_the_british_ignore_aceh
+	icon = GFX_goal_generic_more_territorial_claims
+	cost = 75
+	available = {
+		date > 1870.01.01
+		1182 = {
+			OWNER = {
+				if = {
+					limit = { 
+						OR = {
+							TAG = BUN
+							TAG = SAM
+						}
+					}
+					NOT = { has_completed_focus = Oceania_generic_pursue_dutch_cooperation }
+				}
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_colonial_subject
+					NOT = {
+						is_subject_of = FRA
+						is_subject_of = ENG
+						AND = {
+							is_subject_of = CCH
+							CCH = { is_subject_of = FRA }
+						}
+						AND = {
+							is_subject_of = SRW
+							SRW = { is_subject_of = ENG }
+						}
+					}
+					NOT = { is_subject_of = OTO }
+				}
+			}
+		}
+	}
+	prerequisite = {
+		focus = afr_colony_generic_ignore_treaty
+		focus = afr_colony_generic_respect_treaty
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_ignore_treaty
+	completion_reward = {	
+		918 = {
+			add_claim_by = ROOT
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 75
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 75
+					}
+				}
+			}
+		}
+		1184 = {
+			add_claim_by = ROOT
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 75
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 75
+					}
+				}
+			}
+		}
+		1185 = {
+			add_claim_by = ROOT
+			OWNER = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 75
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 75
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_we_can_secure_the_west
+	icon = GFX_focus_RAJ_lions_of_the_great_war
+	cost = 180
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = INS_indonesia_colonial_expansion_war_exhaustion_trigger
+			NOT = { has_idea = INS_indonesia_colonial_expansion_war_exhaustion_idea }
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_not_in_colonial_expansion_war_trigger
+			NOT = {
+				has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			}
+		}
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_as_the_british_ignore_aceh
+	prerequisite = {
+		focus = afr_colony_generic_as_the_british_ignore_aceh
+	}
+	completion_reward = {
+		hidden_effect = { set_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag }
+		918 = {
+			OWNER = { 
+				hidden_effect = { set_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag }
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+		1184 = {
+			OWNER = { 
+				hidden_effect = { set_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag }
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+		1185 = {
+			OWNER = { 
+				hidden_effect = { set_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag }
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_incorporate_sambas
+	icon = GFX_goal_generic_dangerous_deal
+	cost = 75
+	available = {
+		date > 1878.01.01
+		1182 = {
+			OWNER = {
+				if = {
+					limit = { 
+						OR = {
+							TAG = BUN
+							TAG = SAM
+						}
+					}
+					NOT = { has_completed_focus = Oceania_generic_pursue_dutch_cooperation }
+				}
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_colonial_subject
+					NOT = {
+						is_subject_of = FRA
+						is_subject_of = ENG
+						AND = {
+							is_subject_of = CCH
+							CCH = { is_subject_of = FRA }
+						}
+						AND = {
+							is_subject_of = SRW
+							SRW = { is_subject_of = ENG }
+						}
+					}
+					NOT = { is_subject_of = OTO }
+				}
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_indonesia_colonial_expansion_war_exhaustion_trigger
+			NOT = { has_idea = INS_indonesia_colonial_expansion_war_exhaustion_idea }
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_not_in_colonial_expansion_war_trigger
+			NOT = {
+				has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			}
+		}
+	}
+	x = -2
+	y = 1
+	relative_position_id = afr_colony_generic_respect_treaty
+	prerequisite = {
+		focus = afr_colony_generic_ignore_treaty
+		focus = afr_colony_generic_respect_treaty
+	}
+	completion_reward = {
+		1182 = {
+			add_claim_by = ROOT
+			OWNER = {
+				ROOT = {
+					if = {
+						limit = { NOT = { has_wargoal_against = PREV } }
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+	}
+	bypass = {
+		SAM = {
+			has_completed_focus = Oceania_generic_pursue_dutch_cooperation
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_incorporate_bulungan
+	icon = GFX_goal_generic_dangerous_deal
+	cost = 75
+	available = {
+		date > 1882.01.01	
+		1175 = {
+			OWNER = {
+				if = {
+					limit = { 
+						OR = {
+							TAG = BUN
+							TAG = SAM
+						}
+					}
+					NOT = { has_completed_focus = Oceania_generic_pursue_dutch_cooperation }
+				}
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_colonial_subject
+					NOT = {
+						is_subject_of = FRA
+						is_subject_of = ENG
+						AND = {
+							is_subject_of = CCH
+							CCH = { is_subject_of = FRA }
+						}
+						AND = {
+							is_subject_of = SRW
+							SRW = { is_subject_of = ENG }
+						}
+					}
+					NOT = { is_subject_of = OTO }
+				}
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_indonesia_colonial_expansion_war_exhaustion_trigger
+			NOT = { has_idea = INS_indonesia_colonial_expansion_war_exhaustion_idea }
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_not_in_colonial_expansion_war_trigger
+			NOT = {
+				has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			}
+		}
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_respect_treaty
+	prerequisite = {
+		focus = afr_colony_generic_ignore_treaty
+		focus = afr_colony_generic_respect_treaty
+	}
+	completion_reward = {
+		1175 = {
+			add_claim_by = ROOT
+			OWNER = {
+				ROOT = {
+					if = {
+						limit = { NOT = { has_wargoal_against = PREV } }
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+	}
+	bypass = {
+		BUN = {
+			has_completed_focus = Oceania_generic_pursue_dutch_cooperation
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_while_qing_is_weak
+	icon = GFX_goal_generic_more_territorial_claims
+	cost = 75
+	available = {
+		date > 1884.01.01
+		673 = {
+			OWNER = {
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_colonial_subject
+					NOT = {
+						is_subject_of = FRA
+						is_subject_of = ENG
+						AND = {
+							is_subject_of = CCH
+							CCH = { is_subject_of = FRA }
+						}
+						AND = {
+							is_subject_of = SRW
+							SRW = { is_subject_of = ENG }
+						}
+					}
+					NOT = { is_subject_of = OTO }
+				}
+			}
+		}
+	}
+	x = 2
+	y = 1
+	relative_position_id = afr_colony_generic_respect_treaty
+	prerequisite = {
+		focus = afr_colony_generic_ignore_treaty
+		focus = afr_colony_generic_respect_treaty
+	}
+	completion_reward = {
+		673 = {
+			add_claim_by = ROOT
+			OWNER = {
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 200
+					}
+				}
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = 200
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_we_strike_lanfang
+	icon = GFX_focus_RAJ_lions_of_the_great_war
+	cost = 180
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = INS_indonesia_colonial_expansion_war_exhaustion_trigger
+			NOT = { has_idea = INS_indonesia_colonial_expansion_war_exhaustion_idea }
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_not_in_colonial_expansion_war_trigger
+			NOT = {
+				has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			}
+		}
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_while_qing_is_weak
+	prerequisite = {
+		focus = afr_colony_generic_while_qing_is_weak
+	}
+	completion_reward = {	
+		1183 = {
+			OWNER = { 
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_secure_the_south
+	icon = GFX_focus_RAJ_lions_of_the_great_war
+	cost = 75
+	available = {
+		date > 1886.01.01
+		custom_trigger_tooltip = {
+			tooltip = INS_indonesia_colonial_expansion_war_exhaustion_trigger
+			NOT = { has_idea = INS_indonesia_colonial_expansion_war_exhaustion_idea }
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_not_in_colonial_expansion_war_trigger
+			NOT = {
+				has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			}
+		}
+	}
+	x = 4
+	y = 1
+	relative_position_id = afr_colony_generic_respect_treaty
+	prerequisite = {
+		focus = afr_colony_generic_ignore_treaty
+		focus = afr_colony_generic_respect_treaty
+	}
+	completion_reward = {	
+		667 = {
+			add_claim_by = ROOT
+			OWNER = { 
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+		1187 = {
+			add_claim_by = ROOT
+			OWNER = { 
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+		1188 = {
+			add_claim_by = ROOT
+			OWNER = { 
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+		1189 = {
+			add_claim_by = ROOT
+			OWNER = { 
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_secure_the_east
+	icon = GFX_focus_RAJ_lions_of_the_great_war
+	cost = 75
+	available = {
+		date > 1890.01.01
+		custom_trigger_tooltip = {
+			tooltip = INS_indonesia_colonial_expansion_war_exhaustion_trigger
+			NOT = { has_idea = INS_indonesia_colonial_expansion_war_exhaustion_idea }
+		}
+		custom_trigger_tooltip = {
+			tooltip = INS_not_in_colonial_expansion_war_trigger
+			NOT = {
+				has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			}
+		}
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_secure_the_south
+	prerequisite = {
+		focus = afr_colony_generic_secure_the_south
+	}
+	completion_reward = {
+		673 = {
+			add_claim_by = ROOT
+			OWNER = { 
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+
+shared_focus = {
+	id = afr_colony_generic_dutch_gold_coast_diplomacy
+	icon = GFX_goal_focus_decentralisation_power
+	cost = 75
+	available = {
+		GDC = {
+			is_subject_of = HOL
+			exists = yes
+		}
+		is_subject_of = HOL
+	}
+	x = 20
+	y = 0
+	completion_reward = {	
+		add_opinion_modifier = { target = GDC modifier = eoanb_om_africa_trade_focus }
+		reverse_add_opinion_modifier = { target = GDC modifier = eoanb_om_africa_trade_focus }
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_gold_coast_ashanti_divisions
+	icon = GFX_focus_generic_little_entente
+	cost = 75
+	available = {
+		country_exists = ASH
+		GDC = {
+			is_subject_of = HOL
+			exists = yes
+			
+		}
+		GDC = { 
+			OR = {
+				has_completed_focus = afr_colony_generic_trick_the_brits
+				has_completed_focus = afr_colony_generic_respect_british_treaty
+			}
+		}
+		is_subject_of = HOL
+	}
+	prerequisite = {
+		focus = afr_colony_generic_dutch_gold_coast_diplomacy
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_dutch_gold_coast_diplomacy
+	completion_reward = {	
+		#this focus will trigger an event about inequality. If declined, it will trigger a civil war.
+		#Strength of civil war is dependent on which Dutch Gold Coast focus was chosen.
+		if = {
+			limit = {
+				GDC = {
+					has_completed_focus = afr_colony_generic_trick_the_brits
+				}
+			}
+			add_manpower = 3000
+		}
+		else_if = {
+			limit = {
+				GDC = {
+					has_completed_focus = afr_colony_generic_respect_british_treaty
+				}
+			}
+			add_manpower = 1000
+		}
+		custom_effect_tooltip = afr_colony_generic_gold_coast_ashanti_divisions_tooltip
+	}
+	allow_branch = {
+		TAG = INS
+	}
+}
+# Spanish Phillippines
+shared_focus = {
+	id = afr_colony_generic_conquer_mdn
+	icon = GFX_focus_RAJ_lions_of_the_great_war
+	cost = 75
+	available = {
+		date > 1888.01.01
+		627 = {
+			OWNER = {
+				if = {
+					limit = { 
+						OR = {
+							TAG = BUN
+							TAG = SAM
+						}
+					}
+					NOT = { has_completed_focus = Oceania_generic_pursue_dutch_cooperation }
+				}
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_colonial_subject
+					NOT = {
+						is_subject_of = FRA
+						is_subject_of = ENG
+						AND = {
+							is_subject_of = CCH
+							CCH = { is_subject_of = FRA }
+						}
+						AND = {
+							is_subject_of = SRW
+							SRW = { is_subject_of = ENG }
+						}
+					}
+					NOT = { is_subject_of = OTO }
+				}
+			}
+		}
+	}
+	x = 20
+	y = 0
+	completion_reward = {	
+		627 = {
+			add_claim_by = ROOT
+			OWNER = { 
+				ROOT = {
+					if = {
+						limit = { NOT = { has_war_with = PREV } }
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+						add_ai_strategy = {
+							type = declare_war
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = SPH
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_integrate_mdn
+	icon = GFX_goal_focus_decentralisation_power
+	cost = 75
+	available = {
+		owns_state = 627
+	}
+	prerequisite = {
+		focus = afr_colony_generic_conquer_mdn
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_conquer_mdn
+	completion_reward = {	
+		add_state_core = 627
+		add_stability = -0.05
+	}
+	allow_branch = {
+		TAG = SPH
+	}
+}
+# Dutch Gold Coast
+shared_focus = {
+	id = afr_colony_generic_ashanti_diplomacy
+	icon = GFX_goal_focus_decentralisation_power
+	cost = 75
+	available = {
+		country_exists = ASH
+	}
+	x = 23
+	y = 0
+	completion_reward = {	
+		country_event = { id = GDC_ASH_diplomacy_event.1 }
+	}
+	allow_branch = {
+		TAG = GDC
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_trick_the_brits
+	icon = GFX_focus_CZE_german_puppet
+	cost = 75
+	available = {
+		country_exists = ASH
+		has_completed_focus = afr_colony_generic_focus_reform_regional_military
+	}
+	prerequisite = {
+		focus = afr_colony_generic_ashanti_diplomacy
+	}
+	mutually_exclusive = {
+		focus = afr_colony_generic_respect_british_treaty
+	}
+	x = 0
+	y = 1
+	relative_position_id = afr_colony_generic_ashanti_diplomacy
+	completion_reward = {	
+		activate_decision = AFR_interstate_slave_trade_consumer
+		set_country_flag = GDC_has_tricked_the_brits
+		custom_effect_tooltip = LIB_arms_for_slaves_trade_tooltip
+		if = { 
+			limit = { ROOT = { owns_state = 1108 } }
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			1108 = { 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 trigger_for = controller } }
+			}
+		}
+		else = {
+			ROOT = {
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				capital_scope = { 
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 trigger_for = controller } }					
+				}
+			}
+		}
+	}
+	allow_branch = {
+		TAG = GDC
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_respect_british_treaty
+	icon = GFX_idea_ENG_focus_enact_law_uk
+	cost = 75
+	available = {
+		country_exists = ASH
+		has_completed_focus = afr_colony_generic_focus_reform_regional_military
+	}
+	prerequisite = {
+		focus = afr_colony_generic_ashanti_diplomacy
+	}
+	mutually_exclusive = {
+		focus = afr_colony_generic_trick_the_brits
+	}
+	x = -2
+	y = 1
+	relative_position_id = afr_colony_generic_ashanti_diplomacy
+	completion_reward = {	
+		
+		
+	}
+	allow_branch = {
+		TAG = GDC
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_ashanti_manpower
+	icon = GFX_focus_generic_little_entente
+	cost = 75
+	available = {
+		country_exists = ASH
+	}
+	prerequisite = {
+		focus = afr_colony_generic_respect_british_treaty
+		focus = afr_colony_generic_trick_the_brits
+	}
+	x = -1
+	y = 2
+	relative_position_id = afr_colony_generic_ashanti_diplomacy
+	completion_reward = {	
+		add_manpower = 1000
+	}
+	allow_branch = {
+		TAG = GDC
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_ashanti_destabilize_the_region
+	icon = GFX_goal_focus_imperialism
+	cost = 75
+	available = {
+		country_exists = ASH
+	}
+	prerequisite = {
+		focus = afr_colony_generic_ashanti_diplomacy
+	}
+	x = 2
+	y = 1
+	relative_position_id = afr_colony_generic_ashanti_diplomacy
+	completion_reward = {	
+		
+		
+	}
+	allow_branch = {
+		TAG = GDC
+	}
+}
+# French Senegal
+shared_focus = {
+	id = afr_colony_generic_french_approval
+	icon = GFX_goal_focus_french_algeria_citizenship
+	cost = 75
+	available = {
+		is_subject_of = FRA
+		has_completed_focus = afr_colony_generic_focus_strengthen_government
+	}
+	prerequisite = {
+	}
+	x = 24
+	y = 0
+	completion_reward = {	
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			add_political_power = -100
+			add_autonomy_ratio = {
+				value = 0.075
+				localization = afr_colony_generic_focus_strengthen_government
+			}
+		}
+		else = {
+			add_political_power = -50
+			army_experience = 5
+		}
+		FTT = {
+			add_ai_strategy = {
+				type = prepare_for_war
+				id = SNG
+				value = 200
+			}
+		}
+		add_ai_strategy = {
+			type = prepare_for_war
+			id = FTT
+			value = 200
+		}
+	}
+	ai_will_do = {
+		factor = 100000
+	}
+	allow_branch = {
+		TAG = SNG
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_french_senegal_trarza_core
+	icon = GFX_goal_focus_french_algeria_assimilation
+	cost = 75
+	available = {
+		is_subject_of = FRA
+		OR = {
+			TRZ = {
+				custom_trigger_tooltip = {
+					tooltip = afr_colony_generic_french_senegal_trarza_core_tooltip
+					OR = {
+						NOT = { has_country_flag = TRZ_northern_senegal_claims }
+						exists = no
+					}
+				}
+			}
+			date > 1870.01.01
+		}
+			
+	}
+	prerequisite = {
+		focus = afr_colony_generic_french_approval
+	}
+	x = -1
+	y = 1
+	relative_position_id = afr_colony_generic_french_approval
+	completion_reward = {	
+		866 = {
+			set_state_name = "Northern Senegal"
+			add_core_of = SNG
+		}
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		866 = { 
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 trigger_for = controller } }
+		}
+		TRZ = { remove_state_core = 866 }
+		
+	}
+	ai_will_do = {
+		factor = 100000
+	}
+	allow_branch = {
+		TAG = SNG
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_french_senegal_prepare_war
+	icon = GFX_goal_focus_colonial_empire_france
+	cost = 75
+	available = {
+		is_subject_of = FRA
+	}
+	prerequisite = {
+		focus = afr_colony_generic_french_approval
+	}
+	x = 1
+	y = 1
+	relative_position_id = afr_colony_generic_french_approval
+	completion_reward = {	
+		add_war_support = 0.15
+		set_technology = {
+			land_doctrine_victorian = 1
+		}
+		add_state_claim = 865
+		add_state_claim = 864
+	}
+	ai_will_do = {
+		factor = 100000
+	}
+	allow_branch = {
+		TAG = SNG
+	}
+}
+shared_focus = {
+	id = afr_colony_generic_french_senegal_war
+	icon = GFX_goal_focus_expand_french_algeria
+	cost = 75
+	available = {
+		country_exists = FTT
+		is_subject_of = FRA
+	}
+	prerequisite = {
+		focus = afr_colony_generic_french_senegal_prepare_war
+	}
+	x = 1
+	y = 2
+	relative_position_id = afr_colony_generic_french_approval
+	completion_reward = {	
+		declare_war_on = {
+			target = FTT
+			type = annex_everything
+		}
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		864 = { 
+			custom_effect_tooltip = AFR_Racial_Tension_plus_1
+		}
+		hidden_effect = {
+			ROOT = {
+				#capital_scope = { state_event = { id = afr_rrp_racial_tension_increase.1 trigger_for = controller } }
+			}
+			SNG = { set_country_flag = afr_colony_generic_french_senegal_war_flag }
+		}
+	}
+	ai_will_do = {
+		factor = 10
+	}
+	allow_branch = {
+		TAG = SNG
+	}
+}
+
+#focus = {
+	#	id = afr_colony_generic_recognize_csa
+	#	icon = GFX_goal_focus_recognize_csa
+	#	cost = 70
+	#	ai_will_do = { factor = 1 }
+	#	available = {
+	#		always = no
+	#	}
+	#	prerequisite = {
+	#		focus = afr_colony_generic_american_civil_war
+	#	}
+	#	mutually_exclusive = {
+	#		focus = afr_colony_generic_strict_neutrality
+	#		focus = afr_colony_generic_aid_the_usa
+	#	}
+	#	available = {
+	#		
+	#	}
+	#	x = 2
+	#	y = 1
+	#	relative_position_id = afr_colony_generic_american_civil_war
+	#	
+	#	completion_reward = {
+	#		hidden_effect = {
+	#			#Need localization and new opinion modifiers
+	#			#CSA = {
+	#			#	add_opinion_modifier = {
+	#			#		target = ROOT
+	#			#		modifier = FRA_recognition_csa
+	#			#	}
+	#			#}
+	#		}
+	#			USA = {
+	#				add_opinion_modifier = {
+	#					target = ROOT
+	#					modifier = FRA_recognition_csa_us_view
+	#				}
+	#			}
+	#		add_political_power = 50
+	#		
+	#	}
+	#	allow_branch = {
+	#		NOT = { has_idea = AFR_netherland_colony }
+	#		NOT = { has_idea = AFR_netherland_colony_tribute }
+	#		NOT = { has_idea = AFR_spanish_colony }
+	#		NOT = { has_idea = AFR_spanish_colony_tribute }
+	#	}
+	#}
+	#focus = {
+	#	id = afr_colony_generic_support_the_south
+	#	icon = GFX_goal_focus_confederate_collaboration
+	#	cost = 70
+	#	ai_will_do = { factor = 1 }
+	#	prerequisite = {
+	#		focus = afr_colony_generic_recognize_csa
+	#	}
+	#	x = 2
+	#	y = 2
+	#	relative_position_id = afr_colony_generic_american_civil_war
+	#	completion_reward = {
+	#		set_rule = { can_send_volunteers = yes }
+	#		add_political_power = 100
+	#		add_stability = -0.01
+	#		hidden_effect = {
+	#			CSA = {
+	#				add_ai_strategy = {
+	#					type = befriend
+	#					id = ROOT
+	#					value = 100
+	#				}
+	#			}  	
+	#		}
+	#	}
+	#	allow_branch = {
+	#		NOT = { has_idea = AFR_netherland_colony }
+	#		NOT = { has_idea = AFR_netherland_colony_tribute }
+	#		NOT = { has_idea = AFR_spanish_colony }
+	#		NOT = { has_idea = AFR_spanish_colony_tribute }
+	#	}
+	#}
+	
+	#focus = {
+	#	id = afr_colony_generic_covert_slave_trade
+	#	icon = GFX_goal_focus_confederate_slave_trade
+	#	cost = 70
+	#	ai_will_do = { factor = 1 }
+	#	available = {
+	#		has_idea = AFR_illegal_transatlantic
+	#	}
+	#	prerequisite = {
+	#		focus = afr_colony_generic_support_the_south
+	#	}
+	#	x = 2
+	#	y = 3
+	#	relative_position_id = afr_colony_generic_american_civil_war
+	#	completion_reward = {
+	#		CSA = {
+	#			add_manpower = 5000
+	#		}
+	#		add_manpower = 5000
+	#		add_political_power = 50
+	#		add_stability = -0.01
+	#	}
+	#	allow_branch = {
+	#		NOT = { has_idea = AFR_netherland_colony }
+	#		NOT = { has_idea = AFR_netherland_colony_tribute }
+	#		NOT = { has_idea = AFR_spanish_colony }
+	#		NOT = { has_idea = AFR_spanish_colony_tribute }
+	#	}
+	#}
+#focus = {
+	#	id = afr_colony_generic_aid_the_usa
+	#	icon = GFX_goal_support_democracy
+	#	cost = 70
+	#	ai_will_do = { factor = 1 }
+	#	available = {
+	#		always = no
+	#	}
+	#	prerequisite = {
+	#		focus = afr_colony_generic_american_civil_war
+	#	}
+	#	mutually_exclusive = {
+	#		focus = afr_colony_generic_recognize_csa
+	#		focus = afr_colony_generic_strict_neutrality
+	#	}
+	#	x = -2
+	#	y = 1
+	#	relative_position_id = afr_colony_generic_american_civil_war
+	#	completion_reward = {
+	#		add_stability = 0.01	
+	#	}
+	#	allow_branch = {
+	#			NOT = { has_idea = AFR_netherland_colony }
+	#			NOT = { has_idea = AFR_netherland_colony_tribute }
+	#			NOT = { has_idea = AFR_spanish_colony }
+	#			NOT = { has_idea = AFR_spanish_colony_tribute }
+	#	}
+	#}
+	#focus = {
+	#	id = afr_colony_generic_support_the_north
+	#	icon = GFX_focus_chi_mission_to_the_us
+	#	cost = 70
+	#	ai_will_do = { factor = 1 }
+	#	prerequisite = {
+	#		focus = afr_colony_generic_aid_the_usa
+	#	}
+	#	completion_reward = {
+	#		set_rule = { can_send_volunteers = yes }
+	#		add_political_power = 100
+	#		add_stability = -0.01
+	#		hidden_effect = {
+	#			USA = {
+	#				add_ai_strategy = {
+	#					type = befriend
+	#					id = ROOT
+	#					value = 100
+	#				}
+	#			}  	
+	#		}
+	#	}
+	#	x = -2
+	#	y = 2
+	#	relative_position_id = afr_colony_generic_american_civil_war
+	#	allow_branch = {
+	#		NOT = { has_idea = AFR_netherland_colony }
+	#		NOT = { has_idea = AFR_netherland_colony_tribute }
+	#		NOT = { has_idea = AFR_spanish_colony }
+	#		NOT = { has_idea = AFR_spanish_colony_tribute }
+	#	}
+	#}
+	
+	#focus = {
+	#	id = afr_colony_generic_covert_weapons_deal
+	#	icon = GFX_goal_generic_trade
+	#	cost = 70
+	#	ai_will_do = { factor = 1 }
+	#	prerequisite = {
+	#		focus = afr_colony_generic_support_the_north
+	#	}
+	#	completion_reward = {
+	#	298 = {
+	#		add_manpower = 15000
+	#	}
+	#	}
+	#	x = -2
+	#	y = 3
+	#	relative_position_id = afr_colony_generic_american_civil_war
+	#	allow_branch = {
+	#		NOT = { has_idea = AFR_netherland_colony }
+	#		NOT = { has_idea = AFR_netherland_colony_tribute }
+	#		NOT = { has_idea = AFR_spanish_colony }
+	#		NOT = { has_idea = AFR_spanish_colony_tribute }
+	#	}
+	#}

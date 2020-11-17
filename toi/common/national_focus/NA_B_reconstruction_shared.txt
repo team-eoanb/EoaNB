@@ -1,0 +1,1252 @@
+shared_focus = {
+	id = NA_B_recon_infrastructure_effort_1
+	icon = GFX_goal_generic_construct_infrastructure
+	cost = 56
+	x = 16
+	y = 0
+	offset = {
+		x = 15
+		y = 0
+		trigger = {
+			tag = KNS
+		}
+	}
+	available={
+		NOT={has_country_flag = NA_B_infrastructure_progress_disabled}
+	}
+	available_if_capitulated = no
+	ai_will_do = { base = 10 }
+	available = {
+		
+	}
+	completion_reward = {
+	}
+}
+shared_focus = {
+	id = NA_B_recon_infrastructure_effort_2
+	icon = GFX_focus_na_b_our_fractured_trade
+	cost = 70
+	relative_position_id = NA_B_recon_infrastructure_effort_1
+	x = -4
+	y = 1
+	available_if_capitulated = no
+	ai_will_do = { base = 10 }
+	prerequisite = { focus = NA_B_recon_infrastructure_effort_1 }
+	available = {
+		
+	}
+	completion_reward = {
+		add_political_power = -25
+	}
+}
+shared_focus = {
+	id = NA_B_recon_standard_rails
+	icon = GFX_goal_focus_railroad_development
+	cost = 70
+
+	prerequisite = { focus = NA_B_recon_infrastructure_effort_2 }
+	relative_position_id = NA_B_recon_infrastructure_effort_2
+	x = 0
+	y = 1
+
+	available_if_capitulated = no
+	ai_will_do = { base = 10 }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = NA_B_funds_secured_tooltip
+			has_country_flag = NA_B_taxation_legislation_passed_flag
+		}
+	}
+	completion_reward = {
+		country_event = { id = NA_B_generic_legislation.1 days = 30 random = 20 }
+	}
+}
+shared_focus = {
+	id = NA_B_recon_private_construction
+	icon = GFX_focus_generic_treaty
+	cost = 56
+	prerequisite = { focus = NA_B_recon_standard_rails }
+	relative_position_id = NA_B_recon_standard_rails
+	x = 0
+	y = 1
+	ai_will_do = { base = 5 }
+	completion_reward = {
+		#Unlock a Infrastructure Decision
+	}
+}
+shared_focus = {
+	id = NA_B_recon_industrialize_1
+	icon = GFX_focus_na_b_domestic_economic_legislation
+	cost = 105
+	prerequisite = { focus = NA_B_recon_infrastructure_effort_1 }
+	relative_position_id = NA_B_recon_infrastructure_effort_1
+	x = 4
+	y = 1
+	available_if_capitulated = no
+	available = {
+	}
+	ai_will_do = { base = 20 }
+	completion_reward = {
+	}
+}
+shared_focus = {
+	id = NA_B_recon_resource_surveys
+	icon = GFX_focus_generic_steel
+	cost = 56
+	prerequisite = { focus = NA_B_recon_industrialize_1 }
+	relative_position_id = NA_B_recon_industrialize_1
+	x = -4
+	y = 1
+
+	ai_will_do = { base = 10 }
+
+	completion_reward = {
+		# Resource Survey Decisions
+	}
+}
+shared_focus = {
+	id = NA_B_recon_land_reforms
+	icon = GFX_goal_focus_reform_administration
+	cost = 56
+	prerequisite = { focus = NA_B_recon_resource_surveys }
+	relative_position_id = NA_B_recon_resource_surveys
+	x = 0
+	y = 1
+	ai_will_do = { base = 5 }
+	completion_reward = {
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 1
+		}
+	}
+}
+shared_focus = {
+	id = NA_B_recon_nationalized_farms
+	icon = GFX_focus_ITA_Wheat
+	cost = 70
+	prerequisite = { focus = NA_B_recon_land_reforms }
+	relative_position_id = NA_B_recon_land_reforms
+	x = -1
+	y = 1
+	available_if_capitulated = no
+	ai_will_do = { base = 10 }
+	completion_reward = {
+		random_owned_controlled_state = {
+			add_building_construction = {
+				type = farm
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+}
+shared_focus = {
+	id = NA_B_recon_construct_focus
+	icon = GFX_goal_generic_construction2
+	cost = 35
+	prerequisite = { focus = NA_B_recon_private_construction }
+	relative_position_id = NA_B_recon_private_construction
+	x = 0
+	y = 2
+	ai_will_do = { base = 5 }
+
+	completion_reward = {
+		#Idea that speeds up construction a bit
+	}
+}
+shared_focus = {
+	id = NA_B_recon_production_focus
+	icon = GFX_goal_generic_production
+	cost = 35
+	prerequisite = { focus = NA_B_recon_land_reforms }
+	relative_position_id = NA_B_recon_land_reforms
+	x = 0
+	y = 2
+
+	ai_will_do = { base =  5 }
+
+	completion_reward = {
+		#Idea that speeds up production a bit
+	}
+}
+shared_focus = {
+	id = NA_B_recon_industrialize_2
+	icon = GFX_goal_focus_industrial_revolution
+	cost = 105
+	prerequisite = { focus = NA_B_recon_construct_focus }
+	prerequisite = { focus = NA_B_recon_production_focus }
+	relative_position_id = NA_B_recon_construct_focus
+	x = 4
+	y = 1
+	available = {
+		has_political_power > 0
+		OR = {
+		  date > 1875.7.1
+		  num_of_factories > 5
+		}
+	}
+	ai_will_do = { base = 20 }
+	completion_reward = {
+		random_owned_controlled_state = {
+			limit = {
+				OR = {
+				  is_capital = yes
+				  is_coastal = yes
+				}
+			}
+			add_extra_state_shared_building_slots = 1
+		}
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 1
+		}
+		if = {
+			limit = {
+				num_of_controlled_states > 3
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+			add_political_power = -135
+			}
+		else = {
+			add_political_power = -100
+		}
+		if = {
+			limit = { has_idea = industrializing }
+			swap_ideas = {
+				remove_idea = industrializing
+				add_idea = industrialized
+			}
+		}
+	}
+}
+shared_focus = {
+  id = NA_B_recon_consumer_concern
+  icon = GFX_goal_generic_consumer_goods
+  cost = 140
+
+  prerequisite = { focus = NA_B_recon_industrialize_2 }
+  relative_position_id = NA_B_recon_industrialize_2
+  x = 0
+  y = 1
+
+  mutually_exclusive = { focus = NA_B_recon_balanced_concern }
+  mutually_exclusive = { focus = NA_B_recon_military_concern }
+  available = { has_political_power > 85 }
+  available_if_capitulated = no
+  ai_will_do = { base = 10 }
+  bypass = {
+    OR = {
+      num_of_controlled_states > 25
+      has_capitulated = yes
+    }
+  }
+
+  completion_reward = {
+    add_political_power = -85
+    add_offsite_building = {
+      type = industrial_complex
+      level = 2
+    }
+  }
+}
+shared_focus = {
+	id = NA_B_recon_engineering_effort_1
+	icon = GFX_focus_secret_rearmament
+	cost = 56
+	prerequisite = { focus = NA_B_recon_industrialize_1 }
+	relative_position_id = NA_B_recon_industrialize_1
+	x = 0
+	y = 1
+	ai_will_do = { base = 8 }
+	completion_reward = {
+		country_event = { id = NA_B_generic_legislation.2 days = 30 random = 20 }
+	}
+}
+shared_focus = {
+	id = NA_B_recon_engineering_effort_2
+	icon = GFX_focus_secret_rearmament
+	cost = 56
+	prerequisite = { focus = NA_B_recon_engineering_effort_1 }
+	relative_position_id = NA_B_recon_engineering_effort_1
+	x = 0
+	y = 1
+
+	ai_will_do = { base = 8 }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = NA_B_funds_secured_tooltip
+			has_country_flag = NA_B_taxation_legislation_passed_flag
+		}
+	}
+	completion_reward = {
+		country_event = { id = NA_B_generic_legislation.3 days = 30 random = 20 }
+	}
+}
+shared_focus = {
+	id = NA_B_recon_steel_industry_investment
+	icon = GFX_focus_na_b_fund_steel
+	cost = 56
+	prerequisite = { focus = NA_B_recon_engineering_effort_2 }
+	prerequisite = { focus = NA_B_recon_civilian_research_grants }
+	relative_position_id = NA_B_recon_engineering_effort_2
+	x = 1
+	y = 1
+	ai_will_do = { base = 8 }
+	available = {
+		has_country_flag = NA_B_industry_subsidization_bill_passed_flag
+	}
+	completion_reward = {
+		add_tech_bonus = {
+		  category = biochemistry_tech
+		  bonus = 0.5
+		  uses = 1
+		}
+		add_tech_bonus = {
+		  category = electronics_devices_tech
+		  bonus = 0.5
+		  uses = 1
+		}
+	}
+}
+shared_focus = {
+	id = NA_B_recon_machine_parts_investment
+	icon = GFX_focus_na_b_fund_factory
+	cost = 56
+	prerequisite = { focus = NA_B_recon_engineering_effort_2 }
+	prerequisite = { focus = NA_B_recon_civilian_research_grants }
+	relative_position_id = NA_B_recon_engineering_effort_2
+	x = -1
+	y = 1
+	ai_will_do = { base = 8 }
+	available = {
+		has_country_flag = NA_B_industry_subsidization_bill_passed_flag
+	}
+	completion_reward = {
+		add_tech_bonus = {
+		  category = biochemistry_tech
+		  bonus = 0.5
+		  uses = 1
+		}
+		add_tech_bonus = {
+		  category = electronics_devices_tech
+		  bonus = 0.5
+		  uses = 1
+		}
+	}
+}
+shared_focus = {
+  id = NA_B_recon_interstate_railroads
+  icon = GFX_goal_focus_railroad_development
+  cost = 42
+
+  prerequisite = { focus = NA_B_recon_steel_industry_investment }
+  prerequisite = {
+    focus = NA_B_recon_construct_focus
+    focus = NA_B_recon_production_focus
+  }
+  relative_position_id = NA_B_recon_steel_industry_investment
+  x = -1
+  y = 2
+
+  available_if_capitulated = no
+  ai_will_do = {
+    base = 10
+    modifier = {
+      any_owned_state = {
+        has_state_flag = NA_B_rail_hub
+      }
+      add = 100
+    }
+  }
+
+  completion_reward = {
+    # Unlock Transcontinental Rail Decisions
+  }
+  allow_branch = { always = no }
+}
+shared_focus = {
+  id = NA_B_recon_academic_effort_1
+  icon = GFX_focus_na_b_push_education_legislation
+  cost = 56
+
+  relative_position_id = NA_B_recon_infrastructure_effort_1
+  x = 7
+  y = 0
+
+  ai_will_do = { base = 8 }
+
+  available = {
+    NOT = { has_country_flag = NA_B_academic_progress_disabled }
+  }
+
+  completion_reward = {
+    add_tech_bonus = {
+      category = humanities_tech
+      bonus = 0.6
+      uses = 1
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_found_a_university
+  icon = GFX_focus_na_b_state_universities
+  cost = 105
+
+  prerequisite = { focus = NA_B_recon_academic_effort_1 }
+  relative_position_id = NA_B_recon_academic_effort_1
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 10 }
+  bypass = {
+    OR = {
+      has_idea = machine_era
+      has_idea = oil_era
+      has_idea = aviation_era
+      has_idea = modern_era
+      has_idea = atomic_era
+      has_idea = information_era
+    }
+  }
+
+  completion_reward = {
+    # add idea tech bonuses
+  }
+}
+shared_focus = {
+  id = NA_B_recon_academic_effort_2
+  icon = GFX_focus_na_b_state_sponsorship_of_academics
+  cost = 56
+
+  prerequisite = { focus = NA_B_recon_found_a_university }
+  relative_position_id = NA_B_recon_found_a_university
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 8 }
+
+  completion_reward = {
+    add_tech_bonus = {
+      category = humanities_tech
+      bonus = 0.6
+      uses = 1
+    }
+  }
+}
+shared_focus = {
+	id = NA_B_recon_civilian_research_grants
+	icon = GFX_goal_school_opening_focus
+	cost = 42
+	prerequisite = { focus = NA_B_recon_engineering_effort_1 }
+	prerequisite = { focus = NA_B_recon_academic_effort_2 }
+	relative_position_id = NA_B_recon_academic_effort_2
+	x = -1
+	y = 1
+	ai_will_do = { base = 5 }
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = NA_B_funds_secured_tooltip
+			has_country_flag = NA_B_taxation_legislation_passed_flag
+		}
+	}
+	completion_reward = {
+		add_tech_bonus = {
+		  category = process_engineering_tech
+		  bonus = 0.6
+		  uses = 1
+		}
+	}
+}
+shared_focus = {
+  id = NA_B_recon_study_aviation
+  icon = GFX_focus_na_b_study_aviation
+  cost = 56
+
+  prerequisite = { focus = NA_B_recon_academic_effort_2 }
+  relative_position_id = NA_B_recon_academic_effort_2
+  x = 0
+  y = 2
+
+  available = { has_tech = balloon_designs }
+
+  completion_reward = {
+    air_experience = 15
+    add_tech_bonus = {
+      category = aviation_tech
+      bonus = 0.3
+      uses = 1
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_support_focus
+  icon = GFX_goal_generic_production2
+  cost = 42
+
+  prerequisite = { focus = NA_B_recon_academic_effort_2 }
+  relative_position_id = NA_B_recon_academic_effort_2
+  x = 1
+  y = 1
+
+  ai_will_do = { base = 8 }
+  bypass = { date > 1890.1.1 }
+
+  completion_reward = {
+    add_tech_bonus = {
+      category = support_tech
+      uses = 2
+      bonus = 0.4
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_militia_effort_1
+  icon = GFX_focus_generic_military_academy
+  cost = 70
+
+  relative_position_id = NA_B_recon_academic_effort_1
+  x = 4
+  y = 0
+
+  ai_will_do = { base = 15 }
+  available = {
+    has_political_power > 20
+    NOT = { has_country_flag = NA_B_militia_progress_disabled }
+  }
+
+  completion_reward = {
+    army_experience = 5
+  }
+}
+shared_focus = {
+  id = NA_B_recon_militia_effort_2
+  icon = GFX_goal_SWE_infantry_supremacy
+  cost = 70
+
+  relative_position_id = NA_B_recon_militia_effort_1
+  prerequisite = { focus = NA_B_recon_militia_effort_1 }
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 15 }
+  available = {
+    has_political_power > 20
+  }
+
+  completion_reward = {
+    add_political_power = -20
+    army_experience = 5
+  }
+}
+shared_focus = {
+  id = NA_B_recon_establish_army
+  icon =  GFX_goal_generic_territory_or_war
+  cost = 70
+
+  relative_position_id = NA_B_recon_militia_effort_2
+  prerequisite = { focus = NA_B_recon_militia_effort_2 }
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 15 }
+  available = {
+    has_political_power > 50
+  }
+
+  completion_reward = {
+    add_political_power = -50
+    army_experience = 15
+    add_manpower = 1500
+  }
+}
+shared_focus = {
+  id = NA_B_recon_small_arms_effort_1
+  icon =  GFX_goal_generic_small_arms
+  cost = 42
+
+  relative_position_id = NA_B_recon_establish_army
+  prerequisite = { focus = NA_B_recon_establish_army }
+  x = -1
+  y = 1
+
+  ai_will_do = { base = 15 }
+
+  completion_reward = {
+    if = {
+      limit = { num_of_controlled_states > 6 }
+      add_equipment_to_stockpile = {
+        type = infantry_equipment_rifle_1
+        amount = 5000
+        producer = USA
+      }
+    }
+    else_if = {
+      limit = { num_of_controlled_states > 3 }
+      add_equipment_to_stockpile = {
+        type = infantry_equipment_rifle_1
+        amount = 3200
+        producer = USA
+      }
+    }
+    else = {
+      add_equipment_to_stockpile = {
+        type = infantry_equipment_rifle_1
+        amount = 1200
+        producer = USA
+      }
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_cavalry_effort_1
+  icon =  GFX_goal_generic_cavalry
+  cost = 42
+
+  relative_position_id = NA_B_recon_establish_army
+  prerequisite = { focus = NA_B_recon_establish_army }
+  x = 1
+  y = 1
+
+  ai_will_do = { base = 15 }
+
+  completion_reward = {
+    if = {
+      limit = { num_of_controlled_states > 6 }
+      add_equipment_to_stockpile = {
+        type = infantry_equipment_rifle_1
+        amount = 1100
+        producer = USA
+      }
+    }
+    else_if = {
+      limit = { num_of_controlled_states > 3 }
+      add_equipment_to_stockpile = {
+        type = cavalry_equipment
+        amount = 750
+        producer = USA
+      }
+    }
+    else = {
+      add_equipment_to_stockpile = {
+        type = cavalry_equipment
+        amount = 300
+        producer = USA
+      }
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_army_reform
+  icon =  GFX_focus_generic_military_mission
+  cost = 70
+
+  relative_position_id = NA_B_recon_cavalry_effort_1
+  prerequisite = { focus = NA_B_recon_cavalry_effort_1 }
+  prerequisite = { focus = NA_B_recon_small_arms_effort_1 }
+  prerequisite = { focus = NA_B_recon_support_focus }
+  x = -2
+  y = 1
+
+  ai_will_do = { base = 15 }
+
+  completion_reward = {
+    army_experience = 35
+  }
+}
+shared_focus = {
+  id = NA_B_recon_army_speed
+  icon =  GFX_goal_generic_navy_doctrines_tactics
+  cost = 70
+
+  relative_position_id = NA_B_recon_army_reform
+  prerequisite = { focus = NA_B_recon_army_reform }
+  x = -1
+  y = 1
+
+  ai_will_do = { base = 5 }
+  mutually_exclusive = { focus = NA_B_recon_army_power }
+
+  completion_reward = {
+    # add idea
+  }
+}
+shared_focus = {
+  id = NA_B_recon_army_power
+  icon =  GFX_goal_generic_army_doctrines
+  cost = 70
+
+  relative_position_id = NA_B_recon_army_reform
+  prerequisite = { focus = NA_B_recon_army_reform }
+  x = 1
+  y = 1
+
+  ai_will_do = { base = 5 }
+  mutually_exclusive = { focus = NA_B_recon_army_speed }
+
+  completion_reward = {
+    # add idea
+  }
+}
+shared_focus = {
+  id = NA_B_recon_small_arms_effort_2
+  icon =  GFX_goal_generic_small_arms
+  cost = 56
+
+  relative_position_id = NA_B_recon_army_speed
+  prerequisite = {
+    focus = NA_B_recon_army_speed
+    focus = NA_B_recon_army_power
+  }
+  x = -2
+  y = 1
+
+  ai_will_do = { base = 10 }
+
+  completion_reward = {
+    if = {
+      limit = { num_of_controlled_states > 6 }
+      add_equipment_to_stockpile = {
+        type = infantry_equipment_rifle_1
+        amount = 1100
+        producer = USA
+      }
+    }
+    else_if = {
+      limit = { num_of_controlled_states > 3 }
+      add_equipment_to_stockpile = {
+        type = cavalry_equipment
+        amount = 750
+        producer = USA
+      }
+    }
+    else = {
+      add_equipment_to_stockpile = {
+        type = cavalry_equipment
+        amount = 300
+        producer = USA
+      }
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_doctrine_effort_1
+  icon =  GFX_goal_generic_position_armies
+  cost = 70
+
+  relative_position_id = NA_B_recon_army_speed
+  prerequisite = {
+    focus = NA_B_recon_army_speed
+    focus = NA_B_recon_army_power
+  }
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 8 }
+
+  completion_reward = {
+    add_tech_bonus = {
+      category = land_doctrine
+      uses = 1
+      bonus = 0.4
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_doctrine_effort_2
+  icon =  GFX_goal_generic_position_armies
+  cost = 70
+
+  relative_position_id = NA_B_recon_army_speed
+  prerequisite = {
+    focus = NA_B_recon_army_speed
+    focus = NA_B_recon_army_power
+  }
+  x = 2
+  y = 1
+
+  ai_will_do = { base = 8 }
+
+  completion_reward = {
+    add_tech_bonus = {
+      category = land_doctrine
+      uses = 1
+      bonus = 0.4
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_revise_draft
+  icon =  GFX_goal_demand_sudetenland
+  cost = 56
+
+  relative_position_id = NA_B_recon_army_speed
+  prerequisite = {
+    focus = NA_B_recon_army_speed
+    focus = NA_B_recon_army_power
+  }
+  x = 4
+  y = 1
+
+  ai_will_do = { base = 10 }
+
+  completion_reward = {
+    # remove idea of bad draft
+  }
+}
+shared_focus = {
+  id = NA_B_recon_balanced_concern
+  icon =  GFX_focus_focus_generic_industry_1
+  cost = 140
+
+  relative_position_id = NA_B_recon_small_arms_effort_2
+  mutually_exclusive = { focus = NA_B_recon_consumer_concern }
+  mutually_exclusive = { focus = NA_B_recon_military_concern }
+  prerequisite = { focus = NA_B_recon_small_arms_effort_2 }
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 10 }
+  available = { has_political_power > 85 }
+  available_if_capitulated = no
+  bypass = {
+    OR = {
+      num_of_controlled_states > 25
+      has_capitulated = yes
+    }
+  }
+
+  completion_reward = {
+    add_political_power = -85
+    add_offsite_building = {
+      type = industrial_complex
+      level = 1
+    }
+    add_offsite_building = {
+      type = arms_factory
+      level = 1
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_military_concern
+  icon =  GFX_goal_generic_construct_mil_factory
+  cost = 140
+
+  relative_position_id = NA_B_recon_revise_draft
+  mutually_exclusive = { focus = NA_B_recon_consumer_concern }
+  mutually_exclusive = { focus = NA_B_recon_balanced_concern }
+  prerequisite = { focus = NA_B_recon_revise_draft }
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 10 }
+  available = { has_political_power > 85 }
+  available_if_capitulated = no
+  bypass = {
+    OR = {
+      num_of_controlled_states > 25
+      has_capitulated = yes
+    }
+  }
+
+  completion_reward = {
+    add_political_power = -85
+    add_offsite_building = {
+      type = industrial_complex
+      level = 1
+    }
+    add_offsite_building = {
+      type = arms_factory
+      level = 1
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_industrialize_3
+  icon =  GFX_goal_steel_production_focus
+  cost = 70
+
+  relative_position_id = NA_B_recon_balanced_concern
+  prerequisite = {
+    focus = NA_B_recon_consumer_concern
+    focus = NA_B_recon_balanced_concern
+    focus = NA_B_recon_military_concern
+  }
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 15 }
+  available = { has_political_power > 50 }
+  available_if_capitulated = no
+
+  completion_reward = {
+    add_political_power = -50
+    add_offsite_building = {
+      type = steel_mill
+      level = 1
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_continue_laisse_faire
+  icon =  GFX_goal_focus_the_elite
+  cost = 70
+
+  relative_position_id = NA_B_recon_industrialize_3
+  prerequisite = { focus = NA_B_recon_industrialize_3 }
+  x = 2
+  y = 1
+
+  ai_will_do = { base = 8 }
+  available = {
+    AND = {
+      NOT = { has_government = social_egalitarianism }
+      NOT = { has_government = vanguard_communism }
+      NOT = { has_government = collectivist_socialism }
+    }
+  }
+  available_if_capitulated = no
+
+  completion_reward = {
+    # add idea
+  }
+}
+shared_focus = {
+  id = NA_B_recon_soft_economic_reforms
+  icon =  GFX_goal_focus_increase_wages
+  cost = 70
+
+  relative_position_id = NA_B_recon_industrialize_3
+  prerequisite = { focus = NA_B_recon_industrialize_3 }
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 8 }
+  available = {
+    AND = {
+      NOT = { has_government = vanguard_communism }
+      NOT = { has_government = collectivist_socialism }
+      NOT = { has_government = chauvinist_populism }
+      NOT = { has_government = radical_democracy }
+    }
+  }
+  available_if_capitulated = no
+
+  completion_reward = {
+    # add idea
+  }
+}
+shared_focus = {
+  id = NA_B_recon_the_rights_of_workers
+  icon =  GFX_goal_focus_the_workers
+  cost = 70
+
+  relative_position_id = NA_B_recon_industrialize_3
+  prerequisite = { focus = NA_B_recon_industrialize_3 }
+  x = -2
+  y = 1
+
+  ai_will_do = { base = 8 }
+  available = {
+    AND = {
+      NOT = { has_government = traditional_conservatism }
+      NOT = { has_government = autocracy }
+      NOT = { has_government = chauvinist_populism }
+      NOT = { has_government = radical_democracy }
+    }
+  }
+  available_if_capitulated = no
+
+  completion_reward = {
+    # add idea
+  }
+}
+shared_focus = {
+  id = NA_B_recon_study_electricity
+  icon =  GFX_goal_focus_telegraph_lines
+  cost = 105
+
+  relative_position_id = NA_B_recon_soft_economic_reforms
+  prerequisite = {
+    focus = NA_B_recon_the_rights_of_workers
+    focus = NA_B_recon_soft_economic_reforms
+    focus = NA_B_recon_continue_laisse_faire
+  }
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 8 }
+  available = {
+    date > 1882.1.1
+  }
+  available_if_capitulated = no
+
+  completion_reward = {
+    # add idea
+  }
+}
+shared_focus = {
+  id = NA_B_recon_the_sea
+  icon =  GFX_goal_focus_generic_navy_ironclad
+  cost = 14
+
+  relative_position_id = NA_B_recon_militia_effort_1
+  x = 4
+  y = 0
+
+  ai_will_do = { base = 8 }
+  available = {
+    NOT = { has_country_flag = NA_B_navy_progress_disabled }
+    any_owned_state = { is_coastal = yes }
+  }
+
+  completion_reward = {
+    navy_experience = 5
+  }
+}
+shared_focus = {
+  id = NA_B_recon_secure_shorelines
+  icon =  GFX_goal_generic_navy_cruiser
+  cost = 70
+
+  prerequisite = { focus = NA_B_recon_the_sea }
+  relative_position_id = NA_B_recon_the_sea
+  x = -1
+  y = 1
+
+  ai_will_do = { base = 8 }
+  available = {
+    any_owned_state = { is_coastal = yes }
+  }
+  mutually_exclusive = { focus = NA_B_recon_secure_access }
+
+  completion_reward = {
+    navy_experience = 15
+  }
+}
+shared_focus = {
+  id = NA_B_recon_secure_access
+  icon =  GFX_goal_generic_intelligence_exchange
+  cost = 70
+
+  prerequisite = { focus = NA_B_recon_the_sea }
+  relative_position_id = NA_B_recon_the_sea
+  x = 1
+  y = 1
+
+  mutually_exclusive = { focus = NA_B_recon_secure_shorelines}
+  available_if_capitulated = no
+  ai_will_do = { base = 8 }
+  available = {
+    NOT = { any_owned_state = { is_coastal = no } }
+  }
+
+  completion_reward = {
+    add_political_power = 35
+  }
+}
+shared_focus = {
+  id = NA_B_recon_state_docks
+  icon = GFX_goal_generic_construct_naval_dockyard
+  cost = 140
+
+  prerequisite = {
+    focus = NA_B_recon_secure_shorelines
+    focus = NA_B_recon_secure_access
+  }
+  relative_position_id = NA_B_recon_secure_shorelines
+  x = 0
+  y = 1
+
+  available_if_capitulated = no
+  ai_will_do = { base = 20 }
+  available = {
+    any_owned_state = {
+      is_coastal = yes
+    }
+  }
+
+  completion_reward = {
+    random_owned_controlled_state = {
+      limit = { is_coastal = yes }
+      add_extra_state_shared_building_slots = 1
+      add_building_construction = {
+        type = dockyard
+        level = 1
+        instant_build = yes
+      }
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_procure_convoys
+  icon = GFX_goal_generic_navy_battleship
+  cost = 56
+
+  prerequisite = {
+    focus = NA_B_recon_state_docks
+    focus = NA_B_recon_secure_access
+  }
+  relative_position_id = NA_B_recon_secure_access
+  x = 0
+  y = 1
+
+  ai_will_do = { base = 10 }
+  available_if_capitulated = no
+  available = {
+    has_political_power > 45
+  }
+  bypass = {
+    has_equipment = {
+      convoy > 250
+    }
+  }
+
+  completion_reward = {
+    add_political_power = -45
+    add_equipment_to_stockpile = {
+      type = convoy
+      amount = 80
+      producer = USA
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_recruit_sailors
+  icon = GFX_goal_generic_navy_battleship
+  cost = 56
+
+  prerequisite = {
+    focus = NA_B_recon_state_docks
+  }
+  prerequisite = {
+    focus = NA_B_procure_convoys
+  }
+  relative_position_id = NA_B_recon_state_docks
+  x = 1
+  y = 1
+
+  ai_will_do = { base = 10 }
+  available_if_capitulated = no
+  available = {
+    has_political_power > 45
+    any_owned_state = { is_coastal = yes }
+  }
+
+  completion_reward = {
+    add_political_power = -45
+    add_manpower = 1500
+  }
+}
+shared_focus = {
+  id = NA_B_recon_brown_water
+  icon = GFX_goal_generic_navy_battleship
+  cost = 140
+
+  prerequisite = {
+    focus = NA_B_recon_recruit_sailors
+  }
+  relative_position_id = NA_B_recon_recruit_sailors
+  x = -1
+  y = 1
+
+  ai_will_do = { base = 10 }
+  available_if_capitulated = no
+  available = {
+    date > 1865.1.1
+    any_owned_state = { is_coastal = yes }
+  }
+  mutually_exclusive = { focus = NA_B_recon_blue_water }
+
+  completion_reward = {
+    navy_experience = 10
+    add_tech_bonus = {
+      category = naval_mtg_gunboat_tech
+      uses = 2
+      bonus = 0.4
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_blue_water
+  icon = GFX_goal_generic_navy_battleship
+  cost = 140
+
+  prerequisite = {
+    focus = NA_B_recon_recruit_sailors
+  }
+  relative_position_id = NA_B_recon_recruit_sailors
+  x = 1
+  y = 1
+
+  ai_will_do = { base = 10 }
+  available_if_capitulated = no
+  available = {
+    date > 1865.1.1
+    any_owned_state = { is_coastal = yes }
+  }
+  mutually_exclusive = { focus = NA_B_recon_brown_water }
+
+  completion_reward = {
+    navy_experience = 10
+    add_tech_bonus = {
+      category = naval_mtg_capital_ship_tech
+      uses = 2
+      bonus = 0.4
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_establish_navy
+  icon = GFX_goal_generic_navy_battleship
+  cost = 84
+
+  prerequisite = {
+    focus = NA_B_recon_brown_water
+    focus = NA_B_recon_blue_water
+  }
+  relative_position_id = NA_B_recon_brown_water
+  x = 1
+  y = 1
+
+  ai_will_do = { base = 10 }
+  available_if_capitulated = no
+  available = {
+    date > 1866.1.1
+    has_political_power > 50
+    any_owned_state = { is_coastal = yes }
+  }
+
+  completion_reward = {
+    navy_experience = 25
+    add_political_power = -50
+    add_tech_bonus = {
+      category = naval_doctrine
+      uses = 2
+      bonus = 0.3
+    }
+  }
+}
+shared_focus = {
+  id = NA_B_recon_end_tree
+  icon = placeholder
+  cost = 35
+
+  prerequisite = {
+    focus = NA_B_recon_study_electricity
+  }
+  relative_position_id = NA_B_recon_study_electricity
+  x = -9
+  y = 2
+
+  ai_will_do = { base = 100 }
+  available = {
+    date > 1882.1.1
+    has_political_power > 100
+  }
+  available_if_capitulated = no
+
+  completion_reward = {
+    #load next tree
+  }
+}

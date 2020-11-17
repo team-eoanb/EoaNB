@@ -1,20 +1,403 @@
 focus_tree = {
 	id = mexico_liberal_tree
+	continuous_focus_position = { x = 500 y = 1000 }
 	country = {
 		factor = 0
+		modifier = {
+			add = 100
+			tag = MEX
+			has_country_flag = MEX_civ_ended_liberals
+		}
 	}
+	
+	default = no
+	
 	focus = {
-		id = MEX_continue_the_reforms
-		icon = GFX_goal_generic_political_pressure
-		x = 5
+		id = MEX_victory_against_the_traitors
+		icon = GFX_goal_focus_victory_mexico
+		x = 11
 		y = 0
-		cost = 35
+		cost = 33
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
 		}
 		completion_reward = {
-			add_political_power = 50
+			add_political_power = 20
+			add_stability = 0.02
+		}
+	}
+	
+	focus = {
+		id = MEX_healing_the_scars
+		icon = GFX_goal_focus_reform_government
+		x = 11
+		y = 1
+		cost = 33
+		prerequisite = {
+			focus = MEX_victory_against_the_traitors
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			remove_ideas = MEX_idea_scars_of_the_civil_war
+		}
+	}
+	
+	focus = {
+		id = MEX_the_conspiracy
+		icon = GFX_goal_focus_conspiracy_murder_act
+		x = 14
+		y = 2
+		cost = 33
+		prerequisite = {
+			focus = MEX_healing_the_scars
+		}
+		mutually_exclusive = {
+			focus = MEX_continue_the_reforms
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 0.1
+		}
+		completion_reward = {
+			add_political_power = -15
+			add_stability = -0.015
+		}
+	}
+	
+	focus = {
+		id = MEX_organize_the_opposition
+		icon = GFX_goal_focus_the_elite
+		x = 15
+		y = 3
+		cost = 33
+		prerequisite = {
+			focus = MEX_the_conspiracy
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 0.1
+		}
+		completion_reward = {
+			add_political_power = -35
+			add_stability = -0.03
+		}
+	}
+	
+	focus = {
+		id = MEX_gather_clerical_support
+		icon = GFX_goal_focus_ally_pope
+		x = 13
+		y = 3
+		cost = 33
+		prerequisite = {
+			focus = MEX_the_conspiracy
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 0.1
+		}
+		completion_reward = {
+			add_ideas = MEX_idea_uncontrolled_catholic_church_4
+		}
+	}
+	
+	focus = {
+		id = MEX_the_assassination
+		icon = GFX_focus_assassination
+		x = 14
+		y = 4
+		cost = 33
+		prerequisite = {
+			focus = MEX_gather_clerical_support
+		}
+		prerequisite = {
+			focus = MEX_organize_the_opposition
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 0.1
+		}
+		completion_reward = {
+			country_event = mexico.80
+		}
+	}
+	
+	focus = {
+		id = MEX_purge_the_liberal_opposition
+		icon = GFX_goal_focus_suppress_liberalism
+		x = 12
+		y = 5
+		cost = 33
+		prerequisite = {
+			focus = MEX_the_assassination
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 0.1
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = centrism
+				popularity = -0.10
+			}	
+		}
+	}
+	
+	focus = {
+		id = MEX_the_tiger_seizes_absolute_power
+		icon = GFX_focus_eng_move_to_secure_the_dominions
+		x = 14
+		y = 5
+		cost = 33
+		prerequisite = {
+			focus = MEX_the_assassination
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 0.1
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = human_rights
+				add_idea = no_constitution
+			}
+			swap_ideas = {
+				remove_idea = free_elections
+				add_idea = no_elections
+			}
+			add_political_power = 35
+		}
+	}
+	
+	focus = {
+		id = MEX_restore_clerical_power
+		icon = GFX_goal_focus_BEL_Catholic2
+		x = 16
+		y = 5
+		cost = 33
+		prerequisite = {
+			focus = MEX_the_assassination
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 0.1
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MEX_idea_uncontrolled_catholic_church_4
+				add_idea = MEX_idea_uncontrolled_catholic_church_0
+			}
+			add_political_power = -50
+			add_stability = 0.10
+		}
+	}
+	
+	focus = {
+		id = MEX_agreements_with_france
+		icon = GFX_goal_focus_trade_france_focus
+		x = 14
+		y = 6
+		cost = 33
+		prerequisite = {
+			focus = MEX_the_tiger_seizes_absolute_power
+		}
+		prerequisite = {
+			focus = MEX_restore_clerical_power
+		}
+		prerequisite = {
+			focus = MEX_purge_the_liberal_opposition
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 0.1
+		}
+		completion_reward = {
+			
+		}
+	}
+	
+	
+	focus = {
+		id = MEX_continue_the_reforms
+		icon = GFX_goal_focus_reform_administration
+		x = 8
+		y = 2
+		cost = 33
+		prerequisite = {
+			focus = MEX_healing_the_scars
+		}
+		mutually_exclusive = {
+			focus = MEX_the_conspiracy
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = -15
+			add_stability = 0.01
+			SPR = { country_event = { days = 20 id =  spain.7 } }
+		}
+	}
+	
+	focus = {
+		id = MEX_weaken_the_churchs_power
+		icon = GFX_goal_focus_disestablish_church_ireland
+		x = 9
+		y = 3
+		cost = 33
+		prerequisite = {
+			focus = MEX_continue_the_reforms
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = 20
+		}
+	}
+	
+	
+	focus = {
+		id = MEX_weaken_the_conservative_threat
+		icon = GFX_goal_fight_the_elite
+		x = 7
+		y = 3
+		cost = 33
+		prerequisite = {
+			focus = MEX_continue_the_reforms
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = -0.05
+			}	
+			add_political_power = -30
+		}
+	}
+	
+	focus = {
+		id = MEX_continue_the_constitutional_reforms
+		icon = GFX_goal_focus_enact_law
+		x = 8
+		y = 4
+		cost = 33
+		prerequisite = {
+			focus = MEX_weaken_the_churchs_power
+		}
+		prerequisite = {
+			focus = MEX_weaken_the_conservative_threat
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = 15
+		}
+	}
+	
+	
+	focus = {
+		id = MEX_raise_taxation_on_landlords
+		icon = GFX_goal_focus_increase_wages
+		x = 10
+		y = 5
+		cost = 33
+		prerequisite = {
+			focus = MEX_continue_the_constitutional_reforms
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = normal_taxes
+				add_idea = high_taxes
+			}	
+		}
+	}
+	
+	
+	focus = {
+		id = MEX_electoral_reforms
+		icon = GFX_goal_SWE_voting
+		x = 8
+		y = 5
+		cost = 33
+		prerequisite = {
+			focus = MEX_continue_the_constitutional_reforms
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = property_owners_suffrage
+				add_idea = universal_male_suffrage
+			}	
+		}
+	}
+	
+	
+	focus = {
+		id = MEX_limit_the_election_period
+		icon = GFX_goal_focus_elections
+		x = 6
+		y = 5
+		cost = 33
+		prerequisite = {
+			focus = MEX_continue_the_constitutional_reforms
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = free_elections
+				add_idea = limited_elections
+			}	
+		}
+	}
+	
+	focus = {
+		id = MEX_deal_with_the_french_intervention
+		icon = GFX_goal_focus_mexican_intervention
+		x = 8
+		y = 6
+		cost = 33
+		available = {
+			MEX = {
+				has_war_with = FRA
+			}
+		}	
+		prerequisite = {
+			focus = MEX_electoral_reforms
+		}
+		prerequisite = {
+			focus = MEX_limit_the_election_period
+		}
+		prerequisite = {
+			focus = MEX_raise_taxation_on_landlords
+		} 
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_war_support = 0.15
 		}
 	}
 }

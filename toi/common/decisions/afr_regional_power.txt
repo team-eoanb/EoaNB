@@ -1,0 +1,872 @@
+afr_regional_power_empire_politics_category = {
+
+	afr_empire_politics_annex_subject_decision = {
+
+		icon = generic_nationalism
+
+		available = {
+			if = {
+				limit = { 
+					has_dlc = "Together for Victory" 
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+				}
+				FROM = { compare_autonomy_progress_ratio < 0.755 }
+			}
+			else_if = {
+				limit = { 
+					has_dlc = "Together for Victory" 
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
+				}
+				FROM = { compare_autonomy_progress_ratio < 0.505 }
+			}
+			else_if = {
+				limit = { 
+					has_dlc = "Together for Victory" 
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
+				}
+				FROM = { compare_autonomy_progress_ratio < 0.255 }
+			}
+			else_if = {
+				limit = { 
+					has_dlc = "Together for Victory" 
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
+				}
+				FROM = { compare_autonomy_progress_ratio < 0.05 }
+			}
+			else = { 
+				FROM = {
+					custom_trigger_tooltip = {
+						tooltip = afr_empire_subject_loyalty_atleast_10
+						check_variable = { var = FROM.afr_empire_subject_loyalty_var value = 10 compare = less_than_or_equals }
+					}
+				}
+			}
+		}
+		allowed = { 
+			afr_is_tribal_allowed = yes
+		}
+		visible = {
+			OR = {
+				has_idea = afr_large_kingdom
+				has_idea = afr_reforming_kingdom
+			}
+			ROOT = { num_subjects > 0 }
+		}
+		
+		target_trigger = {
+			FROM = { afr_is_tribal = yes }
+			FROM = { is_subject_of = ROOT }
+		}
+		fire_only_once = no
+		days_re_enable = 360
+		cost = 0
+		
+		complete_effect = {
+			#country_event sent to subject about annexation
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+
+}
+
+
+afr_inward_regional_power_sprawl = {
+
+	afr_inward_guarantee_roads_in_conquered_lands_decision = {
+
+		icon = generic_political_discourse
+
+		available = {
+			has_war = no
+			custom_trigger_tooltip = {
+				tooltip = AFR_dirt_roads_requirement_tooltip
+				any_owned_state = { infrastructure < 1 }
+			}
+			afr_is_tribal = yes
+			custom_trigger_tooltip = {
+				tooltip = AFR_constructing_dirt_roads_tooltip
+				NOT = { has_country_flag = AFR_constructing_dirt_roads }
+			}
+		}
+		allowed = { 
+			afr_is_tribal_allowed = yes
+		}
+		visible = {
+			ROOT = {
+				afr_is_tribal = yes
+				has_country_flag = afr_inward_guarantee_roads_in_conquered_lands
+				NOT = { has_country_flag = AFR_constructing_dirt_roads }
+			}
+			all_owned_state = {
+				infrastructure < 1
+			}
+		}
+		
+		days_remove = 360
+		fire_only_once = no
+
+		cost = 50
+		
+		cancel_trigger = {
+			all_owned_state = {
+				infrastructure > 0
+			}
+		}
+		
+		complete_effect = {
+			set_country_flag = AFR_constructing_dirt_roads
+		}
+		modifier = {
+			civilian_factory_use = 1
+		}
+		remove_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 1
+				}
+				add_building_construction  = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+	}
+}
+
+afr_inward_regional_power_imperial_expansion = {
+	
+
+	afr_inward_regional_power_consolidate_neighboring_tribes = {
+		icon = generic_prepare_civil_war
+		available = {
+			has_war = no
+			custom_trigger_tooltip = {
+				tooltip = afr_war_exhaustion_value_less_than_10
+				check_variable = {
+					afr_war_exhaustion_value < 10
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = first_nations_tribal_raid_neighbor_diplomacy_trigger
+				NOT = { has_non_aggression_pact_with = FROM }
+				check_variable = { var = ROOT.afr_has_special_diplomacy@FROM value = 0 compare = equals }
+				NOT = {
+					check_variable = { var = FROM.afr_regional_power_peace_treaty@ROOT value = 1 compare = greater_than_or_equals }
+					check_variable = { var = ROOT.afr_regional_power_peace_treaty@FROM value = 1 compare = greater_than_or_equals }
+				}
+			}
+		}
+		allowed = { 
+			afr_is_tribal_allowed = yes
+		}
+		visible = {
+			ROOT = { has_country_flag = afr_inward_regional_power_expansion_wars_tribes_flag }
+			ROOT = { NOT = { has_country_flag = afr_inward_preparing_expansion_war_flag } }
+			ROOT = { is_subject = no }
+			country_exists = FROM
+		}
+		
+		target_trigger = {
+			if = {
+				limit = { has_idea = WDD_KBO_TRUCE }
+				FROM = {
+					OR = {
+						has_idea = AF_T_unorganized_tribal_nation
+						has_idea = AF_T_unorganized_tribal_nation_2
+						has_idea = AF_T_unorganized_tribal_nation_3
+						has_idea = AF_T_unorganized_tribal_nation_4
+						has_idea = AF_T_unorganized_tribal_nation_5
+						has_idea = AF_T_organized_tribal_nation
+						has_idea = AF_T_organized_tribal_nation_2
+						has_idea = AF_T_organized_tribal_nation_3
+					}
+					NOT = { has_idea = WDD_KBO_TRUCE }
+					#afr_is_tribal = yes
+				}
+			}
+			if = {
+				limit = { 
+					FROM = {
+						is_subject = yes
+					}
+				}
+				
+				FROM = {
+					OVERLORD = {
+						NOT = { has_idea = afr_large_kingdom }
+						NOT = { has_idea = afr_reforming_kingdom }
+					}
+					OR = {
+						has_idea = AF_T_unorganized_tribal_nation
+						has_idea = AF_T_unorganized_tribal_nation_2
+						has_idea = AF_T_unorganized_tribal_nation_3
+						has_idea = AF_T_unorganized_tribal_nation_4
+						has_idea = AF_T_unorganized_tribal_nation_5
+						has_idea = AF_T_organized_tribal_nation
+						has_idea = AF_T_organized_tribal_nation_2
+						has_idea = AF_T_organized_tribal_nation_3
+					}
+					#afr_is_tribal = yes
+				}
+			}
+			else = {
+				FROM = {
+					OR = {
+						has_idea = AF_T_unorganized_tribal_nation
+						has_idea = AF_T_unorganized_tribal_nation_2
+						has_idea = AF_T_unorganized_tribal_nation_3
+						has_idea = AF_T_unorganized_tribal_nation_4
+						has_idea = AF_T_unorganized_tribal_nation_5
+						has_idea = AF_T_organized_tribal_nation
+						has_idea = AF_T_organized_tribal_nation_2
+						has_idea = AF_T_organized_tribal_nation_3
+					}
+					#afr_is_tribal = yes
+				}
+			}
+			FROM = { NOT = { is_subject_of = ROOT } }
+			FROM = { NOT = { is_in_faction_with = ROOT } }
+			OR = {
+				any_country = {
+					AND = { 
+						is_subject_of = ROOT
+						is_neighbor_of = FROM
+					}
+				}
+				FROM = { is_neighbor_of = ROOT }
+			}
+		}
+		
+		custom_cost_trigger = {
+			command_power > 99.9
+		}
+		custom_cost_text = afr_regional_power_command_power_100
+	
+		fire_only_once = no
+		days_remove = 60
+		days_re_enable = 360
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				has_war_support > 0.5
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					any_owned_state = {
+						any_neighbor_state = {
+							is_in_home_area = yes
+							is_owned_by = ROOT
+						}
+					}
+				}
+			}
+		}
+		
+		modifier = {
+			ai_desired_divisions_factor = 1
+			command_power_gain_mult = -1
+		}
+		
+		complete_effect = {
+			hidden_effect = { add_command_power = -100 }
+			custom_effect_tooltip = afr_war_exhaustion_value_add_3
+			add_to_variable = {
+				var = afr_war_exhaustion_value
+				value = 3
+			}
+			set_country_flag = afr_inward_preparing_expansion_war_flag
+			#if = {
+			#	limit = {
+			#		FROM = {
+			#			is_in_array = {
+			#				array = national_religion_array
+			#				value = global.sunni
+			#			}
+			#			has_government = fundamentalism
+			#		}
+			#	}
+			#	FROM = { country_event = { days = 5 id = afr_inward_integration_tribe.1 } }
+			#	custom_effect_tooltip = afr_war_exhaustion_value_add_10_if_declined
+			#}
+			#else = {
+				hidden_effect = { FROM = { country_event = { days = 5 id = afr_integration_tribe_warning.1 } } }
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = FROM
+						value = 200
+					}
+				}
+				FROM = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = ROOT
+						value = 200
+					}
+				}
+			#}
+		}
+		
+		remove_effect = {
+			
+			ROOT = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = FROM
+					value = -200
+				}
+			}
+			FROM = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = -200
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						is_in_faction_with = FROM
+						has_war_with = FROM
+						FROM = { is_subject_of = ROOT }
+					}
+					has_country_flag = afr_inward_preparing_expansion_war_flag
+				}
+				declare_war_on = {
+					target = FROM
+					type = annex_everything
+				}
+				hidden_effect = { FROM = { every_owned_state = { add_claim_by = ROOT } } }
+				custom_effect_tooltip = afr_war_exhaustion_value_add_10
+				add_to_variable = {
+					var = afr_war_exhaustion_value
+					value = 10
+				}
+				hidden_effect = {
+					set_variable = { ROOT.afr_regional_power_expansion_attacker@FROM = 1 }
+					set_variable = { FROM.afr_regional_power_expansion_defender@ROOT = 1 }
+				}
+			}
+			clr_country_flag = afr_inward_preparing_expansion_war_flag
+		}
+	}
+	
+	
+	afr_inward_regional_power_consolidate_neighboring_small_kingdoms = {
+		icon = generic_prepare_civil_war
+		available = {
+			has_war = no
+			custom_trigger_tooltip = {
+				tooltip = afr_war_exhaustion_value_less_than_10
+				check_variable = {
+					afr_war_exhaustion_value < 10
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = first_nations_tribal_raid_neighbor_diplomacy_trigger
+				NOT = { has_non_aggression_pact_with = FROM }
+				check_variable = { var = ROOT.afr_has_special_diplomacy@FROM value = 0 compare = equals }
+				NOT = {
+					check_variable = { var = FROM.afr_regional_power_peace_treaty@ROOT value = 1 compare = greater_than_or_equals }
+					check_variable = { var = ROOT.afr_regional_power_peace_treaty@FROM value = 1 compare = greater_than_or_equals }
+				}
+			}
+		}
+		allowed = { 
+			afr_is_tribal_allowed = yes
+		}
+		visible = {
+			ROOT = { has_country_flag = afr_inward_regional_power_expansion_wars_kingdoms_flag }
+			ROOT = { NOT = { has_country_flag = afr_inward_preparing_expansion_war_flag } }
+			ROOT = { is_subject = no }
+			country_exists = FROM
+		}
+		
+		target_trigger = {
+			if = {
+				limit = { has_idea = WDD_KBO_TRUCE }
+				FROM = {
+					has_idea = AF_T_small_kingdom
+					NOT = { has_idea = WDD_KBO_TRUCE }
+					#afr_is_tribal = yes
+				}
+			}
+			if = {
+				limit = { 
+					FROM = {
+						is_subject = yes
+					}
+				}
+				FROM = {
+					OVERLORD = {
+						NOT = { has_idea = afr_large_kingdom }
+						NOT = { has_idea = afr_reforming_kingdom }
+					}
+					has_idea = AF_T_small_kingdom
+					#afr_is_tribal = yes
+				}
+			}
+			else = {
+				FROM = {
+					has_idea = AF_T_small_kingdom
+					#afr_is_tribal = yes
+				}
+			}
+			FROM = { NOT = { is_subject_of = ROOT } }
+			FROM = { NOT = { is_in_faction_with = ROOT } }
+			OR = {
+				any_country = {
+					AND = {
+						is_subject_of = ROOT
+						is_neighbor_of = FROM
+					}
+				}
+				FROM = { is_neighbor_of = ROOT }
+			}
+		}
+	
+		custom_cost_trigger = {
+			command_power > 99.9
+		}
+		custom_cost_text = afr_regional_power_command_power_100
+		
+		fire_only_once = no
+		days_remove = 60
+		days_re_enable = 360
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				has_war_support > 0.5
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					any_owned_state = {
+						any_neighbor_state = {
+							is_in_home_area = yes
+							is_owned_by = ROOT
+						}
+					}
+				}
+			}
+		}
+		
+		modifier = {
+			ai_desired_divisions_factor = 1
+			command_power_gain_mult = -1
+		}
+		
+		complete_effect = {
+			hidden_effect = { add_command_power = -100 }
+			custom_effect_tooltip = afr_war_exhaustion_value_add_5
+			add_to_variable = {
+				var = afr_war_exhaustion_value
+				value = 5
+			}
+			set_country_flag = afr_inward_preparing_expansion_war_flag
+			FROM = { country_event = { days = 5 id = afr_inward_integration_kingdom.1 } }
+			custom_effect_tooltip = afr_war_exhaustion_value_add_15_if_declined
+		}
+		
+		cancel_trigger = {
+			OR = {
+				is_in_faction_with = FROM
+				has_war_with = FROM
+				FROM = { is_subject_of = ROOT }
+				hidden_trigger = { NOT = { has_country_flag = afr_inward_preparing_expansion_war_flag } }
+			}
+		}
+		
+	}
+}
+
+
+afr_jihadist_regional_power_caliphate_wars = {
+	afr_jihadist_regional_power_consolidate_neighboring_tribes = {
+		icon = generic_prepare_civil_war
+		available = {
+			has_war = no
+			if = {
+				limit = {
+					has_country_flag = SKT_jihad_formed
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_war_exhaustion_value_less_than_40
+					check_variable = {
+						afr_war_exhaustion_value < 40
+					}
+				}
+			}
+			else = {
+				custom_trigger_tooltip = {
+					tooltip = afr_war_exhaustion_value_less_than_10
+					check_variable = {
+						afr_war_exhaustion_value < 10
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = first_nations_tribal_raid_neighbor_diplomacy_trigger
+				NOT = { has_non_aggression_pact_with = FROM }
+				check_variable = { var = ROOT.afr_has_special_diplomacy@FROM value = 0 compare = equals }
+				NOT = {
+					check_variable = { var = FROM.afr_regional_power_peace_treaty@ROOT value = 1 compare = greater_than_or_equals }
+					check_variable = { var = ROOT.afr_regional_power_peace_treaty@FROM value = 1 compare = greater_than_or_equals }
+				}
+			}
+		}
+		allowed = { 
+			afr_is_tribal_allowed = yes
+		}
+
+		visible = {
+			ROOT = { has_country_flag = afr_jihadist_regional_power_caliphate_wars_tribes_flag }
+			ROOT = { NOT = { has_country_flag = afr_jihadist_preparing_caliphate_war_flag } }
+			ROOT = { is_subject = no }
+			country_exists = FROM
+		}
+		
+		target_trigger = {
+			if = {
+				limit = { has_idea = WDD_KBO_TRUCE }
+				FROM = {
+					OR = {
+						has_idea = AF_T_unorganized_tribal_nation
+						has_idea = AF_T_unorganized_tribal_nation_2
+						has_idea = AF_T_unorganized_tribal_nation_3
+						has_idea = AF_T_unorganized_tribal_nation_4
+						has_idea = AF_T_unorganized_tribal_nation_5
+						has_idea = AF_T_organized_tribal_nation
+						has_idea = AF_T_organized_tribal_nation_2
+						has_idea = AF_T_organized_tribal_nation_3
+					}
+					NOT = { has_idea = WDD_KBO_TRUCE }
+					#afr_is_tribal = yes
+				}
+			}
+			if = {
+				limit = { 
+					FROM = {
+						is_subject = yes
+					}
+				}
+				
+				FROM = {
+					OVERLORD = {
+						NOT = { has_idea = afr_large_kingdom }
+						NOT = { has_idea = afr_reforming_kingdom }
+					}
+					OR = {
+						has_idea = AF_T_unorganized_tribal_nation
+						has_idea = AF_T_unorganized_tribal_nation_2
+						has_idea = AF_T_unorganized_tribal_nation_3
+						has_idea = AF_T_unorganized_tribal_nation_4
+						has_idea = AF_T_unorganized_tribal_nation_5
+						has_idea = AF_T_organized_tribal_nation
+						has_idea = AF_T_organized_tribal_nation_2
+						has_idea = AF_T_organized_tribal_nation_3
+					}
+					#afr_is_tribal = yes
+				}
+			}
+			else = {
+				FROM = {
+					OR = {
+						has_idea = AF_T_unorganized_tribal_nation
+						has_idea = AF_T_unorganized_tribal_nation_2
+						has_idea = AF_T_unorganized_tribal_nation_3
+						has_idea = AF_T_unorganized_tribal_nation_4
+						has_idea = AF_T_unorganized_tribal_nation_5
+						has_idea = AF_T_organized_tribal_nation
+						has_idea = AF_T_organized_tribal_nation_2
+						has_idea = AF_T_organized_tribal_nation_3
+					}
+					#afr_is_tribal = yes
+				}
+			}
+			FROM = { NOT = { is_subject_of = ROOT } }
+			FROM = { NOT = { is_in_faction_with = ROOT } }
+			OR = {
+				any_country = {
+					AND = { 
+						is_subject_of = ROOT
+						is_neighbor_of = FROM
+					}
+				}
+				FROM = { is_neighbor_of = ROOT }
+			}
+		}
+		
+		custom_cost_trigger = {
+			command_power > 99.9
+		}
+		custom_cost_text = afr_regional_power_command_power_100
+	
+		fire_only_once = no
+		days_remove = 60
+		days_re_enable = 360
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				has_war_support > 0.5
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					any_owned_state = {
+						any_neighbor_state = {
+							is_in_home_area = yes
+							is_owned_by = ROOT
+						}
+					}
+				}
+			}
+		}
+		
+		modifier = {
+			ai_desired_divisions_factor = 1
+			command_power_gain_mult = -1
+		}
+		
+		complete_effect = {
+			hidden_effect = { add_command_power = -100 }
+			custom_effect_tooltip = afr_war_exhaustion_value_add_3
+			add_to_variable = {
+				var = afr_war_exhaustion_value
+				value = 3
+			}
+			set_country_flag = afr_jihadist_preparing_caliphate_war_flag
+			if = {
+				limit = {
+					FROM = {
+						is_in_array = {
+							array = national_religion_array
+							value = global.sunni
+						}
+						has_government = fundamentalism
+					}
+				}
+				FROM = { country_event = { days = 5 id = afr_caliphate_integration_tribe.1 } }
+				custom_effect_tooltip = afr_war_exhaustion_value_add_10_if_declined
+			}
+			else = {
+				hidden_effect = { FROM = { country_event = { days = 5 id = afr_integration_tribe_warning.1 } } }
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = FROM
+						value = 200
+					}
+				}
+				FROM = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = ROOT
+						value = 200
+					}
+				}
+			}
+		}
+		
+		remove_effect = {
+			ROOT = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = FROM
+					value = -200
+				}
+			}
+			FROM = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = ROOT
+					value = -200
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						is_in_faction_with = FROM
+						has_war_with = FROM
+						FROM = { is_subject_of = ROOT }
+					}
+					has_country_flag = afr_jihadist_preparing_caliphate_war_flag
+				}
+				declare_war_on = {
+					target = FROM
+					type = annex_everything
+				}
+				hidden_effect = { FROM = { every_owned_state = { add_claim_by = ROOT } } }
+				custom_effect_tooltip = afr_war_exhaustion_value_add_10
+				add_to_variable = {
+					var = afr_war_exhaustion_value
+					value = 10
+				}
+				hidden_effect = {
+					set_variable = { ROOT.afr_regional_power_expansion_attacker@FROM = 1 }
+					set_variable = { FROM.afr_regional_power_expansion_defender@ROOT = 1 }
+				}
+			}
+			clr_country_flag = afr_jihadist_preparing_caliphate_war_flag
+		}	
+	}
+	
+	
+	afr_jihadist_regional_power_consolidate_neighboring_small_kingdoms = {
+		icon = generic_prepare_civil_war
+		available = {
+			has_war = no
+			if = {
+				limit = {
+					has_country_flag = SKT_jihad_formed
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_war_exhaustion_value_less_than_40
+					check_variable = {
+						afr_war_exhaustion_value < 40
+					}
+				}
+			}
+			else = {
+				custom_trigger_tooltip = {
+					tooltip = afr_war_exhaustion_value_less_than_10
+					check_variable = {
+						afr_war_exhaustion_value < 10
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = first_nations_tribal_raid_neighbor_diplomacy_trigger
+				NOT = { has_non_aggression_pact_with = FROM }
+				check_variable = { var = ROOT.afr_has_special_diplomacy@FROM value = 0 compare = equals }
+				NOT = {
+					check_variable = { var = FROM.afr_regional_power_peace_treaty@ROOT value = 1 compare = greater_than_or_equals }
+					check_variable = { var = ROOT.afr_regional_power_peace_treaty@FROM value = 1 compare = greater_than_or_equals }
+				}
+			}
+		}
+		allowed = { 
+			afr_is_tribal_allowed = yes
+		}
+
+		visible = {
+			ROOT = { has_country_flag = afr_jihadist_regional_power_caliphate_wars_kingdoms_flag }
+			ROOT = { NOT = { has_country_flag = afr_jihadist_preparing_caliphate_war_flag } }
+			ROOT = { is_subject = no }
+			country_exists = FROM
+		}
+		
+		target_trigger = {
+			if = {
+				limit = { has_idea = WDD_KBO_TRUCE }
+				FROM = {
+					has_idea = AF_T_small_kingdom
+					NOT = { has_idea = WDD_KBO_TRUCE }
+					#afr_is_tribal = yes
+				}
+			}
+			if = {
+				limit = { 
+					FROM = {
+						is_subject = yes
+					}
+				}
+				FROM = {
+					OVERLORD = {
+						NOT = { has_idea = afr_large_kingdom }
+						NOT = { has_idea = afr_reforming_kingdom }
+					}
+					has_idea = AF_T_small_kingdom
+					#afr_is_tribal = yes
+				}
+			}
+			else = {
+				FROM = {
+					has_idea = AF_T_small_kingdom
+					#afr_is_tribal = yes
+				}
+			}
+			FROM = { NOT = { is_subject_of = ROOT } }
+			FROM = { NOT = { is_in_faction_with = ROOT } }
+			OR = {
+				any_country = {
+					AND = { 
+						is_subject_of = ROOT
+						is_neighbor_of = FROM
+					}
+				}
+				FROM = { is_neighbor_of = ROOT }
+			}
+		}
+	
+		custom_cost_trigger = {
+			command_power > 99.9
+		}
+		custom_cost_text = afr_regional_power_command_power_100
+		
+		fire_only_once = no
+		days_remove = 60
+		days_re_enable = 360
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				has_war_support > 0.5
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					any_owned_state = {
+						any_neighbor_state = {
+							is_in_home_area = yes
+							is_owned_by = ROOT
+						}
+					}
+				}
+			}
+		}
+		
+		modifier = {
+			ai_desired_divisions_factor = 1
+			command_power_gain_mult = -1
+		}
+		
+		complete_effect = {
+			hidden_effect = { add_command_power = -100 }
+			custom_effect_tooltip = afr_war_exhaustion_value_add_5
+			add_to_variable = {
+				var = afr_war_exhaustion_value
+				value = 5
+			}
+			set_country_flag = afr_jihadist_preparing_caliphate_war_flag
+			FROM = { country_event = { days = 5 id = afr_caliphate_integration_kingdom.1 } }
+			custom_effect_tooltip = afr_war_exhaustion_value_add_15_if_declined
+		}
+		
+		cancel_trigger = {
+			OR = {
+				is_in_faction_with = FROM
+				has_war_with = FROM
+				FROM = { is_subject_of = ROOT }
+				hidden_trigger = { NOT = { has_country_flag = afr_jihadist_preparing_caliphate_war_flag } }
+			}
+		}
+		
+	}
+}

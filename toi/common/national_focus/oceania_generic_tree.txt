@@ -10,14 +10,18 @@ focus_tree = {
 				tag = SAM
 				tag = ACE
 				tag = JOH
-				tag = SIA
 				tag = CAM
 				tag = VIN
 				tag = LAN
+				tag = MDN
+				tag = RYU
+				tag = HAW
+				tag = TAH
+				tag = SUL
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_open_international_relations
 		icon = GFX_goal_generic_intelligence_exchange
@@ -27,6 +31,7 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 100
 			add_equipment_to_stockpile = { type = convoy_1 amount = 20 }
+			set_country_flag = Oceania_Regional_Development_Category_Flag
 		}
 		allow_branch = {
 			always = yes
@@ -99,7 +104,7 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_demand_treaty_revision
 		icon = GFX_idea_ENG_focus_enact_law_uk
@@ -169,16 +174,17 @@ focus_tree = {
 		}
 		allow_branch = {
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
 		}
 		x = 4
 		y = 1
 		completion_reward = {
 			custom_effect_tooltip = Oceania_generic_trading_nation_tooltip
-			hidden_effect = { add_ideas = open_borders }
+			hidden_effect = { add_ideas = border_control }
 			add_ideas = AF_T_idea_trading_nation
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				TAG = JOH
 				factor = 1000
@@ -216,12 +222,19 @@ focus_tree = {
 		x = 4
 		y = 2
 		completion_reward = {
-			swap_ideas = { remove_idea = AF_T_idea_trading_nation add_idea = AF_T_idea_trading_nation_2 }
+			if = {
+				limit = { has_idea = AF_T_idea_trading_nation }
+				swap_ideas = { remove_idea = AF_T_idea_trading_nation add_idea = AF_T_idea_trading_nation_2 }
+			}
+			else = {
+				add_ideas = AF_T_idea_trading_nation_2
+				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+			}
 			add_ideas = export_focus
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 	}
@@ -262,10 +275,9 @@ focus_tree = {
 			set_country_flag = Oceania_generic_portugal_merchants
 			POR = { country_event = { id = oceania_trading_partner.1 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
 		ai_will_do = {
@@ -286,9 +298,25 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = SAM }
 			NOT = { TAG = BUN }
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 			NOT = { TAG = ACE }
 		}
 	}
@@ -330,10 +358,9 @@ focus_tree = {
 			set_country_flag = Oceania_generic_portugal_merchants
 			POR = { country_event = { id = oceania_trading_partner.1 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
 		ai_will_do = {
@@ -395,14 +422,13 @@ focus_tree = {
 			POR = { country_event = { id = oceania_trading_partner.1 } }
 			set_country_flag = Oceania_generic_portugal_merchants
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 		}
 		allow_branch = {
 			OR = {
@@ -449,14 +475,13 @@ focus_tree = {
 			FRA = { country_event = { id = oceania_trading_partner.1 } }
 			set_country_flag = Oceania_generic_french_merchants
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
 		ai_will_do = {
-			factor = 1 
+			factor = 1
 			modifier = {
 				TAG = VIN
 				factor = 0
@@ -474,9 +499,22 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = SAM }
 			NOT = { TAG = BUN }
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 			NOT = { TAG = ACE }
 		}
 	}
@@ -519,14 +557,13 @@ focus_tree = {
 			set_country_flag = Oceania_generic_french_merchants
 			FRA = { country_event = { id = oceania_trading_partner.1 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
 		ai_will_do = {
-			factor = 1 
+			factor = 1
 			modifier = {
 				TAG = VIN
 				factor = 0
@@ -586,10 +623,9 @@ focus_tree = {
 			FRA = { country_event = { id = oceania_trading_partner.1 } }
 			set_country_flag = Oceania_generic_french_merchants
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
 		ai_will_do = { factor = 1 }
@@ -625,11 +661,13 @@ focus_tree = {
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 		allow_branch = {
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 		}
 	}
 	focus = {
@@ -652,14 +690,26 @@ focus_tree = {
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = Oceania_antoine_dufresne
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-				
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 		}
 	}
 	focus = {
@@ -691,7 +741,7 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			
+
 		}
 	}
 	focus = {
@@ -731,14 +781,13 @@ focus_tree = {
 			set_country_flag = Oceania_generic_british_merchants
 			ENG = { country_event = { id = oceania_trading_partner.1 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				TAG = SIA
 				factor = 1.5
@@ -770,9 +819,22 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = SAM }
 			NOT = { TAG = BUN }
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 			NOT = { TAG = ACE }
 		}
 	}
@@ -814,14 +876,13 @@ focus_tree = {
 			ENG = { country_event = { id = oceania_trading_partner.1 } }
 			set_country_flag = Oceania_generic_british_merchants
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				TAG = SIA
 				factor = 1.5
@@ -894,14 +955,13 @@ focus_tree = {
 			set_country_flag = Oceania_generic_british_merchants
 			ENG = { country_event = { id = oceania_trading_partner.1 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_2
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.2}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				TAG = JOH
 				factor = 1000
@@ -971,6 +1031,8 @@ focus_tree = {
 		}
 		allow_branch = {
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 		}
 	}
 	focus = {
@@ -983,10 +1045,12 @@ focus_tree = {
 		x = 6
 		y = 5
 		completion_reward = {
-			
+
 		}
 		allow_branch = {
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 		}
 	}
 	focus = {
@@ -1000,10 +1064,10 @@ focus_tree = {
 			factor = 1
 		}
 		available = {
-			
+
 		}
 		prerequisite = { focus = Oceania_generic_accept_western_missionaries }
-		
+
 		completion_reward = {
 			custom_effect_tooltip = Oceania_generic_ban_slavery_tooltip
 			swap_ideas={
@@ -1032,14 +1096,26 @@ focus_tree = {
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = Oceania_theodore_wilkinson
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-				
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
 			}
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 		}
 	}
 	focus = {
@@ -1053,7 +1129,7 @@ focus_tree = {
 		y = 5
 		completion_reward = {
 			if = {
-				limit = { 
+				limit = {
 					NOT = { TAG = ACE }
 					NOT = { TAG = JOH }
 				}
@@ -1105,17 +1181,16 @@ focus_tree = {
 			custom_effect_tooltip = eoanb_af_t_tt_focus_british_companies
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_crude_ports
 		icon = GFX_goal_generic_construct_naval_dockyard
@@ -1133,7 +1208,7 @@ focus_tree = {
 					NOT = { has_country_flag = Oceania_prosperity_mechanic_construction_flag }
 				}
 			}
-			
+
 		}
 		prerequisite = {
 			focus = Oceania_generic_portugal_merchants
@@ -1152,6 +1227,9 @@ focus_tree = {
 					value = 15
 				}
 				custom_effect_tooltip = EDC_afr.6.t
+				hidden_effect = {
+					country_event = { id = EDC_afr.6 hours = 1 }
+				}
 			}
 			if = {
 				limit = { TAG = JOH }
@@ -1162,6 +1240,9 @@ focus_tree = {
 					value = 15
 				}
 				custom_effect_tooltip = EDC_afr.6.t
+				hidden_effect = {
+					country_event = { id = EDC_afr.6 hours = 1 }
+				}
 			}
 			if = {
 				limit = {
@@ -1179,12 +1260,28 @@ focus_tree = {
 				set_country_flag = Oceania_has_dockyard_investment
 				custom_effect_tooltip = EDC_afr.6.t
 				hidden_effect = {
-					country_event = { id = EDC_afr.6 hours = 1 } 
+					country_event = { id = EDC_afr.6 hours = 1 }
 				}
 			}
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 		}
 	}
 	focus = {
@@ -1224,7 +1321,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -1241,7 +1338,7 @@ focus_tree = {
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 	}
@@ -1283,10 +1380,9 @@ focus_tree = {
 				set_country_flag = Oceania_dockyard_forign_help
 			}
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
 	}
@@ -1302,14 +1398,13 @@ focus_tree = {
 		completion_reward = {
 			add_equipment_to_stockpile = { type = convoy_1 amount = 20 producer = POR }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_invite_foreign_investors
 		icon = GFX_goal_generic_propaganda
@@ -1355,19 +1450,19 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_our_future_with_investors
 		icon = GFX_goal_focus_fund_partisans
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
 				}
-			}		
+			}
 		}
 		prerequisite = {
 			focus = Oceania_generic_invite_foreign_investors
@@ -1381,7 +1476,7 @@ focus_tree = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_become_a_french_protectorate
 		icon = GFX_goal_focus_french_algeria_citizenship
@@ -1406,9 +1501,12 @@ focus_tree = {
 			FRA = {
 				has_country_flag = FRA_has_colonial_ambitions
 			}
-			CCH = {
-				is_subject_of = FRA
-				exists = yes
+			FRA = {
+				custom_trigger_tooltip = {
+					tooltip = FRA_CCH_colony_established_tooltip
+					CCH = { is_subject_of = FRA }
+					CCH = { exists = yes }
+				}
 			}
 			is_subject = no
 		}
@@ -1424,18 +1522,43 @@ focus_tree = {
 		x = 2
 		y = 7
 		completion_reward = {
-			add_ideas = { AFR_french_colony }
+			if = {
+				limit = {
+					NOT = {
+						has_idea = AFR_french_protectorate
+						has_idea = AFR_french_colony
+						has_idea = AFR_french_colony_tribute
+					}
+				}
+				add_ideas = { AFR_french_colony }
+			}
+			if = {
+				limit = {
+					has_idea = AFR_french_protectorate
+				}
+				swap_ideas = {
+					remove_idea = AFR_french_protectorate
+					add_idea = AFR_french_colony
+				}
+			}
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_4
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.4}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_4
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.4 } }
 			}
 			FRA = {
-				set_autonomy = {
-					target = ROOT
-					autonomous_state = autonomy_protectorate
-					freedom_level = 0.1
+				if = {
+			    limit = {
+			      has_dlc = "Together for Victory"
+			    }
+					set_autonomy = {
+						target = ROOT
+						autonomous_state = autonomy_protectorate
+						freedom_level = 0.1
+					}
+			  }
+				else = {
+					puppet = ROOT
 				}
 			}
 		}
@@ -1443,6 +1566,19 @@ focus_tree = {
 			factor = 1
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 			NOT = { TAG = LAN }
 			NOT = { TAG = VIN }
 		}
@@ -1453,12 +1589,12 @@ focus_tree = {
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
 				}
-			}	
+			}
 		}
 		prerequisite = {
 			focus = Oceania_generic_become_a_french_protectorate
@@ -1469,11 +1605,24 @@ focus_tree = {
 			load_focus_tree = afr_colony_generic_1
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 			NOT = { TAG = LAN }
 			NOT = { TAG = VIN }
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_become_a_british_protectorate
 		icon = GFX_goal_focus_BEL_Emulate_English
@@ -1507,18 +1656,43 @@ focus_tree = {
 		x = 6
 		y = 7
 		completion_reward = {
-			add_ideas = { AFR_british_colony }
+			if = {
+				limit = {
+					NOT = {
+						has_idea = AFR_british_protectorate
+						has_idea = AFR_british_colony
+						has_idea = AFR_british_colony_tribute
+					}
+				}
+				add_ideas = { AFR_british_colony }
+			}
+			if = {
+				limit = {
+					has_idea = AFR_british_protectorate
+				}
+				swap_ideas = {
+					remove_idea = AFR_british_protectorate
+					add_idea = AFR_british_colony
+				}
+			}
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_4
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.4}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_4
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.4 } }
 			}
 			ENG = {
-				set_autonomy = {
-					target = ROOT
-					autonomous_state = autonomy_protectorate
-					freedom_level = 0.1
+				if = {
+					limit = {
+						has_dlc = "Together for Victory"
+					}
+					set_autonomy = {
+						target = ROOT
+						autonomous_state = autonomy_protectorate
+						freedom_level = 0.1
+					}
+				}
+				else = {
+					puppet = ROOT
 				}
 			}
 		}
@@ -1526,25 +1700,38 @@ focus_tree = {
 			factor = 1
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 			NOT = { TAG = SAM }
 			NOT = { TAG = BUN }
 			NOT = { TAG = VIN }
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_future_with_britain
 		icon = GFX_goal_focus_ally_ENG
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
 				}
-			}	
+			}
 		}
 		prerequisite = {
 			focus = Oceania_generic_become_a_british_protectorate
@@ -1555,16 +1742,29 @@ focus_tree = {
 			load_focus_tree = afr_colony_generic_1
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = LAN }
+			NOT = { tag = MDN }
+			NOT = { tag = RYU }
 			NOT = { TAG = SAM }
 			NOT = { TAG = BUN }
 			NOT = { TAG = VIN }
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_chinese_merchants
-		icon = GFX_goal_focus_ally_CHI
+		icon = GFX_goal_focus_ally_QNG
 		cost = 75
 		available = {
 			CHI = {
@@ -1594,14 +1794,13 @@ focus_tree = {
 			set_country_flag = Oceania_generic_qing_merchants
 			CHI = { country_event = { id = oceania_trading_partner.2 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				factor = 0
 				TAG = VIN
@@ -1644,14 +1843,30 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 			NOT = { TAG = SAM }
 			NOT = { TAG = BUN }
 			NOT = { TAG = ACE }
+			NOT = { TAG = MDN }
+			NOT = { tag = RYU }
 		}
 	}
 	focus = {
 		id = Oceania_generic_chinese_merchants_ottoman
-		icon = GFX_goal_focus_ally_CHI
+		icon = GFX_goal_focus_ally_QNG
 		cost = 75
 		available = {
 			CHI = {
@@ -1682,14 +1897,13 @@ focus_tree = {
 			set_country_flag = Oceania_generic_qing_merchants
 			CHI = { country_event = { id = oceania_trading_partner.2 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				factor = 0
 				TAG = VIN
@@ -1737,7 +1951,7 @@ focus_tree = {
 	}
 	focus = {
 		id = Oceania_generic_chinese_merchants_dutch
-		icon = GFX_goal_focus_ally_CHI
+		icon = GFX_goal_focus_ally_QNG
 		cost = 75
 		available = {
 			CHI = {
@@ -1768,10 +1982,9 @@ focus_tree = {
 			set_country_flag = Oceania_generic_qing_merchants
 			CHI = { country_event = { id = oceania_trading_partner.2 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
 		ai_will_do = {
@@ -1788,13 +2001,107 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			OR = { 
+			OR = {
 				TAG = SAM
 				TAG = BUN
 			}
 		}
 	}
-	
+
+	focus = {
+		id = Oceania_generic_chinese_merchants_maguindanao
+		icon = GFX_goal_focus_ally_QNG
+		cost = 75
+		available = {
+			CHI = {
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_eastern_oriented_nation_tooltip
+				}
+			}
+		}
+		prerequisite = {
+			focus = Oceania_generic_limited_trade
+			focus = Oceania_generic_open_trading_post
+		}
+		mutually_exclusive = {
+			focus = Oceania_generic_pursue_isolationist_policy_maguindanao
+		}
+		x = 12
+		y = 3
+		completion_reward = {
+			hidden_effect = {
+				add_opinion_modifier = { target = CHI modifier = eoanb_om_africa_trade_focus }
+				reverse_add_opinion_modifier = { target = CHI modifier = eoanb_om_africa_trade_focus }
+			}
+			custom_effect_tooltip = Oceania_merchant_adopted_china
+			set_country_flag = Oceania_generic_qing_merchants
+			CHI = { country_event = { id = oceania_trading_partner.2 } }
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				TAG = MDN
+				is_historical_focus_on = yes
+			}
+		}
+		allow_branch = {
+			TAG = MDN
+		}
+	}
+
+	focus = {
+		id = Oceania_generic_chinese_merchants_ryukyu
+		icon = GFX_goal_focus_ally_QNG
+		cost = 75
+		available = {
+			CHI = {
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_eastern_oriented_nation_tooltip
+				}
+			}
+		}
+		prerequisite = {
+			focus = Oceania_generic_limited_trade
+			focus = Oceania_generic_open_trading_post
+		}
+		mutually_exclusive = {
+			focus = Oceania_generic_pursue_isolationist_policy_ryukyu
+		}
+		x = 12
+		y = 3
+		completion_reward = {
+			hidden_effect = {
+				add_opinion_modifier = { target = CHI modifier = eoanb_om_africa_trade_focus }
+				reverse_add_opinion_modifier = { target = CHI modifier = eoanb_om_africa_trade_focus }
+			}
+			custom_effect_tooltip = Oceania_merchant_adopted_china
+			set_country_flag = Oceania_generic_qing_merchants
+			CHI = { country_event = { id = oceania_trading_partner.2 } }
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				TAG = RYU
+				is_historical_focus_on = yes
+			}
+		}
+		allow_branch = {
+			TAG = RYU
+		}
+	}
+
 	focus = {
 		id = Oceania_generic_chinese_mining_practices
 		icon = GFX_goal_focus_coal_mines
@@ -1803,6 +2110,8 @@ focus_tree = {
 			focus = Oceania_generic_chinese_merchants
 			focus = Oceania_generic_chinese_merchants_dutch
 			focus = Oceania_generic_chinese_merchants_ottoman
+			focus = Oceania_generic_chinese_merchants_maguindanao
+			focus = Oceania_generic_chinese_merchants_ryukyu
 		}
 		x = 12
 		y = 4
@@ -1814,14 +2123,27 @@ focus_tree = {
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 		allow_branch = {
-			always = yes
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_limit_chinese_influence
 		icon = GFX_goal_generic_forceful_treaty
@@ -1845,10 +2167,9 @@ focus_tree = {
 				remove_ideas = Oceania_qing_tributary
 			}
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_minus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_decrease.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.1 } }
 			}
 		}
 		ai_will_do = {
@@ -1872,15 +2193,32 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			always = yes
+			NOT = {
+				has_idea = AFR_french_protectorate
+				has_idea = AFR_french_colony
+				has_idea = AFR_french_colony_tribute
+				has_idea = AFR_british_protectorate
+				has_idea = AFR_british_colony
+				has_idea = AFR_british_colony_tribute
+				has_idea = AFR_netherland_protectorate
+				has_idea = AFR_netherland_colony
+				has_idea = AFR_netherland_colony_tribute
+				has_idea = AFR_spanish_protectorate
+				has_idea = AFR_spanish_colony
+				has_idea = AFR_spanish_colony_tribute
+			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_chinese_administrators
 		icon = GFX_focus_man_claim_the_mandate_of_heaven
 		cost = 75
 		available = {
+			if = {
+				limit = { NOT = { is_subject_of = CHI } }
+				is_subject = no
+			}
 			if = {
 				limit = {
 					OR = {
@@ -1892,6 +2230,10 @@ focus_tree = {
 					}
 				}
 				has_country_flag = Oceania_generic_disavow_treaty
+			}
+			if = {
+				limit = { TAG = RYU }
+				has_country_flag = Oceania_ryukyuan_satsuma_loyalty_broken_flag
 			}
 		}
 		prerequisite = {
@@ -1911,14 +2253,13 @@ focus_tree = {
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = Oceania_zhu_yating
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_chinese_military_advisors
 		icon = GFX_focus_generic_military_mission
@@ -1930,19 +2271,18 @@ focus_tree = {
 		y = 6
 		completion_reward = {
 			set_country_flag = Oceania_generic_chinese_military_advisors
-			hidden_effect = { add_ideas = { Oceania_xiang_ling } }
+			#hidden_effect = { add_ideas = { Oceania_xiang_ling } }
 			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = Oceania_xiang_ling
+			#show_ideas_tooltip = Oceania_xiang_ling
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
 	}
-	
-	
+
+
 	focus = {
 		id = Oceania_generic_become_chinese_tributary
 		icon = GFX_goal_generic_positive_trade_relations
@@ -1970,22 +2310,21 @@ focus_tree = {
 				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 				add_ideas = { Oceania_qing_tributary }
 				custom_effect_tooltip = afr_colonial_effect_tooltip
-				custom_effect_tooltip = AFR_Racial_Tension_plus_1
-				
-				hidden_effect = {
-					country_event = {id = afr_rrp_racial_tension_increase.1}
+				capital_scope = {
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 				}
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_our_future_with_china
 		icon = GFX_focus_chi_one_china_policy
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
@@ -2007,7 +2346,7 @@ focus_tree = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_chinese_logging_industry
 		icon = GFX_focus_back_to_basics
@@ -2027,7 +2366,7 @@ focus_tree = {
 		completion_reward = {
 			random_owned_controlled_state ={
 				limit = {
-					is_core_of = ROOT 
+					is_core_of = ROOT
 					NOT = { has_state_flag = Oceania_historically_colonized_land  }
 					Oceania_infrastructure_for_extra_building_slots_trigger = yes
 				}
@@ -2043,12 +2382,12 @@ focus_tree = {
 			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 	}
-	
-	
+
+
 	focus = {
 		id = Oceania_generic_chinese_commerce_investment
 		icon = GFX_goal_focus_banks
@@ -2098,7 +2437,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -2114,19 +2453,19 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_our_chinese_inspired_future
 		icon = GFX_goal_focus_government_control
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
 				}
-			}	
+			}
 			has_completed_focus = Oceania_generic_limit_chinese_influence
 		}
 		mutually_exclusive = {
@@ -2144,9 +2483,9 @@ focus_tree = {
 
 		}
 	}
-	
-	
-	
+
+
+
 	focus = {
 		id = Oceania_generic_ottoman_merchants
 		icon = GFX_focus_ottoman_monarchy
@@ -2189,24 +2528,23 @@ focus_tree = {
 			set_country_flag = Oceania_generic_ottoman_merchants
 			OTO = { country_event = { id = oceania_trading_partner.4 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.1}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			}
 		}
 		allow_branch = {
 			TAG = ACE
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				factor = 100
 				OTO = { has_completed_focus = OTO_vic_traditional_ideals }
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_ottoman_oil_refining
 		icon = GFX_goal_generic_oil_refinery
@@ -2217,27 +2555,27 @@ focus_tree = {
 		x = 16
 		y = 4
 		completion_reward = {
-			
+
 			random_owned_controlled_state ={
 				limit = { is_core_of = ROOT NOT = { has_state_flag = Oceania_historically_colonized_land  } }
 				add_resource = { type = oil amount = 4 }
 			}
 			if = {
-				limit = { 
-					TAG = ACE 
+				limit = {
+					TAG = ACE
 				}
 				OTO = { country_event = { id = aceh_ottoman_oil_company.1 } }
 				add_ideas = { ACE_ottoman_aceh_oil_company }
-				
+
 			}
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			custom_effect_tooltip = EDC_afr.6.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.6 hours = 1 } 
+				country_event = { id = EDC_afr.6 hours = 1 }
 			}
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				factor = 10000
 				OTO = { has_completed_focus = OTO_vic_traditional_ideals }
@@ -2247,7 +2585,7 @@ focus_tree = {
 			TAG = ACE
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_islam_brings_unity
 		icon = GFX_focus_holy_quran
@@ -2263,13 +2601,13 @@ focus_tree = {
 				ideology = fundamentalism
 				popularity = 0.07
 			}
-			
+
 		}
 		allow_branch = {
 			TAG = ACE
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_ottoman_dockyards
 		icon = GFX_goal_generic_construct_naval_dockyard
@@ -2305,20 +2643,19 @@ focus_tree = {
 				}
 			}
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
-			custom_effect_tooltip = EDC_afr.5.t
 			custom_effect_tooltip = EDC_afr.6.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.6 hours = 1 }
 			}
 		}
 		allow_branch = {
 			TAG = ACE
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_ottoman_military_supplies
-		icon = GFX_focus_devshirme #GFX_goal_focus_foreign_diplomacy_military
+		icon = GFX_goal_ottoman_army #GFX_goal_focus_foreign_diplomacy_military
 		cost = 75
 		prerequisite = {
 			focus = Oceania_generic_ottoman_oil_refining
@@ -2333,8 +2670,8 @@ focus_tree = {
 			TAG = ACE
 		}
 	}
-	
-	
+
+
 	focus = {
 		id = Oceania_generic_become_ottoman_ally
 		icon = GFX_goal_tripartite_pact
@@ -2362,14 +2699,14 @@ focus_tree = {
 			TAG = ACE
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_become_ottoman_khedivate
 		icon = GFX_goal_SWE_unity
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
@@ -2388,10 +2725,18 @@ focus_tree = {
 		completion_reward = {
 			load_focus_tree = generic
 			OTO={
-				set_autonomy = {
-					target = ACE
-					autonomous_state = autonomy_khedive
-					freedom_level = 0.7
+				if = {
+					limit = {
+						has_dlc = "Together for Victory"
+					}
+					set_autonomy = {
+						target = ACE
+						autonomous_state = autonomy_khedive
+						freedom_level = 0.7
+					}
+				}
+				else = {
+					puppet = ACE
 				}
 			}
 		}
@@ -2399,14 +2744,14 @@ focus_tree = {
 			TAG = ACE
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_future_with_ottoman_empire
 		icon = GFX_goal_SWE_unity
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
@@ -2428,11 +2773,11 @@ focus_tree = {
 			TAG = ACE
 		}
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	focus = {
 		id = Oceania_generic_pursue_dutch_cooperation
 		icon = GFX_goal_generic_intelligence_exchange
@@ -2481,13 +2826,13 @@ focus_tree = {
 			custom_effect_tooltip = Oceania_merchant_adopted_hol
 			set_country_flag = Oceania_generic_dutch_merchants
 			if = {
-				limit = { 
+				limit = {
 					has_idea = SAM_dutch_east_indies_tribute
 				}
 				swap_ideas = { remove_idea = SAM_dutch_east_indies_tribute add_idea = SAM_dutch_east_indies_tribute_1 }
 			}
 			if = {
-				limit = { 
+				limit = {
 					has_idea = BUN_dutch_east_indies_tribute
 				}
 				swap_ideas = { remove_idea = BUN_dutch_east_indies_tribute add_idea = BUN_dutch_east_indies_tribute_1 }
@@ -2496,10 +2841,9 @@ focus_tree = {
 			INS = { country_event = { id = oceania_trading_partner.3 } }
 			HOL = { country_event = { id = oceania_trading_partner.3 } }
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_3
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.3}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_3
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.3 } }
 			}
 		}
 		allow_branch = {
@@ -2508,8 +2852,8 @@ focus_tree = {
 				TAG = SAM
 			}
 		}
-		ai_will_do = { 
-			factor = 1 
+		ai_will_do = {
+			factor = 1
 			modifier = {
 				TAG = BUN
 				factor = 1000
@@ -2522,7 +2866,7 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_dutch_plantations
 		icon = GFX_goal_focus_cotton
@@ -2533,7 +2877,7 @@ focus_tree = {
 		x = 16
 		y = 4
 		completion_reward = {
-			
+
 			random_owned_controlled_state ={
 				limit = { is_core_of = ROOT NOT = { has_state_flag = Oceania_historically_colonized_land  } }
 				add_resource = { type = cotton amount = 6 }
@@ -2558,7 +2902,7 @@ focus_tree = {
 		completion_reward = {
 			add_stability = -0.01
 			add_political_power = 50
-			
+
 		}
 		allow_branch = {
 			OR = {
@@ -2608,7 +2952,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -2652,7 +2996,7 @@ focus_tree = {
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			custom_effect_tooltip = EDC_afr.6.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.6 hours = 1 } 
+				country_event = { id = EDC_afr.6 hours = 1 }
 			}
 		}
 		allow_branch = {
@@ -2662,7 +3006,7 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_dutch_military_garrison
 		icon = GFX_goal_generic_small_arms
@@ -2683,8 +3027,8 @@ focus_tree = {
 			}
 		}
 	}
-	
-	
+
+
 	focus = {
 		id = Oceania_generic_become_dutch_protectorate
 		icon = GFX_focus_generic_home_defense
@@ -2702,7 +3046,7 @@ focus_tree = {
 		y = 7
 		completion_reward = {
 			if = {
-				limit = { 
+				limit = {
 					OR = {
 						has_idea = SAM_dutch_east_indies_tribute
 						has_idea = SAM_dutch_east_indies_tribute_1
@@ -2711,7 +3055,7 @@ focus_tree = {
 				swap_ideas = { remove_idea = SAM_dutch_east_indies_tribute_1 add_idea = AFR_netherland_colony }
 			}
 			if = {
-				limit = { 
+				limit = {
 					OR = {
 						has_idea = BUN_dutch_east_indies_tribute
 						has_idea = BUN_dutch_east_indies_tribute_1
@@ -2720,16 +3064,23 @@ focus_tree = {
 				swap_ideas = { remove_idea = BUN_dutch_east_indies_tribute_1 add_idea = AFR_netherland_colony }
 			}
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_6
-			
-			hidden_effect = {
-				country_event = {id = afr_rrp_racial_tension_increase.6}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_6
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.6 } }
 			}
 			INS = {
-				set_autonomy = {
-					target = ROOT
-					autonomous_state = autonomy_protectorate
-					freedom_level = 0.1
+				if = {
+					limit = {
+						has_dlc = "Together for Victory"
+					}
+					set_autonomy = {
+						target = ROOT
+						autonomous_state = autonomy_protectorate
+						freedom_level = 0.1
+					}
+				}
+				else = {
+					puppet = ROOT
 				}
 			}
 		}
@@ -2740,19 +3091,19 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_future_with_netherlands
 		icon = GFX_goal_tfv_strengthen_commonwealth_ties
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
 				}
-			}		
+			}
 		}
 		prerequisite = {
 			focus = Oceania_generic_become_dutch_protectorate
@@ -2769,13 +3120,28 @@ focus_tree = {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	focus = {
 		id = Oceania_generic_isolated_nation
 		icon = GFX_focus_generic_strike_at_democracy1
 		cost = 75
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = Oceania_not_a_colony_of_colonial_power_tooltip
+				NOT = {
+					has_idea = AFR_french_colony
+					has_idea = AFR_french_colony_tribute
+					has_idea = AFR_british_colony
+					has_idea = AFR_british_colony_tribute
+					has_idea = AFR_netherland_colony
+					has_idea = AFR_netherland_colony_tribute
+					has_idea = AFR_spanish_colony
+					has_idea = AFR_spanish_colony_tribute
+				}
+			}
+		}
 		prerequisite = {
 			focus = Oceania_generic_open_international_relations
 		}
@@ -2801,6 +3167,21 @@ focus_tree = {
 				}
 				complete_national_focus = Oceania_generic_disavow_treaty
 			}
+			if = {
+				limit = {
+					is_subject = yes
+					OR = {
+						has_idea = AFR_french_protectorate
+						has_idea = AFR_british_protectorate
+						has_idea = AFR_netherland_protectorate
+						has_idea = AFR_spanish_protectorate
+					}
+				}
+				custom_effect_tooltip = Oceania_this_will_anger_protectorate_overlord_tooltip
+				hidden_effect = {
+
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 1
@@ -2810,7 +3191,7 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_limited_trade
 		icon = GFX_goal_generic_trade
@@ -2824,7 +3205,7 @@ focus_tree = {
 			add_ideas = limited_exports
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_pursue_isolationist_policy_dutch
 		icon = GFX_idea_isolation
@@ -2860,6 +3241,51 @@ focus_tree = {
 			add_ideas = closed_economy
 			hidden_effect = { add_ideas = closed_borders }
 			set_country_flag = Oceania_generic_pursue_isolationist_policy
+			if = {
+				limit = {
+					is_subject = yes
+					OR = {
+						has_idea = AFR_french_protectorate
+						has_idea = AFR_british_protectorate
+						has_idea = AFR_netherland_protectorate
+						has_idea = AFR_spanish_protectorate
+						has_idea = AFR_portuguese_protectorate
+						has_idea = AFR_swedish_protectorate
+						has_idea = AFR_german_protectorate
+						has_idea = AFR_hamburg_protectorate
+						has_idea = AFR_bremen_protectorate
+					}
+				}
+				custom_effect_tooltip = Oceania_this_will_infuriate_protectorate_overlord_tooltip
+				hidden_effect = {
+					OVERLORD = { ROOT = { set_variable = { rival_country = PREV.id } } }
+					set_country_flag = Oceania_resisting_protectorate_flag
+				}
+			}
+			if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+			}
 		}
 		allow_branch = {
 			OR = {
@@ -2867,7 +3293,7 @@ focus_tree = {
 				TAG = SAM
 			}
 		}
-		ai_will_do = { 
+		ai_will_do = {
 			factor = 1
 			modifier = {
 				factor = 0
@@ -2881,7 +3307,7 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_pursue_isolationist_policy_ottoman
 		icon = GFX_idea_isolation
@@ -2917,11 +3343,56 @@ focus_tree = {
 			add_ideas = closed_economy
 			hidden_effect = { add_ideas = closed_borders }
 			set_country_flag = Oceania_generic_pursue_isolationist_policy
+			if = {
+				limit = {
+					is_subject = yes
+					OR = {
+						has_idea = AFR_french_protectorate
+						has_idea = AFR_british_protectorate
+						has_idea = AFR_netherland_protectorate
+						has_idea = AFR_spanish_protectorate
+						has_idea = AFR_portuguese_protectorate
+						has_idea = AFR_swedish_protectorate
+						has_idea = AFR_german_protectorate
+						has_idea = AFR_hamburg_protectorate
+						has_idea = AFR_bremen_protectorate
+					}
+				}
+				custom_effect_tooltip = Oceania_this_will_infuriate_protectorate_overlord_tooltip
+				hidden_effect = {
+					OVERLORD = { ROOT = { set_variable = { rival_country = PREV.id } } }
+					set_country_flag = Oceania_resisting_protectorate_flag
+				}
+			}
+			if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+			}
 		}
 		allow_branch = {
 			TAG = ACE
 		}
-		ai_will_do = { 
+		ai_will_do = {
 			factor = 1
 			modifier = {
 				factor = 1.5
@@ -2965,7 +3436,155 @@ focus_tree = {
 			}
 		}
 	}
-	
+
+	focus = {
+		id = Oceania_generic_pursue_isolationist_policy_maguindanao
+		icon = GFX_idea_isolation
+		cost = 75
+		available = {
+
+		}
+		prerequisite = {
+			focus = Oceania_generic_limited_trade
+		}
+		mutually_exclusive = {
+			focus = Oceania_generic_chinese_merchants_maguindanao
+		}
+		x = 20
+		y = 3
+		completion_reward = {
+			custom_effect_tooltip = Oceania_generic_pursue_isolationist_policy_tooltip
+			add_ideas = closed_economy
+			hidden_effect = { add_ideas = closed_borders }
+			set_country_flag = Oceania_generic_pursue_isolationist_policy
+			if = {
+				limit = {
+					is_subject = yes
+					OR = {
+						has_idea = AFR_french_protectorate
+						has_idea = AFR_british_protectorate
+						has_idea = AFR_netherland_protectorate
+						has_idea = AFR_spanish_protectorate
+						has_idea = AFR_portuguese_protectorate
+						has_idea = AFR_swedish_protectorate
+						has_idea = AFR_german_protectorate
+						has_idea = AFR_hamburg_protectorate
+						has_idea = AFR_bremen_protectorate
+					}
+				}
+				custom_effect_tooltip = Oceania_this_will_infuriate_protectorate_overlord_tooltip
+				hidden_effect = {
+					OVERLORD = { ROOT = { set_variable = { rival_country = PREV.id } } }
+					set_country_flag = Oceania_resisting_protectorate_flag
+				}
+			}
+			if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+			}
+		}
+		allow_branch = {
+			TAG = MDN
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	focus = {
+		id = Oceania_generic_pursue_isolationist_policy_ryukyu
+		icon = GFX_idea_isolation
+		cost = 75
+		available = {
+
+		}
+		prerequisite = {
+			focus = Oceania_generic_limited_trade
+		}
+		mutually_exclusive = {
+			focus = Oceania_generic_chinese_merchants_ryukyu
+		}
+		x = 20
+		y = 3
+		completion_reward = {
+			custom_effect_tooltip = Oceania_generic_pursue_isolationist_policy_tooltip
+			add_ideas = closed_economy
+			hidden_effect = { add_ideas = closed_borders }
+			set_country_flag = Oceania_generic_pursue_isolationist_policy
+			if = {
+				limit = {
+					is_subject = yes
+					OR = {
+						has_idea = AFR_french_protectorate
+						has_idea = AFR_british_protectorate
+						has_idea = AFR_netherland_protectorate
+						has_idea = AFR_spanish_protectorate
+						has_idea = AFR_portuguese_protectorate
+						has_idea = AFR_swedish_protectorate
+						has_idea = AFR_german_protectorate
+						has_idea = AFR_hamburg_protectorate
+						has_idea = AFR_bremen_protectorate
+					}
+				}
+				custom_effect_tooltip = Oceania_this_will_infuriate_protectorate_overlord_tooltip
+				hidden_effect = {
+					OVERLORD = { ROOT = { set_variable = { rival_country = PREV.id } } }
+					set_country_flag = Oceania_resisting_protectorate_flag
+				}
+			}
+			if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+			}
+		}
+		allow_branch = {
+			TAG = RYU
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
 	focus = {
 		id = Oceania_generic_pursue_isolationist_policy
 		icon = GFX_idea_isolation
@@ -3000,14 +3619,61 @@ focus_tree = {
 			add_ideas = closed_economy
 			hidden_effect = { add_ideas = closed_borders }
 			set_country_flag = Oceania_generic_pursue_isolationist_policy
+			if = {
+				limit = {
+					is_subject = yes
+					OR = {
+						has_idea = AFR_french_protectorate
+						has_idea = AFR_british_protectorate
+						has_idea = AFR_netherland_protectorate
+						has_idea = AFR_spanish_protectorate
+						has_idea = AFR_portuguese_protectorate
+						has_idea = AFR_swedish_protectorate
+						has_idea = AFR_german_protectorate
+						has_idea = AFR_hamburg_protectorate
+						has_idea = AFR_bremen_protectorate
+					}
+				}
+				custom_effect_tooltip = Oceania_this_will_infuriate_protectorate_overlord_tooltip
+				hidden_effect = {
+					OVERLORD = { ROOT = { set_variable = { rival_country = PREV.id } } }
+					set_country_flag = Oceania_resisting_protectorate_flag
+				}
+			}
+			if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+			}
 		}
 		allow_branch = {
 			NOT = { TAG = SAM }
 			NOT = { TAG = BUN }
 			NOT = { TAG = LAN }
+			NOT = { TAG = MDN }
+			NOT = { TAG = RYU }
 			NOT = { TAG = ACE }
 		}
-		ai_will_do = { 
+		ai_will_do = {
 			factor = 1
 			modifier = {
 				factor = 1.5
@@ -3051,7 +3717,7 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_isolationist_nationalize_our_resources
 		icon = GFX_goal_SWE_famine_relief
@@ -3066,24 +3732,120 @@ focus_tree = {
 			focus = Oceania_generic_pursue_isolationist_policy
 			focus = Oceania_generic_pursue_isolationist_policy_dutch
 			focus = Oceania_generic_pursue_isolationist_policy_ottoman
+			focus = Oceania_generic_pursue_isolationist_policy_maguindanao
+			focus = Oceania_generic_pursue_isolationist_policy_ryukyu
 		}
 		x = 20
 		y = 4
 		completion_reward = {
-			random_owned_controlled_state ={
+			random_owned_controlled_state = {
 				limit = { is_core_of = ROOT NOT = { has_state_flag = Oceania_historically_colonized_land  } }
 				add_resource = { type = wood amount = 2 }
+				if = {
+					limit = {
+						THIS = {
+							check_variable = { detrimental_colonial_impact_value > 0 }
+							is_core_of = ROOT
+						}
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+				else_if = {
+					limit = {
+						ROOT = {
+							any_owned_state = {
+								NOT = { state = PREV.PREV }
+								check_variable = { detrimental_colonial_impact_value > 0 }
+								is_core_of = ROOT
+							}
+						}
+					}
+					ROOT = {
+						custom_effect_tooltip = afr_colonial_effect_tooltip
+						random_owned_controlled_state = {
+							limit = {
+								NOT = { state = PREV.PREV }
+								check_variable = { detrimental_colonial_impact_value > 0 }
+								is_core_of = ROOT
+							}
+							custom_effect_tooltip = AFR_Racial_Tension_minus_1
+							hidden_effect = {
+								if = {
+									limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+									subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+								}
+								subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+								OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+							}
+						}
+					}
+				}
 			}
-			random_owned_controlled_state ={
+			random_owned_controlled_state = {
 				limit = { is_core_of = ROOT NOT = { has_state_flag = Oceania_historically_colonized_land  } }
 				add_resource = { type = iron amount = 2 }
+				if = {
+					limit = {
+						THIS = {
+							check_variable = { detrimental_colonial_impact_value > 0 }
+							is_core_of = ROOT
+						}
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+				else_if = {
+					limit = {
+						ROOT = {
+							any_owned_state = {
+								NOT = { state = PREV.PREV }
+								check_variable = { detrimental_colonial_impact_value > 0 }
+								is_core_of = ROOT
+							}
+						}
+					}
+					ROOT = {
+						custom_effect_tooltip = afr_colonial_effect_tooltip
+						random_owned_controlled_state = {
+							limit = {
+								NOT = { state = PREV.PREV }
+								check_variable = { detrimental_colonial_impact_value > 0 }
+								is_core_of = ROOT
+							}
+							custom_effect_tooltip = AFR_Racial_Tension_minus_1
+							hidden_effect = {
+								if = {
+									limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+									subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+								}
+								subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+								OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+							}
+						}
+					}
+				}
 			}
 		}
 		allow_branch = {
 			NOT = { TAG = LAN }
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_isolationist_promote_our_national_agenda
 		icon = GFX_goal_focus_popularize
@@ -3141,13 +3903,36 @@ focus_tree = {
 				custom_effect_tooltip = available_political_advisor
 				custom_effect_tooltip = Oceania_siam_isolationist_diplomacy_advisor
 			}
-			
+			if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+			}
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_isolationist_nationalize_our_industries
 		icon = GFX_goal_focus_banks2
@@ -3170,7 +3955,7 @@ focus_tree = {
 		completion_reward = {
 			random_owned_controlled_state ={
 				limit = {
-					is_core_of = ROOT 
+					is_core_of = ROOT
 					NOT = { has_state_flag = Oceania_historically_colonized_land  }
 					Oceania_infrastructure_for_extra_building_slots_trigger = yes
 				}
@@ -3183,10 +3968,58 @@ focus_tree = {
 					level = 1
 					instant_build = yes
 				}
+				if = {
+					limit = {
+						THIS = {
+							check_variable = { detrimental_colonial_impact_value > 0 }
+							is_core_of = ROOT
+						}
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+				else_if = {
+					limit = {
+						ROOT = {
+							any_owned_state = {
+								NOT = { state = PREV.PREV }
+								check_variable = { detrimental_colonial_impact_value > 0 }
+								is_core_of = ROOT
+							}
+						}
+					}
+					ROOT = {
+						custom_effect_tooltip = afr_colonial_effect_tooltip
+						random_owned_controlled_state = {
+							limit = {
+								NOT = { state = PREV.PREV }
+								check_variable = { detrimental_colonial_impact_value > 0 }
+								is_core_of = ROOT
+							}
+							custom_effect_tooltip = AFR_Racial_Tension_minus_1
+							hidden_effect = {
+								if = {
+									limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+									subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+								}
+								subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+								OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+							}
+						}
+					}
+				}
+
 			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 			if = {
 				limit = {
@@ -3239,8 +4072,8 @@ focus_tree = {
 
 		}
 	}
-	
-	
+
+
 	focus = {
 		id = Oceania_generic_isolationist_resistors_of_colonialism
 		icon = GFX_focus_Mine_is_Bigger_Than_Yours
@@ -3258,24 +4091,108 @@ focus_tree = {
 		y = 7
 		completion_reward = {
 			add_ideas = Oceania_colonial_resistors
+			if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 2 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 2 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_3
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 2 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 3 }
+						}
+						else_if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 1 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 2 }
+						}
+						else_if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 3 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 3 } }
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 1 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 1 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_2
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 1 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 2 }
+						}
+						else_if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 2 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 2 } }
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					any_owned_state = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = {
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 0 }
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = {
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+			}
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_isolationist_our_own_future
 		icon = GFX_goal_generic_demand_territory
 		cost = 75
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = Oceania_generic_regional_power		
+				tooltip = Oceania_generic_regional_power
 				OR = {
 					has_idea = Oceania_eastern_oriented_regional_power
 					has_idea = Oceania_western_oriented_regional_power
 				}
-			}	
+			}
 		}
 		prerequisite = {
 			focus = Oceania_generic_isolationist_resistors_of_colonialism
@@ -3289,8 +4206,8 @@ focus_tree = {
 
 		}
 	}
-	
-	
+
+
 	focus = {
 		id = Oceania_generic_trade_with_japan
 		icon = GFX_focus_jap_pacific_guardian
@@ -3311,14 +4228,17 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			always = yes
+			NOT = { TAG = RYU }
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_trade_with_ryukyu
 		icon = GFX_focus_jap_spiritual_mobilization
 		cost = 75
+		available = {
+			RYU = { has_country_flag = Oceania_ryukyuan_trade_expanded_flag }
+		}
 		prerequisite = {
 			focus = Oceania_generic_limited_trade
 			focus = Oceania_generic_open_trading_post
@@ -3349,10 +4269,42 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			always = yes
+			NOT = { TAG = RYU }
 		}
 	}
-	
+
+	focus = {
+		id = Oceania_generic_establish_ryukyuan_trade
+		icon = GFX_focus_jap_spiritual_mobilization
+		cost = 75
+		prerequisite = {
+			focus = Oceania_generic_limited_trade
+			focus = Oceania_generic_open_trading_post
+		}
+		x = 23
+		y = 4
+		completion_reward = {
+			custom_effect_tooltip = Oceania_establish_ryukyuan_trade_tooltip
+			set_country_flag = Oceania_ryukyuan_trade_expanded_flag
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 10
+				date > 1857.1.1
+			}
+			modifier = {
+				factor = 1000
+				RYU = {
+					has_idea = RYU_ryukyu_treaty
+				}
+			}
+		}
+		allow_branch = {
+			TAG = RYU
+		}
+	}
+
 	focus = {
 		id = Oceania_generic_trade_with_korea
 		icon = GFX_focus_chi_examination_yuan
@@ -3377,13 +4329,13 @@ focus_tree = {
 			always = yes
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	focus = {
 		id = Oceania_generic_western_oriented_kingdom
 		icon = GFX_goal_focus_continent_west_europe
@@ -3406,19 +4358,19 @@ focus_tree = {
 			focus = Oceania_generic_eastern_oriented_kingdom
 		}
 		completion_reward = {
-			
+
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_western_domestic_policies
 		icon = GFX_goal_focus_freedom_press
 		cost = 75
 		available = {
-			
+
 		}
 		x = 2
 		y = 11
@@ -3441,12 +4393,18 @@ focus_tree = {
 				}
 			}
 			add_stability = -0.05
+			#add_ai_strategy = {
+			#	type = build_building
+			#	id = infrastructure
+			#	target = capital_scope
+			#	value = 200
+			#}
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_western_rail_roads
 		icon = GFX_goal_focus_railroad_development
@@ -3505,7 +4463,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3541,7 +4499,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3555,7 +4513,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3580,7 +4538,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3594,7 +4552,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3608,7 +4566,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3622,8 +4580,8 @@ focus_tree = {
 					}
 				}
 			}
-			
-			
+
+
 			if = {
 				limit = {
 					NOT = { has_idea = Oceania_large_kingdom }
@@ -3664,7 +4622,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3689,7 +4647,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3703,7 +4661,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3719,7 +4677,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			add_ideas = { AF_T_small_scale_railways }
@@ -3728,7 +4686,7 @@ focus_tree = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_modern_cities
 		icon = GFX_goal_focus_telegraph_lines
@@ -3760,7 +4718,7 @@ focus_tree = {
 				limit = { has_idea = Oceania_large_kingdom }
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -3776,7 +4734,7 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -3794,7 +4752,7 @@ focus_tree = {
 			else = {
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -3811,7 +4769,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 		allow_branch = {
@@ -3821,7 +4779,7 @@ focus_tree = {
 
 	focus = {
 		id = Oceania_generic_eastern_oriented_kingdom
-		icon = GFX_focus_continent_asia_shine
+		icon = GFX_focus_continent_asia
 		cost = 75
 		available = {
 			OR = {
@@ -3844,19 +4802,19 @@ focus_tree = {
 			focus = Oceania_generic_western_oriented_kingdom
 		}
 		completion_reward = {
-			
+
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_traditional_domestic_policies
 		icon = GFX_focus_chi_legislative_yuan
 		cost = 75
 		available = {
-			
+
 		}
 		x = 10
 		y = 11
@@ -3871,13 +4829,19 @@ focus_tree = {
 					remove_idea = no_constitution
 				}
 			}
+			#add_ai_strategy = {
+			#	type = build_building
+			#	id = infrastructure
+			#	target = capital_scope
+			#	value = 200
+			#}
 			add_stability = 0.05
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_connect_the_village_roads
 		icon = GFX_goal_SWE_economic_control
@@ -3935,7 +4899,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3960,7 +4924,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3974,7 +4938,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -3988,8 +4952,8 @@ focus_tree = {
 					}
 				}
 			}
-			
-			
+
+
 			if = {
 				limit = {
 					NOT = { has_idea = Oceania_large_kingdom }
@@ -4019,7 +4983,7 @@ focus_tree = {
 					}
 				}
 				random_owned_controlled_state ={
-					limit = { 
+					limit = {
 						is_capital = no
 						free_building_slots = {
 							building = infrastructure
@@ -4035,14 +4999,14 @@ focus_tree = {
 			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_introduce_industrial_centers
 		icon = GFX_focus_focus_generic_industry_1
@@ -4074,7 +5038,7 @@ focus_tree = {
 				limit = { has_idea = Oceania_large_kingdom }
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -4090,7 +5054,7 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -4108,7 +5072,7 @@ focus_tree = {
 			else = {
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -4125,14 +5089,14 @@ focus_tree = {
 			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_plan_for_new_cities
 		icon = GFX_focus_ITA_Industry
@@ -4144,21 +5108,150 @@ focus_tree = {
 			}
 		}
 		x = 6
-		y = 12
+		y = 13
 		prerequisite = {
-			focus = Oceania_generic_western_domestic_policies
-			focus = Oceania_generic_traditional_domestic_policies
+			focus = Oceania_generic_grow_more_food
+		}
+		prerequisite = {
+			focus = Oceania_generic_expand_cotton_plantation
 		}
 		completion_reward = {
 			if = {
-				limit = { has_idea = Oceania_large_kingdom }
+				limit = {
+					has_idea = Oceania_large_kingdom
+					capital_scope = {
+						free_building_slots = {
+							building = infrastructure
+							size > 1
+						}
+					}
+				}
 				capital_scope = {
-					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
 				}
 			}
-			else = {
+			if = {
+				limit = {
+					has_idea = Oceania_large_kingdom
+					capital_scope = {
+						free_building_slots = {
+							building = infrastructure
+							size < 2
+						}
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+				}
 				capital_scope = {
-					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_owned_controlled_state ={
+					limit = {
+						is_capital = no
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_idea = Oceania_large_kingdom
+					capital_scope = {
+						free_building_slots = {
+							building = infrastructure
+							size < 1
+						}
+					}
+				}
+				random_owned_controlled_state ={
+					limit = {
+						is_capital = no
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_owned_controlled_state ={
+					limit = {
+						is_capital = no
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+
+
+			if = {
+				limit = {
+					NOT = { has_idea = Oceania_large_kingdom }
+					capital_scope = {
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+				}
+				capital_scope = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_idea = Oceania_large_kingdom }
+					capital_scope = {
+						free_building_slots = {
+							building = infrastructure
+							size < 1
+						}
+					}
+				}
+				random_owned_controlled_state ={
+					limit = {
+						is_capital = no
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
 				}
 			}
 		}
@@ -4166,7 +5259,7 @@ focus_tree = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_expand_cotton_plantation
 		icon = GFX_goal_SAX_Cotton
@@ -4176,34 +5269,20 @@ focus_tree = {
 				tooltip = Oceania_industrisation_progress_greater_than_15
 				check_variable = {ROOT.industrisation_progress > 14}
 			}
-			custom_trigger_tooltip = {
-				tooltip = Ocenaia_has_infrastructure_to_support_new_buildings
-				if = {
-					limit = { has_idea = Oceania_large_kingdom }
-					Oceania_two_extra_building_slots_supported_trigger = yes
-				}
-				if = {
-					limit = { has_idea = Oceania_small_kingdom }
-					Oceania_one_extra_building_slots_supported_trigger = yes
-				}
-			}
 		}
 		x = 5
-		y = 13
+		y = 12
 		prerequisite = {
-			focus = Oceania_generic_plan_for_new_cities
+			focus = Oceania_generic_western_domestic_policies
+			focus = Oceania_generic_traditional_domestic_policies
 		}
 		completion_reward = {
 			if = {
 				limit = { has_idea = Oceania_large_kingdom }
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-					}
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4214,12 +5293,8 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-					}
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4232,12 +5307,8 @@ focus_tree = {
 			else = {
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-					}
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4249,14 +5320,14 @@ focus_tree = {
 			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_grow_more_food
 		icon = GFX_goal_focus_agriculture
@@ -4266,34 +5337,20 @@ focus_tree = {
 				tooltip = Oceania_industrisation_progress_greater_than_15
 				check_variable = {ROOT.industrisation_progress > 14}
 			}
-			custom_trigger_tooltip = {
-				tooltip = Ocenaia_has_infrastructure_to_support_new_buildings
-				if = {
-					limit = { has_idea = Oceania_large_kingdom }
-					Oceania_three_extra_building_slots_supported_trigger = yes
-				}
-				if = {
-					limit = { has_idea = Oceania_small_kingdom }
-					Oceania_two_extra_building_slots_supported_trigger = yes
-				}
-			}
 		}
 		x = 7
-		y = 13
+		y = 12
 		prerequisite = {
-			focus = Oceania_generic_plan_for_new_cities
+			focus = Oceania_generic_western_domestic_policies
+			focus = Oceania_generic_traditional_domestic_policies
 		}
 		completion_reward = {
 			if = {
 				limit = { has_idea = Oceania_large_kingdom }
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-					}
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4304,12 +5361,8 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-					}
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4320,12 +5373,8 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-					}
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4338,12 +5387,8 @@ focus_tree = {
 			else = {
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-					}
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4354,12 +5399,8 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-					}
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
 					}
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
@@ -4371,14 +5412,14 @@ focus_tree = {
 			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
-				country_event = { id = EDC_afr.5 hours = 1 } 
+				country_event = { id = EDC_afr.5 hours = 1 }
 			}
 		}
 		allow_branch = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_foreign_operated_arms_factories
 		icon = GFX_goal_focus_industrial_revolution
@@ -4405,19 +5446,14 @@ focus_tree = {
 		prerequisite = {
 			focus = Oceania_generic_modern_cities
 			focus = Oceania_generic_introduce_industrial_centers
-		}
-		prerequisite = {
-			focus = Oceania_generic_expand_cotton_plantation
-		}
-		prerequisite = {
-			focus = Oceania_generic_grow_more_food
+			focus = Oceania_generic_plan_for_new_cities
 		}
 		completion_reward = {
 			if = {
 				limit = { has_idea = Oceania_large_kingdom }
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land  }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -4433,7 +5469,7 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -4449,7 +5485,7 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -4465,13 +5501,12 @@ focus_tree = {
 				}
 				custom_effect_tooltip = EDC_afr.6.t
 				hidden_effect = {
-					country_event = { id = EDC_afr.6 hours = 1 } 
+					country_event = { id = EDC_afr.6 hours = 1 }
 				}
 				custom_effect_tooltip = afr_colonial_effect_tooltip
-				custom_effect_tooltip = AFR_Racial_Tension_plus_1
-				
-				hidden_effect = {
-					country_event = {id = afr_rrp_racial_tension_increase.1}
+				capital_scope = {
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 				}
 			}
 			if = {
@@ -4481,7 +5516,7 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -4497,7 +5532,7 @@ focus_tree = {
 				}
 				random_owned_controlled_state ={
 					limit = {
-						is_core_of = ROOT 
+						is_core_of = ROOT
 						NOT = { has_state_flag = Oceania_historically_colonized_land }
 						Oceania_infrastructure_for_extra_building_slots_trigger = yes
 					}
@@ -4513,20 +5548,19 @@ focus_tree = {
 				}
 				custom_effect_tooltip = EDC_afr.6.t
 				hidden_effect = {
-					country_event = { id = EDC_afr.6 hours = 1 } 
+					country_event = { id = EDC_afr.6 hours = 1 }
 				}
 				custom_effect_tooltip = afr_colonial_effect_tooltip
-				custom_effect_tooltip = AFR_Racial_Tension_plus_1
-				
-				hidden_effect = {
-					country_event = {id = afr_rrp_racial_tension_increase.1}
+				capital_scope = {
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 				}
 			}
 			if = {
 				limit = { has_country_flag = Oceania_generic_pursue_isolationist_policy }
 			}
 			custom_effect_tooltip = Oceania_generic_foreign_operated_arms_factories_tooltip
-			
+
 		}
 		bypass = {
 			custom_trigger_tooltip = {
@@ -4538,7 +5572,7 @@ focus_tree = {
 
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_a_growing_kingdom
 		icon = GFX_focus_rom_royal_dictatorship
@@ -4565,7 +5599,7 @@ focus_tree = {
 			has_idea = Oceania_large_kingdom
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_western_oriented_regional_power
 		icon = GFX_goal_focus_democracy
@@ -4591,10 +5625,10 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			
+
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_eastern_oriented_regional_power
 		icon = GFX_goal_SWE_kings_loyalty
@@ -4623,11 +5657,11 @@ focus_tree = {
 
 		}
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	focus = {
 		id = Oceania_generic_reorganize_military
 		icon = GFX_focus_generic_military_academy
@@ -4671,22 +5705,22 @@ focus_tree = {
 				army_experience = 15
 			}
 			if = {
-				limit = { 
+				limit = {
 					AND = {
 						NOT = { has_idea = law_army_tribal_advanced }
 						NOT = { has_idea = law_army_tribal_improved }
-						NOT = { has_idea = law_army_tribal_basic }					
+						NOT = { has_idea = law_army_tribal_basic }
 					}
 				}
 				army_experience = 20
 			}
-			
+
 		}
 		allow_branch = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_western_advisors
 		icon = GFX_goal_focus_continent_west_europe
@@ -4707,18 +5741,18 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = Oceania_generic_reorganize_military
-		}	
+		}
 		mutually_exclusive = {
 			focus = Oceania_generic_traditional_advisors
 		}
 		completion_reward = {
-			
+
 		}
 		allow_branch = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_traditional_advisors
 		icon = GFX_goal_focus_traditional_army
@@ -4742,18 +5776,18 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = Oceania_generic_reorganize_military
-		}	
+		}
 		mutually_exclusive = {
 			focus = Oceania_generic_western_advisors
 		}
 		completion_reward = {
-			
+
 		}
 		allow_branch = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_foreign_liscense_agreement
 		icon = GFX_goal_focus_foreign_diplomacy_military
@@ -4784,7 +5818,7 @@ focus_tree = {
 		prerequisite = {
 			focus = Oceania_generic_traditional_advisors
 			focus = Oceania_generic_western_advisors
-		}	
+		}
 		mutually_exclusive = {
 			focus = Oceania_generic_improve_our_designs
 		}
@@ -4813,13 +5847,13 @@ focus_tree = {
 				limit = { has_country_flag = Oceania_generic_qing_merchants }
 				CHI = { country_event = { id = oceania_request_license.1 } }
 			}
-			
+
 		}
 		allow_branch = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_improve_our_designs
 		icon = GFX_focus_PIE_Casus_Belli
@@ -4827,12 +5861,12 @@ focus_tree = {
 		x = 18
 		y = 12
 		available = {
-			
+
 		}
 		prerequisite = {
 			focus = Oceania_generic_traditional_advisors
 			focus = Oceania_generic_western_advisors
-		}	
+		}
 		mutually_exclusive = {
 			focus = Oceania_generic_foreign_liscense_agreement
 		}
@@ -4843,7 +5877,7 @@ focus_tree = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_specialized_army_doctrine
 		icon = GFX_focus_chi_army_reform
@@ -4858,7 +5892,7 @@ focus_tree = {
 		prerequisite = {
 			focus = Oceania_generic_improve_our_designs
 			focus = Oceania_generic_foreign_liscense_agreement
-		}	
+		}
 		mutually_exclusive = {
 			focus = Oceania_generic_massive_army_doctrine
 		}
@@ -4874,7 +5908,7 @@ focus_tree = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_massive_army_doctrine
 		icon = GFX_goal_focus_conscription
@@ -4889,7 +5923,7 @@ focus_tree = {
 		prerequisite = {
 			focus = Oceania_generic_improve_our_designs
 			focus = Oceania_generic_foreign_liscense_agreement
-		}	
+		}
 		mutually_exclusive = {
 			focus = Oceania_generic_specialized_army_doctrine
 		}
@@ -4905,7 +5939,7 @@ focus_tree = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_early_marines
 		icon = GFX_focus_prc_infiltration
@@ -4913,11 +5947,11 @@ focus_tree = {
 		x = 14
 		y = 14
 		available = {
-			
+
 		}
 		prerequisite = {
 			focus = Oceania_generic_specialized_army_doctrine
-		}	
+		}
 		completion_reward = {
 			if = {
 				limit = {
@@ -4936,7 +5970,7 @@ focus_tree = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_recruitment_drives
 		icon = GFX_focus_generic_little_entente
@@ -4944,11 +5978,11 @@ focus_tree = {
 		x = 18
 		y = 14
 		available = {
-			
+
 		}
 		prerequisite = {
 			focus = Oceania_generic_massive_army_doctrine
-		}	
+		}
 		completion_reward = {
 			add_manpower = 5000
 		}
@@ -4956,7 +5990,7 @@ focus_tree = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_loyal_soldiers
 		icon = GFX_goal_demand_sudetenland
@@ -4964,12 +5998,12 @@ focus_tree = {
 		x = 16
 		y = 14
 		available = {
-			
+
 		}
 		prerequisite = {
 			focus = Oceania_generic_specialized_army_doctrine
 			focus = Oceania_generic_massive_army_doctrine
-		}	
+		}
 		completion_reward = {
 			add_manpower = 1500
 		}
@@ -4977,7 +6011,7 @@ focus_tree = {
 			always = yes
 		}
 	}
-	
+
 	focus = {
 		id = Oceania_generic_a_victorian_era_army
 		icon = GFX_focus_Colonial_Troops
@@ -4996,7 +6030,7 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = Oceania_generic_loyal_soldiers
-		}	
+		}
 		completion_reward = {
 			if = {
 				limit = { NOT = { has_idea = law_victorian_army } }
@@ -5010,5 +6044,5 @@ focus_tree = {
 			always = yes
 		}
 	}
-	
+
 }

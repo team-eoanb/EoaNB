@@ -1,0 +1,775 @@
+focus_tree = {	
+	id = SAC_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = SAC
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_investment
+		icon = GFX_goal_focus_international_investments
+		x = 3
+		y = 6
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		available = {
+			if = { 
+				limit = {
+					OR = {
+						has_idea = AFR_french_colony
+						has_idea = AFR_french_colony_tribute
+						has_idea = AFR_british_colony
+						has_idea = AFR_british_colony_tribute
+						has_idea = AFR_netherland_colony
+						has_idea = AFR_netherland_colony_tribute
+						has_idea = AFR_spanish_colony
+						has_idea = AFR_spanish_colony_tribute
+					}
+				}
+				has_completed_focus = afr_colony_generic_focus_strengthen_government
+			}
+		}
+		completion_reward = {
+			set_country_flag = afr_colony_generic_colonial_investments_decisions_flag
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_industry
+		icon = GFX_goal_continuous_research
+		x = 0
+		y = 1
+		relative_position_id = SAC_colony_generic_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = SAC_colony_generic_regional_investment }
+		
+		completion_reward = {
+			custom_effect_tooltip = afr_colony_generic_regional_industry_tooltip
+			hidden_effect = {
+				set_country_flag = afr_colony_generic_regional_industry_decision_mission
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_industry_completed
+		icon = GFX_focus_focus_generic_industry_1
+		x = 0
+		y = 3
+		relative_position_id = SAC_colony_generic_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			has_country_flag = afr_colony_generic_regional_industry_completed
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = SAC_colony_generic_regional_victorian_era }
+		
+		completion_reward = {
+
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_resources
+		icon = GFX_goal_continuous_non_factory_construct
+		x = -2
+		y = 1
+		relative_position_id = SAC_colony_generic_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = SAC_colony_generic_regional_investment }
+		
+		completion_reward = {
+			custom_effect_tooltip = afr_colony_generic_regional_resources_tooltip
+			hidden_effect = {
+				set_country_flag = afr_colony_generic_regional_resources_decision_mission
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_resources_completed
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -2
+		y = 3
+		relative_position_id = SAC_colony_generic_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			has_country_flag = afr_colony_generic_regional_resources_completed
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = SAC_colony_generic_regional_victorian_era }
+		
+		completion_reward = {
+
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_infrastructure
+		icon = GFX_goal_continuous_repairments
+		x = 2
+		y = 1
+		relative_position_id = SAC_colony_generic_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = SAC_colony_generic_regional_investment }
+		
+		completion_reward = {
+			custom_effect_tooltip = afr_colony_generic_regional_infrastructure_tooltip
+			hidden_effect = {
+				set_country_flag = afr_colony_generic_regional_infrastructure_decision_mission
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_infrastructure_completed
+		icon = GFX_goal_focus_railroad_development
+		x = 2
+		y = 3
+		relative_position_id = SAC_colony_generic_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			has_country_flag = afr_colony_generic_regional_infrastructure_completed
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = SAC_colony_generic_regional_victorian_era }
+		
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = AF_T_small_scale_railways
+				}
+				swap_ideas={
+					add_idea=AF_T_medium_scale_railways
+					remove_idea=AF_T_small_scale_railways
+				}
+			}
+			if = {
+				limit = {
+					has_idea = AF_T_small_scale_railways_2
+				}
+				swap_ideas={
+					add_idea=AF_T_medium_scale_railways
+					remove_idea=AF_T_small_scale_railways_2
+				}
+			}
+			else_if = {
+				add_ideas = AF_T_medium_scale_railways
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_victorian_era
+		icon = GFX_goal_focus_industrial_revolution
+		x = 0
+		y = 2
+		relative_position_id = SAC_colony_generic_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			date > 1862.01.01
+			has_country_flag = afr_colony_generic_regional_resources_decision_flag
+			has_country_flag = afr_colony_generic_regional_industry_decision_flag
+			has_country_flag = afr_colony_generic_regional_infrastructure_decision_flag
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = SAC_colony_generic_regional_infrastructure }
+		prerequisite = { focus = SAC_colony_generic_regional_industry }
+		prerequisite = { focus = SAC_colony_generic_regional_resources }
+		
+		completion_reward = {
+			swap_ideas={
+				add_idea=victorian_era
+				remove_idea=pre_industrial_era
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {	
+				tooltip = SAC_colony_generic_regional_victorian_era_tooltip
+				has_idea = victorian_era
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_regional_industrializing
+		icon = GFX_goal_generic_production2
+		x = 0
+		y = 4
+		relative_position_id = SAC_colony_generic_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = SAC_colony_generic_regional_infrastructure_completed }
+		prerequisite = { focus = SAC_colony_generic_regional_industry_completed }
+		prerequisite = { focus = SAC_colony_generic_regional_resources_completed }
+		
+		completion_reward = {
+			swap_ideas={
+				add_idea=industrializing
+				remove_idea=agrarian
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_social_reforms
+		icon = GFX_goal_continuous_increase_nu
+		x = 1
+		y = 0
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1000
+		}
+		completion_reward = {
+			add_stability = 0.07
+		
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_reform_health_pamphlets
+		icon = GFX_goal_focus_popularize
+		x = 0
+		y = 1
+		relative_position_id = SAC_colony_generic_focus_social_reforms
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1000
+		}
+		available = {
+			has_tech = early_medicine
+		}
+		prerequisite = { 
+			focus = SAC_colony_generic_focus_social_reforms
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+				OR = {
+					has_country_flag = afr_mandatory_vaccines_everyone_done
+					has_country_flag = afr_mandatory_vaccines_colonists_done
+				}
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = { 
+					NOT = { has_tech = hygiene }
+				}
+				set_technology = { hygiene = 1 }
+			}
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_malaria_scourge
+				}
+				swap_ideas = { add_idea = afr_colonial_malaria_scourge_1 remove_idea = afr_colonial_malaria_scourge }
+			}
+			custom_effect_tooltip = afr_colony_generic_focus_reform_health_pamphlets_tooltip
+			set_country_flag = afr_reform_distributed_health_pamphlets
+		}
+		allow_branch = {
+			OR = {
+				has_idea = afr_colonial_malaria_scourge
+				has_idea = afr_colonial_malaria_scourge_1
+				has_idea = afr_colonial_malaria_scourge_2
+				has_idea = afr_colonial_malaria_scourge_3
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_reform_regional_hospitals
+		icon = GFX_goal_generic_construction2
+		x = 0
+		y = 1
+		relative_position_id = SAC_colony_generic_focus_reform_health_pamphlets
+		cost = 75
+		available_if_capitulated = no
+		available = { 
+			has_tech = antiseptics
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		prerequisite = {
+			focus = SAC_colony_generic_focus_reform_health_pamphlets
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+				OR = {
+					has_country_flag = afr_mandatory_vaccines_everyone_done
+					has_country_flag = afr_mandatory_vaccines_colonists_done
+				}
+			}
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 1
+				uses = 1
+				technology = early_hospitals
+			}
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_malaria_scourge_1
+				}
+				swap_ideas = { add_idea = afr_colonial_malaria_scourge_2 remove_idea = afr_colonial_malaria_scourge_1 }
+			}
+			custom_effect_tooltip = afr_colony_generic_focus_reform_regional_hospitals_tooltip
+			set_country_flag = afr_colony_generic_focus_reform_regional_hospitals_flag
+		}
+		allow_branch = {
+			OR = {
+				has_idea = afr_colonial_malaria_scourge
+				has_idea = afr_colonial_malaria_scourge_1
+				has_idea = afr_colonial_malaria_scourge_2
+				has_idea = afr_colonial_malaria_scourge_3
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_reform_mosquito_brigades
+		icon = GFX_goal_demand_sudetenland
+		x = 0
+		y = 2
+		relative_position_id = SAC_colony_generic_focus_reform_health_pamphlets
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1000
+		}
+		available = {
+			has_tech = copper_salts_pesticides
+		}
+		prerequisite = {
+			focus = SAC_colony_generic_focus_reform_regional_hospitals
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+				OR = {
+					has_country_flag = afr_mandatory_vaccines_everyone_done
+					has_country_flag = afr_mandatory_vaccines_colonists_done
+				}
+			}
+		}
+		completion_reward = {
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_malaria_scourge_2
+				}
+				swap_ideas = { add_idea = afr_colonial_malaria_scourge_3 remove_idea = afr_colonial_malaria_scourge_2 }
+			}
+			custom_effect_tooltip = afr_colony_generic_focus_reform_mosquito_brigades_tooltip
+			set_country_flag = afr_colony_generic_focus_reform_mosquito_brigades_flag
+		}
+		allow_branch = {
+			OR = {
+				has_idea = afr_colonial_malaria_scourge
+				has_idea = afr_colonial_malaria_scourge_1
+				has_idea = afr_colonial_malaria_scourge_2
+				has_idea = afr_colonial_malaria_scourge_3
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_reform_distribute_vaccines
+		icon = GFX_focus_generic_concessions
+		x = 0
+		y = 3
+		relative_position_id = SAC_colony_generic_focus_reform_health_pamphlets
+		cost = 75
+		available_if_capitulated = no
+		available = { 
+			has_tech = early_vaccination
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		prerequisite = {
+			focus = SAC_colony_generic_focus_reform_mosquito_brigades
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+				OR = {
+					has_country_flag = afr_mandatory_vaccines_everyone_done
+					has_country_flag = afr_mandatory_vaccines_colonists_done
+				}
+				NOT = { has_country_flag = afr_reform_distributed_health_pamphlets }
+			}
+		}
+		completion_reward = {
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_malaria_scourge_3
+				}
+				remove_ideas = afr_colonial_malaria_scourge_3
+			}
+			custom_effect_tooltip = afr_colony_generic_focus_reform_distribute_vaccines_tooltip
+		}
+		allow_branch = {
+			OR = {
+				has_idea = afr_colonial_malaria_scourge
+				has_idea = afr_colonial_malaria_scourge_1
+				has_idea = afr_colonial_malaria_scourge_2
+				has_idea = afr_colonial_malaria_scourge_3
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_reform_regional_schools
+		icon = GFX_focus_generic_self_management
+		x = 2
+		y = 1
+		relative_position_id = SAC_colony_generic_focus_social_reforms
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			#has_completed_focus = afr_colony_generic_focus_strengthen_government
+		}
+		prerequisite = { 
+			focus = SAC_colony_generic_focus_social_reforms
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		
+		completion_reward = {
+			if = { 
+				limit = { 
+					has_idea = Oceania_colonial_reforming_kingdom
+				}
+				swap_ideas = { add_idea = Oceania_colonial_reforming_kingdom_1 remove_idea = Oceania_colonial_reforming_kingdom }
+			}
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_reforming_kingdom
+				}
+				swap_ideas = { add_idea = afr_colonial_reforming_kingdom_1 remove_idea = afr_colonial_reforming_kingdom }
+			}
+			custom_effect_tooltip = afr_colony_generic_focus_reform_regional_schools_tooltip
+		}
+		allow_branch = {
+			OR = {
+				has_idea = Oceania_colonial_reforming_kingdom
+				has_idea = afr_colonial_reforming_kingdom
+				has_idea = Oceania_colonial_reforming_kingdom_1
+				has_idea = afr_colonial_reforming_kingdom_1
+				has_idea = Oceania_colonial_reforming_kingdom_2
+				has_idea = afr_colonial_reforming_kingdom_2
+				has_idea = Oceania_colonial_reforming_kingdom_3
+				has_idea = afr_colonial_reforming_kingdom_3
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_reform_regional_military
+		icon = GFX_focus_generic_military_mission
+		x = 0
+		y = 1
+		relative_position_id = SAC_colony_generic_focus_reform_regional_schools
+		cost = 75
+		available_if_capitulated = no
+		available = { 
+			#OR = {
+			#	has_completed_focus = afr_colony_generic_focus_spread_military
+			#	has_completed_focus = afr_colony_generic_focus_centralized_army
+			#}
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		prerequisite = {
+			focus = SAC_colony_generic_focus_reform_regional_schools
+		}
+		completion_reward = {
+			if = { 
+				limit = { 
+					has_idea = Oceania_colonial_reforming_kingdom_1
+				}
+				swap_ideas = { add_idea = Oceania_colonial_reforming_kingdom_2 remove_idea = Oceania_colonial_reforming_kingdom_1 }
+			}
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_reforming_kingdom_1
+				}
+				swap_ideas = { add_idea = afr_colonial_reforming_kingdom_2 remove_idea = afr_colonial_reforming_kingdom_1 }
+			}
+			custom_effect_tooltip = afr_colony_generic_focus_reform_regional_military_tooltip
+		}
+		allow_branch = {
+			OR = {
+				has_idea = Oceania_colonial_reforming_kingdom
+				has_idea = afr_colonial_reforming_kingdom
+				has_idea = Oceania_colonial_reforming_kingdom_1
+				has_idea = afr_colonial_reforming_kingdom_1
+				has_idea = Oceania_colonial_reforming_kingdom_2
+				has_idea = afr_colonial_reforming_kingdom_2
+				has_idea = Oceania_colonial_reforming_kingdom_3
+				has_idea = afr_colonial_reforming_kingdom_3
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_reform_regional_policies
+		icon = GFX_goal_focus_reform_government
+		x = 0
+		y = 2
+		relative_position_id = SAC_colony_generic_focus_reform_regional_schools
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1000
+		}
+		available = {
+			#has_completed_focus = afr_colony_generic_focus_limited_constitution
+		}
+		prerequisite = {
+			focus = SAC_colony_generic_focus_reform_regional_military
+		}
+		completion_reward = {
+			if = { 
+				limit = { 
+					has_idea = Oceania_colonial_reforming_kingdom_2
+				}
+				swap_ideas = { add_idea = Oceania_colonial_reforming_kingdom_3 remove_idea = Oceania_colonial_reforming_kingdom_2 }
+			}
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_reforming_kingdom_2
+				}
+				swap_ideas = { add_idea = afr_colonial_reforming_kingdom_3 remove_idea = afr_colonial_reforming_kingdom_2 }
+			}
+			custom_effect_tooltip = afr_colony_generic_focus_reform_regional_policies_tooltip
+		}
+		allow_branch = {
+			OR = {
+				has_idea = Oceania_colonial_reforming_kingdom
+				has_idea = afr_colonial_reforming_kingdom
+				has_idea = Oceania_colonial_reforming_kingdom_1
+				has_idea = afr_colonial_reforming_kingdom_1
+				has_idea = Oceania_colonial_reforming_kingdom_2
+				has_idea = afr_colonial_reforming_kingdom_2
+				has_idea = Oceania_colonial_reforming_kingdom_3
+				has_idea = afr_colonial_reforming_kingdom_3
+			}
+		}
+	}
+	
+	focus = {
+		id = SAC_colony_generic_focus_complete_reform
+		icon = GFX_focus_generic_home_defense
+		x = 0
+		y = 3
+		relative_position_id = SAC_colony_generic_focus_reform_regional_schools
+		cost = 75
+		available_if_capitulated = no
+		available = { 
+			OR = {
+				has_idea = Oceania_colonial_reforming_kingdom_3
+				has_idea = afr_colonial_reforming_kingdom_3
+			}
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		prerequisite = {
+			focus = SAC_colony_generic_focus_reform_regional_policies
+		}
+		completion_reward = {
+			if = { 
+				limit = { 
+					has_idea = Oceania_colonial_reforming_kingdom_3
+				}
+				remove_ideas = Oceania_colonial_reforming_kingdom_3
+			}
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_reforming_kingdom_3
+				}
+				remove_ideas = afr_colonial_reforming_kingdom_3
+			}
+			custom_effect_tooltip = afr_colony_generic_focus_complete_reform_tooltip
+		}
+		allow_branch = {
+			OR = {
+				has_idea = Oceania_colonial_reforming_kingdom
+				has_idea = afr_colonial_reforming_kingdom
+				has_idea = Oceania_colonial_reforming_kingdom_1
+				has_idea = afr_colonial_reforming_kingdom_1
+				has_idea = Oceania_colonial_reforming_kingdom_2
+				has_idea = afr_colonial_reforming_kingdom_2
+				has_idea = Oceania_colonial_reforming_kingdom_3
+				has_idea = afr_colonial_reforming_kingdom_3
+			}
+		}
+	}
+
+	focus = {
+		id = SAC_conscript_natives
+		x = 8
+		y = 0
+		cost = 70
+		ai_will_do = { factor = 1 }
+		icon = GFX_focus_generic_commonwealth_build_infantry
+		completion_reward = {
+			add_manpower = 1000
+			hidden_effect = { load_oob = SAC_natives }
+		}
+	}
+
+	focus = {
+		id = SAC_developed_colony
+		x = 8
+		y = 1
+		prerequisite = {
+			focus = SAC_conscript_natives
+		}
+		icon = GFX_goal_anschluss
+		cost = 70
+		available = {
+		date > 1864.01.01
+		}
+		ai_will_do = { factor = 1 }
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}	
+
+    focus = {
+		id = SAC_golden_era
+		x = 8
+		y = 2
+		prerequisite = {
+			focus = SAC_developed_colony 
+		}
+		icon = GFX_goal_see_to_economy
+		cost = 140
+		ai_will_do = { factor = 1 }
+		completion_reward = {
+		    add_war_support = -0.02
+            add_stability = 0.01
+			871 = { add_extra_state_shared_building_slots = 1 }
+			871 = { add_building_construction = { type = industrial_complex level = 1 instant_build = yes } }
+        }
+	}	
+	
+	focus = {
+		id = SAC_lumber
+		x = 8
+		y = 3
+		prerequisite = {
+			focus = SAC_golden_era
+		}
+		icon = GFX_wood
+		cost = 70
+		ai_will_do = { factor = 1 }
+		completion_reward = {
+            add_manpower = -200
+			add_war_support = -0.01
+		    871 = { add_extra_state_shared_building_slots = 3 }
+			871 = { add_building_construction = { type = logging_camp level = 1 instant_build = yes } }
+        }
+	}
+	focus = {
+		id = SAC_our_decision
+		x = 8
+		y = 4
+		prerequisite = {
+			focus = SAC_lumber
+		}
+		icon = GFX_goal_generic_political_pressure
+		cost = 70
+		ai_will_do = { factor = 1 }
+		completion_reward = {
+        add_political_power = 100  
+		
+        }
+	}
+    focus = {
+		id = SAC_loyal
+		x = 10
+		y = 5
+	    prerequisite = {
+		    focus = SAC_our_decision
+	    }
+		icon = GFX_goal_generic_political_pressure
+		cost = 70
+		ai_will_do = { factor = 2 }
+		mutually_exclusive = { focus = SAC_independence }
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+	focus = {
+		id = SAC_independence
+		x = 6
+		y = 5
+	    prerequisite = {
+		    focus = SAC_our_decision
+	    }
+		icon = GFX_goal_generic_political_pressure
+		cost = 70
+		ai_will_do = { factor = 2 }
+		mutually_exclusive = { focus = SAC_loyal }
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+}

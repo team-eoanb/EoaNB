@@ -1,0 +1,68 @@
+VIN_Cochinchina_Campaign_InvestmentSetup = {
+	if = {
+		limit = { NOT = { has_dynamic_modifier = { modifier = VIN_Cochinchina_Campaign_Investment } } }
+		set_temp_variable = { VIN_Cochinchina_Campaign_Investment_Level_Modify = 1 }
+		add_dynamic_modifier = { modifier = VIN_Cochinchina_Campaign_Investment }
+
+		VIN_Cochinchina_Campaign_Investment_Modify = yes
+	}
+}
+VIN_Cochinchina_Campaign_Investment_Modify = {
+	if = {
+		limit = { has_dynamic_modifier = { modifier = VIN_Cochinchina_Campaign_Investment } }
+		custom_effect_tooltip = VIN_Cochinchina_Campaign_Investment_Modify_tt
+		add_to_variable = { VIN_Cochinchina_Campaign_Investment_Level = VIN_Cochinchina_Campaign_Investment_Level_Modify }
+
+		clamp_variable = {
+			var = VIN_Cochinchina_Campaign_Investment_Level
+			min = 0
+			max = 15
+		}
+
+		if = {
+			limit = { check_variable = { VIN_Cochinchina_Campaign_Investment_Level < 5 } }
+			set_temp_variable = { VIN_CC_Investment_sf = -0.05 }
+		}
+		else_if = {
+			limit = { check_variable = { VIN_Cochinchina_Campaign_Investment_Level < 10 } }
+			set_temp_variable = { VIN_CC_Investment_sf = -0.10 }
+		}
+		else = {
+			set_temp_variable = { VIN_CC_Investment_sf = -0.15 }
+		}
+
+		set_temp_variable = { VIN_CC_Investment_lp_temp = 0.03 }
+		multiply_temp_variable = { VIN_CC_Investment_lp_temp = VIN_Cochinchina_Campaign_Investment_Level }
+		set_variable = { VIN_CC_Investment_lp = VIN_CC_Investment_lp_temp }
+
+		set_temp_variable = { VIN_CC_Investment_cg_temp = 0.02 }
+		multiply_temp_variable = { VIN_CC_Investment_cg_temp = VIN_Cochinchina_Campaign_Investment_Level }
+		set_variable = { VIN_CC_Investment_cg = VIN_CC_Investment_cg_temp }
+
+		set_temp_variable = { VIN_CC_Investment_wws_temp = -0.05 }
+		multiply_temp_variable = { VIN_CC_Investment_wws_temp = VIN_Cochinchina_Campaign_Investment_Level }
+		set_variable = { VIN_CC_Investment_wws = VIN_CC_Investment_wws_temp }
+
+		set_temp_variable = { VIN_CC_Investment_Inverted = VIN_Cochinchina_Campaign_Investment }
+		subtract_from_temp_variable = { VIN_CC_Investment_Inverted = 15 }
+
+		set_temp_variable = { VIN_CC_Investment_aaf_temp = 0.03 }
+		multiply_temp_variable = { VIN_CC_Investment_aaf_temp = VIN_CC_Investment_Inverted }
+		set_variable = { VIN_CC_Investment_aaf = VIN_CC_Investment_aaf_temp }
+	}
+}
+VIN_Cochinchina_Campaign_Investment_Remove = {
+	remove_dynamic_modifier = { modifier = VIN_Cochinchina_Campaign_Investment }
+
+	add_timed_idea = {
+		idea = VIN_Cochinchina_Campaign_Aftereffects
+		days = 1000
+	}
+
+	clear_variable = VIN_Cochinchina_Campaign_Investment_Level
+	clear_variable = VIN_CC_Investment_sf
+	clear_variable = VIN_CC_Investment_lp
+	clear_variable = VIN_CC_Investment_cg
+	clear_variable = VIN_CC_Investment_wws
+	clear_variable = VIN_CC_Investment_aaf
+}

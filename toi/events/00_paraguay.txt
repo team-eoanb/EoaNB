@@ -7,11 +7,12 @@ country_event = {
 		picture = GFX_report_event_carlos_dies
 		
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			tag = PAR
 			has_government = traditional_conservatism
-			date > 1862.9.10
+			#date > 1862.9.10
 		}
 		
 		option = {
@@ -53,13 +54,13 @@ country_event = {
 }
 
 
-country_event = {
+	country_event = {
 		id = par.2
 		title = par.2.t
 		desc = par.2.d
 		picture = GFX_report_event_militarization
 		
-		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			AND = {
@@ -70,12 +71,16 @@ country_event = {
 					ARG = {
 						has_government = centrism
 					}
-				date > 1864.1.1
+					date > 1864.1.1
 				}
 			}
+			NOT = { has_global_flag = par_2_event_triggered_flag }
 		}
 		
+		immediate = { set_global_flag = par_2_event_triggered_flag }
+		
 		option = {
+			
 			name = par.2.a
 			custom_effect_tooltip = PAR_custom_effect_paraguay2
 			hidden_effect = { 
@@ -86,54 +91,50 @@ country_event = {
 				add_ideas = par_militarization
 	 		}
 		}
-}
+	}
 
-country_event = {
+	country_event = {
 		id = par.3
 		title = par.3.t
 		desc = par.3.d
 		picture = GFX_report_event_agrarian
 		
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			AND = { 
 				tag = PAR
 				has_government = chauvinist_populism
-				date > 1863.5.3
+				#date > 1863.5.3
 			}
-			}
+		}
 		
 		option = {
 			name = par.3.a
 			add_ideas = PAR_agrarian_reforms
 		}
 			
-}
+	}
 
-country_event = {
+	country_event = {
 		id = par.4
 		title = par.4.t
 		desc = par.4.d
 		
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			AND = {
-			tag = PAR
-			has_government = chauvinist_populism
-		    ARG = {
-				has_government = centrism
-			}
-			OR = {
-				BRA = {
-				has_completed_focus	= BRA_uruguayan_intervention
-				}
-				BRA = {
-				has_completed_focus = BRA_reclaim_the_cisplatine_province
+				TAG = PAR
+				has_government = chauvinist_populism
+				ARG = { has_government = centrism }
+				OR = {
+					BRA = { has_completed_focus	= BRA_uruguayan_intervention }
+					BRA = { has_completed_focus = BRA_reclaim_the_cisplatine_province }
 				}
 			}
-		}
 		}
 		
 		option = {
@@ -146,284 +147,306 @@ country_event = {
 }
 		
 country_event = {
-		id = par.5
-		title = par.5.t
-		desc = par.5.d
-		picture = GFX_report_event_governmentpar
+	id = par.5
+	title = par.5.t
+	desc = par.5.d
+	picture = GFX_report_event_governmentpar
 
-		fire_only_once = yes
+	fire_only_once = yes
+	is_triggered_only = yes
 		
-		trigger = {
+	trigger = {
 		AND = {
-			tag = PAR
+			TAG = PAR
 			has_government = chauvinist_populism
             OR = {
-				BRA = {
-				has_completed_focus	= BRA_challenge_the_blanco_government
-				}
-				BRA = { 
-				has_completed_focus = BRA_artigas_border_crisis
-				}
+				BRA = { has_completed_focus	= BRA_challenge_the_blanco_government }
+				BRA = { has_completed_focus = BRA_artigas_border_crisis }
 			}	
 		}
-		}
+	}
 		
-		option = {
-			name = par.5.a
-			trigger = {
-				tag = PAR
-			}
-			custom_effect_tooltip = PAR_custom_effect_paraguay4
-			hidden_effect = {
-				load_oob = PAR_reinforcements2
-				add_state_claim = 1036
-				add_state_claim = 503
-				add_state_claim = 502
-				add_war_support = 0.05
-				add_opinion_modifier = {
-				    target = BRA
-				    modifier = protest_action_strong
-				}
-				BRA = { country_event = { id = par.5 } }
-			}
+	option = {
+		name = par.5.a
+		trigger = {
+			tag = PAR
 		}
-		option = {
-			name = par.5.b
-			trigger = {
-				tag = BRA
-			}
-			add_war_support = 0.02
+		custom_effect_tooltip = PAR_custom_effect_paraguay4
+		hidden_effect = {
+			load_oob = PAR_reinforcements2
+			add_state_claim = 1036
+			add_state_claim = 503
+			add_state_claim = 502
+			add_state_core = 1099
+			1099 = {  
+				remove_claim_by = PAR
+			}	
+			add_war_support = 0.05
 			add_opinion_modifier = {
-			    target = PAR
+			    target = BRA
 			    modifier = protest_action_strong
 			}
+			BRA = { country_event = { id = par.55 } }
 		}
+	}
  }
  
  country_event = {
-		id = par.6
-		title = par.6.t
-		desc = par.6.d
+	id = par.55
+	title = par.5.t
+	desc = par.5.d
+	picture = GFX_report_event_governmentpar
 
-		fire_only_once = yes
+	fire_only_once = yes
+	is_triggered_only = yes
 		
+	trigger = {
+		AND = {
+			TAG = BRA
+			has_government = chauvinist_populism
+            OR = {
+				BRA = { has_completed_focus	= BRA_challenge_the_blanco_government }
+				BRA = { has_completed_focus = BRA_artigas_border_crisis }
+			}	
+		}
+	}
+	option = {
+		name = par.5.b
 		trigger = {
-         AND = {
+			tag = BRA
+		}
+		add_war_support = 0.02
+		add_opinion_modifier = {
+		    target = PAR
+		    modifier = protest_action_strong
+		}
+	}
+ }
+ 
+ country_event = {
+	id = par.6
+	title = par.6.t
+	desc = par.6.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+		
+	trigger = {
+        AND = {
 			tag = PAR
 			has_government = chauvinist_populism
-            BRA = {
-				has_completed_focus	= BRA_direct_intervention
-			}
-			URG = {
-				surrender_progress > 0.2
-			}
+			BRA = { has_completed_focus	= BRA_direct_intervention }
+			URG = { surrender_progress > 0.2 }
 			has_war = no
 		}	
-		}
+	}
 		
-		option = {
-			name = par.6.a
-			declare_war_on = {
-				target = BRA
-			    type = annex_everything
-			}
-			declare_war_on = {
-				target = URC
-			    type = annex_everything
-			}
-			hidden_effect = {
-				add_timed_idea = {
-					idea = PAR_disorganized_attack
-					days = 500
-				}
-				add_ideas = PAR_not_one_step_back
-				news_event = { id = par_news.1 }
-			}
-			set_country_flag = Paraguayan_War
-			BRA = { country_event = { id = par.7 } 
-			set_country_flag = Paraguayan_War
-			}
-			ARG = {
-			set_country_flag = Paraguayan_War
-			}
-			URC = {
-			set_country_flag = Paraguayan_War
-			}
+	option = {
+		name = par.6.a
+		declare_war_on = {
+			target = BRA
+		    type = annex_everything
 		}
+		declare_war_on = {
+			target = URC
+		    type = annex_everything
+		}
+		hidden_effect = {
+			add_timed_idea = {
+				idea = PAR_disorganized_attack
+				days = 500
+			}
+			add_ideas = PAR_not_one_step_back
+			news_event = { id = par_news.1 }
+		}
+		set_country_flag = Paraguayan_War
+		BRA = { 
+			country_event = { id = par.7 } 
+			set_country_flag = Paraguayan_War
+		}
+		ARG = {
+			set_country_flag = Paraguayan_War
+		}
+		URC = {
+			set_country_flag = Paraguayan_War
+		}
+	}
 }
  
 
 country_event = {
-		id = par.7
-		title = par.7.t
-		desc = par.7.d
-		picture = GFX_report_event_parwar
+	id = par.7
+	title = par.7.t
+	desc = par.7.d
+	picture = GFX_report_event_parwar
 
-		fire_only_once = yes
+	fire_only_once = yes
 
-		is_triggered_only = yes
+	is_triggered_only = yes
 		
-		option = {
-			name = par.7.a
-			add_ideas = BRA_not_prepared_paraguay
-		}
+	option = {
+		name = par.7.a
+		add_ideas = BRA_not_prepared_paraguay
+	}
 			
 }
 
 country_event = { #Ask Argentina for Access
-		id = par.8
-		title = par.8.t
-		desc = par.8.d
-		picture = GFX_report_event_parwar
+	id = par.8
+	title = par.8.t
+	desc = par.8.d
+	picture = GFX_report_event_parwar
+	
+	fire_only_once = yes
+	is_triggered_only = yes
 
-		fire_only_once = yes
-
-		trigger = {
-			AND = {
-				date > 1865.1.10
-				ARG = { has_war = no }
-				ARG = { exists = yes }
-				ARG = { is_puppet = no }
-				tag = PAR
-				has_war_with = BRA
-			}
+	trigger = {
+		AND = {
+			#date > 1865.1.10
+			ARG = { has_war = no }
+			ARG = { exists = yes }
+			ARG = { is_puppet = no }
+			tag = PAR
+			has_war_with = BRA
 		}
+	}
 		
-		option = {
-			name = par.8.a
-			trigger = {
-				tag = PAR
-			}
-			ARG = { country_event = { id = par.9 days = 10 } }
-			hidden_effect = { BRA = { country_event = { id = par.8 } } }
+	option = {
+		name = par.8.a
+		trigger = {
+			tag = PAR
 		}
-		option = {
-			name = par.8.b
-			trigger = {
-				tag = BRA
-			}
+		ARG = { country_event = { id = par.9 days = 10 } }
+		hidden_effect = { BRA = { country_event = { id = par.8 } } }
+	}
+	option = {
+		name = par.8.b
+		trigger = {
+			tag = BRA
 		}
+	}
 }
 
 country_event = { #Argentina's Response
-		id = par.9
-		title = par.9.t
-		desc = par.9.d
-		picture = GFX_report_event_parwar
+	id = par.9
+	title = par.9.t
+	desc = par.9.d
+	picture = GFX_report_event_parwar
 
-		fire_only_once = yes
+	fire_only_once = yes
 
-		is_triggered_only = yes
+	is_triggered_only = yes
 		
-		option = {
-			name = par.9.a
-			ai_chance = {
-				factor = 50
-				modifier = {
-					add = 50
+	option = {
+		name = par.9.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				add = 50
+				is_historical_focus_on = yes
+			}
+		}
+		hidden_effect = {
+			PAR = { country_event = { id = par.10 days = 20 } }
+		}
+	}
+	option = {
+		name = par.9.b
+		ai_chance = {
+			factor = 0
+			modifier = {
+				add = 50
+				has_government = centrism
+				NOT = {
 					is_historical_focus_on = yes
 				}
 			}
-			hidden_effect = {
-				PAR = { country_event = { id = par.10 days = 20 } }
-			}
 		}
-		option = {
-			name = par.9.b
-			ai_chance = {
-				factor = 0
-				modifier = {
-					add = 50
-					has_government = centrism
-					NOT = {
-						is_historical_focus_on = yes
-					}
+		BRA = { give_military_access = ARG }
+		hidden_effect = {
+			PAR = { country_event = { id = par.10 days = 10 } }
+		}
+	}
+	option = {
+		name = par.9.c
+		ai_chance = {
+			factor = 0
+			modifier = {
+				add = 50
+				has_government = traditional_conservatism
+				NOT = {
+					is_historical_focus_on = yes
 				}
 			}
-			BRA = { give_military_access = ARG }
-			hidden_effect = {
-				PAR = { country_event = { id = par.10 days = 10 } }
-			}
 		}
-		option = {
-			name = par.9.c
-			ai_chance = {
-				factor = 0
-				modifier = {
-					add = 50
-					has_government = traditional_conservatism
-					NOT = {
-						is_historical_focus_on = yes
-					}
-				}
-			}
-			PAR = { give_military_access = ARG }
-			hidden_effect = {
-				BRA = { country_event = { id = par.11 days = 10 } }
-			}
+		PAR = { give_military_access = ARG }
+		hidden_effect = {
+			BRA = { country_event = { id = par.11 days = 10 } }
 		}
+	}
 			
 }
 country_event = { #Paraguay Responds to Denial
-		id = par.10
-		title = par.10.t
-		desc = {
-			text = par.10.d
-			trigger = {
-				NOT = {
-					ARG = { gives_military_access_to = BRA }
-				}
-			}
-		}
-		desc = {
-			text = par.10.d_access
-			trigger = {
+	id = par.10
+	title = par.10.t
+	desc = {
+		text = par.10.d
+		trigger = {
+			NOT = {
 				ARG = { gives_military_access_to = BRA }
 			}
 		}
-		picture = GFX_report_event_parwar
+	}
+	desc = {
+		text = par.10.d_access
+		trigger = {
+			ARG = { gives_military_access_to = BRA }
+		}
+	}
+	picture = GFX_report_event_parwar
+	
+	fire_only_once = yes
 
-		fire_only_once = yes
-
-		is_triggered_only = yes
+	is_triggered_only = yes
 		
-		option = {
-			name = par.10.a
-			declare_war_on = {
-				target = ARG
-				type = annex_everything
-			}
-			ai_chance = {
-				factor = 90
-			}
-			remove_ideas = PAR_disorganized_attack
-			hidden_effect = {
-				BRA = { remove_ideas = BRA_not_prepared_paraguay }
+	option = {
+		name = par.10.a
+		declare_war_on = {
+			target = ARG
+			type = annex_everything
+		}
+		ai_chance = {
+			factor = 90
+		}
+		remove_ideas = PAR_disorganized_attack
+		load_oob=PAR_reinforcements3
+		hidden_effect = {
+			BRA = { remove_ideas = BRA_not_prepared_paraguay }
+		}
+	}
+	option = {
+		name = par.10.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
 			}
 		}
-		option = {
-			name = par.10.b
-			ai_chance = {
-				factor = 10
-				modifier = {
-					factor = 0
-					is_historical_focus_on = yes
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						NOT = {
-							ARG = { gives_military_access_to = BRA }
-						}
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						ARG = { gives_military_access_to = BRA }
 					}
-					BRA = { country_event = { id = par.11 } }
 				}
+				BRA = { country_event = { id = par.11 } }
 			}
-			add_political_power = -25
 		}
+		add_political_power = -25
+	}
 }
-country_event = { #Brazil Responds to Denial
+	country_event = { #Brazil Responds to Denial
 		id = par.11
 		title = par.11.t
 		desc = {
@@ -476,14 +499,15 @@ country_event = { #Brazil Responds to Denial
 			}
 			add_political_power = -25
 		}
-}
-country_event = { #Formation of the Triple Alliance
+	}
+	country_event = { #Formation of the Triple Alliance
 		id = par.12
 		title = par.12.t
 		desc = par.12.d
 		picture = GFX_report_event_parwar
 
 		fire_only_once = yes
+		is_triggered_only = yes
 
 		trigger = {
 			tag = BRA
@@ -505,14 +529,15 @@ country_event = { #Formation of the Triple Alliance
 			}
 			set_global_flag = Triple_Alliance_Faction
 		}
-}
-country_event = { #ALTERNATE Formation of the Triple Alliance
+	}
+	country_event = { #ALTERNATE Formation of the Triple Alliance
 		id = par.13
 		title = par.13.t
 		desc = par.13.d
 		picture = GFX_report_event_parwar
 
 		fire_only_once = yes
+		is_triggered_only = yes
 
 		trigger = {
 			tag = PAR
@@ -534,14 +559,15 @@ country_event = { #ALTERNATE Formation of the Triple Alliance
 				news_event = { id = par_news.2 }
 			}
 		}
-}
-country_event = { #Dismantle the Triple Alliance
+	}
+	country_event = { #Dismantle the Triple Alliance
 		id = par.14
 		title = par.14.t
 		desc = par.14.d
 		picture = GFX_report_event_parwar
 
 		fire_only_once = yes
+		is_triggered_only = yes
 
 		trigger = {
 			OR = {
@@ -560,8 +586,8 @@ country_event = { #Dismantle the Triple Alliance
 			dismantle_faction = yes
 			clr_global_flag = Triple_Alliance_Faction
 		}
-}
-country_event = { #Paraguay Loses the War AUTOMATED
+	}
+	country_event = { #Paraguay Loses the War AUTOMATED
 		id = par.15
 		title = par.15.t
 		desc = par.15.d
@@ -627,8 +653,8 @@ country_event = { #Paraguay Loses the War AUTOMATED
 				}
 			}
 		}
-}
-country_event = { #Paraguay Wins the War AUTOMATED
+	}
+	country_event = { #Paraguay Wins the War AUTOMATED
 		id = par.16
 		title = par.16.t
 		desc = par.16.d
@@ -685,14 +711,15 @@ country_event = { #Paraguay Wins the War AUTOMATED
 				news_event = { id = par_news.3 }
 			}
 		}
-}
-country_event = { #Paraguay stops being a puppet
+	}
+	country_event = { #Paraguay stops being a puppet
 		id = par.17
 		title = par.17.t
 		desc = par.17.d
 		picture = GFX_report_event_parwar
 
 		fire_only_once = yes
+		is_triggered_only = yes
 
 		trigger = {
 			tag = BRA
@@ -700,7 +727,7 @@ country_event = { #Paraguay stops being a puppet
 				is_puppet_of = BRA
 				has_idea = PAR_brazil_occupation
 			}
-			date > 1876.1.1
+			#date > 1876.1.1
 		}
 		
 		option = {
@@ -740,7 +767,7 @@ country_event = { #Paraguay stops being a puppet
 				remove_ideas = PAR_brazil_occupation
 			}
 		}
-}
+	}
 
  country_event = {
 		id = par.18
@@ -748,6 +775,7 @@ country_event = { #Paraguay stops being a puppet
 		desc = par.18.d
 
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
          AND = {
@@ -792,10 +820,10 @@ country_event = { #Paraguay stops being a puppet
 			set_country_flag = Paraguayan_War
 			}
 		}
-}
+	}
 
-add_namespace = par_news
-news_event = { #Paraguayan War
+	add_namespace = par_news
+	news_event = { #Paraguayan War
 		id = par_news.1
 		title = par_news.1.t
 		desc = par_news.1.d
@@ -834,8 +862,8 @@ news_event = { #Paraguayan War
 				}
 			}
 		}
-}
-news_event = { #Triple Alliance
+	}
+	news_event = { #Triple Alliance
 		id = par_news.2
 		title = par_news.2.t
 		desc = {
@@ -887,8 +915,8 @@ news_event = { #Triple Alliance
 				}
 			}
 		}
-}
-news_event = { #End of the Paraguayan War
+	}
+	news_event = { #End of the Paraguayan War
 		id = par_news.3
 		title = par_news.3.t
 		desc = {
@@ -925,4 +953,4 @@ news_event = { #End of the Paraguayan War
 				}
 			}
 		}
-}
+	}

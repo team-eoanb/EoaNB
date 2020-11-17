@@ -1,3 +1,154 @@
+eoanb_category_military = {
+	
+	RUS_tsushima_war_ongoing_mission = {
+		ai_will_do = { factor = 1 }
+		available = {
+			if = {
+				limit = { TAG = RUS }
+				OR = {
+					RUS = { surrender_progress > 0.35 }
+					RUS = { has_army_manpower = { size < 25000 } }
+					RUS = { NOT = { controls_state = 195 } }
+					AND = {
+						RUS = { NOT = { controls_state = 1231 } }
+						date > 1865.6.1
+					}
+					AND = {
+						RUS = { NOT = { controls_state = 655 } }
+						RUS = { NOT = { controls_state = 555 } }
+						RUS = { NOT = { controls_state = 562 } }
+						RUS = { NOT = { controls_state = 637 } }
+						RUS = { NOT = { controls_state = 644 } }
+						RUS = { NOT = { controls_state = 574 } }
+						RUS = { NOT = { controls_state = 563 } }
+						RUS = { NOT = { controls_state = 565 } }
+						RUS = { NOT = { controls_state = 564 } }
+					}
+				}
+			}
+			if = {
+				limit = { OR = { TAG = TSH TAG = ENG } }
+				TSH = { surrender_progress > 0.5 }
+				OR = {
+					TSH = { surrender_progress > 0.6 }
+					ENG = { surrender_progress > 0.4 }
+					TSH = { has_army_manpower = { size < 10000 } }
+					ENG = { NOT = { controls_state = 952 } }
+				}
+			}
+		}
+		
+		allowed = { 
+			OR = {
+				TAG = RUS
+				TAG = ENG
+				TAG = TSH
+			}
+		}
+		activation = { has_global_flag = eoanb_flag_tsushima_war_ongoing }
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = no
+
+		#cost = 0
+		
+		days_mission_timeout = 720
+		
+		highlight_states = {
+			if = {
+				limit = { 
+					ROOT = {
+						TAG = RUS 
+					}
+				}
+				STATE = 195	
+			}
+			else_if = {
+				limit = { 
+					ROOT = {
+						TAG = ENG 
+					}
+				}
+				STATE = 952	
+			}
+			else_if = {
+				limit = { 
+					ROOT = {
+						TAG = TSH 
+					}
+				}
+				STATE = 952	
+			}
+		}
+		
+		cancel_trigger = {
+			NOT = { has_global_flag = eoanb_flag_tsushima_war_ongoing }
+		}
+		
+		complete_effect = {
+			if = {
+				limit = {
+					TAG = RUS
+					has_global_flag = eoanb_flag_tsushima_war_ongoing
+					OR = {
+						RUS = { surrender_progress > 0.35 }
+						RUS = { has_army_manpower = { size < 25000 } }
+						RUS = { NOT = { controls_state = 195 } }
+						AND = {
+							RUS = { NOT = { controls_state = 1231 } }
+							date > 1865.6.1
+						}
+						AND = {
+							RUS = { NOT = { controls_state = 655 } }
+							RUS = { NOT = { controls_state = 555 } }
+							RUS = { NOT = { controls_state = 562 } }
+							RUS = { NOT = { controls_state = 637 } }
+							RUS = { NOT = { controls_state = 644 } }
+							RUS = { NOT = { controls_state = 574 } }
+							RUS = { NOT = { controls_state = 563 } }
+							RUS = { NOT = { controls_state = 565 } }
+							RUS = { NOT = { controls_state = 564 } }
+						}
+					}
+				}
+				hidden_effect = { RUS = { country_event = { id = tsushima.13 } } }
+			}
+			if = {
+				limit = {
+					TAG = RUS
+					has_global_flag = eoanb_flag_tsushima_war_ongoing
+					TSH = { surrender_progress > 0.5 }
+					OR = {
+						TSH = { surrender_progress > 0.6 }
+						ENG = { surrender_progress > 0.4 }
+						TSH = { has_army_manpower = { size < 10000 } }
+						ENG = { NOT = { controls_state = 952 } }
+					}
+				}
+				hidden_effect = { RUS = { country_event = { id = tsushima.16 } } }
+			}
+			if = {
+				limit = { TAG = RUS }
+				custom_effect_tooltip = RUS_spain_war_decision_RUS_WIN
+			}
+			if = {
+				limit = { TAG = TSH }
+				custom_effect_tooltip = RUS_spain_war_decision_TSH_WIN
+			}
+			if = {
+				limit = { TAG = ENG }
+				custom_effect_tooltip = RUS_spain_war_decision_ENG_WIN
+			}
+		}
+		timeout_effect = {
+			activate_mission = RUS_tsushima_war_ongoing_mission
+		}
+	}
+	
+}
+
+
 RUS_Industrialisation_decisions = {
 	
     RUS_mission_vic_Petersburg_Warsaw_Railway = {
@@ -2678,6 +2829,8 @@ eoanb_category_military = {
 		available = {
 		    has_army_experience > 74
 		}
+		
+		allowed = { tag = RUS }
 
 		visible = {
 			date > 1881.9.9 ### later change to has_focus_tree = {}
@@ -2745,10 +2898,13 @@ eoanb_category_military = {
         available = {
             custom_trigger_tooltip = {
             tooltip = RUS_vic_mission_Support_USA_trigger_tt
-                ships_in_state_ports = {
-                    size > 5
-                    state = 954
-                }
+            	OR = {
+            		ships_in_state_ports = {
+                    	size > 4
+                    	state = 954
+                	}
+                	ROOT = { is_ai = yes }
+            	}
             }
         }
 
@@ -2764,6 +2920,7 @@ eoanb_category_military = {
         timeout_effect = {
             add_political_power = -25
             reverse_add_opinion_modifier = { target = USA modifier = large_decrease }
+            clr_country_flag = RUS_vic_ACW_Supported_USA
         }
         complete_effect = {
             add_tech_bonus = { bonus = 1 uses = 2 category = naval_doctrine }
@@ -3089,12 +3246,13 @@ eoanb_category_military = {
 
 }
 
-RUS_Caucasian_decisions = {   
+RUS_Caucasian_decisions = {
 	 
     RUS_Offer_Privileges = {
 
     	icon = GFX_decision_oppression
-		  
+		
+		allowed = { tag = RUS }		
 		visible = {
             TAG = RUS
             OR = {
@@ -3116,6 +3274,10 @@ RUS_Caucasian_decisions = {
             CAU = { add_war_support = -0.07 }
             CIR = { add_war_support = -0.07 }
         }
+
+        ai_will_do = {
+			base = 1
+		}
     }
 
     RUS_Force_Shamli_To_Surrender = {
@@ -3124,13 +3286,154 @@ RUS_Caucasian_decisions = {
 		  
 		visible = {
             TAG = RUS
+            date < 1862.01.01
 		}
+		allowed = { tag = RUS }		
 		  
         available = { 
             TAG = RUS
             232 = { is_controlled_by = RUS }
-            country_exists = CAU
             date > 1858.05.05
+            date < 1870.01.01
+        }
+		  
+        is_good = yes
+        fire_only_once = yes
+		  
+		cost = 0
+
+        complete_effect = {                   
+            CAU = { add_war_support = -0.23 }
+            hidden_effect = {
+            	232 = {
+            		add_resistance = -25
+            		add_compliance = 35
+            	}
+            }
+            custom_effect_tooltip = RUS_vic_Force_Shamli_To_Surrender_tt
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+
+	RUS_Circassian_Expulsion = {
+
+        icon = GFX_decision_generic_scorched_earth
+
+		highlight_states = {
+			state = 233
+		}
+
+		available = {
+			CIR = { exists = no }
+			233 = {
+				is_owned_and_controlled_by = RUS
+			}
+		}
+		allowed = { tag = RUS }		
+
+		visible = {
+		    tag = RUS
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 15
+		days_remove = 912
+
+		remove_effect = { 
+			233 = {
+				add_core_of = RUS
+				add_manpower = -415876
+			}
+			354 = {
+				add_manpower = 24622
+			}
+			419 = {
+				add_manpower = 11351
+			}
+			402 = {
+				add_manpower = 3295
+			}
+			588 = {
+				add_manpower = 2738
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+    }
+
+    RUS_Caucasian_Colonization = {
+
+        icon = GFX_decision_generic_scorched_earth
+
+		highlight_states = {
+			state = 232
+		}
+
+		available = {
+			CAU = { exists = no }
+			232 = {
+				is_owned_and_controlled_by = RUS
+			}
+			num_of_civilian_factories_available_for_projects > 0
+		}
+		allowed = { tag = RUS }		
+
+		visible = {
+		    tag = RUS
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 15
+		days_remove = 224
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			232 = { add_core_of = RUS }
+			232 = { remove_core_of = CAU }
+			1216 = { remove_core_of = CAU }
+			229 = { remove_core_of = CAU }
+			1008 = { remove_core_of = CAU }
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+    }
+
+    RUS_Annex_GEO = {
+
+    	icon = GFX_decision_border_war
+		  
+		visible = {
+            TAG = RUS
+            OR = {
+            	GEO = { exists = yes }
+            	ABK = { exists = yes }
+            }
+		}
+		allowed = { tag = RUS }		
+		  
+        available = { 
+            TAG = RUS
+            CIR = { exists = no }
+            CAU = { exists = no }
+            OR = {
+            	GEO = { is_subject_of = ROOT }
+            	ABK = { is_subject_of = ROOT }
+            }
+            date > 1863.01.01
         }
 		  
         is_good = yes
@@ -3138,9 +3441,73 @@ RUS_Caucasian_decisions = {
 		  
 		cost = 15
 
-        complete_effect = {                   
-            CAU = { add_war_support = -0.1 }
+        complete_effect = {
+        	if = {
+        		limit = { GEO = { exists = yes is_subject_of = ROOT } }
+        		annex_country = {
+    				target = GEO
+    				transfer_troops = no
+				}
+        	}
+            if = {
+        		limit = { ABK = { exists = yes is_subject_of = ROOT } }
+        		annex_country = {
+    				target = ABK
+    				transfer_troops = no
+				}
+        	} 
         }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+
+    RUS_Attack_GEO = {
+
+    	icon = GFX_decision_generic_ignite_civil_war
+		  
+		visible = {
+            TAG = RUS
+            OR = {
+            	GEO = { exists = yes NOT = { is_subject_of = ROOT } }
+            	ABK = { exists = yes NOT = { is_subject_of = ROOT } }
+            }
+		}
+		allowed = { tag = RUS }		
+		  
+        available = { 
+            TAG = RUS
+            CIR = { exists = no }
+            CAU = { exists = no }
+            date > 1863.01.01
+        }
+		  
+        is_good = yes
+        fire_only_once = yes
+		  
+		cost = 0
+
+        complete_effect = {
+        	if = {
+        		limit = { GEO = { exists = yes NOT = { is_subject_of = ROOT } } }
+        		declare_war_on = {
+    				target = GEO
+    				type = annex_everything
+				}
+        	}
+            if = {
+        		limit = { ABK = { exists = yes NOT = { is_subject_of = ROOT } } }
+        		declare_war_on = {
+    				target = ABK
+    				type = annex_everything
+				}
+        	} 
+        }
+
+        ai_will_do = {
+			base = 1
+		}
     }
 
     RUS_mission_vic_cau_war = {
@@ -3148,7 +3515,10 @@ RUS_Caucasian_decisions = {
         icon = GFX_decision_generic_ignite_civil_war
 
         available = {
-            has_war_with = CAU
+        	OR = {
+        		has_war_with = CAU
+        		CAU = { exists = no }
+        	}
         }
 
         activation = {
@@ -3162,7 +3532,7 @@ RUS_Caucasian_decisions = {
         fire_only_once = yes
 
         is_good = yes
-        days_mission_timeout = 36
+        days_mission_timeout = 50
 
         timeout_effect = {
             declare_war_on = {
@@ -3191,7 +3561,10 @@ RUS_Caucasian_decisions = {
 		icon = GFX_decision_generic_ignite_civil_war
 
         available = {
-            has_war_with = CIR
+            OR = {
+        		has_war_with = CIR
+        		CIR = { exists = no }
+        	}
         }
 
         activation = {
@@ -3205,7 +3578,7 @@ RUS_Caucasian_decisions = {
         fire_only_once = yes
 
         is_good = yes
-        days_mission_timeout = 36
+        days_mission_timeout = 50
 
         timeout_effect = {
             declare_war_on = {
@@ -3248,6 +3621,8 @@ internal_politics_eoanb = {
 			has_country_flag = eoanb_flag_alexander_ii_legacy
 		}
 		
+		allowed = { tag = RUS }
+		
 		fire_only_once = yes
 
 		cost = 50
@@ -3273,6 +3648,8 @@ internal_politics_eoanb = {
 			has_country_flag = eoanb_flag_counter_reforms
 		}
 		
+		allowed = { tag = RUS }
+		
 		fire_only_once = yes
 
 		cost = 50
@@ -3297,6 +3674,8 @@ internal_politics_eoanb = {
 		visible = {
 			has_country_flag = eoanb_flag_alexander_ii_dead
 		}
+		
+		allowed = { tag = RUS }
 		
 		fire_only_once = yes
 
@@ -3375,6 +3754,8 @@ foreign_politics = {
 			date > 1861.1.1
 		}
 		
+		allowed = { tag = RUS }
+		
 		fire_only_once = yes
 		
 		cost = 0
@@ -3415,6 +3796,8 @@ foreign_politics = {
 			}
 		}
 		
+		allowed = { tag = RUS }
+		
 		fire_only_once = yes
 		
 		cost = 0
@@ -3449,6 +3832,8 @@ foreign_politics = {
 				has_global_flag = eoanb_flag_tsushima_incident_2
 			}
 		}
+		
+		allowed = { tag = RUS }
 		
 		fire_only_once = yes
 		
@@ -3493,7 +3878,7 @@ foreign_politics = {
 		}
 
 		ai_will_do = {
-			base = 1
+			base = 0
 		}
     }
 
@@ -3622,7 +4007,9 @@ foreign_politics = {
         }
 
 		available = {
-		    ITA = { exists = yes }
+		    any_country = {
+				has_cosmetic_tag = PIE_focus_Italy
+			}
 		}
 
 		visible = {
@@ -3634,8 +4021,8 @@ foreign_politics = {
 		cost = 15
 
 		complete_effect = {
-		    add_opinion_modifier = { target = ITA modifier = medium_increase }
-			reverse_add_opinion_modifier = { target = ITA modifier = medium_increase }
+		    add_opinion_modifier = { target = PIE modifier = medium_increase }
+			reverse_add_opinion_modifier = { target = PIE modifier = medium_increase }
 		}
 
 		ai_will_do = {

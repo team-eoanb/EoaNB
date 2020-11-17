@@ -1,0 +1,273 @@
+add_namespace = random_generic_events
+add_namespace = uct
+
+# Kick player from UCT
+
+country_event = {
+	id = uct.1
+	hidden = yes
+
+	trigger = {
+		tag = UCT
+		is_ai = no
+	}
+	mean_time_to_happen = { days = 10 }
+
+	immediate = {
+		name = uct.1.a
+		if = {
+			limit = { ENG = { is_ai = yes exists = yes } }
+			ENG = { change_tag_from = ROOT }
+		}
+		else_if = {
+			limit = { PRS = { is_ai = yes exists = yes } }
+			PRS = { change_tag_from = ROOT }
+		}
+		else_if = {
+			limit = { QNG = { is_ai = yes exists = yes } }
+			QNG = { change_tag_from = ROOT }
+		}
+		else_if = {
+			limit = { FRA = { is_ai = yes exists = yes } }
+			FRA = { change_tag_from = ROOT }
+		}
+		else_if = {
+			limit = { OTO = { is_ai = yes exists = yes } }
+			OTO = { change_tag_from = ROOT }
+		}
+		else_if = {
+			limit = { USA = { is_ai = yes exists = yes } }
+			USA = { change_tag_from = ROOT }
+		}
+		else_if = {
+			limit = { RUS = { is_ai = yes exists = yes } }
+			RUS = { change_tag_from = ROOT }
+		}
+	}
+}
+news_event = {#formation of Fiji
+	id = uct.2
+	title = uct.2.t
+	desc = uct.2.d
+	
+	major = yes
+	
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect={
+			if={
+				limit={tag=UCT}
+				FIJ={
+					transfer_state = 636
+					636={
+						add_core_of = FIJ
+					}
+					create_country_leader = {
+						name = "Seru Epenisa Cakobau"
+						desc = "SERU_EPENISA_CAKOBAU_DESC"
+						picture = "Portrait_FIJ_Seru_Epenisa_Cakobau.dds"
+						expire = "1900.1.1"
+						ideology = despotism
+						traits = {
+						}
+					}
+					country_event={id=pacific_events.1 days = 350 random_days = 100}
+				}
+			}
+		}
+	}
+	option={#news event for all
+		name = uct.2.a	
+	}
+}
+
+###### Serial killer appears ####
+country_event = {
+	id = random_generic_events.1
+	title = random_generic_events.1.t
+	desc = random_generic_events.1.d
+
+	trigger = {
+		afr_is_tribal = no
+		always = no
+	}
+	
+	mean_time_to_happen={
+		days = 54000
+	}
+	
+    option = { #pressure the force
+	    name = random_generic_events.1.aa
+		trigger={
+			has_idea = law_police_force
+		}
+		add_political_power = -100
+		ai_chance = {
+			factor = 70
+		}
+		random_list = {#progress on catching the killer
+			25 = {#killer caught
+				
+			}
+			25 = {#killer kills again
+				
+			}
+			25 = {#trail goes cold
+				
+			}
+		}
+		random_list = {#compication
+			25 = {#press finds out
+				
+			}
+			25 = {#killer kills again
+				
+			}
+			25 = {#trail goes cold
+				
+			}
+		}
+	}
+	option = { #Trust in the force
+	    name = random_generic_events.1.ab
+		trigger={
+			has_idea = law_police_force
+		}
+		ai_chance = {
+			factor = 30
+		}
+	}
+	option = { #Set a High Bounty
+	    name = random_generic_events.1.ba
+		trigger={
+			has_idea = law_mercenary_groups
+		}
+		ai_chance = {
+			factor = 20
+		}
+	}
+	option = { #Set a Medium Bounty
+	    name = random_generic_events.1.bb
+		trigger={
+			has_idea = law_mercenary_groups
+		}
+		ai_chance = {
+			factor = 30
+		}
+	}
+	option = { #Set a Low Bounty
+	    name = random_generic_events.1.bc
+		trigger={
+			has_idea = law_mercenary_groups
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+	option = { #Increase garrisons
+	    name = random_generic_events.1.ca
+		trigger={
+			OR={
+				has_idea = law_military_police_force
+				has_idea = law_paramilitary_police_force
+			}
+			has_manpower > 999
+		}
+		add_manpower = -1000
+		ai_chance = {
+			factor = 45
+		}
+	}
+	option = { #curfews
+	    name = random_generic_events.1.cb
+		trigger={
+			OR={
+				has_idea = law_military_police_force
+				has_idea = law_paramilitary_police_force
+			}
+		}
+		add_political_power = -100
+		ai_chance = {
+			factor = 45
+		}
+	}
+	option = { #locals can deal with it
+	    name = random_generic_events.1.ea
+		trigger={
+			has_idea = law_no_organized_force
+		}
+		ai_chance = {
+			factor = 40
+		}
+	}
+	option = { #Create a police forces - voting
+	    name = random_generic_events.1.eb
+		trigger={
+			has_idea = law_no_organized_force
+			can_call_idea_votes = yes
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+	option = { #Create a police forces -
+	    name = random_generic_events.1.ec
+		trigger={
+			has_idea = law_no_organized_force
+			can_call_idea_votes = no
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+	option = { #ignore them and they will stop
+	    name = random_generic_events.1.g
+		# trigger={
+			# has_idea = law_no_organized_force
+		# }
+		ai_chance = {
+			factor = 10
+		}
+	}
+}
+country_event = {##Press finds out##
+	id = random_generic_events.2
+	title = random_generic_events.2.t
+	desc = random_generic_events.2.d
+
+	is_triggered_only = yes
+	
+    option = { #pressure the force
+	    name = random_generic_events.2.aa
+		trigger={
+			has_idea = law_police_force
+		}
+		add_political_power = -100
+		ai_chance = {
+			factor = 70
+		}
+		random_list = {#progress on catching the killer
+			25 = {#killer caught
+				
+			}
+			25 = {#killer kills again
+				
+			}
+			25 = {#trail goes cold
+				
+			}
+		}
+		random_list = {#compication
+			25 = {#press finds out
+				
+			}
+			25 = {#killer kills again
+				
+			}
+			25 = {#trail goes cold
+				
+			}
+		}
+	}
+}

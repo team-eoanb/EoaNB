@@ -1,4 +1,7 @@
 ﻿add_namespace = portugal
+add_namespace = portugalfocustree
+add_namespace = portugaljaneirinhacoup
+add_namespace = portugalforeign
 
 #French Ship Capture Ultimatum
 country_event = {
@@ -8,10 +11,11 @@ country_event = {
 		picture = GFX_report_event_merchant_ship_01
 		
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			TAG = POR
-			date > 1858.8.1
+			#date > 1858.8.1
 		}
 		
 		option = {
@@ -55,10 +59,11 @@ country_event = {
 		desc = portugal.3.d
 		
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			TAG = PAP
-			date > 1857.6.1
+			#date > 1857.6.1
 		}
 		
 		option = {
@@ -103,10 +108,11 @@ country_event = {
 		picture = GFX_report_event_generic_sign_treaty2
 		
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			TAG = POR
-			date > 1859.3.1
+			#date > 1859.3.1
 		}
 		
 		option = {
@@ -136,18 +142,108 @@ country_event = {
 		picture = GFX_report_event_election_vote
 		
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			TAG = POR
-			date > 1860.1.1
+			#date > 1860.1.1
 		}
 		
 		option = {
 			name = portugal.6.a
-			add_stability = 0.05
-			add_political_power = 25
+			ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				traditional_conservatism > 0.5
+			}
+			modifier = {
+				factor = 0.25
+				centrism < 0.5
+			}
+			modifier = {
+				factor = 0.25
+				centrism < 0.4
+			}
+			modifier = {
+				factor = 0.25
+				centrism < 0.3
+			}
 		}
-}
+		if = {
+			limit = {
+				centrism > 0.5
+			}
+			set_politics = { ruling_party = centrism elections_allowed = no }
+			add_popularity = { ideology = traditional_conservatism popularity = -0.05 }
+		}
+		if = {
+			limit = {
+				traditional_conservatism > 0.5
+			}
+			set_politics = { ruling_party = centrism elections_allowed = no }
+			add_popularity = { ideology = traditional_conservatism popularity = -0.02 }
+			add_stability = -0.1
+		}
+		if = {
+			limit = {
+				centrism < 0.5
+				traditional_conservatism < 0.5
+			}
+			set_politics = { ruling_party = centrism elections_allowed = no }
+			add_popularity = { ideology = centrism popularity = 0.05 }
+			add_popularity = { ideology = traditional_conservatism popularity = 0.02 }
+		}
+	}
+	
+	option = {
+		name = portugal.6.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				centrism > 0.5
+			}
+			modifier = {
+				factor = 0.25
+				traditional_conservatism < 0.5
+			}
+			modifier = {
+				factor = 0.25
+				traditional_conservatism < 0.4
+			}
+			modifier = {
+				factor = 0.25
+				traditional_conservatism < 0.3
+			}
+		}
+		if = {
+			limit = {
+				traditional_conservatism > 0.5
+			}
+			set_politics = { ruling_party = traditional_conservatism elections_allowed = no }
+			add_popularity = { ideology = centrism popularity = -0.05 }
+		}
+		if = {
+			limit = {
+				centrism > 0.5
+			}
+			set_politics = { ruling_party = traditional_conservatism elections_allowed = no }
+			add_popularity = { ideology = centrism popularity = -0.02 }
+			add_stability = -0.1
+		}
+		if = {
+			limit = {
+				centrism < 0.5
+				traditional_conservatism < 0.5
+			}
+			set_politics = { ruling_party = traditional_conservatism elections_allowed = no }
+			add_popularity = { ideology = traditional_conservatism popularity = 0.05 }
+			add_popularity = { ideology = centrism popularity = 0.02 }
+		}
+	}
+}	
+	
 
 #King Pedro V dies
 country_event = {
@@ -157,10 +253,11 @@ country_event = {
 		picture = GFX_report_event_dead_soldiers
 		
 		fire_only_once = yes
+		is_triggered_only = yes
 		
 		trigger = {
 			TAG = POR
-			date > 1861.11.11
+			#date > 1861.11.11
 			has_idea = POR_Pedro_V
 		}
 		
@@ -214,6 +311,7 @@ country_event = {
 			custom_effect_tooltip = POR_1861_Luis3
 			hidden_effect = {
 				POR = { country_event = { days = 5 id = portugal.10 } }
+				decrease_ps_by_one = yes
 			}
 		}
 		
@@ -224,6 +322,7 @@ country_event = {
 			hidden_effect = {
 				swap_ideas = { remove_idea = POR_Luis add_idea = hos_is_leader }
 				POR = { country_event = { days = 5 id = portugal.11 } }
+				decrease_ps_by_two = yes
 			}
 		}
 		
@@ -231,6 +330,7 @@ country_event = {
 			name = portugal.9.c
 			ai_chance = { factor = 20 }
 			add_political_power = -500
+			decrease_ps_by_two = yes
 		}
 }
 
@@ -247,12 +347,75 @@ country_event = {
 			name = portugal.10.a
 			custom_effect_tooltip = POR_1861_Civilwar
 			hidden_effect = {
-				start_civil_war = { ideology = traditional_conservatism size = 0.5 }
+				180 = { set_demilitarized_zone = yes }
+				remove_state_core = 180
+				remove_state_claim = 180
+				POR = { country_event = { days = 5 id = portugal.16 } }
 				news_event = news.2
 			}
 		}
 }
 
+#Enemies are marching
+country_event = {
+		id = portugal.16
+		title = portugal.16.t
+		desc = portugal.16.d
+		
+		is_triggered_only = yes
+		
+	option = {
+		name = portugal.16.a
+		hidden_effect = {
+				181 = { set_demilitarized_zone = yes }
+				remove_state_core = 181
+				remove_state_claim = 181
+				POR = { country_event = { days = 5 id = portugal.17 } }	
+		}
+    }
+}
+
+#Push them back
+country_event = {
+		id = portugal.17
+		title = portugal.17.t
+		desc = portugal.17.d
+		
+		is_triggered_only = yes
+		
+	option = {
+		name = portugal.17.a
+            random_list = {
+					70 = {
+						POR = { add_state_core = 181 add_state_claim = 181 add_state_core = 180 add_state_claim = 180 }
+						181 = {  set_demilitarized_zone = no }
+						180 = {  set_demilitarized_zone = no }
+						add_manpower = -1000
+					}
+					30 = {
+						if = {
+			                limit = { has_government = centrism }
+			                set_politics = { ruling_party = traditional_conservatism elections_allowed = no }
+							add_popularity = { ideology = traditional_conservatism popularity = 0.1 }
+							POR = { add_state_core = 181 add_state_claim = 181 add_state_core = 180 add_state_claim = 180 }
+						    181 = {  set_demilitarized_zone = no }
+						    180 = {  set_demilitarized_zone = no }
+						    add_manpower = -2000
+					    }
+					    else_if = {
+			                limit = { has_government = traditional_conservatism }
+			                set_politics = { ruling_party = centrism elections_allowed = no }
+							add_popularity = { ideology = centrism popularity = 0.1 }
+							POR = { add_state_core = 181 add_state_claim = 181 add_state_core = 180 add_state_claim = 180 }
+						    181 = {  set_demilitarized_zone = no }
+						    180 = {  set_demilitarized_zone = no }
+						    add_manpower = -2000
+					    }
+					}
+				}
+		    }
+        }
+		
 #The Situation calms down
 country_event = {
 		id = portugal.11
@@ -343,3 +506,854 @@ country_event = {
 			POR = { add_state_core = 171 }
 		}
 }
+
+country_event = {
+		id = portugalfocustree.1
+		title = portugalfocustree.1.t
+		desc = portugalfocustree.1.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalfocustree.1.a
+			ai_chance = { factor = 80 }
+			ENG = { add_timed_idea = {
+                    idea = POR_bought_equipment_1
+                    days = 360
+            }
+			POR = { add_timed_idea = {
+                    idea = POR_bought_equipment
+                    days = 360
+            }
+			POR = { add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 5000 producer = ENG } }
+			POR = { add_equipment_to_stockpile = { type = cannon_equipment_1 amount = 100 producer = ENG } }
+			custom_effect_tooltip = EGY_afr_increase_debt_5
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 5}
+			}
+		}
+	}
+}
+		
+		option = {
+			name = portugalfocustree.1.b
+			ai_chance = { factor = 20 }
+			ENG = { add_political_power = 100 }
+			POR = { add_political_power = -100 }
+		}
+}
+
+country_event = {
+		id = portugalfocustree.2
+		title = portugalfocustree.2.t
+		desc = portugalfocustree.2.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalfocustree.2.a
+			ai_chance = { factor = 80 }
+			PRS = { add_timed_idea = {
+                    idea = POR_bought_equipment_1
+                    days = 360
+            }
+			POR = { add_timed_idea = {
+                    idea = POR_bought_equipment
+                    days = 360
+            }
+			POR = { add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 5000 producer = ENG } }
+			POR = { add_equipment_to_stockpile = { type = cannon_equipment_1 amount = 100 producer = ENG } }
+			custom_effect_tooltip = EGY_afr_increase_debt_5
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 5}
+			}
+		}
+	}
+}
+		
+		option = {
+			name = portugalfocustree.2.b
+			ai_chance = { factor = 20 }
+			PRS = { add_political_power = 100 }
+			POR = { add_political_power = -100 }
+		}
+}
+
+country_event = {
+		id = portugalfocustree.3
+		title = portugalfocustree.3.t
+		desc = portugalfocustree.3.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalfocustree.3.a
+			ai_chance = { factor = 80 }
+			FRA = { add_timed_idea = {
+                    idea = POR_bought_equipment_1
+                    days = 360
+            }
+			POR = { add_timed_idea = {
+                    idea = POR_bought_equipment
+                    days = 360
+            }
+			POR = { add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 5000 producer = FRA } }
+			POR = { add_equipment_to_stockpile = { type = cannon_equipment_1 amount = 100 producer = FRA } }
+			custom_effect_tooltip = EGY_afr_increase_debt_5
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 5}
+			}
+		}
+	}
+}
+		
+		option = {
+			name = portugalfocustree.3.b
+			ai_chance = { factor = 20 }
+			FRA = { add_political_power = 100 }
+			POR = { add_political_power = -100 }
+		}
+}
+	
+country_event = {
+		id = portugalfocustree.6
+		title = portugalfocustree.6.t
+		desc = portugalfocustree.6.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalfocustree.6.a
+			ai_chance = { factor = 100 }
+			add_manpower = -100
+			729 = { add_extra_state_shared_building_slots = 1 }
+			}
+	    }
+		
+country_event = {
+		id = portugalfocustree.7
+		title = portugalfocustree.7.t
+		desc = portugalfocustree.7.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { 
+			name = portugalfocustree.7.a
+			ai_chance = { factor = 35 }
+			hidden_effect = {
+			add_manpower = 100
+			add_opinion_modifier = { target = KON modifier = eoanb_om_RUS_increase_small }
+			reverse_add_opinion_modifier = { target = KON modifier = eoanb_om_RUS_increase_small }
+			1212 = {
+				remove_building = {
+				    type = bunker 
+				    level = 1
+					province = 13787
+				}
+			}
+			if = {
+				limit = { has_dlc = "Together for Victory" }
+				KON = { 
+					add_autonomy_ratio = { value = -0.1 }
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = portugalfocustree.7.b
+		ai_chance = { factor = 40 }
+		hidden_effect = {
+			add_manpower = -50
+			add_opinion_modifier = { target = KON modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = KON modifier = eoanb_om_RUS_increase_very_small }
+			if = {
+				limit = { has_dlc = "Together for Victory" }
+				KON = { 
+					add_autonomy_ratio = { value = -0.05 }
+				}
+			}
+		}
+	}
+			
+	option = {
+		name = portugalfocustree.7.c
+		ai_chance = { factor = 35 }
+		hidden_effect = {
+		add_manpower = -100
+		add_opinion_modifier = { target = KON modifier = eoanb_om_RUS_decrease_small }
+		reverse_add_opinion_modifier = { target = KON modifier = eoanb_om_RUS_decrease_small }
+		1212 = {
+			add_building_construction = {
+					type = bunker 
+					level = 1
+					instant_build = yes
+					province = 13787
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+		id = portugalfocustree.8
+		title = portugalfocustree.8.t
+		desc = portugalfocustree.8.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalfocustree.8.a
+			ai_chance = { factor = 70 }
+		if = { limit = {
+		has_completed_focus = POR_focus_british_model }
+			ENG = { country_event = {
+                    id = portugalfocustree.9
+                    days = 10
+				}
+			}
+		}
+		if = { limit = {
+			has_completed_focus = POR_focus_american_model }
+			USA = { country_event = {
+                    id = portugalfocustree.9
+                    days = 10
+				}
+			}
+		}
+		if = { limit = {
+			has_completed_focus = POR_focus_russian_model }
+			RUS = { country_event = {
+                    id = portugalfocustree.9
+                    days = 10
+					}
+				}
+			}
+		}
+
+		option = {
+			name = portugalfocustree.8.b
+			ai_chance = { factor = 30 }
+		
+			}
+	    }
+		
+		
+country_event = {
+		id = portugalfocustree.9
+		title = portugalfocustree.9.t
+		desc = portugalfocustree.9.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+		name = portugalfocustree.9.a
+			if = { limit = { POR = {
+			has_completed_focus = POR_focus_british_model } } 
+			ENG = { country_event = {
+                    id = portugalfocustree.10
+                    days = 10
+				}
+			}
+			ENG = { add_timed_idea = {
+                    idea = POR_bought_equipment_1
+                    days = 180
+            }
+		}
+			POR = { add_timed_idea = {
+                    idea = POR_bought_equipment
+                    days = 180
+            }
+		}
+	}
+		
+		if = { limit = { POR = {
+			has_completed_focus = POR_focus_american_model } } 
+			USA = { country_event = {
+                    id = portugalfocustree.10
+                    days = 10
+				}
+			}
+			USA = { add_timed_idea = {
+                    idea = POR_bought_equipment_1
+                    days = 180
+            }   }
+			POR = { add_timed_idea = {
+                    idea = POR_bought_equipment
+                    days = 180
+            }
+		}
+	}
+		if = { limit = { POR = {
+			has_completed_focus = POR_focus_russian_model } } 
+			RUS = { country_event = {
+                    id = portugalfocustree.10
+                    days = 10
+					}
+				}
+			RUS = { add_timed_idea = {
+                    idea = POR_bought_equipment_1
+                    days = 180
+            }
+		}
+			POR = { add_timed_idea = {
+                    idea = POR_bought_equipment
+                    days = 180
+            }
+		}
+	}
+}
+		
+		option = {
+			name = portugalfocustree.9.b
+			ai_chance = { factor = 30 }
+		if = { limit = { POR = {
+			has_completed_focus = POR_focus_british_model } } 
+        POR = { add_political_power = -50 }
+		ENG = { add_political_power = 50 }
+	}
+		
+		if = { limit = { POR = {
+			has_completed_focus = POR_focus_american_model } } 
+			POR = { add_political_power = -50 }
+		    USA = { add_political_power = 50 }
+	}
+		if = { limit = { POR = {
+			has_completed_focus = POR_focus_russian_model } } 
+			POR = { add_political_power = -50 }
+		    RUS = { add_political_power = 50 } 
+	    }
+    }
+}
+
+country_event = {
+		id = portugalfocustree.10
+		title = portugalfocustree.10.t
+		desc = portugalfocustree.10.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalfocustree.10.a
+			hidden_effect = {
+			create_equipment_variant = {
+                name = "Vasco da Gama Class"
+                type = ship_hull_cruiser_heavy_1
+                modules = {
+                    fixed_ship_battery_slot = ship_turret_heavy_0
+                    fixed_ship_fire_control_system_slot = fire_control_system_1
+                    fixed_ship_engine_slot = ship_engine_steam_screw_screen
+                    fixed_ship_armor_slot = ship_armor_screen_ironclad_0
+                    front_1_custom_slot = ship_turret_medium_1
+                    mid_1_custom_slot = ship_turret_medium_1
+			        mid_2_custom_slot = ship_secondary_guns_0
+			        rear_1_custom_slot = ship_turret_medium_1
+                }
+            }
+			load_oob = "POR_naval_vasco_da_gama_class"
+			custom_effect_tooltip = EGY_afr_increase_debt_2
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 2}
+			}
+		}
+	}
+}
+country_event = {
+		id = portugalfocustree.12
+		title = portugalfocustree.12.t
+		desc = portugalfocustree.12.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalfocustree.12.a
+			ai_chance = { factor = 70 }
+			add_ideas = POR_consumption_tax_rate_3
+			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = -1}
+			}
+		}
+		option = {
+			name = portugalfocustree.12.b
+			ai_chance = { factor = 30 }
+		    add_ideas = POR_consumption_tax_rate_5
+			custom_effect_tooltip = EGY_afr_decrease_debt_3
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = -3}
+			}
+		}
+		option = {
+			name = portugalfocustree.12.c
+			ai_chance = { factor = 30 }
+		    add_ideas = POR_consumption_tax_rate_7
+			custom_effect_tooltip = EGY_afr_decrease_debt_5
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = -5}
+			}
+		}
+	}	
+
+###The Janeirinha Coup
+country_event = {
+		id = portugaljaneirinhacoup.1
+		title = portugaljaneirinhacoup.1.t
+		desc = portugaljaneirinhacoup.4.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		trigger = {
+			TAG = POR
+			#date > 1868.1.1
+		}
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		option = { ###civil war
+			name = portugaljaneirinhacoup.1.a
+			ai_chance = { factor = 60 }
+			hidden_effect = {
+			country_event = { days = 10 id = portugaljaneirinhacoup.2 } 
+			complete_national_focus = POR_focus_janeirinha_coup
+		}
+	}
+		
+		option = { ###down with fontes pereira
+			name = portugaljaneirinhacoup.1.b
+			ai_chance = { factor = 40 }
+			hidden_effect = {
+            country_event = { days = 2 id = portugaljaneirinhacoup.3 }
+			complete_national_focus = POR_focus_janeirinha_coup
+		}
+    }
+}
+	
+country_event = { ###Civil War
+		id = portugaljaneirinhacoup.2
+		title = portugaljaneirinhacoup.2.t
+		desc = portugaljaneirinhacoup.2.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugaljaneirinhacoup.2.a
+			ai_chance = { factor = 100 }
+			hidden_effect = {
+			country_event = { days = 60 id = portugaljaneirinhacoup.4 }
+			complete_national_focus = POR_focus_political_discorder
+			179 = { set_demilitarized_zone = yes }
+			180 = { set_demilitarized_zone = yes }
+			181 = { set_demilitarized_zone = yes }
+			}
+	    }
+	}
+		
+country_event = { ###Attack on capital
+		id = portugaljaneirinhacoup.4
+		title = portugaljaneirinhacoup.4.t
+		desc = portugaljaneirinhacoup.4.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { ##Win
+			name = portugaljaneirinhacoup.4.a
+			ai_chance = { factor = 100 }
+			hidden_effect = {
+			complete_national_focus = POR_focus_economical_failure
+			complete_national_focus = POR_focus_elections_1868
+			complete_national_focus = POR_focus_fontes_is_back
+			179 = { set_demilitarized_zone = no }
+			180 = { set_demilitarized_zone = no }
+			181 = { set_demilitarized_zone = no }
+			}
+		}
+			
+		option = { ##Lose
+			name = portugaljaneirinhacoup.4.b
+			ai_chance = { factor = 100 }
+			hidden_effect = {
+			complete_national_focus = POR_focus_economical_failure
+			complete_national_focus = POR_focus_elections_1868
+			complete_national_focus = POR_focus_new_leader
+			179 = { set_demilitarized_zone = no }
+			180 = { set_demilitarized_zone = no }
+			181 = { set_demilitarized_zone = no }
+			country_event = { days = 60 id = portugaljaneirinhacoup.3 }
+			}
+	    }
+	}
+	
+country_event = { ###The Reformist Party is formed 
+		id = portugaljaneirinhacoup.3
+		title = portugaljaneirinhacoup.3.t
+		desc = portugaljaneirinhacoup.3.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugaljaneirinhacoup.3.a
+			ai_chance = { factor = 100 }
+			country_event = { days = 2 id = portugaljaneirinhacoup.5 }
+	    }
+	}
+	
+country_event = { ###Political instability 
+		id = portugaljaneirinhacoup.5
+		title = portugaljaneirinhacoup.5.t
+		desc = portugaljaneirinhacoup.5.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugaljaneirinhacoup.5.a
+			ai_chance = { factor = 100 }
+			country_event = { days = 2 id = portugaljaneirinhacoup.6 }
+	    }
+	}
+
+country_event = { ###Parliament is abolished
+		id = portugaljaneirinhacoup.6
+		title = portugaljaneirinhacoup.6.t
+		desc = portugaljaneirinhacoup.6.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugaljaneirinhacoup.6.a
+			ai_chance = { factor = 100 }
+			country_event = { days = 2 id = portugaljaneirinhacoup.7 }
+	    }
+		option = {
+			name = portugaljaneirinhacoup.6.b
+			ai_chance = { factor = 100 }
+			country_event = { days = 2 id = portugaljaneirinhacoup.9 }
+	    }
+	}
+
+country_event = { ###Schedule elections
+		id = portugaljaneirinhacoup.7
+		title = portugaljaneirinhacoup.7.t
+		desc = portugaljaneirinhacoup.7.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugaljaneirinhacoup.7.a
+			ai_chance = { factor = 100 }
+			country_event = { days = 2 id = portugaljaneirinhacoup.8 }
+	    }
+	}
+
+country_event = { ###Election day 
+		id = portugaljaneirinhacoup.8
+		title = portugaljaneirinhacoup.8.t
+		desc = portugaljaneirinhacoup.8.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugaljaneirinhacoup.8.a
+			ai_chance = { factor = 100 }
+			hidden_effect = { 
+			    complete_national_focus = POR_focus_elections_1868
+			    complete_national_focus = POR_focus_new_leader
+	        }
+	    }
+    }		
+
+country_event = { ###Civil War
+		id = portugaljaneirinhacoup.9
+		title = portugaljaneirinhacoup.9.t
+		desc = portugaljaneirinhacoup.9.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugaljaneirinhacoup.9.a
+			ai_chance = { factor = 100 }
+			hidden_effect = {
+			country_event = { days = 60 id = portugaljaneirinhacoup.10 }
+			179 = { set_demilitarized_zone = yes }
+			180 = { set_demilitarized_zone = yes }
+			181 = { set_demilitarized_zone = yes }
+			}
+	    }
+	}
+		
+country_event = { ###Attack on capital
+		id = portugaljaneirinhacoup.10
+		title = portugaljaneirinhacoup.10.t
+		desc = portugaljaneirinhacoup.10.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { ##Win
+			name = portugaljaneirinhacoup.10.a
+			ai_chance = { factor = 100 }
+			}
+			
+		option = { ##Lose
+			name = portugaljaneirinhacoup.10.b
+	    }
+	}
+	
+###Portugal Foreign Relations
+
+#Treaty of Peace, Amity and Trade - step 1 Portugal
+country_event = {
+		id = portugalforeign.1
+		title = portugalforeign.1.t
+		desc = portugalforeign.1.d
+		picture = GFX_report_event_generic_sign_treaty2
+		
+		fire_only_once = yes
+		
+		trigger = {
+		    TSH = { has_idea = TSH_foreign_trade }
+			TAG = POR
+			date > 1860.3.1
+		}
+		
+		option = {
+			name = portugalforeign.1.a
+			ai_chance = { factor = 80 }
+			hidden_effect = {
+			add_political_power = -50
+			TSH = { country_event = { days = 60 id = portugalforeign.2 } }
+		}
+	}
+		
+		option = {
+			name = portugalforeign.1.b
+			ai_chance = { factor = 20 }
+			hidden_effect = {
+			add_political_power = -100
+			add_stability = -0.01
+			add_war_support = 0.03
+		}
+    }
+}
+
+#Treaty of Peace, Amity and Trade - step 2 Tokugawa	
+country_event = { 
+		id = portugalforeign.2
+		title = portugalforeign.2.t
+		desc = portugalforeign.2.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { 
+			name = portugalforeign.2.a
+			ai_chance = { factor = 80 }
+			hidden_effect = {
+			add_political_power = -25
+			POR = { country_event = { days = 60 id = portugalforeign.3 } }
+			}
+		}
+			
+		option = { 
+			name = portugalforeign.2.b
+			ai_chance = { factor = 20 }
+			hidden_effect = {
+			add_political_power = -50
+			POR = { country_event = { days = 60 id = portugalforeign.4 } }
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_RUS_decrease_small }
+			reverse_add_opinion_modifier = { target = TSH modifier = eoanb_om_RUS_decrease_small }
+	    }
+	}
+}
+	
+#Treaty of Peace, Amity and Trade - step 3 Portugal - success
+country_event = { 
+		id = portugalforeign.3
+		title = portugalforeign.3.t
+		desc = portugalforeign.3.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { 
+			name = portugalforeign.3.a
+			hidden_effect = {
+			POR = { set_country_flag = treaty_with_japan }
+			TSH = { set_country_flag = treaty_with_portugal }
+			add_opinion_modifier = { target = POR modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = POR modifier = eoanb_om_RUS_increase_very_small }
+			}
+		}
+	}
+	
+#Treaty of Peace, Amity and Trade - step 4 Portugal - failure
+country_event = { 
+		id = portugalforeign.4
+		title = portugalforeign.4.t
+		desc = portugalforeign.4.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = { 
+			name = portugalforeign.4.a
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_RUS_decrease_small }
+			reverse_add_opinion_modifier = { target = TSH modifier = eoanb_om_RUS_decrease_small }
+			}
+	    }
+		
+#Treaty of Peace, Amity and Trade - step 5 Portugal and Tokugawa - ratification
+country_event = {
+		id = portugalforeign.5
+		title = portugalforeign.5.t
+		desc = portugalforeign.5.d
+		picture = GFX_report_event_generic_sign_treaty2
+		
+		fire_only_once = yes
+		
+		trigger = {
+		    POR = { has_country_flag = treaty_with_japan }
+			TSH = { has_country_flag = treaty_with_portugal }
+			OR = {
+			TAG = TSH
+			TAG = POR
+			}
+			date > 1862.3.1
+		}
+		
+		option = {
+			name = portugalforeign.5.a
+        if = {
+            limit = {
+            TAG = POR
+            }
+            add_political_power = 100
+			clr_country_flag = treaty_with_japan
+           }
+		else_if = {
+		    limit = {
+            TAG = TSH
+            }
+            add_political_power = 50
+			clr_country_flag = treaty_with_portugal
+           }
+		}
+    }
+
+
+
+###The Treaty of Tianjin - step 1
+country_event = {
+		id = portugalforeign.6
+		title = portugalforeign.6.t
+		desc = portugalforeign.6.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		trigger = {
+			TAG = POR
+			date > 1863.7.1
+			has_completed_focus = POR_focus_develop_macau
+		}
+		
+		fire_only_once = yes
+		
+		option = {
+			name = portugalforeign.6.a
+			ai_chance = { factor = 90 }
+			QNG = { country_event = { days = 1 id = portugalfocustree.5 } }
+		}
+		
+		option = {
+			name = portugalforeign.6.b
+			ai_chance = { factor = 10 }
+            add_political_power = -100
+			add_stability = -0.05
+		}
+    }
+	
+###The Treaty of Tianjin - step 2
+country_event = {
+		id = portugalforeign.7
+		title = portugalforeign.7.t
+		desc = portugalforeign.7.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalforeign.7.a
+			ai_chance = { factor = 90 }
+			add_opinion_modifier = { target = POR modifier = eoanb_om_RUS_decrease_very_small }
+			reverse_add_opinion_modifier = { target = POR modifier = eoanb_om_RUS_decrease_very_small }
+			POR = { add_political_power = -50 add_stability = -0.02 }
+			QNG = { create_wargoal = {
+                    type = take_state_focus
+					generator = { 729 }
+                    target = POR
+            }
+		}
+	}
+		
+		option = {
+			name = portugalforeign.7.b
+			ai_chance = { factor = 10 }
+			add_opinion_modifier = { target = POR modifier = eoanb_om_RUS_decrease_small }
+			reverse_add_opinion_modifier = { target = POR modifier = eoanb_om_RUS_decrease_small }
+			QNG = { remove_state_core = 729 add_political_power = 50 }
+			POR = { add_state_core = 729 add_political_power = -50 } 
+            
+		}
+    }
+
+###Ningpo massacre
+country_event = {
+		id = portugalforeign.8
+		title = portugalforeign.8.t
+		desc = portugalforeign.8.d
+		picture = GFX_report_event_merchant_ship_01
+		
+		trigger = {
+		    OR = {
+				TAG = POR
+				TAG = CHI
+            }			
+			#date > 1857.6.26
+		}
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		option = {
+			name = portugalforeign.8.a
+			if = {
+            limit = {
+            TAG = POR
+            }
+            add_manpower = -40
+			add_war_support = -0.02
+           }
+		else_if = {
+		    limit = {
+            TAG = QNG
+            }
+			add_manpower = -3
+            add_war_support = 0.02
+           }
+		}
+    }	

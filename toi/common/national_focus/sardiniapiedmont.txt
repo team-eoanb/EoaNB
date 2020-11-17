@@ -22,6 +22,18 @@ focus_tree = {
 		}
 		x = 19
 		y = 0
+		ai_will_do = {
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 100
+			}
+			modifier = {
+				NOT = {
+					is_historical_focus_on = yes
+				}
+				factor = 50	
+			}
+		}
 			bypass = {
 					has_country_flag = PIE_Plombieres_Starts_Focus_Clear
 				}
@@ -52,6 +64,7 @@ focus_tree = {
 									OR = {
 											is_in_home_area = yes
 											NOT = {
+
 													owner = {
 															any_owned_state = {
 																	free_building_slots = {
@@ -100,6 +113,18 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = PIE_Risorgimento
 		}
+		ai_will_do = {
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 0
+			}
+			modifier = {
+				NOT = {
+					is_historical_focus_on = yes
+				}
+				factor = 50
+			}
+		}
 		x = 6
 		y = 0
 			completion_reward = {
@@ -126,6 +151,10 @@ focus_tree = {
 		}
 		x = 8
 		y = 2
+
+		completion_reward = {
+			custom_effect_tooltip = PIE_Decision_Unlock_Deal_with_Tuscany
+		}
 
 	}
 	focus = {
@@ -172,6 +201,10 @@ focus_tree = {
 		x = 1
 		y = 3
 
+		completion_reward = {
+			custom_effect_tooltip = PIE_The_Carboneria_Desc_Custom
+		}
+
 	}
 	focus = {
 		id = PIE_A_Deal_with_Napoleon
@@ -186,6 +219,10 @@ focus_tree = {
 		x = 5
 		y = 3
 
+		completion_reward = {
+			custom_effect_tooltip = PIE_A_Deal_With_Napoleon_Desc_Custom
+		}
+
 	}
 	focus = {
 		id = PIE_Aftermath_of_Orsini
@@ -196,7 +233,7 @@ focus_tree = {
 			focus = PIE_A_Deal_with_Napoleon
 		}
 		available = {
-			date > 1858.1.14
+			date > 1858.1.31
 		}
 		x = 3
 		y = 4
@@ -289,6 +326,11 @@ focus_tree = {
 		x = 8
 		y = 3
 
+		completion_reward = {
+			custom_effect_tooltip = PIE_Decision_Unlock_Deal_with_Tuscany
+		}
+
+
 	}
 	focus = {
 		id = PIE_Spur_Revolution_Minor_States
@@ -299,6 +341,10 @@ focus_tree = {
 		}
 		x = 10
 		y = 3
+
+		completion_reward = {
+			custom_effect_tooltip = PIE_Decision_Unlock_Tuscany_Formation_Central_States
+		}
 
 	}
 	focus = {
@@ -311,14 +357,34 @@ focus_tree = {
 		prerequisite = {
 			focus = PIE_Spur_Revolution_Minor_States
 		}
+		available = {
+			TUS = {
+				is_puppet_of = PIE
+			}
+		}
 		x = 9
 		y = 4
+
+		completion_reward = {
+			TUS = {
+				add_popularity = {
+    				ideology = centrism
+   					 popularity = 0.78
+					}
+				set_political_party = {
+    				ideology = centrism
+    				popularity = 78
+					}	
+					transfer_state = 813
+					transfer_state = 808 			
+			}
+		}
 
 	}
 	focus = {
 		id = PIE_Plebiscite_for_Unification
 		icon = GFX_goal_focus_elections
-		cost = 70.00
+		cost = 60.00
 		prerequisite = {
 			focus = PIE_United_Provinces_of_Central_Italy
 		}
@@ -328,6 +394,13 @@ focus_tree = {
 		x = 9
 		y = 5
 
+		completion_reward = {
+			annex_country = {
+				target = TUS
+				transfer_troops = yes
+			}
+		}
+
 	}
 	focus = {
 		id = PIE_Ensure_Russias_Neutrality
@@ -336,8 +409,15 @@ focus_tree = {
 		prerequisite = {
 			focus = PIE_Plebiscite_for_Unification
 		}
+		available = {
+			has_completed_focus = PIE_A_Deal_with_Napoleon
+		}
 		x = 6
 		y = 6
+
+		completion_reward = {
+			custom_effect_tooltip = PIE_Russia_No_Intervene_reward
+		}
 
 	}
 	focus = {
@@ -356,6 +436,18 @@ focus_tree = {
 		x = 10
 		y = 6
 
+		completion_reward = {
+			hidden_effect = {
+				load_oob = PIE_French_Army_Full
+				load_oob = PIE_FRANCEAID
+			}
+			custom_effect_tooltip = PIE_Ensure_French_Aid_Focus_reward
+			FRA = {
+				transfer_state = 735
+				transfer_state = 822
+			}
+		}
+
 	}
 	focus = {
 		id = PIE_Provoke_Austria
@@ -369,6 +461,15 @@ focus_tree = {
 		}
 		x = 8
 		y = 7
+
+		completion_reward = {
+			effect_tooltip = {
+				country_event = {
+					id = sardinia.27
+					days = 5
+				}
+			}
+		}
 
 	}
 	focus = {
@@ -388,11 +489,39 @@ focus_tree = {
 		x = 13
 		y = 6
 
+		completion_reward = {
+			CBI = {
+				add_state_core = 160
+				transfer_state = 160
+				transfer_state = 157
+				transfer_state = 161
+				load_oob = PIE_Soldiers_Resistance_CBI
+				declare_war_on = {
+					target = LVN
+					type = annex_everything
+				}
+			}
+			PIE = {
+				declare_war_on = {
+					target = LVN
+					type = annex_everything
+				}
+				load_oob = PIE_Nationalists
+			}
+		}
+
 	}
 	focus = {
 		id = PIE_Second_War_of_Independence
-		icon = GFX_focus_PIE_Second_Independence_War
-		cost = 70.00
+		icon = GFX_focus_second_italian_war_of_independence
+		cost = 50.00
+		available = {
+			PIE = {
+				has_full_control_of_state = 159
+			}
+			has_completed_focus = PIE_Industrializing
+			has_completed_focus = PIE_Military_Focus
+		}
 		prerequisite = {
 			focus = PIE_Path_of_the_Carbonari
 			focus = PIE_Provoke_Austria
@@ -400,7 +529,191 @@ focus_tree = {
 		x = 11
 		y = 8
 
-	}
+		completion_reward = {
+		if = {
+			limit = { 
+				has_completed_focus = PIE_Path_of_the_Carbonari
+			}
+			annex_country = {
+				target = CBI
+				transfer_troops = yes
+			}
+		}
+			set_cosmetic_tag = PIE_focus_ITA
+			set_country_flag = is_literally_italy
+			if={
+				limit={
+					NSC={
+						exists = yes
+						is_subject_of = ROOT
+					}
+				}
+				annex_country = {
+					target = NSC
+					transfer_troops = yes
+				}
+			}
+			every_owned_state = {
+				if = {
+					   limit = {
+						 NOT = {
+							is_core_of = PIE 
+						}
+					}
+				add_core_of	= PIE
+				}
+				remove_core_of = NSC
+				remove_core_of = LVN 
+				remove_core_of = PRM
+				remove_core_of = MOD
+				remove_core_of = TUS
+				remove_core_of = PAP
+				remove_core_of = CBI
+			}
+			country_event = {
+					id = ita.8
+					hours = 1
+				}
+			load_focus_tree = italy_focus
+			
+			hidden_effect = {
+				set_variable = { southern_revolt_risk = 10 }
+				add_ideas = ITA_Southern_Revolt_Risk_Idea
+				delete_unit_template_and_units = {
+					division_template = "French Infantry"
+				}
+			delete_unit_template_and_units = {
+					division_template = "French Howitzers"
+				}
+			delete_unit_template_and_units = {
+					division_template = "Italian Nationalists"
+				}
+			delete_unit_template_and_units = {
+					division_template = "Tuscan Infantry"
+				}
+			delete_unit_template_and_units = {
+					division_template = "Italian Infantry"
+				}
+					set_popularities = {
+						anarchism = 8
+						vanguard_communism = 1
+						collectivist_socialism = 1
+						social_egalitarianism = 52
+						centrism = 20
+						traditional_conservatism = 15
+						radical_democracy = 2
+						chauvinist_populism = 0
+						autocracy = 1
+						fundamentalism = 0
+					}
+					set_politics = {
+							ruling_party = social_egalitarianism
+						}
+					add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
+					remove_ideas = { PIE_National_Society ITA_Planning_For_Invasion }
+					LVN = {
+							remove_ideas = { LVN_National_Society }
+						}
+				
+			
+
+			}
+			if = {
+				limit = {
+					has_completed_focus = PIE_Provoke_Austria
+				}
+				set_cosmetic_tag = PIE_focus_ITA
+				set_country_flag = is_literally_italy
+				if={
+					limit={
+						NSC={
+							exists = yes
+							is_subject_of = ROOT
+						}
+					}
+					annex_country = {
+						target = NSC
+						transfer_troops = yes
+					}
+				}
+				every_owned_state = {
+					if = {
+						   limit = {
+							 NOT = {
+								is_core_of = PIE 
+							}
+						}
+					add_core_of	= PIE
+					}
+					remove_core_of = NSC
+					remove_core_of = LVN 
+					remove_core_of = PRM
+					remove_core_of = MOD
+					remove_core_of = TUS
+					remove_core_of = PAP 
+				}
+				country_event = {
+						id = ita.8
+						hours = 1
+					}
+				load_focus_tree = italy_focus
+				
+				hidden_effect = {
+					set_variable = { southern_revolt_risk = 10 }
+					add_ideas = ITA_Southern_Revolt_Risk_Idea
+					create_country_leader = {
+						name = "Camillo Cavour"
+						desc = "POLITICS_LEOPOLDO_O_DONNELL_Y_JORRIS_DESC"
+						picture = "Portrait_PIE_Camillo_Cavour.dds"
+						expire = "1965.1.1"
+						ideology = despotism
+						traits = {
+						  #
+						}
+					}
+					delete_unit_template_and_units = {
+						division_template = "French Infantry"
+					}
+				delete_unit_template_and_units = {
+						division_template = "French Howitzers"
+					}
+				delete_unit_template_and_units = {
+						division_template = "Italian Nationalists"
+					}
+				delete_unit_template_and_units = {
+						division_template = "Tuscan Infantry"
+					}
+				delete_unit_template_and_units = {
+						division_template = "Italian Infantry"
+					}
+						
+						set_popularities = {
+							anarchism = 8
+							vanguard_communism = 1
+							collectivist_socialism = 1
+							social_egalitarianism = 1
+							centrism = 20
+							traditional_conservatism = 15
+							radical_democracy = 2
+							chauvinist_populism = 0
+							autocracy = 52
+							fundamentalism = 0
+						}
+						set_politics = {
+								ruling_party = autocracy
+							}
+						add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
+						remove_ideas = { PIE_National_Society }
+						LVN = {
+								remove_ideas = { LVN_National_Society }
+							}
+					}
+			}
+		}
+
+	
+
+		}
 	focus = {
 		id = PIE_Napoleon3_Help
 		icon = GFX_goal_generic_improve_relations
@@ -421,12 +734,8 @@ focus_tree = {
 					factor = 3
 				}
 			completion_reward = {
-					FRA = {
-							country_event = {
-									days = 1
-									id = sardinia.1
-								}
-						}
+						####
+						add_political_power = 100
 				}
 
 	}
@@ -443,7 +752,10 @@ focus_tree = {
 					factor = 1
 				}
 			available = {
-					always = no
+				custom_trigger_tooltip = {
+					tooltip = PIE_tooltip_focus_available		
+				always = no
+				     }
 				}
 
 	}
@@ -456,9 +768,12 @@ focus_tree = {
 		}
 		x = 16
 		y = 3
-			available = {
-					always = no
-				}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PIE_tooltip_focus_available		
+			always = no
+				 }
+			}
 
 	}
 	focus = {
@@ -470,9 +785,12 @@ focus_tree = {
 		}
 		x = 19
 		y = 3
-			available = {
-					always = no
-				}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PIE_tooltip_focus_available		
+			always = no
+				 }
+			}
 
 	}
 	focus = {
@@ -534,9 +852,12 @@ focus_tree = {
 		}
 		x = 21
 		y = 3
-			available = {
-					always = no
-				}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PIE_tooltip_focus_available		
+			always = no
+				 }
+			}
 
 	}
 	focus = {
@@ -592,9 +913,12 @@ focus_tree = {
 		}
 		x = 19
 		y = 5
-			available = {
-					always = no
-				}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PIE_tooltip_focus_available		
+			always = no
+				 }
+			}
 
 	}
 	focus = {
@@ -631,7 +955,16 @@ focus_tree = {
 					days = 1
 				}
 
-		}
+			158 = {
+			add_extra_state_shared_building_slots = 1
+							add_building_construction = {
+									type = industrial_complex
+									level = 1
+									instant_build = yes
+								}
+			}
+
+}
 
 	}
 	focus = {
@@ -700,7 +1033,10 @@ focus_tree = {
 		x = 29
 		y = 4
 			completion_reward = {
-
+		add_offsite_building = {
+							type = industrial_complex
+							level = 1
+						}
 }
 
 	}
@@ -713,7 +1049,12 @@ focus_tree = {
 		}
 		x = 29
 		y = 5
-
+completion_reward = {
+		add_offsite_building = {
+							type = industrial_complex
+							level = 1
+						}
+}
 	}
 	focus = {
 		id = PIE_Army_Focus
@@ -725,36 +1066,14 @@ focus_tree = {
 		x = 32
 		y = 1
 			completion_reward = {
-					random_owned_controlled_state = {
-							limit = {
-									free_building_slots = {
-											building = arms_factory
-											size > 0
-											include_locked = yes
+				158 = {
+					add_extra_state_shared_building_slots = 1
+									add_building_construction = {
+											type = arms_factory
+											level = 1
+											instant_build = yes
 										}
-									OR = {
-											is_in_home_area = yes
-											NOT = {
-													owner = {
-															any_owned_state = {
-																	free_building_slots = {
-																			building = arms_factory
-																			size > 0
-																			include_locked = yes
-																		}
-																	is_in_home_area = yes
-																}
-														}
-												}
-										}
-								}
-							add_extra_state_shared_building_slots = 1
-							add_building_construction = {
-									type = arms_factory
-									level = 1
-									instant_build = yes
-								}
-						}
+					}
 				}
 
 	}
@@ -797,7 +1116,7 @@ focus_tree = {
 	}
 	focus = {
 		id = PIE_Annex_Central_Italian_States
-		icon = GFX_focus_PIE_Army_Officer
+		icon = GFX_focus_central_italian_states
 		cost = 70.00
 		prerequisite = {
 			focus = PIE_The_War_Ends
@@ -820,6 +1139,27 @@ focus_tree = {
 						}
 				}
 
+	}
+	focus = {
+	id = PIE_Sign_Turin_Treaty
+	icon = GFX_goal_focus_enact_law
+	cost = 70.00
+	prerequisite = {
+	focus = PIE_Annex_Central_Italian_States
+	}
+	x = 19
+	y = 9
+	available = {
+					date > 1860.1.1
+					has_global_flag = PIE_2IW_Victory
+				}
+		completion_reward = {
+		FRA = {
+				transfer_state = 735
+				transfer_state = 822
+			}
+		
+		}
 	}
 	focus = {
 		id = PIE_The_War_Ends
@@ -889,14 +1229,17 @@ focus_tree = {
 		icon = GFX_focus_PIE_Garibaldi_Expedition
 		cost = 35.00
 		prerequisite = {
-			focus = PIE_Annex_Central_Italian_States
+			focus = PIE_Sign_Turin_Treaty
 		}
 		x = 19
-		y = 9
-			available = {
-					always = no
-					has_global_flag = PIE_2IW_Victory
-				}
+		y = 10 
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PIE_tooltip_focus_available		
+				has_global_flag = PIE_2IW_Victory
+        
+				 }
+			}
 			completion_reward = {
 					custom_effect_tooltip = pie_expedition_thousand_ft
 					hidden_effect = {
@@ -923,14 +1266,15 @@ focus_tree = {
 			focus = PIE_Garibali_Sicily_Expedition
 		}
 		x = 19
-		y = 10
+		y = 11
 			available = {
 					has_completed_focus = PIE_Industrializing
 					has_completed_focus = PIE_Military_Focus
 					has_global_flag = PIE_2IW_Victory
 				}
 			completion_reward = {
-					set_cosmetic_tag = ITA
+					set_cosmetic_tag = PIE_focus_ITA
+					set_country_flag = is_literally_italy
 					if={
 						limit={
 							NSC={
@@ -966,7 +1310,8 @@ focus_tree = {
 					load_focus_tree = italy_focus
 					
 					hidden_effect = {
-
+						set_variable = { southern_revolt_risk = 10 }
+						add_ideas = ITA_Southern_Revolt_Risk_Idea
 						create_country_leader = {
 							name = "Camillo Cavour"
 							desc = "POLITICS_LEOPOLDO_O_DONNELL_Y_JORRIS_DESC"
@@ -976,14 +1321,16 @@ focus_tree = {
 							traits = {
 							  #
 							}
+						}
+
 							
 							set_popularities = {
-								anarchism = 13
+								anarchism = 8
 								vanguard_communism = 1
 								collectivist_socialism = 1
 								social_egalitarianism = 1
 								centrism = 20
-								traditional_conservatism = 20
+								traditional_conservatism = 15
 								radical_democracy = 2
 								chauvinist_populism = 0
 								autocracy = 52
@@ -999,7 +1346,6 @@ focus_tree = {
 								}
 						}
 				}
-
 	}
 	focus = {
 		id = PIE_Develop_Lumber
@@ -1035,12 +1381,12 @@ focus_tree = {
 		y = 5
 			completion_reward = {
 					add_resource = {
-							type = steel
+							type = iron
 							amount = 3
 							state = 981
 						}
 					add_resource = {
-							type = steel
+							type = iron
 							amount = 1
 							state = 158
 						}
@@ -1057,36 +1403,14 @@ focus_tree = {
 		x = 34
 		y = 1
 			completion_reward = {
-					random_owned_controlled_state = {
-							limit = {
-									free_building_slots = {
-											building = dockyard
-											size > 0
-											include_locked = yes
+				158 = {
+					add_extra_state_shared_building_slots = 1
+									add_building_construction = {
+											type = dockyard
+											level = 1
+											instant_build = yes
 										}
-									OR = {
-											is_in_home_area = yes
-											NOT = {
-													owner = {
-															any_owned_state = {
-																	free_building_slots = {
-																			building = dockyard
-																			size > 0
-																			include_locked = yes
-																		}
-																	is_in_home_area = yes
-																}
-														}
-												}
-										}
-								}
-							add_extra_state_shared_building_slots = 1
-							add_building_construction = {
-									type = dockyard
-									level = 1
-									instant_build = yes
-								}
-						}
+					}
 				}
 
 	}
@@ -1118,36 +1442,14 @@ focus_tree = {
 		x = 34
 		y = 3
 			completion_reward = {
-					random_owned_controlled_state = {
-							limit = {
-									free_building_slots = {
-											building = dockyard
-											size > 0
-											include_locked = yes
+				158 = {
+					add_extra_state_shared_building_slots = 1
+									add_building_construction = {
+											type = dockyard
+											level = 1
+											instant_build = yes
 										}
-									OR = {
-											is_in_home_area = yes
-											NOT = {
-													owner = {
-															any_owned_state = {
-																	free_building_slots = {
-																			building = dockyard
-																			size > 0
-																			include_locked = yes
-																		}
-																	is_in_home_area = yes
-																}
-														}
-												}
-										}
-								}
-							add_extra_state_shared_building_slots = 1
-							add_building_construction = {
-									type = dockyard
-									level = 1
-									instant_build = yes
-								}
-						}
+					}
 				}
 
 	}
@@ -1164,36 +1466,14 @@ focus_tree = {
 		x = 33
 		y = 4
 			completion_reward = {
-					random_owned_controlled_state = {
-							limit = {
-									free_building_slots = {
-											building = arms_factory
-											size > 0
-											include_locked = yes
+				158 = {
+					add_extra_state_shared_building_slots = 1
+									add_building_construction = {
+											type = arms_factory
+											level = 1
+											instant_build = yes
 										}
-									OR = {
-											is_in_home_area = yes
-											NOT = {
-													owner = {
-															any_owned_state = {
-																	free_building_slots = {
-																			building = arms_factory
-																			size > 0
-																			include_locked = yes
-																		}
-																	is_in_home_area = yes
-																}
-														}
-												}
-										}
-								}
-							add_extra_state_shared_building_slots = 1
-							add_building_construction = {
-									type = arms_factory
-									level = 1
-									instant_build = yes
-								}
-						}
+					}
 				}
 
 	}

@@ -6,13 +6,13 @@ country_event = {
 	title = arab_events.1.t
 	desc = arab_events.1.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Demand Reduced Autonomy
 		name = arab_events.1.a
 		ZAN = {country_event = {id = arab_events.2}}
-		
+
 	}
 	option = { ##Offer an Alliance
 		name = arab_events.1.b
@@ -28,12 +28,12 @@ country_event = {##ZAN - Oman demands we fall in line
 	title = arab_events.2.t
 	desc = arab_events.2.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Accept
 		name = arab_events.2.a
-		ai_chance = { 
+		ai_chance = {
             factor = 40
         }
 		set_country_flag = accepted_OMA_lordship
@@ -44,17 +44,25 @@ country_event = {##ZAN - Oman demands we fall in line
 	}
 	option = { ##Declare Independance
 		name = arab_events.2.b
-		ai_chance = { 
-            factor = 60 
+		ai_chance = {
+            factor = 60
             modifier = {
                 factor = 90
                 is_historical_focus_on = yes
             }
         }
 		OMA = {
-			set_autonomy = {
-				target = ZAN
-				autonomy_state = autonomy_free
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+					target = ZAN
+					autonomy_state = autonomy_free
+				}
+			}
+			else = {
+				end_puppet = ZAN
 			}
 			country_event = {id = arab_events.5}
 		}
@@ -65,19 +73,27 @@ country_event = {##ZAN - Oman offers an Alliance for our freedom
 	title = arab_events.3.t
 	desc = arab_events.3.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Accept
 		name = arab_events.3.a
-		ai_chance = { 
+		ai_chance = {
             factor = 40
         }
 		set_country_flag = accepted_OMA_alliance
 		give_guarantee = FROM
-		set_autonomy = {
-			target = ROOT
-			autonomy_state = autonomy_free
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = ROOT
+				autonomy_state = autonomy_free
+			}
+		}
+		else = {
+			end_puppet = ROOT
 		}
 		FROM = {
 			give_guarantee = ROOT
@@ -86,7 +102,7 @@ country_event = {##ZAN - Oman offers an Alliance for our freedom
 	}
 	option = { ##Decline
 		name = arab_events.3.b
-		ai_chance = { 
+		ai_chance = {
             factor = 60
         }
 	}
@@ -96,9 +112,9 @@ country_event = {##OMA - ZAN falls in line
 	title = arab_events.4.t
 	desc = arab_events.4.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##ok
 		name = arab_events.4.a
 	}
@@ -108,9 +124,9 @@ country_event = {##OMA - ZAN Declares Independance
 	title = arab_events.5.t
 	desc = arab_events.5.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Bring them to Heel
 		name = arab_events.5.a
 		trigger={
@@ -130,6 +146,18 @@ country_event = {##OMA - ZAN Declares Independance
 	option = { ##We don't have the power
 		name = arab_events.5.b
 		add_stability = -0.05
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = ZAN
+				autonomy_state = autonomy_free
+			}
+		}
+		else = {
+			end_puppet = ZAN
+		}
 	}
 }
 country_event = {##OMA - ZAN accepts alliance
@@ -137,9 +165,9 @@ country_event = {##OMA - ZAN accepts alliance
 	title = arab_events.6.t
 	desc = arab_events.6.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##ok
 		name = arab_events.6.a
 	}
@@ -149,9 +177,9 @@ country_event = {##ENG - OMA Declares Colonial Attention
 	title = arab_events.7.t
 	desc = arab_events.7.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##send warning
 		name = arab_events.7.a
 		trigger={
@@ -174,9 +202,9 @@ country_event = {##OMA - ENG warns us to stay out of TCS
 	title = arab_events.8.t
 	desc = arab_events.8.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##ok
 		name = arab_events.8.a
 	}
@@ -187,9 +215,9 @@ country_event = {##OMA - policy towards Arabian Territory
 	title = arab_events.9.t
 	desc = arab_events.9.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Matain Claims
 		name = arab_events.9.a
 		add_state_claim = 1192
@@ -218,12 +246,12 @@ country_event = {##ENG - OMA demands we hand over TCS
 	title = arab_events.10.t
 	desc = arab_events.10.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##No
 		name = arab_events.10.a
-		ai_chance = { 
+		ai_chance = {
             factor = 90
 			modifier = {
 				factor = 0.9
@@ -233,7 +261,7 @@ country_event = {##ENG - OMA demands we hand over TCS
 	}
 	option = { ##Yes
 		name = arab_events.10.b
-		ai_chance = { 
+		ai_chance = {
             factor = 10
 			modifier = {
 				factor = 2
@@ -243,16 +271,24 @@ country_event = {##ENG - OMA demands we hand over TCS
 				factor = 2
 				SRS = {
 					AND={
-						exists = yes 
+						exists = yes
 						has_war = no
 					}
 				}
 			}
         }
 		FROM={
-			set_autonomy = {
-				target = TCS
-				autonomy_state = autonomy_colony
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+					target = TCS
+					autonomy_state = autonomy_colony
+				}
+			}
+			else = {
+				puppet = TCS
 			}
 			TCS={
 				set_political_party = {
@@ -268,9 +304,9 @@ country_event = {##OMA - policy towards Persian Territory
 	title = arab_events.11.t
 	desc = arab_events.11.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Matain Claims
 		name = arab_events.11.a
 		add_state_claim = 795
@@ -290,18 +326,18 @@ country_event = {##PER - OMA demands Laristan
 	title = arab_events.12.t
 	desc = arab_events.12.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##no
 		name = arab_events.12.a
-		ai_chance = { 
+		ai_chance = {
             factor = 95
         }
 	}
 	option = { ##hand it over
 		name = arab_events.12.b
-		ai_chance = { 
+		ai_chance = {
             factor = 5
         }
 		FROM={transfer_state = 795}
@@ -312,7 +348,7 @@ country_event = {##end of the OMA-ZAN war
 	title = arab_events.13.t
 	desc = arab_events.13.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	#is_triggered_only = yes
 	#hidden = yes
 	trigger={
@@ -323,20 +359,29 @@ country_event = {##end of the OMA-ZAN war
 	mean_time_to_happen = {
 		days = 2
 	}
-	
+
 	immediate = { ##ok
 		OMA={
 			increase_ps_by_two = yes
 			clr_country_flag = OMA_brothers_war
 			white_peace = ZAN
 			white_peace = MOM
-			set_autonomy = {
-				target = ZAN
-				autonomy_state = autonomy_colony
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+					target = ZAN
+					autonomy_state = autonomy_colony
+				}
+				set_autonomy = {
+					target = MOM
+					autonomy_state = autonomy_colony
+				}
 			}
-			set_autonomy = {
-				target = MOM
-				autonomy_state = autonomy_colony
+			else = {
+				puppet = ZAN
+				puppet = MOM
 			}
 			ZAN={
 				set_country_flag = forced_under_OMA_lordship
@@ -356,7 +401,7 @@ country_event = {##end of the OMA-ZAN war
 	}
 	option = { ##the war ends
 		name = arab_events.13.a
-		ai_chance = { 
+		ai_chance = {
             factor = 100
         }
 	}
@@ -366,10 +411,10 @@ country_event = {##Luguru Expedition
 	title = arab_events.14.t
 	desc = arab_events.14.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
 	#hidden = yes
-	
+
 	option = { ##move in
 		name = arab_events.14.a
 		trigger={
@@ -383,8 +428,8 @@ country_event = {##Luguru Expedition
 		}
 		transfer_state = 904
 		add_manpower = -200
-		
-		ai_chance = { 
+
+		ai_chance = {
             factor = 100
         }
 	}
@@ -395,16 +440,16 @@ country_event = {##OMA - enforce will on MAJ
 	title = arab_events.18.t
 	desc = arab_events.18.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	immediate={
 		country_event ={id = arab_events.21 days = 25}
 	}
-	
+
 	option = { ##Occupy
 		name = arab_events.18.a
-		ai_chance = { 
+		ai_chance = {
             factor = 100
         }
 		trigger={
@@ -418,7 +463,7 @@ country_event = {##OMA - enforce will on MAJ
 	}
 	option = { ##demand transfer of state
 		name = arab_events.18.b
-		ai_chance = { 
+		ai_chance = {
             factor = 50
         }
 		trigger={
@@ -430,7 +475,7 @@ country_event = {##OMA - enforce will on MAJ
 	}
 	option = { ##vassalise them
 		name = arab_events.18.c
-		ai_chance = { 
+		ai_chance = {
             factor = 50
         }
 		trigger={
@@ -455,9 +500,9 @@ country_event = {##OMA demands submition
 	title = arab_events.19.t
 	desc = arab_events.19.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Accept
 		name = arab_events.19.a
 		FROM={puppet = ROOT}
@@ -476,22 +521,22 @@ country_event = {##OMA demands vassalisation of 559(somalia)
 	title = arab_events.20.t
 	desc = arab_events.20.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Accept
 		name = arab_events.20.a
-		ai_chance = { 
+		ai_chance = {
             factor = 80
         }
 		PREV={transfer_state = 559}
 	}
 	option = { ##Decline
 		name = arab_events.20.b
-		ai_chance = { 
+		ai_chance = {
             factor = 20
         }
-		
+
 	}
 }
 
@@ -500,26 +545,26 @@ country_event = {##OMA - enforce will on GLD
 	title = arab_events.21.t
 	desc = arab_events.21.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
-	option = { ##Occupy
-		name = arab_events.18.a
-		ai_chance = { 
-            factor = 100
-        }
-		trigger={
-			821={
-				owner = {is_ai = yes}
-			}
-			has_manpower > 999
-		}
-		add_manpower = -1000
-		transfer_state = 821
-	}
+
+	#option = { ##Occupy
+	#	name = arab_events.18.a
+	#	ai_chance = {
+    #        factor = 100
+    #    }
+	#	trigger={
+	#		821={
+	#			owner = {is_ai = yes}
+	#		}
+	#		has_manpower > 999
+	#	}
+	#	add_manpower = -1000
+	#	transfer_state = 821
+	#}
 	option = { ##demand transfer of state
 		name = arab_events.18.b
-		ai_chance = { 
+		ai_chance = {
             factor = 50
         }
 		trigger={
@@ -531,7 +576,7 @@ country_event = {##OMA - enforce will on GLD
 	}
 	option = { ##vassalise them
 		name = arab_events.18.c
-		ai_chance = { 
+		ai_chance = {
             factor = 50
         }
 		trigger={
@@ -556,18 +601,18 @@ country_event = {##OMA - our british policy
 	title = arab_events.23.t
 	desc = arab_events.23.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##friendly
 		name = arab_events.23.a
-		ai_chance = { 
+		ai_chance = {
             factor = 60
         }
 	}
 	option = { ##neutral
 		name = arab_events.23.b
-		ai_chance = { 
+		ai_chance = {
             factor = 30
         }
 		diplomatic_relation = {
@@ -578,7 +623,7 @@ country_event = {##OMA - our british policy
 	}
 	option = { ##hostile
 		name = arab_events.23.c
-		ai_chance = { 
+		ai_chance = {
             factor = 10
         }
 		diplomatic_relation = {
@@ -599,12 +644,12 @@ country_event = {##OMA - modernisation
 	title = arab_events.24.t
 	desc = arab_events.24.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##aim for complete modernisation
 		name = arab_events.24.a#starts a longer harder process, but the results bring the nation on par with the west, easier with the colonial tree
-		ai_chance = { 
+		ai_chance = {
             factor = 60
         }
 		set_country_flag = OMA_western
@@ -614,7 +659,7 @@ country_event = {##OMA - modernisation
 	}
 	option = { ##just intergrate the better ideas
 		name = arab_events.24.b# shorter but with less benifits, better for a oman that can't hold onto ZAN
-		ai_chance = { 
+		ai_chance = {
             factor = 30
         }
 		set_country_flag = OMA_western
@@ -624,7 +669,7 @@ country_event = {##OMA - modernisation
 	}
 	option = { ##our ways are the best
 		name = arab_events.24.c#going isolationist
-		ai_chance = { 
+		ai_chance = {
             factor = 10
         }
 		add_stability = 0.05
@@ -637,9 +682,9 @@ country_event = {##OMA - Founding of somalia
 	title = arab_events.25.t
 	desc = arab_events.25.desc
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##consolidate under a Sa'id ruler
 		name = arab_events.25.a
 		trigger={
@@ -650,7 +695,7 @@ country_event = {##OMA - Founding of somalia
 			}
 		}
 		add_stability = -0.05
-		ai_chance = { 
+		ai_chance = {
             factor = 50
         }
 		SOM={
@@ -674,10 +719,17 @@ country_event = {##OMA - Founding of somalia
 				}
 			}
 		}
-		puppet = SOM
-		set_autonomy = {
-			target = SOM
-			autonomy_state = autonomy_colony
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = SOM
+				autonomy_state = autonomy_colony
+			}
+		}
+		else = {
+			puppet = SOM
 		}
 		SOM={
 			set_political_party = {
@@ -685,11 +737,11 @@ country_event = {##OMA - Founding of somalia
 				popularity = 100
 			}
 		}
-		
+
 	}
 	option = { ##consolidate under MAJ
 		name = arab_events.25.b
-		ai_chance = { 
+		ai_chance = {
             factor = 20
         }
 		trigger={
@@ -698,9 +750,18 @@ country_event = {##OMA - Founding of somalia
 			}
 		}
 		add_stability = -0.025
-		set_autonomy = {
-			target = MAJ
-			autonomy_state = autonomy_colony
+
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = MAJ
+				autonomy_state = autonomy_colony
+			}
+		}
+		else = {
+			puppet = MAJ
 		}
 		MAJ={
 			set_cosmetic_tag = SOM_OMA_colony
@@ -738,11 +799,11 @@ country_event = {##OMA - Founding of somalia
 				add_state_core = 821
 			}
 		}
-		
+
 	}
 	option = { ##consolidate under GLD
 		name = arab_events.25.c
-		ai_chance = { 
+		ai_chance = {
             factor = 20
         }
 		trigger={
@@ -751,9 +812,17 @@ country_event = {##OMA - Founding of somalia
 			}
 		}
 		add_stability = -0.025
-		set_autonomy = {
-			target = GLD
-			autonomy_state = autonomy_colony
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = GLD
+				autonomy_state = autonomy_colony
+			}
+		}
+		else = {
+			puppet = GLD
 		}
 		GLD={
 			set_cosmetic_tag = SOM_OMA_colony
@@ -791,15 +860,15 @@ country_event = {##OMA - Founding of somalia
 				add_state_core = 559
 			}
 		}
-		
+
 	}
 	option = { ##don't consolidate
 		name = arab_events.25.d
-		ai_chance = { 
+		ai_chance = {
             factor = 10
         }
 		add_political_power = -100
-		add_stability = 0.1		
+		add_stability = 0.1
 	}
 }
 
@@ -808,24 +877,32 @@ country_event = {##TCS - OMA demands annexation
 	title = arab_events.26.t
 	desc = arab_events.26.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##No
 		name = arab_events.26.a
-		ai_chance = { 
+		ai_chance = {
             factor = 90
         }
 	}
 	option = { ##Yes
 		name = arab_events.26.b
-		ai_chance = { 
+		ai_chance = {
             factor = 10
         }
 		FROM={
-			set_autonomy = {
-				target = TCS
-				autonomy_state = autonomy_colony
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+					target = TCS
+					autonomy_state = autonomy_colony
+				}
+			}
+			else = {
+				puppet = TCS
 			}
 			TCS={
 				set_political_party = {
@@ -845,12 +922,12 @@ country_event = {##OMA - a choice of india
 	title = arab_events.27.t
 	desc = arab_events.27.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Sepoys
 		name = arab_events.27.a
-		ai_chance = { 
+		ai_chance = {
             factor = 50
         }
 		SRS={
@@ -859,7 +936,7 @@ country_event = {##OMA - a choice of india
 	}
 	option = { ##raj
 		name = arab_events.27.b
-		ai_chance = { 
+		ai_chance = {
             factor = 50
         }
 		RAJ={
@@ -872,12 +949,12 @@ country_event = {##India - OMA offers cheaper trade
 	title = arab_events.28.t
 	desc = arab_events.28.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##agreed
 		name = arab_events.26.a
-		ai_chance = { 
+		ai_chance = {
             factor = 95
         }
 		OMA={
@@ -891,7 +968,7 @@ country_event = {##India - OMA offers cheaper trade
 	}
 	option = { ##no
 		name = arab_events.26.b
-		ai_chance = { 
+		ai_chance = {
             factor = 5
         }
 	}
@@ -901,12 +978,12 @@ country_event = {##OMA - Finalise foreign policy
 	title = arab_events.29.t
 	desc = arab_events.29.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Influencal[going full modernisation plus still has colonial empire]
 		name = arab_events.29.a
-		ai_chance = { 
+		ai_chance = {
             factor = 95
         }
 		trigger={
@@ -918,7 +995,7 @@ country_event = {##OMA - Finalise foreign policy
 	}
 	option = { ##increase our trade
 		name = arab_events.29.b
-		ai_chance = { 
+		ai_chance = {
             factor = 5
         }
 		add_ideas = {
@@ -927,14 +1004,14 @@ country_event = {##OMA - Finalise foreign policy
 	}
 	option = { ##remain a trading nation
 		name = arab_events.29.c
-		ai_chance = { 
+		ai_chance = {
             factor = 5
         }
 		add_stability = 0.025
 	}
 	option = { ##cut ourselves off
 		name = arab_events.29.e
-		ai_chance = { 
+		ai_chance = {
             factor = 5
         }
 		add_ideas = {
@@ -948,37 +1025,38 @@ country_event = {###ZAN - OMA tribute is due
 	title = arab_events.30.t
 	desc = arab_events.30.d
 	picture = GFX_report_event_chinese_army_training
-	
-	#is_triggered_only = yes
-	trigger = {
-		is_subject_of = OMA
-		tag = ZAN
-		NOT = {
-			has_country_flag = accepted_OMA_lordship
-		}
-		OMA={
-			NOT={
-				has_completed_focus = oma_vic_reign_ZAN_in
-			}
-		}
-	}
-	mean_time_to_happen = {
-		days = 360
-	}
-	
+
+	is_triggered_only = yes
+	# trigger = {
+		# is_subject_of = OMA
+		# tag = ZAN
+		# NOT = {
+			# has_country_flag = accepted_OMA_lordship
+		# }
+		# NOT={has_idea = ZAN_OMAtribute}
+		# OMA={
+			# NOT={
+				# has_completed_focus = oma_vic_reign_ZAN_in
+			# }
+		# }
+	# }
+	# mean_time_to_happen = {
+		# days = 360
+	# }
+
 	option = {#pay
 		name = arab_events.30.a
 		add_timed_idea = {
 			idea = ZAN_OMAtribute
 			days = 30
 		}
-		ai_chance = { 
+		ai_chance = {
             factor = 10
         }
 	}
 	option = {#break free
-		name = arab_events.30.a
-		ai_chance = { 
+		name = arab_events.30.b
+		ai_chance = {
             factor = 90
         }
 		OMA = {country_event = {id = arab_events.5}}
@@ -990,19 +1068,25 @@ country_event = {##OMA demands annexation of MAH
 	title = arab_events.31.t
 	desc = arab_events.31.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Accept
 		name = arab_events.31.a
-		ai_chance = { 
+		ai_chance = {
             factor = 80
         }
-		OMA={transfer_state = 1196}
+		OMA={
+			transfer_state = 1196
+			add_state_core = 1196
+		}
+		hidden_effect={#ADN is threatened, goes after the other hadhramaut states
+			ADN = {country_event ={id = arab_events.73 days = 720}}
+		}
 	}
 	option = { ##Decline
 		name = arab_events.31.b
-		ai_chance = { 
+		ai_chance = {
             factor = 20
         }
 		OMA={country_event = {id = arab_events.35}}
@@ -1013,12 +1097,12 @@ country_event = {##OMA intervention into MAH
 	title = arab_events.32.t
 	desc = arab_events.32.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##use diplomatic means
 		name = arab_events.32.a
-		ai_chance = { 
+		ai_chance = {
             factor = 80
         }
 		add_political_power = -20
@@ -1026,7 +1110,7 @@ country_event = {##OMA intervention into MAH
 	}
 	option = { ##use military means
 		name = arab_events.32.b
-		ai_chance = { 
+		ai_chance = {
             factor = 20
         }
 		start_border_war = {
@@ -1037,7 +1121,7 @@ country_event = {##OMA intervention into MAH
 				on_win = arab_events.33
 				on_lose = arab_events.34
 			}
-					
+
 			defender = {
 				state = 1196
 				num_provinces = 1
@@ -1060,17 +1144,20 @@ country_event = {##OMA wins vs MAH
 	title = arab_events.33.t
 	desc = arab_events.33.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##great
 		name = arab_events.33.a
-		ai_chance = { 
+		ai_chance = {
             factor = 80
         }
 		OMA={
 			transfer_state = 1196
 			add_state_core = 1196
+		}
+		hidden_effect={#ADN is threatened, goes after the other hadhramaut states
+			ADN = {country_event ={id = arab_events.73 days = 720}}
 		}
 	}
 }
@@ -1086,10 +1173,10 @@ country_event = {##MAH wins vs OMA
 		trigger = {NOT ={tag = OMA}}
 	}
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = { ##Accept
 		name = arab_events.34.a
 		trigger={tag = OMA}
@@ -1099,7 +1186,7 @@ country_event = {##MAH wins vs OMA
 	}
 	option = { ##Accept
 		name = arab_events.34.b
-		ai_chance = { 
+		ai_chance = {
             factor = 80
         }
 		trigger={
@@ -1109,7 +1196,7 @@ country_event = {##MAH wins vs OMA
 	}
 	option = { ##Accept
 		name = arab_events.34.c
-		ai_chance = { 
+		ai_chance = {
             factor = 20
         }
 		trigger={
@@ -1122,12 +1209,12 @@ country_event = {##MAH refuses
 	title = arab_events.35.t
 	desc = arab_events.35.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##invade
 		name = arab_events.35.b
-		ai_chance = { 
+		ai_chance = {
             factor = 70
         }
 		add_stability = -0.05
@@ -1139,7 +1226,7 @@ country_event = {##MAH refuses
 				on_win = arab_events.33
 				on_lose = arab_events.34
 			}
-					
+
 			defender = {
 				state = 1196
 				num_provinces = 1
@@ -1156,7 +1243,7 @@ country_event = {##MAH refuses
 	}
 	option = { ##continue to work on MAH
 		name = arab_events.35.b
-		ai_chance = { 
+		ai_chance = {
             factor = 30
         }
 	}
@@ -1166,9 +1253,9 @@ country_event = {##MAH - Aden offer protection
 	title = arab_events.36.t
 	desc = arab_events.36.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Accept
 		name = arab_events.36.a
 		ai_chance = {
@@ -1191,7 +1278,7 @@ country_event = {##ADN - expansion into Hadhramaut
 	title = arab_events.37.t
 	desc = arab_events.37.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	#is_triggered_only = yes
 	trigger={
 		date > 1862.01.01
@@ -1205,7 +1292,7 @@ country_event = {##ADN - expansion into Hadhramaut
 	mean_time_to_happen={
 		days = 60
 	}
-	
+
 	option = { ##agreed, send a delegation to MAH
 		name = arab_events.37.a
 		ai_chance = {
@@ -1227,9 +1314,9 @@ country_event = {##ADN - MAH agrees
 	title = arab_events.38.t
 	desc = arab_events.38.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##great
 		name = arab_events.38.a
 	}
@@ -1239,7 +1326,7 @@ country_event = {##ADN - establish control of Hadhramaut
 	title = arab_events.39.t
 	desc = arab_events.39.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	#is_triggered_only = yes
 	trigger={
 		date > 1886.01.01
@@ -1253,13 +1340,14 @@ country_event = {##ADN - establish control of Hadhramaut
 	mean_time_to_happen={
 		days = 60
 	}
-	
+
 	option = { ##agreed, sign the deal
 		name = arab_events.39.a
 		ai_chance = {
             factor = 100
         }
 		annex_country = { target = MAH transfer_troops = yes }
+		add_state_core = 1196
 		hidden_effect ={country_event={id = arab_events.40 days = 720}}
 	}
 	option = { ##refuse
@@ -1274,9 +1362,9 @@ country_event = {##ADN - finish control over Hadhramaut
 	title = arab_events.40.t
 	desc = arab_events.40.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##send the envoys
 		name = arab_events.40.a
 		ai_chance = {
@@ -1297,9 +1385,9 @@ country_event = {##QUA/KAT - Aden offer integration
 	title = arab_events.41.t
 	desc = arab_events.41.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Accept
 		name = arab_events.41.a
 		ai_chance = {
@@ -1322,9 +1410,9 @@ country_event = {##ADN - QUA/KAT accept
 	title = arab_events.42.t
 	desc = arab_events.42.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Accept
 		name = arab_events.42.a
 		ai_chance = {
@@ -1337,9 +1425,9 @@ country_event = {##ADN - MAH has offered to submit
 	title = arab_events.43.t
 	desc = arab_events.43.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##great
 		name = arab_events.43.a
 		puppet = FROM
@@ -1350,17 +1438,21 @@ country_event = {##OMA - death of Thuwaini
 	title = arab_events.44.t
 	desc = arab_events.44.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
 	trigger={
 		tag=OMA
 		date>1866.04.01
 		date<1872.01.01
+		has_country_leader = {
+			name = "Thuwaini bin Said"
+			ruling_only = yes
+		}
 	}
 	mean_time_to_happen={
 		days = 100
 	}
-	
+
 	immediate={
 		#retire_country_leader = yes
 		create_country_leader = {
@@ -1372,7 +1464,7 @@ country_event = {##OMA - death of Thuwaini
 		}
 		complete_national_focus = oma_vic_death_of_thuwaini
 	}
-	
+
 	option = { ##long live Salim
 		name = arab_events.44.a
 		hidden_effect={
@@ -1387,20 +1479,57 @@ country_event = {##OMA - death of Thuwaini
 						has_idea = OMA_increasing_oman_muskat_divide
 					}
 				}
-				country_event = {id = arab_events.45 days = 400 random = 200}
+				set_variable = {OMA_salims_side = 2}
+				if={
+					limit={
+						has_idea = OMA_oman_muskat_divide
+					}
+					set_variable = {OMA_azzans_side = 1}
+				}
+				else_if={
+					limit={
+						has_idea = OMA_oman_muskat_divide_2
+					}
+					set_variable = {OMA_azzans_side = 2}
+				}
+				else_if={
+					limit={
+						has_idea = OMA_oman_muskat_divide_3
+					}
+					set_variable = {OMA_azzans_side = 3}
+				}
+				else_if={
+					limit={
+						has_idea = OMA_oman_muskat_divide_4
+					}
+					set_variable = {OMA_azzans_side = 4}
+				}
+				else_if={
+					limit={
+						has_idea = OMA_oman_muskat_divide_5
+					}
+					set_variable = {OMA_azzans_side = 5}
+				}
+				else_if={
+					limit={
+						has_idea = OMA_increasing_oman_muskat_divide
+					}
+					set_variable = {OMA_azzans_side = 6}
+				}
+				country_event = {id = arab_events.45 days = 100 random = 110}
 			}
 			else={
-			
+
 			}
 		}
 	}
 }
-country_event = {##OMA - Imamate  of Oman Disputed
+country_event = {##OMA - Imamate of Oman Disputed
 	id = arab_events.45
 	title = arab_events.45.t
 	desc = arab_events.45.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
 	immediate={
 		hidden_effect={
@@ -1411,23 +1540,24 @@ country_event = {##OMA - Imamate  of Oman Disputed
 				ideology = fundamentalism
 				popularity = 0.15
 			}
-		}	
+		}
 	}
-	
+
 	option = { ##Reconize Azzam
 		name = arab_events.45.a
 		random_list={
 			75={
 				custom_effect_tooltip = Azzan_marches_east
 				hidden_effect={
-					country_event = {id = arab_events.46 days = 60 random = 60}
+					country_event = {id = arab_events.46 days = 30 random = 60}
 					set_country_flag=Azzan_marches_east
+					add_ideas={OMA_tribal_ibadhi_fanaticism}
 				}
 			}
 			25={
 				custom_effect_tooltip = Azzan_accepts_deal
 				hidden_effect={
-					country_event = {id = arab_events.46 days = 60 random = 60}
+					country_event = {id = arab_events.46 days = 30 random = 60}
 					set_country_flag=Azzan_accepts_deal
 				}
 			}
@@ -1435,7 +1565,8 @@ country_event = {##OMA - Imamate  of Oman Disputed
 	}
 	option = { ##fight for Salim
 		name = arab_events.45.b
-		country_event = {id = arab_events.47 days = 60 random = 60}
+		country_event = {id = arab_events.47 days = 30 random = 60}
+		set_country_flag=Azzan_marches_east
 		add_ideas={OMA_tribal_ibadhi_fanaticism}
 		add_manpower=-2000
 	}
@@ -1465,9 +1596,9 @@ country_event = {##OMA - Azzans reply
 		text = arab_events.46.db
 	}
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##damn
 		name = arab_events.46.a
 		trigger={
@@ -1479,7 +1610,10 @@ country_event = {##OMA - Azzans reply
 		name = arab_events.46.b
 		trigger={
 			has_country_flag=Azzan_accepts_deal
+
 		}
+		unlock_national_focus = oma_vic_the_imam_and_the_sultan
+		797={set_demilitarized_zone = no}
 	}
 }
 country_event = {##OMA - Azzan marches east WIP
@@ -1487,12 +1621,13 @@ country_event = {##OMA - Azzan marches east WIP
 	title = arab_events.47.t
 	desc = arab_events.47.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
-	option = { ##great
+
+	option = { ##the results of this are based on focuses taken
 		name = arab_events.47.a
 		OMA_muscat_and_oman_divide_increase_3 = yes
+		country_event ={id= arab_events.70 days = 10}
 	}
 }
 
@@ -1501,25 +1636,30 @@ country_event = {##OMA - foreign interests
 	title = arab_events.48.t
 	desc = arab_events.48.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##woo Britian
 		name = arab_events.48.a
 		ENG={
 			country_event={id = arab_events.49}
 		}
+		ai_chance = {
+            factor = 75
+            modifier = {
+                factor = 100
+                is_historical_focus_on = yes
+            }
+        }
 	}
 	option = { ##woo France
 		name = arab_events.48.b
 		FRA={
 			country_event={id = arab_events.49}
 		}
-		
-	}
-	option = { ##woo 
-		name = arab_events.48.c
-		
+		ai_chance = {
+            factor = 25
+        }
 	}
 }
 
@@ -1535,20 +1675,43 @@ country_event = {##ENG/FRA - Omani Envoys
 		trigger={tag = FRA}
 	}
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##agree to assist for the offered deal
 		name = arab_events.49.a
-		
+		FROM={
+			add_to_variable={ OMA_salims_side = 3}
+		}
+		if={
+			limit={
+				tag = FRA
+			}
+			FROM={add_ideas={OMA_trade_consessions_to_FRA}}
+		}
+		else={
+			FROM={add_ideas={OMA_trade_consessions_to_ENG}}
+		}
 	}
 	option = { ##agree to assist for more
 		name = arab_events.49.b
-		
+		FROM={
+			add_to_variable={ OMA_salims_side = 2}
+			add_political_power = -50
+		}
+		if={
+			limit={
+				tag = FRA
+			}
+			FROM={add_ideas={OMA_trade_consessions_to_FRA_2}}
+		}
+		else={
+			FROM={add_ideas={OMA_trade_consessions_to_ENG_2}}
+		}
 	}
 	option = { ##ignore them
 		name = arab_events.49.c
-		
+
 	}
 }
 
@@ -1557,13 +1720,14 @@ country_event = {##OMA - expansion of the muscat garrison
 	title = arab_events.50.t
 	desc = arab_events.50.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##Spend a lot
 		name = arab_events.50.a
 		add_manpower=-1000
 		add_political_power=-25
+		add_to_variable={ OMA_salims_side = 2}
 		294={
 			add_building_construction = {
 				type = bunker
@@ -1572,12 +1736,13 @@ country_event = {##OMA - expansion of the muscat garrison
 				province = 10760
 			}
 		}
-		
+
 	}
 	option = { ##Spend a bit
 		name = arab_events.50.b
 		add_manpower=-500
 		add_political_power=-10
+		add_to_variable={ OMA_salims_side = 1}
 		294={
 			add_building_construction = {
 				type = bunker
@@ -1587,10 +1752,10 @@ country_event = {##OMA - expansion of the muscat garrison
 			}
 		}
 	}
-	option = { ##Spend little 
+	option = { ##Spend little
 		name = arab_events.50.c
 		add_political_power=-5
-		
+
 	}
 }
 
@@ -1599,17 +1764,15 @@ country_event = {##JSH - Battle of Mulayda begins
 	title = arab_events.51.t
 	desc = arab_events.51.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = JSH
-		date>1891.01.20
+		#date>1891.01.20
 		NJD={exists = yes}
 	}
-	mean_time_to_happen={
-		days = 5
-	}
-	
+
 	option = { ##attack
 		name = arab_events.51.a
 		start_border_war = {
@@ -1621,7 +1784,7 @@ country_event = {##JSH - Battle of Mulayda begins
 				on_lose = arab_events.53
 				on_cancel = arab_events.54
 			}
-						
+
 			defender = {
 				state = 916
 				num_provinces = 4
@@ -1630,20 +1793,20 @@ country_event = {##JSH - Battle of Mulayda begins
 				on_cancel = arab_events.52
 			}
 		}
-		ai_chance = { 
-            factor = 60 
+		ai_chance = {
+            factor = 75
             modifier = {
                 factor = 100
                 is_historical_focus_on = yes
             }
         }
-		
+
 	}
 	option = { ##back down
 		name = arab_events.51.b
 		add_political_power=-5
-		ai_chance = { 
-            factor = 40 
+		ai_chance = {
+            factor = 25
             modifier = {
                 factor = 0
                 is_historical_focus_on = yes
@@ -1656,9 +1819,9 @@ country_event = {##NJD/JSH - rasids win
 	title = arab_events.52.t
 	desc = arab_events.52.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##ok
 		name = arab_events.52.a
 	}
@@ -1668,9 +1831,9 @@ country_event = {##NJD/JSH - sauds win
 	title = arab_events.53.t
 	desc = arab_events.53.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##ok
 		name = arab_events.53.a
 	}
@@ -1680,9 +1843,9 @@ country_event = {##NJD/JSH - should not happen, but here in case
 	title = arab_events.54.t
 	desc = arab_events.54.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##ok
 		name = arab_events.54.a
 	}
@@ -1693,17 +1856,18 @@ country_event = {##NJD - Abdallah ibn Faisal ibn Turki takes over
 	title = arab_events.55.t
 	desc = arab_events.55.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = NJD
-		date>1865.4.1
+		#date>1865.4.1
 		has_country_leader = {
 			name = "Faisal bin Turki bin Abdullah Al Saud"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.55.a
 		create_country_leader = {
@@ -1720,17 +1884,18 @@ country_event = {##NJD - Saud bin Faisal bin Turki takes over
 	title = arab_events.56.t
 	desc = arab_events.56.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = NJD
-		date>1871.2.1
+		#date>1871.2.1
 		has_country_leader = {
 			name = "Abdallah ibn Faisal ibn Turki Al Saud"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.56.a
 		create_country_leader = {
@@ -1747,17 +1912,18 @@ country_event = {##NJD - Abdallah ibn Faisal ibn Turki takes over again
 	title = arab_events.57.t
 	desc = arab_events.57.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = NJD
-		date>1871.11.1
+		#date>1871.11.1
 		has_country_leader = {
 			name = "Saud bin Faisal bin Turki Al Saud"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.57.a
 		create_country_leader = {
@@ -1774,17 +1940,18 @@ country_event = {##NJD - Saud bin Faisal bin Turki Al Saud takes over again
 	title = arab_events.58.t
 	desc = arab_events.58.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = NJD
-		date>1873.5.20
+		#date>1873.5.20
 		has_country_leader = {
 			name = "Abdallah ibn Faisal ibn Turki Al Saud"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.58.a
 		create_country_leader = {
@@ -1801,17 +1968,18 @@ country_event = {##NJD - Saud bin Faisal bin Turki Al Saud dies, Abdul Rahman bi
 	title = arab_events.59.t
 	desc = arab_events.59.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = NJD
-		date>1875.1.1
+		#date>1875.1.1
 		has_country_leader = {
 			name = "Saud bin Faisal bin Turki Al Saud"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.59.a
 		create_country_leader = {
@@ -1828,17 +1996,18 @@ country_event = {##NJD - Abdallah ibn Faisal ibn Turki takes over yet again
 	title = arab_events.60.t
 	desc = arab_events.60.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = NJD
-		date>1876.1.1
+		#date>1876.1.1
 		has_country_leader = {
 			name = "Abdul Rahman bin Faisal Al Saud"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.60.a
 		create_country_leader = {
@@ -1855,17 +2024,18 @@ country_event = {##NJD - Abdul Rahman bin Faisal strikes back
 	title = arab_events.61.t
 	desc = arab_events.61.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = NJD
-		date>1889.1.1
+		#date>1889.1.1
 		has_country_leader = {
 			name = "Abdallah ibn Faisal ibn Turki Al Saud"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.61.a
 		create_country_leader = {
@@ -1882,20 +2052,27 @@ country_event = {##NJD - resurgence of Al Saud
 	title = arab_events.62.t
 	desc = arab_events.62.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = NJD
-		date>1902.1.13
-		NOT={
-			owns_state = 916
-		}
+		#date>1902.1.13
 	}
-	
+
 	option = { ##ok
 		name = arab_events.62.a
-		transfer_state = 916
-		add_manpower = 10000
+		if={
+			limit={
+				NOT={
+					owns_state = 916
+				}
+			}
+			transfer_state = 916
+			add_manpower = 10000
+				drop_cosmetic_tag = yes
+		JSH={country_event={id=arab_events.63}}
+		}
 		create_country_leader = {
 			name = "Abdulaziz 'Ibn Saud' Al Saud"
 			desc = "POLITICS_TEMP_DESC"
@@ -1903,8 +2080,6 @@ country_event = {##NJD - resurgence of Al Saud
 			expire = 1953.11.9
 			ideology = despotism
 		}
-		drop_cosmetic_tag = yes
-		JSH={country_event={id=arab_events.63}}
 	}
 }
 country_event = {##JSH - sauds retake Riyadh
@@ -1912,9 +2087,9 @@ country_event = {##JSH - sauds retake Riyadh
 	title = arab_events.63.t
 	desc = arab_events.63.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	is_triggered_only = yes
-	
+
 	option = { ##ok
 		name = arab_events.63.a
 	}
@@ -1925,17 +2100,18 @@ country_event = {##JSH - Mutʿib I bin ʿAbdullah takes over
 	title = arab_events.64.t
 	desc = arab_events.64.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = JSH
-		date>1868.3.15
+		#date>1868.3.15
 		has_country_leader = {
 			name = "Talal bin 'Abdullah"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.64.a
 		create_country_leader = {
@@ -1952,17 +2128,18 @@ country_event = {##JSH - Bandar ben Talal al-Rachid takes over
 	title = arab_events.65.t
 	desc = arab_events.65.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = JSH
-		date>1869.2.14
+		#date>1869.2.14
 		has_country_leader = {
 			name = "Mutʿib I bin ʿAbdullah"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.65.a
 		create_country_leader = {
@@ -1979,17 +2156,18 @@ country_event = {##JSH - Muhammad I bin 'Abdullah takes over
 	title = arab_events.66.t
 	desc = arab_events.66.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = JSH
-		date>1869.10.2
+		#date>1869.10.2
 		has_country_leader = {
 			name = "Bandar ben Talal al-Rachid"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.66.a
 		create_country_leader = {
@@ -2006,17 +2184,18 @@ country_event = {##JSH - ʿAbd al-ʿAzīz bin Mutʿib takes over
 	title = arab_events.67.t
 	desc = arab_events.67.d
 	#picture = GFX_report_event_chinese_army_training
-	
+
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger={
 		tag = JSH
-		date>1897.6.8
+		#date>1897.6.8
 		has_country_leader = {
 			name = "Muhammad I bin 'Abdullah"
 			ruling_only = yes
 		}
 	}
-	
+
 	option = { ##ok
 		name = arab_events.67.a
 		create_country_leader = {
@@ -2025,6 +2204,512 @@ country_event = {##JSH - ʿAbd al-ʿAzīz bin Mutʿib takes over
 			picture = "Portrait_JSH_Abd_al-Aziz_bin_Mut_ib.dds"
 			expire = 1920.1.1
 			ideology = despotism
+		}
+	}
+}
+country_event = {##OMA - Gaining the support of Hinawi
+	id = arab_events.68
+	title = arab_events.68.t
+	desc = arab_events.68.d
+	#picture = GFX_report_event_chinese_army_training
+
+	is_triggered_only = yes
+
+	option = { ##Offer them a place in the government
+		name = arab_events.68.a
+		random_list = {
+			44 = {#agreed
+				modifier = {
+					factor = 0.5
+					has_idea = OMA_ghafiri_in_government
+				}
+				custom_effect_tooltip = OMA_Hinwai_gives_support
+				add_to_variable={ OMA_salims_side = 4}
+				add_ideas = {OMA_hinawi_in_government}
+			}
+			56 = {#refuses
+				custom_effect_tooltip = OMA_Hinwai_backs_azzan
+				add_to_variable={ OMA_azzans_side = 5}
+			}
+		}
+	}
+	option = { ##Give Them gifts of wealth
+		name = arab_events.68.b
+		add_timed_idea={days = 200 idea = OMA_paying_the_hinawi}
+		random_list = {
+			33 = {#agreed
+				modifier = {
+					factor = 0.5
+					has_idea = OMA_ghafiri_in_government
+				}
+				custom_effect_tooltip = OMA_Hinwai_gives_support
+				add_to_variable={ OMA_salims_side = 4}
+			}
+			67 = {#refuses
+				custom_effect_tooltip = OMA_Hinwai_backs_azzan
+				add_to_variable={ OMA_azzans_side = 5}
+			}
+		}
+	}
+	option = { ##Give Them gifts of power
+		name = arab_events.68.c
+		trigger={
+			has_political_power > 49
+		}
+		add_political_power = -50
+		random_list = {
+			33 = {#agreed
+				modifier = {
+					factor = 0.5
+					has_idea = OMA_ghafiri_in_government
+				}
+				custom_effect_tooltip = OMA_Hinwai_gives_support
+				add_to_variable={ OMA_salims_side = 4}
+			}
+			67 = {#refuses
+				custom_effect_tooltip = OMA_Hinwai_backs_azzan
+				add_to_variable={ OMA_azzans_side = 5}
+			}
+		}
+	}
+	option = { ##Threaten them
+		name = arab_events.68.e
+		random_list = {
+			15 = {#agreed
+				modifier = {
+					factor = 0.5
+					has_idea = OMA_ghafiri_in_government
+				}
+				custom_effect_tooltip = OMA_Hinwai_gives_support
+				add_to_variable={ OMA_salims_side = 4}
+			}
+			75 = {#refuses
+				custom_effect_tooltip = OMA_Hinwai_backs_azzan
+				add_to_variable={ OMA_azzans_side = 5}
+			}
+		}
+	}
+}
+country_event = {##OMA - Gaining the support of Hinawi
+	id = arab_events.69
+	title = arab_events.69.t
+	desc = arab_events.69.d
+	#picture = GFX_report_event_chinese_army_training
+
+	is_triggered_only = yes
+
+	option = { ##Offer them a place in the government
+		name = arab_events.68.a
+		random_list = {
+			44 = {#agreed
+				modifier = {
+					factor = 0.5
+					has_idea = OMA_hinawi_in_government
+				}
+				custom_effect_tooltip = OMA_Ghafiri_gives_support
+				add_to_variable={ OMA_salims_side = 4}
+				add_ideas = {OMA_ghafiri_in_government}
+			}
+			56 = {#refuses
+				custom_effect_tooltip = OMA_Ghafiri_backs_azzan
+				add_to_variable={ OMA_azzans_side = 5}
+			}
+		}
+	}
+	option = { ##Give Them gifts of wealth
+		name = arab_events.68.b
+		add_timed_idea={days = 200 idea = OMA_paying_the_ghafiri}
+		random_list = {
+			33 = {#agreed
+				modifier = {
+					factor = 0.5
+					has_idea = OMA_hinawi_in_government
+				}
+				custom_effect_tooltip = OMA_Ghafiri_gives_support
+				add_to_variable={ OMA_salims_side = 4}
+			}
+			10={#Stays neutral
+				modifier = {
+					factor = 0.8
+					has_idea = OMA_hinawi_in_government
+				}
+				custom_effect_tooltip = OMA_Ghafiri_remains_neutral
+			}
+			57 = {#refuses
+				custom_effect_tooltip = OMA_Ghafiri_backs_azzan
+				add_to_variable={ OMA_azzans_side = 5}
+			}
+		}
+	}
+	option = { ##Give Them gifts of power
+		name = arab_events.68.c
+		trigger={
+			has_political_power > 49
+		}
+		add_political_power = -50
+		random_list = {
+			33 = {#agreed
+				modifier = {
+					factor = 0.5
+					has_idea = OMA_hinawi_in_government
+				}
+				custom_effect_tooltip = OMA_Ghafiri_gives_support
+				add_to_variable={ OMA_salims_side = 4}
+			}
+			10={#Stays neutral
+				modifier = {
+					factor = 0.8
+					has_idea = OMA_hinawi_in_government
+				}
+				custom_effect_tooltip = OMA_Ghafiri_remains_neutral
+			}
+			57 = {#refuses
+				custom_effect_tooltip = OMA_Ghafiri_backs_azzan
+				add_to_variable={ OMA_azzans_side = 5}
+			}
+		}
+	}
+	option = { ##Threaten them
+		name = arab_events.68.e
+		random_list = {
+			15 = {#agreed
+				modifier = {
+					factor = 0.5
+					has_idea = OMA_hinawi_in_government
+				}
+				custom_effect_tooltip = OMA_Ghafiri_gives_support
+				add_to_variable={ OMA_salims_side = 4}
+			}
+			20={#Stays neutral
+				modifier = {
+					factor = 0.8
+					has_idea = OMA_hinawi_in_government
+				}
+				custom_effect_tooltip = OMA_Ghafiri_remains_neutral
+			}
+			65 = {#refuses
+				custom_effect_tooltip = OMA_Ghafiri_backs_azzan
+				add_to_variable={ OMA_azzans_side = 5}
+			}
+		}
+	}
+}
+country_event = {##OMA - the battle begins
+	id = arab_events.70
+	title = arab_events.70.t
+	desc = arab_events.70.d
+	#picture = GFX_report_event_chinese_army_training
+
+	is_triggered_only = yes
+
+	option = { ##results of the battle
+		name = arab_events.70.a
+		if={
+			limit={
+				check_variable = {
+					var = OMA_azzans_side
+					value = OMA_salims_side
+					compare = greater_than_or_equals
+				}
+			}
+			set_country_flag = OMA_azzans_victory
+		}
+		else={
+			set_country_flag = OMA_salims_victory
+		}
+		country_event={id=arab_events.71 }#days = 5}
+	}
+}
+country_event = {##OMA - results of the battle
+	id = arab_events.71
+	title = arab_events.71.t
+	desc = {
+		text = arab_events.71.d
+		trigger={
+			NOT={
+				has_country_flag = OMA_azzans_victory
+				has_country_flag = OMA_salims_victory
+			}
+		}
+	}
+	#Azzans victory
+	desc = {#uk backed oman, but the tribes did not
+		text = arab_events.71.da1
+		trigger={
+			has_country_flag = OMA_azzans_victory
+			OR={
+				has_idea = OMA_trade_consessions_to_ENG
+				has_idea = OMA_trade_consessions_to_ENG_2
+			}
+		}
+	}
+	desc = {#france backed oman, but the tribes did not
+		text = arab_events.71.da2
+		trigger={
+			has_country_flag = OMA_azzans_victory
+			OR={
+				has_idea = OMA_trade_consessions_to_FRA
+				has_idea = OMA_trade_consessions_to_FRA_2
+			}
+		}
+	}
+	desc = {#default
+		text = arab_events.71.da
+		trigger={
+			has_country_flag = OMA_azzans_victory
+		}
+	}
+	#Salims Victory
+	desc = {#default
+		text = arab_events.71.ds
+		trigger={
+			has_country_flag = OMA_salims_victory
+		}
+	}
+	#picture = GFX_report_event_chinese_army_training
+
+	immediate={
+		797={set_demilitarized_zone = no}
+	}
+
+	is_triggered_only = yes
+
+	option = { ##azzan wins
+		name = arab_events.71.a
+		trigger={
+			has_country_flag = OMA_azzans_victory
+		}
+		complete_national_focus = oma_vic_the_imam_and_the_sultan
+		##form azzans government
+		hidden_effect={
+			set_popularities = {
+				anarchism = 0
+				vanguard_communism = 0
+				collectivist_socialism = 0
+				social_egalitarianism = 0
+				centrism = 0
+				traditional_conservatism = 0
+				radical_democracy = 0
+				chauvinist_populism = 0
+				autocracy = 0
+				fundamentalism = 100
+			}
+		}
+		set_politics = {
+			ruling_party = fundamentalism
+		}
+		create_country_leader = {
+			name = "Azzan bin Qais"
+			desc = "POLITICS_TEMP_DESC"
+			picture = "Portrait_OMA_Azzan_bin_Qais.dds"
+			expire = 1871.02.10
+			ideology = islamist
+		}
+		hidden_effect={#azzan ignores pledge to pay FRA/ENG
+			remove_ideas={
+				OMA_trade_consessions_to_FRA
+				OMA_trade_consessions_to_FRA_2
+				OMA_trade_consessions_to_ENG
+				OMA_trade_consessions_to_ENG_2
+			}
+			#the tribes that put azzan in power get government jobs
+			if={
+				limit={
+					has_idea=OMA_ghafiri_in_government
+				}
+				remove_ideas = {OMA_ghafiri_in_government}
+			}
+			else = {
+				add_ideas = {OMA_ghafiri_in_government}
+			}
+			if={
+				limit={
+					has_idea=OMA_hinawi_in_government
+				}
+				remove_ideas = {OMA_hinawi_in_government}
+			}
+			else = {
+				add_ideas = {OMA_hinawi_in_government}
+			}
+		}
+	}
+	option = { ##Salim wins
+		name = arab_events.71.b
+		trigger={
+			has_country_flag = OMA_salims_victory
+		}
+		complete_national_focus = oma_vic_the_imam_and_the_sultan
+		add_stability = 0.1
+	}
+	option={
+		name = arab_events.71.c
+		trigger={
+			NOT={
+				has_country_flag = OMA_salims_victory
+				has_country_flag = OMA_azzans_victory
+			}
+		}
+	}
+}
+
+country_event = {##OMA - Asscent of Turki
+	id = arab_events.72
+	title = {
+		text = arab_events.72.t#Death in Battle
+		trigger={
+			has_country_flag = OMA_azzans_victory
+		}
+	}
+	title = {
+		text = arab_events.72.ta#Bomb rocks the palace
+		trigger={
+			has_country_flag = Azzan_accepts_deal
+		}
+	}
+	title = {
+		text = arab_events.72.tb#Plague
+		trigger={
+			has_country_flag = OMA_salims_victory
+		}
+	}
+
+	desc = {#
+		text = arab_events.72.da1
+		trigger={
+			has_country_flag = OMA_azzans_victory
+		}
+	}
+	desc = {#Bomb rocks the palace - British implicated
+		text = arab_events.72.da2
+		trigger={
+			has_country_flag=Azzan_accepts_deal
+		}
+	}
+	desc = {#Dies via a disease outbreak
+		text = arab_events.72.ds
+		trigger={
+			has_country_flag = OMA_salims_victory
+		}
+	}
+	#picture = GFX_report_event_chinese_army_training
+	trigger={
+		tag = OMA
+		date > 1871.01.01
+		NOT={
+			has_country_leader = {name = "Turki bin Said" ruling_only = yes}
+		}
+		date < 1874.01.01
+	}
+	fire_only_once = yes
+	immediate={
+		hidden_effect={
+			retire_country_leader = yes
+			set_popularities = {
+				anarchism = 0
+				vanguard_communism = 0
+				collectivist_socialism = 0
+				social_egalitarianism = 0
+				centrism = 0
+				traditional_conservatism = 0
+				radical_democracy = 0
+				chauvinist_populism = 0
+				autocracy = 100
+				fundamentalism = 0
+			}
+			set_politics = {
+				ruling_party = autocracy
+			}
+			create_country_leader = {
+				name = "Turki bin Said"
+				desc = "POLITICS_TURKI_BIN_SAID_DESC"
+				picture = "Portrait_Oman_Turki_bin_Said.dds"
+				expire = "1888.4.4"
+				ideology = despotism
+				traits = {
+
+				}
+			}
+		}
+	}
+
+	option = { ##azzan wins
+		name = arab_events.72.a
+
+		##form azzans government
+	}
+}
+
+country_event = {##ADN - establish control of Hadhramaut, oman controls Mahra
+	id = arab_events.73
+	title = arab_events.73.t
+	desc = arab_events.73.d
+	#picture = GFX_report_event_chinese_army_training
+
+	is_triggered_only = yes
+	# trigger={
+		# date > 1886.01.01
+		# date < 1895.01.01
+		# tag = ADN
+		# OMA = {owns_state = 1196}
+	# }
+	# mean_time_to_happen={
+		# days = 60
+	# }
+
+	option = { ##agreed, send the envoys
+		name = arab_events.73.a
+		ai_chance = {
+            factor = 100
+        }
+		QUA={country_event={id = arab_events.41 days = 2}}
+		KAT={country_event={id = arab_events.41 days = 2}}
+	}
+	option = { ##refuse
+		name = arab_events.73.b
+		ai_chance = {
+            factor = 0
+        }
+	}
+}
+country_event = {##ZAN - the anglo-zanzibar war, the fastest war in history
+	id = arab_events.74
+	title = arab_events.74.t
+	desc = arab_events.74.d
+	#picture = GFX_report_event_chinese_army_training
+	
+	major = yes
+	
+	fire_only_once = yes
+
+	trigger={
+		tag = ENG
+		date>1897.8.27
+		date<1900.1.1
+		ZAN={
+			exists = yes
+			is_subject = no
+			is_ai = yes
+			owns_state = 1220
+			NOT={owns_state = 825}
+		}
+	}
+
+	option = { ##wow
+		name = arab_events.74.a
+		trigger={
+			tag = ENG
+		}
+		annex_country = {
+			target = ZAN
+			transfer_troops = yes
+		}
+		1220={add_compliance = 80}
+
+	}
+	option = { ##what
+		name = arab_events.74.b
+		trigger={
+			NOT={tag = ENG}
 		}
 	}
 }

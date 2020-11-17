@@ -1,0 +1,413 @@
+﻿add_namespace = danish_votes
+add_namespace = danish_votes_results
+
+country_event = { # danish_votes_of_1857_1
+  id = danish_votes.1
+  title = danish_votes.1.t
+  desc = danish_votes.1.d
+  picture = GFX_report_event_uk_parliament
+
+  is_triggered_only = yes
+
+  immediate = {
+    set_variable = { 
+      var = current_reform_id
+      value = -1    
+    }
+
+    reset_approval_arrays = yes 
+    set_1_approval_highly_agree = yes 
+    set_2_approval_disagree = yes 
+    set_3_approval_neutral = yes 
+    set_4_approval_highly_agree = yes 
+
+    set_vote_eco = yes
+    compute_voting_approval = yes 
+
+    compute_number_seats_tot = yes 
+    compute_number_seats_approve_est = yes
+	
+  }
+
+  option = { # Let's vote in a month
+    name = danish_votes.1.a
+    country_event = {
+      id = danish_votes_results.1
+      days = 35 
+    }
+  }
+
+  option = { # Abandon the idea
+    name = danish_votes.1.b
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+  }
+}
+
+country_event = { # Vote on the reform
+  id = danish_votes_results.1
+  title = danish_votes_results.1.t
+  desc = danish_votes_results.1.d
+  picture = GFX_report_event_uk_parliament
+
+  is_triggered_only = yes
+
+  immediate = {
+    hidden_effect = {
+      hold_vote = yes
+    }
+  }
+
+  option = { # It's a success !
+    name = danish_votes_results.1.a
+    trigger = {
+      has_country_flag = eoanb_reform_vote_success
+    }
+    clr_country_flag = eoanb_reform_vote_success
+    enact_voted_reform = yes
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+	add_ideas = DEN_new_buisness_act
+	if = {
+        limit = {
+		         has_government  = traditional_conservatism
+				 }
+				 add_political_power = 50
+	             add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				 add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+	if = {
+        limit = {
+		         has_government  = centrism
+				 }
+				 add_political_power = 50
+	             add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				 add_popularity = { ideology = centrism popularity = -0.01 }
+    }
+}
+
+  option = { # It's a failure...
+    name = danish_votes_results.1.b
+    trigger = {
+      has_country_flag = eoanb_reform_vote_failure
+    }
+    clr_country_flag = eoanb_reform_vote_failure
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+	if = {
+        limit = {
+		         has_government  = traditional_conservatism
+				 }
+				 add_political_power = -50
+	             add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				 add_popularity = { ideology = centrism popularity = 0.01 }
+    }
+	if = {
+        limit = {
+		         has_government  = centrism
+				 }
+				 add_political_power = -50
+	             add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				 add_popularity = { ideology = centrism popularity = -0.01 }
+        }
+    }
+
+  option = { # This is somehow worse than a failure
+    name = danish_votes_results.1.c
+    trigger = {
+      has_country_flag = eoanb_reform_vote_tie
+    }
+    clr_country_flag = eoanb_reform_vote_tie
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+    ## MAYBE RESTART THE 2 WEEKS VOTING PROCESS AGAIN
+
+  }
+}
+
+country_event = { # danish_votes_of_1857_2
+  id = danish_votes.2
+  title = danish_votes.2.t
+  desc = danish_votes.2.d
+  picture = GFX_report_event_uk_parliament
+
+  is_triggered_only = yes
+
+  immediate = {
+    set_variable = { 
+      var = current_reform_id
+      value = -1    
+    }
+
+    reset_approval_arrays = yes 
+    set_1_approval_highly_agree = yes 
+    set_2_approval_disagree = yes 
+    set_3_approval_neutral = yes 
+    set_4_approval_highly_agree = yes 
+
+    set_vote_eco = yes
+    compute_voting_approval = yes 
+
+    compute_number_seats_tot = yes 
+    compute_number_seats_approve_est = yes
+	
+  }
+
+  option = { # Let's vote in a month
+    name = danish_votes.2.a
+    country_event = {
+      id = danish_votes_results.2
+      days = 35 
+    }
+  }
+
+  option = { # Abandon the idea
+    name = danish_votes.2.b
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+  }
+}
+
+country_event = { # Vote on the reform
+  id = danish_votes_results.2
+  title = danish_votes_results.2.t
+  desc = danish_votes_results.2.d
+  picture = GFX_report_event_uk_parliament
+
+  is_triggered_only = yes
+
+  immediate = {
+    hidden_effect = {
+      hold_vote = yes
+    }
+  }
+
+  option = { # It's a success !
+    name = danish_votes_results.2.a
+    trigger = {
+      has_country_flag = eoanb_reform_vote_success
+    }
+    clr_country_flag = eoanb_reform_vote_success
+    enact_voted_reform = yes
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+	DEN = { remove_state_core = 100 }
+	ICE = { add_state_core = 100 }
+	add_political_power = 25
+	if = {
+        limit = {
+		         has_government  = traditional_conservatism
+				 }
+				 add_political_power = 50
+	             add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				 add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+	if = {
+        limit = {
+		         has_government  = centrism
+				 }
+				 add_political_power = 50
+	             add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				 add_popularity = { ideology = centrism popularity = -0.01 }
+    }
+}
+
+  option = { # It's a failure...
+    name = danish_votes_results.2.b
+    trigger = {
+      has_country_flag = eoanb_reform_vote_failure
+    }
+    clr_country_flag = eoanb_reform_vote_failure
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+	if = {
+        limit = {
+		         has_government  = traditional_conservatism
+				 }
+				 add_political_power = -50
+	             add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				 add_popularity = { ideology = centrism popularity = 0.01 }
+    }
+	if = {
+        limit = {
+		         has_government  = centrism
+				 }
+				 add_political_power = -50
+	             add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				 add_popularity = { ideology = centrism popularity = -0.01 }
+        }
+    }
+
+  option = { # This is somehow worse than a failure
+    name = danish_votes_results.2.c
+    trigger = {
+      has_country_flag = eoanb_reform_vote_tie
+    }
+    clr_country_flag = eoanb_reform_vote_tie
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+    ## MAYBE RESTART THE 2 WEEKS VOTING PROCESS AGAIN
+
+  }
+}
+
+country_event = { # danish_votes_of_1857_3
+  id = danish_votes.3
+  title = danish_votes.3.t
+  desc = danish_votes.3.d
+  picture = GFX_report_event_uk_parliament
+
+  is_triggered_only = yes
+
+  immediate = {
+    set_variable = { 
+      var = current_reform_id
+      value = -1    
+    }
+
+    reset_approval_arrays = yes 
+    set_1_approval_highly_agree = yes 
+    set_2_approval_disagree = yes 
+    set_3_approval_neutral = yes 
+    set_4_approval_highly_agree = yes 
+
+    set_vote_eco = yes
+    compute_voting_approval = yes 
+
+    compute_number_seats_tot = yes 
+    compute_number_seats_approve_est = yes
+	
+  }
+
+  option = { # Let's vote in a month
+    name = danish_votes.3.a
+    country_event = {
+      id = danish_votes_results.3
+      days = 35 
+    }
+  }
+
+  option = { # Abandon the idea
+    name = danish_votes.3.b
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+  }
+}
+
+country_event = { # Vote on the reform
+  id = danish_votes_results.3
+  title = danish_votes_results.3.t
+  desc = danish_votes_results.3.d
+  picture = GFX_report_event_uk_parliament
+
+  is_triggered_only = yes
+
+  immediate = {
+    hidden_effect = {
+      hold_vote = yes
+    }
+  }
+
+  option = { # It's a success !
+    name = danish_votes_results.3.a
+    trigger = {
+      has_country_flag = eoanb_reform_vote_success
+    }
+    clr_country_flag = eoanb_reform_vote_success
+    enact_voted_reform = yes
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+    37 = { add_extra_state_shared_building_slots = 1 }
+	37 = { add_building_construction = { type = naval_base level = 1 instant_build = yes province = 6287 } }
+	if = {
+        limit = {
+		         has_government  = traditional_conservatism
+				 }
+				 add_political_power = 50
+	             add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				 add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+	if = {
+        limit = {
+		         has_government  = centrism
+				 }
+				 add_political_power = 50
+	             add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				 add_popularity = { ideology = centrism popularity = -0.01 }
+    }
+}
+
+  option = { # It's a failure...
+    name = danish_votes_results.3.b
+    trigger = {
+      has_country_flag = eoanb_reform_vote_failure
+    }
+    clr_country_flag = eoanb_reform_vote_failure
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+	if = {
+        limit = {
+		         has_government  = traditional_conservatism
+				 }
+				 add_political_power = -50
+	             add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				 add_popularity = { ideology = centrism popularity = 0.01 }
+    }
+	if = {
+        limit = {
+		         has_government  = centrism
+				 }
+				 add_political_power = -50
+	             add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				 add_popularity = { ideology = centrism popularity = -0.01 }
+        }
+    }
+
+  option = { # This is somehow worse than a failure
+    name = danish_votes_results.3.c
+    trigger = {
+      has_country_flag = eoanb_reform_vote_tie
+    }
+    clr_country_flag = eoanb_reform_vote_tie
+
+    set_variable = { 
+      var = current_reform_id
+      value = 0
+    }
+    ## MAYBE RESTART THE 2 WEEKS VOTING PROCESS AGAIN
+
+  }
+}

@@ -9,11 +9,11 @@
 		  set_naval_oob = "AUS_1857_naval_legacy"
 	  }
   }
-
-  AUS = { country_event = { id = AUSflavour.7 days = 11 } }
-
+  
   set_convoys = 50
   set_research_slots = 4
+
+  add_to_variable = { prestige_score = 15 }
 
   add_ideas = { 
     #POLITICS
@@ -48,8 +48,15 @@
 
 	  religion_catholic
 
+     hc_no_healthcare
+    law_police_force
+    inframain_no_subsidies_infrastructure
+    navinfra_no_naval_infrastructure
+    sfund_private_ventures_only
+
     #NATIONAL SPIRITS   
     GER_general_idea_ger_confed
+	BAD_currency_reform
     AUS_hungarian_revolution
     AUS_HUN_Separatism
     AUS_SLA_Separatism
@@ -68,14 +75,18 @@
 	  limit = {
 		  has_dlc = "Together for Victory"
 		}
+		LVN={ set_country_flag = is_junior_personal_union_member}
     set_autonomy = {
       target = LVN 
       autonomy_state = autonomy_personal_union_2 
 			freedom_level = 0.1 
     }			
-	  else = {
-		  puppet = LVN
-	  }
+  }
+  if ={
+	  limit = {
+		  NOT = { has_dlc = "Together for Victory" }
+		}
+    puppet = LVN
   }
 
   set_politics = {
@@ -99,7 +110,22 @@
   add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 2500 producer = AUS }
 
   set_technology = {
-	  infantry_weapons = 1
+	  infantry_weapons = 1 traditional_mixed_arms = 1
+	tribal_carrier_birds=1 tribal_electrical_theory=1
+	tribal_steel_tools=1
+	tribal_tatics=1
+	tribal_gunpowder=1
+	tribal_riding=1
+	tribal_steam_experiments=1
+	tribal_forging=1
+	tribal_artisan=1
+	tribal_chemistry=1
+	tribal_guilds_trade=1
+	tribal_crop_planting=1
+	tribal_irrigation=1
+	tribal_crop_rotation=1
+	tribal_salted_smoked_goods=1
+	tribal_leching=1
 	  tech_infantry_napoleonic_uniform = 1
 	  tech_infantry_practical_rifling = 1
 	  vic_army_cloth = 1
@@ -311,6 +337,30 @@
   	id = 168309
   }
 
+  create_corps_commander = {
+    name = "Franz Folliot de Crenneville"
+    picture = "AUS_vic_Franz_Folliot_de_Crenneville.dds"
+    traits = { }
+    skill = 2
+    attack_skill = 2
+    defense_skill = 2
+    planning_skill = 3
+    logistics_skill = 2
+    id = 16842
+  }
+
+  create_corps_commander = {
+    name = "Johann de Brucq Litho"
+    picture = ".dds"
+    traits = { }
+    skill = 2
+    attack_skill = 3
+    defense_skill = 2
+    planning_skill = 2
+    logistics_skill = 2
+    id = 16843
+  }
+
   ### Navy Leaders
 
   #create_navy_leader = { # Is added by an event
@@ -381,11 +431,11 @@ if = {
 		name_group = GER_CA_HISTORICAL
 		parent_version = 0
 		modules = {
-      fixed_ship_battery_slot = ship_light_battery_0
+      fixed_ship_battery_slot = ship_cannon_battery_0
 			fixed_ship_fire_control_system_slot = fire_control_system_0
 			fixed_ship_engine_slot = ship_engine_sail_0
 			fixed_ship_armor_slot = ship_armor_screen_hardwood_0
-			mid_1_custom_slot = ship_light_battery_0
+			mid_1_custom_slot = ship_cannon_battery_0
 			front_1_custom_slot = empty
     }
 		#obsolete = no
@@ -400,15 +450,15 @@ if = {
     name_group = GER_CA_HISTORICAL
     parent_version = 0
     modules = {
-      fixed_ship_battery_slot = ship_light_battery_0
+      fixed_ship_battery_slot = ship_cannon_battery_0
       fixed_ship_fire_control_system_slot = fire_control_system_0
       fixed_ship_engine_slot = ship_engine_sail_0
       fixed_ship_armor_slot = ship_armor_capital_hardwood_1
-      mid_1_custom_slot = ship_light_battery_0
-      mid_2_custom_slot = ship_light_battery_1
-      mid_3_custom_slot = ship_light_battery_1
-      front_1_custom_slot = ship_light_battery_1
-      rear_1_custom_slot = ship_light_battery_1
+      mid_1_custom_slot = ship_cannon_battery_0
+      mid_2_custom_slot = ship_cannon_battery_1
+      mid_3_custom_slot = ship_cannon_battery_1
+      front_1_custom_slot = ship_cannon_battery_1
+      rear_1_custom_slot = ship_cannon_battery_1
     }
     #obsolete = yes
   }
@@ -422,12 +472,12 @@ if = {
     name_group = GER_CA_HISTORICAL
     parent_version = 0
     modules = {
-      fixed_ship_battery_slot = ship_light_battery_0
+      fixed_ship_battery_slot = ship_cannon_battery_0
       fixed_ship_fire_control_system_slot = fire_control_system_0
-      fixed_ship_engine_slot = ship_engine_gunboat_0
+      fixed_ship_engine_slot = ship_engine_paddle_gunboat
       fixed_ship_armor_slot = ship_armor_capital_hardwood_0
-      mid_1_custom_slot = ship_light_battery_0
-      mid_2_custom_slot = ship_light_battery_1
+      mid_1_custom_slot = ship_cannon_battery_0
+      mid_2_custom_slot = ship_cannon_battery_1
     }
   }
 }
@@ -440,14 +490,14 @@ if = {
     name_group = GER_CA_HISTORICAL
     parent_version = 0
     modules = {
-      fixed_ship_battery_slot = ship_light_battery_1
+      fixed_ship_battery_slot = ship_cannon_battery_1
       fixed_ship_fire_control_system_slot = fire_control_system_0
-      fixed_ship_engine_slot = ship_engine_ironclad_0
+      fixed_ship_engine_slot = ship_engine_paddle_capital
       fixed_ship_armor_slot = ship_armor_capital_hardwood_1
-      mid_1_custom_slot = ship_light_battery_1
-      mid_2_custom_slot = ship_light_battery_1
-      front_1_custom_slot = ship_light_battery_1
-      rear_1_custom_slot = ship_light_battery_1
+      mid_1_custom_slot = ship_cannon_battery_1
+      mid_2_custom_slot = ship_cannon_battery_1
+      front_1_custom_slot = ship_cannon_battery_1
+      rear_1_custom_slot = ship_cannon_battery_1
     }
   }
 }

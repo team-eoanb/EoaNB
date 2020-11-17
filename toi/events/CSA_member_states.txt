@@ -1,0 +1,323 @@
+﻿add_namespace = csa_member_state_select_platform
+add_namespace = csa_member_state_congress_voted
+
+country_event = {
+	id = csa_member_state_select_platform.1
+	title = csa_member_state_select_platform.1.t
+	desc = csa_member_state_select_platform.1.d
+	picture = GFX_report_event_election_vote
+	
+	immediate = {
+		hidden_effect = {
+			ROOT = {
+				set_party_name = {
+					ideology = vanguard_communism 
+					long_name = CSA_state_vanguard_communism_party_long
+					name = CSA_state_vanguard_communism_party 
+				}
+				set_party_name = {
+					ideology = collectivist_socialism 
+					long_name = CSA_state_collectivist_socialism_party_long 
+					name = CSA_state_collectivist_socialism_party 
+				}
+				set_party_name = {
+					ideology = social_egalitarianism 
+					long_name = CSA_state_social_egalitarianism_party_long 
+					name = CSA_state_social_egalitarianism_party 
+				}
+				set_party_name = {
+					ideology = centrism 
+					long_name = CSA_state_centrism_party_long 
+					name = CSA_state_centrism_party 
+				}
+				set_party_name = {
+					ideology = radical_democracy 
+					long_name = CSA_state_radical_democracy_party_long 
+					name = CSA_state_radical_democracy_party 
+				}
+				set_party_name = {
+					ideology = traditional_conservatism 
+					long_name = CSA_state_traditional_conservatism_party_long 
+					name = CSA_state_traditional_conservatism_party 
+				}
+				set_party_name = {
+					ideology = autocracy 
+					long_name = CSA_state_autocracy_party_long 
+					name = CSA_state_autocracy_party 
+				}
+				set_party_name = {
+					ideology = chauvinist_populism 
+					long_name = CSA_state_chauvinist_populism_party_long 
+					name = CSA_state_chauvinist_populism_party 
+				}
+				set_party_name = {
+					ideology = anarchism 
+					long_name = CSA_state_anarchism_party_long 
+					name = CSA_state_anarchism_party 
+				}
+				set_party_name = {
+					ideology = fundamentalism 
+					long_name = CSA_state_fundamentalism_party_long 
+					name = CSA_state_fundamentalism_party 
+				}
+			}
+		}
+	}
+		
+	is_triggered_only = yes
+		
+	option = {
+		name = csa_member_state_select_platform.1.a
+		ai_chance = {
+        factor = 0
+        }
+		custom_effect_tooltip = csa_member_state_select_platform_tooltip
+		hidden_effect = { ROOT = { country_event = { id = csa_member_state_select_platform.1 days = 50 random = 15 } } }
+	}
+	option = {
+		name = csa_member_state_select_platform.1.b
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = csa_member_state_congress_platform_tooltip
+		hidden_effect = { ROOT = { country_event = { id = csa_member_state_congress_voted.1 days = 50 random = 15 } } }
+	}
+}
+
+country_event = {
+	id = csa_member_state_congress_voted.1
+	title = csa_member_state_congress_voted.1.t
+	desc = csa_member_state_congress_voted.1.d
+	picture = GFX_report_event_election_vote
+		
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			ROOT = {
+				random_list = {
+					90 = {
+						set_country_flag = CSA_member_state_policies_voted_privileged_education_flag
+						modifier = {
+							factor = 0
+							CSA = { has_idea = open_schools }
+							CSA = { has_country_flag = CSA_slave_trade_federal_flag }
+						}
+						add_popularity = { ideology = traditional_conservatism	popularity = 0.01 }
+					}
+					10 = {
+						set_country_flag = CSA_member_state_policies_voted_open_schools_flag
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_idea = open_schools } }
+							CSA = { has_country_flag = CSA_slave_trade_federal_flag }
+						}
+						modifier = {
+							factor = 2
+							ROOT = { has_country_flag = CSA_member_state_selected_platform_open_schools_flag }
+							CSA = { has_country_flag = CSA_slave_trade_state_flag }
+						}
+						add_popularity = { ideology = centrism	popularity = 0.03 }
+						add_popularity = { ideology = social_egalitarianism	popularity = 0.06 }
+					}
+				}
+				random_list = {
+					50 = {
+						set_country_flag = CSA_member_state_policies_voted_export_focus_flag
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_idea = export_focus } }
+							CSA = { has_country_flag = CSA_commerce_clause_federal_flag }
+						}
+						add_popularity = { ideology = traditional_conservatism	popularity = 0.02 }
+					}
+					50 = {
+						set_country_flag = CSA_member_state_policies_voted_free_trade_flag
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_idea = free_trade } }
+							CSA = { has_country_flag = CSA_commerce_clause_federal_flag }
+						}
+						add_popularity = { ideology = centrism	popularity = 0.06 }
+					}
+				}
+				random_list = {
+					10 = {
+						set_country_flag = CSA_member_state_policies_voted_very_high_taxes_flag
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_idea = very_high_taxes } }
+							CSA = { has_country_flag = CSA_taxation_rights_federal_flag }
+						}
+					}
+					20 = {
+						set_country_flag = CSA_member_state_policies_voted_high_taxes_flag
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_idea = high_taxes } }
+							CSA = { has_country_flag = CSA_taxation_rights_federal_flag }
+						}
+					}
+					40 = {
+						set_country_flag = CSA_member_state_policies_voted_normal_taxes_flag
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_idea = normal_taxes } }
+							CSA = { has_country_flag = CSA_taxation_rights_federal_flag }
+						}
+						add_popularity = { ideology = centrism	popularity = 0.01 }
+					}
+					20 = {
+						set_country_flag = CSA_member_state_policies_voted_low_taxes_flag
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_idea = low_taxes } }
+							CSA = { has_country_flag = CSA_taxation_rights_federal_flag }
+						}
+						add_popularity = { ideology = centrism	popularity = 0.02 }
+						add_popularity = { ideology = chauvinist_populism	popularity = 0.03 }
+					}
+					10 = {
+						set_country_flag = CSA_member_state_policies_voted_very_low_taxes_flag
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_idea = very_low_taxes } }
+							CSA = { has_country_flag = CSA_taxation_rights_federal_flag }
+						}
+						add_popularity = { ideology = centrism	popularity = 0.03 }
+						add_popularity = { ideology = chauvinist_populism	popularity = 0.06 }
+					}
+				}
+				random_list = {
+					25 = {
+						set_country_flag = CSA_member_state_policies_voted_universal_male_suffrage_flag
+						modifier = {
+							factor = 3
+							CSA = { NOT = { has_country_flag = CSA_landowner_elite_state_flag } }
+						}
+						modifier = {
+							factor = 2
+							CSA = { has_country_flag = CSA_landowner_elite_state_flag }
+						}
+						add_popularity = { ideology = centrism	popularity = 0.02 }
+					}
+					25 = {
+						set_country_flag = CSA_member_state_policies_voted_property_owners_suffrage_flag
+						modifier = {
+							factor = 2
+							CSA = { has_country_flag = CSA_landowner_elite_state_flag }
+							ROOT = { has_country_flag = CSA_member_state_policies_voted_privileged_education_flag }
+						}
+						modifier = {
+							factor = 0
+							CSA = { has_country_flag = CSA_landowner_elite_federal_flag }
+						}
+						add_popularity = { ideology = chauvinist_populism	popularity = 0.06 }
+						add_popularity = { ideology = traditional_conservatism	popularity = 0.02 }
+						add_ideas = CSA_aristocrats_encouraged
+						hidden_effect = {
+							add_to_variable = { var = ROOT.NA_B_idea_working_class_exploitation_score_var@ROOT value = 2 }
+							add_to_variable = { var = ROOT.NA_B_idea_working_class_organization_score_var@ROOT value = -7 }
+							country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+						}
+					}
+					10 = {
+						set_country_flag = CSA_member_state_policies_voted_universal_suffrage_flag
+						modifier = {
+							factor = 0
+							ROOT = { NOT = { has_country_flag = CSA_member_state_policies_voted_privileged_education_flag } }
+						}
+						modifier = {
+							factor = 0
+							CSA = { NOT = { has_country_flag = CSA_landowner_elite_state_flag } }
+						}
+						add_popularity = { ideology = centrism	popularity = 0.06 }
+						add_popularity = { ideology = social_egalitarianism	popularity = 0.10 }
+						add_timed_idea = {
+							idea = CSA_aristocrats_discouraged
+							days = 1800
+						}
+						hidden_effect = {
+							add_to_variable = { var = ROOT.NA_B_idea_working_class_exploitation_score_var@ROOT value = -2 }
+							add_to_variable = { var = ROOT.NA_B_idea_working_class_organization_score_var@ROOT value = 7 }
+							country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+						}
+					}
+				}
+			}
+		}
+	}
+		
+	option = {
+		name = csa_member_state_congress_voted.1.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = CSA_member_state_policies_voted_choices
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_privileged_education_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_privileged_education
+			hidden_effect = { add_ideas = privileged_education }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_open_schools_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_open_schools
+			hidden_effect = { add_ideas = open_schools }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_export_focus_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_export_focus
+			hidden_effect = { add_ideas = export_focus }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_free_trade_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_free_trade
+			hidden_effect = { add_ideas = free_trade }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_very_high_taxes_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_very_high_taxes
+			hidden_effect = { add_ideas = very_high_taxes }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_high_taxes_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_high_taxes
+			hidden_effect = { add_ideas = high_taxes }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_normal_taxes_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_normal_taxes
+			hidden_effect = { add_ideas = normal_taxes }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_low_taxes_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_low_taxes
+			hidden_effect = { add_ideas = low_taxes }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_very_low_taxes_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_very_low_taxes
+			hidden_effect = { add_ideas = very_low_taxes }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_universal_male_suffrage_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_universal_male_suffrage
+			hidden_effect = { add_ideas = universal_male_suffrage }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_property_owners_suffrage_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_property_owners_suffrage
+			hidden_effect = { add_ideas = property_owners_suffrage }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_universal_suffrage_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_universal_suffrage
+			hidden_effect = { add_ideas = universal_suffrage }
+		}
+		if = {
+			limit = { has_country_flag = CSA_member_state_policies_voted_free_elections_flag }
+			custom_effect_tooltip = CSA_member_state_policies_voted_free_elections
+			hidden_effect = { add_ideas = free_elections }
+		}
+	}
+}

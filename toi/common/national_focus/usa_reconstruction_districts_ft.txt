@@ -1,0 +1,172 @@
+# American Reconstruction Occupation Districts FT
+# Vanadium was here
+
+focus_tree = {
+  id = usa_reconstruction_occupation
+
+  country = {
+    factor = 0
+    modifier = {
+      add = 12
+      AND = {
+        OR = {
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_1
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_2
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_3
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_4
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_5
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_6
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_7
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_8
+          has_cosmetic_tag = USA_unintegrated_seceded_zone_9
+        }
+        OR = {
+          is_puppet_of = USA
+          is_subject_of = USA
+        }
+      }
+    }
+  }
+
+  default = no
+
+  continuous_focus_position = {
+    x = 220
+    y = 300
+  }
+
+  focus = {
+    id = USAROD_suppress_dissent_focus
+    icon = GFX_goal_continuous_suppression
+    x = 1
+    y = 0
+
+    available = {
+      is_subject = yes
+    }
+    cost = 70
+    cancel = {
+      NOT = { has_idea = USAROD_suppress_dissent }
+    }
+    ai_will_do = { factor = 5 }
+    completion_reward = {
+      add_political_power = -25
+      add_timed_idea = {
+        idea = USAROD_suppress_dissent
+        days = 100
+      }
+    }
+  }
+
+  focus = {
+    id = USAROD_gather_support_focus
+    icon = GFX_focus_generic_concessions
+    x = 5
+    y = 0
+
+    available = {
+      is_subject = yes
+    }
+    cost = 70
+    cancel = {
+      NOT = { has_idea = USAROD_gather_support }
+    }
+    ai_will_do = { factor = 5 }
+    completion_reward = {
+      add_political_power = -25
+      add_timed_idea = {
+        idea = USAROD_gather_support
+        days = 100
+      }
+      add_popularity = {
+        ideology = centrism
+        popularity = 0.01
+      }
+    }
+  }
+
+  focus = {
+    id = USAROD_conscript_troops_focus
+    icon = GFX_focus_generic_military_mission
+    x = 9
+    y = 0
+
+    available = {
+      is_subject = yes
+    }
+    cost = 70
+    cancel = {
+      NOT = { has_idea = USAROD_conscript_troops }
+    }
+    ai_will_do = { factor = 5 }
+    completion_reward = {
+      add_political_power = -10
+      add_timed_idea = {
+        idea = USAROD_conscript_troops
+        days = 100
+      }
+      add_manpower = 1500
+      hidden_effect = {
+        add_manpower = 3000 #Hidden on purpose
+        add_equipment_to_stockpile = {
+          type = infantry_equipment_rifle_1
+          amount = 1500
+          producer = USA
+        }
+        add_equipment_to_stockpile={
+          type = uniform_equipment_0
+          amount = 1500
+          producer = USA
+        }
+      }
+    }
+  }
+
+  focus = {
+    id = USAROD_protect_blacks_focus
+    icon = GFX_goal_generic_demand_territory
+    x = 3
+    y = 1
+
+    available = {
+      is_subject = yes
+    }
+    cost = 70
+    cancel = {
+      NOT = { has_idea = USAROD_protect_blacks }
+    }
+    ai_will_do = { factor = 5 }
+    completion_reward = {
+      add_timed_idea = {
+        idea = USAROD_protect_blacks
+        days = 100
+      }
+      ROOT = {
+        random_owned_state = {
+          add_manpower = -3000
+        }
+      }
+      OVERLORD = {
+        add_political_power = -15
+        random_owned_state = {
+          add_manpower = 3500
+        }
+      }
+    }
+  }
+  focus = {
+    id = USAROD_freedom
+    icon = GFX_goal_continuous_restrict_freedom
+    x = 7
+    y = 1
+
+    available = {
+      is_subject = no
+    }
+    cost = 35
+    ai_will_do = { factor = 5 }
+    completion_reward = {
+      load_focus_tree = generic
+    }
+  }
+}

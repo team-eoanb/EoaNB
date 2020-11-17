@@ -1,0 +1,264 @@
+economic_decisions = {
+	KNS_university_of_kansas_expansion = {
+		allowed = {
+			tag = KNS
+		}
+		visible = {
+			has_completed_focus = KNS_fund_the_university_of_kansas
+		}
+		available = {
+			383 = {
+				infrastructure > 5
+			}
+			384 = {
+				infrastructure > 4
+			}
+		}
+		cost = 50
+		days_remove = 365
+		fire_only_once = yes
+		remove_effect = {
+			swap_ideas = {
+				remove_idea = KNS_university_of_kansas_idea
+				add_idea = KNS_university_of_kansas_idea_2
+			}
+		}
+	}
+	KNS_university_of_kansas_expansion_2 = {
+		allowed = {
+			tag = KNS
+		}
+		visible = {
+			has_idea = KNS_university_of_kansas_idea_2
+		}
+		available = {
+			383 = {
+				infrastructure > 6
+			}
+			384 = {
+				infrastructure > 5
+			}
+		}
+		cost = 50
+		days_remove = 365
+		fire_only_once = yes
+		remove_effect = {
+			remove_ideas = KNS_university_of_kansas_idea_2
+			add_research_slot = 1
+		}
+	}
+	KNS_railroad_company_subsidies = {
+		allowed = {
+			tag = KNS
+		}
+		visible = {
+			has_completed_focus = KNS_rail_company_subsidies
+			OR = {
+				383 = {
+					infrastructure < 7
+				}
+				384 = {
+					infrastructure < 7
+				}
+			}
+		}
+		available = {
+			num_of_available_civilian_factories > 0
+		}
+		modifier = {
+			civilian_factory_use = 1
+		}
+		cost = 40
+		days_remove = 80
+		days_re_enable = 10
+		remove_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					OR = {
+						state = 383
+						state = 384
+					}
+					infrastructure < 7
+					NOT = {
+						has_state_flag = KNS_recent_subsidies
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = {
+					flag = KNS_recent_subsidies
+					days = 40
+					value = 1
+				}
+			}
+		}
+	}
+}
+KNS_american_trade_association_category = {
+	KNS_expand_association = {
+		target_trigger = {
+			FROM = {
+				OR = {
+					tag = GLC
+					tag = UTA
+					tag = TEX
+					tag = DAK
+					tag = WVG
+					tag = KTY
+				}
+				exists = yes
+				check_variable = { KNS_trade_association_size < 5 }
+			}
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = KNS_2_expansions_max
+				check_variable = { KNS_trade_association < 3 }
+			}
+		}
+		cost = 50
+		days_remove = 75
+		days_re_enable = 365
+		complete_effect = {
+			add_to_variable = { KNS_trade_association = 1 }
+		}
+		remove_effect = {
+			custom_effect_tooltip = KNS_expands_trade_association
+			add_to_variable = { KNS_trade_association = -1 }
+			FROM = {
+				add_to_variable = { KNS_trade_association_size = 1 }
+			}
+		}
+	}
+	KNS_trading_outpost = {
+		target_trigger = {
+			FROM = {
+				OR = {
+					tag = GLC
+					tag = UTA
+					tag = TEX
+					tag = DAK
+					tag = WVG
+					tag = KTY
+				}
+				exists = yes
+				check_variable = { KNS_trade_association_size > 2 }
+			}
+		}
+		available = {
+			NOT = {
+				has_country_flag = KNS_building_outpost
+			}
+		}
+		cost = 50
+		days_remove = 100
+		fire_only_once = yes
+		complete_effect = {
+			set_country_flag = KNS_building_outpost
+		}
+		remove_effect = {
+			clr_country_flag = KNS_building_outpost
+			add_opinion_modifier = {
+				target = FROM
+				modifier = KNS_trade_partners
+			}
+			FROM = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = KNS_trade_partners
+				}
+				capital_scope = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = KNS_american_trade_association_modifier
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = KNS_american_trade_association_modifier
+				}
+			}
+			custom_effect_tooltip = KNS_increase_trade
+			add_to_variable = { KNS_ata_pp_gain = 0.05 }
+			add_to_variable = { KNS_ata_stab = 0.025 }
+		}
+	}
+	KNS_expand_outputs = {
+		target_trigger = {
+			FROM = {
+				OR = {
+					tag = GLC
+					tag = UTA
+					tag = TEX
+					tag = DAK
+					tag = WVG
+					tag = KTY
+				}
+				exists = yes
+				check_variable = { KNS_trade_association_size > 4 }
+				has_idea = KNS_ata_member
+			}
+		}
+		visible = {
+			has_completed_focus = KNS_export_focus
+		}
+		available = {
+			NOT = {
+				has_country_flag = KNS_increasing_trade
+			}
+		}
+		cost = 50
+		days_remove = 100
+		fire_only_once = yes
+		complete_effect = {
+			set_country_flag = KNS_increasing_trade
+		}
+		remove_effect = {
+			clr_country_flag = KNS_increasing_trade
+			add_opinion_modifier = {
+				target = FROM
+				modifier = KNS_trade_partners
+			}
+			FROM = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = KNS_trade_partners
+				}
+				capital_scope = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = KNS_american_trade_association_modifier
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = KNS_american_trade_association_modifier
+				}
+			}
+			custom_effect_tooltip = KNS_increase_trade
+			add_to_variable = { KNS_ata_pp_gain = 0.05 }
+			add_to_variable = { KNS_ata_stab = 0.025 }
+		}
+	}
+}

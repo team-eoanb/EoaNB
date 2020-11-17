@@ -1,0 +1,1377 @@
+focus_tree = {
+	id = iceland_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = ICE
+		}
+	}
+
+	continuous_focus_position = {
+		x = 3000
+		y = 600
+	}
+	
+    default = no
+	
+	###Weather problem###
+	
+	focus = {
+		id = ICE_weather_problem
+		x = 6
+		y = 0
+		cost = 70
+		icon = GFX_focus_generic_coastal_fort
+		mutually_exclusive = { focus = ICE_fix_this_now }
+		ai_will_do = {
+			factor = 2
+			#is_historical_focus_on = yes
+		}
+		completion_reward = {
+			add_ideas = ICE_icelandic_imigration_to_canada0
+	        }
+	    }
+		
+	focus = {
+		id = ICE_new_iceland
+		x = 6
+		y = 1
+		cost = 70
+		icon = GFX_focus_generic_diplomatic_treaty
+		prerequisite = { focus = ICE_weather_problem }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+						swap_ideas = {
+			   remove_idea = ICE_icelandic_imigration_to_canada0
+			   add_idea = ICE_icelandic_imigration_to_canada1
+			    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_dont_worry_better_weather_soon
+		x = 6
+		y = 2
+		cost = 70
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = ICE_new_iceland }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+						swap_ideas = {
+			   remove_idea = ICE_icelandic_imigration_to_canada1
+			   add_idea = ICE_icelandic_imigration_to_canada2
+			    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_give_out_warmer_clothes
+		x = 6
+		y = 3
+		cost = 70
+		icon = GFX_focus_generic_concessions
+		prerequisite = { focus = ICE_dont_worry_better_weather_soon }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			remove_ideas = ICE_icelandic_imigration_to_canada2
+			add_timed_idea = {
+		    	idea = ICE_icelandic_imigration_to_canada3
+		    	days = 1096
+			    }
+	        }
+	    }
+	
+		
+	focus = {
+		id = ICE_fix_this_now
+		x = 8
+		y = 0
+		cost = 70
+		icon = GFX_focus_generic_support_the_left_right
+		mutually_exclusive = { focus = ICE_weather_problem }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_ideas = ICE_icelandic_imigration_to_canada00
+	        }
+	    }
+		
+	focus = {
+		id = ICE_limmit_emigration
+		x = 8
+		y = 1
+		cost = 70
+		icon = GFX_focus_generic_strike_at_democracy2
+		prerequisite = { focus = ICE_fix_this_now }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			swap_ideas = {
+			    remove_idea = ICE_icelandic_imigration_to_canada00
+			    add_idea = ICE_icelandic_imigration_to_canada11
+			    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_patrol_boats
+		x = 8
+		y = 2
+		cost = 70
+		icon = GFX_focus_hol_prepare_the_inundation_lines
+		prerequisite = { focus = ICE_limmit_emigration }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			swap_ideas = {
+			    remove_idea = ICE_icelandic_imigration_to_canada11
+			    add_idea = ICE_icelandic_imigration_to_canada22
+			    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_border_control
+		x = 8
+		y = 3
+		cost = 70
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = ICE_patrol_boats }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			remove_ideas = ICE_icelandic_imigration_to_canada22
+			add_timed_idea = {
+		    	idea = ICE_icelandic_imigration_to_canada33
+		    	days = 365
+				swap_ideas = {
+			    remove_idea = open_borders			
+			    add_idea = border_control
+		            }
+			    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_slowly_recover
+		x = 7
+		y = 4
+		cost = 70
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = ICE_border_control focus = ICE_give_out_warmer_clothes }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_stability = 0.1
+	        }
+	    }
+		
+	focus = {
+		id = ICE_encourage_population_growth
+		x = 7
+		y = 5
+		cost = 70
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		prerequisite = { focus = ICE_slowly_recover }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		swap_ideas = {
+				remove_idea = stagnation_growth			
+				add_idea = encouraged_growth
+		        }
+	        }
+	    }
+		
+	###Amry expansion###
+		
+	focus = {
+		id = ICE_our_military_buget
+		x = 26
+		y = 0
+		cost = 70
+		icon = GFX_focus_mex_privatisation
+		ai_will_do = {
+			factor = 1
+		}
+		available = { 
+			OR = {
+				has_completed_focus = ICE_weather_problem
+				has_completed_focus = ICE_fix_this_now
+			}
+		}
+		completion_reward = {
+		swap_ideas = {
+				remove_idea = one_percent		
+				add_idea = two_percent
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_copy_danish_designs
+		x = 24
+		y = 1
+		cost = 70
+		icon = GFX_focus_generic_navy_battleship2
+		prerequisite = { focus = ICE_our_military_buget }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		if = {
+	            limit = { has_dlc = "Man the Guns" }
+		        add_tech_bonus = {
+                    bonus = 0.75
+                    uses = 2
+                    category = naval_mtg_ironclad_tech
+                }
+		    }
+	        else = {
+		        add_tech_bonus = {
+                    bonus = 0.75
+                    uses = 1
+                    category = naval_equipment
+                    }
+	            }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_copy_british_ironclads
+		x = 23
+		y = 2
+		cost = 70
+		icon = GFX_focus_chi_british_cooperation
+		prerequisite = { focus = ICE_copy_danish_designs }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		if = {
+	            limit = { has_dlc = "Man the Guns" }
+		        add_tech_bonus = {
+                    bonus = 0.25
+                    uses = 1
+                    category = naval_mtg_ironclad_tech
+                }
+		    }
+	        else = {
+		        add_tech_bonus = {
+                    bonus = 0.25
+                    uses = 1
+                    category = naval_equipment
+                    }
+	            }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_train_on_the_watters
+		x = 23
+		y = 3
+		cost = 70
+		icon = GFX_goal_generic_position_armies 
+		prerequisite = { focus = ICE_copy_british_ironclads }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		navy_experience = 20
+	        }
+	    }
+		
+	focus = {
+		id = ICE_recruit_sailors
+		x = 25
+		y = 2
+		cost = 70
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = ICE_copy_danish_designs }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_manpower = 500
+	        }
+	    }
+		
+	focus = {
+		id = ICE_come_back
+		x = 25
+		y = 3
+		cost = 70
+		icon = GFX_goal_tfv_can_compromise_with_quebec
+		prerequisite = { focus = ICE_recruit_sailors }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_manpower = 500
+	        }
+	    }
+		
+	focus = {
+		id = ICE_buy_guns_from_usa
+		x = 28
+		y = 1
+		cost = 70
+		icon = GFX_focus_chi_mission_to_the_us
+		prerequisite = { focus = ICE_our_military_buget }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    USA = { add_timed_idea = {
+		    	idea = ICE_iceland_buy_our_outdated_guns
+		    	days = 183
+		        } }
+		    add_timed_idea = {
+		    	idea = ICE_buy_guns_from_us
+		    	days = 183
+		        }
+		    USA = { add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = -1000 } }
+		    add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 1000 }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_buy_uniforms_from_denmark
+		x = 27
+		y = 2
+		cost = 70
+		icon = GFX_focus_mex_triumph_over_the_cristeros
+		prerequisite = { focus = ICE_buy_guns_from_usa }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    USA = { add_timed_idea = {
+		    	idea = ICE_iceland_buy_our_uniforms
+		    	days = 183
+		        } }
+		    add_timed_idea = {
+		    	idea = ICE_buy_uniforms_from_den
+		    	days = 183
+		        }
+		    DEN = { add_equipment_to_stockpile = { type = uniform_equipment_0 amount = -1000 } }
+		    add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_accept_volunteers
+		x = 27
+		y = 3
+		cost = 70
+		icon = GFX_focus_generic_manpower
+		prerequisite = { focus = ICE_buy_uniforms_from_denmark }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = disarmed_nation			
+			    add_idea = volunteer_only
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_army_drills_in_harsh_terrain
+		x = 29
+		y = 2
+		cost = 70
+		icon = GFX_focus_prc_infiltration
+		prerequisite = { focus = ICE_buy_guns_from_usa }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_war_support = 0.05
+			army_experience = 10
+	        }
+	    }
+		
+	focus = {
+		id = ICE_regular_training_drills
+		x = 29
+		y = 3
+		cost = 70
+		icon = GFX_focus_generic_military_academy
+		prerequisite = { focus = ICE_army_drills_in_harsh_terrain }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_ideas = ICE_regular_training
+	        }
+	    }
+		
+	focus = {
+		id = ICE_hard_trained_army
+		x = 26
+		y = 4
+		cost = 70
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = ICE_regular_training_drills }
+		prerequisite = { focus = ICE_accept_volunteers }
+		prerequisite = { focus = ICE_come_back }
+		prerequisite = { focus = ICE_train_on_the_watters }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_ideas = ICE_trained_army
+	        }
+	    }
+		
+	focus = {
+		id = ICE_advance_to_victorian_army
+		x = 26
+		y = 5
+		cost = 140
+		icon = GFX_goal_generic_allies_build_infantry
+		prerequisite = { focus = ICE_hard_trained_army }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = law_pre_industrial_army			
+			    add_idea = law_victorian_army
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_study_other_countries_weapons
+		x = 25
+		y = 6
+		cost = 70
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = ICE_advance_to_victorian_army }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.75 uses = 1 category = infantry_weapons }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_icelandic_army_doctrine
+		x = 23
+		y = 7
+		cost = 70
+		icon = GFX_goal_generic_axis_build_infantry
+		prerequisite = { focus = ICE_study_other_countries_weapons }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.75 uses = 1 category = land_doctrine }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_take_civilian_weppons_to_nationalstockpile
+		x = 25
+		y = 7
+		cost = 70
+		icon = GFX_goal_generic_military_deal
+		prerequisite = { focus = ICE_study_other_countries_weapons }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+			add_stability = -0.02
+	        }
+	    }
+		
+	focus = {
+		id = ICE_navy_drills
+		x = 27
+		y = 6
+		cost = 70
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = ICE_advance_to_victorian_army }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    navy_experience = 20
+	        }
+	    }
+		
+	focus = {
+		id = ICE_navy_hulls
+		x = 27
+		y = 7
+		cost = 70
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = ICE_navy_drills }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    if = {
+	            limit = { has_dlc = "Man the Guns" }
+		        add_tech_bonus = {
+                    bonus = 0.5
+                    uses = 1
+                    category = naval_mtg_corvette_hulls_tech
+                }
+		    }
+	        else = {
+		        add_tech_bonus = {
+                    bonus = 0.5
+                    uses = 1
+                    category = naval_equipment
+                    }
+	            }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_better_gunboats
+		x = 29
+		y = 7
+		cost = 70
+		icon = GFX_goal_generic_wolf_pack
+		prerequisite = { focus = ICE_navy_drills }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    if = {
+	            limit = { has_dlc = "Man the Guns" }
+		        add_tech_bonus = {
+                    bonus = 0.5
+                    uses = 1
+                    category = naval_mtg_gunboat_hulls_tech
+                }
+		    }
+	        else = {
+		        add_tech_bonus = {
+                    bonus = 0.5
+                    uses = 1
+                    category = naval_equipment
+                    }
+	            }
+	        }
+	    }
+		
+		###politics###
+		
+	focus = {
+		id = ICE_our_constitution
+		x = 15
+		y = 0
+		cost = 70
+		icon = GFX_goal_focus_icelandic_counstitution
+		ai_will_do = {
+			factor = 1
+		}
+		available = { 
+			OR = {
+				has_completed_focus = ICE_weather_problem
+				has_completed_focus = ICE_fix_this_now
+			}
+		}
+		completion_reward = {
+		    add_political_power = 100
+			add_stability = 0.05
+	        }
+	    }
+		
+	focus = {
+		id = ICE_remain_as_puppet
+		x = 11
+		y = 1
+		cost = 70
+		icon = GFX_focus_eng_move_to_secure_the_dominions
+		prerequisite = { focus = ICE_our_constitution }
+		mutually_exclusive = { focus = ICE_harsh_icelandic_independance }
+		mutually_exclusive = { focus = ICE_peacefull_independence }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_timed_idea = {
+		    	idea = ICE_remain_puppet
+		    	days = 183
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_icelandic_conservative_party
+		x = 11
+		y = 2
+		cost = 70
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = ICE_remain_as_puppet }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_popularity = { 
+	    	  	ideology = traditional_conservatism
+	    	  	popularity = 0.2
+	    	    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_get_old_convoys_from_den
+		x = 10
+		y = 3
+		cost = 70
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = ICE_icelandic_conservative_party }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_equipment_to_stockpile = { type = convoy_1 amount = 5 }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_more_trade
+		x = 10
+		y = 4
+		cost = 70
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = ICE_get_old_convoys_from_den }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = export_focus			
+			    add_idea = free_trade
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_agerian_puppet
+		x = 10
+		y = 5
+		cost = 70
+		icon = GFX_goal_generic_air_doctrine
+		prerequisite = { focus = ICE_more_trade }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_ideas = ICE_agerian_puppet
+	        }
+	    }
+		
+	focus = {
+		id = ICE_icelandic_equlity
+		x = 12
+		y = 3
+		cost = 70
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = ICE_icelandic_conservative_party }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+            swap_ideas = {
+			    remove_idea = limited_equality			
+			    add_idea = full_equality
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_icelandic_traditions
+		x = 12
+		y = 4
+		cost = 70
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = ICE_icelandic_equlity }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+            add_stability = 0.05
+	        }
+	    }
+		
+	focus = {
+		id = ICE_universal_suffrage
+		x = 12
+		y = 5
+		cost = 70
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = ICE_icelandic_traditions }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+            swap_ideas = {
+			    remove_idea = universal_male_suffrage		
+			    add_idea = universal_suffrage
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_peacefull_independence
+		x = 15
+		y = 1
+		cost = 70
+		icon = GFX_goal_generic_alliance
+		prerequisite = { focus = ICE_our_constitution }
+		mutually_exclusive = { focus = ICE_harsh_icelandic_independance }
+		mutually_exclusive = { focus = ICE_remain_as_puppet }
+		ai_will_do = {
+			factor = 2
+			#is_historical_focus_on = yes
+		}
+		completion_reward = {
+            add_ideas = ICE_slow_independance0
+	        }
+	    }
+		
+	focus = {
+		id = ICE_puch_for_home_rule
+		x = 15
+		y = 2
+		cost = 70
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = ICE_peacefull_independence }
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+            add_ideas = ICE_puch_for_homerule
+	        }
+	    }
+		
+	focus = {
+		id = ICE_land_bjoo_og_tunga
+		x = 14
+		y = 3
+		cost = 70
+		icon = GFX_focus_hol_the_foundations_of_defense
+		prerequisite = { focus = ICE_puch_for_home_rule }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+            swap_ideas = {
+			    remove_idea = ICE_slow_independance0		
+			    add_idea = ICE_slow_independance1
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_usa_support_us
+		x = 14
+		y = 4
+		cost = 70
+		icon = GFX_focus_chi_mission_to_the_us
+		prerequisite = { focus = ICE_land_bjoo_og_tunga }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		swap_ideas = {
+			    remove_idea = ICE_slow_independance1		
+			    add_idea = ICE_slow_independance2
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_get_support_from_the_althing
+		x = 14
+		y = 5
+		cost = 70
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = ICE_usa_support_us }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		remove_ideas = ICE_slow_independance2
+			add_timed_idea = {
+		    	idea = ICE_slow_independance3
+		    	days = 200
+			    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_icelandic_peoples_rights
+		x = 16
+		y = 3
+		cost = 70
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = ICE_puch_for_home_rule }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		swap_ideas = {
+			    remove_idea = limited_equality			
+			    add_idea = full_equality
+		        }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_decrees_danish_influance
+		x = 16
+		y = 4
+		cost = 70
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = ICE_icelandic_peoples_rights }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_decrees_danishinfluance
+		    	days = 50
+			    }
+		add_political_power = 25
+			add_opinion_modifier = {
+				target = DEN
+				modifier = medium_decrease
+			}
+			reverse_add_opinion_modifier = {
+				target = DEN
+				modifier = medium_decrease
+			    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_were_to_small_to_govern_ourselfs
+		x = 16
+		y = 5
+		cost = 70
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = ICE_decrees_danish_influance }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_not_to_small
+		    	days = 365
+			    }
+		     add_political_power = 100
+	        }
+	    }
+		
+	focus = {
+		id = ICE_harsh_icelandic_independance
+		x = 19
+		y = 1
+		cost = 70
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = ICE_our_constitution }
+		mutually_exclusive = { focus = ICE_peacefull_independence }
+		mutually_exclusive = { focus = ICE_remain_as_puppet }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		     add_political_power = -50
+			 add_timed_idea = {
+		    	idea = ICE_prep_harsh_independance
+		    	days = 365
+			    }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_icelandic_uniforms
+		x = 19
+		y = 2
+		cost = 70
+		icon = GFX_focus_mex_soldaderas
+		prerequisite = { focus = ICE_harsh_icelandic_independance }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		     add_political_power = -25
+			 add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+	        }
+	    }
+		
+	focus = {
+		id = ICE_reqruit_nationalists_into_army
+		x = 18
+		y = 3
+		cost = 70
+		icon = GFX_focus_secret_rearmament
+		prerequisite = { focus = ICE_icelandic_uniforms }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		     add_manpower = 1000
+	        }
+	    }
+		
+	focus = {
+		id = ICE_get_help_from_newiceland
+		x = 18
+		y = 4
+		cost = 70
+		icon = GFX_focus_generic_manpower
+		prerequisite = { focus = ICE_reqruit_nationalists_into_army }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		     add_manpower = 200
+	        }
+	    }
+		
+	focus = {
+		id = ICE_no_more_influance
+		x = 18
+		y = 5
+		cost = 70
+		icon = GFX_focus_generic_coastal_fort
+		prerequisite = { focus = ICE_get_help_from_newiceland }
+		ai_will_do = {
+			factor = 1
+		}
+		bypass = {
+				has_idea = border_control
+		    }
+		completion_reward = {
+		add_ideas = border_control
+	    }
+	}
+	
+	focus = {
+		id = ICE_get_old_weppons_from_usa
+		x = 20
+		y = 3
+		cost = 70
+		icon = GFX_focus_chi_mission_to_the_us
+		prerequisite = { focus = ICE_icelandic_uniforms }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 200 }
+	    }
+	}
+	
+	focus = {
+		id = ICE_swedish_vouluntears
+		x = 20
+		y = 4
+		cost = 70
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = ICE_get_old_weppons_from_usa }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_manpower = 500
+	    }
+	}
+	
+	focus = {
+		id = ICE_icelandic_freedom0
+		x = 20
+		y = 5
+		cost = 70
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		prerequisite = { focus = ICE_swedish_vouluntears }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_icelandic_freedom
+		    	days = 365
+		    }
+	    }
+	}
+	
+	###Economy###
+	
+	focus = {
+		id = ICE_start_to_develop_forward
+		x = 3
+		y = 0
+		cost = 70
+		icon = GFX_goal_generic_construct_civilian
+		ai_will_do = {
+			factor = 1
+		}
+		available = { 
+			OR = {
+				has_completed_focus = ICE_weather_problem
+				has_completed_focus = ICE_fix_this_now
+			}
+		}
+		completion_reward = {
+			add_timed_idea = {
+		    	idea = ICE_idea_start_to_develop
+		    	days = 365
+		    }
+	    }
+	}
+		
+	focus = {
+		id = ICE_explore_icelandic_nature
+		x = 2
+		y = 1
+		cost = 70
+		icon = GFX_focus_por_luso_tropicalism
+		prerequisite = { focus = ICE_start_to_develop_forward }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+	    add_tech_bonus = { bonus = 0.5 uses = 1 category = biochemistry_tech }
+	    }
+	}
+	
+	focus = {
+		id = ICE_invite_inventors_across_the_world
+		x = 2
+		y = 2
+		cost = 70
+		icon = GFX_focus_generic_military_academy
+		prerequisite = { focus = ICE_explore_icelandic_nature }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_tech_bonus = { bonus = 0.5 uses = 1 category = electronics_devices_tech }
+	    }
+	}
+	
+	focus = {
+		id = ICE_scanidavian_monatry_union_focus
+		x = 4
+		y = 1
+		cost = 70
+		icon = GFX_focus_generic_diplomatic_treaty
+		prerequisite = { focus = ICE_start_to_develop_forward }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_ideas = DEN_the_scanidavian_monatry_union
+		add_political_power = 25
+            add_opinion_modifier = {
+				target = SWE 
+				modifier = medium_increase 
+			}
+			add_opinion_modifier = {
+				target = DEN
+				modifier = medium_increase 
+			}
+		}
+	}
+	
+	focus = {
+		id = ICE_agrarian_economy
+		x = 4
+		y = 2
+		cost = 70
+		icon = GFX_focus_usa_reestablish_the_gold_standard
+		prerequisite = { focus = ICE_start_to_develop_forward }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_agrerian_economy1
+		    	days = 365
+		    }
+	    }
+	}
+	
+	focus = {
+		id = ICE_develop_basic_roads
+		x = 3
+		y = 3
+		cost = 70
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = ICE_agrarian_economy }
+		prerequisite = { focus = ICE_invite_inventors_across_the_world }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		99 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
+	    }
+	}
+	
+	focus = {
+		id = ICE_enter_the_victorian_era
+		x = 3
+		y = 4
+		cost = 70
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = ICE_develop_basic_roads }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		swap_ideas = {
+				remove_idea = pre_industrial_era		
+				add_idea = victorian_era
+			}
+	    }
+	}
+	
+	focus = {
+		id = ICE_clear_land_for_buildings
+		x = 5
+		y = 5
+		cost = 70
+		icon = GFX_goal_generic_construct_civilian
+		prerequisite = { focus = ICE_enter_the_victorian_era }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		99 = { add_extra_state_shared_building_slots = 1 }
+	    }
+	}
+	
+	focus = {
+		id = ICE_search_for_resources
+		x = 5
+		y = 6
+		cost = 70
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = { focus = ICE_clear_land_for_buildings }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_search_materials
+		    	days = 365
+		    }
+	    }
+	}
+	
+	focus = {
+		id = ICE_expand_southern_farms
+		x = 5
+		y = 7
+		cost = 70
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = ICE_search_for_resources }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		99 = { add_extra_state_shared_building_slots = 1 }
+		99 = { add_building_construction = { type = farm level = 1 instant_build = yes } }
+	    }
+	}
+	
+	focus = {
+		id = ICE_icelandic_krona
+		x = 5
+		y = 8
+		cost = 70
+		icon = GFX_focus_usa_reestablish_the_gold_standard
+		prerequisite = { focus = ICE_expand_southern_farms }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_political_power = 50
+	    }
+	}
+	
+	focus = {
+		id = ICE_expand_our_dockyard
+		x = 2
+		y = 5
+		cost = 70
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = ICE_enter_the_victorian_era }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		100 = { add_building_construction = { type = naval_base level = 1 instant_build = yes } }
+	    }
+	}
+	
+	focus = {
+		id = ICE_were_depending_on_imports
+		x = 2
+		y = 6
+		cost = 70
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = { focus = ICE_expand_our_dockyard }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_ideas = ICE_depeniding_on_imports
+	    }
+	}
+	
+	focus = {
+		id = ICE_trade_more_with_canada
+		x = 1
+		y = 7
+		cost = 70
+		icon = GFX_focus_hol_abandon_the_gold_standard
+		prerequisite = { focus = ICE_were_depending_on_imports }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_trade_with_canada
+		    	days = 365
+		    }
+		add_political_power = 25
+			add_opinion_modifier = {
+				target = CAN
+				modifier = medium_increase
+			}
+			reverse_add_opinion_modifier = {
+				target = CAN
+				modifier = medium_increase 
+			}
+	    }
+	}
+	
+	focus = {
+		id = ICE_trade_more_with_united_states
+		x = 1
+		y = 8
+		cost = 70
+		icon = GFX_focus_chi_mission_to_the_us
+		prerequisite = { focus = ICE_trade_more_with_canada }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_trade_with_usa
+		    	days = 365
+		    }
+		add_political_power = 25
+			add_opinion_modifier = {
+				target = USA
+				modifier = medium_increase
+			}
+			reverse_add_opinion_modifier = {
+				target = USA
+				modifier = medium_increase 
+			}
+	    }
+	}
+	
+	focus = {
+		id = ICE_trade_more_with_britain
+		x = 3
+		y = 7
+		cost = 70
+		icon = GFX_focus_chi_british_cooperation
+		prerequisite = { focus = ICE_were_depending_on_imports }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_trade_with_britain
+		    	days = 365
+		    }
+		add_political_power = 25
+			add_opinion_modifier = {
+				target = ENG
+				modifier = medium_increase
+			}
+			reverse_add_opinion_modifier = {
+				target = ENG
+				modifier = medium_increase 
+			}
+	    }
+	}
+	
+	focus = {
+		id = ICE_trade_more_with_denmark
+		x = 3
+		y = 8
+		cost = 70
+		icon = GFX_focus_generic_concessions
+		prerequisite = { focus = ICE_trade_more_with_britain }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_trade_with_denmark
+		    	days = 365
+		    }
+		add_political_power = 25
+			add_opinion_modifier = {
+				target = DEN
+				modifier = medium_increase
+			}
+			reverse_add_opinion_modifier = {
+				target = DEN
+				modifier = medium_increase 
+			}
+	    }
+	}
+	
+	focus = {
+		id = ICE_export_our_fish
+		x = 2
+		y = 9
+		cost = 70
+		icon = GFX_goal_fish_export_stonk
+		prerequisite = { focus = ICE_trade_more_with_denmark }
+		prerequisite = { focus = ICE_trade_more_with_united_states }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		add_timed_idea = {
+		    	idea = ICE_export_fish
+		    	days = 183
+		    }
+	    }
+	}
+}

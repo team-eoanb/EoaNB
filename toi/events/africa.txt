@@ -1,0 +1,712 @@
+﻿add_namespace = africa
+add_namespace = coptic_africa
+add_namespace = jihadist_africa
+add_namespace = afr_switch_cosmetic_tag
+add_namespace = afr_stagnant_kingdom_heir
+
+#Stagnant Empire Heir
+country_event = {
+	id = afr_stagnant_kingdom_heir.1
+	title = afr_stagnant_kingdom_heir.1.t
+	desc = {
+		trigger = { has_idea = dethroned_heir }
+		text = afr_stagnant_kingdom_heir.1.d
+	}
+	desc = {
+		trigger = { has_idea = weak_heir }
+		text = heir.5.d
+	}
+	desc = {
+		trigger = { has_idea = no_heir }
+		text = heir.1.d
+	}
+	picture = GFX_report_event_royal_visit
+	
+	is_triggered_only = yes
+	
+	trigger = { NOT = { has_idea = has_heir } }
+	
+	immediate = {
+		hidden_effect = {
+			ROOT = {
+				if = {
+					limit = { has_idea = nonfamily_heir  }
+					swap_ideas = { remove_idea = nonfamily_heir  add_idea = no_heir }
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = afr_stagnant_kingdom_heir.1.a
+		ai_chance = { factor = 100 }
+		trigger = { has_idea = dethroned_heir }
+		hidden_effect = {
+			country_event = { id = afr_stagnant_kingdom_heir.2 days = 5 random = 3 }
+		}
+	}
+	
+	option = {
+		name = heir.5.a
+		ai_chance = { factor = 100 }
+		trigger = { has_idea = weak_heir }
+		custom_effect_tooltip = eoanb_tt_event_heir_5
+		hidden_effect = {
+			random_list = { 
+				15 = { country_event = { days = 2 id = heir.6 random = 1 } } 
+				85 = { swap_ideas = { remove_idea = weak_heir add_idea = has_heir } }
+			}
+		}
+	}
+	
+	option = {
+		name = heir.1.a
+		ai_chance = { factor = 10 }
+		trigger = { has_idea = no_heir }
+		custom_effect_tooltip = eoanb_tt_event_heir_1_desperate
+		hidden_effect = {
+			set_country_flag = eoanb_flag_event_heir_1_desperate
+			country_event = { id = afr_stagnant_kingdom_heir.1 days = 205 random = 15 }
+		}
+	}
+	
+	option = {
+		name = heir.1.b
+		ai_chance = { factor = 90 }
+		trigger = { 
+			has_idea = no_heir 
+			NOT = { has_idea = afr_fractured_kingdom }
+		}
+		add_political_power = -150
+		custom_effect_tooltip = eoanb_tt_event_heir_1_careful
+		hidden_effect = {
+			set_country_flag = eoanb_flag_event_heir_1_careful
+			country_event = { id = afr_stagnant_kingdom_heir.1 days = 400 random = 15 }
+		}
+	}
+}
+
+country_event = {
+	id = afr_stagnant_kingdom_heir.2
+	title = afr_stagnant_kingdom_heir.2.t
+	desc = afr_stagnant_kingdom_heir.2.d
+	picture = GFX_report_event_generic_riot
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_stagnant_kingdom_heir.2.a
+		ai_chance = { factor = 0 }
+		hidden_effect = {
+			country_event = { id = afr_stagnant_kingdom_heir.3 days = 30 random = 15 }
+			random_list = {
+				65 = {
+					set_country_flag = afr_stagnant_kingdom_heir_coup_success_flag
+				}
+				35 = {
+					set_country_flag = afr_stagnant_kingdom_heir_coup_fail_flag
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = afr_stagnant_kingdom_heir.2.b
+		trigger = { command_power > 75 }
+		ai_chance = { factor = 100 }
+		add_command_power = -75
+		hidden_effect = {
+			country_event = { id = afr_stagnant_kingdom_heir.3 days = 30 random = 15 }
+			random_list = {
+				90 = {
+					set_country_flag = afr_stagnant_kingdom_heir_coup_success_flag
+				}
+				10 = {
+					set_country_flag = afr_stagnant_kingdom_heir_coup_fail_flag
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = afr_stagnant_kingdom_heir.3
+	title = afr_stagnant_kingdom_heir.3.t
+	desc = {
+		trigger = { has_country_flag = afr_stagnant_kingdom_heir_coup_success_flag }
+		text = afr_stagnant_kingdom_heir.3.c
+	}
+	desc = {
+		trigger = { has_country_flag = afr_stagnant_kingdom_heir_coup_fail_flag }
+		text = afr_stagnant_kingdom_heir.3.d
+	}
+	picture = GFX_report_event_generic_riot
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_stagnant_kingdom_heir.3.a
+		trigger = { has_country_flag = afr_stagnant_kingdom_heir_coup_success_flag }
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { 
+				check_variable = { afr_fractured_kingdom_loyalist_support < 90 } 
+				check_variable = { afr_fractured_kingdom_opposition_support < 90 } 
+				check_variable = { afr_fractured_kingdom_loyalist_support > 17 } 
+			}
+			custom_effect_tooltip = afr_fractured_kingdom_loyalist_support_increase_tooltip
+		}
+		capital_scope = {
+			damage_building = {
+				type = infrastructure
+				damage = 0.25
+			}
+			if = {
+				limit = { check_variable = { Tribal_army_num > 1500 } }
+				add_manpower = -109
+				hidden_effect = { add_to_variable = { Tribal_army_num = -1500 } }
+				custom_effect_tooltip = afr_stagnant_kingdom_dethrone_heir_win_1
+			}
+			else_if = {
+				limit = { check_variable = { Tribal_army_num > 1000 } }
+				add_manpower = -486
+				hidden_effect = { add_to_variable = { Tribal_army_num = -1000 } }
+				custom_effect_tooltip = afr_stagnant_kingdom_dethrone_heir_win_2
+			}
+			else_if = {
+				limit = { check_variable = { Tribal_army_num > 500 } }
+				add_manpower = -821
+				hidden_effect = { add_to_variable = { Tribal_army_num = -500 } }
+				custom_effect_tooltip = afr_stagnant_kingdom_dethrone_heir_win_3
+			}
+			else = {
+				add_manpower = -1921
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = { 
+					check_variable = { afr_fractured_kingdom_loyalist_support < 90 } 
+					check_variable = { afr_fractured_kingdom_opposition_support < 90 } 
+					check_variable = { afr_fractured_kingdom_loyalist_support > 17 } 
+				}
+				add_to_variable = { ROOT.afr_fractured_kingdom_loyalist_support@ROOT = 17 }
+			}
+			if = {
+				limit = { 
+					check_variable = { afr_fractured_kingdom_loyalist_support < 90 } 
+					check_variable = { afr_fractured_kingdom_opposition_support < 90 } 
+					check_variable = { afr_fractured_kingdom_opposition_support > 17 } 
+				}
+				add_to_variable = { ROOT.afr_fractured_kingdom_opposition_support@ROOT = -17 }
+			}
+			swap_ideas = { remove_idea = dethroned_heir add_idea = no_heir }
+			country_event = { id = afr_stagnant_kingdom_heir.1 days = 5 random = 3 }
+			clr_country_flag = afr_stagnant_kingdom_heir_coup_success_flag
+		}
+	}
+	
+	option = {
+		name = afr_stagnant_kingdom_heir.3.b
+		trigger = { has_country_flag = afr_stagnant_kingdom_heir_coup_fail_flag }
+		ai_chance = { factor = 100 }
+		capital_scope = {
+			damage_building = {
+				type = infrastructure
+				damage = 0.90
+			}
+			if = {
+				limit = { check_variable = { Tribal_army_num > 1500 } }
+				add_manpower = -1309
+				hidden_effect = { add_to_variable = { Tribal_army_num = -1500 } }
+				custom_effect_tooltip = afr_stagnant_kingdom_dethrone_heir_lose_1
+			}
+			else_if = {
+				limit = { check_variable = { Tribal_army_num > 1000 } }
+				add_manpower = -2286
+				hidden_effect = { add_to_variable = { Tribal_army_num = -1000 } }
+				custom_effect_tooltip = afr_stagnant_kingdom_dethrone_heir_lose_2
+			}
+			else_if = {
+				limit = { check_variable = { Tribal_army_num > 500 } }
+				add_manpower = -3421
+				hidden_effect = { add_to_variable = { Tribal_army_num = -500 } }
+				custom_effect_tooltip = afr_stagnant_kingdom_dethrone_heir_lose_3
+			}
+			else = {
+				add_manpower = -4921
+			}
+		}
+		hidden_effect = {
+			country_event = { id = afr_stagnant_kingdom_heir.1 days = 100 random = 30 }
+			clr_country_flag = afr_stagnant_kingdom_heir_coup_success_flag
+		}
+	}
+}
+
+country_event = {
+	id = afr_switch_cosmetic_tag.1
+	title = afr_switch_cosmetic_tag.1.t
+	desc = afr_switch_cosmetic_tag.1.d
+	picture = GFX_report_event_generic_riot
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_switch_cosmetic_tag.1.a
+		ai_chance = { factor = 100 }
+	}
+	
+	option = {
+		name = afr_switch_cosmetic_tag.1.b
+		ai_chance = { factor = 100 }
+	}
+}
+
+#Religious Influence from Neighbor Country
+country_event = {
+	id = africa.1
+	title = africa.1.t
+	desc = africa.1.d
+	picture = GFX_report_event_generic_riot
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = africa.1.a
+		ai_chance = { factor = 50 }
+		add_political_power = -150
+	}
+	
+	option = {
+		name = africa.1.b
+		ai_chance = { factor = 50 }
+		add_stability = -0.05
+	}
+}
+
+#Unorganized Tribal State picks Religious Denomination
+country_event = {
+	id = africa.2
+	title = africa.2.t
+	desc = africa.2.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = africa.2.a
+		ai_chance = { factor = 50 }
+		add_political_power = 50
+		custom_effect_tooltip = eoanb_tt_event_africa_2_a
+		hidden_effect = {
+			swap_ideas = { remove_idea = religion_animist add_idea = religion_sunni }
+		}
+	}
+	
+	option = {
+		name = africa.2.b
+		ai_chance = { factor = 30 }
+		add_political_power = 50
+		custom_effect_tooltip = eoanb_tt_event_africa_2_b
+		hidden_effect = {
+			swap_ideas = { remove_idea = religion_animist add_idea = religion_coptic }
+		}
+	}
+	
+	option = {
+		name = africa.2.c
+		ai_chance = { factor = 20 }
+		add_political_power = -25
+		custom_effect_tooltip = eoanb_tt_event_africa_2_c
+	}
+}
+
+#Unorganized Tribal State establishes Borders
+country_event = {
+	id = africa.3
+	title = africa.3.t
+	desc = africa.3.d
+	picture = GFX_report_event_chinese_soldiers_mountain
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = africa.3.a
+		ai_chance = { factor = 70 }
+		add_political_power = -25
+		swap_ideas = { remove_idea = no_borders add_idea = open_borders }
+	}
+	
+	option = {
+		name = africa.3.b
+		ai_chance = { factor = 30 }
+		add_political_power = -100
+		swap_ideas = { remove_idea = no_borders add_idea = closed_borders }
+	}
+	
+}
+
+#Tribal Community makes weapons
+country_event = {
+	id = africa.4
+	title = africa.4.t
+	desc = africa.4.d
+	picture = GFX_report_event_manchukuo_army_2
+	
+	trigger = {
+		OR = {
+			has_idea = AF_T_unorganized_tribal_nation
+			has_idea = AF_T_unorganized_tribal_nation_2
+			has_idea = AF_T_unorganized_tribal_nation_3
+			has_idea = AF_T_unorganized_tribal_nation_4
+			has_idea = AF_T_unorganized_tribal_nation_5
+		}
+		NOT = { has_completed_focus = AF_T_central_council }
+		NOT = { has_country_flag = eoanb_flag_event_africa_4 }
+	}
+	
+	mean_time_to_happen = {
+		days = 600
+		#modifier = {
+		#	factor = 0.8
+		#	has_completed_focus = AF_T_might_warrior
+		#}
+		#modifier = {
+		#	factor = 1.2
+		#	has_stability < 0.1
+		#}
+	}
+	
+	option = {
+		name = africa.4.a
+		ai_chance = { factor = 80 }
+		add_equipment_to_stockpile = { type = tribal_weapons_0 amount = 10 }
+		hidden_effect = {
+			set_country_flag = eoanb_flag_event_africa_4
+		}
+	}
+	
+	option = {
+		name = africa.4.b
+		ai_chance = { factor = 20 }
+		add_political_power = 10
+		hidden_effect = {
+			set_country_flag = eoanb_flag_event_africa_4
+		}
+	}
+	
+}
+
+#Good Harvest Year
+country_event = {
+	id = africa.5
+	title = africa.5.t
+	desc = africa.5.d
+	picture = GFX_report_event_yugoslavia_partisans
+	
+	trigger = {
+		OR = {	
+			has_idea = AF_T_unorganized_tribal_nation
+			has_idea = AF_T_unorganized_tribal_nation_2
+			has_idea = AF_T_unorganized_tribal_nation_3
+			has_idea = AF_T_unorganized_tribal_nation_4
+			has_idea = AF_T_unorganized_tribal_nation_5
+			has_idea = AF_T_organized_tribal_nation
+		}
+		NOT = { has_country_flag = eoanb_flag_event_africa_5 }
+	}
+	
+	mean_time_to_happen = {
+		days = 1800
+		#modifier = {
+		#	factor = 0.8
+		#	has_stability > 0.2
+		#}
+		#modifier = {
+		#	factor = 0.8
+		#	has_stability > 0.3
+		#}
+	}
+	
+	option = {
+		name = africa.5.a
+		ai_chance = { factor = 100 }
+		add_timed_idea = { idea = AF_T_great_harvest days = 120 }
+		hidden_effect = {
+			set_country_flag = eoanb_flag_event_africa_5
+			country_event = { days = 730 id = africa.6 }
+		}
+	}
+	
+}
+
+#Hidden Event to remove Flag 5
+country_event = {
+	id = africa.6
+	title = africa.6.t
+	desc = africa.6.d
+	picture = GFX_report_event_yugoslavia_partisans
+	
+	is_triggered_only = yes
+	
+	hidden = yes
+	
+	option = {
+		name = africa.6.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			clr_country_flag = eoanb_flag_event_africa_5
+		}
+	}
+	
+}
+
+#Organized Tribe chooses Catholic Denomination
+country_event = {
+	id = africa.7
+	title = africa.7.t
+	desc = africa.7.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = africa.7.a
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				OR = {
+					ROOT = { 
+						is_in_array = {
+							array = national_religion_array
+							value = global.catholicism
+						}
+					}
+					any_neighbor_country = { 
+						is_in_array = {
+							array = national_religion_array
+							value = global.catholicism
+						}
+					}
+					any_neighbor_country = {
+						any_neighbor_country = { 
+							is_in_array = {
+								array = national_religion_array
+								value = global.catholicism
+							}
+						}
+					}
+				}
+			}
+		}
+		add_ideas = religion_catholic
+		hidden_effect = { add_to_array = { national_religion_array = global.catholicism } }
+	}
+	
+	option = {
+		name = africa.7.b
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				OR = {
+					ROOT = { 
+						is_in_array = {
+							array = national_religion_array
+							value = global.protestant
+						}
+					}
+					any_neighbor_country = { 
+						is_in_array = {
+							array = national_religion_array
+							value = global.protestant
+						}
+					}
+					any_neighbor_country = {
+						any_neighbor_country = { 
+							is_in_array = {
+								array = national_religion_array
+								value = global.protestant
+							}
+						}
+					}
+				}
+			}
+		}
+		add_ideas = religion_protestant
+		hidden_effect = { add_to_array = { national_religion_array = global.protestant } }
+	}
+
+}
+
+country_event = {
+	id = coptic_africa.1
+	title = coptic_africa.1.t
+	desc = coptic_africa.1.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = coptic_africa.1.a
+		ai_chance = { factor = 100 }
+		add_ideas = religion_coptic
+		hidden_effect = { add_to_array = { national_religion_array = global.coptic } }
+	}
+
+}
+
+country_event = {
+	id = jihadist_africa.1
+	title = jihadist_africa.1.t
+	desc = jihadist_africa.1.d
+	picture = GFX_report_event_hitler_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = jihadist_africa.1.a
+		ai_chance = { factor = 100 }
+		add_ideas = religion_sunni
+		hidden_effect = { add_to_array = { national_religion_array = global.sunni } }
+	}
+
+}
+
+#Unorganized Tribe has completed its FT and switches to Organized Tribal FT
+country_event = {
+	id = africa.8
+	title = africa.8.t
+	desc = africa.8.d
+	picture = GFX_report_event_china_infiltration
+	
+	trigger = {
+		NOT = { TAG = NOM }
+		has_idea = AF_T_organized_tribal_nation
+		OR = {
+			has_completed_focus = AF_T_proclaim_king
+			has_completed_focus = AF_T_benevolence_priest
+			has_completed_focus = AF_T_leadership_warlord
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 600
+		#modifier = {
+		#	factor = 0.9
+		#	has_stability > 0.1
+		#}
+		#modifier = {
+		#	factor = 0.9
+		#	has_stability > 0.2
+		#}
+		#modifier = {
+		#	factor = 0.9
+		#	has_stability > 0.3
+		#}
+	}
+	
+	option = {
+		name = africa.8.a
+		ai_chance = { factor = 90 }
+		custom_effect_tooltip = eoanb_tt_event_africa_8_a
+		hidden_effect = {
+			load_focus_tree = AF_O_K
+		}
+	}
+	
+	option = {
+		name = africa.8.b
+		ai_chance = { factor = 10 }
+		custom_effect_tooltip = eoanb_flag_event_africa_8_b
+	}
+	
+}
+
+#Unorganized Tribe becomes ready to unify its people
+country_event = {
+	id = africa.9
+	title = africa.9.t
+	desc = africa.9.d
+	picture = GFX_report_event_saf_soldiers_3
+	
+	trigger = {
+		OR = {
+			has_idea = AF_T_unorganized_tribal_nation
+			has_idea = AF_T_unorganized_tribal_nation_2
+			has_idea = AF_T_unorganized_tribal_nation_3
+		}
+		has_completed_focus = AF_T_centralize_power
+		OR = {
+			has_completed_focus = AF_T_trust_priest
+			has_completed_focus = AF_T_build_palace
+		}
+	}
+	
+	mean_time_to_happen = {
+		days = 900
+		#modifier = {
+		#	factor = 0.95
+		#	has_stability > 0.05
+		#}
+		#modifier = {
+		#	factor = 0.95
+		#	has_stability > 0.1
+		#}
+	}
+	
+	option = {
+		name = africa.9.a
+		ai_chance = { factor = 90 }
+		custom_effect_tooltip = eoanb_tt_event_africa_9_a
+		hidden_effect = {
+			set_country_flag = eoanb_flag_focus_africa_unorg_people
+		}
+	}
+	
+	option = {
+		name = africa.9.b
+		ai_chance = { factor = 10 }
+		custom_effect_tooltip = eoanb_tt_event_africa_9_b
+	}
+	
+}
+
+#Organized Tribe becomes ready to create a caste system
+country_event = {
+	id = africa.10
+	title = africa.10.t
+	desc = africa.10.d
+	picture = GFX_report_event_nra_march
+	
+	trigger = {
+		has_idea = AF_T_organized_tribal_nation
+		has_completed_focus = AF_O_K_an_african_realm
+	}
+	
+	mean_time_to_happen = {
+		days = 700
+		#modifier = {
+		#	factor = 0.9
+		#	has_stability > 0.25
+		#}
+	}
+	
+	option = {
+		name = africa.10.a
+		ai_chance = { factor = 90 }
+		custom_effect_tooltip = eoanb_tt_event_africa_10_a
+		hidden_effect = {
+			set_country_flag = eoanb_flag_focus_africa_org_caste
+		}
+	}
+	
+	option = {
+		name = africa.10.b
+		ai_chance = { factor = 10 }
+		custom_effect_tooltip = eoanb_tt_event_africa_10_b
+	}
+	
+}

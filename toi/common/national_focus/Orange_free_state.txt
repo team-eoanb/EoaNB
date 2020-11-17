@@ -615,7 +615,7 @@ focus_tree = {
 		}
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = has_more_than_150k_pop	
+				tooltip = has_more_than_150k_pop
 				set_temp_variable = {a = max_manpower}
 				check_variable = {a>150000}
 			}
@@ -1225,7 +1225,7 @@ focus_tree = {
 		}
 		x = 28
 		y = 1
-		
+
 
 	}
 	focus = {
@@ -1273,10 +1273,18 @@ focus_tree = {
 		}
 		completion_reward = {
 			ENG = {
-				set_autonomy = {
-					target = OFS
-					autonomous_state = autonomy_colony
-					freedom_level = 0.2
+				if = {
+					limit = {
+						has_dlc = "Together for Victory"
+					}
+					set_autonomy = {
+						target = OFS
+						autonomous_state = autonomy_colony
+						freedom_level = 0.2
+					}
+				}
+				else = {
+					puppet = OFS
 				}
 			}
 		}
@@ -1910,6 +1918,7 @@ focus_tree = {
 			OR = {
 				owns_state = 1142
 				owns_state = 1143
+				always = yes
 			}
 		}
 		available={
@@ -1989,7 +1998,13 @@ focus_tree = {
 		completion_reward = {
 			545 = {
 				owner = {
-					country_event = {id = boer_states.83}
+					if = {
+						limit = { afr_is_tribal = yes }
+						country_event = {id = boer_states_company.83}
+					}
+					else = {
+						country_event = {id = boer_states.83}
+					}
 				}
 			}
 		}
@@ -2011,10 +2026,7 @@ focus_tree = {
 		available={
 			custom_trigger_tooltip={
 				tooltip = OFS_has_dominion_over_rhodesia
-				any_neighbor_country={
-					OVERLORD = {tag = ROOT}
-					owns_state = 545
-				}
+				545 = { owner = { is_subject_of = ROOT } }
 			}
 			if = {
 				limit = {
@@ -2045,11 +2057,19 @@ focus_tree = {
 				}
 				owner = {
 					hidden_effect = {
-						load_focus_tree = industrialilzing_power_africa
-					}
-					swap_ideas = {
-						add_idea = afr_reforming_kingdom
-						remove_idea = AF_T_small_kingdom
+						if = {
+							limit = {
+								afr_is_tribal = yes
+								check_variable = {ROOT.industrisation_progress < 100}
+								NOT = {
+									has_idea = afr_reforming_kingdom
+									has_country_flag = Oceania_industrializing
+									has_country_flag = afr_colony_industrializing
+									has_country_flag = afr_an_african_industrializing
+								}
+							}
+							set_country_flag = Oceania_industrializing
+						}
 					}
 				}
 			}
@@ -2072,10 +2092,7 @@ focus_tree = {
 		available={
 			custom_trigger_tooltip={
 				tooltip = OFS_has_dominion_over_rhodesia
-				any_neighbor_country={
-					OVERLORD = {tag = ROOT}
-					owns_state = 545
-				}
+				545 = { owner = { is_subject_of = ROOT } }
 			}
 			OR = {
 				has_idea = ofs_bluebacks
@@ -2106,7 +2123,7 @@ focus_tree = {
 				owner = {
 					custom_effect_tooltip = EDC_afr.5.t
 					hidden_effect = {
-						country_event = { id = EDC_afr.5} 
+						country_event = { id = EDC_afr.5}
 					}
 				}
 			}
@@ -2129,10 +2146,7 @@ focus_tree = {
 		available={
 			custom_trigger_tooltip={
 				tooltip = OFS_has_dominion_over_rhodesia
-				any_neighbor_country={
-					OVERLORD = {tag = ROOT}
-					owns_state = 545
-				}
+				545 = { owner = { is_subject_of = ROOT } }
 			}
 			OR = {
 				has_idea = ofs_bluebacks
@@ -2163,7 +2177,7 @@ focus_tree = {
 				owner = {
 					custom_effect_tooltip = EDC_afr.5.t
 					hidden_effect = {
-						country_event = { id = EDC_afr.5} 
+						country_event = { id = EDC_afr.5}
 					}
 				}
 			}
@@ -2185,20 +2199,31 @@ focus_tree = {
 		#	}
 		#}
 		available={
-			any_neighbor_country={
-				OVERLORD = {tag = ROOT}
-				owns_state = 545
-				check_variable = {THIS.industrisation_progress > 74.9}
-				has_idea = afr_reforming_kingdom
+			custom_trigger_tooltip={
+				tooltip = OFS_has_dominion_over_rhodesia
+				545 = { owner = { is_subject_of = ROOT } }
+			}
+			545 = {
+				OWNER={
+					custom_trigger_tooltip = {
+						tooltip = Oceania_industrisation_progress_greater_than_75
+						check_variable = {THIS.industrisation_progress > 74.9}
+					}
+					custom_trigger_tooltip = {
+						tooltip = afr_rrp_is_reforming_regional_power_tooltip
+						OR = {
+							has_country_flag = afr_rrp_orange_rhodesia_company_partnership_flag
+							has_idea = afr_reforming_kingdom
+						}
+					}
+				}
 			}
 			OR = {
 				has_idea = ofs_bluebacks
 				has_idea = ofs_bluebacks_valued
 				has_idea = ofs_bluebacks_heavly_valued
 			}
-			NOT={
-				has_idea = ofs_funding_rhodesian_industrialisation
-			}
+			NOT={ has_idea = ofs_funding_rhodesian_industrialisation }
 		}
 		ai_will_do = {
 			factor = 1
@@ -2210,58 +2235,73 @@ focus_tree = {
 				idea = ofs_funding_rhodesian_industrialisation
 				days = 210
 			}
-			545={
-				owner = {
-					custom_effect_tooltip = afr_become_industrialised
-					hidden_effect = {
-						clear_variable = THIS.industrisation_progress
-						remove_ideas = afr_reforming_kingdom
-						add_ideas = industrializing
-						add_ideas = afr_post_tribal
-					}
-				}
-			}
-		}
-	}
-	focus = {
-		id = ofs_vic_integrate_rhodesia
-		icon = GFX_goal_focus_imperialism
-		cost = 105
-		prerequisite = {
-			focus = ofs_vic_finish_the_industrialisation_in_rhodesia
-		}
-		available_if_capitulated = no
-		#allow_branch = {
-		#	OR = {
-		#		owns_state = 841
-		#		owns_state = 1143
-		#	}
-		#}
-		available={
-			custom_trigger_tooltip={
-				tooltip = OFS_has_dominion_over_rhodesia
-				any_neighbor_country={
-					OVERLORD = {tag = ROOT}
-					owns_state = 545
-				}
-			}
-		}
-		ai_will_do = {
-			factor = 1
-		}
-		x = 31
-		y = 9
-		completion_reward = {
-			545={
-				owner = {
-					ROOT={
-						annex_country={
-							target = PREV
+			if = {
+				limit = { 545 = { OWNER = { afr_is_tribal = yes } } }
+				545={
+					owner = {
+						custom_effect_tooltip = afr_become_industrialised_tooltip
+						hidden_effect = {
+							clear_variable = THIS.industrisation_progress
+							if = {
+								limit = { has_idea = afr_reforming_kingdom }
+								remove_ideas = afr_reforming_kingdom
+							}
+							if = {
+								limit = { has_country_flag = Oceania_industrializing }
+								hidden_effect = { clr_country_flag = Oceania_industrializing }
+							}
+							if = {
+								limit = { has_country_flag = afr_colony_industrializing }
+								hidden_effect = { clr_country_flag = afr_colony_industrializing }
+							}
+							if = {
+								limit = { has_country_flag = afr_an_african_industrializing }
+								hidden_effect = { clr_country_flag = afr_an_african_industrializing }
+							}
+							add_ideas = industrializing
+							add_ideas = afr_post_tribal
 						}
 					}
-					
 				}
 			}
 		}
 	}
+	#focus = {
+	#	id = ofs_vic_integrate_rhodesia
+	#	icon = GFX_goal_focus_imperialism
+	#	cost = 105
+	#	prerequisite = {
+	#		focus = ofs_vic_finish_the_industrialisation_in_rhodesia
+	#	}
+	#	available_if_capitulated = no
+	#	#allow_branch = {
+	#	#	OR = {
+	#	#		owns_state = 841
+	#	#		owns_state = 1143
+	#	#	}
+	#	#}
+	#	available={
+	#		custom_trigger_tooltip={
+	#			tooltip = OFS_has_dominion_over_rhodesia
+	#			545 = { OWNER = { is_subject_of = ROOT } }
+	#		}
+	#	}
+	#	ai_will_do = {
+	#		factor = 1
+	#	}
+	#	x = 31
+	#	y = 9
+	#	completion_reward = {
+	#		545={
+	#			owner = {
+	#				ROOT={
+	#					annex_country={
+	#						target = PREV
+	#					}
+	#				}
+	#
+	#			}
+	#		}
+	#	}
+	#}
 }

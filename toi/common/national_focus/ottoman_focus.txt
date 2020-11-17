@@ -202,10 +202,14 @@ focus_tree = {
 		x = 10
 		y = 4
 		available={
-			EGY={is_subject_of = ROOT}
-			OR={
-				date>1861.1.1
-				has_global_flag = ACWAmerican_Civil_War
+			EGY = { is_subject_of = ROOT }
+			has_global_flag = ACW_American_Civil_War
+		}
+		bypass = {
+			OR = {
+				date > 1868.1.1
+				has_global_flag = ACW_American_Civil_War_Happened
+				has_global_flag = ACW_American_Civil_War_Avoided
 			}
 		}
 		completion_reward = {
@@ -348,7 +352,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_raise_taxes
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_generic_tax_raise
 		cost = 70.00
 		x = 8
 		y = 3
@@ -603,7 +607,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_open_schooling
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_school_opening_focus
 		cost = 10.00
 		x = 5
 		y = 4
@@ -636,7 +640,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_closed_schooling
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_school_investment_focus
 		cost = 10.00
 		x = 3
 		y = 4
@@ -684,7 +688,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_turkish_language
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_focus_controlled_press
 		cost = 70.00
 		x = 2
 		y = 5
@@ -869,49 +873,12 @@ focus_tree = {
 		}
 		available={
 			OR={
-				centrism > 0.5
-				traditional_conservatism > 0.5
+				centrism > 0.25
+				traditional_conservatism > 0.25
 			}
 		}
 		completion_reward = {
-			if={
-				limit ={
-					centrism > 0.5
-				}
-				create_country_leader = {
-					name = "Abdulmecid"
-					desc = "POLITICS_ABDULMECID_DESC"
-					picture = "gfx/leaders/OTO/Portrait_OTO_Abdulmecid.dds"
-					expire = "1861.6.1"
-					ideology = conserv_liberal
-					traits = {
-						
-					}
-				}
-				#set_country_leader_ideology = conserv_liberal
-				set_politics = {
-					ruling_party = centrism
-				}
-			}
-			else_if={
-				limit ={
-					traditional_conservatism > 0.5
-				}
-				create_country_leader = {
-					name = "Abdulmecid"
-					desc = "POLITICS_ABDULMECID_DESC"
-					picture = "gfx/leaders/OTO/Portrait_OTO_Abdulmecid.dds"
-					expire = "1861.6.1"
-					ideology = conserv
-					traits = {
-						
-					}
-				}
-				#set_country_leader_ideology = conserv_liberal
-				set_politics = {
-					ruling_party = traditional_conservatism
-				}
-			}
+			add_political_power = 150
 		}
 		ai_will_do={
 			factor = 1
@@ -961,7 +928,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_edict_of_public_education
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_generic_treaty
 		cost = 70.00
 		x = 7
 		y = 10
@@ -984,7 +951,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_open_the_imperial_school
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_school_opening_focus
 		cost = 70.00
 		x = 7
 		y = 11
@@ -1081,6 +1048,31 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 100
+			set_country_flag = OTO_traditionalist_tree
+			every_country = {
+				limit = {
+					OR = {
+						AND = {
+							is_subject_of = OTO
+							is_in_array = {
+								array = national_religion_array
+								value = global.sunni
+							}
+							afr_is_tribal = yes
+						}
+						AND = {
+							is_subject = yes
+							OVERLORD = { is_subject_of = OTO }
+							is_in_array = {
+								array = national_religion_array
+								value = global.sunni
+							}
+							afr_is_tribal = yes
+						}
+					}
+				}
+				country_event = { id = EDC_afr_focus_path_change.1 }
+			}
 		}
 
 	}
@@ -1211,7 +1203,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_military_agenda
-		icon = GFX_goal_focus_conscription
+		icon = GFX_goal_ottoman_army
 		cost = 70.00
 		x = 24
 		y = 0
@@ -1792,7 +1784,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_military_expansion
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_secret_rearmament
 		cost = 70.00
 		x = 17
 		y = 8
@@ -1811,7 +1803,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_Show_of_Force
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_generic_support_the_left_right
 		cost = 70.00
 		x = 17
 		y = 9
@@ -1851,7 +1843,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_vic_Holding_Struggle
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_focus_gerrymandering
 		cost = 70.00
 		x = 15
 		y = 9

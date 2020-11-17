@@ -10,13 +10,13 @@ focus_tree = {
 		}
 	}
 
-	default = no	
+	default = no
 
 	focus = {
 		id = SWE_economy
 		x = 13
 		y = 1
-		cost = 14
+		cost = 70
 		icon = GFX_focus_generic_self_management
 		ai_will_do = {
 			factor = 1
@@ -27,49 +27,94 @@ focus_tree = {
 	}
 
 	focus = {
+		id = SWE_not_agrarian_anymore
+		x = 13
+		y = 2
+		cost = 140
+		icon = GFX_focus_generic_industry_3
+		prerequisite = { focus = SWE_economy }
+		ai_will_do = {
+			factor = 1
+		}
+		bypass = { NOT = { has_idea = agrarian } }
+		available = {
+		date > 1860.1.1
+				AND = {
+					has_idea = agrarian
+					num_of_factories > 7
+				}
+			}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = agrarian
+				add_idea = industrializing
+			}
+		}
+	}
+
+	focus = {
 		id = SWE_develop_oslo
 		x = 6
-		y = 2
+		y = 3
 		cost = 70
 		ai_will_do = {
 			factor = 0.5
+
+			modifier = {
+				has_opinion = {
+					target = NOR
+					value > 65
+				}
+
+				factor = 1
+			}
 		}
 		icon = GFX_goal_generic_amphibious_assault
 		mutually_exclusive = { focus = SWE_develop_stockholm }
-		prerequisite = { focus = SWE_economy }
-		
+		prerequisite = { focus = SWE_not_agrarian_anymore }
+
 		available = {
-			owns_state = 110
+			NOR = {
+		    	is_subject_of = SWE
+				owns_state = 110
+			}
 		}
-		
+
 		completion_reward = {
 			110 = {
-				add_extra_state_shared_building_slots = 3
+				add_extra_state_shared_building_slots = 2
 
 			}
 			add_political_power = -25
+
+			NOR = {
+				add_autonomy_score = {
+					value = -70
+					localization = SWE_nowegian_autonomy_debuff
+				}
+			}
 		}
 	}
 
 	focus = {
 		id = SWE_develop_gothenburg
 		x = 10
-		y = 3
-		prerequisite = { focus = SWE_economy }
+		y = 4
+		prerequisite = { focus = SWE_not_agrarian_anymore }
 		cost = 70
 		ai_will_do = {
 			factor = 0.5
 		}
 		icon = GFX_goal_generic_amphibious_assault
 		mutually_exclusive = { focus = SWE_develop_karlskrona }
-		
+
 		available = {
 			owns_state = 140
 		}
-		
+
 		completion_reward = {
 			140 = {
-				add_extra_state_shared_building_slots = 3
+				add_extra_state_shared_building_slots = 2
 			}
 			add_political_power = -25
 		}
@@ -78,8 +123,8 @@ focus_tree = {
 	focus = {
 		id = SWE_develop_karlskrona
 		x = 16
-		y = 3
-		prerequisite = { focus = SWE_economy }
+		y = 4
+		prerequisite = { focus = SWE_not_agrarian_anymore }
 		cost = 70
 		mutually_exclusive = { focus = SWE_develop_gothenburg }
 		ai_will_do = {
@@ -89,10 +134,10 @@ focus_tree = {
 		available = {
 			owns_state = 138
 		}
-		
+
 		completion_reward = {
 			138 = {
-				add_extra_state_shared_building_slots = 3
+				add_extra_state_shared_building_slots = 2
 			}
 			add_political_power = -25
 		}
@@ -101,21 +146,25 @@ focus_tree = {
 	focus = {
 		id = SWE_develop_stockholm
 		x = 20
-		y = 2
-		cost = 70
+		y = 3
+		cost = 35
 		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = SWE_economy }
-		
+		prerequisite = { focus = SWE_not_agrarian_anymore }
+
+		ai_will_do = {
+			factor = 1
+		}
+
 		available = {
 			owns_state = 141
 		}
 		mutually_exclusive={
 			focus = SWE_develop_oslo
 		}
-		
+
 		completion_reward = {
 		141 = {
-			add_extra_state_shared_building_slots = 3
+			add_extra_state_shared_building_slots = 2
 			}
 			add_political_power = -25
 
@@ -125,12 +174,12 @@ focus_tree = {
 	focus = {
 		id = SWE_nor_fish
 		x = 6
-		y = 3
+		y = 4
 		prerequisite = { focus = SWE_develop_oslo }
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_focus_generic_fish
+		icon = GFX_goal_focus_fish
 		cost = 70
 		available = {
 			owns_state = 138
@@ -145,7 +194,7 @@ focus_tree = {
 	focus = {
 		id = SWE_got_inf
 		x = 8
-		y = 4
+		y = 5
 		prerequisite = {
 			focus = SWE_develop_gothenburg
 		}
@@ -159,14 +208,14 @@ focus_tree = {
 				building_total_bonus_present_infra = yes
 			}
 		}
-		
+
 		cost = 70
 		completion_reward = {
 			custom_effect_tooltip =  SWE_customeffect_infra_bonus
-			
+
 			#140 = { add_extra_state_shared_building_slots = 1 }
-			
-			hidden_effect = {		
+
+			hidden_effect = {
 				set_variable = { infra_total = 0 }
 				every_owned_state = {
 					limit = {
@@ -176,7 +225,7 @@ focus_tree = {
 				}
 				set_variable = { infra_total_bonus = infra_total }
 				add_to_variable = { infra_total_bonus = 1 }
-				
+
 				add_ideas = SWE_fifty_inf_bonus
 			}
 			add_political_power = -25
@@ -186,7 +235,7 @@ focus_tree = {
 	focus = {
 		id = SWE_got_ports
 		x = 10
-		y = 4
+		y = 5
 		prerequisite = { focus = SWE_develop_gothenburg }
 		ai_will_do = {
 			factor = 1
@@ -197,8 +246,8 @@ focus_tree = {
 			owns_state = 140
 		}
 		completion_reward = {
-			140 = { add_extra_state_shared_building_slots = 3 }
-			140 = { add_building_construction = { type = naval_base level = 3 instant_build = yes province = 383 } }
+			140 = { add_extra_state_shared_building_slots = 2 }
+			140 = { add_building_construction = { type = naval_base level = 2 instant_build = yes province = 383 } }
 			add_political_power = -25
 		}
 	}
@@ -206,23 +255,23 @@ focus_tree = {
 	focus = {
 		id = SWE_got_docks
 		x = 12
-		y = 4
+		y = 5
 		prerequisite = { focus = SWE_develop_gothenburg }
 		ai_will_do = {
 			factor = 1
 		}
 		cost = 70
 		icon = GFX_goal_generic_construct_naval_dockyard
-		
+
 		available = {
 			NOT = {
 				building_total_bonus_present_dock = yes
 			}
 		}
-		
+
 		completion_reward = {
-			custom_effect_tooltip = SWE_customeffect_dock_bonus		
-			hidden_effect = {		
+			custom_effect_tooltip = SWE_customeffect_dock_bonus
+			hidden_effect = {
 				SWE = {
 					set_variable = { dock_total = 0 }
 					every_owned_state = {
@@ -233,7 +282,7 @@ focus_tree = {
 					}
 					set_variable = { dock_total_bonus = dock_total }
 					add_to_variable = { dock_total_bonus = 1 }
-					
+
 					add_ideas = SWE_seventyfive_dock_bonus
 				}
 			}
@@ -243,7 +292,7 @@ focus_tree = {
 	focus = {
 		id = SWE_eu_trade
 		x = 8
-		y = 5
+		y = 6
 		prerequisite = {
 			focus = SWE_got_inf
 		}
@@ -283,7 +332,7 @@ focus_tree = {
 	focus = {
 		id = SWE_got_convoys
 		x = 10
-		y = 5
+		y = 6
 		prerequisite = {
 			focus = SWE_got_ports
 		}
@@ -295,7 +344,7 @@ focus_tree = {
 		completion_reward = {
 			add_equipment_to_stockpile = {
 				type = convoy
-				amount = 100
+				amount = 50
 			}
 		}
 	}
@@ -303,7 +352,7 @@ focus_tree = {
 	focus = {
 		id = SWE_got_yacht_club
 		x = 12
-		y = 5
+		y = 6
 		icon = GFX_goal_generic_navy_cruiser
 		ai_will_do = {
 			factor = 1
@@ -312,7 +361,7 @@ focus_tree = {
 		cost = 70
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.75 uses = 1 category = naval_doctrine
+				bonus = 0.5 uses = 1 category = naval_doctrine
 			}
 		}
 	}
@@ -320,7 +369,7 @@ focus_tree = {
 	focus = {
 		id = SWE_ocean_fleet
 		x = 10
-		y = 6
+		y = 7
 		cost = 70
 		prerequisite = { focus = SWE_got_yacht_club }
 		prerequisite = { focus = SWE_got_convoys }
@@ -328,8 +377,8 @@ focus_tree = {
 		icon = GFX_goal_generic_navy_battleship
 		completion_reward = {
 			add_tech_bonus = {
-				ahead_reduction = 1			
-				uses = 1 
+				ahead_reduction = 1
+				uses = 1
 				category = naval_equipment
 			}
 		}
@@ -338,7 +387,7 @@ focus_tree = {
 	focus = {
 		id = SWE_karl_coal
 		x = 14
-		y = 4
+		y = 5
 		prerequisite = { focus = SWE_develop_karlskrona }
 		cost = 70
 		ai_will_do = {
@@ -361,16 +410,16 @@ focus_tree = {
 	focus = {
 		id = SWE_karl_inf
 		x = 16
-		y = 4
+		y = 5
 		prerequisite = { focus = SWE_develop_karlskrona }
 		cost = 70
 		ai_will_do = {
 			factor = 1
 		}
 		icon = GFX_goal_generic_construct_infrastructure
-		
-		#available = { 
-		#	SWE = { 
+
+		#available = {
+		#	SWE = {
 		#		controls_state = 138
 		#	}
 		#}
@@ -380,11 +429,11 @@ focus_tree = {
 				building_total_bonus_present_infra = yes
 			}
 		}
-		
+
 		completion_reward = {
-			custom_effect_tooltip =  SWE_customeffect_infra_bonus		
+			custom_effect_tooltip =  SWE_customeffect_infra_bonus
 			#138 = { add_extra_state_shared_building_slots = 1 }
-			hidden_effect = {		
+			hidden_effect = {
 				set_variable = { infra_total = 0 }
 				every_owned_state = {
 					limit = {
@@ -394,7 +443,7 @@ focus_tree = {
 				}
 				set_variable = { infra_total_bonus = infra_total }
 				add_to_variable = { infra_total_bonus = 1 }
-				
+
 				add_ideas = SWE_fifty_inf_bonus
 			}
 			add_political_power = -25
@@ -404,32 +453,29 @@ focus_tree = {
 	focus = {
 		id = SWE_karl_civ_factory
 		x = 18
-		y = 4
+		y = 5
 		prerequisite = { focus = SWE_develop_karlskrona }
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 70
 		ai_will_do = {
 			factor = 1
 		}
-		
+
 		available = {
 			owns_state = 138
-			NOT = {
-				building_total_bonus_present_civ = yes
-			}
 		}
-		
+
 		completion_reward = {
-			custom_effect_tooltip = SWE_customeffect_civ_bonus_three		
-			hidden_effect = {		
+			custom_effect_tooltip = SWE_customeffect_civ_bonus_three
+			hidden_effect = {
 				SWE = {
 					set_variable = { civ_total = 0 }
 					every_owned_state = {
 						add_to_variable = { ROOT.civ_total = building_level@industrial_complex }
 					}
 					set_variable = { civ_total_bonus = civ_total }
-					add_to_variable = { civ_total_bonus = 3 }
-					
+					add_to_variable = { civ_total_bonus = 2 }
+
 					add_ideas = SWE_twentyfive_civ_bonus
 				}
 			}
@@ -439,7 +485,7 @@ focus_tree = {
 	focus = {
 		id = SWE_baltic_trade
 		x = 14
-		y = 5
+		y = 6
 		prerequisite = {
 			focus = SWE_karl_coal
 		}
@@ -471,7 +517,7 @@ focus_tree = {
 	focus = {
 		id = SWE_karl_logging
 		x = 16
-		y = 5
+		y = 6
 		cost = 70
 		icon = GFX_goal_generic_production
 		prerequisite = {
@@ -493,7 +539,7 @@ focus_tree = {
 	focus = {
 		id = SWE_karl_mil_factory
 		x = 18
-		y = 5
+		y = 6
 		cost = 70
 		ai_will_do = {
 			factor = 1
@@ -502,17 +548,17 @@ focus_tree = {
 			focus = SWE_karl_civ_factory
 		}
 		icon = GFX_goal_generic_construct_mil_factory
-		
+
 		available = {
 			owns_state = 138
 			NOT = {
 				building_total_bonus_present_mil = yes
 			}
 		}
-		
+
 		completion_reward = {
-			custom_effect_tooltip = SWE_customeffect_mil_bonus		
-			hidden_effect = {		
+			custom_effect_tooltip = SWE_customeffect_mil_bonus
+			hidden_effect = {
 				SWE = {
 					set_variable = { mil_total = 0 }
 					every_owned_state = {
@@ -520,7 +566,7 @@ focus_tree = {
 					}
 					set_variable = { mil_total_bonus = mil_total }
 					add_to_variable = { mil_total_bonus = 1 }
-					
+
 					add_ideas = SWE_fifty_mil_bonus
 				}
 			}
@@ -530,7 +576,7 @@ focus_tree = {
 	focus = {
 		id = SWE_baltic_fleet
 		x = 16
-		y = 6
+		y = 7
 		cost = 70
 		ai_will_do = {
 			factor = 1
@@ -541,7 +587,7 @@ focus_tree = {
 		prerequisite = { focus = SWE_karl_logging }
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.75 uses = 1 category = naval_equipment
+				bonus = 0.5 uses = 1 category = naval_equipment
 			}
 		}
 	}
@@ -549,7 +595,7 @@ focus_tree = {
 	focus = {
 		id = SWE_nor_ships
 		x = 6
-		y = 4
+		y = 5
 		prerequisite = {
 			focus = SWE_nor_fish
 		}
@@ -560,7 +606,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.5 uses = 1 category = naval_equipment
+				bonus = 0.75 uses = 1 category = naval_equipment
 			}
 		}
 	}
@@ -568,7 +614,7 @@ focus_tree = {
 	focus = {
 		id = SWE_nor_inf
 		x = 6
-		y = 5
+		y = 6
 		cost = 70
 		ai_will_do = {
 			factor = 1
@@ -578,20 +624,30 @@ focus_tree = {
 		}
 		icon = GFX_goal_generic_construct_infrastructure
 		available = {
+		NOR {
+		    is_subject_of = SWE
 			owns_state = 110
+			}
 		}
-		
+
 		completion_reward = {
 			110 = { add_extra_state_shared_building_slots = 1 }
 			110 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
 			add_political_power = -25
+
+			NOR = {
+				add_autonomy_score = {
+					value = -150
+					localization = SWE_nowegian_autonomy_debuff
+				}
+			}
 		}
 	}
 
 	focus = {
 		id = SWE_nor_scientests
 		x = 6
-		y = 6
+		y = 7
 		cost = 70
 		prerequisite = {
 			focus = SWE_nor_inf
@@ -610,7 +666,7 @@ focus_tree = {
 	focus = {
 		id = SWE_swe_factories
 		x = 20
-		y = 3
+		y = 4
 		prerequisite = {
 			focus = SWE_develop_stockholm
 		}
@@ -619,16 +675,16 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_reichsautobahn
-		
+
 		available = {
 			NOT = {
 				building_total_bonus_present_civ = yes
 			}
 		}
-		
+
 		completion_reward = {
-			custom_effect_tooltip = SWE_customeffect_civ_bonus_two	
-			hidden_effect = {		
+			custom_effect_tooltip = SWE_customeffect_civ_bonus_two
+			hidden_effect = {
 				SWE = {
 					set_variable = { civ_total = 0 }
 					every_owned_state = {
@@ -636,7 +692,7 @@ focus_tree = {
 					}
 					set_variable = { civ_total_bonus = civ_total }
 					add_to_variable = { civ_total_bonus = 2 }
-					
+
 					add_ideas = SWE_fifty_civ_bonus
 				}
 			}
@@ -646,7 +702,7 @@ focus_tree = {
 	focus = {
 		id = SWE_swe_coal
 		x = 20
-		y = 4
+		y = 5
 		prerequisite = {
 			focus = SWE_swe_factories
 		}
@@ -668,7 +724,7 @@ focus_tree = {
 	focus = {
 		id = SWE_swe_lumber
 		x = 20
-		y = 5
+		y = 6
 		icon = GFX_goal_generic_production2
 		prerequisite = {
 			focus = SWE_swe_coal
@@ -686,11 +742,88 @@ focus_tree = {
 			add_political_power = -25
 		}
 	}
+	
+	focus = {
+		id = SWE_support_tra_patronerna
+		x = 12
+		y = 8
+		icon = GFX_goal_generic_production2
+		prerequisite = {
+			focus = SWE_nor_scientests focus = SWE_ocean_fleet focus = SWE_baltic_fleet focus = SWE_swe_men
+		}
+		mutually_exclusive = { focus = SWE_limmit_the_tra_patronerna }
+		cost = 70
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = SWE_explosion_in_wood_industry
+				add_idea = SWE_explosion_in_wood_industry_2
+			}
+		}
+	}
+	
+	focus = {
+		id = SWE_limmit_the_tra_patronerna
+		x = 14
+		y = 8
+		icon = GFX_goal_generic_production2
+		prerequisite = {
+			focus = SWE_nor_scientests focus = SWE_ocean_fleet focus = SWE_baltic_fleet focus = SWE_swe_men
+		}
+		mutually_exclusive = { focus = SWE_support_tra_patronerna }
+		cost = 70
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = SWE_explosion_in_wood_industry
+				add_idea = SWE_explosion_in_wood_industry_3
+			}
+		}
+	}
+	
+	focus = {
+		id = SWE_industrialise
+		x = 13
+		y = 9
+		cost = 210
+		icon = GFX_focus_generic_industry_3
+		prerequisite = {
+			focus = SWE_support_tra_patronerna focus = SWE_limmit_the_tra_patronerna
+		}
+		ai_will_do {
+			factor = 1
+		}
+		bypass = { NOT = { has_idea = industrializing } }
+		available = {
+		date > 1875.1.1
+			OR = {
+				AND = {
+					has_idea = industrializing
+					has_idea = SWE_Johan_August_Gripenstedt
+					num_of_factories > 25
+				}
+				AND = {
+					has_idea = industrializing
+					num_of_factories > 35
+				}
+			}
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = industrializing
+				add_idea = industrialized
+			}
+		}
+	}
 
 	focus = {
 		id = SWE_swe_men
 		x = 20
-		y = 6
+		y = 7
 		icon = GFX_focus_generic_military_mission
 		prerequisite = {
 			focus = SWE_swe_lumber
@@ -721,7 +854,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_land_focus
-		cost = 70		
+		cost = 70
 		x = 27
 		y = 2
 		prerequisite = {
@@ -731,17 +864,16 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_generic_position_armies
-		mutually_exclusive = { focus = SWE_naval_focus }
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.5 uses = 1 category = land_doctrine
+				bonus = 0.25 uses = 1 category = land_doctrine
 			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_look_to_past
-		cost = 70		
+		cost = 70
 		x = 26
 		y = 3
 		prerequisite = {
@@ -759,7 +891,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_look_to_future
-		cost = 70		
+		cost = 70
 		x = 35
 		y = 3
 		prerequisite = {
@@ -777,7 +909,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_learn_from_prussians
-		cost = 70		
+		cost = 140
 		x = 34
 		y = 4
 		prerequisite = {
@@ -787,15 +919,15 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_SWE_prussian_cooperation
-		mutually_exclusive = { focus = SWE_learn_from_frenchies }		
+		mutually_exclusive = { focus = SWE_learn_from_frenchies }
 		completion_reward = {
 			custom_effect_tooltip = SWE_learn_from_prussians_tt
 		}
 	}
-	
+
 	focus = {
 		id = SWE_learn_from_frenchies
-		cost = 70		
+		cost = 140
 		x = 36
 		y = 4
 		prerequisite = {
@@ -805,7 +937,7 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_SWE_french_cooperation
-		mutually_exclusive = { focus = SWE_learn_from_prussians }		
+		mutually_exclusive = { focus = SWE_learn_from_prussians }
 		completion_reward = {
 			custom_effect_tooltip = SWE_learn_from_frenchies_tt
 		}
@@ -813,7 +945,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_buy_french_guns
-		cost = 70		
+		cost = 70
 		x = 36
 		y = 5
 		prerequisite = {
@@ -822,15 +954,15 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_buy_guns		
+		icon = GFX_goal_SWE_buy_guns
 		completion_reward = {
-			add_ideas = SWE_reform_french1			
+			add_ideas = SWE_reform_french1
 		}
 	}
 
 	focus = {
 		id = SWE_invite_retired_officers
-		cost = 70		
+		cost = 70
 		x = 34
 		y = 5
 		prerequisite = {
@@ -839,15 +971,15 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_prussian_experts	
+		icon = GFX_goal_SWE_prussian_experts
 		completion_reward = {
-			add_ideas = SWE_reform_prussian1			
+			add_ideas = SWE_reform_prussian1
 		}
 	}
-	
+
 	focus = {
 		id = SWE_germanize_army
-		cost = 70		
+		cost = 70
 		x = 34
 		y = 6
 		prerequisite = {
@@ -856,18 +988,18 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_focus_ger_oppose_hitler	
+		icon = GFX_focus_ger_oppose_hitler
 		completion_reward = {
 			swap_ideas = {
 				add_idea = SWE_reform_prussian2
 				remove_idea = SWE_reform_prussian1
-			}			
+			}
 		}
 	}
 
 	focus = {
 		id = SWE_regimental_exercises
-		cost = 70		
+		cost = 70
 		x = 36
 		y = 6
 		prerequisite = {
@@ -876,21 +1008,21 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_franco_military_exercise		
+		icon = GFX_goal_SWE_franco_military_exercise
 		completion_reward = {
-			custom_effect_tooltip = SWE_regimental_exercises_tt	
+			custom_effect_tooltip = SWE_regimental_exercises_tt
 			hidden_effect = {
-				swap_ideas = {			
+				swap_ideas = {
 					add_idea = SWE_reform_french2
 					remove_idea = SWE_reform_french1
 				}
-			}		
+			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_denounce_danes
-		cost = 70		
+		cost = 70
 		x = 34
 		y = 7
 		prerequisite = {
@@ -899,19 +1031,19 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_crush_denmark	
+		icon = GFX_goal_SWE_crush_denmark
 		completion_reward = {
 			diplomatic_relation = {
 				country = PRS
 				relation = non_aggression_pact
 				active = yes
-			}		
+			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_french_treaty
-		cost = 70		
+		cost = 70
 		x = 36
 		y = 7
 		prerequisite = {
@@ -920,7 +1052,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_focus_generic_treaty		
+		icon = GFX_focus_generic_treaty
 		completion_reward = {
 			diplomatic_relation = {
 				country = FRA
@@ -932,7 +1064,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_foreign_advisers
-		cost = 70		
+		cost = 70
 		x = 35
 		y = 8
 		prerequisite = {
@@ -942,10 +1074,10 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_european_advisers		
+		icon = GFX_goal_SWE_european_advisers
 		completion_reward = {
-			custom_effect_tooltip = SWE_foreign_advisers_tt	
-			hidden_effect = {				
+			custom_effect_tooltip = SWE_foreign_advisers_tt
+			hidden_effect = {
 			if = {
 				limit = {
 					has_idea = SWE_reform_french2
@@ -953,7 +1085,7 @@ focus_tree = {
 				swap_ideas = {
 					add_idea = SWE_reform_french3
 					remove_idea = SWE_reform_french2
-					}							
+					}
 				}
 			if = {
 				limit = {
@@ -962,15 +1094,15 @@ focus_tree = {
 				swap_ideas = {
 					add_idea = SWE_reform_prussian3
 					remove_idea = SWE_reform_prussian2
-					}							
+					}
 				}
-			}				
+			}
 		}
 	}
 
 	focus = {
 		id = SWE_legacy_gustavus_adolphus
-		cost = 70		
+		cost = 70
 		x = 26
 		y = 4
 		prerequisite = {
@@ -980,15 +1112,15 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_SWE_gustavus_adolphus
-		mutually_exclusive = { focus = SWE_lessons_of_vasa focus = SWE_carolean_heritage focus =  SWE_von_dobeln_bequest }			
+		mutually_exclusive = { focus = SWE_lessons_of_vasa focus = SWE_carolean_heritage focus =  SWE_von_dobeln_bequest }
 		completion_reward = {
-			custom_effect_tooltip = SWE_legacy_gustavus_adolphus_tt		
+			custom_effect_tooltip = SWE_legacy_gustavus_adolphus_tt
 		}
 	}
-	
+
 	focus = {
 		id = SWE_artillery_supremacy
-		cost = 70		
+		cost = 70
 		x = 26
 		y = 5
 		prerequisite = {
@@ -997,7 +1129,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_artillery_supremacy			
+		icon = GFX_goal_SWE_artillery_supremacy
 		completion_reward = {
 			add_ideas = SWE_gustavian_reform1
 		}
@@ -1005,7 +1137,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_flexible_artillery
-		cost = 70		
+		cost = 70
 		x = 25
 		y = 6
 		prerequisite = {
@@ -1015,12 +1147,12 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_SWE_flexible_artillery
-		mutually_exclusive = { focus = SWE_artillery_firepower }		
+		mutually_exclusive = { focus = SWE_artillery_firepower }
 		completion_reward = {
 			##Error in line 940. To be solved. Probably technology doesn't exist.
 			set_technology = {
 			    #secret_swedish_artillery_modifier = 1
-			}		
+			}
 			swap_ideas = {
 				add_idea = SWE_gustavian_reform_flexible
 				remove_idea = SWE_gustavian_reform1
@@ -1030,7 +1162,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_artillery_firepower
-		cost = 70		
+		cost = 70
 		x = 27
 		y = 6
 		prerequisite = {
@@ -1039,8 +1171,8 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_firepower	
-		mutually_exclusive = { focus = SWE_flexible_artillery }		
+		icon = GFX_goal_SWE_firepower
+		mutually_exclusive = { focus = SWE_flexible_artillery }
 		completion_reward = {
 			swap_ideas = {
 				add_idea = SWE_gustavian_reform_firepower
@@ -1051,7 +1183,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_mass_artillery
-		cost = 70		
+		cost = 70
 		x = 26
 		y = 7
 		prerequisite = {
@@ -1061,10 +1193,15 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_artillery_for_every_unit			
+		icon = GFX_goal_SWE_artillery_for_every_unit
 		completion_reward = {
-			custom_effect_tooltip = SWE_artillery_for_every_unit_tt	
-			hidden_effect = {				
+			if = {
+				limit = {
+					NOT = { has_completed_focus = SWE_flexible_artillery }
+					NOT = { has_completed_focus = SWE_artillery_firepower }
+				}
+				custom_effect_tooltip = SWE_artillery_for_every_unit_tt
+			}
 			if = {
 				limit = {
 					has_idea = SWE_gustavian_reform_firepower
@@ -1072,7 +1209,7 @@ focus_tree = {
 				swap_ideas = {
 					add_idea = SWE_gustavian_reform_firepower2
 					remove_idea = SWE_gustavian_reform_firepower
-					}							
+					}
 				}
 			if = {
 				limit = {
@@ -1081,15 +1218,14 @@ focus_tree = {
 				swap_ideas = {
 					add_idea = SWE_gustavian_reform_flexible2
 					remove_idea = SWE_gustavian_reform_flexible
-					}							
+					}
 				}
-			}				
 		}
-	}	
+	}
 
 	focus = {
 		id = SWE_lessons_of_vasa
-		cost = 70		
+		cost = 70
 		x = 23
 		y = 4
 		prerequisite = {
@@ -1099,15 +1235,15 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_SWE_gustavus_vasa
-		mutually_exclusive = { focus = SWE_legacy_gustavus_adolphus focus = SWE_carolean_heritage focus =  SWE_von_dobeln_bequest }		
+		mutually_exclusive = { focus = SWE_legacy_gustavus_adolphus focus = SWE_carolean_heritage focus =  SWE_von_dobeln_bequest }
 		completion_reward = {
-			custom_effect_tooltip = SWE_lessons_of_vasa_tt	
+			custom_effect_tooltip = SWE_lessons_of_vasa_tt
 		}
 	}
-	
+
 	focus = {
 		id = SWE_infantry_supremacy
-		cost = 70		
+		cost = 70
 		x = 23
 		y = 5
 		prerequisite = {
@@ -1116,21 +1252,21 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_infantry_supremacy		
+		icon = GFX_goal_SWE_infantry_supremacy
 		completion_reward = {
-			custom_effect_tooltip = SWE_infantry_supremacy_tt				
-			hidden_effect = {			
+			custom_effect_tooltip = SWE_infantry_supremacy_tt
+			hidden_effect = {
 				set_technology = {
 					tech_vasavian_org = 1
 				}
-				add_ideas = SWE_vasavian_reform1				
+				add_ideas = SWE_vasavian_reform1
 			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_land_for_space
-		cost = 70		
+		cost = 70
 		x = 23
 		y = 6
 		prerequisite = {
@@ -1139,9 +1275,9 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_the_peoples_war	
+		icon = GFX_goal_SWE_the_peoples_war
 		completion_reward = {
-			custom_effect_tooltip = SWE_land_for_space_tt		
+			custom_effect_tooltip = SWE_land_for_space_tt
 			swap_ideas = {
 				add_idea = SWE_vasavian_reform2
 				remove_idea = SWE_vasavian_reform1
@@ -1152,7 +1288,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_everyone_together
-		cost = 70		
+		cost = 70
 		x = 23
 		y = 7
 		prerequisite = {
@@ -1161,18 +1297,18 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_negotiate_regiments		
+		icon = GFX_goal_SWE_negotiate_regiments
 		completion_reward = {
 			swap_ideas = {
 				add_idea = SWE_vasavian_reform3
 				remove_idea = SWE_vasavian_reform2
 			}
 		}
-	}	
+	}
 
 	focus = {
 		id = SWE_carolean_heritage
-		cost = 70		
+		cost = 70
 		x = 29
 		y = 4
 		prerequisite = {
@@ -1182,15 +1318,15 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_SWE_charles_xi
-		mutually_exclusive = { focus = SWE_lessons_of_vasa focus = SWE_legacy_gustavus_adolphus focus =  SWE_von_dobeln_bequest }		
+		mutually_exclusive = { focus = SWE_lessons_of_vasa focus = SWE_legacy_gustavus_adolphus focus =  SWE_von_dobeln_bequest }
 		completion_reward = {
 			custom_effect_tooltip = SWE_carolean_heritage_tt
 		}
 	}
-	
+
 	focus = {
 		id = SWE_cavalry_supremacy
-		cost = 70		
+		cost = 70
 		x = 29
 		y = 5
 		prerequisite = {
@@ -1199,21 +1335,21 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_cavalry_supremacy		
+		icon = GFX_goal_SWE_cavalry_supremacy
 		completion_reward = {
-			custom_effect_tooltip = SWE_cavalry_supremacy_tt				
-			hidden_effect = {			
+			custom_effect_tooltip = SWE_cavalry_supremacy_tt
+			hidden_effect = {
 				set_technology = {
 					tech_carolean_cav = 1
 				}
-				add_ideas = SWE_carolean_reform				
-			}		
+				add_ideas = SWE_carolean_reform
+			}
 		}
 	}
 
 	focus = {
 		id = SWE_ga_pa
-		cost = 70		
+		cost = 70
 		x = 29
 		y = 6
 		prerequisite = {
@@ -1222,24 +1358,24 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_ga_pa		
-		completion_reward = {	
-			custom_effect_tooltip = SWE_ga_pa_tt				
-			hidden_effect = {			
+		icon = GFX_goal_SWE_ga_pa
+		completion_reward = {
+			custom_effect_tooltip = SWE_ga_pa_tt
+			hidden_effect = {
 				set_technology = {
 					tech_carolean_speed = 1
 				}
 				swap_ideas = {
+				    remove_idea = SWE_carolean_reform
 					add_idea = SWE_carolean_reform2
-					remove_idea = SWE_carolean_reform
-				}			
-			}		
+				}
+			}
 		}
 	}
 
 	focus = {
 		id = SWE_shock_tactics
-		cost = 70		
+		cost = 70
 		x = 29
 		y = 7
 		prerequisite = {
@@ -1248,20 +1384,20 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_shock_tactics		
+		icon = GFX_goal_SWE_shock_tactics
 		completion_reward = {
 			custom_effect_tooltip = SWE_shock_tactics_tt
-			hidden_effect = {		
+			hidden_effect = {
 				set_technology = {
 			  	  tech_carolean_shock = 1
 				}
-			}			
+			}
 		}
-	}	
+	}
 
 	focus = {
 		id = SWE_von_dobeln_bequest
-		cost = 70		
+		cost = 70
 		x = 31
 		y = 4
 		prerequisite = {
@@ -1271,7 +1407,7 @@ focus_tree = {
 			factor = 1
 		}
 		icon = GFX_goal_SWE_dobeln
-		mutually_exclusive = { focus = SWE_carolean_heritage focus = SWE_legacy_gustavus_adolphus focus = SWE_lessons_of_vasa }		
+		mutually_exclusive = { focus = SWE_carolean_heritage focus = SWE_legacy_gustavus_adolphus focus = SWE_lessons_of_vasa }
 		completion_reward = {
 			custom_effect_tooltip = SWE_von_dobeln_bequest_tt
 		}
@@ -1279,7 +1415,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_supremacy_of_will
-		cost = 70		
+		cost = 70
 		x = 31
 		y = 5
 		prerequisite = {
@@ -1288,7 +1424,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_supremacy_of_will	
+		icon = GFX_goal_SWE_supremacy_of_will
 		completion_reward = {
 			add_ideas = SWE_dobeln_reform1
 		}
@@ -1296,7 +1432,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_honour_duty_will
-		cost = 70		
+		cost = 70
 		x = 31
 		y = 6
 		prerequisite = {
@@ -1305,7 +1441,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_ara_skyldighet_vilja		
+		icon = GFX_goal_SWE_ara_skyldighet_vilja
 		completion_reward = {
 			swap_ideas = {
 				add_idea = SWE_dobeln_reform2
@@ -1316,7 +1452,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_flexible_strategy
-		cost = 70		
+		cost = 70
 		x = 31
 		y = 7
 		prerequisite = {
@@ -1325,7 +1461,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_flexible_strategy		
+		icon = GFX_goal_SWE_flexible_strategy
 		completion_reward = {
 			swap_ideas = {
 				add_idea = SWE_dobeln_reform3
@@ -1336,7 +1472,7 @@ focus_tree = {
 
 	focus = {
 		id = SWE_reform_officers
-		cost = 70		
+		cost = 70
 		x = 28
 		y = 8
 		prerequisite = {
@@ -1348,37 +1484,34 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		icon = GFX_goal_SWE_officer_reform		
+		icon = GFX_goal_SWE_officer_reform
 		completion_reward = {
 			add_war_support = -0.1
 		}
 	}
-	
+
 	focus = {
 		id = SWE_army_reform
-		cost = 112		
+		cost = 112
 		x = 36
 		y = 9
 		prerequisite = {
 			focus = SWE_reform_officers
 			focus = SWE_foreign_advisers
-			focus = SWE_mariner
-			focus = SWE_SAC
-			focus = SWE_develop_colonies
 		}
 		ai_will_do = {
 			factor = 40
 		}
 		available = {
 			custom_trigger_tooltip = {
-			tooltip = SWE_reform_army_tt		
+			tooltip = SWE_reform_army_tt
 				OR = {
 					has_idea = five_percent
 					has_idea = ten_percent
 				}
-			}		
-		
-		}		
+			}
+
+		}
 		icon = GFX_goal_SWE_sweden_army_reform		
 		completion_reward = {
 			if = {
@@ -1393,9 +1526,12 @@ focus_tree = {
 				limit = { has_idea = SWE_Inept_Army_2 }
 				remove_ideas = SWE_Inept_Army_2
 			}
-			add_ideas = SWE_reformed_army
-		}
-	}
+			    add_timed_idea = {
+				idea = SWE_reformed_army
+				days = 210
+				}
+		    }
+	    }
 
 	focus = {
 		id = SWE_lifeguard
@@ -1407,7 +1543,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		completion_reward = {		
+		completion_reward = {
 			custom_effect_tooltip = SWE_create_unit_lifeguard_tt
 			hidden_effect = {
 			create_corps_commander = {
@@ -1423,7 +1559,7 @@ focus_tree = {
 			division_template = {
 				name = "Livgardet till Fot"
 				is_locked = yes
-				priority = 2				
+				priority = 2
 				division_names_group = SWE_MEC_01
 				regiments = {
 					line_infantry = { x = 0 y = 0}
@@ -1435,18 +1571,18 @@ focus_tree = {
 					line_infantry = { x = 2 y = 0}
 					line_infantry = { x = 2 y = 1}
 					line_infantry = { x = 2 y = 2}
-					line_infantry = { x = 3 y = 0}				
+					line_infantry = { x = 3 y = 0}
 				}
 				support = {
 					cannon_artillery_support = { x = 0 y = 0 }
 					engineer = { x = 0 y = 1 }
-					recon = { x = 0 y = 2 }																								
-				}  				
+					recon = { x = 0 y = 2 }
+				}
 			}
 			division_template = {
 				name = "Livgardet till Häst"
 				is_locked = yes
-				priority = 2				
+				priority = 2
 				division_names_group = SWE_MEC_01
 				regiments = {
 					light_cavalry = { x = 0 y = 0}
@@ -1457,37 +1593,37 @@ focus_tree = {
 					light_cavalry = { x = 1 y = 2}
 					light_cavalry = { x = 2 y = 0}
 					light_cavalry = { x = 2 y = 1}
-					light_cavalry = { x = 2 y = 2}	
-					light_cavalry = { x = 3 y = 0}				
+					light_cavalry = { x = 2 y = 2}
+					light_cavalry = { x = 3 y = 0}
 				}
 				support = {
 					cannon_artillery_support = { x = 0 y = 0 }
-					engineer = { x = 0 y = 1 }		
-					recon  = { x = 0 y = 2 }																	
-				}  				
-			}			
+					engineer = { x = 0 y = 1 }
+					recon  = { x = 0 y = 2 }
+				}
+			}
 
 		random_owned_controlled_state = {
 			prioritize = { 141 }
-			create_unit = { 
-				division = "name = \"Svea Livgarde\" division_template = \"Livgardet till Fot\" start_experience_factor = 1.0" 
+			create_unit = {
+				division = "name = \"Svea Livgarde\" division_template = \"Livgardet till Fot\" start_experience_factor = 1.0"
 				owner = SWE
 				}
-			create_unit = { 
-				division = "name = \"Livregementets Husarer\" division_template = \"Livgardet till Häst\" start_experience_factor = 1.0" 
+			create_unit = {
+				division = "name = \"Livregementets Husarer\" division_template = \"Livgardet till Häst\" start_experience_factor = 1.0"
 				owner = SWE
 				}
-				
+
 		}
 			}
 		}
-	}	
+	}
 
-	
+
 
 	focus = {
 		id = SWE_naval_focus
-		
+
 		x = 41
 		y = 2
 		prerequisite = { focus = SWE_army }
@@ -1496,48 +1632,13 @@ focus_tree = {
 		}
 		icon = GFX_goal_generic_navy_doctrines_tactics
 		cost = 70
-		mutually_exclusive={
-			focus = SWE_land_focus
-		}
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.5 uses = 1 category = naval_doctrine
+				bonus = 0.25 uses = 1 category = naval_doctrine
 			}
 		}
 	}
 
-	focus = {
-		id = SWE_industrialise
-		x = 13
-		y = 7
-		cost = 140
-		icon = GFX_focus_generic_industry_3
-		prerequisite = {
-			focus = SWE_nor_scientests focus = SWE_ocean_fleet focus = SWE_baltic_fleet focus = SWE_swe_men
-		}
-		ai_will_do {
-			factor = 1
-		}
-		available = {
-			OR = {
-				AND = {
-					has_idea = agrarian
-					has_idea = SWE_Johan_August_Gripenstedt
-					num_of_factories > 25
-				}
-				AND = {
-					has_idea = agrarian
-					num_of_factories > 35
-				}	
-			}		
-		}
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = agrarian			
-				add_idea = industrializing
-			}
-		}
-	}
 
 	focus = {
 		id = SWE_colonial_ambition
@@ -1554,7 +1655,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.75 uses = 1 category = naval_equipment
+				bonus = 0.25 uses = 1 category = naval_equipment
 			}
 		}
 	}
@@ -1572,7 +1673,7 @@ focus_tree = {
 		icon = GFX_goal_generic_navy_cruiser
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.75 uses = 1 category = naval_doctrine
+				bonus = 0.25 uses = 1 category = naval_doctrine
 			}
 		}
 	}
@@ -1590,25 +1691,25 @@ focus_tree = {
 		}
 	}
 
-	focus = {
-		id = SWE_develop_colonies
-		x = 43
-		y = 8
-		icon = GFX_focus_ITA_Industry
-		ai_will_do = {
-			factor = 0.6
-		}
-		mutually_exclusive = { focus = SWE_SAC }
-		prerequisite = {
-			focus = SWE_keep_one_port focus = SWE_expand_inland
-		}
-		cost = 70
-		completion_reward = {
-			871 = { add_extra_state_shared_building_slots = 2 }
-			871 = { add_building_construction = { type = infrastructure level = 2 instant_build = yes } }
-			add_manpower = -100
-		}
-	}
+	#focus = {
+	#	id = SWE_develop_colonies
+	#	x = 43
+	#	y = 8
+	#	icon = GFX_focus_ITA_Industry
+	#	ai_will_do = {
+	#		factor = 0.6
+	#	}
+	#	mutually_exclusive = { focus = SWE_SAC }
+	#	prerequisite = {
+	#		focus = SWE_keep_one_port focus = SWE_expand_inland
+	#	}
+	#	cost = 70
+	#	completion_reward = {
+	#		871 = { add_extra_state_shared_building_slots = 1 }
+	#		871 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
+	#		add_manpower = -100
+	#	}
+	#}
 
 
 	focus = {
@@ -1622,7 +1723,8 @@ focus_tree = {
 			factor = 1
 		}
 		completion_reward = {
-			navy_experience = 15
+			navy_experience = 20
+			add_war_support = 0.05
 		}
 	}
 
@@ -1638,7 +1740,7 @@ focus_tree = {
 		prerequisite = { focus = SWE_reform_navy }
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.25 uses = 1 category = naval_equipment
+				bonus = 0.5 uses = 1 category = naval_equipment
 			}
 		}
 	}
@@ -1655,7 +1757,7 @@ focus_tree = {
 		icon = GFX_goal_generic_navy_doctrines_tactics
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 0.25 uses = 1 category = naval_doctrine
+				bonus = 0.25 uses = 2 category = naval_doctrine
 			}
 		}
 	}
@@ -1671,8 +1773,8 @@ focus_tree = {
 		}
 		icon = GFX_goal_generic_navy_cruiser
 		completion_reward = {
-			124 = { add_extra_state_shared_building_slots = 2 }
-			124 = { add_building_construction = { type = naval_base level = 2 instant_build = yes province = 408 } }
+			124 = { add_extra_state_shared_building_slots = 1 }
+			124 = { add_building_construction = { type = naval_base level = 1 instant_build = yes province = 408 } }
             add_manpower = -100
 		}
 	}
@@ -1686,17 +1788,17 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		
+
 		available = {
 			NOT = {
 				building_total_bonus_present_dock = yes
 			}
 		}
-		
+
 		icon = GFX_goal_generic_construct_naval_dockyard
 		completion_reward = {
-			custom_effect_tooltip = SWE_new_docks_tt		
-			hidden_effect = {		
+			custom_effect_tooltip = SWE_new_docks_tt
+			hidden_effect = {
 				SWE = {
 					set_variable = { dock_total = 0 }
 					every_owned_state = {
@@ -1706,21 +1808,19 @@ focus_tree = {
 						add_to_variable = { ROOT.dock_total = building_level@dockyard }
 					}
 					set_variable = { dock_total_bonus = dock_total }
-					add_to_variable = { dock_total_bonus = 6 }
-					
+					add_to_variable = { dock_total_bonus = 4 }
+
 					add_ideas = SWE_twentyfive_dock_bonus
 				}
-				
-				139 = { add_extra_state_shared_building_slots = 1 }	
-				141 = { add_extra_state_shared_building_slots = 1 }	
-				138 = { add_extra_state_shared_building_slots = 1 }	
-				140 = { add_extra_state_shared_building_slots = 1 }	
-				38 = { add_extra_state_shared_building_slots = 1 }	
-				666 = { add_extra_state_shared_building_slots = 1 }					
+
+				139 = { add_extra_state_shared_building_slots = 1 }
+				141 = { add_extra_state_shared_building_slots = 1 }
+				138 = { add_extra_state_shared_building_slots = 1 }
+				140 = { add_extra_state_shared_building_slots = 1 }
 			}
 		}
 	}
-	
+
 		focus = {
 			id = SWE_focus_on_home_fleet
 			x = 39
@@ -1731,11 +1831,15 @@ focus_tree = {
 			mutually_exclusive = { focus = SWE_colonial_ambition }
 			cost = 70
 			ai_will_do = {
-				factor = 1
+				factor = 2
+				modifier={
+					is_historical_focus_on = yes
+					add = 100
+				}
 			}
 			icon = GFX_goal_focus_mass_produce_ships
 			completion_reward = {
-				navy_experience = 25
+				navy_experience = 30
 			}
 		}
 
@@ -1761,13 +1865,21 @@ focus_tree = {
 			cost = 70
 			ai_will_do = { factor = 40 }
 			icon = GFX_goal_generic_construct_naval_dockyard
+			bypass = {
+			    NOT = {
+				owns_state = 1328
+				}
+			}
+
+					available = {
+			owns_state = 1328
+		    }
 			completion_reward = {
-				141 = { add_extra_state_shared_building_slots = 1 }
-				141 = { add_building_construction = { type = naval_base level = 1 instant_build = yes province = 6050 } }
-                add_manpower = -50
+				1328 = { add_extra_state_shared_building_slots = 1 }
+				1328 = { add_building_construction = { type = naval_base level = 1 instant_build = yes province = 13882 } }
 			}
 		}
-		
+
 		focus = {
 			id = SWE_mariner
 			x = 39
@@ -1784,7 +1896,7 @@ focus_tree = {
 					uses = 1
 					technology = tech_infantry_marines_1
 					technology = tech_infantry_marines_2
-					technology = tech_infantry_marines_3					
+					technology = tech_infantry_marines_3
 				}
 			}
 		}
@@ -1799,103 +1911,206 @@ focus_tree = {
 			icon = GFX_goal_SWE_mariner
 			available = {
 				date > 1890.1.1
-			}			
+			}
 			completion_reward = {
 				custom_effect_tooltip = SWE_research_unit_kustgard_tt
 				set_technology = { tech_kustjagare = 1 }
 			}
-		}		
-
-		focus = {
-			id = SWE_lagos_port
-			x = 43
-			y = 5
-			prerequisite = { focus = SWE_colonial_ambition }
-			icon = GFX_goal_generic_construct_naval_dockyard			
-			ai_will_do = {
-				factor = 1
-			}
-			cost = 140
-			completion_reward = {							
-				SWE = {
-					transfer_state = 871
-				}
-				add_timed_idea = { idea = SWE_Colonial_Purchases days = 365 }				
-			}
 		}
 
-		focus = {
-			id = SWE_expand_inland
-			x = 41
-			y = 6
-			prerequisite = { focus = SWE_lagos_port }
-			mutually_exclusive = { focus = SWE_keep_one_port }
-			icon = GFX_goal_generic_position_armies			
-			cost = 70
-			ai_will_do = {
-				factor = 0.5
-			}
-			completion_reward = {
-				SWE = {
-					transfer_state = 874
-					transfer_state = 558
-				}
-				add_timed_idea = { idea = SWE_Colonial_Purchases2 days = 365 }			
-		    }
-	    }
+		#focus = {
+		#	id = SWE_lagos_port
+		#	x = 43
+		#	y = 5
+		#	prerequisite = { focus = SWE_colonial_ambition }
+		#	icon = GFX_goal_generic_construct_naval_dockyard
+		#	ai_will_do = {
+		#		factor = 1
+		#	}
+		#	cost = 140
+		#	completion_reward = {
+		#		SWE = {
+		#			transfer_state = 871
+		#		}
+		#		add_timed_idea = { idea = SWE_Colonial_Purchases days = 365 }
+		#	}
+		#}
+
+		#focus = {
+		#	id = SWE_expand_inland
+		#	x = 41
+		#	y = 6
+		#	prerequisite = { focus = SWE_lagos_port }
+		#	mutually_exclusive = { focus = SWE_keep_one_port }
+		#	icon = GFX_goal_generic_position_armies
+		#	cost = 70
+		#	ai_will_do = {
+		#		factor = 0.5
+		#	}
+		#	completion_reward = {
+		#		SWE = {
+		#			transfer_state = 874
+		#		}
+		#		add_timed_idea = { idea = SWE_Colonial_Purchases2 days = 365 }
+        #        add_manpower = -200
+		#    }
+	    #}
+
+		#focus = {
+		#	id = SWE_keep_one_port
+		#	prerequisite = {
+		#		focus = SWE_lagos_port
+		#	}
+		#	icon = GFX_goal_generic_build_navy
+		#	x = 43
+		#	y = 6
+		#	cost = 70
+		#	ai_will_do = { factor = 0.5 }
+		#	mutually_exclusive = { focus = SWE_expand_inland }
+		#	completion_reward = {
+		#		871 = { add_extra_state_shared_building_slots = 1 }
+		#		871 = { add_building_construction = { type = industrial_complex level = 1 instant_build = yes } }
+		#		add_manpower = -200
+		#	}
+		#}
 
 		focus = {
-			id = SWE_keep_one_port
+			id = SWE_negotiate_with_african_kingdoms
+			relative_position_id = SWE_colonial_ambition
+			x = 0
+			y = 1
+			cost = 140
+			ai_will_do = { factor = 0.4 }
 			prerequisite = {
-				focus = SWE_lagos_port
+				focus = SWE_colonial_ambition
 			}
-			icon = GFX_goal_generic_build_navy	
-			x = 43
-			y = 6
-			cost = 70
-			ai_will_do = { factor = 0.5 }
-			mutually_exclusive = { focus = SWE_expand_inland }
+			icon = GFX_goal_generic_intelligence_exchange
 			completion_reward = {
-				871 = { add_extra_state_shared_building_slots = 1 }
-				871 = { add_building_construction = { type = industrial_complex level = 1 instant_build = yes } }
-				add_manpower = -100
+				every_country = {
+					limit = {
+						OR = {
+							owns_state = 871
+							owns_state = 874
+							owns_state = 558
+							owns_state = 796
+							owns_state = 798
+							owns_state = 800
+						}
+					}
+					country_event = { id = SWE_negotiate_with_african_kingdoms_event.1 }
+					custom_effect_tooltip = afr_colonial_effect_tooltip
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				}
+				set_country_flag = SWE_negotiation_with_afr_kingdom_started_flag
 			}
 		}
 
 		focus = {
 			id = SWE_SAC
-			x = 41
-			y = 8
+			relative_position_id = SWE_negotiate_with_african_kingdoms
+			x = 0
+			y = 1
 			cost = 140
-			ai_will_do = { factor = 0.4 }
-			mutually_exclusive = { focus = SWE_develop_colonies }
-			prerequisite = {
-				focus = SWE_keep_one_port focus = SWE_expand_inland
+			ai_will_do = { factor = 1 }
+			available = {
+				custom_trigger_tooltip = {
+					tooltip = SWE_colonial_purchases_payed_off_tooltip
+					NOT = { has_idea = SWE_Colonial_Purchases }
+				}
+				custom_trigger_tooltip = {
+					tooltip = SWE_negotiation_with_afr_kingdom_success
+					has_country_flag = SWE_negotiation_with_afr_kingdom_started_flag
+					any_country = { has_country_flag = SWE_negotiation_with_afr_kingdom_success_flag }
+				}
 			}
-			icon = GFX_goal_SWE_sveriges_flagga				
+			mutually_exclusive = { focus = SWE_SAC_failed }
+			prerequisite = { focus = SWE_negotiate_with_african_kingdoms }
+			icon = GFX_goal_SWE_sveriges_flagga
 			completion_reward = {
+				add_timed_idea = { idea = SWE_Colonial_Purchases2 days = 365 }
 				if = {
-					limit = {
-							SWE = {
-									has_completed_focus = SWE_keep_one_port
-							}
-					}
-					SAC = {
-							transfer_state = 871
+					limit = { any_country = { has_country_flag = SWE_negotiation_with_afr_kingdom_success_flag } }
+					every_country = {
+						limit = {
+							has_country_flag = SWE_negotiation_with_afr_kingdom_success_flag
+						}
+						country_event = { id = SWE_swedish_african_company_establish_branch.1 }
 					}
 				}
 				else = {
-						SAC = {
-								transfer_state = 871
-								transfer_state = 558
-								transfer_state = 874
-						}
+					custom_effect_tooltip = SWE_SAC_investments_tooltip
 				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				custom_effect_tooltip = AFR_Racial_Tension_plus_3
 			}
 		}
 
+		focus = {
+			id = SWE_SAC_failed
+			relative_position_id = SWE_negotiate_with_african_kingdoms
+			x = -2
+			y = 1
+			cost = 140
+			ai_will_do = { factor = 1 }
+			available = {
+				custom_trigger_tooltip = {
+					tooltip = SWE_negotiation_with_afr_kingdom_fail
+					has_country_flag = SWE_negotiation_with_afr_kingdom_started_flag
+					NOT = { any_country = { has_country_flag = SWE_negotiation_with_afr_kingdom_success_flag } }
+				}
+			}
+			mutually_exclusive = { focus = SWE_SAC }
+			prerequisite = { focus = SWE_negotiate_with_african_kingdoms }
+			icon = GFX_focus_Usurp_Throne
+			completion_reward = {
+				custom_effect_tooltip = SWE_focus_branch_not_finished_tooltip
+			}
+		}
+
+	#focus = {
+	#	id = SWE_develop_colony
+	#	x = 42
+	#	y = 9
+	#	icon = GFX_goal_generic_production2
+	#	prerequisite = { focus = SWE_develop_colonies focus = SWE_SAC }
+	#	cost = 70
+	#	ai_will_do = {
+	#		factor = 1
+	#	}
+	#	available = {
+	#		owns_state = 1328
+	#	}
+	#	completion_reward = {
+	#		1328 = { add_extra_state_shared_building_slots = 1 }
+	#		1328 = { add_building_construction = { type = farm level = 1 instant_build = yes } }
+	#		add_political_power = -100
+	#		add_manpower = -100
+	#	}
+	#}
+
+	#focus = {
+	#	id = SWE_develop_colony_inf
+	#	x = 42
+	#	y = 10
+	#	icon = GFX_goal_generic_construct_infrastructure
+	#	prerequisite = { focus = SWE_develop_colony }
+	#	cost = 70
+	#	ai_will_do = {
+	#		factor = 1
+	#	}
+	#	available = {
+	#		owns_state = 1328
+	#	}
+	#	completion_reward = {
+	#		1328 = { add_extra_state_shared_building_slots = 2 }
+	#		1328 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
+	#		add_political_power = -100
+	#		add_manpower = -100
+	#	}
+	#}
+
 	#Conservative Tree
-	
+
 	focus = {
 		id = SWE_traditionalism
 		x = 53
@@ -1903,23 +2118,21 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_traditionalism
-		mutually_exclusive = { focus = SWE_liberalism }		
+		mutually_exclusive = { focus = SWE_liberalism }
 		completion_reward = {
 			add_political_power = 10
-			hidden_effect = {			
-				add_ideas = SWE_liberal_opposition			
-			}	
+			add_ideas = SWE_liberal_opposition
 		}
 	}
-	
+
 	focus = {
 		id = SWE_Secure_Vote_CON
 		x = 53
 		y = 2
 		cost = 70
 		ai_will_do = { factor = 40 }
-		icon = GFX_goal_SWE_secure_vote		
-		prerequisite = { focus = SWE_traditionalism }		
+		icon = GFX_goal_SWE_secure_vote
+		prerequisite = { focus = SWE_traditionalism }
 		completion_reward = {
 			add_political_power = 25
 			add_stability = -0.025
@@ -1932,47 +2145,47 @@ focus_tree = {
 		y = 3
 		cost = 70
 		ai_will_do = { factor = 40 }
-		icon = GFX_goal_SWE_magnates_support		
-		prerequisite = { focus = SWE_Secure_Vote_CON }		
+		icon = GFX_goal_SWE_magnates_support
+		prerequisite = { focus = SWE_Secure_Vote_CON }
 		completion_reward = {
-	      add_popularity = { 
+	      add_popularity = {
 			ideology = traditional_conservatism
 			popularity = 0.07
-	      }	
+	      }
 		add_timed_idea = {idea = SWE_Bribe_CON days = 140}
 		}
-	}	
-	
+	}
+
 	focus = {
 		id = SWE_Fearmonger_CON
 		x = 53
 		y = 3
 		cost = 70
 		ai_will_do = { factor = 40 }
-		icon = GFX_goal_SWE_fearmonger_economy		
-		prerequisite = { focus = SWE_Secure_Vote_CON }		
+		icon = GFX_goal_SWE_fearmonger_economy
+		prerequisite = { focus = SWE_Secure_Vote_CON }
 		completion_reward = {
-	      add_popularity = { 
+	      add_popularity = {
 			ideology = traditional_conservatism
 			popularity = 0.07
-	      }	
+	      }
 		add_timed_idea = {idea = strikes_1 days = 140}
 		}
 	}
 
 	focus = {
 		id = SWE_Manipulation_CON
-		x = 55
+		x = 55	
 		y = 3
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_manipulate_the_poor
-		prerequisite = { focus = SWE_Secure_Vote_CON }		
+		prerequisite = { focus = SWE_Secure_Vote_CON }
 		completion_reward = {
-			add_popularity = { 
+			add_popularity = {
 				ideology = traditional_conservatism
 				popularity = 0.07
-		    }	
+		    }
 			add_timed_idea = {
 				idea = SWE_spoiled days = 140
 			}
@@ -1982,7 +2195,7 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_Endorsement_CON
 		x = 49
@@ -1990,15 +2203,15 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_paramilitary_endorsement
-		prerequisite = { focus = SWE_Secure_Vote_CON }		
+		prerequisite = { focus = SWE_Secure_Vote_CON }
 		completion_reward = {
-	      add_popularity = { 
+	      add_popularity = {
 			ideology = traditional_conservatism
 			popularity = 0.07
-	      }	
+	      }
 		add_timed_idea = {idea = SWE_Crime days = 140}
 		}
-	}	
+	}
 
 	focus = {
 		id = SWE_Slander_CON
@@ -2007,15 +2220,15 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_slander_opposition
-		prerequisite = { focus = SWE_Secure_Vote_CON }		
+		prerequisite = { focus = SWE_Secure_Vote_CON }
 		completion_reward = {
-	      add_popularity = { 
+	      add_popularity = {
 			ideology = traditional_conservatism
 			popularity = 0.07
-	      }	
+	      }
 		add_timed_idea = {idea = SWE_Paranoia days = 140}
 		}
-	}	
+	}
 
 	focus = {
 		id = SWE_polls_CON
@@ -2024,7 +2237,7 @@ focus_tree = {
 		cost = 70
 		available = {
 			traditional_conservatism > 0.6
-		}		
+		}
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_capture_parliament
 		prerequisite = { focus = SWE_Slander_CON }
@@ -2036,8 +2249,8 @@ focus_tree = {
 			hidden_effect = {
 				remove_ideas = SWE_liberal_opposition
 			}
-			set_politics = { 
-				ruling_party = traditional_conservatism 
+			set_politics = {
+				ruling_party = traditional_conservatism
 			}
 		}
 	}
@@ -2049,8 +2262,9 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_new_government
-		prerequisite = { focus = SWE_polls_CON }		
+		prerequisite = { focus = SWE_polls_CON }
 		completion_reward = {
+		    decrease_ps_by_one = yes
 			add_ideas = SWE_Fresh_Gov_Con
 			add_ideas = SWE_Campaign_Promises
 		}
@@ -2064,10 +2278,10 @@ focus_tree = {
 		cost = 210
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_secure_state
-		prerequisite = { focus = SWE_new_government_CON }		
+		prerequisite = { focus = SWE_new_government_CON }
 		completion_reward = {
 		remove_ideas = SWE_Fresh_Gov_Con
-		add_political_power = 150		
+		add_political_power = 150
 		}
 	}
 
@@ -2078,19 +2292,19 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_purge_liberals
-		mutually_exclusive = { focus = SWE_Compromise_liberals_CON }			
-		prerequisite = { focus = SWE_new_government_CON }		
+		mutually_exclusive = { focus = SWE_Compromise_liberals_CON }
+		prerequisite = { focus = SWE_new_government_CON }
 		completion_reward = {
 			swap_ideas = {
 			add_idea = SWE_Toxic_Politics_2
 			remove_idea = SWE_Toxic_Politics
-				}			
-			hidden_effect = {			
-				remove_ideas = SWE_liberal_opposition			
-			}				
+				}
+			hidden_effect = {
+				remove_ideas = SWE_liberal_opposition
+			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_Compromise_liberals_CON
 		x = 54
@@ -2098,19 +2312,19 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_compromise_liberals
-		mutually_exclusive = { focus = SWE_purge_liberals_CON }		
-		prerequisite = { focus = SWE_new_government_CON }		
+		mutually_exclusive = { focus = SWE_purge_liberals_CON }
+		prerequisite = { focus = SWE_new_government_CON }
 		completion_reward = {
 			swap_ideas = {
 			add_idea = SWE_Toxic_Politics_2
 			remove_idea = SWE_Toxic_Politics
-			}			
-			hidden_effect = {			
-				remove_ideas = SWE_liberal_opposition			
+			}
+			hidden_effect = {
+				remove_ideas = SWE_liberal_opposition
 			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_Cronyism_CON
 		x = 52
@@ -2118,7 +2332,7 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_cronyism
-		prerequisite = { focus = SWE_purge_liberals_CON }		
+		prerequisite = { focus = SWE_purge_liberals_CON }
 		completion_reward = {
 		add_timed_idea = {
 		    idea = SWE_Cronyistic_Cabinet
@@ -2134,209 +2348,272 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_meritocratic
-		prerequisite = { focus = SWE_Compromise_liberals_CON }		
+		prerequisite = { focus = SWE_Compromise_liberals_CON }
 		completion_reward = {
 		add_timed_idea = {
 		    idea = SWE_Meritocratic_Cabinet
 		    days = 1460
 			}
 		}
-	}	
+	}
 
 	focus = {
 		id = SWE_Legislative_CON
 		x = 53
 		y = 9
 		cost = 105
-		ai_will_do = { factor = 40 }	
+		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_legislative_agenda
-		prerequisite = { focus = SWE_Meritocracy_CON focus = SWE_Cronyism_CON }		
+		prerequisite = { focus = SWE_Meritocracy_CON focus = SWE_Cronyism_CON }
 		completion_reward = {
-			add_political_power = 75		
-		}	
+			add_political_power = 75
+		}
 	}
-	
+
 	focus = {
 		id = SWE_Social_CON
-		x = 53
+		x = 51
 		y = 11
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_social_issues
-		prerequisite = { focus = SWE_Legislative_CON }	
+		prerequisite = { focus = SWE_Legislative_CON }
 		completion_reward = {
-			add_political_power = 10		
+			add_political_power = 150
 		}
 	}
-	
+
 	focus = {
-		id = SWE_no_voting_poor_CON 
-		x = 51
+		id = SWE_no_voting_poor_CON
+		x = 49
 		y = 12
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_arrest_suffragetes
-		prerequisite = { focus = SWE_Social_CON }	
+		prerequisite = { focus = SWE_Social_CON }
 		completion_reward = {
-			add_timed_idea = {idea = SWE_idea_no_voting_poor days = 1460}		
+		    decrease_ps_by_one = yes
+			add_timed_idea = {idea = SWE_idea_no_voting_poor days = 365}
 		}
 	}
 
 	focus = {
 		id = SWE_no_voting_women_CON
-		x = 55
-		y = 12
-		cost = 70
-		ai_will_do = { factor = 40 }
-		icon = GFX_goal_SWE_oppress_poor
-		prerequisite = { focus = SWE_Social_CON }	
-		completion_reward = {
-			add_timed_idea = {idea = SWE_idea_no_voting_women days = 1460}		
-		}
-	}
-	
-	focus = {
-		id = SWE_no_pensions_for_veterans_CON
 		x = 53
 		y = 12
 		cost = 70
 		ai_will_do = { factor = 40 }
-		icon = GFX_goal_SWE_no_pensions_veterans
-		prerequisite = { focus = SWE_Social_CON }	
+		icon = GFX_goal_SWE_oppress_poor
+		prerequisite = { focus = SWE_Social_CON }
 		completion_reward = {
-			add_timed_idea = {idea = SWE_idea_no_pensions_veterans days = 1460}		
+		    decrease_ps_by_one = yes
+			add_timed_idea = {idea = SWE_idea_no_voting_women days = 365}
+		}
+	}
+
+	focus = {
+		id = SWE_no_pensions_for_veterans_CON
+		x = 51
+		y = 12
+		cost = 70
+		ai_will_do = { factor = 40 }
+		icon = GFX_goal_SWE_no_pensions_veterans
+		prerequisite = { focus = SWE_Social_CON }
+		completion_reward = {
+		    decrease_ps_by_one = yes
+			add_timed_idea = {idea = SWE_idea_no_pensions_veterans days = 365}
 		}
 	}
 
 	focus = {
 		id = SWE_why_does_everyone_hate_us_CON
-		x = 53
+		x = 51
 		y = 13
 		cost = 105
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_continuous_restrict_freedom
 		prerequisite = { focus = SWE_no_pensions_for_veterans_CON }
 		prerequisite = { focus = SWE_no_voting_women_CON }
-		prerequisite = { focus = SWE_no_voting_poor_CON  }		
+		prerequisite = { focus = SWE_no_voting_poor_CON  }
 		completion_reward = {
-			remove_ideas = SWE_Campaign_Promises			
+		    increase_ps_by_one = yes
+			remove_ideas = SWE_Campaign_Promises
 		}
-	}	
-	
+	}
+
 	focus = {
 		id = SWE_Economy_CON
-		x = 48
+		x = 46
 		y = 10
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_focus_banks
-		prerequisite = { focus = SWE_Legislative_CON }	
+		prerequisite = { focus = SWE_Legislative_CON }
 		completion_reward = {
-			add_political_power = 10		
+			add_political_power = 100
 		}
 	}
-	
+
 	focus = {
 		id = SWE_kill_gripenstedt_CON
-		x = 49
+		x = 47
 		y = 11
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_kill_gripenstedt
 		prerequisite = { focus = SWE_Economy_CON }
-		mutually_exclusive = { focus = SWE_reconcile_gripenstedt_CON }		
+		mutually_exclusive = { focus = SWE_reconcile_gripenstedt_CON }
 		completion_reward = {
 			add_political_power = 150
 			custom_effect_tooltip = remove_political_advisor
 			show_ideas_tooltip = SWE_Johan_August_Gripenstedt
 			set_country_flag = purged_gripenstedt
-			hidden_effect = {			
-				remove_ideas = SWE_Johan_August_Gripenstedt			
+			hidden_effect = {
+				remove_ideas = SWE_Johan_August_Gripenstedt
 			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_reconcile_gripenstedt_CON
-		x = 47
+		x = 45
 		y = 11
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_reconcile_gripenstedt
 		prerequisite = { focus = SWE_Economy_CON }
-		mutually_exclusive = { focus = SWE_kill_gripenstedt_CON }		
+		mutually_exclusive = { focus = SWE_kill_gripenstedt_CON }
 		completion_reward = {
 			add_political_power = -150
-			add_popularity = { 
+			add_popularity = {
 	    	  ideology = centrism
 	    	  popularity = 0.07
-	    	}				
-			add_ideas = SWE_Johan_August_Gripenstedt			
+	    	}
+			add_ideas = SWE_Johan_August_Gripenstedt
 		}
 	}
 
 	focus = {
 		id = SWE_accept_capitalism_CON
-		x = 47
+		x = 45
 		y = 12
 		cost = 140
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_accept_capitalism
-		prerequisite = { focus = SWE_reconcile_gripenstedt_CON }		
+		prerequisite = { focus = SWE_reconcile_gripenstedt_CON }
 		completion_reward = {
 			add_political_power = -150
-			add_popularity = { 
+			add_popularity = {
 	    	  ideology = centrism
 	    	  popularity = 0.07
-	    	}		
+	    	}
 			custom_effect_tooltip = SWE_accept_capitalism_tt
 		}
 	}
-	
+
 	focus = {
 		id = SWE_subsidise_new_industries_CON
-		x = 47
+		x = 45
 		y = 13
 		#Cost was 40
 		cost = 280
-		ai_will_do = { factor = 40 }	
+		ai_will_do = { factor = 40 }
 		icon = GFX_focus_generic_the_giant_wakes
-		prerequisite = { focus = SWE_accept_capitalism_CON }		
+		prerequisite = { focus = SWE_accept_capitalism_CON }
 		completion_reward = {
-			add_political_power = -150			
+			add_political_power = -150
 			add_timed_idea = { idea = SWE_gripenstedt_in_charge days = 7300 }
 		}
-	}	
+	}
 
 	focus = {
 		id = SWE_agricultural_economy_CON
-		x = 49
+		x = 47
 		y = 12
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_agricultural_economy
-		prerequisite = { focus = SWE_kill_gripenstedt_CON }		
+		prerequisite = { focus = SWE_kill_gripenstedt_CON }
 		completion_reward = {
 			add_political_power = 150
 			add_timed_idea = { idea = SWE_I_Hate_Capitalism days = 7300 }
 		}
 	}
 	
-	#Liberal Tree
+	focus = {
+		id = SWE_give_up_our_claims
+		x = 54
+		y = 10
+		cost = 70
+		ai_will_do = { factor = 40 }
+		icon = GFX_goal_SWE_compromise_liberals
+		prerequisite = { focus = SWE_Legislative_CON }
+		mutually_exclusive = { focus = SWE_prepere_to_take_land_back }
+		completion_reward = {
+		increase_ps_by_one = yes
+			add_political_power = 150
+			add_stability = 0.05
+			remove_state_claim = 148
+			remove_state_claim = 149
+			remove_state_claim = 150
+			remove_state_claim = 111
+			remove_state_claim = 146
+		}
+	}
 	
+	focus = {
+		id = SWE_prepere_to_take_land_back
+		x = 56
+		y = 10
+		cost = 70
+		ai_will_do = { factor = 15 }
+		icon = GFX_goal_SWE_paramilitary_endorsement
+		prerequisite = { focus = SWE_Legislative_CON }
+		mutually_exclusive = { focus = SWE_give_up_our_claims }
+		completion_reward = {
+		decrease_ps_by_one = yes
+		    add_timed_idea = { idea = SWE_prepere_the_army days = 730 }
+			add_political_power = -50
+			add_war_support = 0.1
+		}
+	}
+	
+	focus = {
+		id = SWE_for_sverige
+		x = 56
+		y = 11
+		cost = 70
+		ai_will_do = { factor = 15 }
+		icon = GFX_goal_SWE_call_the_army
+		prerequisite = { focus = SWE_prepere_to_take_land_back }
+		available = {
+		has_army_manpower = { size > 99999 }
+		}
+		completion_reward = {
+		    add_timed_idea = { idea = SWE_the_swedish_rage days = 183 }
+			add_political_power = -50
+			add_war_support = 0.05
+			create_wargoal = {
+ 				type = take_state_focus
+ 				target = FIN
+ 				expire = 0
+		}
+	}
+}
+
+	#Liberal Tree
+
 	focus = {
 		id = SWE_liberalism
 		x = 62
 		y = 1
 		cost = 70
-		ai_will_do = { factor = 40 }
-		icon = GFX_goal_SWE_liberalisation	
-		mutually_exclusive = { focus = SWE_traditionalism }		
+		ai_will_do = { factor = 80 }
+		icon = GFX_goal_SWE_liberalisation
+		mutually_exclusive = { focus = SWE_traditionalism }
 		completion_reward = {
 			add_political_power = -10
-			hidden_effect = {			
-				add_ideas = SWE_conservative_opposition			
-			}			
+			add_ideas = SWE_conservative_opposition
 		}
 	}
 
@@ -2347,9 +2624,9 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_unity
-		prerequisite = { focus = SWE_liberalism }		
+		prerequisite = { focus = SWE_liberalism }
 		completion_reward = {
-			add_stability = 0.025
+			add_stability = 0.05
 			add_political_power = -25
 		}
 	}
@@ -2362,9 +2639,9 @@ focus_tree = {
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_ally_with_left
 		prerequisite = { focus = SWE_unite_the_left }
-		mutually_exclusive = { focus = SWE_disawow_leftists }			
+		mutually_exclusive = { focus = SWE_disawow_leftists }
 		completion_reward = {
-			add_political_power = -50	
+			add_political_power = -50
 	    	add_popularity = {
 				ideology = centrism
 				popularity = 0.07
@@ -2377,7 +2654,7 @@ focus_tree = {
 					var = liberal_support
 					value = 1
 					tooltip = liberal_support.plus.1
-				}			
+				}
 		}
 	}
 
@@ -2389,17 +2666,17 @@ focus_tree = {
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_disawow_left
 		prerequisite = { focus = SWE_unite_the_left }
-		mutually_exclusive = { focus = SWE_ally_leftists }			
+		mutually_exclusive = { focus = SWE_ally_leftists }
 		completion_reward = {
-			add_political_power = 150		
+			add_political_power = 150
 				add_to_variable = {
 					var = conservative_support
 					value = 1
 					tooltip = conservative_support.plus.1
-			}			
+			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_question_of_leadership
 		x = 62
@@ -2407,7 +2684,7 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_we_need_a_leader
-		prerequisite = { focus = SWE_disawow_leftists focus = SWE_ally_leftists }		
+		prerequisite = { focus = SWE_disawow_leftists focus = SWE_ally_leftists }
 		completion_reward = {
 			custom_effect_tooltip = SWE_gain_political_stability_one
 			add_stability = 0.05
@@ -2416,7 +2693,7 @@ focus_tree = {
 			#	increase_ps_by_one = yes
 			#}
 		}
-	}	
+	}
 
 	focus = {
 		id = SWE_leadership1
@@ -2427,7 +2704,7 @@ focus_tree = {
 		icon = GFX_goal_SWE_gunther
 		prerequisite = { focus = SWE_disawow_leftists }
 		prerequisite = { focus = SWE_question_of_leadership }
-		mutually_exclusive = { focus = SWE_leadership2 focus = SWE_leadership3 }		
+		mutually_exclusive = { focus = SWE_leadership2 focus = SWE_leadership3 }
 		completion_reward = {
 			add_political_power = 150
 			create_country_leader = {
@@ -2443,7 +2720,7 @@ focus_tree = {
 					var = conservative_support
 					value = 2
 					tooltip = conservative_support.plus.2
-			}			
+			}
 		}
 	}
 
@@ -2455,8 +2732,8 @@ focus_tree = {
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_de_geer
 		prerequisite = { focus = SWE_ally_leftists }
-		prerequisite = { focus = SWE_question_of_leadership }		
-		mutually_exclusive = { focus = SWE_leadership1 focus = SWE_leadership3 }		
+		prerequisite = { focus = SWE_question_of_leadership }
+		mutually_exclusive = { focus = SWE_leadership1 focus = SWE_leadership3 }
 		completion_reward = {
 			add_political_power = -75
 			create_country_leader = {
@@ -2472,7 +2749,7 @@ focus_tree = {
 					var = liberal_support
 					value = 2
 					tooltip = liberal_support.plus.2
-			}			
+			}
 		}
 	}
 
@@ -2484,8 +2761,8 @@ focus_tree = {
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_gripenstedt
 		prerequisite = { focus = SWE_ally_leftists focus = SWE_disawow_leftists }
-		prerequisite = { focus = SWE_question_of_leadership }		
-		mutually_exclusive = { focus = SWE_leadership1 focus = SWE_leadership2 }		
+		prerequisite = { focus = SWE_question_of_leadership }
+		mutually_exclusive = { focus = SWE_leadership1 focus = SWE_leadership2 }
 		completion_reward = {
 			create_country_leader = {
 				name = "Johan August Gripenstedt"
@@ -2495,10 +2772,10 @@ focus_tree = {
 				ideology = market_liberal
 				traits = {
 				}
-			}				
+			}
 		}
 	}
-	
+
 	focus = {
 		id = SWE_centrism_lib
 		x = 60
@@ -2506,17 +2783,17 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_focus_support_conservatism
-		prerequisite = { focus = SWE_leadership1 }			
+		prerequisite = { focus = SWE_leadership1 }
 		completion_reward = {
-			set_country_flag = liberal_centrism		
+			set_country_flag = liberal_centrism
 			add_stability = -0.075
 			add_popularity = {
 				ideology = centrism
 				popularity = 0.075
 			}
-		}	
+		}
 	}
-	
+
 	focus = {
 		id = SWE_capitalism_lib
 		x = 62
@@ -2524,17 +2801,17 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_focus_support_liberalism
-		prerequisite = { focus = SWE_leadership3 }			
+		prerequisite = { focus = SWE_leadership3 }
 		completion_reward = {
-			set_country_flag = liberal_capitalism	
+			set_country_flag = liberal_capitalism
 			add_stability = -0.05
 			add_popularity = {
 				ideology = centrism
 				popularity = 0.05
 			}
-		}	
+		}
 	}
-	
+
 	focus = {
 		id = SWE_social_lib
 		x = 64
@@ -2542,17 +2819,17 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_focus_support_social_egalitarianism
-		prerequisite = { focus = SWE_leadership2 }			
+		prerequisite = { focus = SWE_leadership2 }
 		completion_reward = {
-			set_country_flag = social_democracy		
+			set_country_flag = social_democracy
 			add_stability = -0.025
 			add_popularity = {
 				ideology = centrism
 				popularity = 0.025
 			}
-		}	
+		}
 	}
-	
+
 	focus = {
 		id = SWE_rally_the_people
 		x = 62
@@ -2560,34 +2837,34 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_focus_generic_support_the_left_right
-		prerequisite = { focus = SWE_centrism_lib focus = SWE_capitalism_lib focus = SWE_social_lib }			
+		prerequisite = { focus = SWE_centrism_lib focus = SWE_capitalism_lib focus = SWE_social_lib }
 		completion_reward = {
-			set_country_flag = liberal_centrism		
+			set_country_flag = liberal_centrism
 			decrease_ps_by_one = yes
 			add_political_power = -50
 			add_popularity = {
 				ideology = traditional_conservatism
 				popularity = -0.05
 			}
-		}	
+		}
 	}
-	
+
 	focus = {
 		id = SWE_appeal_to_moderates
-		x = 61	
+		x = 61
 		y = 8
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_tripartite_pact
 		prerequisite = { focus = SWE_centrism_lib focus = SWE_capitalism_lib focus = SWE_social_lib }
-		mutually_exclusive = { focus = SWE_appeal_to_workers }		
+		mutually_exclusive = { focus = SWE_appeal_to_workers }
 		completion_reward = {
 				add_to_variable = {
 					var = conservative_support
 					value = 2
 					tooltip = conservative_support.plus.2
-				}			
-		}	
+				}
+		}
 	}
 
 	focus = {
@@ -2598,15 +2875,15 @@ focus_tree = {
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_economic_control
 		prerequisite = { focus = SWE_centrism_lib focus = SWE_capitalism_lib focus = SWE_social_lib }
-		mutually_exclusive = { focus = SWE_appeal_to_moderates }		
+		mutually_exclusive = { focus = SWE_appeal_to_moderates }
 		completion_reward = {
 				add_to_variable = {
 					var = liberal_support
 					value = 2
 					tooltip = liberal_support.plus.2
-				}		
-		}	
-	}	
+				}
+		}
+	}
 
 	focus = {
 		id = SWE_start_campaign
@@ -2616,10 +2893,10 @@ focus_tree = {
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_generic_demand_territory
 		prerequisite = { focus = SWE_appeal_to_workers focus = SWE_appeal_to_moderates }
-		prerequisite = { focus = SWE_rally_the_people }		
+		prerequisite = { focus = SWE_rally_the_people }
 		completion_reward = {
-			add_ideas = SWE_Election_Campaign	
-		}	
+			add_ideas = SWE_Election_Campaign
+		}
 	}
 
 	focus = {
@@ -2629,9 +2906,9 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_universal_education
-		prerequisite = { focus = SWE_appeal_to_workers focus = SWE_appeal_to_moderates }			
+		prerequisite = { focus = SWE_appeal_to_workers focus = SWE_appeal_to_moderates }
 		completion_reward = {
-			add_popularity = { 
+			add_popularity = {
 	    	  ideology = centrism
 	    	  popularity = 0.07
 	    	}
@@ -2640,9 +2917,9 @@ focus_tree = {
 			add_to_variable = {
 				var = liberal_support
 				value = 1
-				tooltip = liberal_support.plus.1				
-			}			
-		}	
+				tooltip = liberal_support.plus.1
+			}
+		}
 	}
 
 	focus = {
@@ -2652,9 +2929,9 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_generic_national_unity
-		prerequisite = { focus = SWE_appeal_to_moderates }			
+		prerequisite = { focus = SWE_appeal_to_moderates }
 		completion_reward = {
-			add_popularity = { 
+			add_popularity = {
 	    	  ideology = centrism
 	    	  popularity = -0.03
 	    	}
@@ -2662,9 +2939,9 @@ focus_tree = {
 			add_to_variable = {
 				var = conservative_support
 				value = 3
-				tooltip = conservative_support.plus.3			
-			}			
-		}	
+				tooltip = conservative_support.plus.3
+			}
+		}
 	}
 
 	focus = {
@@ -2674,20 +2951,20 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_liberty
-		prerequisite = { focus = SWE_appeal_to_workers focus = SWE_appeal_to_moderates }			
+		prerequisite = { focus = SWE_appeal_to_workers focus = SWE_appeal_to_moderates }
 		completion_reward = {
-			add_popularity = { 
+			add_popularity = {
 	    	  ideology = centrism
 	    	  popularity = 0.07
 	    	}
-			add_stability = -0.02	
+			add_stability = -0.02
 			set_country_flag = SWE_guarantee_suffrage_women_LIB
 			add_to_variable = {
 				var = liberal_support
 				value = 1
-				tooltip = liberal_support.plus.1				
-			}			
-		}	
+				tooltip = liberal_support.plus.1
+			}
+		}
 	}
 
 	focus = {
@@ -2697,19 +2974,19 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_focus_generic_military_academy
-		prerequisite = { focus = SWE_appeal_to_workers }			
+		prerequisite = { focus = SWE_appeal_to_workers }
 		completion_reward = {
-			add_popularity = { 
+			add_popularity = {
 	    	  ideology = centrism
 	    	  popularity = 0.07
 	    	}
-			add_stability = -0.02	
+			add_stability = -0.02
 			add_to_variable = {
 				var = liberal_support
 				value = 1
-				tooltip = liberal_support.plus.1				
-			}			
-		}	
+				tooltip = liberal_support.plus.1
+			}
+		}
 	}
 
 	focus = {
@@ -2719,10 +2996,10 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_focus_elections
-		prerequisite = { focus = SWE_start_campaign }			
+		prerequisite = { focus = SWE_start_campaign }
 		completion_reward = {
 			custom_effect_tooltip = SWE_LIB_election_tt
-			
+
 			hidden_effect = {
 				remove_ideas = SWE_Election_Campaign
 				remove_ideas = SWE_conservative_opposition
@@ -2730,14 +3007,14 @@ focus_tree = {
 					limit = {
 						centrism > traditional_conservatism
 					}
-					SWE = {				
-						country_event = { 
+					SWE = {
+						country_event = {
 							id = eoanb_sweden.9
 						}
 					}
 					else = {
 						SWE = {
-							country_event = { 
+							country_event = {
 								id = eoanb_sweden.10
 							}
 						}
@@ -2752,7 +3029,7 @@ focus_tree = {
 				print_global = yes
 				var_list = { centrism_popularity traditionalism_popularity} #optional
 			}
-		}	
+		}
 	}
 
 	focus = {
@@ -2762,15 +3039,15 @@ focus_tree = {
 		cost = 14
 		available = {
 			has_country_flag = swe_won_election
-		}		
+		}
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_victory
 		prerequisite = { focus = SWE_polls_LIB }
-		mutually_exclusive = { focus = SWE_Defeat_LIB }		
+		mutually_exclusive = { focus = SWE_Defeat_LIB }
 		completion_reward = {
-			custom_effect_tooltip = SWE_won_election_tt		
+			custom_effect_tooltip = SWE_won_election_tt
 			add_political_power = 50
-		}	
+		}
 	}
 
 	focus = {
@@ -2780,29 +3057,30 @@ focus_tree = {
 		cost = 14
 		available = {
 			has_country_flag = swe_lost_election
-		}		
+		}
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_failure
 		prerequisite = { focus = SWE_polls_LIB }
-		mutually_exclusive = { focus = SWE_Victory_LIB }		
+		mutually_exclusive = { focus = SWE_Victory_LIB }
 		completion_reward = {
-			custom_effect_tooltip = SWE_lost_election_tt			
-		}	
+			custom_effect_tooltip = SWE_lost_election_tt
+			decrease_ps_by_one = yes
+		}
 	}
-	
+
 	focus = {
 		id = SWE_Become_Radical_LIB
 		x = 70
 		y = 13
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_revolution_tools
-		prerequisite = { focus = SWE_Defeat_LIB }		
+		prerequisite = { focus = SWE_Defeat_LIB }
 		completion_reward = {
 			add_popularity = {
 				ideology = centrism
 				popularity = -0.35
-				}				
+				}
 			add_popularity = {
 				ideology = social_egalitarianism
 				popularity = 0.35
@@ -2810,21 +3088,21 @@ focus_tree = {
 			add_to_variable = {
 				var = conservative_support
 				value = -5
-				tooltip = conservative_support.minus.5			
-			}			
-		}	
+				tooltip = conservative_support.minus.5
+			}
+		}
 	}
 
 	focus = {
 		id = SWE_Bremer_LIB
 		x = 68
 		y = 14
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_bremer
 		prerequisite = { focus = SWE_Become_Radical_LIB }
-		mutually_exclusive = { focus = SWE_Hamilton_LIB }		
-		completion_reward = {	
+		mutually_exclusive = { focus = SWE_Hamilton_LIB }
+		completion_reward = {
 			create_country_leader = {
 				name = "Fredrika Bremer"
 				desc = "POLITICS_TEMP_DESC"
@@ -2833,21 +3111,21 @@ focus_tree = {
 				ideology = liberal_social
 				traits = {
 					eoanb_trait_patriotic_orator
-				}			
-			}	
-		}	
+				}
+			}
+		}
 	}
 
 	focus = {
 		id = SWE_Hamilton_LIB
 		x = 72
 		y = 14
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_hamilton
 		prerequisite = { focus = SWE_Become_Radical_LIB }
-		mutually_exclusive = { focus = SWE_Bremer_LIB }		
-		completion_reward = {	
+		mutually_exclusive = { focus = SWE_Bremer_LIB }
+		completion_reward = {
 			create_country_leader = {
 				name = "Jakob Essen Hamilton"
 				desc = "POLITICS_TEMP_DESC"
@@ -2855,10 +3133,10 @@ focus_tree = {
 				expire = "1900.1.1"
 				ideology = liberal_social
 				traits = {
-					eoanb_trait_military_leader				
+					eoanb_trait_military_leader
 				}
-			}	
-		}	
+			}
+		}
 	}
 
 	###SWE_Integrate_women is missing
@@ -2866,130 +3144,130 @@ focus_tree = {
 		id = SWE_Integrate_women
 		x = 68
 		y = 15
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_focus_YUG_pan_slavic_congress
-		prerequisite = { focus = SWE_Bremer_LIB }	
+		prerequisite = { focus = SWE_Bremer_LIB }
 		completion_reward = {
 			add_timed_idea = {
-				idea = SWE_women_in_workforce	
+				idea = SWE_women_in_workforce
 				days = 720
 			}
-		}	
+		}
 	}
 
 	focus = {
 		id = SWE_Christian_Socialism
 		x = 68
 		y = 17
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_focus_revolutionary_council
-		prerequisite = { focus = SWE_Integrate_women }	
+		prerequisite = { focus = SWE_Integrate_women }
 		completion_reward = {
-			add_stability = 0.05		
-		}	
-	}	
+			add_stability = 0.05
+		}
+	}
 
 	focus = {
 		id = SWE_Strongman_Equality
 		x = 72
 		y = 15
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_call_the_army
-		prerequisite = { focus = SWE_Hamilton_LIB }	
+		prerequisite = { focus = SWE_Hamilton_LIB }
 		completion_reward = {
-			custom_effect_tooltip = SWE_create_unit_landstorm_tt		
+			custom_effect_tooltip = SWE_create_unit_landstorm_tt
 			add_stability = -0.15
-			add_ideas = SWE_Landstorms_Raised						
+			add_ideas = SWE_Landstorms_Raised
 			hidden_effect = {
 			division_template = {
 				name = "Landstorm"
-				priority = 0				
+				priority = 0
 				division_names_group = SWE_INF_01
 				regiments = {
 					light_infantry = { x = 0 y = 0}
-					light_infantry = { x = 0 y = 1}				
+					light_infantry = { x = 0 y = 1}
 				}
-				support = {														
-				}  				
-			}			
+				support = {
+				}
+			}
 
 		random_owned_controlled_state = {
-			create_unit = { 
-				division = "name = \"Stockholms Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+			create_unit = {
+				division = "name = \"Stockholms Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 				owner = SWE
 				}
-			create_unit = { 
-				division = "name = \"Västgötlands Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+			create_unit = {
+				division = "name = \"Västgötlands Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 				owner = SWE
 				}
-			create_unit = { 
-				division = "name = \"Skånes Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+			create_unit = {
+				division = "name = \"Skånes Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 				owner = SWE
 				}
-			create_unit = { 
-				division = "name = \"Norrlands Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
-				owner = SWE
-				}				
-			create_unit = { 
-				division = "name = \"Närkes Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+			create_unit = {
+				division = "name = \"Norrlands Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 				owner = SWE
 				}
-			create_unit = { 
-				division = "name = \"Östergötlands Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+			create_unit = {
+				division = "name = \"Närkes Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 				owner = SWE
 				}
-			create_unit = { 
-				division = "name = \"Smålands Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+			create_unit = {
+				division = "name = \"Östergötlands Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 				owner = SWE
-				}				
-				
 				}
-			}							
-		}	
+			create_unit = {
+				division = "name = \"Smålands Landstorm\" division_template = \"Landstorm\" start_experience_factor = 0.1"
+				owner = SWE
+				}
+
+				}
+			}
+		}
 	}
-	
+
 	focus = {
 		id = SWE_form_more_landstorm_units
 		x = 73
 		y = 16
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_focus_generic_strike_at_democracy1
-		prerequisite = { focus = SWE_Strongman_Equality }	
-		completion_reward = {	
+		prerequisite = { focus = SWE_Strongman_Equality }
+		completion_reward = {
 			custom_effect_tooltip = SWE_create_unit_landstorm2_tt
 			swap_ideas = {
 				add_idea = SWE_Landstorms_Raised2
 				remove_idea = SWE_Landstorms_Raised
-			}			
-			hidden_effect = {			
+			}
+			hidden_effect = {
 				random_owned_controlled_state = {
-					create_unit = { 
-						division = "name = \"Blekinges Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+					create_unit = {
+						division = "name = \"Blekinges Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 						owner = SWE
 						}
-					create_unit = { 
-						division = "name = \"Värmlands Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+					create_unit = {
+						division = "name = \"Värmlands Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 						owner = SWE
 						}
-					create_unit = { 
-						division = "name = \"Hallands Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+					create_unit = {
+						division = "name = \"Hallands Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 						owner = SWE
 						}
-					create_unit = { 
-						division = "name = \"Dalarnas Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+					create_unit = {
+						division = "name = \"Dalarnas Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 						owner = SWE
-						}				
-					create_unit = { 
-						division = "name = \"Härjedalens Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1" 
+						}
+					create_unit = {
+						division = "name = \"Härjedalens Landstormbrigad\" division_template = \"Landstorm\" start_experience_factor = 0.1"
 						owner = SWE
-						}								
+						}
 				}
-			}			
-		}	
+			}
+		}
 	}
 
 	focus = {
@@ -2997,14 +3275,14 @@ focus_tree = {
 		x = 71
 		y = 16
 		#Cost was 20
-		cost = 140	
+		cost = 140
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_negotiate_regiments
-		prerequisite = { focus = SWE_Strongman_Equality }	
+		prerequisite = { focus = SWE_Strongman_Equality }
 		completion_reward = {
 			custom_effect_tooltip = SWE_regimental_negotiation_tt
-			set_country_flag = negotiated_with_regiments		
-		}	
+			set_country_flag = negotiated_with_regiments
+		}
 	}
 
 	focus = {
@@ -3012,55 +3290,55 @@ focus_tree = {
 		x = 72
 		y = 17
 		#Cost was 12
-		cost = 84	
+		cost = 84
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_continuous_suppression
-		prerequisite = { focus = SWE_Strongman_Equality }	
+		prerequisite = { focus = SWE_Strongman_Equality }
 		completion_reward = {
-			#custom_effect_tooltip = SWE_march_on_stockholm_tt		
+			#custom_effect_tooltip = SWE_march_on_stockholm_tt
 			if = {
 				limit = {
 					has_army_manpower = {
     					size > 61000
 						}
 					}
-				country_event = {				
+				country_event = {
 					id = eoanb_sweden.10
-					random = 70					
+					random = 70
 					}
 				else = {
 					country_event = {
-						id = eoanb_sweden.11					
+						id = eoanb_sweden.11
 					}
-				}					
-			}		
-		}	
-	}	
+				}
+			}
+		}
+	}
 
 	focus = {
 		id = SWE_Reform_Time
 		x = 61
 		y = 13
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_legislative_agenda
-		prerequisite = { focus = SWE_Victory_LIB }	
+		prerequisite = { focus = SWE_Victory_LIB }
 		completion_reward = {
-			custom_effect_tooltip = SWE_Unlock_Reforms_tt			
-		}	
+			custom_effect_tooltip = SWE_Unlock_Reforms_tt
+		}
 	}
 
 	focus = {
 		id = SWE_kings_loyalty
 		x = 65
 		y = 14
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_kings_loyalty
-		prerequisite = { focus = SWE_Reform_Time }	
+		prerequisite = { focus = SWE_Reform_Time }
 		completion_reward = {
 			custom_effect_tooltip = SWE_kings_loyalty_tt
-			hidden_effect = {			
+			hidden_effect = {
 				if = {
 					limit = {
 						check_variable = {
@@ -3069,49 +3347,49 @@ focus_tree = {
 								compare = greater_than
 							}
 						}
-					country_event = {				
-						id = eoanb_sweden.31				
+					country_event = {
+						id = eoanb_sweden.31
 						}
 					else = {
 						country_event = {
-						id = eoanb_sweden.32					
+						id = eoanb_sweden.32
 						}
-					}	
-				}					
-			}			
-		}	
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
 		id = SWE_calm_everyone_down
 		x = 65
 		y = 15
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_generic_propaganda
 		prerequisite = { focus = SWE_kings_loyalty }
 		available = {
 			has_country_flag = swe_king_denounce
-		}		
+		}
 		completion_reward = {
-			add_political_power = 100			
-		}	
+			add_political_power = 100
+		}
 	}
 
 	focus = {
 		id = SWE_what_now
 		x = 65
 		y = 16
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_focus_rom_handle_king
-		prerequisite = { focus = SWE_calm_everyone_down }	
+		prerequisite = { focus = SWE_calm_everyone_down }
 		completion_reward = {
 		custom_effect_tooltip = SWE_what_now_tt
 			country_event = {
-				id = eoanb_sweden.33					
-			}			
-		}	
+				id = eoanb_sweden.33
+			}
+		}
 	}
 
 	focus = {
@@ -3119,13 +3397,13 @@ focus_tree = {
 		x = 65
 		y = 17
 		#Cost was 20
-		cost = 140	
+		cost = 140
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_coronation
-		prerequisite = { focus = SWE_what_now }	
+		prerequisite = { focus = SWE_what_now }
 		available = {
 			has_country_flag = swe_new_king
-		}		
+		}
 		completion_reward = {
 			### HOW IT WAS DESIGNED###
 			#if = {
@@ -3134,7 +3412,7 @@ focus_tree = {
 					#remove_idea = SWE_Oscar_I
 					##Invalid Idea
 					#add_idea = SWE_Louise_I
-				#}				
+				#}
 			#}
 			#else_if = {
 				#limit = { has_idea = SWE_Charles_XV }
@@ -3142,28 +3420,30 @@ focus_tree = {
 					#remove_idea = SWE_Charles_XV
 					##Invalid Idea
 					#add_idea = SWE_Louise_I
-				#}				
-			#}			
+				#}
+			#}
 			### MY POOR IMPLEMENTATION ###
+			custom_effect_tooltip = SWE_gain_political_stability_one
 			add_timed_idea = {
 				idea = SWE_Louise_I
 				days = 720
 			}
-		}	
-	}	
+		}
+	}
 
 	focus = {
 		id = SWE_Social_Reform
 		x = 62
 		y = 14
-		cost = 35	
+		cost = 35
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_focus_popularize
-		prerequisite = { focus = SWE_Reform_Time }	
+		prerequisite = { focus = SWE_Reform_Time }
 		completion_reward = {
-			#custom_effect_tooltip = SWE_social_reform_tt	
+			#custom_effect_tooltip = SWE_social_reform_tt
 			add_ideas = SWE_social_reform
-		}	
+			decrease_ps_by_one = yes
+		}
 	}
 
 	focus = {
@@ -3171,11 +3451,11 @@ focus_tree = {
 		x = 61
 		y = 15
 		#Cost was 20
-		cost = 140	
+		cost = 140
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_liberty
 		prerequisite = { focus = SWE_Social_Reform }
-		mutually_exclusive = { focus = SWE_Social_Reform_Full }		
+		mutually_exclusive = { focus = SWE_Social_Reform_Full }
 		completion_reward = {
 			custom_effect_tooltip = SWE_social_reform_half_tt
 			swap_ideas = {
@@ -3183,9 +3463,9 @@ focus_tree = {
 				add_idea = SWE_Social_Reform_Half
 			}
 			hidden_effect = {
-				add_ideas = universal_male_suffrage						
-			}				
-		}	
+				add_ideas = universal_male_suffrage
+			}
+		}
 	}
 
 	focus = {
@@ -3193,14 +3473,14 @@ focus_tree = {
 		x = 63
 		y = 15
 		#Cost was 20
-		cost = 140	
+		cost = 140
 		available = {
 			has_country_flag = SWE_guarantee_suffrage_women_LIB
-		}		
+		}
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_liberty
 		prerequisite = { focus = SWE_Social_Reform }
-		mutually_exclusive = { focus = SWE_Social_Reform_Half }		
+		mutually_exclusive = { focus = SWE_Social_Reform_Half }
 		completion_reward = {
 			custom_effect_tooltip = SWE_social_reform_full_tt
 			swap_ideas = {
@@ -3208,20 +3488,20 @@ focus_tree = {
 				add_idea = SWE_Social_Reform_Full
 			}
 			hidden_effect = {
-				add_ideas = universal_suffrage							
-			}					
-		}	
-	}	
-	
+				add_ideas = universal_suffrage
+			}
+		}
+	}
+
 	focus = {
 		id = SWE_Education_Reform
 		x = 59
 		y = 14
 		#Cost was 20
-		cost = 140	
+		cost = 140
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_brain
-		prerequisite = { focus = SWE_Reform_Time }	
+		prerequisite = { focus = SWE_Reform_Time }
 		completion_reward = {
 			custom_effect_tooltip = SWE_education_reform_tt
 			hidden_effect = {
@@ -3229,26 +3509,26 @@ focus_tree = {
 				limit = {
 					has_country_flag = election_promised_education
 					}
-				add_ideas = {				
-					SWE_education_reform_promise1					
+				add_ideas = {
+					SWE_education_reform_promise1
 					}
 				else = {
 					add_ideas = SWE_education_reform1
 					}
-				}					
-			}					
-		}	
+				}
+			}
+		}
 	}
-	
+
 	focus = {
 		id = SWE_Education_Reform2
 		x = 59
 		y = 15
 		#Cost was 20
-		cost = 140	
+		cost = 140
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_brain
-		prerequisite = { focus = SWE_Education_Reform }	
+		prerequisite = { focus = SWE_Education_Reform }
 		completion_reward = {
 			custom_effect_tooltip = SWE_education_reform2_tt
 			hidden_effect = {
@@ -3256,28 +3536,28 @@ focus_tree = {
 				limit = {
 					has_country_flag = election_promised_education
 					}
-				add_ideas = {				
-					SWE_education_reform_promise2					
+				add_ideas = {
+					SWE_education_reform_promise2
 					}
 				else = {
 					add_ideas = SWE_education_reform2
 					}
-				}					
-			}					
-		}	
-	}	
+				}
+			}
+		}
+	}
 
 	focus = {
 		id = SWE_economic_reform
 		x = 57
 		y = 14
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_focus_banks
-		prerequisite = { focus = SWE_Reform_Time }	
+		prerequisite = { focus = SWE_Reform_Time }
 		completion_reward = {
 			custom_effect_tooltip = SWE_equalise_economy_tt
-			hidden_effect = {			
+			hidden_effect = {
 				if = {
 					limit = {
 						check_variable = {
@@ -3286,25 +3566,25 @@ focus_tree = {
 								compare = greater_than
 							}
 						}
-					add_ideas = {				
-						SWE_workers_economy_1			
+					add_ideas = {
+						SWE_workers_economy_1
 						}
 					else = {
 						add_ideas = SWE_moderate_economy_1
-					}	
-				}					
-			}							
-		}	
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
 		id = SWE_economic_reform2
 		x = 57
 		y = 15
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_economic_reform
-		prerequisite = { focus = SWE_economic_reform }	
+		prerequisite = { focus = SWE_economic_reform }
 		completion_reward = {
 			custom_effect_tooltip = SWE_equalise_economy2_tt
 			hidden_effect = {
@@ -3316,29 +3596,29 @@ focus_tree = {
 								compare = greater_than
 							}
 						}
-					swap_ideas = {									
+					swap_ideas = {
 						add_idea = SWE_workers_economy_2
 						remove_idea = SWE_workers_economy_1
 						}
 					else = {
-						swap_ideas = {									
+						swap_ideas = {
 							add_idea = SWE_moderate_economy_2
 							remove_idea = SWE_moderate_economy_1
 						}
 					}
-				}	
-			}								
-		}	
+				}
+			}
+		}
 	}
 
 	focus = {
 		id = SWE_economic_reform3
 		x = 57
 		y = 16
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_economic_reform
-		prerequisite = { focus = SWE_economic_reform2 }	
+		prerequisite = { focus = SWE_economic_reform2 }
 		completion_reward = {
 			custom_effect_tooltip = SWE_equalise_economy3_tt
 			hidden_effect = {
@@ -3350,29 +3630,29 @@ focus_tree = {
 								compare = greater_than
 							}
 						}
-					swap_ideas = {									
+					swap_ideas = {
 						add_idea = SWE_workers_economy_3
 						remove_idea = SWE_workers_economy_2
 						}
 					else = {
-						swap_ideas = {									
+						swap_ideas = {
 							add_idea = SWE_moderate_economy_3
 							remove_idea = SWE_moderate_economy_2
 						}
 					}
-				}	
-			}					
-		}	
+				}
+			}
+		}
 	}
 
 	focus = {
 		id = SWE_economic_reform_final
 		x = 57
 		y = 17
-		cost = 70	
+		cost = 70
 		ai_will_do = { factor = 40 }
 		icon = GFX_goal_SWE_economic_reform
-		prerequisite = { focus = SWE_economic_reform3 }	
+		prerequisite = { focus = SWE_economic_reform3 }
 		completion_reward = {
 			custom_effect_tooltip = SWE_equalise_economy4_tt
 			hidden_effect = {
@@ -3384,32 +3664,32 @@ focus_tree = {
 								compare = greater_than
 							}
 						}
-					swap_ideas = {									
+					swap_ideas = {
 						add_idea = SWE_workers_economy_4
 						remove_idea = SWE_workers_economy_3
 						}
 					else = {
-						swap_ideas = {									
+						swap_ideas = {
 							add_idea = SWE_moderate_economy_4
 							remove_idea = SWE_moderate_economy_3
 						}
 					}
-				}	
+				}
 			}
-		}					
+		}
 	}
 
 	# Aland
-	
+
 	#focus = {
 	#	id = SWE_aland_question
 	#	x = 84
 	#	y = 5
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_more_territorial_claims	
-	#	prerequisite = { focus = SWE_monarchism_coup }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_more_territorial_claims
+	#	prerequisite = { focus = SWE_monarchism_coup }
+	#	completion_reward = {
 	#	}
 	#}
 
@@ -3418,36 +3698,36 @@ focus_tree = {
 	#	x = 81
 	#	y = 6
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_military_sphere	
-	#	mutually_exclusive = { focus = SWE_diplomatic_appeal }		
-	#	prerequisite = { focus = SWE_aland_question }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_military_sphere
+	#	mutually_exclusive = { focus = SWE_diplomatic_appeal }
+	#	prerequisite = { focus = SWE_aland_question }
+	#	completion_reward = {
 	#	}
 	#}
-	
+
 	#focus = {
 	#	id = SWE_prepare_the_army
 	#	x = 74
 	#	y = 7
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_army_doctrines		
-	#	prerequisite = { focus = SWE_prepare_invasion }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_army_doctrines
+	#	prerequisite = { focus = SWE_prepare_invasion }
+	#	completion_reward = {
 	#	}
 	#}
-	
+
 	#focus = {
 	#	id = SWE_drill_amphibious
 	#	x = 73
 	#	y = 8
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_amphibious_assault		
-	#	prerequisite = { focus = SWE_prepare_the_army }		
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_amphibious_assault
+	#	prerequisite = { focus = SWE_prepare_the_army }
 	#	completion_reward = {
-	#		custom_effect_tooltip = SWE_drill_amphibious_tt	
+	#		custom_effect_tooltip = SWE_drill_amphibious_tt
 	#		add_equipment_to_stockpile = {
 	#			type = infantry_equipment
 	#			amount = -1000
@@ -3461,59 +3741,59 @@ focus_tree = {
 	#	x = 75
 	#	y = 8
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_small_arms		
-	#	prerequisite = { focus = SWE_prepare_the_army }		
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_small_arms
+	#	prerequisite = { focus = SWE_prepare_the_army }
 	#	completion_reward = {
-	#		add_timed_idea = { idea = SWE_mobilise_the_troops days = 182 }		
+	#		add_timed_idea = { idea = SWE_mobilise_the_troops days = 182 }
 	#	}
-	#}	
-	
+	#}
+
 	#focus = {
 	#	id = SWE_prepare_the_people
 	#	x = 79
 	#	y = 7
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_demand_territory			
-	#	prerequisite = { focus = SWE_prepare_invasion }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_demand_territory
+	#	prerequisite = { focus = SWE_prepare_invasion }
+	#	completion_reward = {
 	#	}
 	#}
-	
+
 	#focus = {
 	#	id = SWE_spread_propaganda
 	#	x = 78
 	#	y = 8
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_SWE_slander_opposition			
-	#	prerequisite = { focus = SWE_prepare_the_people }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_SWE_slander_opposition
+	#	prerequisite = { focus = SWE_prepare_the_people }
+	#	completion_reward = {
 	#	}
-	#}	
+	#}
 
 	#focus = {
 	#	id = SWE_false_flag
 	#	x = 80
 	#	y = 8
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_secret_weapon			
-	#	prerequisite = { focus = SWE_prepare_the_people }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_secret_weapon
+	#	prerequisite = { focus = SWE_prepare_the_people }
+	#	completion_reward = {
 	#	}
 	#}
-	
+
 	#focus = {
 	#	id = SWE_prepare_the_navy
 	#	x = 84
 	#	y = 7
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_occupy_states_coastal			
-	#	prerequisite = { focus = SWE_prepare_invasion }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_occupy_states_coastal
+	#	prerequisite = { focus = SWE_prepare_invasion }
+	#	completion_reward = {
 	#	}
 	#}
 
@@ -3522,22 +3802,22 @@ focus_tree = {
 	#	x = 83
 	#	y = 8
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_navy_battleship			
-	#	prerequisite = { focus = SWE_prepare_the_navy }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_navy_battleship
+	#	prerequisite = { focus = SWE_prepare_the_navy }
+	#	completion_reward = {
 	#	}
-	#}	
+	#}
 
 	#focus = {
 	#	id = SWE_train_admirals
 	#	x = 85
 	#	y = 8
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_navy_doctrines_tactics			
-	#	prerequisite = { focus = SWE_prepare_the_navy }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_navy_doctrines_tactics
+	#	prerequisite = { focus = SWE_prepare_the_navy }
+	#	completion_reward = {
 	#	}
 	#}
 
@@ -3546,14 +3826,14 @@ focus_tree = {
 	#	x = 79
 	#	y = 9
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_territory_or_war			
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_territory_or_war
 	#	prerequisite = { focus = SWE_drill_amphibious }
-	#	prerequisite = { focus = SWE_mobilise_the_troops }	
-	#	prerequisite = { focus = SWE_spread_propaganda }	
-	#	prerequisite = { focus = SWE_false_flag }	
-	#	prerequisite = { focus = SWE_host_mock_battles }	
-	#	prerequisite = { focus = SWE_train_admirals }			
+	#	prerequisite = { focus = SWE_mobilise_the_troops }
+	#	prerequisite = { focus = SWE_spread_propaganda }
+	#	prerequisite = { focus = SWE_false_flag }
+	#	prerequisite = { focus = SWE_host_mock_battles }
+	#	prerequisite = { focus = SWE_train_admirals }
 	#	completion_reward = {
 	#		start_border_war = {
 	#			change_state_after_war = no
@@ -3571,22 +3851,22 @@ focus_tree = {
 	#				on_lose = eoanb_sweden.36
 	#				on_cancel = eoanb_sweden.38
 	#			}
-	#		}		
+	#		}
 	#	}
-	#}	
-	
+	#}
+
 
 	#focus = {
 	#	id = SWE_diplomatic_appeal
 	#	x = 87
 	#	y = 6
 	#	cost = 70
-	#	ai_will_do = { factor = 40 }		
-	#	icon = GFX_goal_generic_improve_relations		
-	#	mutually_exclusive = { focus = SWE_prepare_invasion }		
-	#	prerequisite = { focus = SWE_aland_question }		
-	#	completion_reward = {						
+	#	ai_will_do = { factor = 40 }
+	#	icon = GFX_goal_generic_improve_relations
+	#	mutually_exclusive = { focus = SWE_prepare_invasion }
+	#	prerequisite = { focus = SWE_aland_question }
+	#	completion_reward = {
 	#	}
-	#}		
-	
+	#}
+
 }

@@ -1,3 +1,130 @@
+
+afr_regional_power_address_tribal_military_scripted_effect = {
+	custom_effect_tooltip = afr_regional_power_address_tribal_military_scripted_effect_tooltip
+	hidden_effect = {
+		######################
+		### Field Marshals ###
+		######################
+		# Old Guard Marshals #
+		######################
+		random_list = {
+			50 = {
+				create_field_marshal = {
+					name = "Khethukuthula"
+					picture = "generic_leader_king_2.dds"
+					traits = { old_guard offensive_doctrine }
+					skill = 4
+					attack_skill = 4
+					defense_skill = 2
+					planning_skill = 1
+					logistics_skill = 1
+				}
+			}
+			50 = {
+				create_field_marshal = {
+					name = "Uyathanda"
+					picture = "generic_leader_king_3.dds"
+					traits = { old_guard defensive_doctrine }
+					skill = 4
+					attack_skill = 2
+					defense_skill = 4
+					planning_skill = 1
+					logistics_skill = 1
+				}
+			}
+		}
+		#######################
+		## Reformed Marshals ##
+		#######################
+		random_list = {
+			50 = {
+				create_field_marshal = {
+					name = "Zishwezi"
+					picture = ""
+					traits = { career_officer expert_delegator }
+					skill = 2
+					attack_skill = 1
+					defense_skill = 1
+					planning_skill = 2
+					logistics_skill = 3
+				}
+			}
+			50 = {
+				create_field_marshal = {
+					name = "Sizwe"
+					picture = ""
+					traits = { career_officer expert_delegator }
+					skill = 2
+					attack_skill = 1
+					defense_skill = 1
+					planning_skill = 3
+					logistics_skill = 2
+				}
+			}
+		}
+		###################
+		# Corps Commander #
+		###################
+		# Old Guard Corps #
+		###################
+		random_list = {
+			50 = {
+				create_corps_commander = {
+					name = "Izula"
+					picture = "generic_leader_king_4.dds"
+					traits = { old_guard jungle_rat adaptable }
+					skill = 4
+					attack_skill = 4
+					defense_skill = 2
+					planning_skill = 1
+					logistics_skill = 1
+				}
+			}
+			50 = {
+				create_corps_commander = {
+					name = "Nqobizitha"
+					picture = "generic_leader_tribe_3.dds"
+					traits = { old_guard jungle_rat adaptable }
+					skill = 4
+					attack_skill = 2
+					defense_skill = 4
+					planning_skill = 1
+					logistics_skill = 1
+				}
+			}
+		}
+		##################
+		# Reformed Corps #
+		##################
+		random_list = {
+			50 = {
+				create_corps_commander = {
+					name = "Mlungisi"
+					picture = ""
+					traits = { career_officer trait_engineer skilled_staffer }
+					skill = 2
+					attack_skill = 1
+					defense_skill = 1
+					planning_skill = 4
+					logistics_skill = 2
+				}
+			}
+			50 = {
+				create_corps_commander = {
+					name = "Bhekisisa"
+					picture = ""
+					traits = { career_officer trait_engineer skilled_staffer }
+					skill = 2
+					attack_skill = 1
+					defense_skill = 1
+					planning_skill = 2
+					logistics_skill = 4
+				}
+			}
+		}
+	}
+}
+			
 afr_berlin_confernce_voting_pick_tooltips = {
 	if = {
 			limit = {
@@ -210,7 +337,7 @@ afr_send_event_to_voting_nations = {
 		if={
 			limit = {
 				NOT = {has_country_flag = berlin_conferance_voter}
-				NOT = {PIE = {has_cosmetic_tag = ITA}}
+				NOT = {PIE = {has_cosmetic_tag = PIE_focus_ITA}}
 				exists = yes
 			}
 			country_event = { id = EDC_berlin_con.6 hours = 20 }
@@ -237,528 +364,615 @@ afr_ber_vote_on_slavery = {
 	}
 }
 afr_ber_check_votes = {
-	set_variable = {GER.highest_conferance_vote = 0}
+	GER = { set_variable = {highest_conferance_vote = 0}
 	for_each_scope_loop = {
-		array = GER.berlin_conferance_voters
+		array = berlin_conferance_voters
 		if ={
 			limit ={
-				check_variable = {GER.conferance_vote_@THIS > GER.highest_conferance_vote}
+				check_variable = {conferance_vote_@PREV > highest_conferance_vote}
 			}
-			set_variable = {GER.highest_conferance_vote = GER.conferance_vote_@THIS}
-			THIS = {save_global_event_target_as=afr_ber_reigion_winner}
+			set_variable = {highest_conferance_vote = conferance_vote_@PREV}
+			PREV = {save_global_event_target_as=afr_ber_reigion_winner}
 		}
-	}
+	} }
 }
 afr_ber_prepare_vote_vars = {
-	for_each_scope_loop = {
-		array = GER.berlin_conferance_voters
-		set_variable = {GER.conferance_vote_@THIS = 0}
-	}
+	GER = { for_each_scope_loop = {
+		array = berlin_conferance_voters
+		set_variable = {conferance_vote_@PREV = 0}
+	} }
 }
 afr_ber_clr_vote_vars={
-	for_each_scope_loop = {
-		array = GER.berlin_conferance_voters
-		clear_variable = GER.conferance_vote_@THIS
+	GER = { for_each_scope_loop = {
+		array = berlin_conferance_voters
+		clear_variable = conferance_vote_@PREV
 	}
-	clear_array=GER.berlin_conferance_voters
-	clear_variable = GER.afr_number_of_votes_in_the_conference
+	clear_array=berlin_conferance_voters
+	clear_variable = afr_number_of_votes_in_the_conference }
 }
 afr_ber_assign_extra_votes_for_owned_states={
-		every_owned_state = {
-			limit ={
-				is_in_senegal = yes
-				check_variable = {GER.current_region_conferance_vote = 1}
+		if={
+			limit={
+				GER = { check_variable = { current_region_conferance_vote = 12} }
+				tag = BEL
 			}
+			afr_assign_extra_vote_to_country = yes
+			afr_assign_extra_vote_to_country = yes
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
 				is_in_manuritania = yes
-				check_variable = {GER.current_region_conferance_vote = 2}
+				GER = { check_variable = { current_region_conferance_vote = 1} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
-				is_in_mali = yes
-				check_variable = {GER.current_region_conferance_vote = 3}
+				is_in_senegal = yes
+				GER = { check_variable = { current_region_conferance_vote = 2} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
 				is_in_guinea = yes
-				check_variable = {GER.current_region_conferance_vote = 4}
+				GER = { check_variable = { current_region_conferance_vote = 3} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
 				is_in_sierra_leone = yes
-				check_variable = {GER.current_region_conferance_vote = 5}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_nigeria = yes
-				check_variable = {GER.current_region_conferance_vote = 6}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_gabon = yes
-				check_variable = {GER.current_region_conferance_vote = 7}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_kongo = yes
-				check_variable = {GER.current_region_conferance_vote = 8}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_angola = yes
-				check_variable = {GER.current_region_conferance_vote = 9}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_african_horn = yes
-				check_variable = {GER.current_region_conferance_vote = 10}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_nambia = yes
-				check_variable = {GER.current_region_conferance_vote = 11}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_rhodesia = yes
-				check_variable = {GER.current_region_conferance_vote = 12}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_zanzabar = yes
-				check_variable = {GER.current_region_conferance_vote = 13}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_kenya = yes
-				check_variable = {GER.current_region_conferance_vote = 14}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_uganda = yes
-				check_variable = {GER.current_region_conferance_vote = 15}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_equatorial_africa = yes
-				check_variable = {GER.current_region_conferance_vote = 16}
+				GER = { check_variable = { current_region_conferance_vote = 4} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
 				is_in_ivory_coast = yes
-				check_variable = {GER.current_region_conferance_vote = 17}
+				GER = { check_variable = { current_region_conferance_vote = 5} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
 				is_in_ghana = yes
-				check_variable = {GER.current_region_conferance_vote = 18}
-			}
-			afr_assign_extra_vote_to_country = yes
-		}
-		every_owned_state = {
-			limit ={
-				is_in_niger = yes
-				check_variable = {GER.current_region_conferance_vote = 19}
+				GER = { check_variable = { current_region_conferance_vote = 6} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
 				is_in_togo = yes
-				check_variable = {GER.current_region_conferance_vote = 20}
+				GER = { check_variable = { current_region_conferance_vote = 7} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
 				is_in_benin = yes
-				check_variable = {GER.current_region_conferance_vote = 21}
+				GER = { check_variable = { current_region_conferance_vote = 8} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
-				is_in_burkina_faso = yes
-				check_variable = {GER.current_region_conferance_vote = 22}
+				is_in_nigeria = yes
+				GER = { check_variable = { current_region_conferance_vote = 9} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_equatorial_africa = yes
+				GER = { check_variable = { current_region_conferance_vote = 10} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_gabon = yes
+				GER = { check_variable = { current_region_conferance_vote = 11} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_kongo = yes
+				GER = { check_variable = { current_region_conferance_vote = 12} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_angola = yes
+				GER = { check_variable = { current_region_conferance_vote = 13} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_nambia = yes
+				GER = { check_variable = { current_region_conferance_vote = 14} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_zanzabar = yes
+				GER = { check_variable = { current_region_conferance_vote = 15} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_kenya = yes
+				GER = { check_variable = { current_region_conferance_vote = 16} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_african_horn = yes
+				GER = { check_variable = { current_region_conferance_vote = 17} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		
+		every_owned_state = {
+			limit ={
+				is_in_uganda = yes
+				GER = { check_variable = { current_region_conferance_vote = 18} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_rhodesia = yes
+				GER = { check_variable = { current_region_conferance_vote = 19} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 		every_owned_state = {
 			limit ={
 				is_in_central_africa = yes
-				check_variable = {GER.current_region_conferance_vote = 23}
+				GER = { check_variable = { current_region_conferance_vote = 20} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_mali = yes
+				GER = { check_variable = { current_region_conferance_vote = 21} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_niger = yes
+				GER = { check_variable = { current_region_conferance_vote = 22} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_burkina_faso = yes
+				GER = { check_variable = { current_region_conferance_vote = 23} }
+			}
+			afr_assign_extra_vote_to_country = yes
+		}
+		every_owned_state = {
+			limit ={
+				is_in_chad = yes
+				GER = { check_variable = { current_region_conferance_vote = 24} }
 			}
 			afr_assign_extra_vote_to_country = yes
 		}
 }
 afr_assign_extra_vote_to_country={
-	add_to_variable = {GER.conferance_vote_@PREV = 1}
+	GER = {
+		add_to_variable = {conferance_vote_@PREV.PREV = 1}
+	}
 }
 afr_ber_assign_claims_to_winner={
 		every_state = {
 			limit ={
-				is_in_senegal = yes
-				check_variable = {GER.current_region_conferance_vote = 1}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
 				is_in_manuritania = yes
-				check_variable = {GER.current_region_conferance_vote = 2}
+				GER = { check_variable = { current_region_conferance_vote = 1} }
 			}
 			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Manuritania}
 		}
 		every_state = {
 			limit ={
-				is_in_mali = yes
-				check_variable = {GER.current_region_conferance_vote = 3}
+				is_in_senegal = yes
+				GER = { check_variable = { current_region_conferance_vote = 2} }
 			}
 			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Senegal}
 		}
 		every_state = {
 			limit ={
 				is_in_guinea = yes
-				check_variable = {GER.current_region_conferance_vote = 4}
+				GER = { check_variable = { current_region_conferance_vote = 3} }
 			}
 			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Guinea}
 		}
 		every_state = {
 			limit ={
 				is_in_sierra_leone = yes
-				check_variable = {GER.current_region_conferance_vote = 5}
+				GER = { check_variable = { current_region_conferance_vote = 4} }
 			}
 			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_nigeria = yes
-				check_variable = {GER.current_region_conferance_vote = 6}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_gabon = yes
-				check_variable = {GER.current_region_conferance_vote = 7}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_kongo = yes
-				check_variable = {GER.current_region_conferance_vote = 8}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_angola = yes
-				check_variable = {GER.current_region_conferance_vote = 9}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_african_horn = yes
-				check_variable = {GER.current_region_conferance_vote = 10}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_nambia = yes
-				check_variable = {GER.current_region_conferance_vote = 11}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_rhodesia = yes
-				check_variable = {GER.current_region_conferance_vote = 12}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_zanzabar = yes
-				check_variable = {GER.current_region_conferance_vote = 13}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_kenya = yes
-				check_variable = {GER.current_region_conferance_vote = 14}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_uganda = yes
-				check_variable = {GER.current_region_conferance_vote = 15}
-			}
-			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_equatorial_africa = yes
-				check_variable = {GER.current_region_conferance_vote = 16}
-			}
-			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Sierra_Leone}
 		}
 		every_state = {
 			limit ={
 				is_in_ivory_coast = yes
-				check_variable = {GER.current_region_conferance_vote = 17}
+				GER = { check_variable = { current_region_conferance_vote = 5} }
 			}
 			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Ivory_Coast}
 		}
 		every_state = {
 			limit ={
 				is_in_ghana = yes
-				check_variable = {GER.current_region_conferance_vote = 18}
+				GER = { check_variable = { current_region_conferance_vote = 6} }
 			}
 			add_claim_by = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_niger = yes
-				check_variable = {GER.current_region_conferance_vote = 19}
-			}
-			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Ghana}
 		}
 		every_state = {
 			limit ={
 				is_in_togo = yes
-				check_variable = {GER.current_region_conferance_vote = 20}
+				GER = { check_variable = { current_region_conferance_vote = 7} }
 			}
 			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Togo}
 		}
 		every_state = {
 			limit ={
 				is_in_benin = yes
-				check_variable = {GER.current_region_conferance_vote = 21}
+				GER = { check_variable = { current_region_conferance_vote = 8} }
 			}
 			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Benin}
 		}
 		every_state = {
 			limit ={
-				is_in_burkina_faso = yes
-				check_variable = {GER.current_region_conferance_vote = 22}
+				is_in_nigeria = yes
+				GER = { check_variable = { current_region_conferance_vote = 9} }
 			}
 			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Nigeria}
+		}
+		every_state = {
+			limit ={
+				is_in_equatorial_africa = yes
+				GER = { check_variable = { current_region_conferance_vote = 10} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Equatorial_Africa}
+		}
+		every_state = {
+			limit ={
+				is_in_gabon = yes
+				GER = { check_variable = { current_region_conferance_vote = 11} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Gabon}
+		}
+		every_state = {
+			limit ={
+				is_in_kongo = yes
+				GER = { check_variable = { current_region_conferance_vote = 12} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Kongo}
+		}
+		every_state = {
+			limit ={
+				is_in_angola = yes
+				GER = { check_variable = { current_region_conferance_vote = 13} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Angola}
+		}
+		every_state = {
+			limit ={
+				is_in_nambia = yes
+				GER = { check_variable = { current_region_conferance_vote = 14} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Nambia}
+		}
+		every_state = {
+			limit ={
+				is_in_zanzabar = yes
+				GER = { check_variable = { current_region_conferance_vote = 15} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Zanzabar}
+		}
+		every_state = {
+			limit ={
+				is_in_kenya = yes
+				GER = { check_variable = { current_region_conferance_vote = 16} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Kenya}
+		}
+		every_state = {
+			limit ={
+				is_in_african_horn = yes
+				GER = { check_variable = { current_region_conferance_vote = 17} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_African_Horn}
+		}
+		every_state = {
+			limit ={
+				is_in_uganda = yes
+				GER = { check_variable = { current_region_conferance_vote = 18} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Uganda}
+		}
+		every_state = {
+			limit ={
+				is_in_rhodesia = yes
+				GER = { check_variable = { current_region_conferance_vote = 19} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Rhodesia}
 		}
 		every_state = {
 			limit ={
 				is_in_central_africa = yes
-				check_variable = {GER.current_region_conferance_vote = 23}
+				GER = { check_variable = { current_region_conferance_vote = 20} }
 			}
 			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Central_Africa}
+		}
+		every_state = {
+			limit ={
+				is_in_mali = yes
+				GER = { check_variable = { current_region_conferance_vote = 21} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Mali}
+		}
+		every_state = {
+			limit ={
+				is_in_niger = yes
+				GER = { check_variable = { current_region_conferance_vote = 22} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Niger}
+		}
+		every_state = {
+			limit ={
+				is_in_burkina_faso = yes
+				GER = { check_variable = { current_region_conferance_vote = 23} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Burkina_Faso}
+		}
+		every_state = {
+			limit ={
+				is_in_chad = yes
+				GER = { check_variable = { current_region_conferance_vote = 24} }
+			}
+			add_claim_by = PREV
+			PREV={set_country_flag = BC_Granted_Chad}
 		}
 }
 afr_ber_assign_cores_to_winner={
 		every_state = {
 			limit ={
-				is_in_senegal = yes
-				check_variable = {GER.current_region_conferance_vote = 1}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
 				is_in_manuritania = yes
-				check_variable = {GER.current_region_conferance_vote = 2}
+				GER = { check_variable = { current_region_conferance_vote = 1} }
 			}
 			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Manuritania}
 		}
 		every_state = {
 			limit ={
-				is_in_mali = yes
-				check_variable = {GER.current_region_conferance_vote = 3}
+				is_in_senegal = yes
+				GER = { check_variable = { current_region_conferance_vote = 2} }
 			}
 			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Senegal}
 		}
 		every_state = {
 			limit ={
 				is_in_guinea = yes
-				check_variable = {GER.current_region_conferance_vote = 4}
+				GER = { check_variable = { current_region_conferance_vote = 3} }
 			}
 			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Guinea}
 		}
 		every_state = {
 			limit ={
 				is_in_sierra_leone = yes
-				check_variable = {GER.current_region_conferance_vote = 5}
+				GER = { check_variable = { current_region_conferance_vote = 4} }
 			}
 			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_nigeria = yes
-				check_variable = {GER.current_region_conferance_vote = 6}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_gabon = yes
-				check_variable = {GER.current_region_conferance_vote = 7}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_kongo = yes
-				check_variable = {GER.current_region_conferance_vote = 8}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_angola = yes
-				check_variable = {GER.current_region_conferance_vote = 9}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_african_horn = yes
-				check_variable = {GER.current_region_conferance_vote = 10}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_nambia = yes
-				check_variable = {GER.current_region_conferance_vote = 11}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_rhodesia = yes
-				check_variable = {GER.current_region_conferance_vote = 12}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_zanzabar = yes
-				check_variable = {GER.current_region_conferance_vote = 13}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_kenya = yes
-				check_variable = {GER.current_region_conferance_vote = 14}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_uganda = yes
-				check_variable = {GER.current_region_conferance_vote = 15}
-			}
-			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_equatorial_africa = yes
-				check_variable = {GER.current_region_conferance_vote = 16}
-			}
-			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Sierra_Leone}
 		}
 		every_state = {
 			limit ={
 				is_in_ivory_coast = yes
-				check_variable = {GER.current_region_conferance_vote = 17}
+				GER = { check_variable = { current_region_conferance_vote = 5} }
 			}
 			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Ivory_Coast}
 		}
 		every_state = {
 			limit ={
 				is_in_ghana = yes
-				check_variable = {GER.current_region_conferance_vote = 18}
+				GER = { check_variable = { current_region_conferance_vote = 6} }
 			}
 			add_core_of = PREV
-		}
-		every_state = {
-			limit ={
-				is_in_niger = yes
-				check_variable = {GER.current_region_conferance_vote = 19}
-			}
-			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Ghana}
 		}
 		every_state = {
 			limit ={
 				is_in_togo = yes
-				check_variable = {GER.current_region_conferance_vote = 20}
+				GER = { check_variable = { current_region_conferance_vote = 7} }
 			}
 			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Togo}
 		}
 		every_state = {
 			limit ={
 				is_in_benin = yes
-				check_variable = {GER.current_region_conferance_vote = 21}
+				GER = { check_variable = { current_region_conferance_vote = 8} }
 			}
 			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Benin}
+		}
+		every_state = {
+			limit ={
+				is_in_nigeria = yes
+				GER = { check_variable = { current_region_conferance_vote = 9} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Nigeria}
+		}
+		every_state = {
+			limit ={
+				is_in_equatorial_africa = yes
+				GER = { check_variable = { current_region_conferance_vote = 10} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Equatorial_Africa}
+		}
+		every_state = {
+			limit ={
+				is_in_gabon = yes
+				GER = { check_variable = { current_region_conferance_vote = 11} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Gabon}
+		}
+		every_state = {
+			limit ={
+				is_in_kongo = yes
+				GER = { check_variable = { current_region_conferance_vote = 12} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Kongo}
+		}
+		every_state = {
+			limit ={
+				is_in_angola = yes
+				GER = { check_variable = { current_region_conferance_vote = 13} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Angola}
+		}
+		every_state = {
+			limit ={
+				is_in_nambia = yes
+				GER = { check_variable = { current_region_conferance_vote = 14} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Nambia}
+		}
+		every_state = {
+			limit ={
+				is_in_zanzabar = yes
+				GER = { check_variable = { current_region_conferance_vote = 15} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Zanzabar}
+		}
+		every_state = {
+			limit ={
+				is_in_kenya = yes
+				GER = { check_variable = { current_region_conferance_vote = 16} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Kenya}
+		}
+		every_state = {
+			limit ={
+				is_in_african_horn = yes
+				GER = { check_variable = { current_region_conferance_vote = 17} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_African_Horn}
+		}
+		every_state = {
+			limit ={
+				is_in_uganda = yes
+				GER = { check_variable = { current_region_conferance_vote = 18} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Uganda}
+		}
+		every_state = {
+			limit ={
+				is_in_rhodesia = yes
+				GER = { check_variable = { current_region_conferance_vote = 19} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Rhodesia}
+		}
+		every_state = {
+			limit ={
+				is_in_central_africa = yes
+				GER = { check_variable = { current_region_conferance_vote = 20} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Central_Africa}
+		}
+		every_state = {
+			limit ={
+				is_in_mali = yes
+				GER = { check_variable = { current_region_conferance_vote = 21} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Mali}
+		}
+		every_state = {
+			limit ={
+				is_in_niger = yes
+				GER = { check_variable = { current_region_conferance_vote = 22} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Niger}
 		}
 		every_state = {
 			limit ={
 				is_in_burkina_faso = yes
-				check_variable = {GER.current_region_conferance_vote = 22}
+				GER = { check_variable = { current_region_conferance_vote = 23} }
 			}
 			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Burkina_Faso}
+		}
+		every_state = {
+			limit ={
+				is_in_chad = yes
+				GER = { check_variable = { current_region_conferance_vote = 24} }
+			}
+			add_core_of = PREV
+			event_target:afr_ber_reigion_winner={set_country_flag = BC_Granted_Chad}
 		}
 }
 afr_give_colonal_power={
 	custom_effect_tooltip = afr_give_colonal_power_desc
 	hidden_effect = {
 		add_ideas = {afr_colonial_power}
-		set_variable = { colonial_power_rate = 1 }
+		set_variable = { colonial_power = 15 }
+		set_variable = { colonial_power_factory_mod = 8 }
 		set_variable = { colonial_power_max = num_of_factories }
-		multiply_variable = { var = colonial_power_max value = 8 }
+		multiply_variable = { var = colonial_power_max value = colonial_power_factory_mod }
 		set_variable = { colonial_power_max_add = 0}
 		add_to_variable = { colonial_power_max = colonial_power_max_add }
-		set_variable = { colonial_power = colonial_power_max }
-		set_variable = { colonial_power_rate_factor = 1}
 	}
 }
 afr_add_cores_home_region_tribal={
@@ -1294,7 +1508,7 @@ OMA_muscat_and_oman_divide_decrease={
 			add_idea = OMA_oman_muskat_divide
 		}
 	}
-	if={
+	else_if={
 		limit={
 			has_idea = OMA_oman_muskat_divide
 		}
@@ -1303,7 +1517,7 @@ OMA_muscat_and_oman_divide_decrease={
 			add_idea = OMA_oman_muskat_divide_2
 		}
 	}
-	if={
+	else_if={
 		limit={
 			has_idea = OMA_oman_muskat_divide_2
 		}
@@ -1312,7 +1526,7 @@ OMA_muscat_and_oman_divide_decrease={
 			add_idea = OMA_oman_muskat_divide_3
 		}
 	}
-	if={
+	else_if={
 		limit={
 			has_idea = OMA_oman_muskat_divide_3
 		}
@@ -1321,7 +1535,7 @@ OMA_muscat_and_oman_divide_decrease={
 			add_idea = OMA_oman_muskat_divide_4
 		}
 	}
-	if={
+	else_if={
 		limit={
 			has_idea = OMA_oman_muskat_divide_3
 		}
@@ -1330,7 +1544,7 @@ OMA_muscat_and_oman_divide_decrease={
 			add_idea = OMA_oman_muskat_divide_4
 		}
 	}
-	if={
+	else_if={
 		limit={
 			has_idea = OMA_oman_muskat_divide_4
 		}
@@ -1339,7 +1553,7 @@ OMA_muscat_and_oman_divide_decrease={
 			add_idea = OMA_oman_muskat_divide_5
 		}
 	}
-	if={
+	else_if={
 		limit={
 			has_idea = OMA_oman_muskat_divide_5
 		}
@@ -1445,19 +1659,29 @@ afr_company_port_effect = {
 	custom_effect_tooltip = afr_rrp_workforce_migration
 	if = {
 		limit = {
-			ROOT = {
-				has_idea = limited_exports
+			afr_is_tribal = yes
+			check_variable = {ROOT.industrisation_progress < 100}
+			NOT = { 
+				has_idea = afr_reforming_kingdom
+				has_country_flag = Oceania_industrializing
+				has_country_flag = afr_colony_industrializing
+				has_country_flag = afr_an_african_industrializing
 			}
 		}
-		swap_ideas = { add_idea = export_focus remove_idea = limited_exports }
+		hidden_effect = { set_country_flag = Oceania_industrializing }
 	}
-	else_if = {
-		limit = {
-			ROOT = {
-				has_idea = closed_economy
+	custom_effect_tooltip = afr_rrp_company_export_law_tooltip
+	hidden_effect = {
+		ROOT = {
+			if = {
+				limit = { has_idea = limited_exports }
+				swap_ideas = { add_idea = export_focus remove_idea = limited_exports }
+			}
+			else_if = {
+				limit = { has_idea = closed_economy }
+				swap_ideas = { add_idea = export_focus remove_idea = closed_economy }
 			}
 		}
-		swap_ideas = { add_idea = export_focus remove_idea = closed_economy }
 	}
 	hidden_effect = {
 		set_country_flag = afr_rrp_company_port
@@ -1486,6 +1710,10 @@ afr_company_port_effect = {
 		}		
 	}
 }
+
+#################
+#Tribal Warriors#
+#################
 
 afr_call_warriors={
 	set_temp_variable = {temp_tribal_division = Tribal_army_num}
@@ -1516,15 +1744,299 @@ afr_call_warriors={
 				owner = ROOT
 			}
 		}
+		subtract_from_variable = { Tribal_army_num = 1000 }
+		clamp_variable = {
+			var = Tribal_army_num
+			min = 0
+			max = max_available_manpower
+		}
 	}
-	set_variable = { Tribal_army_num = 0 }
 }
 
 afr_dismiss_warriors={
 	set_temp_variable = {temp_tribal_division = num_battalions_with_type@tribal_infantry}
 	multiply_temp_variable = {temp_tribal_division = 1000}
 	round_variable = temp_tribal_division
+	clamp_temp_variable = {
+		var = temp_tribal_division
+		min = 0
+		max = max_available_manpower
+	}
 	add_to_variable = {Tribal_army_num = temp_tribal_division}
 	delete_unit_template_and_units = { division_template = "Tribal Warriors" }
-	clr_country_flag = Tribal_Army_Raised
+}
+
+######################
+#Tribal Horse Cavalry#
+######################
+
+afr_call_tribal_horse_cavalry={
+	set_temp_variable = {temp_tribal_horse_army = Tribal_horse_army_num}
+	divide_temp_variable = {temp_tribal_horse_army = 1000}
+	round_variable = temp_tribal_horse_army
+	add_to_temp_array={
+		array = num_of_horse_cavalry_divisions_to_raise
+		value = 1
+		index = 1
+	}
+	resize_temp_array = {num_of_horse_cavalry_divisions_to_raise = temp_tribal_horse_army}
+	ROOT = {
+		division_template = {
+			name = "Tribal Cavalry"
+			priority = 2
+			division_names_group = NATIVE_AMERICAN_TRIBAL_CAVALRY_01
+			regiments = {
+				tribal_cavalry = { x = 0 y = 0 }
+			}
+			is_locked = yes
+		}
+	}
+	for_each_loop={
+		array = num_of_horse_cavalry_divisions_to_raise
+		random_owned_state ={
+			create_unit = {
+				division = "name = \"Tribal Cavalry\" division_template = \"Tribal Cavalry\" start_experience_factor = 3.0" 
+				owner = ROOT
+			}
+		}
+		subtract_from_variable = { Tribal_horse_army_num = 1000 }
+		clamp_variable = {
+			var = Tribal_horse_army_num
+			min = 0
+			max = max_available_manpower
+		}
+	}
+}
+
+afr_dismiss_tribal_horse_cavalry={
+	set_temp_variable = {temp_tribal_horse_army = num_battalions_with_type@tribal_cavalry}
+	multiply_temp_variable = {temp_tribal_horse_army = 1000}
+	round_variable = temp_tribal_horse_army
+	clamp_temp_variable = {
+		var = temp_tribal_horse_army
+		min = 0
+		max = max_available_manpower
+	}
+	add_to_variable = {Tribal_horse_army_num = temp_tribal_horse_army}
+	delete_unit_template_and_units = { division_template = "Tribal Cavalry" }
+}
+
+##########################
+#Tribal Pistoleer Cavalry#
+##########################
+
+afr_call_tribal_horse_pistoleer_cavalry={
+}
+
+afr_dismiss_tribal_horse_pistoleer_cavalry={
+}
+
+######################
+#Tribal Camel Cavalry#
+######################
+
+afr_call_tribal_camel_cavalry={
+	set_temp_variable = {temp_tribal_camel_army = Tribal_camel_army_num}
+	divide_temp_variable = {temp_tribal_camel_army = 1000}
+	round_variable = temp_tribal_camel_army
+	add_to_temp_array={
+		array = num_of_camel_cavalry_divisions_to_raise
+		value = 1
+		index = 1
+	}
+	resize_temp_array = {num_of_camel_cavalry_divisions_to_raise = temp_tribal_camel_army}
+	ROOT = {
+		division_template = {
+			name = "Tribal Camel Cavalry"
+			priority = 2
+			division_names_group = AFR_TRIBAL_CAMEL_CAVALRY_01
+			regiments = {
+				tribal_camel_cavalry = { x = 0 y = 0 }
+			}
+			is_locked = yes
+		}
+	}
+	for_each_loop={
+		array = num_of_camel_cavalry_divisions_to_raise
+		random_owned_state ={
+			create_unit = {
+				division = "name = \"Tribal Camel Cavalry\" division_template = \"Tribal Camel Cavalry\" start_experience_factor = 3.0" 
+				owner = ROOT
+			}
+		}
+		subtract_from_variable = { Tribal_camel_army_num = 1000 }
+		clamp_variable = {
+			var = Tribal_camel_army_num
+			min = 0
+			max = max_available_manpower
+		}
+	}
+}
+
+afr_dismiss_tribal_camel_cavalry={
+	set_temp_variable = {temp_tribal_camel_army = num_battalions_with_type@tribal_camel_cavalry}
+	multiply_temp_variable = {temp_tribal_camel_army = 1000}
+	round_variable = temp_tribal_camel_army
+	clamp_temp_variable = {
+		var = temp_tribal_camel_army
+		min = 0
+		max = max_available_manpower
+	}
+	add_to_variable = {Tribal_camel_army_num = temp_tribal_camel_army}
+	delete_unit_template_and_units = { division_template = "Tribal Camel Cavalry" }
+}
+
+OTO_lessen_grain_crisis={
+	custom_effect_tooltip = OTO_mac_reduce_grain_crisis
+	if={
+		limit={
+			has_idea = OTO_mac_grain_crisis4
+		}
+		swap_ideas={
+			remove_idea = OTO_mac_grain_crisis4
+			add_idea = OTO_mac_grain_crisis5
+		}
+	}
+	if={
+		limit={
+			has_idea = OTO_mac_grain_crisis3
+		}
+		swap_ideas={
+			remove_idea = OTO_mac_grain_crisis3
+			add_idea = OTO_mac_grain_crisis4
+		}
+	}
+	if={
+		limit={
+			has_idea = OTO_mac_grain_crisis2
+		}
+		swap_ideas={
+			remove_idea = OTO_mac_grain_crisis2
+			add_idea = OTO_mac_grain_crisis3
+		}
+	}
+	if={
+		limit={
+			has_idea = OTO_mac_grain_crisis
+		}
+		swap_ideas={
+			remove_idea = OTO_mac_grain_crisis
+			add_idea = OTO_mac_grain_crisis2
+		}
+	}
+}
+
+OTO_sicker_man_of_europe={
+	#make sick man sicker
+	if={
+		limit={
+			has_idea = OTO_sick_man_6
+		}
+		decrease_ps_by_one = yes
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_5
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_5
+			add_idea = OTO_sick_man_6
+		}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_4
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_4
+			add_idea = OTO_sick_man_5
+		}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_3
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_3
+			add_idea = OTO_sick_man_4
+		}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_2
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_2
+			add_idea = OTO_sick_man_3
+		}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man
+			add_idea = OTO_sick_man_2
+		}
+	}
+	else={
+		add_ideas ={OTO_sick_man}
+	}
+}
+
+OTO_heal_sick_man={
+	if={
+		limit={
+			has_idea = OTO_sick_man
+		}
+		remove_ideas = {OTO_sick_man}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_2
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_2
+			add_idea = OTO_sick_man
+		}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_3
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_3
+			add_idea = OTO_sick_man_2
+		}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_4
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_4
+			add_idea = OTO_sick_man_3
+		}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_5
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_5
+			add_idea = OTO_sick_man_4
+		}
+	}
+	else_if={
+		limit={
+			has_idea = OTO_sick_man_6
+		}
+		swap_ideas={
+			remove_idea = OTO_sick_man_6
+			add_idea = OTO_sick_man_5
+		}
+	}
+	else={
+		increase_ps_by_one = yes
+	}
 }

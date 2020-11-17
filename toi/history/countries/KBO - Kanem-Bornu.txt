@@ -1,5 +1,5 @@
 ﻿1857.1.1 = {
-  capital = 838
+  capital = 1219
 
   oob = "KBO_1857"
 
@@ -15,7 +15,7 @@
     agrarian
     no_heir
     absolute_monarchy
-	law_army_tribal_advanced
+	law_army_tribal_improved
 
     civilian_economy
     closed_economy
@@ -25,9 +25,9 @@
 	lp_land_estates
 
     stagnation_growth
-    no_borders
+    border_control
 	manpower_tribal_warriors
-    tribal_slavery
+    slavery
     absolutism
 
     no_constitution
@@ -36,9 +36,16 @@
     oral_tradition
     state_religion
 	religion_sunni
+
+	 hc_no_healthcare
+    law_police_force
+    inframain_no_subsidies_infrastructure
+    navinfra_no_naval_infrastructure
+    sfund_private_ventures_only
+	
          #NATIONAL SPIRITS
-    
-	AF_T_small_kingdom
+	afr_large_kingdom
+	afr_imperial_decline
 	
   }
  
@@ -53,20 +60,46 @@
 }
 
 KBO = {
-	add_manpower = 4000
 	add_timed_idea = {
 		idea = WDD_KBO_TRUCE
 		days = 3600
 	}
+	add_manpower = 12000
+	add_ideas={AF_T_Tribal_Army}
+	add_to_variable = {Tribal_army_num = 9000}
+	set_country_flag = afr_traditional_tree
 }
 
   #Diplomacy
 	add_opinion_modifier = { target = SKT modifier = AFR_fulani_jihad_conflict }
+	add_opinion_modifier = { target = ADM modifier = AFR_fulani_jihad_conflict }
 	add_opinion_modifier = { target = WDD modifier = AFR_kanem_bornu_waddai_conflicts }
 	add_opinion_modifier = { target = BAG modifier = AFR_kanem_bornu_tributary }
 	
   #Puppets
-	  puppet = BAG
+	if = {
+		limit = { has_dlc = "Together for Victory" }
+		KBO = {
+			BAG = { store_current_ideologies = yes }
+			set_autonomy = {
+				target = BAG
+				autonomy_state = autonomy_afr_empire_level_4
+				freedom_level = 0.8
+			}
+			BAG = { load_prevous_ideologies = yes }
+		}
+	}
+	if = {
+		limit = { NOT { has_dlc = "Together for Victory" } }
+		BAG = { store_current_ideologies = yes }
+		KBO = { puppet = BAG }
+		BAG = { load_prevous_ideologies = yes }
+	}
+	BAG = { 
+		set_variable = { var = afr_empire_subject_overlord value = KBO.id }
+		set_variable = { var = BAG.afr_empire_subject_loyalty_var value = 9 }
+		clamp_variable = { var = BAG.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
 
 	
 set_popularities = {
@@ -84,7 +117,23 @@ set_popularities = {
 
   set_technology = {
 	tribaltech = 1
+	tribal_society = 1
+	tribal_natral_economics = 1
+	tribal_crop_planting = 1
+	tribal_roads = 1
+	tribal_horse_and_cart = 1
+	tribal_weapons = 1
+	tribal_tatics = 1
+	tribal_riding = 1
+	tribal_gunpowder = 1
+	tribal_artisan = 1
+	tribal_forging = 1
+	tribal_guilds_trade = 1
+	tribal_healing_herbs = 1
 	start_build_tech = 1
+	traditional_mixed_arms = 1
+	basic_cavalry=1
+	tech_infantry_napoleonic_uniform = 1
   }
 
   # POLITICAL LEADERS

@@ -43,6 +43,12 @@ country_event = {
 	option = {
 		name = fraprswar.2.a
 		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				is_historical_focus_on = yes
+			}
+			custom_effect_tooltip = eoanb_tt_option_is_historical
+		}
 		custom_effect_tooltip = eoanb_tt_FRA_contests_PRS_SPR
 		hidden_effect = {
 			PRS = { country_event = { days = 2 id = fraprswar.3 } }
@@ -72,8 +78,14 @@ country_event = {
 	option = {
 		name = fraprswar.3.a
 		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				is_historical_focus_on = yes
+			}
+			custom_effect_tooltip = eoanb_tt_option_is_historical
+		}
 		FRA = { country_event = { days = 1 id = fraprswar.6 } }
-		hidden_effect = {
+		hidden_effect = { #Deutscher Bund
 			create_faction = faction_german_front
 		}
 	}
@@ -82,7 +94,7 @@ country_event = {
 		name = fraprswar.3.b
 		ai_chance = { factor = 0 }
 		FRA = { country_event = { days = 1 id = fraprswar.4 } }
-		hidden_effect = {
+		hidden_effect = { #Deutscher Bund
 			create_faction = faction_german_front
 		}
 	}
@@ -361,10 +373,10 @@ country_event = {
 	picture = GFX_report_event_generic_peaceful_annexation
 	
 	fire_only_once = yes
+    
+    is_triggered_only = yes #triggered in on_state_control_changed on_action
 	
 	trigger = {
-		TAG = FRA
-		has_global_flag = eoanb_flag_franco_prussian_war_ongoing
 		PRS = { surrender_progress > 0.4 }
 		FRA = { controls_state = 42 }
 		FRA = { controls_state = 744 }
@@ -417,6 +429,11 @@ country_event = {
 				}
 				PRS = { remove_ideas = hidden_idea_historical_PRS_victory }
 			}
+			FRA = { 
+				remove_ideas = {
+			    	FRA_idea_republican_spirit
+			    }
+			}
 		}
 	}
 	
@@ -455,10 +472,10 @@ country_event = {
 	picture = GFX_report_event_albanian_partisans
 	
 	fire_only_once = yes
+    
+    is_triggered_only = yes #triggered in on_state_control_changed on_action
 	
 	trigger = {
-		tag = PRS
-		has_global_flag = eoanb_flag_franco_prussian_war_ongoing
 		OR = {
 			FRA = { surrender_progress > 0.6 }
 			AND = {
@@ -544,6 +561,7 @@ country_event = {
 			}
 			FRA = {
 				add_ideas = FRA_idea_loss_of_alsace
+				complete_national_focus = FRA_frankfurt_pact
 			}
 			PRS = {
 				add_timed_idea = {

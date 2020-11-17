@@ -17,7 +17,7 @@ focus_tree = {
 	focus = {
 		id = LIB_social_reforms
 		icon = GFX_goal_continuous_increase_nu
-		x = 23
+		x = 1
 		y = 0
 		cost = 70
 		available_if_capitulated = no
@@ -26,7 +26,201 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_stability = 0.07
-		
+			hidden_effect = { state_event = { id = NA_B_congress_slavery_abolitionist_vote_calculator.1 days = 90 } }
+		}
+	}
+	
+	focus = {
+		id = LIB_colony_generic_focus_reform_health_pamphlets
+		icon = GFX_goal_focus_popularize
+		relative_position_id = LIB_social_reforms
+		x = 0
+		y = 1
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			has_tech = early_medicine
+		}
+		prerequisite = { 
+			focus = LIB_social_reforms
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+				OR = {
+					has_country_flag = afr_mandatory_vaccines_everyone_done
+					has_country_flag = afr_mandatory_vaccines_colonists_done
+					has_tech = hygiene
+				}
+			}
+		}
+		completion_reward = {
+			set_technology = { hygiene = 1 }
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_malaria_scourge
+				}
+				swap_ideas = { add_idea = afr_colonial_malaria_scourge_1 remove_idea = afr_colonial_malaria_scourge }
+			}
+			custom_effect_tooltip = LIB_colony_generic_focus_reform_health_pamphlets_tooltip
+			set_country_flag = afr_reform_distributed_health_pamphlets
+		}
+		allow_branch = {
+			OR = {
+				has_idea = afr_colonial_malaria_scourge
+				has_idea = afr_colonial_malaria_scourge_1
+				has_idea = afr_colonial_malaria_scourge_2
+				has_idea = afr_colonial_malaria_scourge_3
+			}
+		}
+	}
+	
+	focus = {
+		id = LIB_colony_generic_focus_reform_regional_hospitals
+		icon = GFX_goal_generic_construction2
+		x = 0
+		y = 1
+		relative_position_id = LIB_colony_generic_focus_reform_health_pamphlets
+		cost = 75
+		available_if_capitulated = no
+		available = { 
+			has_tech = antiseptics
+		}
+		ai_will_do = {
+			factor = 5
+		}
+		prerequisite = {
+			focus = LIB_colony_generic_focus_reform_health_pamphlets
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+				OR = {
+					has_country_flag = afr_mandatory_vaccines_everyone_done
+					has_country_flag = afr_mandatory_vaccines_colonists_done
+				}
+			}
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 1
+				uses = 1
+				technology = early_hospitals
+			}
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_malaria_scourge_1
+				}
+				swap_ideas = { add_idea = afr_colonial_malaria_scourge_2 remove_idea = afr_colonial_malaria_scourge_1 }
+			}
+			custom_effect_tooltip = LIB_colony_generic_focus_reform_regional_hospitals_tooltip
+			custom_effect_tooltip = EGY_afr_increase_debt_2
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 2}
+			}
+		}
+		allow_branch = {
+			OR = {
+				has_idea = afr_colonial_malaria_scourge
+				has_idea = afr_colonial_malaria_scourge_1
+				has_idea = afr_colonial_malaria_scourge_2
+				has_idea = afr_colonial_malaria_scourge_3
+			}
+		}
+	}
+	
+	focus = {
+		id = LIB_colony_generic_focus_reform_mosquito_brigades
+		icon = GFX_goal_demand_sudetenland
+		x = 0
+		y = 2
+		relative_position_id = LIB_colony_generic_focus_reform_health_pamphlets
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+		available = {
+			has_tech = copper_salts_pesticides
+		}
+		prerequisite = {
+			focus = LIB_colony_generic_focus_reform_regional_hospitals
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+				OR = {
+					has_country_flag = afr_mandatory_vaccines_everyone_done
+					has_country_flag = afr_mandatory_vaccines_colonists_done
+				}
+			}
+		}
+		completion_reward = {
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_malaria_scourge_2
+				}
+				swap_ideas = { add_idea = afr_colonial_malaria_scourge_3 remove_idea = afr_colonial_malaria_scourge_2 }
+			}
+			custom_effect_tooltip = LIB_colony_generic_focus_reform_mosquito_brigades_tooltip
+			set_country_flag = afr_colony_generic_focus_reform_mosquito_brigades_flag
+		}
+		allow_branch = {
+			OR = {
+				has_idea = afr_colonial_malaria_scourge
+				has_idea = afr_colonial_malaria_scourge_1
+				has_idea = afr_colonial_malaria_scourge_2
+				has_idea = afr_colonial_malaria_scourge_3
+			}
+		}
+	}
+	
+	focus = {
+		id = LIB_colony_generic_focus_reform_distribute_vaccines
+		icon = GFX_focus_generic_concessions
+		x = 0
+		y = 3
+		relative_position_id = LIB_colony_generic_focus_reform_health_pamphlets
+		cost = 75
+		available_if_capitulated = no
+		available = { 
+			has_tech = early_vaccination
+		}
+		ai_will_do = {
+			factor = 5
+		}
+		prerequisite = {
+			focus = LIB_colony_generic_focus_reform_mosquito_brigades
+		}
+		completion_reward = {
+			if = { 
+				limit = { 
+					has_idea = afr_colonial_malaria_scourge_3
+				}
+				remove_ideas = afr_colonial_malaria_scourge_3
+			}
+			custom_effect_tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_tooltip
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_colony_generic_focus_reform_distribute_vaccines_trigger
+				OR = {
+					has_country_flag = afr_mandatory_vaccines_everyone_done
+					has_country_flag = afr_mandatory_vaccines_colonists_done
+				}
+				NOT = { has_country_flag = afr_reform_distributed_health_pamphlets }
+			}
+		}
+		allow_branch = {
+			OR = {
+				has_idea = afr_colonial_malaria_scourge
+				has_idea = afr_colonial_malaria_scourge_1
+				has_idea = afr_colonial_malaria_scourge_2
+				has_idea = afr_colonial_malaria_scourge_3
+			}
 		}
 	}
 	
@@ -151,8 +345,8 @@ focus_tree = {
 	focus = {
 		id = LIB_colony_generic_regional_investment
 		icon = GFX_goal_focus_international_investments
-		x = 30
-		y = 5
+		x = 3
+		y = 6
 		cost = 75
 		available_if_capitulated = no
 		ai_will_do = {
@@ -171,6 +365,12 @@ focus_tree = {
 					level = 1
 					instant_build = yes
 				}
+			}
+			USA = { country_event = { days = 1 id = liberia.31 } }
+			set_country_flag = LIB_request_gov_road_investment
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
 			}
 		}
 	}
@@ -192,6 +392,10 @@ focus_tree = {
 			custom_effect_tooltip = afr_colony_generic_regional_industry_tooltip
 			hidden_effect = {
 				set_country_flag = afr_colony_generic_regional_industry_decision_mission
+			}
+			custom_effect_tooltip = EGY_afr_increase_debt_3
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 3}
 			}
 		}
 	}
@@ -235,6 +439,10 @@ focus_tree = {
 			hidden_effect = {
 				set_country_flag = afr_colony_generic_regional_resources_decision_mission
 			}
+			custom_effect_tooltip = EGY_afr_increase_debt_3
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 3}
+			}
 		}
 	}
 	
@@ -277,6 +485,10 @@ focus_tree = {
 			hidden_effect = {
 				set_country_flag = afr_colony_generic_regional_infrastructure_decision_mission
 			}
+			custom_effect_tooltip = EGY_afr_increase_debt_3
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 3}
+			}
 		}
 	}
 	
@@ -290,7 +502,6 @@ focus_tree = {
 		available_if_capitulated = no
 		available = {
 			has_country_flag = afr_colony_generic_regional_infrastructure_completed
-			has_idea = AF_T_small_scale_railways
 		}
 		ai_will_do = {
 			factor = 1000
@@ -385,18 +596,11 @@ focus_tree = {
 		id = LIB_american_civil_war
 		icon = GFX_goal_focus_american_civil_war
 		cost = 70
-		x = 34
+		x = 8
 		y = 0
 		ai_will_do = { factor = 10000 }
 		available = {
-			OR = {
-				USA = {
-					has_offensive_war_with = CSA
-				}
-				CSA = {
-					has_offensive_war_with = USA
-				}
-			}
+			american_civil_war_focus_scripted_trigger = yes
 		}
 		completion_reward = {
 		add_political_power = -50
@@ -457,38 +661,87 @@ focus_tree = {
 		y = 2
 	}
 	focus = {
-		id = LIB_end_of_a_united_states
+		id = LIB_a_fractured_united_states
 		icon = GFX_goal_generic_neutrality_focus
 		cost = 70
 		ai_will_do = { factor = 1 }
 		prerequisite = {
-			focus = LIB_honor_our_agreement
-			focus = LIB_recognize_csa
+			focus = LIB_american_civil_war
 		}
 		completion_reward = {
 		}
 		relative_position_id = LIB_american_civil_war
-		x = -3
-		y = 2
+		x = 9
+		y = 1
 		allow_branch = {
-			always = no
+			OR = {
+				has_global_flag = ACW_Great_Collapse
+				has_global_flag = MIO_leaves_union
+				has_global_flag = ASA_leaves_union
+				has_global_flag = GRL_leaves_union
+				has_global_flag = TEX_leaves_union
+				has_global_flag = KTY_leaves_union
+				has_global_flag = NEG_leaves_union
+				has_global_flag = CAL_leaves_union
+				has_global_flag = ORE_leaves_union
+				has_global_flag = DAK_leaves_union
+				has_global_flag = UTA_leaves_union
+				has_global_flag = NMX_leaves_union
+				has_global_flag = KNS_leaves_union
+			}
 		}
 	}
 	focus = {
-		id = LIB_support_texas
+		id = LIB_reclaim_the_united_states
 		icon = GFX_goal_generic_neutrality_focus
 		cost = 70
 		ai_will_do = { factor = 1 }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = has_ambitions_for_mantle_tooltip
+				has_country_flag = has_ambitions_for_mantle_flag
+			}
+		}
 		prerequisite = {
+			focus = LIB_a_fractured_united_states
+		}
+		mutually_exclusive = {
 			focus = LIB_end_of_a_united_states
 		}
 		completion_reward = {
 		}
-		relative_position_id = LIB_american_civil_war
-		x = -3
-		y = 3
+		relative_position_id = LIB_a_fractured_united_states
+		x = 3
+		y = 1
 		allow_branch = {
-			always = no
+			has_global_flag = ACW_Great_Collapse
+		}
+	}
+	focus = {
+		id = LIB_end_of_a_united_states
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 70
+		ai_will_do = { factor = 1 }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = has_no_ambitions_for_mantle_tooltip
+				has_country_flag = has_no_ambitions_for_mantle_flag
+			}
+		}
+		prerequisite = {
+			focus = LIB_a_fractured_united_states
+		}
+		mutually_exclusive = {
+			focus = LIB_reclaim_the_united_states
+		}
+		completion_reward = {
+			set_country_flag = LIB_end_of_a_united_states_flag
+		}
+		relative_position_id = LIB_a_fractured_united_states
+		x = -3
+		y = 1
+		allow_branch = {
+			has_global_flag = ACW_Great_Collapse
 		}
 	}
 	focus = {
@@ -514,6 +767,9 @@ focus_tree = {
 		icon = GFX_goal_focus_recognize_csa
 		cost = 70
 		ai_will_do = { factor = 1 }
+		available = {
+			country_exists = CSA
+		}
 		prerequisite = {
 			focus = LIB_american_civil_war
 		}
@@ -549,6 +805,9 @@ focus_tree = {
 		icon = GFX_goal_focus_confederate_collaboration
 		cost = 70
 		ai_will_do = { factor = 1 }
+		available = {
+			country_exists = CSA
+		}
 		prerequisite = {
 			focus = LIB_recognize_csa
 		}
@@ -583,7 +842,10 @@ focus_tree = {
 		cost = 70
 		ai_will_do = { factor = 1 }
 		available = {
-			#has_idea = AFR_illegal_transatlantic
+			country_exists = CSA
+		}
+		available = {
+			has_idea = AFR_illegal_transatlantic
 		}
 		prerequisite = {
 			focus = LIB_support_the_south
@@ -598,9 +860,9 @@ focus_tree = {
 			add_manpower = 5000
 			add_political_power = 50
 			add_stability = -0.01
-			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			custom_effect_tooltip = EGY_afr_decrease_debt_5
 			hidden_effect = {
-				subtract_from_variable = {var = debt_level value = 1}
+				subtract_from_variable = {var = debt_level value = 5}
 			}
 		}
 	}
@@ -609,8 +871,8 @@ focus_tree = {
 	focus = {
 		id = LIB_annexation_of_maryland_republic
 		icon = GFX_goal_generic_build_tank
-		x = 10
-		y = 3
+		x = 14
+		y = 6
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -618,10 +880,9 @@ focus_tree = {
 		}
 		
 		completion_reward = {
-			country_event = { days = 3 id = liberia.30}
-			country_event = { days = 1 id = liberia.3 }
-			
+			country_event = { id = liberia.30 }
 			hidden_effect = {
+				country_event = { days = 14 id = liberia.3 }
 				KRU = {
 					add_opinion_modifier = {
 						target = LIB
@@ -679,7 +940,7 @@ focus_tree = {
 			focus = LIB_annexation_of_maryland_republic 
 		}
 		completion_reward = {
-			country_event = { days = 1 id = liberia.36 }
+			country_event = { id = liberia.36 }
 			set_country_flag = ACS_colony
 		}
 	}
@@ -695,7 +956,7 @@ focus_tree = {
 			factor = 1
 		}
 		available = {
-			
+			always = no
 		}
 		prerequisite = { focus = LIB_american_colonization_society }
 		mutually_exclusive = {	
@@ -737,8 +998,12 @@ focus_tree = {
 			focus = LIB_adopt_strong_ACS_policies
 		}
 		completion_reward = {
+			add_war_support = 0.1
 			hidden_effect = {
-				
+				add_ai_strategy = {
+					type = 	force_build_armies
+					value = 200
+				}
 			}
 		}
 	}
@@ -819,7 +1084,7 @@ focus_tree = {
 		available_if_capitulated = no
 		available = {
 			country_exists = KRU
-			num_divisions > 3
+			has_army_manpower = { size > 5999 }
 		}
 		ai_will_do = {
 			factor = 1
@@ -1058,7 +1323,7 @@ focus_tree = {
 			factor = 1
 		}
 		available = {
-			
+			always = no
 		}
 		prerequisite = { focus = LIB_american_colonization_society }
 		mutually_exclusive = {	
@@ -1117,6 +1382,9 @@ focus_tree = {
 		}
 		ai_will_do = {
 			factor = 1
+		}
+		mutually_exclusive = {
+			focus = LIB_demand_kru_land
 		}
 		prerequisite = { 
 			focus = LIB_collaboration_with_native_tribes
@@ -1186,13 +1454,64 @@ focus_tree = {
 		}
 	}
 	
+	focus = {
+		id = LIB_demand_kru_land
+		icon = GFX_goal_focus_gerrymandering
+		relative_position_id = LIB_limited_interactions_with_native_tribes
+		x = 0
+		y = 1
+		cost = 70
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		mutually_exclusive = {
+			focus = LIB_repairing_kru_liberian_relations
+		}
+
+		prerequisite = {
+			focus = LIB_limited_interactions_with_native_tribes
+		}
+		completion_reward = {
+			KRU = { country_event = { id = LIB_purchase_kru_land.2 days = 1 } }
+		}
+	}	
 	
+	focus = {
+		id = LIB_status_quo
+		icon = GFX_goal_generic_neutrality_focus
+		relative_position_id = LIB_american_colonization_society
+		x = 0
+		y = 1
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			always = no
+		}
+		prerequisite = { focus = LIB_american_colonization_society }
+		mutually_exclusive = {	
+		
+			focus = LIB_president_bensons_reforms 
+			focus = LIB_adopt_strong_ACS_policies
+		
+		}
+		completion_reward = {
+			set_country_flag = LIB_status_quo_flag
+				
+				
+		}
+	}
+
 	focus = {
 		id = LIB_arms_for_slaves_trade
 		icon = GFX_goal_focus_tribal_slavery
-		relative_position_id = LIB_limited_interactions_with_native_tribes
-		x = -1
-		y = 1
+		relative_position_id = LIB_status_quo
+		x = 1
+		y = 2
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1216,30 +1535,27 @@ focus_tree = {
 				}
 			}
 			activate_decision = AFR_interstate_slave_trade_consumer
-			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			custom_effect_tooltip = EGY_afr_decrease_debt_3
 			hidden_effect = {
-				subtract_from_variable = {var = debt_level value = 1}
+				subtract_from_variable = {var = debt_level value = 3}
 			}
 			custom_effect_tooltip = LIB_arms_for_slaves_trade_tooltip	
 			
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_plus_1
-			hidden_effect = {
-				ROOT = {
-					country_event = {id = afr_rrp_racial_tension_increase.1}
-				}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 trigger_for = controller } }
 			}
 		}
 	}
-	
-	
+
 	
 	focus = {
 		id = LIB_end_slave_trade
 		icon = GFX_goal_continuous_boost_freedom
-		relative_position_id = LIB_limited_interactions_with_native_tribes
-		x = 1
-		y = 1
+		relative_position_id = LIB_status_quo
+		x = 3
+		y = 2
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1251,6 +1567,7 @@ focus_tree = {
 		prerequisite = { 
 			focus = LIB_collaboration_with_native_tribes
 			focus = LIB_limited_interactions_with_native_tribes
+			focus = LIB_adopt_strong_ACS_policies
 		}
 		mutually_exclusive = {
 			focus = LIB_arms_for_slaves_trade
@@ -1265,12 +1582,13 @@ focus_tree = {
 				
 		}
 	}
-	
+
+		
 	focus = {
 		id = LIB_liberian_enforecment_of_british_slavery_ban
 		icon = GFX_goal_focus_british_colonial_empire
-		relative_position_id = LIB_adopt_strong_ACS_policies
-		x = 1
+		relative_position_id = LIB_end_slave_trade
+		x = 0
 		y = 1
 		cost = 70
 		available_if_capitulated = no
@@ -1279,31 +1597,44 @@ focus_tree = {
 		}
 		available = {
 			command_power > 50
-			NOT = {
-				has_idea = usa_slavery_law
+			custom_trigger_tooltip = {
+				tooltip = AFR_has_no_slavery_tooltip
+				NOT = {	
+					has_idea = slavery
+					has_idea = usa_slavery_law
+					has_idea = tribal_slavery
+				}
 			}
 		}
 		prerequisite = { 
-			focus = LIB_adopt_strong_ACS_policies
+			focus = LIB_end_slave_trade
 		}
 		completion_reward = {
 			add_command_power = -50
-			swap_ideas = {
-				remove_idea = LIB_transatlantic
-				add_idea = LIB_shining_example_transatlantic
+			if = {
+				limit = { has_idea = AFR_illegal_transatlantic }
+				swap_ideas = {
+					remove_idea = AFR_illegal_transatlantic
+					add_idea = LIB_shining_example_transatlantic
+				}
+			}
+			else_if = {
+				limit = { has_idea = AFR_transatlantic_consumer }
+				swap_ideas = {
+					remove_idea = AFR_transatlantic_consumer
+					add_idea = LIB_shining_example_transatlantic
+				}
 			}
 			ENG = {
 					add_opinion_modifier = {
 						target = LIB
 						modifier = large_increase
 					}
-			}	
+			}
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_minus_1
-			hidden_effect = {
-				ROOT = {
-					country_event = {id = afr_rrp_racial_tension_decrease.1}
-				}
+			capital_scope = {
+				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.1 trigger_for = controller } }
 			}
 			hidden_effect = {
 				every_country = {
@@ -1324,62 +1655,6 @@ focus_tree = {
 		}
 	}
 	
-	
-	
-	focus = {
-		id = LIB_status_quo
-		icon = GFX_goal_generic_neutrality_focus
-		relative_position_id = LIB_american_colonization_society
-		x = 0
-		y = 1
-		cost = 70
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-		available = {
-			
-		}
-		prerequisite = { focus = LIB_american_colonization_society }
-		mutually_exclusive = {	
-		
-			focus = LIB_president_bensons_reforms 
-			focus = LIB_adopt_strong_ACS_policies
-		
-		}
-		completion_reward = {
-			set_country_flag = LIB_status_quo_flag
-				
-				
-		}
-	}
-	
-	focus = {
-		id = LIB_ACS_health_pamphlets
-		icon = GFX_focus_generic_self_management
-		relative_position_id = LIB_social_reforms
-		x = 0
-		y = 1
-		cost = 70
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-		available = {
-			
-		}
-		prerequisite = { 
-			focus = LIB_social_reforms
-		}
-		bypass = {
-			has_tech = hygiene
-		}
-		completion_reward = {
-			set_technology = { hygiene = 1 }
-			custom_effect_tooltip = LIB_ACS_health_pamphlets_tooltip
-		}
-	}
-	
 	focus = {
 		id = LIB_it_was_unavoidable
 		icon = GFX_goal_focus_enact_law
@@ -1389,20 +1664,77 @@ focus_tree = {
 		cost = 70
 		available_if_capitulated = no
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = LIB_it_was_unavoidable_trigger_tooltip
-				OR = {
-					has_government = centrism
-					has_government = fundamentalism
-					has_government = radical_democracy
-					has_government = anarchism
-					has_government = vanguard_communism
-					has_government = collectivist_socialism
-					has_government = social_egalitarianism
+			if = {
+				limit = {
+					OR = {
+						USA = {
+							OR = {	
+								has_idea = slavery
+								has_idea = usa_slavery_law
+								has_idea = tribal_slavery
+							}
+							exists = yes
+							NOT = { has_country_flag = USA_Civil_War_Avoided }
+						}
+						USA = { exists = no }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = LIB_civil_war_state_requirement_tooltip
+					LIB = {
+						owns_state = 298
+						owns_state = 1346
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = LIB_it_was_unavoidable_trigger_tooltip
+					OR = {
+						has_government = fundamentalism
+						has_government = chauvinist_populism
+						has_government = anarchism
+						has_government = vanguard_communism
+						has_government = collectivist_socialism
+						has_government = social_egalitarianism
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = LIB_civil_war_abolitionists_control_senate_tooltip
+					check_variable = { var = LIB.NA_B_pro_abolitionist_senate_seats@LIB value = LIB.NA_B_anti_abolitionist_senate_seats@LIB compare = greater_than }
+				}
+				#custom_trigger_tooltip = {
+				#	tooltip = LIB_civil_war_abolitionists_control_house_tooltip
+				#	check_variable = { var = LIB.NA_B_pro_abolitionist_house_seats@LIB value = LIB.NA_B_anti_abolitionist_house_seats@LIB compare = greater_than }
+				#}
+				custom_trigger_tooltip = {
+					tooltip = LIB_civil_war_ended_interstate_slave_trade_tooltip
+					has_completed_focus = LIB_end_slave_trade
+				}
+				
+			}
+			else = {
+				if = {
+					limit = {
+						USA = { 
+							has_country_flag = USA_Civil_War_Avoided
+							OR = {
+								has_idea = USA_thirty_year_plan_1
+								has_idea = USA_thirty_year_plan_2
+								has_idea = USA_thirty_year_plan_3
+							}
+						}
+					}
+					custom_trigger_tooltip = {
+						tooltip = LIB_USA_not_finished_thirty_year_plan_tooltip
+						always = no
+					}
+				}
+				else = {
+					custom_trigger_tooltip = {
+						tooltip = LIB_USA_banned_slavery_tooltip
+						always = yes
+					}
 				}
 			}
-			NOT = { has_completed_focus = LIB_arms_for_slaves_trade }
-			num_of_controlled_states > 1
 		}
 		prerequisite = { 
 			focus = LIB_social_reforms
@@ -1478,8 +1810,9 @@ focus_tree = {
 	focus = {
 		id = LIB_gem_of_africa
 		icon = GFX_goal_generic_build_tank
-		x = 13
-		y = 8
+		relative_position_id = LIB_end_slave_trade
+		x = -9
+		y = 4
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1503,15 +1836,14 @@ focus_tree = {
 				fabric_weavery > 0
 			}
 		}
-		#prerequisite = { 
-		#	focus = LIB_home_of_the_free
-		#}
-		#prerequisite = { 
-		#	focus = LIB_liberian_enforecment_of_british_slavery_ban
-		#}
+		prerequisite = { 
+			focus = LIB_home_of_the_free
+		}
+		prerequisite = { 
+			focus = LIB_liberian_enforecment_of_british_slavery_ban
+		}
 		completion_reward = {
-				
-				
+			custom_effect_tooltip = LIB_gem_of_africa_temp
 		}
 	}
 	

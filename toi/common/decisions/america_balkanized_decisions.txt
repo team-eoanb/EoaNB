@@ -1,0 +1,171 @@
+balkanized_state_border_skirmish_category = {
+	
+	balkanized_state_border_skirmish_neighbor = {
+
+		icon = generic_political_discourse
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = is_successor_state_tooltip
+				has_country_flag = is_successor_state_of_usa_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = first_nations_tribal_raid_neighbor_diplomacy_trigger
+				NOT = { has_non_aggression_pact_with = FROM }
+			}
+			custom_trigger_tooltip = {
+				tooltip = first_nations_tribal_raid_neighbor_at_peace_trigger
+				has_border_war = no
+				has_war = no
+			}
+			num_divisions > 0
+			hidden_trigger = {
+				any_state = {
+					is_owned_and_controlled_by = FROM
+					any_neighbor_state = {
+						is_fully_controlled_by = ROOT
+					}
+				}
+				is_former_usa_state = yes
+			}
+		}
+		
+		allowed = { is_former_usa_state = yes }
+
+		visible = {
+			is_former_usa_state = yes
+			NOT = { has_war_with = FROM }
+			NOT = { is_in_faction_with = FROM }
+			any_state = {
+				is_owned_and_controlled_by = FROM
+				any_neighbor_state = {
+					is_fully_controlled_by = ROOT
+				}
+			}
+			has_global_flag = is_successor_state_event_fired_flag
+			NOT = { has_country_flag = not_successor_state_of_usa_flag }
+		}
+		
+		target_trigger = {
+			FROM = {
+				is_neighbor_of = ROOT
+				is_former_usa_state = yes
+			}
+			ROOT = {
+				NOT = { is_subject_of = FROM }
+			}
+			FROM = {
+				NOT = { is_subject_of = ROOT }
+			}
+			if = { 
+				limit = { ROOT = { is_subject = yes } }
+				FROM = {
+					NOT = { is_subject_of = OVERLORD }
+				}
+			}
+		}
+		days_remove = 30
+		fire_only_once = no
+		days_re_enable = 90
+
+		cost = 0
+		
+		custom_cost_trigger = {
+
+			command_power > 99.9
+
+		}
+		custom_cost_text = balkanized_state_border_skirmish_neighbor_command_power_more_than_99
+			
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = edc_raid_decision_cancel_trigger
+				OR = {
+					is_in_faction_with = FROM
+					has_war_with = FROM
+					has_border_war_with = FROM
+				}
+			}
+		}
+		modifier = {
+			command_power_gain_mult = -0.90
+		}
+		complete_effect = {
+			hidden_effect = { 
+				add_command_power = -100
+				ROOT = { set_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
+				ROOT = { country_event = { id = set_border_war_data_former_usa_state_raid.1 days = 31 } }
+				random_list = {
+					50 = {
+						FROM = {
+							country_event = { id = balkanized_state_border_skirmish_neighbor_detect_raid.1 }
+							set_country_flag = balkanized_state_border_skirmish_spotted_flag
+							#add_ai_strategy = {
+							#	type = prepare_for_war
+							#	id = ROOT
+							#	value = 5
+							#}
+						}
+					}
+					50 = {
+					}
+				}
+			}
+			ROOT = {
+				#add_ai_strategy = {
+				#	type = prepare_for_war
+				#	id = FROM
+				#	value = 5
+				#}
+			}
+			set_dynamic_american_state_border_war_variables = yes
+		}
+		remove_effect = {
+			hidden_effect = { ROOT = { set_country_flag = balkanized_state_border_skirmish_neighbor_flag } }
+			hidden_effect = { FROM = { set_country_flag = balkanized_state_border_skirmish_neighbor_flag } }
+			start_dynamic_american_state_border_war = yes
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = balkanized_state_border_skirmish_spotted_flag }
+					FROM = {
+						clr_country_flag = balkanized_state_border_skirmish_spotted_flag
+						#add_ai_strategy = {
+						#	type = prepare_for_war
+						#	id = ROOT
+						#	value = -5
+						#}
+					}
+				}
+				ROOT = {
+					#add_ai_strategy = {
+					#	type = prepare_for_war
+					#	id = FROM
+					#	value = -5
+					#}
+				}
+			}
+		}
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0 
+				ROOT = {
+					has_opinion = {
+						target = FROM
+						value > 45
+					}
+				}
+			}
+			modifier = {
+				factor = 10 
+				ROOT = {
+					has_opinion = {
+						target = FROM
+						value < -40
+					}
+				}
+			}
+		}
+	}
+}

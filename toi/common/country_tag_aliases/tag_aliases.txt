@@ -15,7 +15,7 @@
 #	# if none of the following targets are defined, the game will check all existing countries but this is highly discouraged for performance reasons
 #	original_tag = GER # pick a country that has original_tag of GER
 #	targets = { GER FRA ENG } # search within the list of tags/variables
-#	target_array = array_name # search within an array 
+#	target_array = array_name # search within an array
 #
 #	# by default alias will return the first existing country that it matches and fulfils the triggers. you can also define a scoring system like this and it will pick the tag with the highest score > 0
 #	country_score = {
@@ -45,21 +45,44 @@
 #	# ...
 #}
 
-# GER={
-	# targets = { PRS AUS BRV GEC }
+ GER={
+	 targets = { PRS AUS BRV GEC }
+	 country_score = {
+		 base = 0
+		 modifier = {
+			 add = 10
+			 # Prussia forms germany
+			 trigger_is_germany = yes
+		 }
+		 modifier = {
+			 add = 5
+			 # if Bavaria formed it
+			 tag = GEC
+		 }
+	 }
+	 fallback = GRM
+ }
+
+# USA={
+	# targets = {	MIO ASA GRL TEX KTY NEG CAL ORE DAK UTA NMX KNS USA_free_states_of_america }
 	# country_score = {
 		# base = 1
 		# modifier = {
+			# # Any state solidifies hold of mantle
 			# add = 10
-			# # Prussia forms germany
-			# trigger_is_germany = yes
-		# }
-		# modifier = {
-			# add = 5
-			# # if Bavaria formed it
-			# tag = GEC
+			# trigger_solidify_claim_mantle_of_states
 		# }
 	# }
-	# fallback = PRS
+	# fallback USA_free_states_of_america
 # }
+CHI={
+	targets = { QNG ROC PRC TAI GXC TAW PTH SIC YAL NIE }
+	has_country_flag = true_china
+	#fallback = QNG
+}
 
+ITA={
+	targets = { PIE TUS NSC PAP LVN SAR CBI }
+	has_country_flag = is_literally_italy
+	#fallback = PIE
+}

@@ -1,0 +1,321 @@
+add_namespace = yaqui_wars_sonora
+add_namespace = yaqui_resistance_sonora
+add_namespace = yaqui_foreign_alliance
+add_namespace = yaqui_debug_test
+
+	country_event = {
+		id = yaqui_debug_test.1
+		title = yaqui_debug_test.1.t
+		desc = yaqui_debug_test.1.d
+		picture = GFX_report_event_march_revolution
+		
+		is_triggered_only = yes
+		
+		immediate = {
+			if = {
+				limit = { YAQ = { exists = no } }
+				YAQ = { 
+					transfer_state = 483
+					add_state_core = 483
+				}
+			}
+		}
+		
+		option = {
+			name = yaqui_debug_test.1.a  #Ai Becomes Kansas
+			ai_chance = { factor = 100 }
+			if = {
+				limit = { YAQ = { exists = yes } }
+				YAQ = { change_tag_from = ROOT }
+			}
+		}
+		
+		option = {
+			name = yaqui_debug_test.1.b  #Player Becomes Kansas
+			ai_chance = { factor = 100 }
+		}
+	}
+
+	country_event = {
+		id = yaqui_foreign_alliance.1
+		title = yaqui_foreign_alliance.1.t
+		desc = yaqui_foreign_alliance.1.d
+		picture = GFX_report_event_march_revolution
+		
+		is_triggered_only = yes
+		
+		trigger = {
+			ROOT = { NOT = { TAG = YAQ } }
+			ROOT = {
+				check_variable = { assisted_yaqui_resistance < 1 }
+			}
+			any_other_country =	{
+				AND = {
+					NOT = { civilwar_target = ROOT }
+					any_owned_state = { check_variable = { yaqui_resistance_in_sonora > 4 } }
+					has_defensive_war_with = ROOT
+					any_owned_state = {
+						is_fully_controlled_by = ROOT
+					}
+				}
+			}
+		}
+		
+		immediate = {
+			
+		}
+		
+		option = {
+			name = yaqui_foreign_alliance.1.a
+			random_state = {
+				limit = {
+					check_variable = { yaqui_resistance_in_sonora > 4 }
+				}
+				custom_effect_tooltip = yaqui_resistance_in_sonora_add_1
+				hidden_effect = { 
+					state_event = {
+						id = yaqui_foreign_alliance.2
+						days = 1
+						random = 3
+					}
+					add_to_variable = {
+						var = yaqui_resistance_in_sonora
+						value = 1
+					}
+				}
+			}
+			ROOT = {
+				add_to_variable = {
+					var = assisted_yaqui_resistance
+					value = 1
+				}
+			}
+		}
+	}
+	
+	state_event = {
+		id = yaqui_foreign_alliance.2
+		title = yaqui_foreign_alliance.2.t
+		desc = yaqui_foreign_alliance.2.d
+		picture = GFX_report_event_march_revolution
+		
+		is_triggered_only = yes
+		
+		trigger = {
+			ROOT = { NOT = { TAG = YAQ } }
+		}
+		
+		immediate = {
+			
+		}
+		
+		option = {
+			name = yaqui_foreign_alliance.2.a
+			PREV = {
+				custom_effect_tooltip = yaqui_resistance_in_sonora_add_1
+			}
+			owner = { add_stability = -0.0025 }
+		}
+	}
+	
+	
+
+	
+	state_event = {
+		id = yaqui_resistance_sonora.1
+		hidden = yes
+		
+		is_triggered_only = yes
+		
+		immediate = {
+			clr_global_flag = yaqui_resistance_stopped_flag
+		}
+	}
+	
+	state_event = {
+		id = yaqui_resistance_sonora.2
+		title = yaqui_resistance_sonora.2.t
+		desc = yaqui_resistance_sonora.2.d
+		picture = GFX_report_event_march_revolution
+		
+		is_triggered_only = yes
+		
+		trigger = { 
+			OWNER = { NOT = { TAG = YAQ } }
+		}
+		
+		option = {
+			name = yaqui_wars_sonora.1.a
+			owner = { add_stability = -0.005 }
+		}
+	}
+	
+	#Ignacio Pesqueira becomes governor of Sonora
+	country_event = {
+		id = yaqui_wars_sonora.1
+		title = yaqui_wars_sonora.1.t
+		desc = yaqui_wars_sonora.1.d
+		picture = GFX_report_event_march_revolution
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			ROOT = { NOT = { TAG = YAQ } }
+			owns_state = 483
+			#date > 1857.6.6
+			NOT = { has_global_flag = yaqui_wars_sonora_sonora_1 }
+		}
+		
+		immediate = {
+			set_global_flag = yaqui_wars_sonora_sonora_1
+		}
+	
+		option = {
+			name = yaqui_wars_sonora.1.a
+			add_stability = 0.025
+			483 = {
+				custom_effect_tooltip = yaqui_resistance_in_sonora_remove_1
+				add_to_variable = {
+					var = yaqui_resistance_in_sonora
+					value = -1
+				}
+			}
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			483 = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 trigger_for = controller } }
+			}
+		}
+	}
+	
+	#Mayos join Yaqui
+	country_event = {
+		id = yaqui_wars_sonora.2
+		title = yaqui_wars_sonora.2.t
+		desc = yaqui_wars_sonora.2.d
+		picture = GFX_report_event_march_revolution
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			ROOT = { NOT = { TAG = YAQ } }
+			owns_state = 483
+			#date > 1858.3.3
+			NOT = { has_global_flag = yaqui_wars_sonora_sonora_1 }
+		}
+		
+		immediate = {
+			set_global_flag = yaqui_wars_sonora_sonora_1
+		}
+	
+		option = {
+			name = yaqui_wars_sonora.2.a
+			ai_chance = {
+				factor = 75
+			}
+			add_stability = -0.015
+			hidden_effect = {
+				483 = {
+					state_event = {
+						id = yaqui_wars_sonora.3
+						days = 120
+						random = 35
+					}
+				}
+			}
+			483 = {
+				custom_effect_tooltip = yaqui_resistance_in_sonora_add_1
+				add_to_variable = {
+					var = yaqui_resistance_in_sonora
+					value = 1
+				}
+			}
+		}
+		
+		option = {
+			name = yaqui_wars_sonora.2.b
+			ai_chance = {
+				factor = 25
+				modifier = {
+					factor = 4
+					has_political_power > 100
+				}
+			}
+			add_political_power = -100
+			add_command_power = -100
+			add_stability = -0.015
+			hidden_effect = {
+				set_country_flag = yaqui_wars_sonora_defense_flag
+				add_ai_strategy = {
+					type = build_building
+					id = bunker
+					target = 483
+					value = 200
+				}
+			}
+		}
+	}
+	
+	#Mayos and Yaqui destroy santa cruz, Sonora
+	state_event = {
+		id = yaqui_wars_sonora.3
+		title = yaqui_wars_sonora.3.t
+		desc = yaqui_wars_sonora.3.d
+		picture = GFX_report_event_march_revolution
+		
+		is_triggered_only = yes
+		fire_only_once = yes
+		
+		trigger = {
+			OWNER = { NOT = { TAG = YAQ } }
+		}
+	
+		option = {
+			name = yaqui_wars_sonora.3.a
+			owner={add_stability = -0.05}
+			483 = {
+				add_manpower = -2553
+				custom_effect_tooltip = yaqui_resistance_in_sonora_add_3
+				add_to_variable = {
+					var = yaqui_resistance_in_sonora
+					value = 3
+				}
+			}
+		}
+	}
+	
+	#Mayos and Yaqui are defeated at santa cruz, Sonora
+	state_event = {
+		id = yaqui_wars_sonora.4
+		title = yaqui_wars_sonora.4.t
+		desc = yaqui_wars_sonora.4.d
+		picture = GFX_report_event_march_revolution
+		
+		is_triggered_only = yes
+		fire_only_once = yes
+		
+		trigger = {
+			OWNER = { NOT = { TAG = YAQ } }
+		}
+	
+		option = {
+			name = yaqui_wars_sonora.4.a
+			owner={add_stability = -0.01}
+			483 = {	add_manpower = -258 }
+			483 = {
+				custom_effect_tooltip = yaqui_resistance_in_sonora_remove_2
+				add_to_variable = {
+					var = yaqui_resistance_in_sonora
+					value = -2
+				}
+			}
+			add_manpower = -372
+		}
+	}
+	
+
+	
+	
+

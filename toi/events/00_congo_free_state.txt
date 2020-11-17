@@ -1,0 +1,96 @@
+add_namespace = edc_congo
+
+country_event = {#form the International African Association
+    id = edc_congo.1
+	title = edc_congo.1.t
+	desc = edc_congo.1.desc ###
+	picture = GFX_report_event_chinese_army_training
+
+    trigger={
+		#date > 1876.04.01
+		tag = BEL
+	}
+	fire_only_once = yes
+	is_triggered_only = yes
+	option={
+		name = edc_congo.1.a
+		set_country_flag = BEL_IAA_founded
+
+	}
+}
+
+country_event = {#send henry morton stanley into the congo
+    id = edc_congo.2
+	title = edc_congo.2.t
+	desc = edc_congo.2.desc ###
+	picture = GFX_report_event_chinese_army_training
+
+    trigger={
+		#date > 1879.04.01
+		tag = BEL
+		has_country_flag = BEL_IAA_founded
+	}
+	fire_only_once = yes
+	is_triggered_only = yes
+	option={
+		name = edc_congo.2.a
+
+	}
+}
+country_event = {#found the IAG
+    id = edc_congo.3
+	title = edc_congo.3.t
+	desc = edc_congo.3.desc ###
+	picture = GFX_report_event_chinese_army_training
+
+    trigger={
+		tag = BEL
+		#date > 1879.11.15
+		has_country_flag = BEL_IAA_founded
+		ZAI={exists = no}
+	}
+	fire_only_once = yes
+	is_triggered_only = yes
+	option={
+		name = edc_congo.3.a
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = ZAI
+				autonomy_state = autonomy_dominion
+			}
+		}
+		else = {
+			puppet = ZAI
+		}
+		ZAI={
+			set_cosmetic_tag = ZAI_IAG
+			if={
+				limit={
+					KON={
+						owns_state = 888
+					}
+				}
+				transfer_state = 888
+				add_state_core = 888
+			}
+		}
+		if={
+			limit={
+				KON={
+					is_subject_of = POR
+					is_ai = yes
+				}
+			}
+			POR={
+				annex_country = {
+					target = KON
+					transfer_troops = yes
+				}
+			}
+		}
+
+	}
+}

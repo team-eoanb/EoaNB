@@ -1,0 +1,110 @@
+ALZ_slave_raid_border_conflict = {
+
+	ALZ_slave_raid_state_834 = {
+		icon = generic_prepare_civil_war
+		available = {
+			has_war_support > 0.45
+			custom_trigger_tooltip = {
+			tooltip = ALZ_slave_raid_does_not_have_non_aggression_pact
+				834 ={
+					owner = {
+						NOT = { has_non_aggression_pact_with = ROOT }
+					}
+				}
+			}
+			NOT = { has_country_flag = raiding_neighbour }
+		}
+		
+		custom_cost_trigger = {
+		
+			command_power > 99
+		
+		}
+		custom_cost_text = command_power_more_than_99
+
+		allowed = { TAG = ALZ }
+		
+		visible = {
+			ALZ = {
+				owns_state = 833
+			}
+			any_other_country = {
+				owns_state = 834
+			}
+		}
+	
+		fire_only_once = no
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				has_war_support > 0.5
+			}
+		}
+	
+		days_remove = 60
+		
+		days_re_enable = 100
+		
+		complete_effect = {
+			army_experience = 10
+			add_command_power = -100
+			set_country_flag = raiding_neighbour
+			hidden_effect = {
+				834 ={
+					owner = {
+						division_template = {
+							name = "Elite Tribal Infantry"
+							priority = 2
+							division_names_group = KRU_TRIBAL_INFANTRY_01
+							regiments = {
+								tribal_infantry = { x = 0 y = 0 }
+							
+								tribal_infantry = { x = 1 y = 0 }
+							}
+						}
+						set_division_template_lock = {
+							division_template = "Elite Tribal Infantry"
+							is_locked = yes
+						}
+						if = {
+							limit = { afr_is_tribal = yes }
+							add_ideas = ETH_generals_inspire
+						}
+						country_event = { days = 7 id = ALZ_slave_raid_defender.1 }
+						834 = {
+							create_unit = {
+								division = "name = \"Elite Tribal Infantry\" division_template = \"Elite Tribal Infantry\" start_experience_factor = 3.0" 
+								owner = PREV
+							}
+						}
+						clr_country_flag = ALZ_slave_raid_ended
+					}
+				}
+				
+				
+			}
+			country_event = { days = 7 id = ALZ_slave_raid_attacker.1 }
+			
+		}
+		
+		cancel_trigger = {
+			has_country_flag = ALZ_slave_raid_ended
+		}
+	
+		remove_effect = {
+			finalize_border_war = {
+				attacker_win = yes
+				attacker = 833
+				defender = 834
+			}
+			hidden_effect = {
+				
+			}
+		}
+		
+	}
+	
+	
+}

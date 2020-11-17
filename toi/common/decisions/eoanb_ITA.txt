@@ -1,17 +1,18 @@
 
 
 ITA_Culture_category_decisions = {
-	
+
 	ITA_decision_invest_in_opera = {
+		ai_will_do = {
+			base = 1
+		}
 
 		icon = ita_culture
 
 		available = {
-			has_war = no
+			original_tag = PIE
 		}
-		visible = {
-			always = yes
-		}
+
 		remove_trigger = {
 			has_war = yes
 		}
@@ -21,21 +22,22 @@ ITA_Culture_category_decisions = {
 		}
 
 		days_remove = 100
-		
+
 
 		cost = 100
 
 	}
-	
+
 	ITA_decision_spread_new_songs = {
+		ai_will_do = {
+			base = 1
+		}
 
 		icon = ita_culture
 
 		available = {
 			has_war = no
-		}
-		visible = {
-			always = yes
+			has_cosmetic_tag = PIE_focus_ITA
 		}
 		remove_trigger = {
 			has_war = yes
@@ -45,65 +47,430 @@ ITA_Culture_category_decisions = {
 			political_power_gain = 0.4
 		}
 		complete_effect = {
-			every_neighbor_country = { add_opinion_modifier = { target = PREV modifier = italian_music_popular } }	
+			every_neighbor_country = { add_opinion_modifier = { target = PREV modifier = italian_music_popular } }
 		}
 
 		days_remove = 90
-		
+
 
 		cost = 100
 
 	}
 
 }
-ITA_Referendum_category_decisions = {
-	
-	ITA_decision_ticino_referendum = {
+#ITA_Referendum_category_decisions = {
 
-	icon = generic_political_actions
+	#ITA_decision_ticino_referendum = {
+
+	#icon = generic_political_actions
 
 	#available = {
 		#}
-	visible = {
-			always = yes
+	#visible = {
+			#always = yes
+		#}
+	#complete_effect = {
+		#country_event = {
+   			 #id = ita.10
+   			 #hours = 1
+			#}
+
+		#}
+
+		#cost = 100
+
+		#fire_only_once = yes
+
+	#}
+
+#}
+
+ITA_brigindage_category_decisions = {
+
+	ITA_decision_deal_with_brigindage = {
+
+		ai_will_do = {
+			base = 1
 		}
-	complete_effect = {
-		country_event = {
-   			 id = ita.10
-   			 hours = 1
+
+	icon = generic_political_actions
+
+	allowed = {
+		original_tag = PIE
+	}
+	activation = {
+		custom_trigger_tooltip = {
+			tooltip = ITA_decision_tooltip_activation
+			always = no
+		}
+	}
+	available = {
+		custom_trigger_tooltip = {
+            tooltip = ITA_brigandage_mission_active
+            has_country_flag = ITA_brigandage_mission_over #REMEMBER THIS
+        }
+	}
+	days_mission_timeout = 1500
+
+	timeout_effect = {                      # What happens when we fail the mission?
+              country_event = {
+				  id = ita.36
+				  days = 10
+			  }             # Eat shit and die
+		  }
+		  complete_effect = {                    # What happens when we activate the mission i.e. mission success?
+			   add_political_power = 50
+			   remove_ideas = ITA_Brigandage
+			   clear_variable = southern_revolt_risk               # VITORIA
+          }
+
+	}
+
+	ITA_Brigandage_government_debate = {
+
+		ai_will_do = {
+			base = 1
+		}
+
+
+		icon = generic_political_actions
+
+
+		cost = 50
+		fire_only_once = yes
+		available = {
+			AND = {
+				original_tag = PIE
+				has_completed_focus = ITA_Deal_with_Brigandage
+				has_active_mission = ITA_decision_deal_with_brigindage
+				has_completed_focus = ITA_1861_elections
 			}
-				
 		}
 
-		cost = 100
-
+		cost = 50
 		fire_only_once = yes
 
+		complete_effect = {
+			country_event = {
+				id = ita.39
+				days = 1
+			}
+			complete_national_focus = ITA_The_Southern_Question
+		}
+
+	}
+	ITA_Increase_Military_Presence = {
+
+		ai_will_do = {
+			base = 1
+		}
+
+		icon = generic_political_actions
+
+		cost = 50 
+		days_re_enable = 180
+		available = {
+			has_active_mission = ITA_decision_deal_with_brigindage
+		}
+
+
+		complete_effect = {
+			custom_effect_tooltip = ITA_Increase_Military_Presence_tooltip
+			add_to_variable = {
+				var = southern_revolt_risk
+				value = -2
+			}
+			add_timed_idea = {
+				idea = ITA_Military_Crackdown_Southern
+				days = 180
+			}
+		}
 	}
 
 }
+ITA_decisions_category_influence_minor_states = {
 
-ITA_brigindage_category_decisions = {
-	
-	ITA_decision_deal_with_brigindage = {
+	ITA_decision_influence_parma = {
 
-	icon = ita_skull
+		icon = generic_political_actions
+
+		available = {
+			has_completed_focus = PIE_Handle_the_Central_States
+		}
+
+		visible = {
+			has_completed_focus = PIE_Handle_the_Central_States
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = {
+			has_manpower > 1000
+		}
+
+		custom_cost_text = PIE_Manpower_Minor_States
+
+		cost = 50
+
+		days_remove = 30
+		remove_effect = {
+			set_country_flag = PIE_Central_States_Handle_PRM
+			add_manpower = -1000
+		}
+		ai_will_do = {
+			base = 1
+		}
+
+}
+
+ITA_decision_influence_Modena = {
+
+	icon = generic_political_actions
 
 	available = {
-			has_completed_focus = ITA_Deal_with_Brigandage
+		has_completed_focus = PIE_Handle_the_Central_States
 	}
 
 	visible = {
-		always = yes
+		has_completed_focus = PIE_Handle_the_Central_States
 	}
 
 	fire_only_once = yes
 
+	custom_cost_trigger = {
+		has_manpower > 1000
+	}
 
+	custom_cost_text = PIE_Manpower_Minor_States
+
+	cost = 50
+
+	days_remove = 30
+	remove_effect = {
+		set_country_flag = PIE_Central_States_Handle_MOD
+		add_manpower = -1000
+	}
+	ai_will_do = {
+		base = 1
+	}
+
+}
+ITA_decision_influence_parma2 = {
+
+	icon = generic_political_actions
+
+	available = {
+		has_completed_focus = PIE_Handle_the_Central_States
+		has_country_flag = PIE_Central_States_Handle_PRM
+	}
+
+	visible = {
+		has_completed_focus = PIE_Handle_the_Central_States
+		has_country_flag = PIE_Central_States_Handle_PRM
+	}
+
+	fire_only_once = yes
+
+	custom_cost_trigger = {
+		has_manpower > 1000
+	}
+
+	custom_cost_text = PIE_Manpower_Minor_States
+
+	cost = 100
+
+	days_remove = 30
+	remove_effect = {
+		clr_country_flag = PIE_Central_States_Handle_PRM
+		PIE = {
+			annex_country = {
+				target = PRM
+				transfer_troops = yes
+			}
+			add_manpower = -1000
+		}
+	}
+
+	ai_will_do = {
+		base = 1
+	}
+}
+
+ITA_decision_influence_modena2 = {
+
+	icon = generic_political_actions
+
+	available = {
+		has_completed_focus = PIE_Handle_the_Central_States
+		has_country_flag = PIE_Central_States_Handle_MOD
+	}
+
+	visible = {
+		has_completed_focus = PIE_Handle_the_Central_States
+		has_country_flag = PIE_Central_States_Handle_MOD
+	}
+
+	fire_only_once = yes
+
+	custom_cost_trigger = {
+		has_manpower > 1000
+	}
+
+	custom_cost_text = PIE_Manpower_Minor_States
+
+	cost = 100
+
+	days_remove = 30
+	remove_effect = {
+		clr_country_flag = PIE_Central_States_Handle_MOD
+		PIE = {
+			annex_country = {
+				target = MOD
+				transfer_troops = yes
+			}
+			add_manpower = -1000
+		}
+	}
+	ai_will_do = {
+		base = 1
+	}
+
+}
+
+ITA_decision_influence_tuscany = {
+
+	icon = generic_political_actions
+
+	available = {
+		has_completed_focus = PIE_A_Deal_with_Tuscany
+	}
+
+	visible = {
+		has_completed_focus = PIE_A_Deal_with_Tuscany
+	}
+
+	fire_only_once = yes
 
 	cost = 25
 
-	}	
+	complete_effect = {
+		custom_effect_tooltip = ITA_decision_influence_tuscany_begin_negociation
+		hidden_effect = {
+			set_country_flag = ITA_decisions_unlock_tuscan_negociations
+		}
+	}
+	ai_will_do = {
+		base = 1
+	}
+
+}
+
+
+ITA_decision_influence_tuscany1 = {
+
+	icon = generic_political_actions
+
+	available = {
+		has_completed_focus = PIE_A_Deal_with_Tuscany
+		has_country_flag = ITA_decisions_unlock_tuscan_negociations
+	}
+
+	visible = {
+		has_completed_focus = PIE_A_Deal_with_Tuscany
+		has_country_flag = ITA_decisions_unlock_tuscan_negociations
+	}
+
+	fire_only_once = yes
+
+	cost = 20
+
+	complete_effect = {
+		custom_effect_tooltip = ITA_decision_influence_tuscany_begin_negociation1
+		hidden_effect = {
+			add_timed_idea = {
+				idea = PIE_Tuscan_Politicians_Corruption
+				days = 180
+				}
+		set_country_flag = ITA_decision_influence_tuscany_negotion_continue2
+			}		
+
+		}
+	ai_will_do = {
+	base = 1
+	}
+}
+
+
+ITA_decision_influence_tuscany2 = {
+
+	icon = generic_political_actions
+
+	available = {
+		has_completed_focus = PIE_A_Deal_with_Tuscany
+		has_country_flag = ITA_decisions_unlock_tuscan_negociations
+	}
+
+	visible = {
+		has_completed_focus = PIE_A_Deal_with_Tuscany
+		has_country_flag = ITA_decisions_unlock_tuscan_negociations
+	}
+
+	fire_only_once = yes
+
+	cost = 20
+
+	complete_effect = {
+		country_event = {
+			id = sardinia.46
+			days = 1
+		}
+		set_country_flag = ITA_decision_influence_tuscany2_continuetime
+	}
+	ai_will_do = {
+		base = 1
+	}
+
+}
+
+ITA_decision_influence_tuscany3 = {
+
+	icon = generic_political_actions
+
+	available = {
+		has_completed_focus = PIE_A_Deal_with_Tuscany
+		has_completed_focus = PIE_Convince_Leopold
+
+		custom_trigger_tooltip = {
+			tooltip = ITA_Decisions_Tuscan_Complete
+			has_country_flag = ITA_decision_influence_tuscany2_continuetime
+			has_country_flag = ITA_decisions_unlock_tuscan_negociations
+
+		}
+
+
+	}
+
+	visible = {
+		has_completed_focus = PIE_A_Deal_with_Tuscany
+		has_country_flag = ITA_decisions_unlock_tuscan_negociations
+	}
+
+	fire_only_once = yes
+
+	cost = 50
+
+	complete_effect = {
+		puppet = TUS
+		hidden_effect = {
+			clr_country_flag = ITA_decisions_unlock_tuscan_negociations
+		}
+	}
+	ai_will_do = {
+		base = 1
+	}
+
+}
+
 
 
 }

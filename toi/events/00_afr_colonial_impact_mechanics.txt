@@ -2,3423 +2,2024 @@
 add_namespace = afr_rrp_weapon_contract
 add_namespace = afr_rrp_racial_tension_increase
 add_namespace = afr_rrp_racial_tension_decrease
+add_namespace = afr_total_detrimental_colonial_level
+
+
+add_namespace = DCI_african_colonial_incident_mission_event
+add_namespace = DCI_american_south_incident_mission_event
+add_namespace = DCI_caribbean_incident_mission_event
+add_namespace = DCI_native_american_incident_mission_event
+add_namespace = DCI_native_south_american_incident_mission_event
+add_namespace = DCI_south_american_slave_coast_incident_mission_event
+add_namespace = DCI_irish_incident_mission_event
+add_namespace = DCI_west_africa_incident_mission_event
+
+add_namespace = DCI_american_south_incident_event
+add_namespace = DCI_american_south_random_event_1
+
+add_namespace = DCI_caribbean_incident_event
+
+add_namespace = DCI_native_american_incident_event
+
+add_namespace = DCI_native_south_american_incident_event
+
+add_namespace = DCI_south_american_slave_coast_incident_event
+
+add_namespace = DCI_irish_incident_event
+
+add_namespace = DCI_west_africa_incident_event
+
+add_namespace = DCI_generic_vote_discrimination_event_1
+add_namespace = DCI_generic_runaway_slave_land_event_1
+add_namespace = DCI_generic_runaway_slave_coastal_event_1
+
+
 
 country_event = {
+	id = DCI_american_south_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_american_south_incident_mission_stop }
+	}
+}
+
+country_event = {
+	id = DCI_caribbean_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_caribbean_incident_mission_stop }
+	}
+}
+
+country_event = {
+	id = DCI_native_american_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_native_american_incident_mission_stop }
+	}
+}
+
+country_event = {
+	id = DCI_native_south_american_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_native_south_american_incident_mission_stop }
+	}
+}
+
+country_event = {
+	id = DCI_south_american_slave_coast_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_south_american_slave_coast_incident_mission_stop }
+	}
+}
+
+country_event = {
+	id = DCI_irish_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_irish_incident_mission_stop }
+	}
+}
+
+country_event = {
+	id = DCI_west_africa_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_west_africa_incident_mission_stop }
+	}
+}
+
+###########################
+# DCI Random Events
+###########################
+
+state_event = {
+	id = DCI_american_south_incident_event.1
+	is_triggered_only = yes
+	timeout_days = 1
+	hidden = yes
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+
+	immediate = {
+		ROOT = {
+			OWNER = {
+				random_list = {
+					50 = {
+						set_country_flag = DCI_american_south_random_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_american_south_random_event_1_flag }
+						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+					}
+					20 = {
+						set_country_flag = DCI_american_south_runaway_slave_coastal_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_american_south_runaway_slave_coastal_event_1_flag }
+						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+					}
+					20 = {
+						set_country_flag = DCI_american_south_vote_discrimination_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_american_south_vote_discrimination_event_1_flag }
+						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
+					}
+					10 = {  
+						clr_country_flag = DCI_american_south_random_event_1_flag
+						clr_country_flag = DCI_american_south_runaway_slave_coastal_event_1_flag
+						clr_country_flag = DCI_american_south_vote_discrimination_event_1_flag
+						set_country_flag = DCI_american_south_random_event_none_flag
+					}
+				}
+			}
+		}
+	}
+	option = {
+		OWNER = {
+			if = {
+				limit = {
+					has_country_flag = DCI_american_south_random_event_1_flag
+					OR = {
+						has_idea = usa_slavery_law
+						has_idea = slavery
+					}
+					ROOT = {
+						any_neighbor_state = {
+							OWNER = {
+								NOT = { 
+									has_idea = usa_slavery_law
+									has_idea = tribal_slavery
+									has_idea = slavery
+									has_idea = slavery_all_but_name
+								}
+							}
+						}
+					}
+				}
+				clr_country_flag = DCI_american_south_random_event_1_flag
+				country_event = { id = DCI_american_south_random_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_american_south_runaway_slave_coastal_event_1_flag
+					OR = {
+						has_idea = usa_slavery_law
+						has_idea = slavery
+					}
+					ROOT = {
+						is_coastal = yes
+					}
+				}
+				clr_country_flag = DCI_american_south_runaway_slave_coastal_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_coastal_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_american_south_vote_discrimination_event_1_flag
+					NOT = {
+						has_idea = absolutism
+						has_idea = full_equality
+					}
+				}
+				clr_country_flag = DCI_american_south_vote_discrimination_event_1_flag
+				country_event = { id = DCI_generic_vote_discrimination_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = { has_country_flag = DCI_american_south_random_event_none_flag }
+				clr_country_flag = DCI_american_south_random_event_none_flag
+			}
+			else = {
+				ROOT = { state_event = { id = DCI_american_south_incident_event.1 } }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = DCI_american_south_random_event_1.1
+	title = DCI_american_south_random_event_1.1.t
+	desc = DCI_american_south_random_event_1.1.d
+	picture = GFX_event_ITA_Po_Valley_Modernization
+	is_triggered_only = yes
+	
+	option = {
+		name = DCI_american_south_random_event_1.1.a
+		trigger = { always = yes }
+		ai_chance = { 
+			factor = 40 
+			modifier = {
+				factor = 0
+				has_political_power > 50
+			}
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		set_country_flag = DCI_american_south_random_event_2_d
+		hidden_effect = { country_event = { id = DCI_american_south_random_event_1.2 days = 7 } }
+	}
+	
+	option = {
+		name = DCI_american_south_random_event_1.1.b
+		trigger = { command_power > 149 }
+		ai_chance = { 
+			factor = 60 
+			modifier = {
+				factor = 0
+				has_political_power > 50
+			}
+		}
+		add_command_power = -150
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = {
+			random_list = {
+				40 = { set_country_flag = DCI_american_south_random_event_2_e }
+				40 = { set_country_flag = DCI_american_south_random_event_2_f }
+				20 = { set_country_flag = DCI_american_south_random_event_2_g }
+			}
+			country_event = { id = DCI_american_south_random_event_1.2 days = 7 }
+		}
+	}
+	
+	option = {
+		name = DCI_american_south_random_event_1.1.c
+		trigger = { has_political_power > 50 }
+		ai_chance = { factor = 100 }
+		add_political_power = -50
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = {
+			random_list = {
+				10 = { set_country_flag = DCI_american_south_random_event_2_e }
+				20 = { set_country_flag = DCI_american_south_random_event_2_f }
+				70 = { set_country_flag = DCI_american_south_random_event_2_g }
+			}
+			country_event = { id = DCI_american_south_random_event_1.2 days = 7 }
+		}
+	}
+}
+
+country_event = {
+	id = DCI_american_south_random_event_1.2
+	title = DCI_american_south_random_event_1.2.t
+	#picture = GFX_Muhammad
+	is_triggered_only = yes
+	desc = {
+		text = DCI_american_south_random_event_1.2.d
+		trigger = { has_country_flag = DCI_american_south_random_event_2_d }
+	}
+	desc = {
+		text = DCI_american_south_random_event_1.2.e
+		trigger = { has_country_flag = DCI_american_south_random_event_2_e }
+	}
+	desc = {
+		text = DCI_american_south_random_event_1.2.f
+		trigger = { has_country_flag = DCI_american_south_random_event_2_f }
+	}
+	desc = {
+		text = DCI_american_south_random_event_1.2.g
+		trigger = { has_country_flag = DCI_american_south_random_event_2_g }
+	}
+	
+	option = {
+		name = DCI_american_south_random_event_1.2.a
+		trigger = { 
+			OR = {
+				has_country_flag = DCI_american_south_random_event_2_d
+				has_country_flag = DCI_american_south_random_event_2_e
+			}
+		}
+		clr_country_flag = DCI_american_south_random_event_2_d
+		clr_country_flag = DCI_american_south_random_event_2_e
+	}
+	option = {
+		name = DCI_american_south_random_event_1.2.b
+		trigger = { has_country_flag = DCI_american_south_random_event_2_f }
+		clr_country_flag = DCI_american_south_random_event_2_f
+		add_timed_idea = { idea = DCI_random_event_angry_slave_owners_idea days = 60 }
+	}
+	option = {
+		name = DCI_american_south_random_event_1.2.c
+		trigger = { has_country_flag = DCI_american_south_random_event_2_g }
+		clr_country_flag = DCI_american_south_random_event_2_g
+		add_timed_idea = { idea = DCI_random_event_push_slave_abolition_idea days = 60 } 
+	}
+}
+
+state_event = {
+	id = DCI_caribbean_incident_event.1
+	is_triggered_only = yes
+	timeout_days = 1
+	hidden = yes
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+
+	immediate = {
+		ROOT = {
+			OWNER = {
+				random_list = {
+					30 = {
+						set_country_flag = DCI_caribbean_runaway_slave_land_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_caribbean_runaway_slave_land_event_1_flag }
+						modifier = {
+							factor = 0 
+							if = { 
+								limit = { TAG = SPR }
+								if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date > 1886.1.1 }
+								else_if = { limit = { ROOT = { STATE = 686 } } date > 1873.1.1 }
+								else = { date > 1886.1.1 }
+							}
+							else_if = { 
+								limit = { TAG = HOL }
+								date > 1873.1.1
+							}
+							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						}
+					}
+					30 = {
+						set_country_flag = DCI_caribbean_runaway_slave_coastal_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_caribbean_runaway_slave_coastal_event_1_flag }
+						modifier = {
+							factor = 0 
+							if = { 
+								limit = { TAG = SPR }
+								if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date > 1886.1.1 }
+								else_if = { limit = { ROOT = { STATE = 686 } } date > 1873.1.1 }
+								else = { date > 1886.1.1 }
+							}
+							else_if = { 
+								limit = { TAG = HOL }
+								date > 1873.1.1
+							}
+							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						}
+					}
+					30 = {
+						set_country_flag = DCI_caribbean_vote_discrimination_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_caribbean_vote_discrimination_event_1_flag }
+						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
+					}
+					10 = {  
+						clr_country_flag = DCI_caribbean_runaway_slave_coastal_event_1_flag
+						clr_country_flag = DCI_caribbean_runaway_slave_land_event_1_flag
+						clr_country_flag = DCI_caribbean_vote_discrimination_event_1_flag
+						set_country_flag = DCI_caribbean_random_event_none_flag
+					}
+				}
+			}
+		}
+	}
+	option = {
+		OWNER = {
+			if = {
+				limit = {
+					has_country_flag = DCI_caribbean_runaway_slave_land_event_1_flag
+					if = { 
+						limit = { TAG = SPR }
+						if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date < 1886.1.1 }
+						else_if = { limit = { ROOT = { STATE = 686 } } date < 1873.1.1 }
+						else = { date < 1886.1.1 }
+					}
+					else_if = { 
+						limit = { TAG = HOL }
+						date < 1873.1.1
+					}
+					else = {
+						OR = {
+							has_idea = usa_slavery_law
+							has_idea = slavery
+						}
+					}
+					ROOT = {
+						any_neighbor_state = {
+							OWNER = {
+								NOT = { 
+									has_idea = usa_slavery_law
+									has_idea = tribal_slavery
+									has_idea = slavery
+									has_idea = slavery_all_but_name
+								}
+							}
+						}
+					}
+				}
+				clr_country_flag = DCI_caribbean_runaway_slave_land_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_land_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_caribbean_runaway_slave_coastal_event_1_flag
+					if = { 
+						limit = { TAG = SPR }
+						if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date < 1886.1.1 }
+						else_if = { limit = { ROOT = { STATE = 686 } } date < 1873.1.1 }
+						else = { date < 1886.1.1 }
+					}
+					else_if = { 
+						limit = { TAG = HOL }
+						date < 1873.1.1
+					}
+					else = {
+						OR = {
+							has_idea = usa_slavery_law
+							has_idea = slavery
+						}
+					}
+					ROOT = {
+						is_coastal = yes
+					}
+				}
+				clr_country_flag = DCI_caribbean_runaway_slave_coastal_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_coastal_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_caribbean_vote_discrimination_event_1_flag
+					NOT = {
+						has_idea = absolutism
+						has_idea = full_equality
+					}
+				}
+				clr_country_flag = DCI_caribbean_vote_discrimination_event_1_flag
+				country_event = { id = DCI_generic_vote_discrimination_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = { has_country_flag = DCI_caribbean_random_event_none_flag }
+				clr_country_flag = DCI_caribbean_random_event_none_flag
+			}
+			else = {
+				ROOT = { state_event = { id = DCI_caribbean_incident_event.1 } }
+			}
+		}
+	}
+}
+
+state_event = {
+	id = DCI_native_american_incident_event.1
+	title = DCI_native_american_incident_event.1.t
+	desc = DCI_native_american_incident_event.1.d
+	#picture = GFX_Muhammad
+	is_triggered_only = yes
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+	
+	option = {
+		name = DCI_native_american_incident_event.1.a
+		ai_chance = { factor = 1}
+	}
+	
+	option = {
+		name = DCI_native_american_incident_event.1.b
+		ai_chance = { factor = 1}
+	}
+}
+
+state_event = {
+	id = DCI_native_south_american_incident_event.1
+	title = DCI_native_south_american_incident_event.1.t
+	desc = DCI_native_south_american_incident_event.1.d
+	#picture = GFX_Muhammad
+	is_triggered_only = yes
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+	
+	option = {
+		name = DCI_native_south_american_incident_event.1.a
+		ai_chance = { factor = 1}
+	}
+	
+	option = {
+		name = DCI_native_south_american_incident_event.1.b
+		ai_chance = { factor = 1}
+	}
+}
+
+state_event = {
+	id = DCI_south_american_slave_coast_incident_event.1
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+
+	immediate = {
+		ROOT = {
+			OWNER = {
+				random_list = {
+					30 = {
+						set_country_flag = DCI_south_american_slave_coast_runaway_slave_land_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_south_american_slave_coast_runaway_slave_land_event_1_flag }
+						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+					}
+					30 = {
+						set_country_flag = DCI_south_american_slave_coast_runaway_slave_coastal_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_south_american_slave_coast_runaway_slave_coastal_event_1_flag }
+						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+					}
+					30 = {
+						set_country_flag = DCI_south_american_slave_coast_vote_discrimination_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_south_american_slave_coast_vote_discrimination_event_1_flag }
+						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
+					}
+					10 = {  
+						clr_country_flag = DCI_south_american_slave_coast_runaway_slave_coastal_event_1_flag
+						clr_country_flag = DCI_south_american_slave_coast_runaway_slave_land_event_1_flag
+						clr_country_flag = DCI_south_american_slave_coast_vote_discrimination_event_1_flag
+						set_country_flag = DCI_south_american_slave_coast_random_event_none_flag
+					}
+				}
+			}
+		}
+	}
+	option = {
+		OWNER = {
+			if = {
+				limit = {
+					has_country_flag = DCI_south_american_slave_coast_runaway_slave_land_event_1_flag
+					OR = {
+						has_idea = usa_slavery_law
+						has_idea = slavery
+					}
+					ROOT = {
+						any_neighbor_state = {
+							OWNER = {
+								NOT = { 
+									has_idea = usa_slavery_law
+									has_idea = tribal_slavery
+									has_idea = slavery
+									has_idea = slavery_all_but_name
+								}
+							}
+						}
+					}
+				}
+				clr_country_flag = DCI_south_american_slave_coast_runaway_slave_land_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_land_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_south_american_slave_coast_runaway_slave_coastal_event_1_flag
+					OR = {
+						has_idea = usa_slavery_law
+						has_idea = slavery
+					}
+					ROOT = {
+						is_coastal = yes
+					}
+				}
+				clr_country_flag = DCI_south_american_slave_coast_runaway_slave_coastal_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_coastal_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_south_american_slave_coast_vote_discrimination_event_1_flag
+					NOT = {
+						has_idea = absolutism
+						has_idea = full_equality
+					}
+				}
+				clr_country_flag = DCI_south_american_slave_coast_vote_discrimination_event_1_flag
+				country_event = { id = DCI_generic_vote_discrimination_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = { has_country_flag = DCI_south_american_slave_coast_random_event_none_flag }
+				clr_country_flag = DCI_south_american_slave_coast_random_event_none_flag
+			}
+			else = {
+				ROOT = { state_event = { id = DCI_south_american_slave_coast_incident_event.1 } }
+			}
+		}
+	}
+}
+
+state_event = {
+	id = DCI_irish_incident_event.1
+	title = DCI_irish_incident_event.1.t
+	desc = DCI_irish_incident_event.1.d
+	#picture = GFX_Muhammad
+	is_triggered_only = yes
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+	
+	option = {
+		name = DCI_irish_incident_event.1.a
+		ai_chance = { factor = 1}
+	}
+	
+	option = {
+		name = DCI_irish_incident_event.1.b
+		ai_chance = { factor = 1}
+	}
+}
+
+
+state_event = {
+	id = DCI_west_africa_incident_event.1
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+	
+	immediate = {
+		ROOT = {
+			OWNER = {
+				random_list = {
+					30 = {
+						set_country_flag = DCI_west_africa_runaway_slave_land_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_west_africa_runaway_slave_land_event_1_flag }
+						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+					}
+					30 = {
+						set_country_flag = DCI_west_africa_runaway_slave_coastal_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_west_africa_runaway_slave_coastal_event_1_flag }
+						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+					}
+					30 = {
+						set_country_flag = DCI_west_africa_vote_discrimination_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_west_africa_vote_discrimination_event_1_flag }
+						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
+					}
+					10 = {  
+						clr_country_flag = DCI_west_africa_runaway_slave_land_event_1_flag
+						clr_country_flag = DCI_west_africa_runaway_slave_coastal_event_1_flag
+						clr_country_flag = DCI_west_africa_vote_discrimination_event_1_flag
+						set_country_flag = DCI_west_africa_random_event_none_flag
+					}
+				}
+			}
+		}
+	}
+	option = {
+		OWNER = {
+			if = {
+				limit = {
+					has_country_flag = DCI_west_africa_runaway_slave_land_event_1_flag
+					OR = {
+						has_idea = usa_slavery_law
+						has_idea = slavery
+					}
+					ROOT = {
+						any_neighbor_state = {
+							OWNER = {
+								NOT = { 
+									has_idea = usa_slavery_law
+									has_idea = tribal_slavery
+									has_idea = slavery
+									has_idea = slavery_all_but_name
+								}
+							}
+						}
+					}
+				}
+				clr_country_flag = DCI_west_africa_runaway_slave_land_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_land_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_west_africa_runaway_slave_coastal_event_1_flag
+					OR = {
+						has_idea = usa_slavery_law
+						has_idea = slavery
+					}
+					ROOT = {
+						is_coastal = yes
+					}
+				}
+				clr_country_flag = DCI_west_africa_runaway_slave_coastal_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_coastal_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_west_africa_vote_discrimination_event_1_flag
+					NOT = {
+						has_idea = absolutism
+						has_idea = full_equality
+					}
+				}
+				clr_country_flag = DCI_west_africa_vote_discrimination_event_1_flag
+				country_event = { id = DCI_generic_vote_discrimination_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = { has_country_flag = DCI_west_africa_random_event_none_flag }
+				clr_country_flag = DCI_west_africa_random_event_none_flag
+			}
+			else = {
+				ROOT = { state_event = { id = DCI_west_africa_incident_event.1 } }
+			}
+		}
+	}
+}
+
+##########################
+##### GENERIC RANDOM #####
+##########################
+
+
+###
+country_event = {
+	id = DCI_generic_vote_discrimination_event_1.1
+	title = DCI_generic_vote_discrimination_event_1.1.t
+	picture = GFX_ITA_Crowd_Gathers
+	is_triggered_only = yes
+	
+	desc = {
+		text = DCI_generic_vote_discrimination_event_1.1.d
+		trigger = { OR = { has_idea = limited_equality has_idea = segregation has_idea = slavery_all_but_name } OR = { has_idea = universal_male_suffrage has_idea = universal_male_suffrage } }
+	}
+	desc = {
+		text = DCI_generic_vote_discrimination_event_1.1.e
+		trigger = { OR = { has_idea = limited_equality has_idea = segregation has_idea = slavery_all_but_name } OR = { has_idea = parliamentary_suffrage has_idea = property_owners_suffrage } }
+	}
+	desc = {
+		text = DCI_generic_vote_discrimination_event_1.1.e
+		trigger = { NOT = { has_idea = limited_equality } NOT = { has_idea = segregation } NOT = { has_idea = slavery_all_but_name } OR = { has_idea = parliamentary_suffrage has_idea = property_owners_suffrage } }
+	}
+	desc = {
+		text = DCI_generic_vote_discrimination_event_1.1.f
+		trigger = { NOT = { has_idea = limited_equality } NOT = { has_idea = segregation } NOT = { has_idea = slavery_all_but_name } has_idea = universal_male_suffrage }
+	}
+	
+	option = {
+		name = DCI_generic_vote_discrimination_event_1.1.a
+		trigger = { always = yes }
+		ai_chance = { 
+			factor = 40 
+			modifier = {
+				factor = 0
+				has_political_power > 50
+			}
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = { 
+			random_list = {
+				70 = { set_country_flag = DCI_generic_vote_discrimination_event_1_2_d }
+				30 = { set_country_flag = DCI_generic_vote_discrimination_event_1_2_e }
+			}
+			country_event = { id = DCI_generic_vote_discrimination_event_1.2 days = 7 } 
+		}
+	}
+	
+	option = {
+		name = DCI_generic_vote_discrimination_event_1.1.b
+		trigger = { command_power > 149 }
+		ai_chance = { 
+			factor = 60 
+			modifier = {
+				factor = 0
+				has_political_power > 50
+			}
+		}
+		add_command_power = -150
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = {
+			set_country_flag = DCI_generic_vote_discrimination_event_1_2_f
+			country_event = { id = DCI_generic_vote_discrimination_event_1.2 days = 7 }
+		}
+	}
+	
+	option = {
+		name = DCI_generic_vote_discrimination_event_1.1.c
+		trigger = { has_political_power > 50 }
+		ai_chance = { factor = 100 }
+		add_political_power = -50
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = {
+			random_list = {
+				30 = { set_country_flag = DCI_generic_vote_discrimination_event_1_2_f }
+				70 = { set_country_flag = DCI_generic_vote_discrimination_event_1_2_g }
+			}
+			country_event = { id = DCI_generic_vote_discrimination_event_1.2 days = 7 }
+		}
+	}
+}
+country_event = {
+	id = DCI_generic_vote_discrimination_event_1.2
+	title = DCI_generic_vote_discrimination_event_1.2.t
+	#picture = GFX_Muhammad
+	is_triggered_only = yes
+	desc = {
+		text = DCI_generic_vote_discrimination_event_1.2.d
+		trigger = { has_country_flag = DCI_generic_vote_discrimination_event_1_2_d }
+	}
+	desc = {
+		text = DCI_generic_vote_discrimination_event_1.2.e
+		trigger = { has_country_flag = DCI_generic_vote_discrimination_event_1_2_e }
+	}
+	desc = {
+		text = DCI_generic_vote_discrimination_event_1.2.f
+		trigger = { has_country_flag = DCI_generic_vote_discrimination_event_1_2_f }
+	}
+	desc = {
+		text = DCI_generic_vote_discrimination_event_1.2.g
+		trigger = { has_country_flag = DCI_generic_vote_discrimination_event_1_2_g }
+	}
+	
+	option = {
+		name = DCI_generic_vote_discrimination_event_1.2.a
+		trigger = { has_country_flag = DCI_generic_vote_discrimination_event_1_2_d }
+		clr_country_flag = DCI_generic_vote_discrimination_event_1_2_d
+	}
+	option = {
+		name = DCI_generic_vote_discrimination_event_1.2.b
+		trigger = { 
+			OR = {
+				has_country_flag = DCI_generic_vote_discrimination_event_1_2_e
+				has_country_flag = DCI_generic_vote_discrimination_event_1_2_f 
+			}
+		}
+		clr_country_flag = DCI_generic_vote_discrimination_event_1_2_e
+		clr_country_flag = DCI_generic_vote_discrimination_event_1_2_f
+	}
+	option = {
+		name = DCI_generic_vote_discrimination_event_1.2.c
+		trigger = { has_country_flag = DCI_generic_vote_discrimination_event_1_2_g }
+		clr_country_flag = DCI_generic_vote_discrimination_event_1_2_g
+		add_timed_idea = { idea = DCI_random_event_push_universal_suffrage_idea days = 60 } 
+	}
+}
+###
+country_event = {
+	id = DCI_generic_runaway_slave_coastal_event_1.1
+	title = DCI_generic_runaway_slave_coastal_event_1.1.t
+	desc = DCI_generic_runaway_slave_coastal_event_1.1.d
+	picture = GFX_report_event_amazonas
+	is_triggered_only = yes
+	
+	option = {
+		name = DCI_generic_runaway_slave_coastal_event_1.1.a
+		trigger = { always = yes }
+		ai_chance = { 
+			factor = 40 
+			modifier = {
+				factor = 0
+				has_political_power > 50
+			}
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		set_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_d
+		hidden_effect = { country_event = { id = DCI_generic_runaway_slave_coastal_event_1.2 days = 7 } }
+	}
+	
+	option = {
+		name = DCI_generic_runaway_slave_coastal_event_1.1.b
+		trigger = { command_power > 149 }
+		ai_chance = { 
+			factor = 60 
+			modifier = {
+				factor = 0
+				has_political_power > 50
+			}
+		}
+		add_command_power = -150
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = {
+			random_list = {
+				40 = { set_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_e }
+				40 = { set_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_f }
+				20 = { set_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_g }
+			}
+			country_event = { id = DCI_generic_runaway_slave_coastal_event_1.2 days = 7 }
+		}
+	}
+	
+	option = {
+		name = DCI_generic_runaway_slave_coastal_event_1.1.c
+		trigger = { has_political_power > 50 }
+		ai_chance = { factor = 100 }
+		add_political_power = -50
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = {
+			random_list = {
+				10 = { set_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_e }
+				20 = { set_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_f }
+				70 = { set_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_g }
+			}
+			country_event = { id = DCI_generic_runaway_slave_coastal_event_1.2 days = 7 }
+		}
+	}
+}
+country_event = {
+	id = DCI_generic_runaway_slave_coastal_event_1.2
+	title = DCI_generic_runaway_slave_coastal_event_1.2.t
+	#picture = GFX_Muhammad
+	is_triggered_only = yes
+	desc = {
+		text = DCI_generic_runaway_slave_coastal_event_1.2.d
+		trigger = { has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_d }
+	}
+	desc = {
+		text = DCI_generic_runaway_slave_coastal_event_1.2.e
+		trigger = { has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_e }
+	}
+	desc = {
+		text = DCI_generic_runaway_slave_coastal_event_1.2.f
+		trigger = { has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_f }
+	}
+	desc = {
+		text = DCI_generic_runaway_slave_coastal_event_1.2.g
+		trigger = { has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_g }
+	}
+	
+	option = {
+		name = DCI_generic_runaway_slave_coastal_event_1.2.a
+		trigger = { 
+			OR = {
+				has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_d
+				has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_e
+			}
+		}
+		if = {
+			limit = { has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_e }
+			clr_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_e
+			add_timed_idea = { idea = DCI_random_event_angry_slave_owners_idea days = 60 }
+		}
+		clr_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_d
+	}
+	option = {
+		name = DCI_generic_runaway_slave_coastal_event_1.2.b
+		trigger = { has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_f }
+		clr_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_f
+		add_timed_idea = { idea = DCI_random_event_angry_slave_owners_idea days = 60 }
+	}
+	option = {
+		name = DCI_generic_runaway_slave_coastal_event_1.2.c
+		trigger = { has_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_g }
+		clr_country_flag = DCI_generic_runaway_slave_coastal_event_1_2_g
+		add_timed_idea = { idea = DCI_random_event_push_slave_abolition_idea days = 60 } 
+	}
+}
+###
+country_event = {
+	id = DCI_generic_runaway_slave_land_event_1.1
+	title = DCI_generic_runaway_slave_land_event_1.1.t
+	desc = DCI_generic_runaway_slave_land_event_1.1.d
+	picture = GFX_event_ITA_Po_Valley_Modernization
+	is_triggered_only = yes
+	
+	option = {
+		name = DCI_generic_runaway_slave_land_event_1.1.a
+		trigger = { always = yes }
+		ai_chance = { 
+			factor = 40 
+			modifier = {
+				factor = 0
+				has_political_power > 50
+			}
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		set_country_flag = DCI_generic_runaway_slave_land_event_1_2_d
+		hidden_effect = { country_event = { id = DCI_generic_runaway_slave_land_event_1.2 days = 7 } }
+	}
+	
+	option = {
+		name = DCI_generic_runaway_slave_land_event_1.1.b
+		trigger = { command_power > 149 }
+		ai_chance = { 
+			factor = 60 
+			modifier = {
+				factor = 0
+				has_political_power > 50
+			}
+		}
+		add_command_power = -150
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = {
+			random_list = {
+				40 = { set_country_flag = DCI_generic_runaway_slave_land_event_1_2_e }
+				40 = { set_country_flag = DCI_generic_runaway_slave_land_event_1_2_f }
+				20 = { set_country_flag = DCI_generic_runaway_slave_land_event_1_2_g }
+			}
+			country_event = { id = DCI_generic_runaway_slave_land_event_1.2 days = 7 }
+		}
+	}
+	
+	option = {
+		name = DCI_generic_runaway_slave_land_event_1.1.c
+		trigger = { has_political_power > 50 }
+		ai_chance = { factor = 100 }
+		add_political_power = -50
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = {
+			random_list = {
+				10 = { set_country_flag = DCI_generic_runaway_slave_land_event_1_2_e }
+				20 = { set_country_flag = DCI_generic_runaway_slave_land_event_1_2_f }
+				70 = { set_country_flag = DCI_generic_runaway_slave_land_event_1_2_g }
+			}
+			country_event = { id = DCI_generic_runaway_slave_land_event_1.2 days = 7 }
+		}
+	}
+}
+country_event = {
+	id = DCI_generic_runaway_slave_land_event_1.2
+	title = DCI_generic_runaway_slave_land_event_1.2.t
+	#picture = GFX_Muhammad
+	is_triggered_only = yes
+	desc = {
+		text = DCI_generic_runaway_slave_land_event_1.2.d
+		trigger = { has_country_flag = DCI_generic_runaway_slave_land_event_1_2_d }
+	}
+	desc = {
+		text = DCI_generic_runaway_slave_land_event_1.2.e
+		trigger = { has_country_flag = DCI_generic_runaway_slave_land_event_1_2_e }
+	}
+	desc = {
+		text = DCI_generic_runaway_slave_land_event_1.2.f
+		trigger = { has_country_flag = DCI_generic_runaway_slave_land_event_1_2_f }
+	}
+	desc = {
+		text = DCI_generic_runaway_slave_land_event_1.2.g
+		trigger = { has_country_flag = DCI_generic_runaway_slave_land_event_1_2_g }
+	}
+	
+	option = {
+		name = DCI_generic_runaway_slave_land_event_1.2.a
+		trigger = { 
+			OR = {
+				has_country_flag = DCI_generic_runaway_slave_land_event_1_2_d
+				has_country_flag = DCI_generic_runaway_slave_land_event_1_2_e
+			}
+		}
+		if = {
+			limit = { has_country_flag = DCI_generic_runaway_slave_land_event_1_2_e }
+			clr_country_flag = DCI_generic_runaway_slave_land_event_1_2_e
+			add_timed_idea = { idea = DCI_random_event_angry_slave_owners_idea days = 60 }
+		}
+		clr_country_flag = DCI_generic_runaway_slave_land_event_1_2_d
+	}
+	option = {
+		name = DCI_generic_runaway_slave_land_event_1.2.b
+		trigger = { has_country_flag = DCI_generic_runaway_slave_land_event_1_2_f }
+		clr_country_flag = DCI_generic_runaway_slave_land_event_1_2_f
+		add_timed_idea = { idea = DCI_random_event_angry_slave_owners_idea days = 60 }
+	}
+	option = {
+		name = DCI_generic_runaway_slave_land_event_1.2.c
+		trigger = { has_country_flag = DCI_generic_runaway_slave_land_event_1_2_g }
+		clr_country_flag = DCI_generic_runaway_slave_land_event_1_2_g
+		add_timed_idea = { idea = DCI_random_event_push_slave_abolition_idea days = 60 } 
+	}
+}
+###
+
+#This is Detrimental Colonial Impact DCI
+state_event = {
 	id = afr_rrp_racial_tension_increase.1
-	title = afr_rrp_racial_tension_increase.1.t
-	desc = afr_rrp_racial_tension_increase.1.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_1
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 1 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
-			}
-			add_ideas = AFR_Racial_Tension_1
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 1 } } }
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_1
-				add_idea = AFR_Racial_Tension_2
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_2
-				add_idea = AFR_Racial_Tension_3
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_3
-				add_idea = AFR_Racial_Tension_4
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_5
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_6
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_38
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_39
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-		}
-		add_to_variable = { var = detrimental_colonial_impact_value value = 1 }
-		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value > 40 }
-			}
-			set_variable = { detrimental_colonial_impact_value = 40 }
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 1 } }
 		}
 	}
 }
 
-country_event = {
+state_event = {
 	id = afr_rrp_racial_tension_increase.2
-	title = afr_rrp_racial_tension_increase.2.t
-	desc = afr_rrp_racial_tension_increase.2.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_2
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 2 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 2 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
-			}
-			add_ideas = AFR_Racial_Tension_2
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 2 } } }
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_1
-				add_idea = AFR_Racial_Tension_3
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_2
-				add_idea = AFR_Racial_Tension_4
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_3
-				add_idea = AFR_Racial_Tension_5
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_6
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_38
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_39
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-		}
-		add_to_variable = { var = detrimental_colonial_impact_value value = 2 }
-		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value > 40 }
-			}
-			set_variable = { detrimental_colonial_impact_value = 40 }
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 2 } }
 		}
 	}
 }
 
-country_event = {
+state_event = {
 	id = afr_rrp_racial_tension_increase.3
-	title = afr_rrp_racial_tension_increase.3.t
-	desc = afr_rrp_racial_tension_increase.3.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_3
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 3 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 3 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
-			}
-			add_ideas = AFR_Racial_Tension_3
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 3 } } }
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_1
-				add_idea = AFR_Racial_Tension_4
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_2
-				add_idea = AFR_Racial_Tension_5
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_3
-				add_idea = AFR_Racial_Tension_6
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_38
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_39
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-		}
-		add_to_variable = { var = detrimental_colonial_impact_value value = 3 }
-		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value > 40 }
-			}
-			set_variable = { detrimental_colonial_impact_value = 40 }
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 3 } }
 		}
 	}
 }
 
-country_event = {
+state_event = {
 	id = afr_rrp_racial_tension_increase.4
-	title = afr_rrp_racial_tension_increase.4.t
-	desc = afr_rrp_racial_tension_increase.4.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_4
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 4 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 4 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
-			}
-			add_ideas = AFR_Racial_Tension_4
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 4 } } }
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_1
-				add_idea = AFR_Racial_Tension_5
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_2
-				add_idea = AFR_Racial_Tension_6
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_3
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_38
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_39
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-		}
-		add_to_variable = { var = detrimental_colonial_impact_value value = 4 }
-		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value > 40 }
-			}
-			set_variable = { detrimental_colonial_impact_value = 40 }
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 4 } }
 		}
 	}
 }
 
-country_event = {
+state_event = {
 	id = afr_rrp_racial_tension_increase.5
-	title = afr_rrp_racial_tension_increase.5.t
-	desc = afr_rrp_racial_tension_increase.5.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_5
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 5 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 5 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
-			}
-			add_ideas = AFR_Racial_Tension_5
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 5 } } }
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_1
-				add_idea = AFR_Racial_Tension_6
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_2
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_3
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_38
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_39
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-		}
-		add_to_variable = { var = detrimental_colonial_impact_value value = 5 }
-		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value > 40 }
-			}
-			set_variable = { detrimental_colonial_impact_value = 40 }
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 5 } }
 		}
 	}
 }
 
-country_event = {
+state_event = {
 	id = afr_rrp_racial_tension_increase.6
-	title = afr_rrp_racial_tension_increase.6.t
-	desc = afr_rrp_racial_tension_increase.6.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_6
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 6 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 6 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
-			}
-			add_ideas = AFR_Racial_Tension_6
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 6 } } }
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_1
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_2
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_3
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_38
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_39
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_40
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-		}
-		add_to_variable = { var = detrimental_colonial_impact_value value = 6 }
-		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value > 40 }
-			}
-			set_variable = { detrimental_colonial_impact_value = 40 }
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 6 } }
 		}
 	}
 }
 
-country_event = {
+state_event = {
+	id = afr_rrp_racial_tension_increase.7
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_2
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 7 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 7 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 7 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 7 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.8
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_3
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 8 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 8 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 8 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 8 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.9
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_4
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 9 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 9 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 9 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 9 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.10
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_5
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 10 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 10 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 10 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 10 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.11
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_11
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 11 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 11 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 11 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 11 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.12
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_12
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 12 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 12 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 12 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 12 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.13
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_13
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 13 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 13 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 13 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 13 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.14
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_14
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 14 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 14 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 14 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 14 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.15
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_15
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 15 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 15 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 15 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 15 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.16
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_16
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 16 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 16 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 16 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 16 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.17
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_12
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 17 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 17 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 17 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 17 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.18
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_3
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 18 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 18 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 18 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 18 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.19
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_4
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 19 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 19 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 19 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 19 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.20
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_5
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 20 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 20 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 20 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 20 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.21
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_1
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 21 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 21 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 21 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 21 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.22
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_2
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 22 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 22 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 22 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 22 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.23
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_3
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 23 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 23 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 23 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 23 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.24
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_4
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 24 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 24 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 24 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 24 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.25
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_25
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 25 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 25 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 25 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 25 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.26
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_26
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 26 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 26 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 26 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 26 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.27
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_2
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 27 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 27 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 27 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 27 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.28
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_3
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 28 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 28 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 28 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 28 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.29
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_4
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 29 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 29 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 29 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 29 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_increase.30
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_plus_5
+		trigger = { always = yes }
+		OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 30 } }
+		add_to_variable = { var = ROOT.detrimental_colonial_impact_value value = 30 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+				OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 30 } } }
+		}
+		else = {
+			OWNER = { add_to_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 30 } }
+		}
+	}
+}
+
+state_event = {
 	id = afr_rrp_racial_tension_decrease.1
-	title = afr_rrp_racial_tension_decrease.1.t
-	desc = afr_rrp_racial_tension_decrease.1.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_minus_1
+		trigger = { always = yes }
+		OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+		subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value value = 1 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { check_variable = { total_detrimental_colonial_impact_value < 1 } } }
+				OWNER = { remove_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
-			}
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 1 } } }
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			remove_ideas = AFR_Racial_Tension_1
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_2
-				add_idea = AFR_Racial_Tension_1
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_3
-				add_idea = AFR_Racial_Tension_2
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_3
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_4
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_5
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_6
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_38
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_40
-				add_idea = AFR_Racial_Tension_39
-			}
-		}
-		subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
-		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value < 0 }
-			}
-			set_variable = { detrimental_colonial_impact_value = 0 }
+		else = {
+			OWNER = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 1 } }
 		}
 	}
 }
 
-country_event = {
+state_event = {
 	id = afr_rrp_racial_tension_decrease.2
-	title = afr_rrp_racial_tension_decrease.2.t
-	desc = afr_rrp_racial_tension_decrease.2.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_minus_2
+		trigger = { always = yes }
+		OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 2 } }
+		subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value value = 2 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { check_variable = { total_detrimental_colonial_impact_value < 1 } } }
+				OWNER = { remove_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
-			}
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 2 } } }
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			remove_ideas = AFR_Racial_Tension_1
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			remove_ideas = AFR_Racial_Tension_2
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_3
-				add_idea = AFR_Racial_Tension_1
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_2
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_3
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_4
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_5
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_6
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_40
-				add_idea = AFR_Racial_Tension_38
-			}
-		}
-		subtract_from_variable = { var = detrimental_colonial_impact_value value = 2 }
-		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value < 40 }
-			}
-			set_variable = { detrimental_colonial_impact_value = 0 }
+		else = {
+			OWNER = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 2 } }
 		}
 	}
 }
 
-country_event = {
+state_event = {
 	id = afr_rrp_racial_tension_decrease.3
-	title = afr_rrp_racial_tension_decrease.3.t
-	desc = afr_rrp_racial_tension_decrease.3.d
-	picture = GFX_report_event_merchant_ship_01
 	
 	is_triggered_only = yes
 	hidden = yes
-	immediate = {
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_minus_3
+		trigger = { always = yes }
+		OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 3 } }
+		subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value value = 3 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { check_variable = { total_detrimental_colonial_impact_value < 1 } } }
+				OWNER = { remove_ideas = afr_total_detrimental_colonial_impact_idea }
+			}
+		}
 		if = {
-			limit = {
-				check_variable = { var = detrimental_colonial_impact_value value = 0 compare = equals}
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 3 } } }
+		}
+		else = {
+			OWNER = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 3 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_decrease.4
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_minus_4
+		trigger = { always = yes }
+		OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 4 } }
+		subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value value = 4 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { check_variable = { total_detrimental_colonial_impact_value < 1 } } }
+				OWNER = { remove_ideas = afr_total_detrimental_colonial_impact_idea }
 			}
 		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_1
-			}
-			remove_ideas = AFR_Racial_Tension_1
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_2
-			}
-			remove_ideas = AFR_Racial_Tension_2
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_3
-			}
-			remove_ideas = AFR_Racial_Tension_3
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_4
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_4
-				add_idea = AFR_Racial_Tension_1
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_5
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_5
-				add_idea = AFR_Racial_Tension_2
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_6
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_6
-				add_idea = AFR_Racial_Tension_3
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_7
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_7
-				add_idea = AFR_Racial_Tension_4
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_8
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_8
-				add_idea = AFR_Racial_Tension_5
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_9
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_9
-				add_idea = AFR_Racial_Tension_6
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_10
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_10
-				add_idea = AFR_Racial_Tension_7
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_11
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_11
-				add_idea = AFR_Racial_Tension_8
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_12
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_12
-				add_idea = AFR_Racial_Tension_9
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_13
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_13
-				add_idea = AFR_Racial_Tension_10
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_14
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_14
-				add_idea = AFR_Racial_Tension_11
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_15
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_15
-				add_idea = AFR_Racial_Tension_12
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_16
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_16
-				add_idea = AFR_Racial_Tension_13
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_17
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_17
-				add_idea = AFR_Racial_Tension_14
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_18
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_18
-				add_idea = AFR_Racial_Tension_15
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_19
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_19
-				add_idea = AFR_Racial_Tension_16
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_20
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_20
-				add_idea = AFR_Racial_Tension_17
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_21
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_21
-				add_idea = AFR_Racial_Tension_18
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_22
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_22
-				add_idea = AFR_Racial_Tension_19
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_23
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_23
-				add_idea = AFR_Racial_Tension_20
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_24
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_24
-				add_idea = AFR_Racial_Tension_21
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_25
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_25
-				add_idea = AFR_Racial_Tension_22
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_26
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_26
-				add_idea = AFR_Racial_Tension_23
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_27
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_27
-				add_idea = AFR_Racial_Tension_24
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_28
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_28
-				add_idea = AFR_Racial_Tension_25
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_29
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_29
-				add_idea = AFR_Racial_Tension_26
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_30
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_30
-				add_idea = AFR_Racial_Tension_27
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_31
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_31
-				add_idea = AFR_Racial_Tension_28
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_32
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_32
-				add_idea = AFR_Racial_Tension_29
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_33
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_33
-				add_idea = AFR_Racial_Tension_30
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_34
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_34
-				add_idea = AFR_Racial_Tension_31
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_35
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_35
-				add_idea = AFR_Racial_Tension_32
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_36
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_36
-				add_idea = AFR_Racial_Tension_33
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_37
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_37
-				add_idea = AFR_Racial_Tension_34
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_38
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_38
-				add_idea = AFR_Racial_Tension_35
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_39
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_39
-				add_idea = AFR_Racial_Tension_36
-			}
-		}
-		else_if = {
-			limit = {
-				has_idea = AFR_Racial_Tension_40
-			}
-			swap_ideas = { 
-				remove_idea = AFR_Racial_Tension_40
-				add_idea = AFR_Racial_Tension_37
-			}
-		}
-		subtract_from_variable = { var = detrimental_colonial_impact_value value = 3 }
 		if = {
-			limit = {
-				check_variable = { detrimental_colonial_impact_value < 0 }
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 4 } } }
+		}
+		else = {
+			OWNER = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 4 } }
+		}
+	}
+}
+
+state_event = {
+	id = afr_rrp_racial_tension_decrease.5
+	
+	is_triggered_only = yes
+	hidden = yes
+	timeout_days = 1
+	option = {
+		name = AFR_Racial_Tension_minus_4
+		trigger = { always = yes }
+		OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 5 } }
+		subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value value = 5 }
+		ROOT = {
+			if = {
+				limit = { OWNER = { check_variable = { total_detrimental_colonial_impact_value < 1 } } }
+				OWNER = { remove_ideas = afr_total_detrimental_colonial_impact_idea }
 			}
-			set_variable = { detrimental_colonial_impact_value = 0 }
+		}
+		if = {
+			limit = { OWNER = { is_subject = yes } }
+			OWNER = { OVERLORD = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 5 } } }
+		}
+		else = {
+			OWNER = { subtract_from_variable = { var = ROOT.detrimental_colonial_impact_value@THIS value = 5 } }
 		}
 	}
 }

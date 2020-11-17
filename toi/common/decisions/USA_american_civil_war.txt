@@ -1,0 +1,542 @@
+USA_Slavery_Debate_Decision_Category = {
+	USA_Slavery_Debate_Rising_Tensions = {
+		icon = generic_civil_support
+
+		allowed = { always = no }
+
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					check_variable = {
+						USA_Slavery_Debate_Tension < 1
+					}
+					tooltip = USA_Slavery_Debate_Rising_Tensions_tt1
+				}
+				custom_trigger_tooltip = {
+					check_variable = {
+						USA_Slavery_Debate_Tension > 99
+					}
+					tooltip = USA_Slavery_Debate_Rising_Tensions_tt2
+				}
+			}
+		}
+
+		activation = { always = no }
+		days_mission_timeout = 60
+		timeout_effect = {
+			# Leanings
+			set_temp_variable = { USA_Slavery_Debate_Leaning_Change  = USA_Slavery_Debate_StateSD_Count }
+			USA_Slavery_Debate_Leaning_Modify = yes
+
+			# Tensions
+			if = {
+				limit = {
+					OR = {
+						check_variable = { USA_Slavery_Debate_Leaning > 30 }
+						check_variable = { USA_Slavery_Debate_Leaning < -30 }
+					}
+				}
+				set_temp_variable = { USA_Slavery_Debate_Tension_Change = 3 }
+			}
+			else_if = {
+				limit = {
+					OR = {
+						check_variable = { USA_Slavery_Debate_Leaning > 15 }
+						check_variable = { USA_Slavery_Debate_Leaning < -15 }
+					}
+				}
+				set_temp_variable = { USA_Slavery_Debate_Tension_Change = 2 }
+			}
+			else = {
+				set_temp_variable = { USA_Slavery_Debate_Tension_Change = 1 }
+			}
+			
+			USA_Slavery_Debate_Tension_Modify = yes
+			
+			hidden_effect = {
+				if = {
+					limit = { has_idea = usa_slavery_law }
+					activate_mission = USA_Slavery_Debate_Rising_Tensions
+				}
+				else = {
+					USA_Slavery_Debate_Remove = yes
+				}
+			}
+		}
+		complete_effect = {
+			if = {
+				limit = { check_variable = { USA_Slavery_Debate_Tension > 99 } }
+				set_country_flag = ACW_American_Civil_War_Start
+				if = {
+					limit = { check_variable = { USA_Slavery_Debate_Leaning < 1 } }
+					news_event = usa_slavery_debate_secession.1
+				}
+				else = {
+					news_event = usa_slavery_debate_secession.20
+				}
+			}
+			else = {
+				set_global_flag = ACW_American_Civil_War_Avoided
+			}
+		}
+	}
+	USA_Slavery_Debate_Minnesota_Statehood_Mission = {
+		icon = power_struggle
+
+		allowed = { always = no }
+
+		visible = { always = no }
+
+		available = { 391 = { is_core_of = ROOT } }
+
+		days_mission_timeout = 240
+
+		is_good = yes
+
+		highlight_states = { state = 391 }
+
+		timeout_effect = {
+			add_state_core = 391
+			USA_Slavery_Debate_StateF_Count_Modify = yes
+			hidden_effect = {
+				USA_admit_state_add_stars = yes
+				391 = { state_event = usa_slavery_debate.99 }
+			}
+		}
+		
+	}
+	
+	USA_Slavery_Debate_Oregon_Statehood_Mission = {
+		icon = power_struggle
+
+		allowed = { always = no }
+
+		available = { 
+			385 = { is_core_of = ROOT }
+			hidden_trigger = {
+				1075 = { is_core_of = ROOT }
+				1289 = { is_core_of = ROOT }
+			}
+		}
+
+		days_mission_timeout = 240
+
+		is_good = yes
+
+		highlight_states = { state = 385 }
+
+		timeout_effect = {
+			add_state_core = 385
+			USA_Slavery_Debate_StateF_Count_Modify = yes
+			hidden_effect = {
+				add_state_core = 1075
+				add_state_core = 1289
+				USA_admit_state_add_stars = yes
+				385 = { state_event = usa_slavery_debate.99 }
+			}
+		}
+	}
+	USA_Slavery_Debate_Kansas_Statehood_Mission = {
+		icon = power_struggle
+
+		allowed = { always = no }
+
+		available = { 
+			383 = { is_core_of = ROOT }
+			hidden_trigger = {
+				1052 = { is_core_of = ROOT }
+				1296 = { is_core_of = ROOT }
+			}
+		}
+
+		days_mission_timeout = 240
+
+		is_good = yes
+
+		highlight_states = { state = 383 }
+
+		timeout_effect = {
+			add_state_core = 383
+			if = {
+				limit = { 383 = { has_state_flag = NA_B_Slave_Kansas } }
+				USA_Slavery_Debate_StateS_Count_Modify = yes
+			}
+			else = {
+				# limit = { 383 = { has_state_flag = NA_B_Free_Kansas } }
+				USA_Slavery_Debate_StateF_Count_Modify = yes
+			}
+			hidden_effect = {
+				add_state_core = 1052
+				add_state_core = 1296
+				USA_admit_state_add_stars = yes
+				383 = { state_event = usa_slavery_debate.99 }
+			}
+		}
+	}
+	USA_Slavery_Debate_Moderate_Voice = {
+		icon = generic_political_discourse
+
+		allowed = { always = no }
+
+		available = {
+			has_country_flag = USA_Slavery_Debate_Ongoing
+		}
+
+		ai_will_do = {
+			base = 8
+			modifier = {
+				factor = 100
+				check_variable = { USA_Slavey_Debate_Tension > 80 }
+			}
+		}
+
+		cost = 20
+
+		days_re_enable = 21
+
+		complete_effect = {
+			set_temp_variable = { USA_Slavery_Debate_Tension_Change = -1 }
+			USA_Slavery_Debate_Tension_Modify = yes
+			if = {
+				limit = {
+					check_variable = { USA_Slavery_Debate_Leaning > 5 }
+				}
+				set_temp_variable = { USA_Slavery_Debate_Leaning_Change = -1 }
+				USA_Slavery_Debate_Leaning_Modify = yes
+			}
+			else_if = {
+				limit = {
+					check_variable = { USA_Slavery_Debate_Leaning < -5 }
+				}
+				set_temp_variable = { USA_Slavery_Debate_Leaning_Change = 1 }
+				USA_Slavery_Debate_Leaning_Modify = yes
+			}
+		}
+	}
+	USA_Election_of_1860_Mission = {
+		icon = generic_break_treaty
+
+		allowed = { always = no }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = eoanb_usa_is_still_democracy_tt
+				OR = {
+					has_government = autocracy
+					has_government = fundamentalism
+					has_government = chauvinist_populism
+					has_government = vanguard_communism
+					has_government = collectivist_socialism
+				}
+			}
+		}
+
+		activation = { always = no }
+
+		fire_only_once = yes
+
+		days_mission_timeout = 1274
+
+		timeout_effect = {
+			country_event = usa_slavery_debate.100
+			hidden_effect = {
+				complete_national_focus = USA_Focus_ACW_Election_1860
+				activate_mission = USA_Election_of_1864_Mission
+			}
+		}
+	}
+	USA_Election_of_1864_Mission = {
+		icon = generic_break_treaty
+
+		allowed = { always = no }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = eoanb_usa_is_still_democracy_tt
+				OR = {
+					has_government = autocracy
+					has_government = fundamentalism
+					has_government = chauvinist_populism
+					has_government = vanguard_communism
+					has_government = collectivist_socialism
+				}
+			}
+		}
+
+		activation = { always = no }
+
+		fire_only_once = yes
+
+		days_mission_timeout = 1460
+
+		timeout_effect = {
+			country_event = usa_slavery_debate.200
+		}
+	}
+}
+#American Civil War
+ACW_American_Civil_War_Decisions = {
+	# Option for US to surrender to CSA
+	eoanb_decision_acw_usa_surrender_to_csa = {
+		icon = generic_political_discourse
+
+		allowed = { tag = USA }
+		visible = {
+			has_global_flag = ACW_American_Civil_War
+			has_war_with = CSA
+		}
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			has_war_with = CSA
+			OR = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+				date > 1867.3.1
+				AND = {
+					OR = {
+						has_war_with = ENG
+						has_war_with = FRA
+						has_war_with = MEX
+						has_war_with = MEC
+						has_war_with = MXE
+					}
+					date > 1865.6.1
+				}
+			}
+		}
+
+		ai_will_do = { base = 20 }
+		fire_only_once = yes
+		cost = 0
+		days_remove = 3
+		
+		remove_effect = {
+			news_event = acw_peace_deal.2
+		}
+	}
+	# Procure Arms
+	eoanb_decision_acw_confiscate_weapons = {
+		icon = generic_infantry_arms
+
+		allowed = {
+			OR = {
+				tag = USA
+				tag = CSA
+				tag = NEG
+				tag = CAL
+			}
+		}
+
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			custom_trigger_tooltip = {
+				tooltip = eoanb_decision_acw_at_war_tt
+				OR = {
+					has_war_with = NEG
+					has_war_with = CAL
+					has_war_with = USA
+					has_war_with = CSA
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = eoanb_decision_acw_weapons_exhausted_tt
+				check_variable = {
+					var = acw_weapons_count_left
+					value = 0
+					compare = greater_than
+				}
+			}
+		}
+		visible = {
+			has_global_flag = ACW_American_Civil_War
+			OR = {
+				has_war_with = NEG
+				has_war_with = CAL
+				has_war_with = USA
+				has_war_with = CSA
+			}
+		}
+
+		ai_will_do = { base = 10 }
+		
+		cost = 10
+		custom_cost_trigger = { command_power > 9.9 }
+		custom_cost_text = command_power_more_than_9
+
+		days_re_enable = 7
+		complete_effect = {
+			ACW_Weapons_Count_Use = yes
+			hidden_effect = {
+				add_command_power = -10
+			}
+		}
+		remove_effect = {
+			if = {
+				limit = { tag = USA }
+				add_equipment_to_stockpile = {
+				type = infantry_equipment_rifle_1
+					amount = 500
+					producer = USA
+				}
+				add_equipment_to_stockpile = {
+					type = cannon_equipment_0
+					amount = 40
+					producer = USA
+				}
+				add_equipment_to_stockpile={
+					type = uniform_equipment_0
+					amount = 600
+					producer = USA
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+				type = infantry_equipment_rifle_1
+					amount = 360
+					producer = USA
+				}
+				add_equipment_to_stockpile = {
+					type = cannon_equipment_0
+					amount = 32
+					producer = USA
+				}
+				add_equipment_to_stockpile={
+					type = uniform_equipment_0
+					amount = 480
+					producer = USA
+				}
+			}
+		}
+	}
+	# Draft
+	eoanb_decision_acw_force_draft = {
+		icon = GFX_decision_nationalism
+
+				allowed = {
+			OR = {
+				tag = USA
+				tag = CSA
+				tag = NEG
+				tag = CAL
+			}
+		}
+
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			custom_trigger_tooltip = {
+				tooltip = eoanb_decision_acw_at_war_tt
+				OR = {
+					has_war_with = NEG
+					has_war_with = CAL
+					has_war_with = USA
+					has_war_with = CSA
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = eoanb_decision_acw_exhaust_draft_tt
+				check_variable = {
+					var = acw_draft_count_left
+					value = 0
+					compare = greater_than
+				}
+			}
+		}
+		visible = {
+			has_global_flag = ACW_American_Civil_War
+			OR = {
+				has_war_with = NEG
+				has_war_with = CAL
+				has_war_with = USA
+				has_war_with = CSA
+			}
+		}
+
+		ai_will_do = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					AND = {
+						tag = USA
+						has_manpower > 45000
+					}
+					AND = {
+						tag = CSA
+						has_manpower > 20000
+					}
+					AND = {
+						OR = { tag = CAL tag = NEG }
+						has_manpower > 10000
+					}
+				}
+			}
+		}
+
+		cost = 25
+		custom_cost_trigger = { command_power > 24.9 }
+		custom_cost_text = command_power_more_than_24
+		
+		days_re_enable = 7
+
+		complete_effect = {
+			ACW_Draft_Count_Use = yes
+			hidden_effect = { add_command_power = -25 }
+		}
+		remove_effect = {
+			if = {
+				limit = { tag = USA }
+				add_manpower = 1300
+				random_owned_controlled_state = {
+					limit = { 
+						is_fully_controlled_by = ROOT
+						is_core_of = ROOT
+					}
+					create_unit = {
+						division = "name = \"Drafted Union Infantry Regiment\" division_template = \"Union Infantry Regiment\" start_experience_factor = 0.1" owner = ROOT
+					}
+				}
+			}
+			else_if = {
+				limit = { tag = CSA }
+				add_manpower = 1200
+				random_owned_controlled_state = {
+					limit = { 
+						is_fully_controlled_by = ROOT
+						is_core_of = ROOT
+					}
+					create_unit = {
+						division = "name = \"Drafted Confederate Infantry Regiment\" division_template = \"Confederate Infantry Regiment\" start_experience_factor = 0.1" owner = ROOT
+					}
+				}
+			}
+			else_if = {
+				limit = { tag = NEG }
+				add_manpower = 1200
+				random_owned_controlled_state = {
+					limit = { 
+						is_fully_controlled_by = ROOT
+						is_core_of = ROOT
+					}
+					create_unit = {
+						division = "name = \"Drafted Abolitionist Infantry Regiment\" division_template = \"Abolitionist Infantry Regiment\" start_experience_factor = 0.1" owner = ROOT
+					}
+				}
+			}
+			else_if = {
+				limit = { tag = CAL }
+				add_manpower = 800
+				random_owned_controlled_state = {
+					limit = { 
+						is_fully_controlled_by = ROOT
+						is_core_of = ROOT
+					}
+					create_unit = {
+						division = "name = \"Nortonist Infantry Battalion\" division_template = \"Nortonist Infantry Battalion\" start_experience_factor = 0.1" owner = ROOT
+					}
+				}
+			}
+		}
+	}
+}

@@ -50,7 +50,7 @@ country_event = { #Qing Flag Change
     fire_only_once = yes 
     
     trigger = {
-        TAG = CHI
+        TAG = QNG
         date > 1862.8.1
         }   
     
@@ -58,7 +58,7 @@ country_event = { #Qing Flag Change
         name = qing.3.a
         
         hidden_effect = { 
-        set_cosmetic_tag = CHI1
+        set_cosmetic_tag = QNG1
         }
         
       custom_effect_tooltip = qing.3   
@@ -74,7 +74,7 @@ country_event = { #Lee Teng-Fan Residence
     fire_only_once = yes
 
     trigger = {
-        TAG = CHI
+        TAG = QNG
         owns_state = 1229
         date > 1864.7.1
     }
@@ -84,6 +84,188 @@ country_event = { #Lee Teng-Fan Residence
         add_political_power = 5
         eoanb_add_1_prestige_score = yes
     }
+}
+
+country_event = { #Qing self strengthing movement
+    id = qing.5
+    title = qing.5.t
+    desc = qing.5.d
+    
+    fire_only_once = yes 
+    
+    trigger = {
+        TAG = QNG
+        date > 1861.9.8
+    }   
+    immediate={
+		hidden_effect = { 
+			country_event = {id = qing.6 days = 69}
+        }
+	}
+    option = {
+        name = qing.5.a
+        
+		set_country_flag = QNG_self_strengthening_movement     
+		custom_effect_tooltip = qing.5  
+    }
+    
+}
+
+news_event = { #death of xianfang
+    id = qing.6
+    title = qing.6.t
+    desc = qing.6.d
+
+	is_triggered_only = yes
+	
+	major = yes
+	
+	immediate={
+		QNG={
+			if={
+				limit={
+					has_country_flag = QNG_xianjing_tree
+				}
+				retire_country_leader = yes
+				create_country_leader = {
+					name = "Regency Council"
+					desc = "POLITICS_QNG_GREAT_COUNCIL_TONGZHI_DESC"
+					picture = "Portrait_QNG_great_regency_council.dds"
+					expire = "1965.1.1"
+					ideology = absolutism
+					traits = {
+						#
+					}
+				}
+				clr_country_flag = QNG_xianjing_tree
+				set_country_flag = QNG_xianjing_transition_tree
+			}
+		}
+	}
+
+    option = {
+        name = qing.6.a
+    }
+}
+news_event = { #Xinyou Coup
+    id = qing.7
+    title = qing.7.t
+    desc = qing.7.d
+
+	is_triggered_only = yes
+	
+	immediate={
+		QNG={
+			if={
+				limit={
+					has_country_flag = QNG_xianjing_transition_tree
+				}
+				retire_country_leader = yes
+				create_country_leader = {
+					name = "Empress Dowager Cixi"
+					desc = "POLITICS_QNG_EMPRESS_CIXI_DESC"
+					picture = "Portrait_QNG_empress_cixi.dds"
+					expire = "1965.1.1"
+					ideology = absolutism
+					traits = {
+						#
+					}
+				}
+				clr_country_flag = QNG_xianjing_transition_tree
+				set_country_flag = QNG_tongzhi_transition_tree
+			}
+			hidden_effect={
+				swap_ideas ={ 
+					add_idea = QNG_sushans_party_remnants
+					remove_idea = QNG_sushans_party
+				}
+				swap_ideas ={ 
+					add_idea = QNG_rengency_council_tongzhi_shattered
+					remove_idea = QNG_rengency_council_tongzhi
+				}
+			}
+		}
+	}
+
+    option = {
+        name = qing.7.a
+    }
+}
+
+country_event = { #meeting with gong
+    id = qing.8
+    title = qing.8.t
+    desc = qing.8.d
+    
+    fire_only_once = yes 
+	is_triggered_only = yes
+    
+    option = {#agree
+        name = qing.8.a
+        country_event = {id = qing.7 hours = 5}
+		ai_chance={
+			factor = 100
+		}
+    }
+	option = {#disagree
+        name = qing.8.b
+        country_event = {id = qing.9 hours = 5}
+		ai_chance={
+			factor = 0
+		}
+    }
+    
+}
+
+country_event = { #meeting with gong
+    id = qing.9
+    title = qing.9.t
+    desc = qing.9.d
+    
+    fire_only_once = yes 
+	is_triggered_only = yes
+    
+    option = {#agree
+        name = qing.9.a
+		
+    }
+    
+}
+
+country_event = { #New Standard Army
+    id = qing.10
+    title = qing.10.t
+    desc = qing.10.d
+    
+    fire_only_once = yes 
+	is_triggered_only = yes
+    
+    option = {#ok
+        name = qing.10.a
+		delete_unit_template_and_units = {
+			division_template = "Green Standard Army"
+			disband = yes #will refund equipment and manpower
+		}
+		load_oob=QNG_new_green_army
+    }
+    
+}
+
+country_event = { #creation of the local armies
+    id = qing.11
+    title = qing.11.t
+    desc = qing.11.d
+    
+    fire_only_once = yes 
+	is_triggered_only = yes
+    
+    option = {#perfect
+        name = qing.11.a
+		add_stability = 0.1
+		set_country_flag = QNG_warlord_armys_unlocked #this policy directly leads into the warlord era
+		custom_effect_tooltip = QNG_vic_local_army_supress_revolts
+    }
+    
 }
 
 country_event = { #White hao army revolt
@@ -101,35 +283,39 @@ country_event = { #White hao army revolt
 
     fire_only_once = yes
 	immediate={
-		if={
-			limit = {
-				SIC = {
-					exists = yes
-					
+		hidden_effect={
+			if={
+				limit = {
+					SIC = {
+						exists = yes
+						
+					}
+				}
+				SIC={
+					set_province_controller = 9939
+					set_province_controller = 1474
+					load_oob = "SIC_White_Hao"
 				}
 			}
-			SIC={
-				set_province_controller = 9939
-				set_province_controller = 1474
-				load_oob = "SIC_White_Hao"
-			}
-		}
-		else={
-			SIC={
-				set_state_owner = 603
-				set_cosmetic_tag = SIC_WH
-				set_province_controller = 9939
-				set_province_controller = 1474
-				load_oob = "SIC_White_Hao"
-				declare_war_on = {
-					target = CHI
-					type = annex_everything
+			else={
+				SIC={
+					set_state_owner = 603
+					set_cosmetic_tag = SIC_WH
+					set_province_controller = 9939
+					set_province_controller = 1474
+					load_oob = "SIC_White_Hao"
+					declare_war_on = {
+						target = QNG
+						type = annex_everything
+					}
+					set_country_flag = rebel_uprisisng
 				}
 			}
 		}
 	}
     option = { #More of them
         name = qing_reb.1.a
+		trigger={tag = QNG}
     }
 }
 
@@ -148,23 +334,51 @@ country_event = { #Shuntian revolt
 
     fire_only_once = yes
 	immediate={
-		SHU={
-			set_state_owner = 605
-			add_state_core = 605
-			set_province_controller = 1395
-			set_province_controller = 12705
-			set_province_controller = 11972
-			set_province_controller = 12819
-			load_oob = "SHU_1859"
-			declare_war_on = {
-				target = CHI
-				type = annex_everything
+		hidden_effect={
+			SHU={
+				set_state_owner = 605
+				add_state_core = 605
+				set_province_controller = 1395
+				set_province_controller = 12705
+				set_province_controller = 11972
+				set_province_controller = 12819
+				load_oob = "SHU_1859"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				set_country_flag = rebel_uprisisng
 			}
 		}
 	}
     option = { #even More of them
         name = qing_reb.2.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.2.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = SHU}
+		SHU={
+			set_cosmetic_tag = SHU_shuntain_clique
+			load_focus_tree = CHI_warlords_1872	
+			remove_ideas={QNG_rebel_uprising}
+			if={
+				limit={
+					ROOT={owns_state=973}
+				}
+				transfer_state = 973
+				add_state_core = 973		
+			}
+			if={
+				limit={
+					ROOT={owns_state=601}
+				}
+				transfer_state = 601
+				add_state_core = 601		
+			}
+		}
+	}
 }
 country_event = { #Tianshun revolt
     id = qing_reb.3
@@ -181,20 +395,29 @@ country_event = { #Tianshun revolt
 
     fire_only_once = yes
 	immediate={
-		ANH={
-			set_state_owner = 606
-			add_state_core = 606
-			set_province_controller = 7094
-			load_oob = "ANH_1861"
-			declare_war_on = {
-				target = CHI
-				type = annex_everything
+		hidden_effect={
+			ANH={
+				set_state_owner = 606
+				add_state_core = 606
+				set_province_controller = 7094
+				load_oob = "ANH_1861"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				set_country_flag = rebel_uprisisng
 			}
 		}
 	}
     option = { #even More of them
         name = qing_reb.3.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.3.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = ANH}
+	}
 }
 country_event = { #Tianshun 2nd revolt
     id = qing_reb.4
@@ -207,39 +430,53 @@ country_event = { #Tianshun 2nd revolt
 		TAG = CHI
 		date > 1861.10.1
 		date < 1870.1.1
+		if={
+			limit={ANH = {exists = yes}}
+			tag = QNG
+		}
 	}
 
     fire_only_once = yes
 	immediate={
-		if={
-			limit = {
-				ANH = {
-					exists = yes
+		hidden_effect={
+			if={
+				limit = {
+					ANH = {
+						exists = yes
+					}
+				}
+				ANH={
+					set_province_controller = 12036
+					set_province_controller = 11916
+					load_oob = "ANH_2reb"
 				}
 			}
-			ANH={
-				set_province_controller = 12036
-				set_province_controller = 11916
-				load_oob = "ANH_2reb"
-			}
-		}
-		else={
-			ANH={
-				set_state_owner = 606
-				add_state_core = 606
-				set_province_controller = 12036
-				set_province_controller = 11916
-				load_oob = "ANH_2reb"
-				declare_war_on = {
-					target = CHI
-					type = annex_everything
+			else={
+				ANH={
+					set_state_owner = 606
+					add_state_core = 606
+					set_province_controller = 12036
+					set_province_controller = 11916
+					load_oob = "ANH_2reb"
+					declare_war_on = {
+						target = QNG
+						type = annex_everything
+					}
+					set_country_flag = rebel_uprisisng
 				}
+				
 			}
 		}
 	}
     option = { #even More of them
         name = qing_reb.4.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.4.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = ANH}
+	}
 }
 country_event = { #Tianshun 3rd revolt
     id = qing_reb.5
@@ -252,43 +489,56 @@ country_event = { #Tianshun 3rd revolt
 		TAG = CHI
 		date > 1863.5.1
 		date < 1870.1.1
+		if={
+			limit={ANH = {exists = yes}}
+			tag = QNG
+		}
 	}
 
     fire_only_once = yes
 	immediate={
-		if={
-			limit = {
-				ANH = {
-					exists = yes
+		hidden_effect={
+			if={
+				limit = {
+					ANH = {
+						exists = yes
+					}
+				}
+				ANH={
+					set_province_controller = 10040
+					set_province_controller = 4079
+					set_province_controller = 12036
+					set_province_controller = 11916
+					load_oob = "ANH_1863"
 				}
 			}
-			ANH={
-				set_province_controller = 10040
-				set_province_controller = 4079
-				set_province_controller = 12036
-				set_province_controller = 11916
-				load_oob = "ANH_1863"
-			}
-		}
-		else={
-			ANH={
-				set_state_owner = 606
-				add_state_core = 606
-				set_province_controller = 10040
-				set_province_controller = 4079
-				set_province_controller = 12036
-				set_province_controller = 11916
-				load_oob = "ANH_1863"
-				declare_war_on = {
-					target = CHI
-					type = annex_everything
+			else={
+				ANH={
+					set_state_owner = 606
+					add_state_core = 606
+					set_province_controller = 10040
+					set_province_controller = 4079
+					set_province_controller = 12036
+					set_province_controller = 11916
+					load_oob = "ANH_1863"
+					declare_war_on = {
+						target = QNG
+						type = annex_everything
+					}
+					set_country_flag = rebel_uprisisng
 				}
 			}
 		}
 	}
     option = { #even More of them
         name = qing_reb.5.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.5.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = ANH}
+	}
 }
 
 country_event = { #Taiping loses nanjing
@@ -299,9 +549,9 @@ country_event = { #Taiping loses nanjing
 #    picture = GFX_report_event_election_vote
 
     trigger = {
-		TAG = TAI
+		tag = TAI
 		1056={
-			is_controlled_by = CHI
+			is_controlled_by = QNG
 		}
 	}
 
@@ -313,17 +563,17 @@ country_event = { #Taiping loses nanjing
 			desc = "POLITICS_TEMP_DESC"
 			picture = "Portrait_TAI_Hong_Tianguifu.dds"
 			expire = 1891.12.31
-			ideology = other
+			ideology = other_ideology
 			traits = {
 			  inexperienced_monarch
 			}
 		  }
 	}
-    option = { #More of them
+    option = { #
         name = qing_reb.6.a
 		swap_ideas={
-			remove_idea = CHI_rebel_uprising
-			add_idea = CHI_rebel_uprising_lost
+			remove_idea = QNG_rebel_uprising
+			add_idea = QNG_rebel_uprising_lost
 		}
     }
 }
@@ -338,30 +588,43 @@ country_event = { #Pugunhui revolt
     trigger = {
 		TAG = CHI
 		date > 1862.4.18
-		date < 1870.1.1
+		date < 1865.1.1
 	}
 
     fire_only_once = yes
 	immediate={
-		TAW={
-			set_state_owner = 1229
-			add_state_core = 1229
-			set_state_owner = 524
-			add_state_core = 524
-			load_oob = "TAW_1862"
-			declare_war_on = {
-				target = CHI
-				type = annex_everything
+		hidden_effect={
+			TAW={
+				set_state_owner = 1229
+				add_state_core = 1229
+				set_state_owner = 524
+				add_state_core = 524
+				load_oob = "TAW_1862"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				set_province_controller = 7214
+				set_province_controller = 11959
+				set_province_controller = 1091
+				set_province_controller = 12068
+				set_country_flag = rebel_uprisisng
 			}
-			set_province_controller = 7214
-			set_province_controller = 11959
-			set_province_controller = 1091
-			set_province_controller = 12068
 		}
 	}
     option = { #even More of them
         name = qing_reb.7.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.7.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = TAW}
+		if={
+			limit={GXC={exists = yes}}
+			GXC={puppet = TAW}
+		}
+	}
 }
 
 country_event = { #Bai Linga revolt
@@ -374,31 +637,49 @@ country_event = { #Bai Linga revolt
     trigger = {
 		TAG = CHI
 		date > 1861.3.1
-		date < 1870.1.1
+		date < 1865.1.1
 	}
 
     fire_only_once = yes
 	immediate={
-		FEG={
-			set_state_owner = 610
-			add_state_core = 610
-			load_oob = "FEG_1861"
-			declare_war_on = {
-				target = CHI
-				type = annex_everything
+		hidden_effect={
+			FEG={
+				set_state_owner = 610
+				add_state_core = 610
+				load_oob = "FEG_1861"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				set_province_controller = 934
+				set_province_controller = 3934
+				set_province_controller = 6898
+				set_province_controller = 11855
+				set_province_controller = 3881
+				set_province_controller = 7633
+				set_province_controller = 972
+				set_country_flag = rebel_uprisisng
 			}
-			set_province_controller = 934
-			set_province_controller = 3934
-			set_province_controller = 6898
-			set_province_controller = 11855
-			set_province_controller = 3881
-			set_province_controller = 7633
-			set_province_controller = 972
 		}
 	}
     option = { #even More of them
         name = qing_reb.8.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.12.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = FEG}
+		FEG={
+			set_cosmetic_tag = FEG_bai_linga_clique
+			load_focus_tree = CHI_warlords_1872	
+			remove_ideas={QNG_rebel_uprising}
+			transfer_state = 611
+			add_state_core = 611
+			transfer_state = 609
+			add_state_core = 609
+		}
+	}
 }
 
 country_event = { #Ma 1st revolt
@@ -411,26 +692,47 @@ country_event = { #Ma 1st revolt
     trigger = {
 		TAG = CHI
 		date > 1862.1.1
-		date < 1870.1.1
+		date < 1865.1.1
 	}
 
 	mean_time_to_happen = { days = 20 }
     fire_only_once = yes
 	immediate={
-		XSM={
-			set_state_owner = 604
-			add_state_core = 604
-			set_province_controller = 4888
-			load_oob = "XSM_zhanao"
-			declare_war_on = {
-				target = CHI
-				type = annex_everything
+		hidden_effect={
+			XSM={
+				set_state_owner = 604
+				add_state_core = 604
+				set_province_controller = 4888
+				load_oob = "XSM_zhanao"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				set_country_flag = rebel_uprisisng
 			}
 		}
 	}
     option = { #even More of them
         name = qing_reb.9.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.9.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = XSM}
+		XSM={
+			set_cosmetic_tag = XSM_early_ma_clique #just the flag
+			load_focus_tree = CHI_warlords_1872	
+			remove_ideas={QNG_rebel_uprising}
+			transfer_state = 604
+			transfer_state = 1255
+			add_state_core = 1255
+			transfer_state = 616
+			add_state_core = 616
+			transfer_state = 1256
+			add_state_core = 1256
+		}
+	}
 }
 country_event = { #Ma 2nd* revolt
     id = qing_reb.10
@@ -442,42 +744,67 @@ country_event = { #Ma 2nd* revolt
     trigger = {
 		TAG = CHI
 		date > 1862.3.1
-		date < 1870.1.1
+		date < 1865.1.1
+		if={
+			limit={XSM = {exists = yes}}
+			tag = QNG
+		}
 	}
 
 	mean_time_to_happen = { days = 60 }
     fire_only_once = yes
 	immediate={
-		if={
-			limit = {
-				XSM = {
-					exists = yes
+		hidden_effect={
+			if={
+				limit = {
+					XSM = {
+						exists = yes
+					}
+				}
+				XSM={
+					set_province_controller = 10854
+					set_province_controller = 8081
+					add_state_core = 1256
+					load_oob = "XSM_hualong"
 				}
 			}
-			XSM={
-				set_province_controller = 10854
-				set_province_controller = 8081
-				add_state_core = 1256
-				load_oob = "XSM_hualong"
-			}
-		}
-		else={
-			XSM={
-				set_state_owner = 1256
-				add_state_core = 1256
-				set_province_controller = 10854
-				set_province_controller = 8081
-				load_oob = "XSM_hualong"
-				declare_war_on = {
-					target = CHI
-					type = annex_everything
+			else={
+				XSM={
+					set_state_owner = 1256
+					add_state_core = 1256
+					set_province_controller = 10854
+					set_province_controller = 8081
+					load_oob = "XSM_hualong"
+					declare_war_on = {
+						target = QNG
+						type = annex_everything
+					}
+					set_country_flag = rebel_uprisisng
 				}
 			}
 		}
 	}
     option = { #even More of them
         name = qing_reb.10.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.10.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = XSM}
+		XSM={
+			set_cosmetic_tag = XSM_early_ma_clique #just the flag
+			load_focus_tree = CHI_warlords_1872	
+			remove_ideas={QNG_rebel_uprising}
+			transfer_state = 604
+			transfer_state = 1255
+			add_state_core = 1255
+			transfer_state = 616
+			add_state_core = 616
+			transfer_state = 1256
+			add_state_core = 1256
+		}
+	}
 }
 
 country_event = { #Ma 3rd* revolt
@@ -490,40 +817,66 @@ country_event = { #Ma 3rd* revolt
     trigger = {
 		TAG = CHI
 		date > 1862.3.1
-		date < 1870.1.1
+		date < 1865.1.1
+		if={
+			limit={XSM = {exists = yes}}
+			tag = QNG
+		}
 	}
 
 	mean_time_to_happen = { days = 200 }
     fire_only_once = yes
 	immediate={
-		if={
-			limit = {
-				XSM = {
-					exists = yes
+		hidden_effect={
+			if={
+				limit = {
+					XSM = {
+						exists = yes
+					}
+				}
+				XSM={
+					set_province_controller = 10490
+					set_province_controller = 12327
+					load_oob = "XSM_guiyuan"
 				}
 			}
-			XSM={
-				set_province_controller = 10490
-				set_province_controller = 12327
-				load_oob = "XSM_guiyuan"
-			}
-		}
-		else={
-			XSM={
-				set_state_owner = 604
-				set_province_controller = 10490
-				set_province_controller = 12327
-				load_oob = "XSM_guiyuan"
-				declare_war_on = {
-					target = CHI
-					type = annex_everything
+			else={
+				XSM={
+					set_state_owner = 604
+					set_province_controller = 10490
+					set_province_controller = 12327
+					load_oob = "XSM_guiyuan"
+					declare_war_on = {
+						target = QNG
+						type = annex_everything
+					}
+					set_country_flag = rebel_uprisisng
 				}
 			}
 		}
 	}
     option = { #even More of them
         name = qing_reb.11.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.11.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = XSM}
+		XSM={
+			set_cosmetic_tag = XSM_early_ma_clique #just the flag
+			load_focus_tree = CHI_warlords_1872	
+			remove_ideas={QNG_rebel_uprising}
+			transfer_state = 604
+			transfer_state = 1255
+			add_state_core = 1255
+			transfer_state = 616
+			add_state_core = 616
+			transfer_state = 1256
+			add_state_core = 1256
+		}
+	}
+	
 }
 country_event = { #Ma 4th revolt
     id = qing_reb.12
@@ -535,46 +888,2171 @@ country_event = { #Ma 4th revolt
     trigger = {
 		TAG = CHI
 		date > 1865.3.1
-		date < 1870.1.1
+		date < 1868.1.1
+		if={
+			limit={XSM = {exists = yes}}
+			tag = QNG
+		}
 	}
 
 	mean_time_to_happen = { days = 60 }
     fire_only_once = yes
 	immediate={
-		if={
-			limit = {
-				XSM = {
-					exists = yes
+		hidden_effect={
+			if={
+				limit = {
+					XSM = {
+						exists = yes
+					}
+				}
+				XSM={
+					set_state_owner = 1255
+					add_state_core = 1255
+					set_province_controller = 12596
+					set_province_controller = 12820
+					set_province_controller = 1778
+					set_province_controller = 7971
+					set_province_controller = 2028
+					load_oob = "XSM_wenlu"
 				}
 			}
-			XSM={
-				set_state_owner = 1255
-				add_state_core = 1255
-				set_province_controller = 12596
-				set_province_controller = 12820
-				set_province_controller = 1778
-				set_province_controller = 7971
-				set_province_controller = 2028
-				load_oob = "XSM_wenlu"
-			}
-		}
-		else={
-			XSM={
-				set_state_owner = 604
-				set_province_controller = 12596
-				set_province_controller = 12820
-				set_province_controller = 1778
-				set_province_controller = 7971
-				set_province_controller = 2028
-				load_oob = "XSM_wenlu"
-				declare_war_on = {
-					target = CHI
-					type = annex_everything
+			else={
+				XSM={
+					set_state_owner = 1255
+					add_state_core = 1255
+					set_province_controller = 12596
+					set_province_controller = 12820
+					set_province_controller = 1778
+					set_province_controller = 7971
+					set_province_controller = 2028
+					load_oob = "XSM_wenlu"
+					declare_war_on = {
+						target = QNG
+						type = annex_everything
+					}
+					set_country_flag = rebel_uprisisng
 				}
 			}
 		}
 	}
     option = { #even More of them
         name = qing_reb.11.a
+		trigger={tag = QNG}
     }
+	option = { #we must consolidate what we have
+        name = qing_reb.12.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = XSM}
+		XSM={
+			set_cosmetic_tag = XSM_early_ma_clique #just the flag
+			load_focus_tree = CHI_warlords_1872	
+			remove_ideas={QNG_rebel_uprising}
+			transfer_state = 604
+			transfer_state = 1255
+			add_state_core = 1255
+			transfer_state = 616
+			add_state_core = 616
+			transfer_state = 1256
+			add_state_core = 1256
+		}
+	}
+}
+country_event = { #Gelaohui revolt
+    id = qing_reb.13
+    title = qing_reb.13.t
+    desc = qing_reb.13.d
+
+#    picture = GFX_report_event_election_vote
+
+    trigger = {
+		TAG = CHI
+		date > 1862.1.1
+		date < 1868.1.1
+	}
+
+	mean_time_to_happen = { days = 90 }
+    fire_only_once = yes
+	immediate={
+		hidden_effect={
+			SHX={
+				set_cosmetic_tag = SHX_Gelaohui
+				set_state_owner = 1222
+				add_state_core = 1222
+				set_province_controller = 517
+				set_province_controller = 4939
+				set_province_controller = 3745
+				load_oob = "SHX_Gelaohui"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				if={
+					limit={
+						ZHI={exists = yes}
+					}
+					declare_war_on = {
+						target = ZHI
+						type = annex_everything
+					}
+				}
+				set_country_flag = rebel_uprisisng
+			}
+		}
+	}
+    option = { #even More of them
+        name = qing_reb.13.a
+		trigger={tag = QNG}
+    }
+	option = { #we must consolidate what we have
+        name = qing_reb.13.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = SHX}
+		SHX={
+			set_cosmetic_tag = SHX_gelaohui_clique
+			load_focus_tree = CHI_warlords_1872	
+			remove_ideas={QNG_rebel_uprising}
+			transfer_state = 622
+			add_state_core = 622
+			transfer_state = 283
+			add_state_core = 283
+			transfer_state = 1226
+			add_state_core = 1226
+			if={
+				limit={
+					ZHI={exists=yes}
+				}
+				white_peace = ZHI
+			}
+		}
+	}
+}
+country_event = { #hui revolt
+    id = qing_reb.14
+    title = qing_reb.14.t
+    desc = qing_reb.14.d
+
+#    picture = GFX_report_event_election_vote
+
+    trigger = {
+		TAG = CHI
+		date > 1862.2.1
+		date < 1868.1.1
+	}
+
+	mean_time_to_happen = { days = 60 }
+    fire_only_once = yes
+	immediate={
+		hidden_effect={
+			ZHI={
+				set_cosmetic_tag = ZHI_hui
+				set_state_owner = 620
+				add_state_core = 620
+				set_province_controller = 8072
+				set_province_controller = 7019
+				set_province_controller = 12408
+				set_province_controller = 4295
+				set_province_controller = 4167
+				set_province_controller = 10257
+				set_province_controller = 4256
+				set_province_controller = 7406
+				load_oob = "ZHI_Hui"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				if={
+					limit={
+						SHX={exists = yes}
+					}
+					declare_war_on = {
+						target = SHX
+						type = annex_everything
+					}
+				}
+				set_country_flag = rebel_uprisisng
+			}
+		}
+	}
+    option = { #let us fight
+        name = qing_reb.14.a
+		trigger={tag = QNG}
+    }
+	option = { #we must consolidate what we have
+        name = qing_reb.14.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = ZHI}
+		ZHI={
+			set_cosmetic_tag = ZHI_hui_clique
+			load_focus_tree = CHI_warlords_1872	
+			remove_ideas={QNG_rebel_uprising}
+			white_peace = SHX
+			transfer_state = 1223
+			add_state_core = 1223
+		}
+	}
+}
+
+country_event = { #Dungan revolt
+    id = qing_reb.15
+    title = qing_reb.15.t
+    desc = qing_reb.15.d
+
+#    picture = GFX_report_event_election_vote
+
+    trigger = {
+		TAG = CHI
+		date > 1864.2.1
+		date < 1868.1.1
+	}
+
+	mean_time_to_happen = { days = 60 }
+    fire_only_once = yes
+	immediate={
+		hidden_effect={
+			SIK={
+				set_cosmetic_tag = SIK_dungan
+				set_state_owner = 287
+				add_state_core = 287
+				set_state_controller = 287
+				set_province_controller = 5042
+				set_province_controller = 8112
+				set_province_controller = 10885
+				
+				set_state_owner = 619
+				set_province_controller = 7790
+				set_province_controller = 1970
+				
+				set_province_controller = 5087
+				
+				set_province_controller = 12119
+				
+				set_state_owner = 617
+				set_province_controller = 4828
+				set_province_controller = 7949
+				set_province_controller = 1703
+				set_province_controller = 4682
+				set_province_controller = 7702
+				set_province_controller = 8086
+				
+				set_province_controller = 10545
+				set_province_controller = 4709
+				set_province_controller = 10674
+				load_oob = "SIK_dungan_1"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				if={
+					limit={
+						SHX={exists = yes}
+					}
+					declare_war_on = {
+						target = SHX
+						type = annex_everything
+					}
+				}
+				create_country_leader = {
+					name = "Tuo Ming"
+					desc = "POLITICS_TEMP_DESC"
+					picture = "Portrait_SIK_Tuo_Ming.dds"
+					expire = 1891.12.31
+					ideology = despotism
+				}
+				set_country_flag = rebel_uprisisng
+			}
+		}
+	}
+    option = { #let us fight
+        name = qing_reb.15.a
+		trigger={tag = QNG}
+    }
+	option = { #we must consolidate what we have
+        name = qing_reb.15.b
+		trigger={NOT={tag = QNG}}
+		QNG={white_peace = SIK}
+				SIK={
+					load_focus_tree = CHI_warlords_1872	
+					set_cosmetic_tag = SIK_dungan_clique
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 287
+					transfer_state = 619
+					add_state_core = 619
+					transfer_state = 1253
+					add_state_core = 1253
+					transfer_state = 1254
+					add_state_core = 1254
+					transfer_state = 1225
+					add_state_core = 1225
+					transfer_state = 617
+					add_state_core = 617
+					transfer_state = 1252
+					add_state_core = 1252
+					transfer_state = 618
+					add_state_core = 618
+					transfer_state = 947
+					add_state_core = 947
+					if={
+						limit={
+							ROOT={owns_state=945}
+						}
+						transfer_state = 945
+						add_state_core = 945
+							
+					}
+					if={
+						limit={
+							ROOT={owns_state=946}
+						}
+						transfer_state = 946
+						add_state_core = 946
+							
+					}
+					if={
+						limit={
+							ROOT={owns_state=943}
+						}
+						transfer_state = 943
+						add_state_core = 943
+							
+					}
+					if={
+						limit={
+							ROOT={owns_state=944}
+						}
+						transfer_state = 944
+						add_state_core = 944
+							
+					}
+					set_country_flag = rebel_uprisisng
+				}
+    }
+}
+
+country_event = { #Ma Zhenlong revolt
+    id = qing_reb.16
+    title = qing_reb.16.t
+    desc = qing_reb.16.d
+
+#    picture = GFX_report_event_election_vote
+
+    trigger = {
+		TAG = QNG
+		date > 1864.2.1
+		date < 1868.1.1
+	}
+
+	mean_time_to_happen = { days = 60 }
+    fire_only_once = yes
+	immediate={
+		hidden_effect={
+			MAN={
+				set_cosmetic_tag = MAN_ma_zhe
+				set_state_owner = 715
+				add_state_core = 715
+				set_state_owner = 716
+				add_state_core = 716
+				set_state_owner = 328
+				add_state_core = 328
+				set_province_controller = 916
+				set_province_controller = 4642
+				set_province_controller = 930
+				set_province_controller = 887
+				set_province_controller = 3849
+				set_province_controller = 9885
+				set_province_controller = 11771
+				set_province_controller = 6951
+				set_province_controller = 11815
+				set_province_controller = 3934
+				set_province_controller = 934
+				set_province_controller = 6837
+				set_province_controller = 9781
+				set_province_controller = 892
+				set_province_controller = 3895
+				set_province_controller = 3839
+				set_province_controller = 3913
+				set_province_controller = 1567
+				set_province_controller = 7663
+				set_province_controller = 11744
+				set_province_controller = 4503
+				set_province_controller = 7652
+				set_province_controller = 7523
+				set_province_controller = 9782
+				set_province_controller = 7591
+				set_province_controller = 9928
+				set_province_controller = 987
+				set_province_controller = 6837
+				load_oob = "MAN_Ma_Zhe"
+				declare_war_on = {
+					target = QNG
+					type = annex_everything
+				}
+				create_country_leader = {
+					name = "Ma Shazi"
+					desc = "POLITICS_TEMP_DESC"
+					picture = "Portrait_MAN_Ma_Shazi.dds"
+					expire = 1891.12.31
+					ideology = despotism
+				}
+				add_ideas={
+					QNG_rebel_uprising
+				}
+				set_country_flag = rebel_uprisisng
+			}
+		}
+	}
+    option = { #let us fight
+        name = qing_reb.16.a
+		trigger={tag = QNG}
+    }
+}
+
+country_event = { #Qing shattered
+    id = qing_reb.17
+    title = qing_reb.17.t
+    desc = qing_reb.17.d
+
+#    picture = GFX_report_event_election_vote
+
+    trigger = {
+		TAG = QNG
+		OR ={
+			surrender_progress > 0.85
+			NOT={controls_state = 608}
+		}
+	}
+
+	mean_time_to_happen = { days = 2 }
+    fire_only_once = yes
+	immediate={
+		hidden_effect={
+			#Qing retreats to Manchuria 
+			set_cosmetic_tag = QNG_manchurian_rump_state
+			if={
+				limit={
+					has_idea = QNG_idea_arrow_incident
+				}
+				remove_ideas={QNG_idea_arrow_incident}
+			}
+			#revolve warlords first
+			if={#miao
+				limit={
+					SIC={
+						exists = yes
+						NOT={has_cosmetic_tag = SIC_White_Hao}
+					}
+				}
+				white_peace = SIC
+				SIC={
+					load_focus_tree = CHI_warlords_1872	
+					transfer_state = 603
+					set_cosmetic_tag = SIC_miao_clique
+					remove_ideas={QNG_rebel_uprising}
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			if={#Nian
+				limit={
+					NIE={exists = yes}
+				}
+				NIE={
+					load_focus_tree = CHI_warlords_1872	
+					set_cosmetic_tag = NIE_nian_clique
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 615
+					add_state_core = 615
+					clr_country_flag = rebel_uprisisng
+				}
+				white_peace = NIE
+			}
+			if={#Ma
+				limit={
+					XSM={exists = yes}
+				}
+				white_peace = XSM
+				XSM={
+					load_focus_tree = CHI_warlords_1872	
+					set_cosmetic_tag = XSM_early_ma_clique #just the flag
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 604
+					transfer_state = 1255
+					add_state_core = 1255
+					transfer_state = 616
+					add_state_core = 616
+					transfer_state = 1256
+					add_state_core = 1256
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			if={#Dungan
+				limit={
+					SIK={exists = yes}
+				}
+				white_peace = SIK
+				SIK={
+					load_focus_tree = CHI_warlords_1872	
+					set_cosmetic_tag = SIK_dungan_clique
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 287
+					transfer_state = 619
+					add_state_core = 619
+					transfer_state = 1253
+					add_state_core = 1253
+					transfer_state = 1254
+					add_state_core = 1254
+					transfer_state = 1225
+					add_state_core = 1225
+					transfer_state = 617
+					add_state_core = 617
+					transfer_state = 1252
+					add_state_core = 1252
+					transfer_state = 618
+					add_state_core = 618
+					transfer_state = 947
+					add_state_core = 947
+					if={
+						limit={
+							ROOT={owns_state=945}
+						}
+						transfer_state = 945
+						add_state_core = 945
+							
+					}
+					if={
+						limit={
+							ROOT={owns_state=946}
+						}
+						transfer_state = 946
+						add_state_core = 946
+							
+					}
+					if={
+						limit={
+							ROOT={owns_state=943}
+						}
+						transfer_state = 943
+						add_state_core = 943
+							
+					}
+					if={
+						limit={
+							ROOT={owns_state=944}
+						}
+						transfer_state = 944
+						add_state_core = 944
+							
+					}
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			if={#Bai Linga
+				limit={
+					FEG={exists = yes}
+				}
+				FEG={
+					load_focus_tree = CHI_warlords_1872	
+					set_cosmetic_tag = FEG_bai_linga_clique
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 611
+					add_state_core = 611
+					transfer_state = 609
+					add_state_core = 609
+					clr_country_flag = rebel_uprisisng
+				}
+				white_peace = FEG
+			}
+			if={#Ma Zhenlong
+				limit={
+					MAN={exists = yes}
+				}
+				MAN={
+					load_focus_tree = CHI_warlords_1872	
+					set_cosmetic_tag = MAN_ma_zhenlong_clique
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 1025
+					add_state_core = 1025
+					transfer_state = 1174
+					add_state_core = 1174
+					clr_country_flag = rebel_uprisisng
+				}
+				white_peace = MAN
+			}
+			if={#Hui
+				limit={
+					ZHI={exists = yes}
+				}
+				ZHI={
+					load_focus_tree = CHI_warlords_1872	
+					set_cosmetic_tag = ZHI_hui_clique
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 1223
+					add_state_core = 1223
+					white_peace = SHX
+					clr_country_flag = rebel_uprisisng
+				}
+				white_peace = ZHI
+			}
+			if={#Gelaohui
+				limit={
+					SHX={exists = yes}
+				}
+				SHX={
+					load_focus_tree = CHI_warlords_1872	
+					set_cosmetic_tag = SHX_gelaohui_clique
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 622
+					add_state_core = 622
+					transfer_state = 283
+					add_state_core = 283
+					transfer_state = 1226
+					add_state_core = 1226
+					if={
+						limit={
+							SIK={exists=yes}
+						}
+						white_peace = SIK
+					}
+					clr_country_flag = rebel_uprisisng
+				}
+				white_peace = SHX
+			}
+
+			#tibet declares independance
+			release = TIB
+			#mongolia declares independance
+			MON={
+				load_focus_tree = CHI_warlords_1872	
+				if={
+					limit={
+						ROOT={owns_state=329}
+					}
+					add_state_core = 329
+				}
+				if={
+					limit={
+						ROOT={owns_state=612}
+					}
+					add_state_core = 612
+				}
+				if={
+					limit={
+						ROOT={owns_state=621}
+					}
+					add_state_core = 621
+				}				
+			}
+			release = MON
+			
+			608={#he who holds bejing, holds the empire
+				if={#Taiping
+					limit={TAI={controls_state = PREV}}
+					TAI={save_event_target_as = new_CHI_emperor}
+				}
+				#ming Claiments
+				else_if={#Dacheng
+					limit={GXC={controls_state = PREV}}
+					GXC={save_event_target_as = new_CHI_emperor}
+				}
+				else_if={#White Hao
+					limit={
+						SIC={
+							has_cosmetic_tag = SIC_White_Hao
+							controls_state = PREV
+						}
+					}
+					SIC={save_event_target_as = new_CHI_emperor}
+				}
+				else_if={#Baguahui
+					limit={TAW={controls_state = PREV}}
+					TAW={save_event_target_as = new_CHI_emperor}
+				}
+				#new empires
+				else_if={#Shuntain
+					limit={SHU={controls_state = PREV}}
+					SHU={save_event_target_as = new_CHI_emperor}
+				}
+				else_if={#Tianshun
+					limit={ANH={controls_state = PREV}}
+					ANH={save_event_target_as = new_CHI_emperor}
+				}
+				else_if={#Yanling
+					limit={YAL={controls_state = PREV}}
+					YAL={save_event_target_as = new_CHI_emperor}
+				}
+				else_if={
+					limit={TAI={exists = yes}}
+					TAI={save_event_target_as = new_CHI_emperor}
+					ROOT={set_country_flag = contested_heavenly_mandate}
+				}
+				else={
+					ROOT={set_country_flag = qing_reduced}
+				}
+			}
+
+			if={#Shuntain exists
+				limit={
+					SHU={
+						exists=yes
+					}
+				}
+				white_peace = SHU
+				SHU={
+					set_cosmetic_tag = SHU_shuntain_clique
+					load_focus_tree = CHI_warlords_1872	
+					remove_ideas={QNG_rebel_uprising}
+					if={
+						limit={
+							ROOT={owns_state=973}
+						}
+						transfer_state = 973
+						add_state_core = 973		
+					}
+					if={
+						limit={
+							ROOT={owns_state=601}
+						}
+						transfer_state = 601
+						add_state_core = 601		
+					}
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			if={#Tianshun exists
+				limit={
+					ANH={
+						exists=yes
+					}
+				}
+				white_peace = ANH
+				ANH={
+					set_cosmetic_tag = ANH_tianshun_clique
+					remove_ideas={QNG_rebel_uprising}
+					load_focus_tree = CHI_warlords_1872	
+					if={
+						limit={
+							ROOT={owns_state=598}
+						}
+						transfer_state = 598
+						add_state_core = 598	
+						transfer_state = 1166
+						add_state_core = 1166							
+					}
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			if={#Heavenly kingdom exists
+				limit={
+					TAI={
+						exists=yes
+					}
+				}
+				white_peace = TAI
+				TAI={
+					remove_ideas={QNG_rebel_uprising}
+					add_ideas={CHI_idea_new_mandate}
+					load_focus_tree = CHI_new_mandate_1872
+					if={
+						limit={
+							ROOT={owns_state=595}
+						}
+						transfer_state = 595
+						add_state_core = 595
+						transfer_state = 1159
+						add_state_core = 1159
+					}
+					if={
+						limit={
+							ROOT={owns_state=596}
+						}
+						transfer_state = 596
+						add_state_core = 596
+						transfer_state = 1161
+						add_state_core = 1161
+						transfer_state = 1160
+						add_state_core = 1160
+						transfer_state = 1162
+						add_state_core = 1162
+					}
+					if={
+						limit={
+							ROOT={owns_state=613}
+						}
+						transfer_state = 613
+						add_state_core = 613
+						transfer_state = 1163
+						add_state_core = 1163
+						transfer_state = 1164
+						add_state_core = 1164
+						transfer_state = 1165
+						add_state_core = 1165
+						
+					}
+					if={
+						limit={
+							ROOT={owns_state=602}
+						}
+						transfer_state = 602
+						add_state_core = 602
+					}
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			if={#Panthay exists
+				limit={
+					PTH={
+						exists=yes
+					}
+				}
+				white_peace = PTH
+				PTH={
+					set_cosmetic_tag = PTH_independant
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 325
+					add_state_core = 325
+					load_focus_tree = CHI_warlords_1872	
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			if={#Dacheng exists
+				limit={
+					GXC={
+						exists=yes
+					}
+				}
+				white_peace = GXC
+				GXC={
+					set_cosmetic_tag = GXC_ming#declares ming anyway
+					remove_ideas={QNG_rebel_uprising}
+					add_ideas={CHI_idea_insufficient_army CHI_idea_new_mandate}
+					load_focus_tree = CHI_new_mandate_1872
+					transfer_state = 592
+					add_state_core = 592
+					transfer_state = 593
+					add_state_core = 593
+					transfer_state = 1157
+					add_state_core = 1157
+					transfer_state = 1158
+					add_state_core = 1158	
+					if={
+						limit={
+							YAL={exists = no}
+						}
+						transfer_state = 594
+						add_state_core = 594	
+						transfer_state = 1156
+						add_state_core = 1156	
+						transfer_state = 728
+						add_state_core = 728
+						transfer_state = 591
+						add_state_core = 591
+					}
+					if={
+						limit={
+							PTH={exists = no}
+						}
+						transfer_state = 974
+						add_state_core = 974
+						transfer_state = 325
+						add_state_core = 325
+					}
+					if={
+						limit={
+							TAW={
+								exists = yes
+							}
+						}
+						ROOT={white_peace = TAW}
+						puppet = TAW
+						TAW={country_event = {id = qing_reb.18 days = 5}}#Under the ming
+					}
+					if={
+						limit={
+							SIC={
+								exists = yes
+							}
+						}
+						ROOT={white_peace = SIC}
+						puppet = SIC
+						SIC={country_event = {id = qing_reb.18 days = 5}}#Under the ming
+					}
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			if={#Wu Lingyun exists
+				limit={
+					YAL={
+						exists=yes
+					}
+				}
+				white_peace = YAL
+				YAL={
+					set_cosmetic_tag = YAL_wu_lingyun_clique
+					remove_ideas={QNG_rebel_uprising}
+					transfer_state = 1156
+					add_state_core = 1156	
+					transfer_state = 728
+					add_state_core = 728
+					transfer_state = 591
+					add_state_core = 591
+					clr_country_flag = rebel_uprisisng
+				}
+			}
+			
+			if={#resolve the new empire
+				limit={
+					event_target:new_CHI_emperor = {
+						exists = yes
+					}
+				}
+				white_peace = event_target:new_CHI_emperor
+				clr_country_flag = true_china
+				event_target:new_CHI_emperor={
+					country_event = {id = qing_reb.19}
+					set_country_flag = QNG_heavenly_mandate
+					set_country_flag = true_china
+					load_focus_tree = CHI_new_mandate_1872
+					add_ideas={CHI_idea_new_mandate}
+					if={
+						limit={tag= SHU}
+						set_cosmetic_tag = ANH_shuntain_empire
+						add_ideas={CHI_idea_insufficient_army}
+					}
+					else_if={
+						limit={tag= ANH}
+						set_cosmetic_tag = ANH_tianshun_empire
+						add_ideas={CHI_idea_insufficient_army}
+					}
+					else_if={
+						limit={tag= TAI}
+						set_cosmetic_tag = TAI_heavenly_empire
+					}
+					else_if={
+						limit={tag= PTH}
+						set_cosmetic_tag = PTH_new_han_empire
+						add_ideas={CHI_idea_insufficient_army}
+					}
+					else_if={
+						limit={tag= YAL}
+						set_cosmetic_tag = YAL_empire
+						add_ideas={CHI_idea_insufficient_army}
+					}
+					else_if={
+						limit={
+							OR={
+								tag= GXC
+								tag= TAW
+								tag= SIC
+							}
+						}
+						set_cosmetic_tag = GXC_ming_true
+						add_ideas={CHI_idea_insufficient_army}
+					}					
+				}
+				every_owned_state={
+					limit={
+						NOT={
+							OR={
+								#manchuria
+								state = 714
+								state = 561
+								state = 1246
+								state = 560
+								state = 1244
+								state = 1247
+								state = 1248
+								state = 657
+								state = 1249
+								state = 409
+								state = 408
+								state = 717
+								state = 1245
+								state = 1250
+								#lower manchuria
+								state = 328
+								state = 715
+								state = 716
+								state = 1174
+								state = 1025
+							}
+						}
+					}
+					event_target:new_CHI_emperor={
+						transfer_state = PREV
+						add_state_core = PREV
+					}
+				}
+			}
+			
+		}
+	}
+    option = { #
+        name = qing_reb.17.a
+    }
+}
+
+country_event = { #Ming Declares you a vassal
+    id = qing_reb.18
+    title = qing_reb.18.t
+    desc = qing_reb.18.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #we are always loyal to ming
+        name = qing_reb.18.a
+		ai_chance = {
+			factor = 90
+		}
+    }
+	option = { #they are not the true ming yet
+        name = qing_reb.18.b
+		ai_chance = {
+			factor = 10
+		}
+    }
+}
+
+country_event = { #you art emperor now
+    id = qing_reb.19
+    title = qing_reb.19.t
+    desc = {
+		text = qing_reb.19.d 
+		trigger={
+			NOT={tag= event_target:new_CHI_emperor}
+		}
+	}
+	desc = {
+		text = qing_reb.19.d_a
+		trigger={
+			tag= event_target:new_CHI_emperor
+		}
+	}
+	major = yes
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+	immediate={
+		hidden_effect={
+			#add_ideas={QNG_new_mandate}
+			if={
+				limit={
+					NOT={tag=PTH}
+					PTH={exists = yes}
+				}#if panthay is independant, can ask to join peacefully in exchange for rights
+				country_event = {id = qing_reb.20 days = 3}
+			}
+		}
+	}
+    option = { #it is our time 
+        name = qing_reb.19.a
+		trigger={
+			tag= event_target:new_CHI_emperor
+		}
+    }
+	option = { #Curse the False Emperor
+        name = qing_reb.19.b
+		trigger={
+			tag= QNG
+		}
+    }
+	option = { #
+        name = qing_reb.19.c
+		trigger={
+			NOT={
+				tag= QNG
+				tag= event_target:new_CHI_emperor
+			}
+		}
+    }
+}
+
+country_event = { #Question of Shi Dakai
+    id = qing_reb.20
+    title = qing_reb.20.t
+    desc = qing_reb.20.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #Sideline him
+        name = qing_reb.20.a
+		ai_chance = {
+			factor = 90
+		}
+		set_country_flag = TAI_shi_dakai_removed
+		remove_ideas={QNG_idea_TAI_shi_dakai}
+    }
+	option = { #We have nothing to fear from him
+        name = qing_reb.20.b
+		ai_chance = {
+			factor = 10
+		}
+		set_country_flag = TAI_shi_dakai_stays
+		add_stability = -0.1
+    }
+}
+
+country_event = { #taiping dies, lower the xiang army
+    id = qing_reb.21
+    title = qing_reb.21.t
+    desc = qing_reb.21.d
+
+#    picture = GFX_report_event_election_vote
+
+    trigger = {
+		TAG = QNG
+		TAI={exists = no}
+		has_template = "Xiang Army"
+	}
+
+    fire_only_once = yes
+	immediate={
+		set_country_flag = xiang_army_unavailable
+		delete_unit_template_and_units = {
+			division_template = "Xiang Army"
+		}
+	}
+    option = { #ok
+        name = qing_reb.21.a
+    }
+}
+
+country_event = { #demand tribute
+    id = qing_reb.22
+    title = qing_reb.22.t
+    desc = qing_reb.22.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #we are always loyal to ming
+        name = qing_reb.22.a
+		ai_chance = {
+			factor = 90
+		}
+		FROM={}
+    }
+	option = { #they are not the true ming yet
+        name = qing_reb.22.b
+		ai_chance = {
+			factor = 10
+		}
+    }
+}
+
+country_event = { #TAI offers a trading port for support
+    id = qing_reb.25
+    title = qing_reb.25.t
+    desc = qing_reb.25.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #a wedge to open china with
+        name = qing_reb.25.a
+		ai_chance = {
+			factor = 75
+		}
+		TAI={country_event = {id=qing_reb.26}}
+		set_country_flag = TAI_owes_shanghai_port
+    }
+	option = { #we prefer our deals with qing
+        name = qing_reb.25.b
+		ai_chance = {
+			factor = 25
+		}
+		TAI={country_event = {id=qing_reb.27}}
+    }
+}
+country_event = { #offer agreed upon
+    id = qing_reb.27
+    title = qing_reb.27.t
+    desc = qing_reb.27.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #ok
+        name = qing_reb.27.a
+		ai_chance = {
+			factor = 75
+		}
+		
+    }
+
+}
+country_event = { #offer rejected
+    id = qing_reb.28
+    title = qing_reb.28.t
+    desc = qing_reb.28.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #a wedge to open china with
+        name = qing_reb.28.a
+		ai_chance = {
+			factor = 75
+		}
+		
+    }
+
+}
+country_event = { #strike on shanghai
+    id = qing_reb.29
+    title = qing_reb.29.t
+    desc = qing_reb.29.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #Besige the city
+        name = qing_reb.29.a
+		ai_chance = {
+			factor = 100
+		}
+		add_manpower = -2000
+		QNG={country_event = {id = qing_reb.30}}
+    }
+
+}
+country_event = { #Countering the strike
+    id = qing_reb.30
+    title = qing_reb.30.t
+    desc = qing_reb.30.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #Besige the city
+        name = qing_reb.30.a
+		ai_chance = {
+			factor = 100
+		}
+		add_manpower = -2000
+		random_list={
+			75={
+				FROM={country_event = {id = qing_reb.31}}#shanghai gambit fails
+			}
+			25={
+				FROM={country_event = {id = qing_reb.32}}#shanghai gambit succedes
+			}
+		}
+    }
+
+}
+country_event = { #ever victorius army formed
+    id = qing_reb.31
+    title = qing_reb.31.t
+    desc = qing_reb.31.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+	immediate={
+		QNG={
+			load_oob = QNG_ever_victorious_army
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_rifle_1
+				amount = 500
+				producer = USA
+			}
+			add_equipment_to_stockpile = {
+				type = cannon_equipment_0
+				amount = 150
+				producer = USA
+			}
+			set_country_flag = QNG_ever_victorius_army
+			create_corps_commander = {
+				name = "Frederick Townsend Ward"
+				picture = "Portrait_Frederick_Townsend_Ward.dds"
+				traits = { brilliant_strategist }
+				skill = 3
+				attack_skill = 5
+				defense_skill = 2
+				planning_skill = 4
+				logistics_skill = 3
+			}
+		}
+	}
+    option = { #oops
+        name = qing_reb.31.a
+		ai_chance = {
+			factor = 100
+		}
+    }
+
+}
+country_event = { #strike on shanghai succedes
+    id = qing_reb.32
+    title = qing_reb.32.t
+    desc = qing_reb.32.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #perfect
+        name = qing_reb.32.a
+		ai_chance = {
+			factor = 100
+		}
+		load_oob = TAI_shanghai_force
+    }
+
+}
+country_event = { #Equipment Cache captured
+    id = qing_reb.33
+    title = qing_reb.33.t
+    desc = qing_reb.33.d
+
+#    picture = GFX_report_event_election_vote
+	trigger={
+		OR={
+			has_idea = QNG_rebel_uprising
+			has_idea = QNG_rebel_uprising_lost
+			has_idea = QNG_idea_banner_armies
+		}
+		has_war = yes
+	}
+	mean_time_to_happen={
+		days = 30
+	}
+    option = { #perfect
+        name = qing_reb.33.a
+		ai_chance = {
+			factor = 100
+		}
+		random_list={
+			55={
+				add_equipment_to_stockpile={
+					type = infantry_equipment_rifle_0
+					amount = 5000
+					producer = QNG
+				}
+			}
+			45={
+				add_equipment_to_stockpile={
+					type = uniform_equipment_0
+					amount = 1000
+					producer = QNG
+				}
+			}
+		}
+    }
+
+}
+
+country_event = { #request for recognition - TODO
+    id = qing_reb.34
+    title = qing_reb.34.t
+    desc = qing_reb.34.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #perfect
+        name = qing_reb.34.a
+		ai_chance = {
+			factor = 100
+		}
+    }
+
+}
+
+country_event = { #Dreams of Transoxina
+    id = qing_reb.35
+    title = qing_reb.35.t
+    desc = qing_reb.35.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #perfect
+        name = qing_reb.35.a
+		ai_chance = {
+			factor = 100
+		}
+    }
+
+}
+country_event = { #Deligation from Dungan Clique Arrives
+    id = qing_reb.36
+    title = qing_reb.36.t
+    desc = qing_reb.36.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #Agree
+        name = qing_reb.36.a
+		ai_chance = {
+			factor = 70
+		}
+		SIK={country_event = {id = qing_reb.42}}
+		set_country_flag = SIK_agree_to_transoxiana
+    }
+	option = { #Refuse
+        name = qing_reb.36.a
+		ai_chance = {
+			factor = 30
+		}
+		SIK={country_event = {id = qing_reb.41}}
+    }
+
+}
+news_event = { #formation of tranxoniana
+    id = qing_reb.37
+    title = qing_reb.37.t
+    desc = qing_reb.37.d
+	
+	major = yes
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #ok
+        name = qing_reb.37.a
+		ai_chance = {
+			factor = 100
+		}
+    }
+
+}
+
+country_event = { #education reforms
+    id = qing_reb.38
+    title = qing_reb.38.t
+    desc = qing_reb.38.d
+
+# #    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #open schools to all
+        name = qing_reb.38.a
+		ai_chance = {
+			factor = 20
+		}
+    }
+	option = { #continue confushion traditions
+        name = qing_reb.38.b
+		ai_chance = {
+			factor = 20
+		}
+    }
+	option = { #modern western teachers
+        name = qing_reb.38.c
+		ai_chance = {
+			factor = 20
+		}
+    }
+
+}
+
+country_event = { #unifaction of taiwan
+    id = qing_reb.39
+    title = qing_reb.39.t
+    desc = qing_reb.39.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #perfect
+        name = qing_reb.39.a
+		ai_chance = {
+			factor = 100
+		}
+    }
+
+}
+
+country_event = { #shatter china
+    id = qing_reb.40
+    title = qing_reb.40.t
+    desc = qing_reb.40.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #fully shattered
+        name = qing_reb.37.a
+		hidden_effect={
+			QNG={
+				SHU={
+					transfer_state = 605
+					add_state_core = 605
+					load_oob = "SHU_1859"
+					set_country_flag = rebel_uprisisng
+				}
+				ANH={
+					transfer_state = 606
+					add_state_core = 606
+					load_oob = "ANH_1861"
+					set_country_flag = rebel_uprisisng
+				}
+				TAW={
+					transfer_state = 1229
+					add_state_core = 1229
+					transfer_state = 524
+					add_state_core = 524
+					load_oob = "TAW_1862"
+					set_country_flag = rebel_uprisisng
+				}
+				FEG={
+					transfer_state = 610
+					add_state_core = 610
+					load_oob = "FEG_1861"
+					set_country_flag = rebel_uprisisng
+				}
+				XSM={
+					transfer_state = 604
+					add_state_core = 604
+					load_oob = "XSM_zhanao"
+					set_country_flag = rebel_uprisisng
+				}
+				SHX={
+					set_cosmetic_tag = SHX_Gelaohui
+					transfer_state = 1222
+					add_state_core = 1222
+					load_oob = "SHX_Gelaohui"
+					set_country_flag = rebel_uprisisng
+				}
+				ZHI={
+					set_cosmetic_tag = ZHI_hui
+					transfer_state = 620
+					add_state_core = 620
+					load_oob = "ZHI_Hui"
+					set_country_flag = rebel_uprisisng
+				}
+				SIK={
+					set_cosmetic_tag = SIK_dungan
+					transfer_state = 287
+					add_state_core = 287
+					set_state_controller = 287	
+					transfer_state = 619				
+					transfer_state = 617
+					load_oob = "SIK_dungan_1"
+					create_country_leader = {
+						name = "Tuo Ming"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_SIK_Tuo_Ming.dds"
+						expire = 1891.12.31
+						ideology = despotism
+					}
+					set_country_flag = rebel_uprisisng
+				}
+				MAN={
+					set_cosmetic_tag = MAN_ma_zhe
+					transfer_state = 715
+					add_state_core = 715
+					transfer_state = 716
+					add_state_core = 716
+					transfer_state = 328
+					add_state_core = 328
+					load_oob = "MAN_Ma_Zhe"
+					create_country_leader = {
+						name = "Ma Shazi"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_MAN_Ma_Shazi.dds"
+						expire = 1891.12.31
+						ideology = despotism
+					}
+					add_ideas={
+						QNG_rebel_uprising
+					}
+					set_country_flag = rebel_uprisisng
+				}
+				#Qing retreats to Manchuria 
+				set_cosmetic_tag = QNG_manchurian_rump_state
+				if={
+					limit={
+						has_idea = QNG_idea_arrow_incident
+					}
+					remove_ideas={QNG_idea_arrow_incident}
+				}
+				#revolve warlords first
+				if={#miao
+					limit={
+						SIC={
+							exists = yes
+							NOT={has_cosmetic_tag = SIC_White_Hao}
+						}
+					}
+					white_peace = SIC
+					SIC={
+						load_focus_tree = CHI_warlords_1872	
+						transfer_state = 603
+						set_cosmetic_tag = SIC_miao_clique
+						remove_ideas={QNG_rebel_uprising}
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				if={#Nian
+					limit={
+						NIE={exists = yes}
+					}
+					NIE={
+						load_focus_tree = CHI_warlords_1872	
+						set_cosmetic_tag = NIE_nian_clique
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 615
+						add_state_core = 615
+						clr_country_flag = rebel_uprisisng
+					}
+					white_peace = NIE
+				}
+				if={#Ma
+					limit={
+						XSM={exists = yes}
+					}
+					white_peace = XSM
+					XSM={
+						load_focus_tree = CHI_warlords_1872	
+						set_cosmetic_tag = XSM_early_ma_clique #just the flag
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 604
+						transfer_state = 1255
+						add_state_core = 1255
+						transfer_state = 616
+						add_state_core = 616
+						transfer_state = 1256
+						add_state_core = 1256
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				if={#Dungan
+					limit={
+						SIK={exists = yes}
+					}
+					white_peace = SIK
+					SIK={
+						load_focus_tree = CHI_warlords_1872	
+						set_cosmetic_tag = SIK_dungan_clique
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 287
+						transfer_state = 619
+						add_state_core = 619
+						transfer_state = 1253
+						add_state_core = 1253
+						transfer_state = 1254
+						add_state_core = 1254
+						transfer_state = 1225
+						add_state_core = 1225
+						transfer_state = 617
+						add_state_core = 617
+						transfer_state = 1252
+						add_state_core = 1252
+						transfer_state = 618
+						add_state_core = 618
+						transfer_state = 947
+						add_state_core = 947
+						if={
+							limit={
+								ROOT={owns_state=945}
+							}
+							transfer_state = 945
+							add_state_core = 945
+								
+						}
+						if={
+							limit={
+								ROOT={owns_state=946}
+							}
+							transfer_state = 946
+							add_state_core = 946
+								
+						}
+						if={
+							limit={
+								ROOT={owns_state=943}
+							}
+							transfer_state = 943
+							add_state_core = 943
+								
+						}
+						if={
+							limit={
+								ROOT={owns_state=944}
+							}
+							transfer_state = 944
+							add_state_core = 944
+								
+						}
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				if={#Bai Linga
+					limit={
+						FEG={exists = yes}
+					}
+					FEG={
+						load_focus_tree = CHI_warlords_1872	
+						set_cosmetic_tag = FEG_bai_linga_clique
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 611
+						add_state_core = 611
+						transfer_state = 609
+						add_state_core = 609
+						clr_country_flag = rebel_uprisisng
+					}
+					white_peace = FEG
+				}
+				if={#Ma Zhenlong
+					limit={
+						MAN={exists = yes}
+					}
+					MAN={
+						load_focus_tree = CHI_warlords_1872	
+						set_cosmetic_tag = MAN_ma_zhenlong_clique
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 1025
+						add_state_core = 1025
+						transfer_state = 1174
+						add_state_core = 1174
+						clr_country_flag = rebel_uprisisng
+					}
+					white_peace = MAN
+				}
+				if={#Hui
+					limit={
+						ZHI={exists = yes}
+					}
+					ZHI={
+						load_focus_tree = CHI_warlords_1872	
+						set_cosmetic_tag = ZHI_hui_clique
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 1223
+						add_state_core = 1223
+						white_peace = SHX
+						clr_country_flag = rebel_uprisisng
+					}
+					white_peace = ZHI
+				}
+				if={#Gelaohui
+					limit={
+						SHX={exists = yes}
+					}
+					SHX={
+						load_focus_tree = CHI_warlords_1872	
+						set_cosmetic_tag = SHX_gelaohui_clique
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 622
+						add_state_core = 622
+						transfer_state = 283
+						add_state_core = 283
+						transfer_state = 1226
+						add_state_core = 1226
+						if={
+							limit={
+								SIK={exists=yes}
+							}
+							white_peace = SIK
+						}
+						clr_country_flag = rebel_uprisisng
+					}
+					white_peace = SHX
+				}
+
+				#tibet declares independance
+				release = TIB
+				#mongolia declares independance
+				MON={
+					load_focus_tree = CHI_warlords_1872	
+					if={
+						limit={
+							ROOT={owns_state=329}
+						}
+						add_state_core = 329
+					}
+					if={
+						limit={
+							ROOT={owns_state=612}
+						}
+						add_state_core = 612
+					}
+					if={
+						limit={
+							ROOT={owns_state=621}
+						}
+						add_state_core = 621
+					}				
+				}
+				release = MON
+				
+				608={#he who holds bejing, holds the empire
+					if={#Taiping
+						limit={TAI={controls_state = PREV}}
+						TAI={save_event_target_as = new_CHI_emperor}
+					}
+					#ming Claiments
+					else_if={#Dacheng
+						limit={GXC={controls_state = PREV}}
+						GXC={save_event_target_as = new_CHI_emperor}
+					}
+					else_if={#White Hao
+						limit={
+							SIC={
+								has_cosmetic_tag = SIC_White_Hao
+								controls_state = PREV
+							}
+						}
+						SIC={save_event_target_as = new_CHI_emperor}
+					}
+					else_if={#Baguahui
+						limit={TAW={controls_state = PREV}}
+						TAW={save_event_target_as = new_CHI_emperor}
+					}
+					#new empires
+					else_if={#Shuntain
+						limit={SHU={controls_state = PREV}}
+						SHU={save_event_target_as = new_CHI_emperor}
+					}
+					else_if={#Tianshun
+						limit={ANH={controls_state = PREV}}
+						ANH={save_event_target_as = new_CHI_emperor}
+					}
+					else_if={#Yanling
+						limit={YAL={controls_state = PREV}}
+						YAL={save_event_target_as = new_CHI_emperor}
+					}
+					else_if={
+						limit={TAI={exists = yes}}
+						TAI={save_event_target_as = new_CHI_emperor}
+						ROOT={set_country_flag = contested_heavenly_mandate}
+					}
+					else={
+						ROOT={set_country_flag = qing_reduced}
+					}
+				}
+
+				if={#Shuntain exists
+					limit={
+						SHU={
+							exists=yes
+						}
+					}
+					white_peace = SHU
+					SHU={
+						set_cosmetic_tag = SHU_shuntain_clique
+						load_focus_tree = CHI_warlords_1872	
+						remove_ideas={QNG_rebel_uprising}
+						if={
+							limit={
+								ROOT={owns_state=973}
+							}
+							transfer_state = 973
+							add_state_core = 973		
+						}
+						if={
+							limit={
+								ROOT={owns_state=601}
+							}
+							transfer_state = 601
+							add_state_core = 601		
+						}
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				if={#Tianshun exists
+					limit={
+						ANH={
+							exists=yes
+						}
+					}
+					white_peace = ANH
+					ANH={
+						set_cosmetic_tag = ANH_tianshun_clique
+						remove_ideas={QNG_rebel_uprising}
+						load_focus_tree = CHI_warlords_1872	
+						if={
+							limit={
+								ROOT={owns_state=598}
+							}
+							transfer_state = 598
+							add_state_core = 598	
+							transfer_state = 1166
+							add_state_core = 1166							
+						}
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				if={#Heavenly kingdom exists
+					limit={
+						TAI={
+							exists=yes
+						}
+					}
+					white_peace = TAI
+					TAI={
+						remove_ideas={QNG_rebel_uprising}
+						add_ideas={CHI_idea_new_mandate}
+						load_focus_tree = CHI_new_mandate_1872
+						if={
+							limit={
+								ROOT={owns_state=595}
+							}
+							transfer_state = 595
+							add_state_core = 595
+							transfer_state = 1159
+							add_state_core = 1159
+						}
+						if={
+							limit={
+								ROOT={owns_state=596}
+							}
+							transfer_state = 596
+							add_state_core = 596
+							transfer_state = 1161
+							add_state_core = 1161
+							transfer_state = 1160
+							add_state_core = 1160
+							transfer_state = 1162
+							add_state_core = 1162
+						}
+						if={
+							limit={
+								ROOT={owns_state=613}
+							}
+							transfer_state = 613
+							add_state_core = 613
+							transfer_state = 1163
+							add_state_core = 1163
+							transfer_state = 1164
+							add_state_core = 1164
+							transfer_state = 1165
+							add_state_core = 1165
+							
+						}
+						if={
+							limit={
+								ROOT={owns_state=602}
+							}
+							transfer_state = 602
+							add_state_core = 602
+						}
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				if={#Panthay exists
+					limit={
+						PTH={
+							exists=yes
+						}
+					}
+					white_peace = PTH
+					PTH={
+						set_cosmetic_tag = PTH_independant
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 325
+						add_state_core = 325
+						load_focus_tree = CHI_warlords_1872	
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				if={#Dacheng exists
+					limit={
+						GXC={
+							exists=yes
+						}
+					}
+					white_peace = GXC
+					GXC={
+						set_cosmetic_tag = GXC_ming#declares ming anyway
+						remove_ideas={QNG_rebel_uprising}
+						add_ideas={CHI_idea_insufficient_army CHI_idea_new_mandate}
+						load_focus_tree = CHI_new_mandate_1872
+						transfer_state = 592
+						add_state_core = 592
+						transfer_state = 593
+						add_state_core = 593
+						transfer_state = 1157
+						add_state_core = 1157
+						transfer_state = 1158
+						add_state_core = 1158	
+						if={
+							limit={
+								YAL={exists = no}
+							}
+							transfer_state = 594
+							add_state_core = 594	
+							transfer_state = 1156
+							add_state_core = 1156	
+							transfer_state = 728
+							add_state_core = 728
+							transfer_state = 591
+							add_state_core = 591
+						}
+						if={
+							limit={
+								PTH={exists = no}
+							}
+							transfer_state = 974
+							add_state_core = 974
+							transfer_state = 325
+							add_state_core = 325
+						}
+						if={
+							limit={
+								TAW={
+									exists = yes
+								}
+							}
+							ROOT={white_peace = TAW}
+							puppet = TAW
+							TAW={country_event = {id = qing_reb.18 days = 5}}#Under the ming
+						}
+						if={
+							limit={
+								SIC={
+									exists = yes
+								}
+							}
+							ROOT={white_peace = SIC}
+							puppet = SIC
+							SIC={country_event = {id = qing_reb.18 days = 5}}#Under the ming
+						}
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				if={#Wu Lingyun exists
+					limit={
+						YAL={
+							exists=yes
+						}
+					}
+					white_peace = YAL
+					YAL={
+						set_cosmetic_tag = YAL_wu_lingyun_clique
+						remove_ideas={QNG_rebel_uprising}
+						transfer_state = 1156
+						add_state_core = 1156	
+						transfer_state = 728
+						add_state_core = 728
+						transfer_state = 591
+						add_state_core = 591
+						clr_country_flag = rebel_uprisisng
+					}
+				}
+				
+				if={#resolve the new empire
+					limit={
+						event_target:new_CHI_emperor = {
+							exists = yes
+						}
+					}
+					white_peace = event_target:new_CHI_emperor
+					clr_country_flag = true_china
+					event_target:new_CHI_emperor={
+						country_event = {id = qing_reb.19}
+						set_country_flag = QNG_heavenly_mandate
+						set_country_flag = true_china
+						load_focus_tree = CHI_new_mandate_1872
+						add_ideas={CHI_idea_new_mandate}
+						if={
+							limit={tag= SHU}
+							set_cosmetic_tag = ANH_shuntain_empire
+							add_ideas={CHI_idea_insufficient_army}
+						}
+						else_if={
+							limit={tag= ANH}
+							set_cosmetic_tag = ANH_tianshun_empire
+							add_ideas={CHI_idea_insufficient_army}
+						}
+						else_if={
+							limit={tag= TAI}
+							set_cosmetic_tag = TAI_heavenly_empire
+						}
+						else_if={
+							limit={tag= PTH}
+							set_cosmetic_tag = PTH_new_han_empire
+							add_ideas={CHI_idea_insufficient_army}
+						}
+						else_if={
+							limit={tag= YAL}
+							set_cosmetic_tag = YAL_empire
+							add_ideas={CHI_idea_insufficient_army}
+						}
+						else_if={
+							limit={
+								OR={
+									tag= GXC
+									tag= TAW
+									tag= SIC
+								}
+							}
+							set_cosmetic_tag = GXC_ming_true
+							add_ideas={CHI_idea_insufficient_army}
+						}					
+					}
+					every_owned_state={
+						limit={
+							NOT={
+								OR={
+									#manchuria
+									state = 714
+									state = 561
+									state = 1246
+									state = 560
+									state = 1244
+									state = 1247
+									state = 1248
+									state = 657
+									state = 1249
+									state = 409
+									state = 408
+									state = 717
+									state = 1245
+									state = 1250
+									#lower manchuria
+									state = 328
+									state = 715
+									state = 716
+									state = 1174
+									state = 1025
+								}
+							}
+						}
+						event_target:new_CHI_emperor={
+							transfer_state = PREV
+							add_state_core = PREV
+						}
+					}
+				}
+			}
+		}
+    }
+	 option = { #not the minors
+        name = qing_reb.37.a
+		
+		#QNG={country_event = {id= qing_reb.17}}
+    }
+
+}
+
+country_event = { #refused
+    id = qing_reb.41
+    title = qing_reb.41.t
+    desc = qing_reb.41.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #take them
+        name = qing_reb.41.a
+		ai_chance = {
+			factor = 95
+		}
+		FROM={
+			every_owned_state={
+				ROOT={add_state_claim = PREV}
+			}
+		}
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+    }
+	option = { #give up the notion
+        name = qing_reb.41.b
+		ai_chance = {
+			factor = 5
+		}
+    }
+
+}
+country_event = { #they agree
+    id = qing_reb.42
+    title = qing_reb.42.t
+    desc = qing_reb.42.d
+
+#    picture = GFX_report_event_election_vote
+	is_triggered_only=yes
+    option = { #perfect
+        name = qing_reb.42.a
+		puppet = FROM
+		ai_chance = {
+			factor = 100
+		}
+    }
+
 }

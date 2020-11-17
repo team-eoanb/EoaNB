@@ -1,20 +1,23 @@
 political_actions = {
 
-	eoanb_decision_CHI_kick_out_GER = {
+	eoanb_decision_QNG_kick_out_GER = {
 		
 		icon = generic_break_treaty
+        
+        allowed = {
+            tag = QNG
+        }
 		
 		available = {
-			has_idea = GER_idea_CHI_military_presence
+			has_idea = GER_idea_QNG_military_presence
 		}
 		
 		visible = {
-			TAG = CHI
 			OR = {
 				PRS = { has_completed_focus = GER_focus_historical_military_in_china }
-				has_idea = GER_idea_CHI_military_presence
+				has_idea = GER_idea_QNG_military_presence
 			}
-			NOT = { CHI = { is_subject_of = GER } }
+			NOT = { QNG = { is_subject_of = GER } }
 		}
 		
 		fire_only_once = yes
@@ -22,7 +25,7 @@ political_actions = {
 		cost = 20
 		
 		complete_effect = {
-			remove_ideas = GER_idea_CHI_military_presence
+			remove_ideas = GER_idea_QNG_military_presence
 			add_stability = -0.02
 			GER = { country_event = { id = germany.14 } }
 		}
@@ -31,5 +34,195 @@ political_actions = {
 			base = 0
 		}
 	}
+	
+	eoanb_decision_QNG_buy_arms_black_market = {
+		
+		icon = generic_break_treaty
+        
+        allowed = {
+            tag = TAI
+        }
+		
+		available = {
+			any_controlled_state = {
+				is_coastal = yes
+				# any_province_building_level = {
+					# limit=1
+					# province = {
+						# id = 7014
+						# limit_to_border = no
+					# }
+					# building = naval_base
+					# level > 0
+				# }
+			}
+		}
+		
+		visible = {
+			has_war_with = QNG
+		}
+		fixed_random_seed = no
+		
+		cost = 25
+		
+		days_remove = 10
+		
+		remove_effect = {
+			random_list = {
+				32 = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment_rifle_0
+						amount = 150
+						producer = RUS
+					}
+				}
+				24 = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment_rifle_0
+						amount = 75
+						producer = ENG
+					}
+				}
+				20 = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment_rifle_1
+						amount = 75
+						producer = FRA
+					}
+				}
+				20 = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment_rifle_1
+						amount = 75
+						producer = USA
+					}
+				}
+				4={
+					add_equipment_to_stockpile = {
+						type = cannon_equipment_0
+						amount = 25
+						producer = USA
+					}
+				}
+			}
+		}
+		
+		ai_will_do = {
+			base = 1000
+		}
+	}
 
+
+	eoanb_decision_QNG_receive_tribute_d = {
+
+		icon = generic_political_discourse
+
+		# available = {
+		# }
+
+		visible = {
+			has_completed_focus = QNG_manage_tributaries
+		}
+		
+		target_trigger = {
+			FROM = {
+				OR={
+					tag = KOR
+					tag = RYU
+					tag = LAN
+					tag = VIN
+					tag = KOK
+				}
+			}		
+		}
+
+		fire_only_once = yes
+
+		cost = 30
+		days_remove = 150
+		
+		remove_effect = {
+			FROM={
+				add_political_power = -150
+			}
+		}
+		modifier={
+			consumer_goods_factor = -0.05
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+	}
+	
+	eoanb_decision_QNG_invest_tributary = {
+
+		icon = generic_political_discourse
+
+		# available = {
+		# }
+
+		visible = {
+			always = no
+		}
+		
+		target_trigger = {
+			FROM = {
+				OR={
+					tag = KOR
+					tag = RYU
+					tag = LAN
+					tag = VIN
+					tag = KOK
+				}
+			}		
+		}
+
+		fire_only_once = yes
+
+		cost = 150
+		days_remove = 150
+		
+		remove_effect = {
+			FROM={
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						OR = {
+							is_in_home_area = yes
+							NOT = {
+								owner = {
+									any_owned_state = {
+										free_building_slots = {
+											building = industrial_complex
+											size > 0
+											include_locked = yes
+										}
+										is_in_home_area = yes
+									}
+								}
+							}
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		modifier={
+			consumer_goods_factor = 0.05
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+	}
 }

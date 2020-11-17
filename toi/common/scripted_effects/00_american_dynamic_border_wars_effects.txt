@@ -1,0 +1,910 @@
+########################
+#State Militia Garrison#
+########################
+USA_call_state_militia_units={
+	if = {
+		limit = { 
+			THIS = {
+				any_province_building_level = {
+					province = {
+						all_provinces = yes
+					}
+					building = bunker
+					level > 2
+				}
+			}
+		}
+		set_temp_variable = { Temp_State_bunker_level = 3 }
+		add_to_temp_variable = { State_militia_army_num = 3000 }
+	}
+	if = {
+		limit = { 
+			THIS = {
+				any_province_building_level = {
+					province = {
+						all_provinces = yes
+					}
+					building = bunker
+					level > 1
+				}
+				check_variable = {
+					var = Temp_State_bunker_level
+					value = 3
+					compare = not_equals
+				}
+			}
+		}
+		set_temp_variable = { Temp_State_bunker_level = 2 }
+		add_to_temp_variable = { State_militia_army_num = 2000 }
+	}
+	if = {
+		limit = { 
+			THIS = {
+				any_province_building_level = {
+					province = {
+						all_provinces = yes
+					}
+					building = bunker
+					level > 0
+				}
+				check_variable = {
+					var = Temp_State_bunker_level
+					value = 3
+					compare = not_equals
+				}
+				check_variable = {
+					var = Temp_State_bunker_level
+					value = 2
+					compare = not_equals
+				}
+			}
+		}
+		set_temp_variable = { Temp_State_bunker_level = 1 }
+		add_to_temp_variable = { State_militia_army_num = 1000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 5000 }
+			THIS = { state_population < 15000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 1000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 15000 }
+			THIS = { state_population < 25000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 2000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 25000 }
+			THIS = { state_population < 35000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 3000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 35000 }
+			THIS = { state_population < 45000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 4000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 45000 }
+			THIS = { state_population < 55000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 5000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 55000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 6000 }
+	}
+	if = {
+		limit = {
+			check_variable = {
+				var = State_militia_army_num
+				value = 6000
+				compare = greater_than
+			}
+		}
+		set_temp_variable = { State_militia_army_num = 6000 }
+	}
+	subtract_from_temp_variable = { State_militia_army_num = State_militia_army_used }
+	if = {
+		limit = { 
+			check_variable = {
+				var = State_militia_army_num
+				value = 0
+				compare = greater_than
+			}
+		}
+		set_temp_variable = {temp_state_militia_army = State_militia_army_num}
+		divide_temp_variable = {temp_state_militia_army = 1000}
+		round_variable = temp_state_militia_army
+		add_to_temp_array={
+			array = num_of_state_militia_divisions_to_raise
+			value = 1
+			index = 1
+		}
+		resize_temp_array = {num_of_state_militia_divisions_to_raise = temp_state_militia_army}
+		FROM = {
+			if = {
+				limit = { FROM = { NOT = { has_template = "State Militia" } } }
+				division_template = {
+					name = "State Militia"
+					priority = 0
+					division_names_group = USA_STATE_MILITIA_01
+					regiments = {
+						state_militia_infantry = { x = 0 y = 0 }
+					}
+					is_locked = yes
+				}
+			}
+		}
+		for_each_loop={
+			array = num_of_state_militia_divisions_to_raise
+			THIS ={
+				create_unit = {
+					division = "name = \"State Militia\" division_template = \"State Militia\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+					owner = FROM
+				}
+			}
+			subtract_from_temp_variable = { State_militia_army_num = 1000 }
+			clamp_variable = {
+				var = State_militia_army_num
+				min = 0
+				max = 6000
+			}
+			add_to_variable = { State_militia_army_used = 1000 }
+			clamp_variable = {
+				var = State_militia_army_used
+				min = 0
+				max = 6000
+			}
+		}
+	}
+}
+
+USA_dismiss_state_militia_units={
+	delete_unit_template_and_units = { division_template = "State Militia" }
+	every_owned_state = {
+		limit = {
+			check_variable = {
+				var = State_militia_army_used
+				value = 0
+				compare = greater_than
+			}
+		}
+		set_variable = { State_militia_army_used = 0 }
+    }
+}
+###########################
+#Colonial Militia Garrison#
+###########################
+afr_call_colonial_militia_units={
+	if = {
+		limit = { 
+			THIS = {
+				any_province_building_level = {
+					province = {
+						all_provinces = yes
+					}
+					building = bunker
+					level > 2
+				}
+			}
+		}
+		set_temp_variable = { Temp_State_bunker_level = 3 }
+		add_to_temp_variable = { State_militia_army_num = 3000 }
+	}
+	if = {
+		limit = { 
+			THIS = {
+				any_province_building_level = {
+					province = {
+						all_provinces = yes
+					}
+					building = bunker
+					level > 1
+				}
+				check_variable = {
+					var = Temp_State_bunker_level
+					value = 3
+					compare = not_equals
+				}
+			}
+		}
+		set_temp_variable = { Temp_State_bunker_level = 2 }
+		add_to_temp_variable = { State_militia_army_num = 2000 }
+	}
+	if = {
+		limit = { 
+			THIS = {
+				any_province_building_level = {
+					province = {
+						all_provinces = yes
+					}
+					building = bunker
+					level > 0
+				}
+				check_variable = {
+					var = Temp_State_bunker_level
+					value = 3
+					compare = not_equals
+				}
+				check_variable = {
+					var = Temp_State_bunker_level
+					value = 2
+					compare = not_equals
+				}
+			}
+		}
+		set_temp_variable = { Temp_State_bunker_level = 1 }
+		add_to_temp_variable = { State_militia_army_num = 1000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 5000 }
+			THIS = { state_population < 15000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 1000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 15000 }
+			THIS = { state_population < 25000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 2000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 25000 }
+			THIS = { state_population < 35000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 3000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 35000 }
+			THIS = { state_population < 45000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 4000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 45000 }
+			THIS = { state_population < 55000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 5000 }
+	}
+	if = {
+		limit = {
+			THIS = { is_core_of = FROM }
+			THIS = { state_population > 55000 }
+		}
+		add_to_temp_variable = { State_militia_army_num = 6000 }
+	}
+	if = {
+		limit = {
+			check_variable = {
+				var = State_militia_army_num
+				value = 6000
+				compare = greater_than
+			}
+		}
+		set_temp_variable = { State_militia_army_num = 6000 }
+	}
+	subtract_from_temp_variable = { State_militia_army_num = State_militia_army_used }
+	if = {
+		limit = { 
+			check_variable = {
+				var = State_militia_army_num
+				value = 0
+				compare = greater_than
+			}
+		}
+		set_temp_variable = {temp_state_militia_army = State_militia_army_num}
+		divide_temp_variable = {temp_state_militia_army = 1000}
+		round_variable = temp_state_militia_army
+		add_to_temp_array={
+			array = num_of_state_militia_divisions_to_raise
+			value = 1
+			index = 1
+		}
+		resize_temp_array = {num_of_state_militia_divisions_to_raise = temp_state_militia_army}
+		FROM = {
+			if = {
+				limit = { 
+					FROM = { 
+						NOT = { has_template = "Colonial Militia" } 
+						OR = {
+							has_idea = AFR_netherland_colony
+							has_idea = AFR_netherland_colony_tribute
+						}
+					} 
+				}
+				division_template = {
+					name = "Colonial Militia"
+					priority = 1
+					division_names_group = AFR_COLONIAL_MILITIA_01
+					regiments = {
+						dutch_colonial_militia_infantry = { x = 0 y = 0 }
+					}
+					is_locked = yes
+				}
+			}
+			else_if = {
+				limit = { 
+					FROM = { 
+						NOT = { has_template = "Colonial Militia" } 
+					} 
+				}
+				division_template = {
+					name = "Colonial Militia"
+					priority = 0
+					division_names_group = AFR_COLONIAL_MILITIA_01
+					regiments = {
+						colonial_militia_infantry = { x = 0 y = 0 }
+					}
+					is_locked = yes
+				}
+			}
+		}
+		for_each_loop={
+			array = num_of_state_militia_divisions_to_raise
+			THIS ={
+				if = {
+					limit = {
+						FROM = {
+							OR = {
+								has_idea = AFR_netherland_colony
+								has_idea = AFR_netherland_colony_tribute
+							}
+						} 
+					}
+					create_unit = {
+						division = "name = \"Colonial Militia\" division_template = \"Colonial Militia\" start_experience_factor = 0.35 start_equipment_factor = 1" 
+						owner = FROM
+					}
+				}
+				else = {
+					create_unit = {
+						division = "name = \"Colonial Militia\" division_template = \"Colonial Militia\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+						owner = FROM
+					}
+				}
+			}
+			subtract_from_temp_variable = { State_militia_army_num = 1000 }
+			clamp_variable = {
+				var = State_militia_army_num
+				min = 0
+				max = 6000
+			}
+			add_to_variable = { State_militia_army_used = 1000 }
+			clamp_variable = {
+				var = State_militia_army_used
+				min = 0
+				max = 6000
+			}
+		}
+	}
+}
+
+AFR_dismiss_colonial_militia_units={
+	delete_unit_template_and_units = { division_template = "Colonial Militia" }
+	every_owned_state = {
+		limit = {
+			check_variable = {
+				var = State_militia_army_used
+				value = 0
+				compare = greater_than
+			}
+		}
+		set_variable = { State_militia_army_used = 0 }
+    }
+}
+##############################
+#Dynamic Border War Mechanics#
+##############################
+set_dynamic_american_state_border_war_variables = {
+
+			hidden_effect = {
+				FROM = {
+					random_owned_controlled_state = {
+						limit = {
+							if = {
+								limit = { 
+									check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals }
+									ROOT = { has_country_flag = afr_unsanctioned_raid_on_1029 }
+									FROM = { owns_state = 1029 }
+									1029 = { any_neighbor_state = { is_fully_controlled_by = ROOT } }
+								}
+								STATE = 1029
+							}
+							else = {
+								hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
+								any_neighbor_state = {
+									hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
+									#has_ROOT_at_least_1_div_in_current_state_scope = yes
+									is_fully_controlled_by = ROOT
+								}
+							}
+						}
+						save_event_target_as = defender_state
+						set_variable = { FROM.defender_state_vs_@ROOT = id }
+						set_temp_variable = { defender_state_temp = id }
+						set_dynamic_american_state_province_variable_for_defender = yes
+						if = {
+							limit = { 
+								ROOT = { 
+									NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+									NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+									NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+									NOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
+								}
+							}
+							set_state_flag = border_incident_active
+							add_claim_by = ROOT
+						}
+						if = {
+							limit = {
+								ROOT = {
+									has_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag
+								}
+							}
+							#add_claim_by = ROOT
+							set_variable = { first_nations_acw_border_claim@ROOT = 1 }
+						}
+					}
+				}
+				random_state = {
+					limit = {
+						is_fully_controlled_by = ROOT
+						hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
+						#has_ROOT_at_least_1_div_in_current_state_scope = yes
+						any_neighbor_state = {
+							state = var:FROM.defender_state_vs_@ROOT
+						}
+					}
+					save_event_target_as = attacker_state
+					set_variable = { FROM.attacker_state_vs_@ROOT = id }
+					set_temp_variable = { attacker_state_temp = id }
+					set_dynamic_american_state_province_variable_for_attacker = yes
+					if = {
+						limit = { 
+							ROOT = { 
+								NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+								NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+								NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+								NOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
+							}
+						}
+						set_state_flag = border_incident_active
+					}
+				}
+			}
+
+}
+
+set_dynamic_american_state_province_variable_for_attacker = {
+
+	if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 385 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 16 } } }
+
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 386 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 21 } } }
+
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1076 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 388 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 12 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 389 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 10 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 390 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 384 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 8 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 383 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 12 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 374 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 15 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1306 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 7 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 375 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 5 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1304 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 11 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1303 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 4 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1285 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1300 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 377 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 5 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1297 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1093 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 378 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 57 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 379 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 13 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 380 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 14 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 382 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 5 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1092 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 7 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1289 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 387 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 8 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1291 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 4 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1284 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1299 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1075 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1073 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1074 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1292 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1282 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 381 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1048 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1047 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 4 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1290 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1045 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1046 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1049 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1050 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1051 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 8 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1052 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1298 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1283 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1296 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1278 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1293 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1280 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1279 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1281 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 7 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 376 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1295 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1302 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 386 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1286 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1294 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1288 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 1287 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 386 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 21 } } }
+		
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 373 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 18 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.attacker_state_vs_@ROOT value = 392 compare = equals } }  FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 16 } } }
+	
+	else = {	FROM = { set_variable = { FROM.attacker_state_province_@ROOT = 1 } } }
+}
+
+set_dynamic_american_state_province_variable_for_defender = {
+
+	if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 385 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 16 } } }
+
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 386 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 21 } } }
+
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1076 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 388 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 12 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 389 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 10 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 390 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 384 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 8 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 383 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 12 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 374 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 15 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1306 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 7 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 375 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 5 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1304 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 11 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1303 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 4 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1285 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1300 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 377 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 5 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1297 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1093 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 378 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 57 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 379 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 13 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 380 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 14 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 382 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 5 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1092 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 7 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1289 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 387 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 8 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1291 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 4 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1284 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1299 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1075 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1073 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1074 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1292 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1282 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 381 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1048 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1047 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 4 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1290 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1045 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1046 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1049 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1050 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1051 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 8 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1052 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1298 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1283 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1296 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1278 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1293 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1280 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 6 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1279 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1281 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 7 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 376 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1295 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1302 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 386 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1286 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 3 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1294 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1288 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 1287 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 2 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 386 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 21 } } }
+		
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 373 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 18 } } }
+	
+	else_if = { limit = { check_variable = { var = FROM.defender_state_vs_@ROOT value = 392 compare = equals } }  FROM = { set_variable = { FROM.defender_state_province_@ROOT = 16 } } }
+	
+	else = { 	FROM = { set_variable = { FROM.defender_state_province_@ROOT = 1 } } }
+}
+
+
+
+
+start_dynamic_american_state_border_war = {
+	
+	start_border_war = {
+		change_state_after_war = no
+		attacker = {
+			state = var:FROM.attacker_state_vs_@ROOT
+			num_provinces = 1
+			on_win = usa_state_event_on_win_attacker.1
+			on_lose = usa_state_event_on_lose_attacker.1
+			on_cancel = usa_state_event_on_cancel_attacker.1
+		}
+		
+		defender = {
+			state = var:FROM.defender_state_vs_@ROOT
+			num_provinces = 1
+			on_win = usa_state_event_on_win_defender.1
+			on_lose = usa_state_event_on_lose_defender.1
+			on_cancel = usa_state_event_on_cancel_defender.1
+		}
+	}
+	hidden_effect = {
+		if = {
+			limit = { 
+				ROOT = { 
+					NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+					NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+					NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+					NOT = { has_country_flag = balkanized_state_border_skirmish_neighbor_flag }
+				}
+			}
+			var:FROM.defender_state_vs_@ROOT = {
+				clr_state_flag = border_incident_active
+			}
+			var:FROM.attacker_state_vs_@ROOT = {
+				clr_state_flag = border_incident_active
+			}
+		}
+		if = {
+			limit = { 
+				ROOT = { owns_state = var:FROM.attacker_state_vs_@ROOT } #Attacker
+				FROM = { owns_state = var:FROM.defender_state_vs_@ROOT } #Defender
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					combat_width = 10
+				}
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					attacker_modifier = 0.10
+					combat_width = 20
+				}
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					attacker_modifier = 0.10
+					combat_width = 20
+					
+				}
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					combat_width = 20
+				}
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					combat_width = 40
+				}
+			}
+		}
+		clear_variable = FROM.defender_state_vs_@ROOT
+		clear_variable = FROM.defender_state_province_@ROOT
+		clear_variable = FROM.attacker_state_vs_@ROOT
+		clear_variable = FROM.attacker_state_province_@ROOT
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

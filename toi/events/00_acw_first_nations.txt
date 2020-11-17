@@ -1,0 +1,468 @@
+add_namespace = acw_first_nations
+add_namespace = acw_first_nations_trigger
+
+country_event = {
+	id = acw_first_nations_trigger.1 
+	hidden = yes
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	trigger = {
+		NOT = { has_global_flag = acw_first_nations_trigger_1_flag_global }
+	}
+
+    immediate = {
+		hidden_effect = {
+			set_global_flag = acw_first_nations_trigger_1_flag_global
+			if = {
+				limit = {
+					has_global_flag = ACW_American_Civil_War
+				}
+				every_country = {
+					limit = {
+						exists = yes
+						OR = {
+							TAG = SHO
+							TAG = NEZ
+							TAG = BFT
+							TAG = CRW
+							TAG = SIX
+							TAG = CHY
+							TAG = COM
+							TAG = APA
+							TAG = NAV
+							TAG = SEM
+							TAG = OKL
+						}
+					}
+					country_event = { id = acw_first_nations.1 days = 7 }
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = acw_first_nations.1 
+	title = acw_first_nations.1.t
+	desc = acw_first_nations.1.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	trigger = {
+		ROOT = { exists = yes }
+		NOT = { has_country_flag = acw_first_nations_trigger_1_flag_country }
+	}
+	
+	immediate = {
+		hidden_effect = { ROOT = { set_country_flag = acw_first_nations_trigger_1_flag_country } }
+	}
+
+	option = { 
+		name = acw_first_nations.1.a
+		ai_chance = {
+			factor = 50
+		}
+		add_war_support = 0.07
+		ROOT = { country_event = { id = acw_first_nations.2 days = 3 } }
+		custom_effect_tooltip = acw_first_nations_choose_early_tooltip
+	}
+	
+	option = { 
+	    name = acw_first_nations.1.b
+		ai_chance = {
+			factor = 35
+		}
+		trigger = {
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+		}
+		add_war_support = 0.07
+		ROOT = { country_event = { id = acw_first_nations.3 months = 1 } }
+		custom_effect_tooltip = acw_first_nations_choose_later_tooltip
+	}
+	
+	option = { 
+	    name = acw_first_nations.1.c
+		ai_chance = {
+			factor = 15
+		}
+		trigger = {
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+		}
+		add_war_support = 0.07
+		ROOT = { country_event = { id = acw_first_nations.4 months = 2 } }
+		custom_effect_tooltip = acw_first_nations_choose_latest_tooltip
+	}
+}
+
+country_event = {
+	id = acw_first_nations.2 
+	title = acw_first_nations.2.t
+	desc = acw_first_nations.2.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	trigger = {
+		has_global_flag = ACW_American_Civil_War
+	}
+
+    option = { 
+	    name = acw_first_nations.2.a
+		ai_chance = {
+			factor = 50
+		}
+		custom_effect_tooltip = acw_first_nations_choose_USA_tooltip
+		hidden_effect = { 
+			USA = { country_event = { id = acw_first_nations.5 days = 5 random = 5 } } 
+			set_country_flag = acw_first_nations_choose_USA_early_flag 
+			ROOT = { add_ideas = FN_T_american_civil_war_usa }
+		}
+	}
+	
+	option = { 
+	    name = acw_first_nations.2.b
+		ai_chance = {
+			factor = 50
+		}
+		trigger = {
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+		}
+		custom_effect_tooltip = acw_first_nations_choose_CSA_tooltip
+		hidden_effect = { 
+			CSA = { country_event = { id = acw_first_nations.6 days = 5 random = 5 } }
+			set_country_flag = acw_first_nations_choose_CSA_early_flag 
+			ROOT = { add_ideas = FN_T_american_civil_war_csa }
+		}
+	}
+	
+	option = { 
+	    name = acw_first_nations.2.c
+		ai_chance = {
+			factor = 0
+		}
+		trigger = {
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+		}
+		ROOT = { country_event = { id = acw_first_nations.3 months = 1 } }
+		custom_effect_tooltip = acw_first_nations_choose_later_tooltip
+	}
+}
+
+country_event = {
+	id = acw_first_nations.3 
+	title = acw_first_nations.3.t
+	desc = acw_first_nations.3.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	trigger = {
+		has_global_flag = ACW_American_Civil_War
+	}
+
+    option = { 
+	    name = acw_first_nations.3.a
+		ai_chance = {
+			factor = 50
+		}
+		custom_effect_tooltip = acw_first_nations_choose_USA_tooltip
+		hidden_effect = { 
+			USA = { country_event = { id = acw_first_nations.5 days = 5 random = 5 } } 
+			set_country_flag = acw_first_nations_choose_USA_later_flag 
+			ROOT = { add_ideas = FN_T_american_civil_war_usa }
+		}
+	}
+	
+	option = { 
+	    name = acw_first_nations.3.b
+		ai_chance = {
+			factor = 50
+		}
+		trigger = {
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+		}
+		custom_effect_tooltip = acw_first_nations_choose_CSA_tooltip
+		hidden_effect = { 
+			CSA = { country_event = { id = acw_first_nations.6 days = 5 random = 5 } }
+			set_country_flag = acw_first_nations_choose_CSA_later_flag 
+			ROOT = { add_ideas = FN_T_american_civil_war_csa }
+		}
+	}
+	
+	option = { 
+	    name = acw_first_nations.3.c
+		ai_chance = {
+			factor = 0
+		}
+		trigger = {
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+		}
+		ROOT = { country_event = { id = acw_first_nations.4 months = 1 } }
+		custom_effect_tooltip = acw_first_nations_choose_latest_tooltip
+	}
+}
+
+country_event = {
+	id = acw_first_nations.4 
+	title = acw_first_nations.4.t
+	desc = acw_first_nations.4.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	trigger = {
+		has_global_flag = ACW_American_Civil_War
+	}
+
+    option = { 
+	    name = acw_first_nations.4.a
+		ai_chance = {
+			factor = 50
+		}
+		trigger = {
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+		}
+		custom_effect_tooltip = acw_first_nations_choose_USA_tooltip
+		hidden_effect = { 
+			USA = { country_event = { id = acw_first_nations.5 days = 5 random = 5 } } 
+			set_country_flag = acw_first_nations_choose_USA_latest_flag 
+			ROOT = { add_ideas = FN_T_american_civil_war_usa }
+		}
+	}
+	
+	option = { 
+	    name = acw_first_nations.4.b
+		ai_chance = {
+			factor = 50
+		}
+		trigger = {
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+		}
+		custom_effect_tooltip = acw_first_nations_choose_CSA_tooltip
+		hidden_effect = { 
+			CSA = { country_event = { id = acw_first_nations.6 days = 5 random = 5 } }
+			set_country_flag = acw_first_nations_choose_CSA_latest_flag 
+			ROOT = { add_ideas = FN_T_american_civil_war_csa }
+		}
+	}
+}
+
+country_event = {
+	id = acw_first_nations.5 
+	title = acw_first_nations.5.t
+	desc = acw_first_nations.5.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	trigger = {
+		has_global_flag = ACW_American_Civil_War
+	}
+
+    option = {
+	    name = acw_first_nations.5.a
+		trigger = {
+			FROM = { has_country_flag = acw_first_nations_choose_USA_early_flag }
+		}
+		if = {
+			limit = {
+				NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+				NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+				NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+				NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+				NOT = { has_autonomy_state = autonomy_freely_associated_state }
+			}
+			diplomatic_relation = {
+				country = FROM
+				relation = non_aggression_pact
+				active = yes
+			}
+			diplomatic_relation = {
+				country = FROM
+				relation = military_access
+				active = yes
+			}
+		}
+		hidden_effect = {
+			add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_USA_strong_opinion_modifier }
+			CSA = { add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_USA_negative_opinion_modifier } }
+			set_variable = { var = FROM.acw_has_special_diplomacy@CSA value = 1 }
+		}
+	}
+	
+	option = {
+	    name = acw_first_nations.5.b
+		trigger = {
+			FROM = { has_country_flag = acw_first_nations_choose_USA_later_flag }
+		}
+		if = {
+			limit = {
+				NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+				NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+				NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+				NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+				NOT = { has_autonomy_state = autonomy_freely_associated_state }
+			}
+			diplomatic_relation = {
+				country = FROM
+				relation = non_aggression_pact
+				active = yes
+			}
+			diplomatic_relation = {
+				country = FROM
+				relation = military_access
+				active = yes
+			}
+		}
+		hidden_effect = {
+			add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_USA_normal_opinion_modifier }
+			CSA = { add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_USA_negative_opinion_modifier } }
+			set_variable = { var = FROM.acw_has_special_diplomacy@CSA value = 1 }
+		}
+	}
+	
+	option = {
+	    name = acw_first_nations.5.c
+		trigger = {
+			FROM = { has_country_flag = acw_first_nations_choose_USA_latest_flag }
+		}
+		if = {
+			limit = {
+				NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+				NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+				NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+				NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+				NOT = { has_autonomy_state = autonomy_freely_associated_state }
+			}
+			diplomatic_relation = {
+				country = FROM
+				relation = non_aggression_pact
+				active = yes
+			}
+			diplomatic_relation = {
+				country = FROM
+				relation = military_access
+				active = yes
+			}
+		}
+		hidden_effect = {
+			add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_USA_weak_opinion_modifier }
+			CSA = { add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_USA_negative_opinion_modifier } }
+			set_variable = { var = FROM.acw_has_special_diplomacy@CSA value = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = acw_first_nations.6 
+	title = acw_first_nations.6.t
+	desc = acw_first_nations.6.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	trigger = {
+		has_global_flag = ACW_American_Civil_War
+	}
+
+    option = {
+	    name = acw_first_nations.6.a
+		trigger = {
+			FROM = { has_country_flag = acw_first_nations_choose_CSA_early_flag }
+		}
+		diplomatic_relation = {
+			country = FROM
+			relation = non_aggression_pact
+			active = yes
+		}
+		diplomatic_relation = {
+			country = FROM
+			relation = military_access
+			active = yes
+		}
+		hidden_effect = {
+			add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_CSA_strong_opinion_modifier }
+			USA = { add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_CSA_negative_opinion_modifier } }
+			set_variable = { var = FROM.acw_has_special_diplomacy@USA value = 1 }
+		}
+	}
+	
+	option = {
+	    name = acw_first_nations.6.b
+		trigger = {
+			FROM = { has_country_flag = acw_first_nations_choose_CSA_later_flag }
+		}
+		diplomatic_relation = {
+			country = FROM
+			relation = non_aggression_pact
+			active = yes
+		}
+		diplomatic_relation = {
+			country = FROM
+			relation = military_access
+			active = yes
+		}
+		hidden_effect = {
+			add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_CSA_normal_opinion_modifier }
+			USA = { add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_CSA_negative_opinion_modifier } }
+			set_variable = { var = FROM.acw_has_special_diplomacy@USA value = 1 }
+		}
+	}
+	
+	option = {
+	    name = acw_first_nations.6.c
+		trigger = {
+			FROM = { has_country_flag = acw_first_nations_choose_CSA_latest_flag }
+		}
+		diplomatic_relation = {
+			country = FROM
+			relation = non_aggression_pact
+			active = yes
+		}
+		diplomatic_relation = {
+			country = FROM
+			relation = military_access
+			active = yes
+		}
+		hidden_effect = {
+			add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_CSA_weak_opinion_modifier }
+			USA = { add_opinion_modifier = { target = FROM modifier = acw_first_nations_choose_CSA_negative_opinion_modifier } }
+			set_variable = { var = FROM.acw_has_special_diplomacy@USA value = 1 }
+		}
+	}
+}

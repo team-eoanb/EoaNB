@@ -137,7 +137,13 @@ eoanb_score_system_calc = {
 		clear_array = global.score_array 
 		clear_array = global.score_array_position
 		clear_array = global.score_tag_array
-        every_country = {            
+        every_country = { 
+			limit={
+				NOT={
+					tag = UCT
+					tag = AFR
+				}
+			}
             #Initial calculation
             #Whenever this calculation runs, also add modified_liberty, which is a separate variable that stores liberty
             #from events, decisions and other sources
@@ -462,6 +468,12 @@ eoanb_score_system_calc = {
                 add_to_variable = { global.score_array_position^v = 1 } 				
             }	
 		every_country = {
+			limit={
+				NOT={
+					tag = UCT
+					tag = AFR
+				}
+			}
             for_loop_effect = {
                 start = 0
                 end = length_temp
@@ -497,6 +509,12 @@ eoanb_ledger_system_calc = {
             add_to_array = { global.ships_array = 1 }
 	}
     every_country = {	
+		limit={
+				NOT={
+					tag = UCT
+					tag = AFR
+				}
+			}
         for_loop_effect = {
             start = 0
             end = length_temp
@@ -509,7 +527,9 @@ eoanb_ledger_system_calc = {
 				set_variable = { score_array_position_var_real = score_array_position_var}
 				subtract_from_variable = {score_array_position_var_real = 1}
 			    set_variable = { global.population_array^v = max_manpower_k } 
-				multiply_variable = { global.population_array^v = 0.001 }		
+				multiply_variable = { global.population_array^v = 0.001 }	
+				set_variable = { global.population_array_b^v = global.population_array^v } 
+				multiply_variable = { global.population_array_b^v = 0.001 }				
                 set_variable = { global.factories_array^v = num_of_factories }
 			    set_variable = { global.divisions_array^v = num_divisions }
 				set_variable = { global.ships_array^v = num_ships }

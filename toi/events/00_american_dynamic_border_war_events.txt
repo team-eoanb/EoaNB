@@ -1,0 +1,1478 @@
+﻿add_namespace = usa_state_event_on_win_attacker
+add_namespace = usa_state_event_on_lose_attacker
+add_namespace = usa_state_event_on_cancel_attacker
+
+add_namespace = usa_state_event_on_win_defender
+add_namespace = usa_state_event_on_lose_defender
+add_namespace = usa_state_event_on_cancel_defender
+
+add_namespace = ethiopia_islamic_raid_defender
+add_namespace = ethiopia_islamic_raid
+
+add_namespace = first_nations_tribe_recently_raided_event
+
+add_namespace = first_nations_tribal_raid_neighbor_on_win_attacker
+add_namespace = first_nations_tribal_raid_neighbor_on_lose_attacker
+add_namespace = first_nations_tribal_raid_neighbor_on_cancel_attacker
+add_namespace = first_nations_tribal_raid_neighbor_on_win_defender
+add_namespace = first_nations_tribal_raid_neighbor_on_lose_defender
+add_namespace = first_nations_tribal_raid_neighbor_on_cancel_defender
+
+add_namespace = first_nations_tribal_raid_colonial_neighbor_on_win_attacker
+add_namespace = first_nations_tribal_raid_colonial_neighbor_on_lose_attacker
+add_namespace = first_nations_tribal_raid_colonial_neighbor_on_cancel_attacker
+add_namespace = first_nations_tribal_raid_colonial_neighbor_on_win_defender
+add_namespace = first_nations_tribal_raid_colonial_neighbor_on_lose_defender
+add_namespace = first_nations_tribal_raid_colonial_neighbor_on_cancel_defender
+
+add_namespace = afr_tribal_raid_colonial_neighbor_on_win_attacker
+add_namespace = afr_tribal_raid_colonial_neighbor_on_lose_attacker
+add_namespace = afr_tribal_raid_colonial_neighbor_on_cancel_attacker
+add_namespace = afr_tribal_raid_colonial_neighbor_on_win_defender
+add_namespace = afr_tribal_raid_colonial_neighbor_on_lose_defender
+add_namespace = afr_tribal_raid_colonial_neighbor_on_cancel_defender
+
+add_namespace = first_nations_tribal_border_war_enemy_on_win_attacker
+add_namespace = first_nations_tribal_border_war_enemy_on_lose_attacker
+add_namespace = first_nations_tribal_border_war_enemy_on_cancel_attacker
+add_namespace = first_nations_tribal_border_war_enemy_on_win_defender
+add_namespace = first_nations_tribal_border_war_enemy_on_lose_defender
+add_namespace = first_nations_tribal_border_war_enemy_on_cancel_defender
+
+add_namespace = set_border_war_data_former_usa_state_raid
+add_namespace = balkanized_state_border_skirmish_neighbor_on_win_attacker
+add_namespace = balkanized_state_border_skirmish_neighbor_on_lose_attacker
+add_namespace = balkanized_state_border_skirmish_neighbor_on_cancel_attacker
+add_namespace = balkanized_state_border_skirmish_neighbor_on_win_defender
+add_namespace = balkanized_state_border_skirmish_neighbor_on_lose_defender
+add_namespace = balkanized_state_border_skirmish_neighbor_on_cancel_defender
+add_namespace = balkanized_state_border_skirmish_neighbor_detect_raid
+
+add_namespace = first_nations_tribal_army_flag_change
+add_namespace = set_border_war_data_first_nations_tribal_raid
+add_namespace = first_nations_tribal_raid_neighbor_detect_raid
+add_namespace = first_nations_tribal_raid_colonial_neighbor_detect_raid
+add_namespace = first_nations_tribal_border_war_enemy_detect_raid
+add_namespace = afr_tribal_raid_colonial_neighbor_detect_raid
+
+add_namespace = USA_successor_state_decision
+
+add_namespace = USA_state_militia_flag_change
+add_namespace = USA_lower_state_militia_event
+add_namespace = AFR_lower_colonial_militia_event
+
+country_event = {
+	id = USA_state_militia_flag_change.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		ROOT = { clr_country_flag = State_Militia_Raised_Due_To_Border_War }
+	}
+}
+
+country_event = {
+	id = first_nations_tribe_recently_raided_event.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		FROM = { clr_country_flag = first_nations_tribe_recently_raided_flag }
+		ROOT = {
+			if = {
+				limit = { has_variable = FNT_raid_likelihood_var@FROM }
+				random_list = {
+					25 = {
+						FROM = { country_event = { id = first_nations_tribe_recently_raided_event.2 days = 75 random_days = 60 } }
+						modifier = {
+							add = 15
+							if = {
+								limit = { 
+									check_variable = { var = FNT_raid_likelihood_var value = 5 compare = less_than }
+								}
+								always = yes
+							}
+							else = { always = no }
+						}
+						modifier = {
+							add = -5
+							if = {
+								limit = { 
+									check_variable = { var = FNT_raid_likelihood_var value = 5 compare = less_than }
+								}
+								always = no
+							}
+							else = { always = yes }
+						}
+					}
+					25 = {
+						FROM = { country_event = { id = first_nations_tribe_recently_raided_event.2 days = 65 random_days = 40 } }
+						modifier = {
+							add = 15
+							if = {
+								limit = { 
+									check_variable = { var = FNT_raid_likelihood_var value = 5 compare = greater_than_or_equals }
+									check_variable = { var = FNT_raid_likelihood_var value = 10 compare = less_than }
+								}
+								always = yes
+							}
+							else = { always = no }
+						}
+						modifier = {
+							add = -5
+							if = {
+								limit = { 
+									check_variable = { var = FNT_raid_likelihood_var value = 5 compare = greater_than_or_equals }
+									check_variable = { var = FNT_raid_likelihood_var value = 10 compare = less_than }
+								}
+								always = no
+							}
+							else = { always = yes }
+						}
+					}
+					25 = {
+						FROM = { country_event = { id = first_nations_tribe_recently_raided_event.2 days = 55 random_days = 20 } }
+						modifier = {
+							add = 15
+							if = {
+								limit = { 
+									check_variable = { var = FNT_raid_likelihood_var value = 10 compare = greater_than_or_equals }
+									check_variable = { var = FNT_raid_likelihood_var value = 15 compare = less_than }
+								}
+								always = yes
+							}
+							else = { always = no }
+						}
+						modifier = {
+							add = -5
+							if = {
+								limit = { 
+									check_variable = { var = FNT_raid_likelihood_var value = 10 compare = greater_than_or_equals }
+									check_variable = { var = FNT_raid_likelihood_var value = 15 compare = less_than }
+								}
+								always = no
+							}
+							else = { always = yes }
+						}
+					}
+					25 = {
+						FROM = { clear_variable = FNT_recently_raided@ROOT }
+						modifier = {
+							add = 15
+							if = {
+								limit = { 
+									check_variable = { var = FNT_raid_likelihood_var value = 15 compare = greater_than_or_equals }
+								}
+								always = yes
+							}
+							else = { always = no }
+						}
+						modifier = {
+							add = -5
+							if = {
+								limit = { 
+									check_variable = { var = FNT_raid_likelihood_var value = 15 compare = greater_than_or_equals }
+								}
+								always = no
+							}
+							else = { always = yes }
+						}
+					}
+				}
+			}
+			else = {
+				FROM = { clear_variable = FNT_recently_raided@ROOT }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = first_nations_tribe_recently_raided_event.2
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		ROOT = { clear_variable = FNT_recently_raided@FROM }
+	}
+}
+
+country_event = {###post war, lower state militia again
+	id = USA_lower_state_militia_event.1
+	hidden = yes
+	
+	trigger={
+		has_template = "State Militia"
+		any_neighbor_country = {
+			if = {
+				limit = { 
+					is_first_nations_tribe = yes
+					has_border_war_with = ROOT
+				}
+				always = no
+			}
+			else = {
+				always = yes 
+			}
+		}
+		NOT = { has_country_flag = State_Militia_Raised_Due_To_Border_War }
+	}
+	
+	mean_time_to_happen = {
+		days = 20
+	}
+	
+	immediate = {
+		hidden_effect = {
+			ROOT = {
+				USA_dismiss_state_militia_units = yes
+			}
+		}
+	}
+}
+
+country_event = {###post war, lower colonial militia again
+	id = AFR_lower_colonial_militia_event.1
+	hidden = yes
+	
+	trigger={
+		has_template = "Colonial Militia"
+		any_neighbor_country = {
+			if = {
+				limit = { 
+					afr_is_tribal = yes
+					has_border_war_with = ROOT
+				}
+				always = no
+			}
+			else = {
+				always = yes 
+			}
+		}
+		NOT = { has_country_flag = State_Militia_Raised_Due_To_Border_War }
+	}
+	
+	mean_time_to_happen = {
+		days = 20
+	}
+	
+	immediate = {
+		hidden_effect = {
+			ROOT = {
+				AFR_dismiss_colonial_militia_units = yes
+			}
+		}
+	}
+}
+
+news_event = {
+	id = USA_successor_state_decision.2
+	title = USA_successor_state_decision.2.t
+	desc = USA_successor_state_decision.2.d
+	picture = GFX_news_event_usa_election_of_1864
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = USA_successor_state_decision.2.a
+		trigger = {
+			has_country_flag = is_successor_state_of_usa_flag
+			is_former_usa_state = yes
+		}
+	}
+
+	option = {
+		name = USA_successor_state_decision.2.b
+		trigger = {
+			NOT = { has_country_flag = is_successor_state_of_usa_flag }
+			is_former_usa_state = yes
+		}
+	}
+	
+	option = {
+		name = USA_successor_state_decision.2.c
+		trigger = {
+			NOT = { is_former_usa_state = yes }
+		}
+		
+	}
+}
+
+country_event = {
+	id = USA_successor_state_decision.1
+	title = USA_successor_state_decision.1.t
+	desc = USA_successor_state_decision.1.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+
+	option = {
+		name = USA_successor_state_decision.1.a
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 0
+				OR = { 
+					TAG = UTA
+					TAG = CSA
+					TAG = TEX
+					TAG = MHC
+					has_cosmetic_tag = ORE_cascadia
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = { 
+					TAG = NEG
+					TAG = CAL
+				}
+			}
+		}
+		set_country_flag = is_successor_state_of_usa_flag
+		set_country_flag = has_ambitions_for_mantle_flag
+		hidden_effect = {
+			every_owned_state = {
+				ROOT = { add_to_variable = { var = ROOT.NA_B_mantle_of_the_states_score_var@ROOT value = PREV.NA_B_mantle_of_the_state_points@PREV } }
+			}
+			country_event = { id = NA_B_mantle_of_the_states_calculator.1 }
+		}
+	}
+	
+	option = {
+		name = USA_successor_state_decision.1.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				OR = { 
+					TAG = GRL
+					TAG = ASA
+				}
+			}
+		}
+		set_country_flag = not_successor_state_of_usa_flag
+		set_country_flag = has_no_ambitions_for_mantle_tooltip
+	}
+}
+
+country_event = {
+	id = USA_successor_state_decision.3
+	hidden = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	
+	immediate = {
+		hidden_effect = {
+			every_country = {
+				limit = { has_country_flag = is_successor_state_of_usa_flag }
+				every_country = {
+					limit = { has_country_flag = is_successor_state_of_usa_flag }
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_successor_state_trade
+					}
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_successor_state_opinion
+					}
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_rival_successor_state_trade
+					}
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_rival_successor_state_opinion
+					}
+					set_variable = { ROOT.NA_B_successor_has_embargo@PREV = 1 }
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = first_nations_tribal_army_flag_change.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		ROOT = { clr_country_flag = Tribal_Army_Raised_Due_To_Border_War }
+	}
+}
+
+country_event = {
+	id = set_border_war_data_first_nations_tribal_raid.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag } }
+			ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+		}
+		if = {
+			limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag } }
+			ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+		}
+		if = {
+			limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag } }
+			ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag }
+		}
+		if = {
+			limit = { ROOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag } }
+			ROOT = { clr_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+		}
+	}
+}
+
+country_event = {
+	id = set_border_war_data_former_usa_state_raid.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = { ROOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag } }
+			ROOT = { clr_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
+		}
+	}
+}
+
+
+
+
+##################################################
+#First Nations vs First Nations Border War Events#
+##################################################
+country_event = {
+	id = first_nations_tribal_raid_neighbor_detect_raid.1
+	title = first_nations_tribal_raid_neighbor_detect_raid.1.t
+	desc = first_nations_tribal_raid_neighbor_detect_raid.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_neighbor_detect_raid.1.a
+		ai_chance = {
+			factor = 0
+		}
+		custom_effect_tooltip = set_border_war_data_first_nations_tribal_raid_neighbor_combat_width_tooltip
+	}
+	
+	option = {
+		name = first_nations_tribal_raid_neighbor_detect_raid.1.b
+		ai_chance = {
+			factor = 100
+		}
+		trigger = {
+			ROOT = { NOT = { has_country_flag = Tribal_Army_Raised } }
+			ROOT = { is_first_nations_tribe = yes }
+		}
+		custom_effect_tooltip = set_border_war_data_first_nations_tribal_raid_neighbor_combat_width_tooltip
+		if = {
+			limit = { 
+				NOT = { has_country_flag = Tribal_Army_Raised } 
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			hidden_effect = {
+				set_country_flag = Tribal_Army_Raised_Due_To_Border_War
+				ROOT = { country_event = { id = first_nations_tribal_army_flag_change.1 days = 35 } }
+				set_country_flag = Tribal_Army_Raised
+				afr_call_warriors = yes
+				afr_call_tribal_horse_cavalry = yes
+				afr_call_tribal_horse_pistoleer_cavalry = yes
+				afr_call_tribal_camel_cavalry = yes
+			}
+		}
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_neighbor_on_win_attacker.1
+	title = first_nations_tribal_raid_neighbor_on_win_attacker.1.t
+	desc = first_nations_tribal_raid_neighbor_on_win_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { first_nations_tribal_raid_neighbor_reward_random_list = yes } }
+	}
+	
+	option = {
+		name = first_nations_tribal_raid_neighbor_on_win_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_neighbor_flag } }
+		}
+		army_experience = 10
+		first_nations_tribal_raid_neighbor_reward = yes
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_neighbor_on_lose_attacker.1
+	title = first_nations_tribal_raid_neighbor_on_lose_attacker.1.t
+	desc = first_nations_tribal_raid_neighbor_on_lose_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_neighbor_on_lose_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_neighbor_flag } }
+		}
+		army_experience = 5
+		custom_effect_tooltip = afr_war_exhaustion_value_add_1
+		add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 1
+		}
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_neighbor_on_cancel_attacker.1
+	title = first_nations_tribal_raid_neighbor_on_cancel_attacker.1.t
+	desc = first_nations_tribal_raid_neighbor_on_cancel_attacker.1.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_neighbor_on_cancel_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_neighbor_flag } }
+		}
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = first_nations_tribal_raid_neighbor_on_win_defender.1
+	title = first_nations_tribal_raid_neighbor_on_win_defender.1.t
+	desc = first_nations_tribal_raid_neighbor_on_win_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_neighbor_on_win_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_neighbor_flag } }
+		}
+		army_experience = 10
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_neighbor_on_lose_defender.1
+	title = first_nations_tribal_raid_neighbor_on_lose_defender.1.t
+	desc = first_nations_tribal_raid_neighbor_on_lose_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { first_nations_tribal_raid_neighbor_penalty_random_list = yes } }
+	}
+	
+	option = {
+		name = first_nations_tribal_raid_neighbor_on_lose_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_neighbor_flag } }
+		}
+		army_experience = 5
+		custom_effect_tooltip = afr_war_exhaustion_value_add_1
+		add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 1
+		}
+		first_nations_tribal_raid_neighbor_penalty = yes
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_neighbor_on_cancel_defender.1
+	title = first_nations_tribal_raid_neighbor_on_cancel_defender.1.t
+	desc = first_nations_tribal_raid_neighbor_on_cancel_defender.1.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_neighbor_on_cancel_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_neighbor_flag } }
+		}
+		army_experience = 5
+	}
+}
+####################################################
+#First Nations vs Colonial Forces Border War Events#
+####################################################
+country_event = {
+	id = first_nations_tribal_raid_colonial_neighbor_detect_raid.1
+	title = first_nations_tribal_raid_colonial_neighbor_detect_raid.1.t
+	desc = first_nations_tribal_raid_colonial_neighbor_detect_raid.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_colonial_neighbor_detect_raid.1.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_combat_width_tooltip
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_colonial_neighbor_on_win_attacker.1
+	title = first_nations_tribal_raid_colonial_neighbor_on_win_attacker.1.t
+	desc = first_nations_tribal_raid_colonial_neighbor_on_win_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { first_nations_tribal_raid_colonial_neighbor_reward_random_list = yes } }
+	}
+	
+	option = {
+		name = first_nations_tribal_raid_colonial_neighbor_on_win_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_colonial_neighbor_flag } }
+		}
+		army_experience = 20
+		custom_effect_tooltip = afr_war_exhaustion_value_add_1
+		add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 1
+		}
+		first_nations_tribal_raid_colonial_neighbor_reward = yes
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_colonial_neighbor_on_lose_attacker.1
+	title = first_nations_tribal_raid_colonial_neighbor_on_lose_attacker.1.t
+	desc = first_nations_tribal_raid_colonial_neighbor_on_lose_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_colonial_neighbor_on_lose_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_colonial_neighbor_flag } }
+		}
+		army_experience = 5
+		custom_effect_tooltip = afr_war_exhaustion_value_add_3
+		add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 3
+		}
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_colonial_neighbor_on_cancel_attacker.1
+	title = first_nations_tribal_raid_colonial_neighbor_on_cancel_attacker.1.t
+	desc = first_nations_tribal_raid_colonial_neighbor_on_cancel_attacker.1.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_colonial_neighbor_on_cancel_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_colonial_neighbor_flag } }
+		}
+		army_experience = 10
+	}
+}
+
+country_event = {
+	id = first_nations_tribal_raid_colonial_neighbor_on_win_defender.1
+	title = first_nations_tribal_raid_colonial_neighbor_on_win_defender.1.t
+	desc = first_nations_tribal_raid_colonial_neighbor_on_win_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_colonial_neighbor_on_win_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_colonial_neighbor_flag } }
+		}
+		army_experience = 1
+		add_political_power = 20
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_colonial_neighbor_on_lose_defender.1
+	title = first_nations_tribal_raid_colonial_neighbor_on_lose_defender.1.t
+	desc = first_nations_tribal_raid_colonial_neighbor_on_lose_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { first_nations_tribal_raid_colonial_neighbor_penalty_random_list = yes } }
+	}
+	
+	option = {
+		name = first_nations_tribal_raid_colonial_neighbor_on_lose_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_colonial_neighbor_flag } }
+		}
+		first_nations_tribal_raid_colonial_neighbor_penalty = yes
+	}
+}
+country_event = {
+	id = first_nations_tribal_raid_colonial_neighbor_on_cancel_defender.1
+	title = first_nations_tribal_raid_colonial_neighbor_on_cancel_defender.1.t
+	desc = first_nations_tribal_raid_colonial_neighbor_on_cancel_defender.1.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_raid_colonial_neighbor_on_cancel_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_colonial_neighbor_flag } }
+		}
+	}
+}
+
+####################################################
+#First Nations vs ACW Side War Events#
+####################################################
+country_event = {
+	id = first_nations_tribal_border_war_enemy_detect_raid.1
+	title = first_nations_tribal_border_war_enemy_detect_raid.1.t
+	desc = first_nations_tribal_border_war_enemy_detect_raid.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_border_war_enemy_detect_raid.1.a
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0
+				ROOT = { is_first_nations_tribe = yes }
+			}
+		}
+		custom_effect_tooltip = set_border_war_data_first_nations_tribal_border_war_enemy_combat_width_tooltip
+	}
+	
+	option = {
+		name = first_nations_tribal_border_war_enemy_detect_raid.1.b
+		ai_chance = {
+			factor = 100
+		}
+		trigger = {
+			ROOT = { NOT = { has_country_flag = Tribal_Army_Raised } }
+			ROOT = { is_first_nations_tribe = yes }
+		}
+		custom_effect_tooltip = set_border_war_data_first_nations_tribal_border_war_enemy_combat_width_tooltip
+		if = {
+			limit = { 
+				NOT = { has_country_flag = Tribal_Army_Raised } 
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			hidden_effect = {
+				set_country_flag = Tribal_Army_Raised_Due_To_Border_War
+				ROOT = { country_event = { id = first_nations_tribal_army_flag_change.1 days = 32 } }
+				set_country_flag = Tribal_Army_Raised
+				afr_call_warriors = yes
+				afr_call_tribal_horse_cavalry = yes
+				afr_call_tribal_horse_pistoleer_cavalry = yes
+				afr_call_tribal_camel_cavalry = yes
+			}
+		}
+	}
+}
+country_event = {
+	id = first_nations_tribal_border_war_enemy_on_win_attacker.1
+	title = first_nations_tribal_border_war_enemy_on_win_attacker.1.t
+	desc = first_nations_tribal_border_war_enemy_on_win_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { first_nations_tribal_raid_colonial_neighbor_reward_random_list = yes } }
+	}
+	
+	option = {
+		name = first_nations_tribal_border_war_enemy_on_win_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_border_war_enemy_flag } }
+		}
+		army_experience = 20
+		first_nations_tribal_raid_colonial_neighbor_reward = yes
+		if = {
+			limit = { any_state = { check_variable = { first_nations_acw_border_claim@ROOT = 1 } } }
+			every_state = {
+				limit = { check_variable = { first_nations_acw_border_claim@ROOT = 1 } }
+				custom_effect_tooltip = first_nations_acw_border_claim_remove_tooltip
+				clear_variable = first_nations_acw_border_claim@ROOT
+			}
+		}
+		custom_effect_tooltip = afr_war_exhaustion_value_add_1
+		add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 1
+		}
+	}
+}
+country_event = {
+	id = first_nations_tribal_border_war_enemy_on_lose_attacker.1
+	title = first_nations_tribal_border_war_enemy_on_lose_attacker.1.t
+	desc = first_nations_tribal_border_war_enemy_on_lose_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_border_war_enemy_on_lose_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_border_war_enemy_flag } }
+		}
+		army_experience = 5
+		if = {
+			limit = { any_state = { check_variable = { first_nations_acw_border_claim@ROOT = 1 } } }
+			every_state = {
+				limit = { check_variable = { first_nations_acw_border_claim@ROOT = 1 } }
+				custom_effect_tooltip = first_nations_acw_border_claim_remove_tooltip
+				clear_variable = first_nations_acw_border_claim@ROOT
+			}
+		}
+		custom_effect_tooltip = afr_war_exhaustion_value_add_3
+		add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 3
+		}
+	}
+}
+country_event = {
+	id = first_nations_tribal_border_war_enemy_on_cancel_attacker.1
+	title = first_nations_tribal_border_war_enemy_on_cancel_attacker.1.t
+	desc = first_nations_tribal_border_war_enemy_on_cancel_attacker.1.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_border_war_enemy_on_cancel_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_border_war_enemy_flag } }
+		}
+		army_experience = 10
+		if = {
+			limit = { any_state = { check_variable = { first_nations_acw_border_claim@ROOT = 1 } } }
+			every_state = {
+				limit = { check_variable = { first_nations_acw_border_claim@ROOT = 1 } }
+				custom_effect_tooltip = first_nations_acw_border_claim_remove_tooltip
+				clear_variable = first_nations_acw_border_claim@ROOT
+			}
+		}
+	}
+}
+
+country_event = {
+	id = first_nations_tribal_border_war_enemy_on_win_defender.1
+	title = first_nations_tribal_border_war_enemy_on_win_defender.1.t
+	desc = first_nations_tribal_border_war_enemy_on_win_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_border_war_enemy_on_win_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_border_war_enemy_flag } }
+		}
+		army_experience = 1
+		add_political_power = 15
+	}
+}
+country_event = {
+	id = first_nations_tribal_border_war_enemy_on_lose_defender.1
+	title = first_nations_tribal_border_war_enemy_on_lose_defender.1.t
+	desc = first_nations_tribal_border_war_enemy_on_lose_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { first_nations_tribal_raid_colonial_neighbor_penalty_random_list = yes } }
+	}
+	
+	option = {
+		name = first_nations_tribal_border_war_enemy_on_lose_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_border_war_enemy_flag } }
+		}
+		first_nations_tribal_raid_colonial_neighbor_penalty = yes
+	}
+}
+country_event = {
+	id = first_nations_tribal_border_war_enemy_on_cancel_defender.1
+	title = first_nations_tribal_border_war_enemy_on_cancel_defender.1.t
+	desc = first_nations_tribal_border_war_enemy_on_cancel_defender.1.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = first_nations_tribal_border_war_enemy_on_cancel_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_border_war_enemy_flag } }
+		}
+	}
+}
+
+####################################################
+#Former State vs Former State Border War Events#
+####################################################
+country_event = {
+	id = balkanized_state_border_skirmish_neighbor_detect_raid.1
+	title = balkanized_state_border_skirmish_neighbor_detect_raid.1.t
+	desc = balkanized_state_border_skirmish_neighbor_detect_raid.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = balkanized_state_border_skirmish_neighbor_detect_raid.1.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = set_border_war_data_balkanized_state_border_skirmish_neighbor_combat_width_tooltip
+	}
+}
+country_event = {
+	id = balkanized_state_border_skirmish_neighbor_on_win_attacker.1
+	title = balkanized_state_border_skirmish_neighbor_on_win_attacker.1.t
+	desc = balkanized_state_border_skirmish_neighbor_on_win_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		#hidden_effect = { ROOT = { balkanized_state_border_skirmish_neighbor_reward_random_list = yes } }
+	}
+	
+	option = {
+		name = balkanized_state_border_skirmish_neighbor_on_win_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = balkanized_state_border_skirmish_neighbor_flag } }
+		}
+		army_experience = 10
+		#balkanized_state_border_skirmish_neighbor_reward = yes
+	}
+}
+country_event = {
+	id = balkanized_state_border_skirmish_neighbor_on_lose_attacker.1
+	title = balkanized_state_border_skirmish_neighbor_on_lose_attacker.1.t
+	desc = balkanized_state_border_skirmish_neighbor_on_lose_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = balkanized_state_border_skirmish_neighbor_on_lose_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = balkanized_state_border_skirmish_neighbor_flag } }
+		}
+		army_experience = 5
+	}
+}
+country_event = {
+	id = balkanized_state_border_skirmish_neighbor_on_cancel_attacker.1
+	title = balkanized_state_border_skirmish_neighbor_on_cancel_attacker.1.t
+	desc = balkanized_state_border_skirmish_neighbor_on_cancel_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = balkanized_state_border_skirmish_neighbor_on_cancel_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = balkanized_state_border_skirmish_neighbor_flag } }
+		}
+		army_experience = 5
+	}
+}
+
+country_event = {
+	id = balkanized_state_border_skirmish_neighbor_on_win_defender.1
+	title = balkanized_state_border_skirmish_neighbor_on_win_defender.1.t
+	desc = balkanized_state_border_skirmish_neighbor_on_win_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = balkanized_state_border_skirmish_neighbor_on_win_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = balkanized_state_border_skirmish_neighbor_flag } }
+		}
+		army_experience = 10
+	}
+}
+country_event = {
+	id = balkanized_state_border_skirmish_neighbor_on_lose_defender.1
+	title = balkanized_state_border_skirmish_neighbor_on_lose_defender.1.t
+	desc = balkanized_state_border_skirmish_neighbor_on_lose_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		#hidden_effect = { ROOT = { balkanized_state_border_skirmish_neighbor_penalty_random_list = yes } }
+	}
+	
+	option = {
+		name = balkanized_state_border_skirmish_neighbor_on_lose_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = balkanized_state_border_skirmish_neighbor_flag } }
+		}
+		#balkanized_state_border_skirmish_neighbor_penalty = yes
+		army_experience = 5
+	}
+}
+country_event = {
+	id = balkanized_state_border_skirmish_neighbor_on_cancel_defender.1
+	title = balkanized_state_border_skirmish_neighbor_on_cancel_defender.1.t
+	desc = balkanized_state_border_skirmish_neighbor_on_cancel_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = balkanized_state_border_skirmish_neighbor_on_cancel_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = balkanized_state_border_skirmish_neighbor_flag } }
+		}
+		army_experience = 5
+	}
+}
+
+####################################################
+#African Tribes vs Colonial Forces Border War Events#
+####################################################
+country_event = {
+	id = afr_tribal_raid_colonial_neighbor_detect_raid.1
+	title = afr_tribal_raid_colonial_neighbor_detect_raid.1.t
+	desc = afr_tribal_raid_colonial_neighbor_detect_raid.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_tribal_raid_colonial_neighbor_detect_raid.1.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = set_border_war_data_afr_tribal_raid_colonial_neighbor_combat_width_tooltip
+		if = {
+			limit = { 
+				afr_is_tribal = yes
+				NOT = { has_country_flag = Tribal_Army_Raised } 
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			hidden_effect = {
+				set_country_flag = Tribal_Army_Raised_Due_To_Border_War
+				ROOT = { country_event = { id = first_nations_tribal_army_flag_change.1 days = 35 } }
+				set_country_flag = Tribal_Army_Raised
+				afr_call_warriors = yes
+				afr_call_tribal_horse_cavalry = yes
+				afr_call_tribal_horse_pistoleer_cavalry = yes
+				afr_call_tribal_camel_cavalry = yes
+			}
+		}
+	}
+}
+country_event = {
+	id = afr_tribal_raid_colonial_neighbor_on_win_attacker.1
+	title = afr_tribal_raid_colonial_neighbor_on_win_attacker.1.t
+	desc = afr_tribal_raid_colonial_neighbor_on_win_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { afr_tribal_raid_colonial_neighbor_reward_random_list = yes } }
+	}
+	
+	option = {
+		name = afr_tribal_raid_colonial_neighbor_on_win_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_tribal_raid_colonial_neighbor_flag } }
+		}
+		army_experience = 20
+		afr_tribal_raid_colonial_neighbor_reward = yes
+	}
+}
+country_event = {
+	id = afr_tribal_raid_colonial_neighbor_on_lose_attacker.1
+	title = afr_tribal_raid_colonial_neighbor_on_lose_attacker.1.t
+	desc = afr_tribal_raid_colonial_neighbor_on_lose_attacker.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_tribal_raid_colonial_neighbor_on_lose_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_tribal_raid_colonial_neighbor_flag } }
+		}
+		army_experience = 5
+		custom_effect_tooltip = afr_war_exhaustion_value_add_1
+		add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 1
+		}
+	}
+}
+country_event = {
+	id = afr_tribal_raid_colonial_neighbor_on_cancel_attacker.1
+	title = afr_tribal_raid_colonial_neighbor_on_cancel_attacker.1.t
+	desc = afr_tribal_raid_colonial_neighbor_on_cancel_attacker.1.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_tribal_raid_colonial_neighbor_on_cancel_attacker.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_tribal_raid_colonial_neighbor_flag } }
+		}
+		army_experience = 10
+	}
+}
+
+country_event = {
+	id = afr_tribal_raid_colonial_neighbor_on_win_defender.1
+	title = afr_tribal_raid_colonial_neighbor_on_win_defender.1.t
+	desc = afr_tribal_raid_colonial_neighbor_on_win_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_tribal_raid_colonial_neighbor_on_win_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_tribal_raid_colonial_neighbor_flag } }
+		}
+		if = {
+			limit = { check_variable = { var = afr_border_war_defender_flag value = 1 compare = greater_than_or_equals } }
+			hidden_effect = { subtract_from_variable = { afr_border_war_defender_flag = 1 } }
+		}
+		army_experience = 3
+		add_political_power = 20
+	}
+}
+country_event = {
+	id = afr_tribal_raid_colonial_neighbor_on_lose_defender.1
+	title = afr_tribal_raid_colonial_neighbor_on_lose_defender.1.t
+	desc = afr_tribal_raid_colonial_neighbor_on_lose_defender.1.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { afr_tribal_raid_colonial_neighbor_penalty_random_list = yes } }
+	}
+	
+	option = {
+		name = afr_tribal_raid_colonial_neighbor_on_lose_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_tribal_raid_colonial_neighbor_flag } }
+		}
+		if = {
+			limit = { check_variable = { var = afr_border_war_defender_flag value = 1 compare = greater_than_or_equals } }
+			hidden_effect = { subtract_from_variable = { afr_border_war_defender_flag = 1 } }
+		}
+		afr_tribal_raid_colonial_neighbor_penalty = yes
+	}
+}
+country_event = {
+	id = afr_tribal_raid_colonial_neighbor_on_cancel_defender.1
+	title = afr_tribal_raid_colonial_neighbor_on_cancel_defender.1.t
+	desc = afr_tribal_raid_colonial_neighbor_on_cancel_defender.1.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_tribal_raid_colonial_neighbor_on_cancel_defender.1.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_tribal_raid_colonial_neighbor_flag } }
+		}
+		if = {
+			limit = { check_variable = { var = afr_border_war_defender_flag value = 1 compare = greater_than_or_equals } }
+			hidden_effect = { subtract_from_variable = { afr_border_war_defender_flag = 1 } }
+		}
+	}
+}
+
+
+####################################
+#Dynamic Attacker Border War Events#
+####################################
+country_event = {
+	id = usa_state_event_on_win_attacker.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#link border_war event here
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_neighbor_on_win_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_colonial_neighbor_on_win_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = afr_tribal_raid_colonial_neighbor_on_win_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_border_war_enemy_flag }
+			ROOT = { country_event = { id = first_nations_tribal_border_war_enemy_on_win_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = balkanized_state_border_skirmish_neighbor_flag }
+			ROOT = { country_event = { id = balkanized_state_border_skirmish_neighbor_on_win_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_raid_christian_neighbor_flag }
+			ROOT = { country_event = { id = ethiopia_islamic_raid.2 } }
+		}
+	}
+}
+
+country_event = {
+	id = usa_state_event_on_lose_attacker.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#link border_war event here
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_neighbor_on_lose_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_colonial_neighbor_on_lose_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = afr_tribal_raid_colonial_neighbor_on_lose_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_border_war_enemy_flag }
+			ROOT = { country_event = { id = first_nations_tribal_border_war_enemy_on_lose_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = balkanized_state_border_skirmish_neighbor_flag }
+			ROOT = { country_event = { id = balkanized_state_border_skirmish_neighbor_on_lose_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_raid_christian_neighbor_flag }
+			ROOT = { country_event = { id = ethiopia_islamic_raid.3 } }
+		}
+	}
+}
+
+country_event = {
+	id = usa_state_event_on_cancel_attacker.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#link border_war event here
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_neighbor_on_cancel_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_colonial_neighbor_on_cancel_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = afr_tribal_raid_colonial_neighbor_on_cancel_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_border_war_enemy_flag }
+			ROOT = { country_event = { id = first_nations_tribal_border_war_enemy_on_cancel_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = balkanized_state_border_skirmish_neighbor_flag }
+			ROOT = { country_event = { id = balkanized_state_border_skirmish_neighbor_on_cancel_attacker.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_raid_christian_neighbor_flag }
+			ROOT = { country_event = { id = ethiopia_islamic_raid.4 } }
+		}
+	}
+}
+####################################
+#Dynamic Defender Border War Events#
+####################################
+country_event = {
+	id = usa_state_event_on_win_defender.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#link border_war event here
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_neighbor_on_win_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_colonial_neighbor_on_win_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = afr_tribal_raid_colonial_neighbor_on_win_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_border_war_enemy_flag }
+			ROOT = { country_event = { id = first_nations_tribal_border_war_enemy_on_win_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = balkanized_state_border_skirmish_neighbor_flag }
+			ROOT = { country_event = { id = balkanized_state_border_skirmish_neighbor_on_win_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_raid_christian_neighbor_flag }
+			ROOT = { country_event = { id = ethiopia_islamic_raid_defender.2 } }
+		}
+	}
+}
+
+country_event = {
+	id = usa_state_event_on_lose_defender.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#link border_war event here
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_neighbor_on_lose_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_colonial_neighbor_on_lose_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = afr_tribal_raid_colonial_neighbor_on_lose_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_border_war_enemy_flag }
+			ROOT = { country_event = { id = first_nations_tribal_border_war_enemy_on_lose_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = balkanized_state_border_skirmish_neighbor_flag }
+			ROOT = { country_event = { id = balkanized_state_border_skirmish_neighbor_on_lose_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_raid_christian_neighbor_flag }
+			ROOT = { country_event = { id = ethiopia_islamic_raid_defender.3 } }
+		}
+	}
+}
+
+country_event = {
+	id = usa_state_event_on_cancel_defender.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		#link border_war event here
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_neighbor_on_cancel_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = first_nations_tribal_raid_colonial_neighbor_on_cancel_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_tribal_raid_colonial_neighbor_flag }
+			ROOT = { country_event = { id = afr_tribal_raid_colonial_neighbor_on_cancel_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = first_nations_tribal_border_war_enemy_flag }
+			ROOT = { country_event = { id = first_nations_tribal_border_war_enemy_on_cancel_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = balkanized_state_border_skirmish_neighbor_flag }
+			ROOT = { country_event = { id = balkanized_state_border_skirmish_neighbor_on_cancel_defender.1 } }
+		}
+		if = {
+			limit = { has_country_flag = afr_raid_christian_neighbor_flag }
+			ROOT = { country_event = { id = ethiopia_islamic_raid_defender.4 } }
+		}
+	}
+}
+
+

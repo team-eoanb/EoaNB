@@ -1,0 +1,373 @@
+on_actions = {
+
+	on_capitulation = {
+		effect = {
+			if = {
+				limit = {
+					AND = {
+						ROOT = { check_variable = { var = afr_regional_power_expansion_attacker@FROM value = 1 compare = greater_than_or_equals } }
+						FROM = { check_variable = { var = afr_regional_power_expansion_defender@ROOT value = 1 compare = greater_than_or_equals } }
+					}
+				}
+				ROOT = { country_event = { id = afr_regional_power_peace_treaty.1 } }
+				ROOT = { clear_variable = afr_regional_power_expansion_attacker@FROM }
+				FROM = { clear_variable = afr_regional_power_expansion_defender@ROOT }
+			}
+		}
+	}
+	
+	on_puppet = {
+		effect = {
+			if = { 
+				limit = { 
+					FROM = { afr_is_tribal = yes } #OVERLORD
+					ROOT = { afr_is_tribal = yes } #SUBJECT
+				}
+				ROOT = { 
+					set_variable = { var = afr_empire_subject_overlord value = FROM.id }
+					set_variable = { var = ROOT.afr_empire_subject_loyalty_var value = 3 } 
+					clamp_variable = {
+						var = ROOT.afr_empire_subject_loyalty_var
+						min = -1
+						max = 10
+					}
+				}
+			}
+		}
+	}
+	on_release_as_puppet = {
+		effect = {
+			if = { 
+				limit = { 
+					FROM = { afr_is_tribal = yes } #OVERLORD
+					ROOT = { afr_is_tribal = yes } #SUBJECT
+				}
+				ROOT = { 
+					set_variable = { var = afr_empire_subject_overlord value = FROM.id }
+					set_variable = { var = ROOT.afr_empire_subject_loyalty_var value = 3 } 
+					clamp_variable = {
+						var = ROOT.afr_empire_subject_loyalty_var
+						min = -1
+						max = 10
+					}
+				}
+			}
+		}
+	}
+	on_liberate = {
+		effect = {
+			if = {
+				limit = { ROOT = { has_variable = afr_empire_subject_loyalty_var } }
+				clear_variable = afr_empire_subject_loyalty_var
+				clear_variable = afr_empire_subject_overlord
+			}
+		}
+	}
+	on_subject_free = {
+		effect = {
+			if = {
+				limit = { ROOT = { has_variable = afr_empire_subject_loyalty_var } }
+				clear_variable = afr_empire_subject_loyalty_var
+				clear_variable = afr_empire_subject_overlord
+			}
+		}
+	}
+	on_subject_annexed = {
+		effect = {
+			if = {
+				limit = { ROOT = { has_variable = afr_empire_subject_loyalty_var } }
+				clear_variable = afr_empire_subject_loyalty_var
+				clear_variable = afr_empire_subject_overlord
+			}
+		}
+	}
+	on_startup = {
+		effect = {
+			if = {
+                limit = {
+                    has_start_date < 1858.1.1
+                }
+				every_country = {
+					limit = { 
+						 OR = {
+							has_idea = AF_T_organized_tribal_nation
+							has_idea = AF_T_organized_tribal_nation_2
+							has_idea = AF_T_organized_tribal_nation_3
+						}
+						NOT = { TAG = MOS }
+					}
+					afr_tribal_cosmetic_tag_switch_2_scripted_effect = yes
+				}
+				every_country = {
+					limit = { 
+						 OR = {
+							has_idea = AF_T_unorganized_tribal_nation
+							has_idea = AF_T_unorganized_tribal_nation_2
+							has_idea = AF_T_unorganized_tribal_nation_3
+							has_idea = AF_T_unorganized_tribal_nation_4
+							has_idea = AF_T_unorganized_tribal_nation_5
+						}
+					}
+					afr_tribal_cosmetic_tag_switch_1_scripted_effect = yes
+				}
+				SKT = {
+					country_event = { id = skt_jihad_repair_ribats.1 days = 3}
+				}
+			
+				FTT = {
+					country_event = { id = afr_jihad_repair_ribats.1 days = 100 }
+				}
+				
+				FTJ = {
+					country_event = { id = afr_jihad_repair_ribats.1 days = 100 }
+				}
+				
+				TOU = {
+					country_event = { id = afr_jihad_repair_ribats.1 days = 100 }
+				}
+				
+				MSN = {
+					country_event = { id = afr_jihad_repair_ribats.1 days = 100 }
+				}
+				
+				ADM = {
+					#country_event = { id = afr_jihad_repair_ribats.1 days = 100 }
+				}
+				
+				SHO = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+					add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+					add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+				}
+				
+				NEZ = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+					add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+					add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+				}	
+
+				NAV = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+					add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+					add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+				}
+				
+				CRW = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+					add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+					add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+				}
+				
+				COM = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+					add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+					add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+				}
+				
+				CHY = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+					add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+					add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+				}
+				
+				BFT = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+				}
+				
+				APA = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+				}
+				
+				SIX = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+					add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+					add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+				}
+				
+				SEM = {
+					add_equipment_to_stockpile = { type = cavalry_equipment amount = 200 }
+					add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 }
+					add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 }
+					activate_decision = eoanb_decision_raise_tribal_army
+				}
+				
+				BAG = { 
+					set_popularities = {
+						anarchism = 0
+						vanguard_communism = 0
+						collectivist_socialism = 0
+						social_egalitarianism = 0
+						centrism = 0
+						traditional_conservatism = 0
+						radical_democracy = 0
+						chauvinist_populism = 0
+						autocracy = 100
+						fundamentalism = 0
+					}
+				}
+				
+				ADM = {
+					set_popularities = {
+						anarchism = 0
+						vanguard_communism = 0
+						collectivist_socialism = 0
+						social_egalitarianism = 0
+						centrism = 0
+						traditional_conservatism = 0
+						radical_democracy = 0
+						chauvinist_populism = 0
+						autocracy = 0
+						fundamentalism = 100
+					}
+				}
+				
+				HRR = { 
+					set_popularities = {
+						anarchism = 0
+						vanguard_communism = 0
+						collectivist_socialism = 0
+						social_egalitarianism = 0
+						centrism = 0
+						traditional_conservatism = 0
+						radical_democracy = 0
+						chauvinist_populism = 0
+						autocracy = 100
+						fundamentalism = 0
+					}
+				}
+			}
+			
+		} 
+		
+	}
+	
+	on_capitulation = {
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						ROOT = { has_country_flag = SKT_WDD_Joint_War_KAN }
+						ROOT = { has_country_flag = SKT_WDD_Joint_War_BAG_Buffer }
+					}
+				}
+				if = {
+					limit = { 
+						ROOT = { tag = SKT }
+						FROM = { tag = KBO }
+						805 = { is_owned_by = ROOT }
+					}
+					KBO = { puppet = ADM }
+				}
+				ROOT = { clr_country_flag = SKT_WDD_Joint_War_KAN }
+				ROOT = { clr_country_flag = SKT_WDD_Joint_War_BAG_Buffer }
+			}
+			if = {
+				limit = {
+					OR = {
+						ROOT = { has_country_flag = SKT_WDD_Joint_War_Buffer }
+						ROOT = { has_country_flag = SKT_WDD_Joint_War_BAG }
+					}
+				}
+				if = {
+					limit = { 
+						ROOT = { tag = WDD }
+						FROM = { tag = KBO } 
+						660 = { is_owned_by = ROOT }
+					}
+					KBO = { transfer_state = 660 }
+				}
+				ROOT = { clr_country_flag = SKT_WDD_Joint_War_Buffer }
+				ROOT = { clr_country_flag = SKT_WDD_Joint_War_BAG }
+			}
+		}
+	}
+	
+	on_annex = {
+		effect = {
+			if = {
+				limit = { 
+					tag = LIB 
+					has_country_flag = LIB_adopted_ACS_policy_flag
+				}
+				country_event = { id = liberia.240 }
+			}
+		}
+	}
+	
+	on_state_control_changed = {
+		effect = {
+			if = {
+				limit = {
+					SKT = {
+						AND = {
+							owns_state = 1092
+							NOT = { owns_state = 660 }
+						}
+						has_country_flag = SKT_WDD_Joint_War_KAN
+					}
+				}
+				SKT = {
+					country_event = { id = SKT_joint_invasion_bagirmi.4 }
+					clr_country_flag = SKT_WDD_Joint_War_KAN
+				}
+			}
+			if = {
+				limit = {
+					SKT = {
+						AND = {
+							owns_state = 1092
+							owns_state = 660
+						}
+						has_country_flag = SKT_WDD_Joint_War_KAN
+					}
+				}
+				SKT = {
+					country_event = { id = SKT_joint_invasion_bagirmi.4 }
+					clr_country_flag = SKT_WDD_Joint_War_KAN
+				}
+			}
+			if = {
+				limit = {
+					WDD = {
+						owns_state = 789
+						has_country_flag = SKT_WDD_Joint_War_Buffer
+					}
+				}
+				WDD = {
+					country_event = { id = SKT_joint_invasion_bagirmi.6 }
+					clr_country_flag = SKT_WDD_Joint_War_Buffer
+				}
+				SKT = {
+					clr_country_flag = SKT_WDD_Joint_War_BAG_Buffer
+				}
+			}
+			if = {
+				limit = {
+					WDD = {
+						owns_state = 1219
+						has_country_flag = SKT_WDD_Joint_War_BAG
+					}
+				}
+				WDD = {
+					country_event = { id = SKT_joint_invasion_bagirmi.5 }
+					clr_country_flag = SKT_WDD_Joint_War_BAG
+				}
+			}
+			if = {
+				limit = {
+					SKT = {
+						owns_state = 789
+						has_country_flag = SKT_WDD_Joint_War_BAG_Buffer
+					}
+				}
+				SKT = {
+					country_event = { id = SKT_joint_invasion_bagirmi.7 }
+					clr_country_flag = SKT_WDD_Joint_War_BAG_Buffer
+				}
+				WDD = {
+					clr_country_flag = SKT_WDD_Joint_War_Buffer
+				}	
+			}
+		}
+	}
+}

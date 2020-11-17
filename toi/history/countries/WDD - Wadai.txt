@@ -5,6 +5,8 @@
 
   set_convoys = 0
 
+  add_to_variable = { prestige_score = 5 }
+
   add_ideas = { 
           #POLITICS
     hos_is_leader
@@ -12,7 +14,7 @@
     agrarian
     has_heir
     absolute_monarchy
-	law_army_tribal_advanced
+	law_army_tribal_improved
 
     civilian_economy
     limited_exports
@@ -23,7 +25,7 @@
 
     stagnation_growth
     border_control
-    tribal_slavery
+    slavery
     manpower_tribal_every_tenth
     absolutism
 
@@ -34,29 +36,67 @@
     state_religion
 	religion_sunni
 
+   hc_no_healthcare
+    law_police_force
+    inframain_no_subsidies_infrastructure
+    navinfra_no_naval_infrastructure
+    sfund_private_ventures_only
+
          #NATIONAL SPIRITS
-    AF_T_small_kingdom
+    afr_large_kingdom
+	WDD_wadai_hegemony
+	WDD_target_of_slave_raids
 	
   }
 
   #Rivals 
 	  set_variable = { rival_country = BAG.id }
+  #Favored
+	set_variable = { most_favoured_country = SNS.id }
+	
+  #Diplomacy
+	add_opinion_modifier = { target = KBO modifier = AFR_kanem_bornu_waddai_conflicts }
+	add_opinion_modifier = { target = BAG modifier = AFR_kanem_bornu_waddai_conflicts_bagirmi } #This makes WDD Yellow to BAG
   
   set_politics = {
 	  ruling_party = autocracy
 }
 
-WDD = { 
-	add_manpower = 4000
+WDD = {
 	add_timed_idea = {
 		idea = WDD_KBO_TRUCE
 		days = 3600
 	}
+	add_manpower = 16000
+	add_ideas={AF_T_Tribal_Army}
+	add_to_variable = {Tribal_army_num = 5000}
+	add_to_variable = {Tribal_horse_army_num = 8000}
+	set_country_flag = afr_traditional_tree
 }
 
-  #Diplomacy
-	add_opinion_modifier = { target = KBO modifier = AFR_kanem_bornu_waddai_conflicts }
-	add_opinion_modifier = { target = BAG modifier = AFR_kanem_bornu_waddai_conflicts_bagirmi } #This makes WDD Yellow to BAG
+	if = {
+		limit = { has_dlc = "Together for Victory" }
+		WDD = {
+			TOB = { store_current_ideologies = yes }
+			set_autonomy = {
+				target = TOB
+				autonomy_state = autonomy_afr_empire_level_4
+				freedom_level = 0.8
+			}
+			TOB = { load_prevous_ideologies = yes }
+		}
+	}
+	if = {
+		limit = { NOT { has_dlc = "Together for Victory" } }
+		TOB = { store_current_ideologies = yes }
+		WDD = { puppet = TOB }
+		TOB = { load_prevous_ideologies = yes }
+	}
+	TOB = { 
+		set_variable = { var = afr_empire_subject_overlord value = WDD.id }
+		set_variable = { var = TOB.afr_empire_subject_loyalty_var value = 5 }
+		clamp_variable = { var = TOB.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
 
 set_popularities = {
     anarchism = 0
@@ -75,7 +115,23 @@ set_popularities = {
 
   set_technology = {
 	tribaltech = 1
+	tribal_society = 1
+	tribal_natral_economics = 1
+	tribal_crop_planting = 1
+	tribal_roads = 1
+	tribal_horse_and_cart = 1
+	tribal_weapons = 1
+	tribal_tatics = 1
+	tribal_riding = 1
+	tribal_gunpowder = 1
+	tribal_artisan = 1
+	tribal_forging = 1
+	tribal_guilds_trade = 1
+	tribal_healing_herbs = 1
 	start_build_tech = 1
+	traditional_mixed_arms = 1
+	basic_cavalry=1
+	tech_infantry_napoleonic_uniform = 1
   }
 
   # POLITICAL LEADERS

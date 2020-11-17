@@ -3,10 +3,21 @@ tribal_decisions_eoanb = {
 		icon = generic_prepare_civil_war
 		
 		available = {
+			has_tech = tribal_weapons
 			NOT = { has_idea = disarmed_nation }
 			has_war_support > 0.25
 		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
 		visible = {
+			NOT = { has_idea = afr_reforming_kingdom }
+			NOT = { has_country_flag = stockpile_tribal_weapons_flag }
+			NOT = { has_idea = disarmed_nation }
 			OR = {
 				AND = {
 					TAG = SKT
@@ -21,18 +32,18 @@ tribal_decisions_eoanb = {
 		}
 		days_re_enable = 90
 
-		cost = 80
+		cost = 25
 		fire_only_once = no
 		
 		custom_cost_trigger = {
 
-			command_power > 79.9
+			command_power > 24.9
 
 		}
-		custom_cost_text = command_power_more_than_79
+		custom_cost_text = command_power_more_than_24
 		
 		complete_effect = {
-			hidden_effect = { add_command_power = -80 }
+			hidden_effect = { add_command_power = -25 }
 			add_equipment_to_stockpile = {
 				type = tribal_weapons_0
 				amount = 50
@@ -41,6 +52,10 @@ tribal_decisions_eoanb = {
 		}
 		ai_will_do = {
 			factor = 4
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
 			modifier = {
 				factor = 2
 				has_war_support > 0.5
@@ -66,17 +81,611 @@ tribal_decisions_eoanb = {
 			}
 		}
 	}
+	stockpile_tribal_weapons={
+		icon = generic_prepare_civil_war
+		
+		available = {
+			has_tech = tribal_weapons
+			NOT = { has_idea = disarmed_nation }
+			has_war_support > 0.25
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			NOT = { has_idea = afr_reforming_kingdom }
+			has_country_flag = stockpile_tribal_weapons_flag
+			NOT = { has_idea = disarmed_nation }
+			OR = {
+				AND = {
+					TAG = ZUL
+					afr_is_tribal = yes
+				}
+				has_idea = manpower_tribal_warriors
+				has_idea = manpower_tribal_every_tenth
+				has_idea = manpower_tribal_every_fifth
+				has_idea = manpower_tribal_everyone
+			}
+			num_of_military_factories < 1
+		}
+		days_re_enable = 120
+
+		fire_only_once = no
+		
+		custom_cost_trigger = {
+			command_power > 49.9
+		}
+		custom_cost_text = command_and_political_power_more_than_50
+		
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -50
+			}
+			add_equipment_to_stockpile = {
+				type = tribal_weapons_0
+				amount = 500
+			}
+		}
+		ai_will_do = {
+			factor = 4
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+			modifier = {
+				factor = 2
+				has_war_support > 0.5
+			}
+			modifier = {
+				factor = 1000
+				has_equipment = {
+					tribal_weapons_0 < 10000
+				}
+			}
+		}
+	}
+	buy_tribal_horses={
+		icon = tribal_procure_horses
+		
+		available = {
+			has_tech = basic_cavalry
+			custom_trigger_tooltip = {
+				tooltip = afr_prosperity_mechanic_greater_than_25
+					check_variable = {
+					afr_prosperity_mechanic_value > 24
+				}
+			}
+			NOT = { has_idea = disarmed_nation }
+			has_war_support > 0.25
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			NOT = { has_idea = disarmed_nation }
+			OR = {
+				AND = {
+					TAG = SKT
+					afr_is_tribal = yes
+				}
+				has_idea = manpower_tribal_warriors
+				has_idea = manpower_tribal_every_tenth
+				has_idea = manpower_tribal_every_fifth
+				has_idea = manpower_tribal_everyone
+				has_idea = afr_reforming_kingdom
+			}
+			#num_of_military_factories < 1
+		}
+		days_re_enable = 90
+
+		cost = 25
+		fire_only_once = no
+		
+		custom_cost_trigger = {
+
+			command_power > 24.9
+
+		}
+		custom_cost_text = command_power_more_than_24
+		
+		complete_effect = {
+			hidden_effect = { add_command_power = -25 }
+			custom_effect_tooltip = afr_prosperity_mechanic_minus_25
+			add_to_variable = {
+				var = afr_prosperity_mechanic_value
+				value = -25
+			}
+			add_equipment_to_stockpile = {
+				type = cavalry_equipment
+				amount = 50
+			}
+		}
+		ai_will_do = {
+			factor = 4
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+			modifier = {
+				factor = 2
+				has_war_support > 0.5
+			}
+			modifier = {
+				factor = 1000
+				has_equipment = {
+					cavalry_equipment < 50
+				}
+			}
+			modifier = {
+				factor = 100
+				check_variable = { Tribal_army_num < 10000 }
+				check_variable = { Tribal_army_num > 1000 }
+				has_equipment = {
+					cavalry_equipment < 250
+				}
+				OR = {
+					has_war_support > 0.5
+					has_idea = AFR_history_of_colonial_resistance
+					has_idea = AFR_history_of_colonial_resistance_1
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_resources_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_resources_completed }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_industry_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_industry_completed }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_infrastructure_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_infrastructure_completed }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_clear_space_for_industry
+					OR = {
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_resources }
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_infrastructure }
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_industry }
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_clear_space_for_industry
+					has_completed_focus = ETH_train_defensive_tactics
+					NOT = { has_completed_focus = ETH_plan_military_infrastructure }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_adress_education
+					NOT = { has_completed_focus = ETH_western_inspired_university }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_study_artillery
+					NOT = { has_completed_focus = ETH_foreign_artillery_instructors }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					OR = {
+						has_completed_focus = afr_improve_our_army
+						has_completed_focus = afr_create_naval_designs
+					}
+					NOT = { has_completed_focus = afr_reforming_regional_power_regional_investment }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_reforming_regional_power_regional_investment
+					OR = {
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_resources }
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_infrastructure }
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_industry }
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					OR = {
+						has_completed_focus = afr_mechanical_engineering_research
+						has_completed_focus = afr_electronic_device_production
+					}
+					NOT = { has_completed_focus = afr_expand_research_facilities }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_dirt_to_paved_roads
+					NOT = { has_completed_focus = afr_regular_road_matenece }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_military_technology_development
+					NOT = { has_completed_focus = afr_military_production_streamlining }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					AND = {
+						has_completed_focus = afr_plan_a_naval_force
+						has_completed_focus = afr_reforming_regional_power_regional_infrastructure
+					}
+					NOT = { has_completed_focus = afr_build_a_port }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				if = {
+					limit = { 
+						all_owned_state = { naval_base < 1 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = Ocenaia_has_infrastructure_to_support_new_buildings_on_coast
+						Oceania_one_extra_building_slots_supported_for_coast_not_core_trigger = yes
+					}
+				}
+				else = {
+					any_owned_state = {
+						is_coastal = yes
+						naval_base > 0
+					}
+				}
+				OR = {
+					AND = {
+						has_completed_focus = afr_inward_regional_power_expanding_our_regional_power
+						NOT = { has_completed_focus = afr_inward_regional_power_establish_port_town }
+					}
+					AND = {
+						has_completed_focus = afr_jihadist_regional_power_expanding_our_regional_power
+						NOT = { has_completed_focus = afr_jihadist_regional_power_establish_port_town }
+					}
+				}
+				
+			}
+		}
+	}
+	buy_tribal_camels={
+		icon = tribal_procure_camel
+		
+		available = {
+			has_tech = tech_camel_cavalry
+			custom_trigger_tooltip = {
+				tooltip = afr_prosperity_mechanic_greater_than_25
+					check_variable = {
+					afr_prosperity_mechanic_value > 24
+				}
+			}
+			NOT = { has_idea = disarmed_nation }
+			has_war_support > 0.25
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			NOT = { has_idea = disarmed_nation }
+			OR = {
+				AND = {
+					TAG = SKT
+					afr_is_tribal = yes
+				}
+				has_idea = manpower_tribal_warriors
+				has_idea = manpower_tribal_every_tenth
+				has_idea = manpower_tribal_every_fifth
+				has_idea = manpower_tribal_everyone
+				has_idea = afr_reforming_kingdom
+			}
+			#num_of_military_factories < 1
+			OR = {
+				OR = {
+					afr_is_tribal = yes
+					is_first_nations_tribe = yes
+					is_south_american_tribe = yes
+				}
+				AND = {
+					has_cosmetic_tag = EGY_mahdist_insurgency
+					has_idea = afr_reforming_kingdom
+				}
+			}
+			OR = {
+				AND = {
+					any_owned_state = {
+						is_core_of = ROOT
+						is_on_continent = africa
+					}
+				}
+				AND = {
+					any_owned_state = {
+						is_core_of = ROOT
+						is_on_continent = middle_east
+					}
+				}
+			}
+		}
+		days_re_enable = 90
+
+		cost = 25
+		fire_only_once = no
+		
+		custom_cost_trigger = {
+
+			command_power > 24.9
+
+		}
+		custom_cost_text = command_power_more_than_24
+		
+		complete_effect = {
+			hidden_effect = { add_command_power = -25 }
+			custom_effect_tooltip = afr_prosperity_mechanic_minus_25
+			add_to_variable = {
+				var = afr_prosperity_mechanic_value
+				value = -25
+			}
+			add_equipment_to_stockpile = {
+				type = camel_equipment_0
+				amount = 50
+			}
+		}
+		ai_will_do = {
+			factor = 4
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+			modifier = {
+				factor = 2
+				has_war_support > 0.5
+			}
+			modifier = {
+				factor = 1000
+				has_equipment = {
+					camel_equipment_0 < 50
+				}
+			}
+			modifier = {
+				factor = 100
+				check_variable = { Tribal_army_num < 10000 }
+				check_variable = { Tribal_army_num > 1000 }
+				has_equipment = {
+					camel_equipment_0 < 250
+				}
+				OR = {
+					has_war_support > 0.5
+					has_idea = AFR_history_of_colonial_resistance
+					has_idea = AFR_history_of_colonial_resistance_1
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_resources_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_resources_completed }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_industry_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_industry_completed }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_infrastructure_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_infrastructure_completed }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_clear_space_for_industry
+					OR = {
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_resources }
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_infrastructure }
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_industry }
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_clear_space_for_industry
+					has_completed_focus = ETH_train_defensive_tactics
+					NOT = { has_completed_focus = ETH_plan_military_infrastructure }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_adress_education
+					NOT = { has_completed_focus = ETH_western_inspired_university }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_study_artillery
+					NOT = { has_completed_focus = ETH_foreign_artillery_instructors }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					OR = {
+						has_completed_focus = afr_improve_our_army
+						has_completed_focus = afr_create_naval_designs
+					}
+					NOT = { has_completed_focus = afr_reforming_regional_power_regional_investment }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_reforming_regional_power_regional_investment
+					OR = {
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_resources }
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_infrastructure }
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_industry }
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					OR = {
+						has_completed_focus = afr_mechanical_engineering_research
+						has_completed_focus = afr_electronic_device_production
+					}
+					NOT = { has_completed_focus = afr_expand_research_facilities }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_dirt_to_paved_roads
+					NOT = { has_completed_focus = afr_regular_road_matenece }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_military_technology_development
+					NOT = { has_completed_focus = afr_military_production_streamlining }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					AND = {
+						has_completed_focus = afr_plan_a_naval_force
+						has_completed_focus = afr_reforming_regional_power_regional_infrastructure
+					}
+					NOT = { has_completed_focus = afr_build_a_port }
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				if = {
+					limit = { 
+						all_owned_state = { naval_base < 1 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = Ocenaia_has_infrastructure_to_support_new_buildings_on_coast
+						Oceania_one_extra_building_slots_supported_for_coast_not_core_trigger = yes
+					}
+				}
+				else = {
+					any_owned_state = {
+						is_coastal = yes
+						naval_base > 0
+					}
+				}
+				OR = {
+					AND = {
+						has_completed_focus = afr_inward_regional_power_expanding_our_regional_power
+						NOT = { has_completed_focus = afr_inward_regional_power_establish_port_town }
+					}
+					AND = {
+						has_completed_focus = afr_jihadist_regional_power_expanding_our_regional_power
+						NOT = { has_completed_focus = afr_jihadist_regional_power_establish_port_town }
+					}
+				}
+				
+			}
+		}
+	}
 	eoanb_decision_tribal_raise_warriors = {
 
-		icon = generic_political_discourse
+		icon = tribal_warriors
 
 		available = {
+			has_tech = tribal_society
 			has_manpower > 99
 		}
-
-		visible = {
+		allowed = { 
 			OR = {
-				afr_is_tribal = yes
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			if = {
+				limit = { has_cosmetic_tag = EGY_mahdist_insurgency }
+				has_idea = afr_reforming_kingdom
+			}
+			else = { NOT = { has_idea = afr_reforming_kingdom } }
+			OR = {
+				OR = {
+					afr_is_tribal = yes
+					is_first_nations_tribe = yes
+					is_south_american_tribe = yes
+				}
 				AND = {
 					has_cosmetic_tag = EGY_mahdist_insurgency
 					has_idea = afr_reforming_kingdom
@@ -109,10 +718,14 @@ tribal_decisions_eoanb = {
 			add_to_variable = {Tribal_army_num = 100}
 		}
 		days_remove = 15
-		days_re_enable = 30
+		days_re_enable = 45
 
 		ai_will_do = {
-			base = 1000
+			base = 100
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
 			modifier = {
 				factor = 0
 				has_war = yes
@@ -121,15 +734,31 @@ tribal_decisions_eoanb = {
 	}
 	eoanb_decision_tribal_raise_warrior_army = {
 
-		icon = generic_political_discourse
+		icon = tribal_warriors
 
 		available = {
+			has_tech = tribal_society
 			has_manpower > 999
 		}
-
-		visible = {
+		allowed = { 
 			OR = {
-				afr_is_tribal = yes
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			if = {
+				limit = { has_cosmetic_tag = EGY_mahdist_insurgency }
+				has_idea = afr_reforming_kingdom
+			}
+			else = { NOT = { has_idea = afr_reforming_kingdom } }
+			OR = {
+				OR = {
+					afr_is_tribal = yes
+					is_first_nations_tribe = yes
+					is_south_american_tribe = yes
+				}
 				AND = {
 					has_cosmetic_tag = EGY_mahdist_insurgency
 					has_idea = afr_reforming_kingdom
@@ -139,18 +768,15 @@ tribal_decisions_eoanb = {
 
 		custom_cost_trigger = {
 
-			command_power > 19.9
-			has_army_experience > 10
+			command_power > 49.9
 
 		}
 		custom_cost_text = command_power_more_than_19_and_ae_more_than_49
 
-		cost = 10
 		fire_only_once = no
 		complete_effect={
 			hidden_effect={
-				add_command_power = -20
-				army_experience = -10
+				add_command_power = -50
 			}
 			add_manpower = -1000
 		}
@@ -166,13 +792,548 @@ tribal_decisions_eoanb = {
 			add_to_variable = {Tribal_army_num = 1000}
 		}
 		days_remove = 30
-		days_re_enable = 120
+		days_re_enable = 80
+
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+			modifier = {
+				factor = 0
+				has_war = yes
+			}
+		}
+	}
+	eoanb_decision_tribal_raise_horse_cavalry_army = {
+
+		icon = tribal_cavalry
+
+		available = {
+			has_tech = basic_cavalry
+			custom_trigger_tooltip = {
+				tooltip = EDC_Tribal_Army_over_1000
+				check_variable = {
+					Tribal_army_num > 1000
+				}
+			}
+			has_equipment = {
+				cavalry_equipment > 49
+			}
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			if = {
+				limit = { has_cosmetic_tag = EGY_mahdist_insurgency }
+				has_idea = afr_reforming_kingdom
+			}
+			else = { NOT = { has_idea = afr_reforming_kingdom } }
+			OR = {
+				OR = {
+					afr_is_tribal = yes
+					is_first_nations_tribe = yes
+					is_south_american_tribe = yes
+				}
+				AND = {
+					has_cosmetic_tag = EGY_mahdist_insurgency
+					has_idea = afr_reforming_kingdom
+				}
+			}
+		}
+
+		custom_cost_trigger = {
+
+			command_power > 49.9
+			has_army_experience > 5
+
+		}
+		custom_cost_text = command_power_more_than_49_and_ae_more_than_49_horse_army
+
+		cost = 5
+		fire_only_once = no
+		complete_effect={
+			hidden_effect={
+				add_command_power = -50
+				army_experience = -5
+			}
+			add_to_variable = {Tribal_army_num = -1000}
+			add_equipment_to_stockpile = {
+				type = cavalry_equipment
+				amount = -50
+			}
+		}
+
+		remove_effect = {
+			if={
+				limit={
+					NOT={has_idea = AF_T_Tribal_Army}
+				}
+				add_ideas={AF_T_Tribal_Army}
+			}
+			custom_effect_tooltip= EDC_add_1000_to_tribal_horse_army
+			add_to_variable = {Tribal_horse_army_num = 1000}
+		}
+		days_remove = 30
+		days_re_enable = 80
 
 		ai_will_do = {
 			base = 1000
 			modifier = {
 				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+			modifier = {
+				factor = 0
 				has_war = yes
+			}
+		}
+	}
+	
+	eoanb_decision_tribal_raise_camel_cavalry_army = {
+
+		icon = tribal_cavalry
+
+		available = {
+			has_tech = tech_camel_cavalry
+			custom_trigger_tooltip = {
+				tooltip = EDC_Tribal_Army_over_1000
+				check_variable = {
+					Tribal_army_num > 1000
+				}
+			}
+			has_equipment = {
+				camel_equipment_0 > 49
+			}
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			if = {
+				limit = { has_cosmetic_tag = EGY_mahdist_insurgency }
+				has_idea = afr_reforming_kingdom
+			}
+			else = { NOT = { has_idea = afr_reforming_kingdom } }
+			OR = {
+				OR = {
+					afr_is_tribal = yes
+					is_first_nations_tribe = yes
+					is_south_american_tribe = yes
+				}
+				AND = {
+					has_cosmetic_tag = EGY_mahdist_insurgency
+					has_idea = afr_reforming_kingdom
+				}
+			}
+			OR = {
+				AND = {
+					any_owned_state = {
+						is_core_of = ROOT
+						is_on_continent = africa
+					}
+				}
+				AND = {
+					any_owned_state = {
+						is_core_of = ROOT
+						is_on_continent = middle_east
+					}
+				}
+			}
+		}
+
+		custom_cost_trigger = {
+
+			command_power > 49.9
+			has_army_experience > 5
+
+		}
+		custom_cost_text = command_power_more_than_49_and_ae_more_than_49_camel_army
+
+		cost = 5
+		fire_only_once = no
+		complete_effect={
+			hidden_effect={
+				add_command_power = -50
+				army_experience = -5
+			}
+			add_to_variable = {Tribal_army_num = -1000}
+			add_equipment_to_stockpile = {
+				type = camel_equipment_0
+				amount = -50
+			}
+		}
+
+		remove_effect = {
+			if={
+				limit={
+					NOT={has_idea = AF_T_Tribal_Army}
+				}
+				add_ideas={AF_T_Tribal_Army}
+			}
+			custom_effect_tooltip= EDC_add_1000_to_tribal_camel_army
+			add_to_variable = {Tribal_camel_army_num = 1000}
+		}
+		days_remove = 30
+		days_re_enable = 80
+
+		ai_will_do = {
+			base = 2000
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+			modifier = {
+				factor = 0
+				has_war = yes
+			}
+		}
+	}
+	eoanb_decision_tribal_raise_feudal_army = {
+
+		icon = feudal_warriors
+
+		available = {
+			has_tech = traditional_mixed_arms
+			has_tech = tech_infantry_napoleonic_uniform
+			custom_trigger_tooltip = {
+				tooltip = EDC_Tribal_Army_over_4000
+				check_variable = {
+					Tribal_army_num > 4000
+				}
+			}
+			has_equipment = { infantry_equipment > 149 }
+			has_equipment = { uniform_equipment > 99 }
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			if = {
+				limit = { has_idea = afr_reforming_kingdom }
+				check_variable = { Tribal_army_num > 4000 }
+			}
+			OR = {
+				has_idea = afr_reforming_kingdom
+				has_idea = afr_large_kingdom
+				is_first_nations_tribe = yes
+			}
+		}
+
+		custom_cost_trigger = {
+
+			command_power > 49.9
+			has_army_experience > 5
+
+		}
+		custom_cost_text = command_power_more_than_49_and_ae_more_than_49_feudal_army
+
+		fire_only_once = no
+		complete_effect={
+			hidden_effect={
+				add_command_power = -50
+				army_experience = -5
+			}
+			add_to_variable = {Tribal_army_num = -4000}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -150
+			}
+			add_equipment_to_stockpile = {
+				type = uniform_equipment
+				amount = -100
+			}
+			if = {
+				limit = { NOT = { has_country_flag = afr_feudal_warrior_division_created } }
+				division_template = {
+					name = "Feudal Warriors"
+					priority = 1
+					division_names_group = AFR_TRIBAL_FEUDAL_ARMY_01
+					regiments = {
+						feudal_infantry = { x = 0 y = 0 }
+						feudal_infantry = { x = 1 y = 0 }
+					}
+					is_locked = yes
+				}
+				hidden_effect = { set_country_flag = afr_feudal_warrior_division_created }
+			}
+		}
+
+		remove_effect = {
+			random_owned_state ={
+				custom_effect_tooltip = eoanb_decision_tribal_raise_feudal_army_unit_tooltip
+				hidden_effect = {
+					create_unit = {
+						division = "name = \"Feudal Warriors\" division_template = \"Feudal Warriors\" start_experience_factor = 10.0 start_equipment_factor = 1" 
+						owner = ROOT
+					}
+				}
+			}
+		}
+		days_remove = 30
+		days_re_enable = 60
+
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+		}
+	}
+	
+	eoanb_decision_tribal_raise_horse_pistoleer_army = {
+
+		icon = tribal_pistoleers
+
+		available = {
+			has_tech = basic_cavalry
+			has_tech = traditional_mixed_arms
+			has_tech = tech_infantry_napoleonic_uniform
+			custom_trigger_tooltip = {
+				tooltip = EDC_Tribal_Horse_Army_over_2000
+				check_variable = {
+					Tribal_horse_army_num > 2000
+				}
+			}
+			has_equipment = { infantry_equipment > 99 }
+			has_equipment = { uniform_equipment > 99 }
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			if = {
+				limit = { has_idea = afr_reforming_kingdom }
+				check_variable = { Tribal_horse_army_num > 2000 }
+			}
+			OR = {
+				OR = {
+					afr_is_tribal = yes
+					is_first_nations_tribe = yes
+					is_south_american_tribe = yes
+				}
+				AND = {
+					has_cosmetic_tag = EGY_mahdist_insurgency
+					has_idea = afr_reforming_kingdom
+				}
+			}
+		}
+
+		custom_cost_trigger = {
+
+			command_power > 49.9
+			has_army_experience > 5
+
+		}
+		custom_cost_text = command_power_more_than_49_and_ae_more_than_49_horse_pistoleer_army
+
+		cost = 5
+		fire_only_once = no
+		complete_effect={
+			hidden_effect={
+				add_command_power = -50
+				army_experience = -5
+			}
+			add_to_variable = {Tribal_horse_army_num = -2000}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -100
+			}
+			add_equipment_to_stockpile = {
+				type = uniform_equipment
+				amount = -100
+			}
+			if = {
+				limit = {
+					NOT = { has_country_flag = afr_horse_pistoleer_division_created } 
+					is_first_nations_tribe = yes
+				}
+				division_template = {
+					name = "Pistoleer Cavalry"
+					priority = 2
+					division_names_group = NATIVE_AMERICAN_TRIBAL_PISTOLEER_CAVALRY_01
+					regiments = {
+						tribal_pistoleer_cavalry = { x = 0 y = 0 }
+						tribal_pistoleer_cavalry = { x = 1 y = 0 }
+					}
+					is_locked = yes
+				}
+				hidden_effect = { set_country_flag = afr_horse_pistoleer_division_created }
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_feudal_cavalry_division_created } 
+					afr_is_tribal = yes
+				}
+				division_template = {
+					name = "Light Cavalry"
+					priority = 2
+					division_names_group = AFR_TRIBAL_LIGHT_CAVALRY_01
+					regiments = {
+						light_cavalry = { x = 0 y = 0 }
+						light_cavalry = { x = 1 y = 0 }
+					}
+					is_locked = yes
+				}
+				hidden_effect = { set_country_flag = afr_feudal_cavalry_division_created }
+			}
+		}
+
+		remove_effect = {
+			random_owned_state ={
+				if = {
+					limit = { OWNER = { is_first_nations_tribe = yes } }
+					custom_effect_tooltip = eoanb_decision_tribal_raise_horse_pistoleer_army_unit_tooltip
+					hidden_effect = {
+						create_unit = {
+							division = "name = \"Pistoleer Cavalry\" division_template = \"Pistoleer Cavalry\" start_experience_factor = 10.0 start_equipment_factor = 1" 
+							owner = ROOT
+						}
+					}
+				}
+				else = {
+					custom_effect_tooltip = eoanb_decision_tribal_raise_light_cavalry_army_unit_tooltip
+					hidden_effect = {
+						create_unit = {
+							division = "name = \"Light Cavalry\" division_template = \"Light Cavalry\" start_experience_factor = 10.0 start_equipment_factor = 1" 
+							owner = ROOT
+						}
+					}
+				}
+			}
+		}
+		days_remove = 30
+		days_re_enable = 60
+
+		ai_will_do = {
+			base = 1000
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+		}
+	}
+	
+	eoanb_decision_tribal_raise_heavy_cavalry_army = {
+
+		icon = tribal_pistoleers
+
+		available = {
+			has_tech = basic_cavalry
+			has_tech = traditional_mixed_arms
+			has_tech = tech_infantry_napoleonic_uniform
+			custom_trigger_tooltip = {
+				tooltip = EDC_Tribal_Horse_Army_over_2000
+				check_variable = {
+					Tribal_horse_army_num > 2000
+				}
+			}
+			has_equipment = { infantry_equipment > 199 }
+			has_equipment = { uniform_equipment > 279 }
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			if = {
+				limit = { has_idea = afr_reforming_kingdom }
+				check_variable = { Tribal_horse_army_num > 2000 }
+			}
+			OR = {
+				OR = {
+					afr_is_tribal = yes
+					is_first_nations_tribe = yes
+					is_south_american_tribe = yes
+				}
+				AND = {
+					has_cosmetic_tag = EGY_mahdist_insurgency
+					has_idea = afr_reforming_kingdom
+				}
+			}
+		}
+
+		custom_cost_trigger = {
+
+			command_power > 49.9
+			has_army_experience > 5
+
+		}
+		custom_cost_text = command_power_more_than_49_and_ae_more_than_49_heavy_cavalry_army
+
+		cost = 5
+		fire_only_once = no
+		complete_effect={
+			hidden_effect={
+				add_command_power = -50
+				army_experience = -5
+			}
+			add_to_variable = {Tribal_horse_army_num = -2000}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -200
+			}
+			add_equipment_to_stockpile = {
+				type = uniform_equipment
+				amount = -280
+			}
+			if = {
+				limit = { NOT = { has_country_flag = afr_heavy_cavalry_division_created } }
+				division_template = {
+					name = "Heavy Cavalry"
+					priority = 2
+					division_names_group = AFR_TRIBAL_HEAVY_CAVALRY_01
+					regiments = {
+						heavy_cavalry = { x = 0 y = 0 }
+						heavy_cavalry = { x = 1 y = 0 }
+					}
+					is_locked = yes
+				}
+				hidden_effect = { set_country_flag = afr_heavy_cavalry_division_created }
+			}
+		}
+
+		remove_effect = {
+			random_owned_state ={
+				custom_effect_tooltip = eoanb_decision_tribal_raise_heavy_cavalry_army_unit_tooltip
+				hidden_effect = {
+					create_unit = {
+						division = "name = \"Heavy Cavalry\" division_template = \"Heavy Cavalry\" start_experience_factor = 10.0 start_equipment_factor = 1" 
+						owner = ROOT
+					}
+				}
+			}
+		}
+		days_remove = 30
+		days_re_enable = 60
+
+		ai_will_do = {
+			base = 1000
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
 			}
 		}
 	}
@@ -183,88 +1344,132 @@ unidustrialized_warfare = {
 		icon = generic_political_discourse
 
 		available = {
-			has_war = no
-			any_state = {
-				is_owned_and_controlled_by = FROM
-				any_neighbor_state = {
-					is_fully_controlled_by = ROOT
+			has_tech = tribal_tatics
+			custom_trigger_tooltip = {
+				tooltip = first_nations_tribal_raid_neighbor_diplomacy_trigger
+				NOT = { has_non_aggression_pact_with = FROM }
+				check_variable = { var = ROOT.afr_has_special_diplomacy@FROM value = 0 compare = equals }
+				NOT = {
+					check_variable = { var = FROM.afr_regional_power_peace_treaty@ROOT value = 1 compare = greater_than_or_equals }
+					check_variable = { var = ROOT.afr_regional_power_peace_treaty@FROM value = 1 compare = greater_than_or_equals }
 				}
 			}
-			afr_is_tribal = yes
-			custom_trigger_tooltip={
-				check_variable = { Tribal_army_num > 499 }
-				tooltip = EDC_Tribal_Army_over_500
+			custom_trigger_tooltip = {
+				tooltip = afr_raid_neighbor_at_peace_trigger
+				has_war = no
+				has_border_war = no
+				NOT = { has_country_flag = raiding_neighbour }
 			}
-			NOT = { has_non_aggression_pact_with = FROM }
-			NOT = {has_country_flag = raiding_neighbour}
+			custom_trigger_tooltip={
+				tooltip = EDC_Any_Tribal_Army_over_1000
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = afr_war_exhaustion_value_less_than_5
+				check_variable = {
+					afr_war_exhaustion_value < 5
+				}
+			}
+			hidden_trigger = {
+				any_state = {
+					is_owned_and_controlled_by = FROM
+					any_neighbor_state = {
+						is_fully_controlled_by = ROOT
+					}
+				}
+				afr_is_tribal = yes
+			}
 		}
-
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
 		visible = {
+			NOT = { has_country_flag = first_nations_tribe_recently_raided_flag }
 			afr_is_tribal = yes
 			NOT = { has_war_with = FROM }
+			NOT = { is_in_faction_with = FROM }
 			any_state = {
 				is_owned_and_controlled_by = FROM
 				any_neighbor_state = {
 					is_fully_controlled_by = ROOT
 				}
 			}
-			NOT = { TAG = SKT }
-			NOT = { TAG = ETH }
+			NOT = { has_idea = afr_large_kingdom }
+			NOT = { has_idea = afr_reforming_kingdom }
 		}
 		
 		target_trigger = {
 			if = {
-				limit = { TAG = WDD }
+				limit = { has_idea = WDD_KBO_TRUCE }
 				FROM = {
 					is_neighbor_of = ROOT
-					if = { 
-						limit = { TAG = KBO }
-						NOT = { has_idea = WDD_KBO_TRUCE }
-					}
+					NOT = { has_idea = WDD_KBO_TRUCE }
 					afr_is_tribal = yes
 				}
 			}
-			if = {
-				limit = { TAG = KBO }
-				FROM = {
-					is_neighbor_of = ROOT
-					if = { 
-						limit = { TAG = WDD }
-						NOT = { has_idea = WDD_KBO_TRUCE }
-					}
-					afr_is_tribal = yes
-				}
-			}
-			if = {
-				limit = {
-					NOT = { TAG = KBO }
-					NOT = { TAG = WDD }
-				}
+			else = {
 				FROM = {
 					is_neighbor_of = ROOT
 					afr_is_tribal = yes
 				}
 			}
-			NOT = {
-				is_puppet_of= ROOT
+			ROOT = {
+				NOT = { is_subject_of = FROM }
+				NOT = { is_in_faction_with = FROM }
+				NOT = { is_subject_of = FROM.OVERLORD }
+			}
+			FROM = {
+				NOT = { is_subject_of = ROOT }
+			}
+			FROM = {
+				NOT = { is_subject_of = OVERLORD }
 			}
 		}
 		days_remove = 30
 		fire_only_once = no
+		days_re_enable = 90
 
 		cost = 0
 		
+		custom_cost_trigger = {
+
+			command_power > 99.9
+
+		}
+		custom_cost_text = command_power_more_than_99
+			
+		
 		cancel_trigger = {
-			OR = {
-				is_in_faction_with = FROM
-				has_war_with = FROM
+			custom_trigger_tooltip = {
+				tooltip = edc_raid_decision_cancel_trigger
+				OR = {
+					is_in_faction_with = FROM
+					has_war_with = FROM
+				}
 			}
 		}
+		modifier = {
+			command_power_gain_mult = -0.90
+		}
 		complete_effect = {
+			hidden_effect = { add_command_power = -100 }
 			set_country_flag = raiding_neighbour
 			FROM = {ROOT={country_event = { id = EDC_afr.43 }}}
 		}
 		remove_effect = {
+			hidden_effect = {
+				set_country_flag = first_nations_tribe_recently_raided_flag
+				FROM = { country_event = { id = first_nations_tribe_recently_raided_event.1 random_days = 5 days = 40 } }
+			}
 			clr_country_flag = raiding_neighbour
 			##raiding result based on numbers sent, defenders numbers
 			country_event = { id = EDC_afr.44 }
@@ -272,6 +1477,10 @@ unidustrialized_warfare = {
 
 		ai_will_do = {
 			base = 1
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
 			modifier = {
 				factor = 0 
 				ROOT = {
@@ -290,6 +1499,537 @@ unidustrialized_warfare = {
 					}
 				}
 			}
+			modifier = {
+				factor = 0
+				AND = {
+					TAG = FTT
+					date < 1861.01.01
+				}
+			}
+			modifier = {
+				factor = 0
+				AND = {
+					TAG = BAB
+					date < 1861.01.01
+				}
+			}
+		}
+	}
+	
+	afr_tribal_raid_colonial_neighbor = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			if = {
+				limit = { 
+					check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals }
+				}
+				hidden_trigger = {
+					NOT = { check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals } }
+				}
+			}
+			else = {
+				has_tech = tribal_tatics
+				if = {
+					limit = { 
+						OR = {
+							has_idea = AFR_history_of_colonial_resistance
+							has_idea = AFR_history_of_colonial_resistance_1
+						}
+					}
+					custom_trigger_tooltip = {
+						tooltip = afr_is_colonial_resistor_tooltip
+						OR = {
+							has_idea = AFR_history_of_colonial_resistance
+							has_idea = AFR_history_of_colonial_resistance_1
+						}
+					}
+				}
+				else = {
+					FROM = {
+						custom_trigger_tooltip = {
+							tooltip = afr_colonial_neighbor_has_our_land_tooltip
+							any_state = {
+								is_owned_and_controlled_by = FROM
+								OR = {
+									NOT = { is_core_of = FROM }
+									is_claimed_by = ROOT
+									is_core_of = ROOT
+								}
+								any_neighbor_state = {
+									is_fully_controlled_by = ROOT
+								}
+							}
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = first_nations_tribal_raid_neighbor_diplomacy_trigger
+					NOT = { has_non_aggression_pact_with = FROM }
+					check_variable = { var = ROOT.afr_has_special_diplomacy@FROM value = 0 compare = equals }
+					NOT = {
+						check_variable = { var = FROM.afr_regional_power_peace_treaty@ROOT value = 1 compare = greater_than_or_equals }
+						check_variable = { var = ROOT.afr_regional_power_peace_treaty@FROM value = 1 compare = greater_than_or_equals }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = first_nations_tribal_raid_neighbor_at_peace_trigger
+					has_border_war = no
+					has_war = no
+					NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_neighbor_flag }
+					NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }	
+				}
+				custom_trigger_tooltip = {
+					tooltip = FNT_has_not_recently_raided_colonial_encroacher_tooltip
+					NOT = { has_variable = FNT_recently_raided@FROM }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_war_exhaustion_value_less_than_5
+					check_variable = {
+						afr_war_exhaustion_value < 5
+					}
+				}
+				custom_trigger_tooltip={
+					tooltip = EDC_Has_Division_Or_Any_Tribal_Army_over_1000
+					OR = {
+						check_variable = { Tribal_army_num > 999 }
+						check_variable = { Tribal_horse_army_num > 999 }
+						check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+						check_variable = { Tribal_camel_army_num > 999 }
+						num_divisions > 0
+					}
+				}
+				hidden_trigger = {
+					any_state = {
+						is_owned_and_controlled_by = FROM
+						any_neighbor_state = {
+							is_fully_controlled_by = ROOT
+						}
+					}
+					OR = {
+						afr_is_tribal = yes
+						is_south_american_tribe = yes
+					}
+				}
+			}
+		}
+		
+		highlight_states = {
+			state = var:FROM.defender_state_vs_@ROOT
+		}
+		
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			NOT = { has_country_flag = first_nations_tribe_recently_raided_flag }
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+			NOT = { has_war_with = FROM }
+			NOT = { is_in_faction_with = FROM }
+			any_state = {
+				is_owned_and_controlled_by = FROM
+				any_neighbor_state = {
+					is_fully_controlled_by = ROOT
+				}
+			}
+			OR = {
+				is_south_american_tribe = yes
+				has_idea = AF_T_unorganized_tribal_nation
+				has_idea = AF_T_unorganized_tribal_nation_2
+				has_idea = AF_T_unorganized_tribal_nation_3
+				has_idea = AF_T_unorganized_tribal_nation_4
+				has_idea = AF_T_unorganized_tribal_nation_5
+				has_idea = AF_T_organized_tribal_nation
+				has_idea = AF_T_organized_tribal_nation_2
+				has_idea = AF_T_organized_tribal_nation_3
+				has_idea = AF_T_small_kingdom
+				has_idea = afr_large_kingdom
+				AND = {
+					has_idea = afr_reforming_kingdom
+					OR = {
+						has_idea = AFR_history_of_colonial_resistance
+						has_idea = AFR_history_of_colonial_resistance_1
+					}
+				}
+			}
+		}
+		
+		target_trigger = {
+			if = {
+				limit = { ROOT = { afr_has_company_port_trigger = yes } }
+				if = {
+					limit = { has_country_flag = afr_rrp_orange_company_port }
+					FROM = { 
+						NOT = { is_subject_of = OFS }
+						NOT = { TAG = OFS }
+						NOT = { is_in_faction_with = OFS }
+					}
+				}
+			}
+			FROM = {
+				is_neighbor_of = ROOT
+				OR = {
+					AND = {
+						NOT = { afr_is_tribal = yes }
+						NOT = { is_south_american_tribe = yes }
+					}
+					AND = {
+						OR = {
+							afr_is_tribal = yes
+							is_south_american_tribe = yes
+						}
+						is_subject = yes
+						OR = {
+							has_autonomy_state = autonomy_afr_colony
+							has_autonomy_state = autonomy_afr_dominion
+							has_autonomy_state = autonomy_afr_colonial_company
+							has_autonomy_state = autonomy_afr_protectorate
+						}
+					}
+					FROM = { afr_has_company_port_trigger = yes }
+					any_state = {
+						is_owned_and_controlled_by = FROM
+						OWNER = {
+							OR = {
+								AND = {
+									has_idea = afr_reforming_kingdom
+									is_subject = no
+								}
+								is_subject_of = OTO
+								TAG = OTO
+								is_subject_of = EGY
+								TAG = EGY
+							}
+						}
+						OR = {
+							NOT = { is_core_of = FROM }
+							is_claimed_by = ROOT
+							is_core_of = ROOT
+						}
+						any_neighbor_state = {
+							is_fully_controlled_by = ROOT
+						}
+					}
+				}
+			}
+			ROOT = {
+				NOT = { is_subject_of = FROM }
+			}
+			FROM = {
+				NOT = { is_subject_of = ROOT }
+			}
+			if = { 
+				limit = { ROOT = { is_subject = yes } }
+				FROM = {
+					NOT = { is_subject_of = OVERLORD }
+				}
+			}
+		}
+		days_remove = 30
+		fire_only_once = no
+		days_re_enable = 360
+
+		cost = 0
+		
+		custom_cost_trigger = {
+
+			command_power > 99.9
+
+		}
+		custom_cost_text = first_nations_tribal_raid_colonial_neighbor_command_power_more_than_99
+			
+		
+		cancel_trigger = {
+			if = {
+				limit = {
+					check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals }
+				}
+				custom_trigger_tooltip = {
+					tooltip = MOR_tribal_raid_colonial_neighbor_random_intertribe_raid_tooltip
+					NOT = { check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = edc_raid_decision_cancel_trigger
+					OR = {
+						is_in_faction_with = FROM
+						has_war_with = FROM
+						has_border_war_with = FROM
+					}
+				}
+			}
+			else = {
+				custom_trigger_tooltip = {
+					tooltip = edc_raid_decision_cancel_trigger
+					OR = {
+						is_in_faction_with = FROM
+						has_war_with = FROM
+						has_border_war_with = FROM
+					}
+				}
+			}
+		}
+		modifier = {
+			command_power_gain_mult = -0.90
+		}
+		complete_effect = {
+			if = {
+				limit = { check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals } }
+				custom_effect_tooltip = afr_has_unsanctioned_raid_against_colonial_neighbor_effect_tooltip
+			}
+			hidden_effect = { 
+				if = {
+					limit = { NOT = { check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals } } }
+					add_command_power = -100
+				}
+				ROOT = { set_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+				ROOT = { country_event = { id = set_border_war_data_first_nations_tribal_raid.1 days = 31 } }
+				random_list = {
+					50 = {
+						FROM = {
+							country_event = { id = afr_tribal_raid_colonial_neighbor_detect_raid.1 }
+							set_country_flag = afr_tribal_raid_spotted_flag
+							add_ai_strategy = {
+								type = prepare_for_war
+								id = ROOT
+								value = 5
+							}
+						}
+						modifier = {
+							factor = 2
+							afr_is_tribal = yes
+						}
+					}
+					50 = {
+						modifier = {
+							factor = 0
+							afr_is_tribal = yes
+						}
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = Tribal_Army_Raised } 
+					OR = {
+						check_variable = { Tribal_army_num > 999 }
+						check_variable = { Tribal_horse_army_num > 999 }
+						check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+						check_variable = { Tribal_camel_army_num > 999 }
+					}
+				}
+				hidden_effect = {
+					set_country_flag = Tribal_Army_Raised_Due_To_Border_War
+					ROOT = { country_event = { id = first_nations_tribal_army_flag_change.1 days = 35 } }
+					set_country_flag = Tribal_Army_Raised
+					afr_call_warriors = yes
+					afr_call_tribal_horse_cavalry = yes
+					#afr_call_tribal_horse_pistoleer_cavalry = yes
+					afr_call_tribal_camel_cavalry = yes
+				}
+			}
+			ROOT = {
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = FROM
+					value = 5
+				}
+			}
+			set_dynamic_american_state_border_war_variables = yes
+		}
+		remove_effect = {
+			hidden_effect = {
+				set_country_flag = first_nations_tribe_recently_raided_flag
+				set_variable = { var = ROOT.FNT_recently_raided@FROM value = 1 }
+				FROM = { country_event = { id = first_nations_tribe_recently_raided_event.1 random_days = 5 days = 40 } }
+			}
+			hidden_effect = { ROOT = { set_country_flag = afr_tribal_raid_colonial_neighbor_flag } }
+			hidden_effect = { FROM = { set_country_flag = afr_tribal_raid_colonial_neighbor_flag } }
+			hidden_effect = {
+				if = { 
+					limit = { FROM = { afr_is_tribal = yes } }
+					FROM = { add_to_variable = { afr_border_war_defender_flag = 1 } }
+				}
+			}
+			hidden_effect = {
+				ROOT = { set_country_flag = afr_neighbor_state_colonial_militia_spawn_flag }
+				if = {
+					limit = { has_country_flag = afr_neighbor_state_colonial_militia_spawn_flag }
+					var:FROM.defender_state_vs_@ROOT = {
+						if = {
+							limit = {
+								FROM = {
+									afr_is_tribal = no 
+									is_south_american_tribe = no
+									NOT = { has_idea = afr_post_tribal }
+								}
+							}
+							afr_call_colonial_militia_units = yes
+						}
+						damage_building = {
+							type = infrastructure
+							damage = 0.12
+						}
+					}
+				}
+				ROOT = { clr_country_flag = afr_neighbor_state_colonial_militia_spawn_flag }
+			}
+			start_dynamic_american_state_border_war = yes
+			if = {
+				limit = { NOT = { check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals } } }
+				custom_effect_tooltip = afr_war_exhaustion_value_add_1
+				add_to_variable = {
+					var = afr_war_exhaustion_value
+					value = 1
+				}
+			}
+			if = {
+				limit = { check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals } }
+				custom_effect_tooltip = afr_has_unsanctioned_raid_against_colonial_neighbor_timeout_tooltip
+			}
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = afr_tribal_raid_spotted_flag }
+					FROM = {
+						clr_country_flag = afr_tribal_raid_spotted_flag
+						add_ai_strategy = {
+							type = prepare_for_war
+							id = ROOT
+							value = -5
+						}
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = FROM
+						value = -5
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+			}
+			modifier = {
+				factor = 0 
+				ROOT = {
+					has_opinion = {
+						target = FROM
+						value > 60
+					}
+				}
+			}
+		}
+	}
+	
+	eoanb_decision_Tribal_request_overlord_assistance_defensive = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			has_defensive_war = yes
+			afr_is_tribal = yes
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			afr_is_tribal = yes
+			has_defensive_war = yes
+			NOT = { has_war_with = FROM }
+			any_enemy_country = {
+				NOT = { has_war_with = FROM }
+				has_offensive_war_with = ROOT
+			}
+		}
+		
+		target_trigger = {
+			FROM = {
+				OR = {
+					has_idea = afr_reforming_kingdom
+					has_idea = afr_large_kingdom
+					afr_is_tribal = no
+				}
+			}
+			ROOT = {
+				is_subject_of = FROM
+			}
+		}
+		fire_only_once = no
+		days_re_enable = 90
+		cost = 0
+		
+		complete_effect = {
+			FROM = {country_event = { id = afr_request_overlord_assistance.1 }}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	eoanb_decision_Tribal_request_overlord_assistance_offensive = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			surrender_progress > 0.1
+			has_offensive_war = yes
+			afr_is_tribal = yes
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
+		visible = {
+			afr_is_tribal = yes
+			has_offensive_war = yes
+			NOT = { has_war_with = FROM }
+			any_enemy_country = {
+				NOT = { has_war_with = FROM }
+				has_defensive_war_with = ROOT
+			}
+		}
+		
+		target_trigger = {
+			FROM = {
+				OR = {
+					has_idea = afr_reforming_kingdom
+					has_idea = afr_large_kingdom
+				}
+			}
+			ROOT = {
+				is_subject_of = FROM
+			}
+		}
+		fire_only_once = no
+		days_re_enable = 90
+		cost = 0
+		
+		complete_effect = {
+			FROM = {country_event = { id = afr_request_overlord_assistance.4 }}
+		}
+
+		ai_will_do = {
+			base = 100
 		}
 	}
 	
@@ -299,14 +2039,36 @@ unidustrialized_warfare = {
 
 		available = {
 			custom_trigger_tooltip={
-				check_variable = { Tribal_army_num > 499 }
-				tooltip = EDC_Tribal_Army_over_500
+				tooltip = EDC_Any_Tribal_Army_over_1000
+				OR = {
+					check_variable = { Tribal_army_num > 999 }
+					check_variable = { Tribal_horse_army_num > 999 }
+					check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+					check_variable = { Tribal_camel_army_num > 999 }
+				}
 			}
-			has_war = yes
+			custom_trigger_tooltip = {
+				tooltip = afr_has_war_of_any_kind_trigger
+				OR = {
+					has_war = yes
+					has_border_war = yes
+				}
+			}
 			NOT={has_country_flag = Tribal_Army_Raised}
 		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				is_first_nations_tribe_allowed = yes
+				is_south_american_tribe_allowed = yes
+			}
+		}
 		visible = {
-			afr_is_tribal = yes
+			OR = {
+				afr_is_tribal = yes
+				is_first_nations_tribe = yes
+				is_south_american_tribe = yes
+			}
 		}
 		
 		fire_only_once = no
@@ -315,6 +2077,9 @@ unidustrialized_warfare = {
 		complete_effect = {
 			set_country_flag = Tribal_Army_Raised
 			afr_call_warriors = yes
+			afr_call_tribal_horse_cavalry = yes
+			#afr_call_tribal_horse_pistoleer_cavalry = yes
+			afr_call_tribal_camel_cavalry = yes
 		}
 
 		ai_will_do = {
@@ -322,6 +2087,10 @@ unidustrialized_warfare = {
 			modifier = {
 				factor = 10
 				ROOT = { has_war = yes }
+			}
+			modifier = {
+				factor = 10
+				ROOT = { has_border_war = yes }
 			}
 		}
 	}
@@ -345,7 +2114,7 @@ political_actions = {
 			}
 			tag = EGY
 		}
-
+		allowed = { tag = EGY }
 		visible = {
 			TAG = EGY
 			NOT = { has_war_with = FROM }
@@ -362,6 +2131,7 @@ political_actions = {
 					state = 845
 				}
 			}
+			date < 1900.01.01
 		}
 		
 		target_trigger = {
@@ -369,7 +2139,7 @@ political_actions = {
 				is_neighbor_of = ROOT
 			}
 			NOT = {
-				is_puppet_of= ROOT
+				is_subject_of = ROOT
 			}
 		}
 
@@ -400,6 +2170,7 @@ political_actions = {
 		visible = {
 			has_idea = egy_vic_debt
 			check_variable = {ROOT.debt_level > 0}
+			NOT = { TAG = LIB }
 		}
 
 		modifier = {
@@ -423,6 +2194,107 @@ political_actions = {
 
 		ai_will_do = {
 			base = 1
+			#modifier = {
+			#	factor = 0
+			#	NOT = { check_variable = {ROOT.debt_level > 8} }
+			#	num_of_civilian_factories < 2
+			#}
+		}
+	}
+	
+	LIB_US_invests_to_pay_debt_decision = {
+
+		icon = generic_political_discourse
+		
+		allowed = { tag = LIB }  
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_US_invests_to_pay_debt_decision_trigger
+				has_country_flag = USA_LIB_investment_flag
+				always = no
+			}
+		}
+
+		activation = {
+			has_idea = egy_vic_debt
+			check_variable = {ROOT.debt_level > 0}
+			hidden_trigger = {
+				has_country_flag = USA_LIB_investment_flag
+			}
+		}
+		
+		is_good = yes 
+		selectable_mission = no
+		days_mission_timeout = 200
+
+		timeout_effect = {
+			if = {
+				limit = { has_country_flag = USA_assist_lib_debt }
+				custom_effect_tooltip = EGY_afr_decrease_debt_2
+				hidden_effect = {
+					subtract_from_variable = {var = debt_level value = 2}
+				}
+			}
+			else = {
+				custom_effect_tooltip = EGY_afr_decrease_debt_1
+				hidden_effect = {
+					subtract_from_variable = {var = debt_level value = 1}
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+	}
+	
+	LIB_decision_debt_repayments = {
+
+		icon = generic_political_discourse
+
+		available = {
+			has_idea = egy_vic_debt
+			num_of_civilian_factories_available_for_projects > 0
+		}
+		
+		allowed = { tag = LIB }
+		visible = {
+			has_idea = egy_vic_debt
+			check_variable = {ROOT.debt_level > 0}
+			TAG = LIB
+			#NOT = { has_country_flag = USA_LIB_investment_flag }
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		cost = 1
+		fire_only_once = no
+		
+		custom_cost_trigger = {
+
+			num_of_civilian_factories_available_for_projects > 0
+
+		}
+		custom_cost_text = LIB_debt_num_of_civilian_factories_available_for_projects_more_than_1
+
+		remove_effect = {
+			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			hidden_effect = {
+				subtract_from_variable = {var = debt_level value = 1}
+			}
+		}
+		days_remove = 200
+		days_re_enable = 360
+
+		ai_will_do = {
+			base = 10
+			modifier = {
+				factor = 0
+				NOT = { check_variable = {ROOT.debt_level > 8} }
+				num_of_civilian_factories < 2
+			}
 		}
 	}
 }
@@ -435,7 +2307,7 @@ foreign_politics={
 			has_country_flag = OFS_western_diplomacy
 			tag = OFS
 		}
-
+		allowed = { TAG = OFS }
 		visible = {
 			tag = OFS
 			has_completed_focus = ofs_vic_establish_diplomacy_with_the_west
@@ -558,6 +2430,45 @@ foreign_politics={
 		}
 	}
 	
+	ZAN_OMA_tribute = {
+		icon = generic_political_actions
+		allowed={tag = ZAN}
+		available = {
+			always = no
+		}
+		
+		activation = {
+			tag = ZAN
+			is_subject_of = OMA
+			NOT = {
+				has_country_flag = accepted_OMA_lordship
+			}
+			OMA={
+				NOT={
+					has_completed_focus = oma_vic_reign_ZAN_in
+				}
+			}
+		}
+
+		selectable_mission = no
+		days_mission_timeout = 360
+		is_good = no
+		days_re_enable = 5
+		
+		cancel_trigger = {
+			OR={
+				has_war = yes
+				NOT={is_subject_of = OMA}
+				has_country_flag = accepted_OMA_lordship
+				OMA={ has_completed_focus = oma_vic_reign_ZAN_in}
+			}
+		}
+		
+		timeout_effect = {
+			country_event={id = arab_events.30}
+		}
+	}
+	
 }
 afr_rrp_african_expeditions={
 
@@ -567,10 +2478,10 @@ afr_rrp_african_expeditions={
 				exists = yes
 				afr_is_tribal = yes
 				NOT ={
-					is_puppet = yes
+					is_subject = yes
 				}
 				any_neighbor_country={
-					is_puppet_of = OMA
+					is_subject_of = OMA
 				}
 				any_owned_state={
 					OR={
@@ -600,7 +2511,12 @@ afr_rrp_african_expeditions={
 			#Kenya
 			if={
 				limit ={
-					FROM ={tag = MMA}
+					FROM ={
+						OR = {
+							# tag = MER
+							tag = MMA
+						}
+					}
 				}
 				state = 911
 			}
@@ -752,6 +2668,9 @@ afr_rrp_african_expeditions={
 					}
 				}
 		}
+		ai_will_do={
+			factor = 10
+		}
 	}
 	OMA_african_expition_united_africa_TAN = {
 		#cost = 10
@@ -760,8 +2679,8 @@ afr_rrp_african_expeditions={
 		available ={
 			has_manpower > 1999
 			OMA={has_completed_focus= oma_vic_ZAN_expansion}
-			AFR = {exists = yes}
 		}
+		visible={AFR = {exists = yes}}
 		complete_effect = {
 			add_manpower = -2000
 		}
@@ -776,6 +2695,9 @@ afr_rrp_african_expeditions={
 				}
 			}
 		}
+		ai_will_do={
+			factor = 10
+		}
 	}
 	OMA_african_expition_united_africa_KEN = {
 		#cost = 10
@@ -784,8 +2706,8 @@ afr_rrp_african_expeditions={
 		available ={
 			has_manpower > 1999
 			OMA={has_completed_focus= oma_vic_KEN_expeditions}
-			AFR = {exists = yes}
 		}
+		visible={AFR = {exists = yes}}
 		complete_effect = {
 			add_manpower = -2000
 		}
@@ -800,8 +2722,76 @@ afr_rrp_african_expeditions={
 				}
 			}
 		}
+		ai_will_do={
+			factor = 10
+		}
 	}
 	
+	OMA_african_expition_TAN_forming_tanzania = {
+		#cost = 10
+		fire_only_once = yes
+		available ={
+			OMA={has_completed_focus= oma_vic_ZAN_expansion}
+			ZAN={
+				owns_state = 904
+				owns_state = 929
+				owns_state = 908
+				owns_state = 546
+				owns_state = 907
+				owns_state = 905
+				owns_state = 896
+				owns_state = 825
+			}
+		}
+		complete_effect = {
+			set_country_flag = BC_Granted_Zanzabar
+			ZAN={
+				every_owned_state={
+					limit = {
+						is_claimed_by = ZAN
+					}
+					add_core_of = ZAN
+				}
+				set_cosmetic_tag = TAN_united_omani
+			}
+		}
+		cost = 250
+		ai_will_do={
+			factor = 10
+		}
+	}
+	OMA_african_expition_MOM_forming_kenya = {
+		#cost = 10
+		fire_only_once = yes
+		available ={
+			OMA={has_completed_focus= oma_vic_KEN_expeditions}
+			MOM={
+				owns_state = 906
+				owns_state = 911
+				owns_state = 912
+				owns_state = 914
+				owns_state = 913
+				owns_state = 915
+				owns_state = 547
+				owns_state = 910
+			}
+		}
+		complete_effect = {
+			set_country_flag = BC_Granted_Kenya
+			MOM={
+				every_owned_state={
+					limit = {
+						is_claimed_by = MOM
+					}
+					add_core_of = MOM
+				}
+			}
+		}
+		cost = 250
+		ai_will_do={
+			factor = 10
+		}
+	}
 	
 }
 
@@ -811,22 +2801,22 @@ afr_sa_unifaction = {
 			TRV={
 				OR={
 					exists = no
-					is_puppet_of = ENG
-					is_puppet_of = SAF
+					is_subject_of = ENG
+					is_subject_of = SAF
 				}
 			}
 			OFS={
 				OR={
 					exists = no
-					is_puppet_of = ENG
-					is_puppet_of = SAF
+					is_subject_of = ENG
+					is_subject_of = SAF
 				}
 			}
 			NAT={
 				OR={
 					exists = no
-					is_puppet_of = ENG
-					is_puppet_of = SAF
+					is_subject_of = ENG
+					is_subject_of = SAF
 				}
 			}
 			has_country_flag = dreams_of_SAF
@@ -837,6 +2827,9 @@ afr_sa_unifaction = {
 			ENG={
 				country_event = {id = boer_states.102 days = 10}
 			}
+		}
+		ai_will_do={
+			factor = 1
 		}
 	}
 	saf_develop_natal = {
@@ -851,7 +2844,7 @@ afr_sa_unifaction = {
 			tag = SAF
 			always = yes
 		}
-
+		allowed = { TAG = SAF }
 		visible = {
 			tag = SAF
 		}
@@ -894,5 +2887,5 @@ afr_sa_unifaction = {
 			base = 1
 		}
 	}
-
+	
 }

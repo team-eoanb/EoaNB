@@ -1,0 +1,656 @@
+add_namespace = britishindia
+add_namespace = britainindia
+
+### EVENTS RELATING TO INDIA BELOW ###
+
+#The Sepoy Rebellion is won
+country_event = {
+	id = britishindia.1
+	title = britishindia.1.t
+	desc = britishindia.1.d
+	picture = GFX_report_event_sepoy_lucknow_surrender
+
+	is_triggered_only = yes
+
+	option = {
+		name = britishindia.1.a
+		ai_chance = { factor = 100 }
+		add_stability = 0.1
+		custom_effect_tooltip = eoanb_tt_event_britishindia_1_a
+		hidden_effect = {
+			if = {
+				limit = {
+					RAJ = {
+						check_variable = {
+							var = ENG_RAJ_revolt_risk
+							value = 2
+							compare = greater_than_or_equals
+						}
+					}
+				}
+				RAJ = {
+					subtract_from_variable = {
+						var = ENG_RAJ_revolt_risk
+						value = 2
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					RAJ = {
+						check_variable = {
+							var = ENG_RAJ_revolt_risk
+							value = 1
+							compare = greater_than_or_equals
+						}
+					}
+				}
+				RAJ = {
+					subtract_from_variable = {
+						var = ENG_RAJ_revolt_risk
+						value = 1
+					}
+				}
+			}
+			else = {
+				RAJ = { add_stability = 0.05 }
+			}
+		}
+	}
+
+}
+
+#RAJ gets message ENG will warn them
+country_event = {
+	id = britishindia.2
+	title = britishindia.2.t
+	desc = britishindia.2.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = {
+		name = britishindia.2.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = eoanb_tt_event_britishindia_2_a
+		hidden_effect = {
+			if = {
+				limit = {	has_dlc = "Together for Victory" }
+				RAJ = {
+					add_autonomy_score = {
+						value = -100
+					}
+				}
+			}
+			else = {
+				puppet = RAJ
+			}
+		}
+	}
+
+}
+
+#RAJ gets message ENG threatened war
+country_event = {
+	id = britishindia.3
+	title = britishindia.3.t
+	desc = britishindia.3.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = {
+		name = britishindia.3.a
+		ai_chance = { factor = 97 }
+		add_political_power = -50
+		add_war_support = -0.05
+	}
+
+	option = {
+		name = britishindia.3.b
+		ai_chance = { factor = 3 }
+		declare_war_on = { target = ENG type = independence_wargoal }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+				}
+				ENG = { set_autonomy = { target = RAJ autonomy_state = autonomy_free } }
+				else = {
+					ENG = { end_puppet = RAJ }
+				}
+			}
+		}
+	}
+
+}
+
+#RAJ gets message ENG released them
+country_event = {
+	id = britishindia.4
+	title = britishindia.4.t
+	desc = britishindia.4.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = {
+		name = britishindia.4.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			ENG = { set_autonomy = { target = RAJ autonomy_state = autonomy_free } }
+		}
+		else = {
+			ENG = { end_puppet = RAJ }
+		}
+		add_opinion_modifier = { target = ENG modifier = eoanb_om_RAJ_ENG_friendly_release }
+		reverse_add_opinion_modifier = { target = ENG modifier = eoanb_om_RAJ_ENG_friendly_release }
+	}
+
+}
+
+#Indian Minor gets message the British are planning war against them
+country_event = {
+	id = britishindia.5
+	title = britishindia.5.t
+	desc = britishindia.5.d
+	picture = GFX_report_event_saf_soldiers
+
+	is_triggered_only = yes
+
+	option = {
+		name = britishindia.5.a
+		ai_chance = { factor = 100 }
+		add_war_support = 0.2
+		add_manpower = 1000
+	}
+
+}
+
+#RAJ gets message from ENG to prepare for war
+country_event = {
+	id = britishindia.6
+	title = britishindia.6.t
+	desc = britishindia.6.d
+	picture = GFX_report_event_saf_soldiers
+
+	is_triggered_only = yes
+
+	option = {
+		name = britishindia.6.a
+		ai_chance = { factor = 100 }
+		add_war_support = 0.05
+	}
+
+}
+
+#KLT signs treaty of Mastung
+country_event = {
+	id = britishindia.7
+	title = britishindia.7.t
+	desc = britishindia.7.d
+	picture = GFX_report_event_saf_soldiers
+
+	fire_only_once = yes
+
+	trigger={
+		date > 1876.01.01
+		tag = RAJ
+	}
+	mean_time_to_happen = {
+		days = 200
+	}
+
+	option = {#sign it
+		name = britishindia.7.a
+		ai_chance = { factor = 95 }
+		RAJ={
+			country_event = {id=britishindia.8}
+			add_state_core = 444
+			add_state_core = 999
+			annex_country = {
+				target = KLT
+			}
+		}
+	}
+	option = {#refuse
+		name = britishindia.7.a
+		ai_chance = { factor = 5 }
+		RAJ={
+			country_event = {id=britishindia.9}
+		}
+	}
+
+}
+
+#RAJ , KLT signs treaty
+country_event = {
+	id = britishindia.8
+	title = britishindia.8.t
+	desc = britishindia.8.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = britishindia.8.a
+		ai_chance = { factor = 100 }
+	}
+
+}
+
+#RAJ , KLT refuses
+country_event = {
+	id = britishindia.9
+	title = britishindia.9.t
+	desc = britishindia.9.d
+
+	is_triggered_only = yes
+
+	option = {#invade
+		name = britishindia.9.a
+		ai_chance = { factor = 100 }
+		add_state_core = 444
+		add_state_core = 999
+		declare_war_on = {
+			target = KLT
+			type = annex_everything
+		}
+	}
+	option = {#nevermind
+		name = britishindia.9.b
+		ai_chance = { factor = 0 }
+	}
+
+}
+
+################################################################################################################
+    #                                         #                                          #     #               
+   # #   #    #  ####  #       ####          # #   ######  ####  #    #   ##   #    #    #  #  #   ##   #####  
+  #   #  ##   # #    # #      #    #        #   #  #      #    # #    #  #  #  ##   #    #  #  #  #  #  #    # 
+ #     # # #  # #      #      #    # ##### #     # #####  #      ###### #    # # #  #    #  #  # #    # #    # 
+ ####### #  # # #  ### #      #    #       ####### #      #  ### #    # ###### #  # #    #  #  # ###### #####  
+ #     # #   ## #    # #      #    #       #     # #      #    # #    # #    # #   ##    #  #  # #    # #   #  
+ #     # #    #  ####  ######  ####        #     # #       ####  #    # #    # #    #     ## ##  #    # #    # 
+ 
+################################################################################################################
+##leadup done via ENG/RUS decisions in the great game
+country_event = {
+	id = britishindia.10
+	title = britishindia.10.t
+	desc = britishindia.10.d
+	picture = GFX_report_event_sepoy_lucknow_surrender
+
+	is_triggered_only = yes
+
+	option = {##march in
+		name = britishindia.10.a
+		ai_chance = { factor = 100 }
+		
+	}
+
+}
+
+
+### EVENTS RELATING TO BRITIAN INDIA BELOW ###
+
+#Hidden Event that prevents revolt risk from going below 0
+country_event = {
+	id = britainindia.1
+	title = britainindia.1.t
+	desc = britainindia.1.d
+
+	trigger = {
+		TAG = RAJ
+		check_variable = { ENG_RAJ_revolt_risk < 0 }
+	}
+
+	mean_time_to_happen = {
+		days = 3
+	}
+
+	hidden = yes
+
+	immediate = {
+		clamp_variable = {
+			var = ENG_RAJ_revolt_risk
+			min = 0
+			max = 1000
+		}
+	}
+
+	option = {
+		name = britainindia.1.a
+		ai_chance = { factor = 100 }
+	}
+
+}
+
+#TRA gets message ENG is pursueing annexation policy in India
+country_event = {
+	id = britainindia.2
+	title = britainindia.2.t
+	desc = britainindia.2.d
+	picture = GFX_report_event_british_inspect_troops
+
+	is_triggered_only = yes
+
+	option = {
+		name = britainindia.2.a
+		ai_chance = { factor = 100 }
+
+	}
+
+	option = {
+		name = britainindia.2.b
+		ai_chance = { factor = 0 }
+		declare_war_on = {
+			target = RAJ
+			type = annex_everything
+		}
+	}
+
+}
+
+#Revolt Risk above 5: Small riots in capital state
+country_event = {
+	id = britainindia.3
+	title = britainindia.3.t
+	desc = britainindia.3.d
+	picture = GFX_report_event_generic_rally2
+
+	trigger = {
+		TAG = RAJ
+		check_variable = { ENG_RAJ_revolt_risk > 5 }
+	}
+
+	mean_time_to_happen = {
+		days = 500
+	}
+
+	option = {
+		name = britainindia.3.a
+		ai_chance = { factor = 20 }
+		add_stability = -0.01
+		add_political_power = -40
+		custom_effect_tooltip = eoanb_tt_ENG_event_britainindia_3_a
+		hidden_effect = {
+			subtract_from_variable = {
+				var = ENG_RAJ_revolt_risk
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = britainindia.3.b
+		ai_chance = { factor = 78 }
+		add_political_power = -20
+		custom_effect_tooltip = eoanb_tt_ENG_event_britainindia_3_b
+		hidden_effect = {
+			add_to_variable = {
+				var = ENG_RAJ_revolt_risk
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = britainindia.3.c
+		ai_chance = { factor = 2 }
+		add_stability = 0.05
+		custom_effect_tooltip = eoanb_tt_ENG_event_britainindia_3_c
+		hidden_effect = {
+			add_to_variable = {
+				var = ENG_RAJ_revolt_risk
+				value = 3
+			}
+		}
+	}
+
+}
+
+#Fixed Peace for if the Sepoy win the war
+country_event = {
+	id = britainindia.4
+	title = britainindia.4.t
+	desc = britainindia.4.d
+	picture = GFX_report_event_yugoslavian_cavalry
+
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 2
+	}
+
+	trigger = {
+		TAG = SRS
+		has_global_flag = eoanb_flag_sepoy_rebellion_ongoing
+		# OR = {
+			# AND = {
+				# 431 = { is_controlled_by = SRS }
+				# 435 = { is_controlled_by = SRS }
+				# 433 = { is_controlled_by = SRS }
+				# 436 = { is_controlled_by = SRS }
+				# 1006 = { is_controlled_by = SRS }
+			# }
+			# AND = {
+				# any_country = {
+					# has_war_together_with = SRS
+					# controls_state = 431
+					# controls_state = 435
+					# controls_state = 433
+					# controls_state = 436
+					# controls_state = 1006
+				# }
+			# }
+		# }
+		RAJ={
+			surrender_progress > 0.5
+		}
+	}
+
+	option = {
+		name = britainindia.4.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = eoanb_tt_ENG_event_britainindia_4_a
+		hidden_effect = {
+			#deal with oudh
+			OUD ={
+				transfer_state = 435
+				add_state_core = 435
+				white_peace = ENG
+				white_peace = RAJ
+				country_event = {id= sepoy.7 days = 5}#under a mughal yoke
+			}
+			#Deal with gwalor
+			GWA = {
+				set_cosmetic_tag = GWA_maratha_confed
+				white_peace = ENG
+				white_peace = RAJ
+				transfer_state = 436
+				add_state_core = 436
+				country_event = {id= sepoy.7 days = 5}#under a mughal yoke
+			}
+			##mughal empire
+			SRS = {
+				set_cosmetic_tag = MUG_empire
+				transfer_state = 759
+				add_state_core = 759
+				transfer_state = 433
+				add_state_core = 433
+				transfer_state = 1007
+				add_state_core = 1007
+				transfer_state = 428
+				add_state_core = 428
+				transfer_state = 1006
+				add_state_core = 1006
+				dismantle_faction = yes
+			}
+			##Sikh event chain
+			KAR={
+				if={
+					limit={has_war_with = RAJ}
+					white_peace = ENG
+					white_peace = RAJ
+				}
+				country_event = {id= sepoy.9 days = 30}#threat from the south
+			}
+			KAS={
+				if={
+					limit={has_war_with = RAJ}
+					white_peace = ENG
+					white_peace = RAJ
+				}
+			}
+			white_peace = ENG
+			white_peace = RAJ
+			ENG = { complete_national_focus = ENG_focus_humiliation_by_sepoy }
+			clr_global_flag = eoanb_flag_sepoy_rebellion_ongoing
+			set_global_flag = eoanb_flag_sepoy_victorious
+		}
+	}
+
+	option = {
+		name = britainindia.4.b
+		ai_chance = { factor = 0 }
+	}
+
+}
+
+#Hidden Event that assigns revolt willingness to minors (or not)
+country_event = {
+	id = britainindia.5
+	title = britainindia.5.t
+	desc = britainindia.5.d
+
+	trigger = {
+		TAG = ENG
+		SRS = { has_war_with = RAJ }
+	}
+
+	mean_time_to_happen = {
+		days = 3
+	}
+
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				is_historical_focus_on = yes
+			}
+			add_political_power = 1
+		}
+		else_if = {
+			limit = {
+				is_historical_focus_on = no
+			}
+			KAS = {
+				random_list = {
+					35 = {
+						set_country_flag = eoanb_flag_desire_to_join_sepoy
+					}
+					65 = {
+						add_political_power = 1
+					}
+				}
+			}
+			KAR = {
+				random_list = {
+					45 = {
+						set_country_flag = eoanb_flag_desire_to_join_sepoy
+					}
+					55 = {
+						add_political_power = 1
+					}
+				}
+			}
+			HYD = {
+				random_list = {
+					70 = {
+						set_country_flag = eoanb_flag_desire_to_join_sepoy
+					}
+					30 = {
+						add_political_power = 1
+					}
+				}
+			}
+			REW = {
+				random_list = {
+					50 = {
+						set_country_flag = eoanb_flag_desire_to_join_sepoy
+					}
+					50 = {
+						add_political_power = 1
+					}
+				}
+			}
+			BIK = {
+				random_list = {
+					45 = {
+						set_country_flag = eoanb_flag_desire_to_join_sepoy
+					}
+					55 = {
+						add_political_power = 1
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = britainindia.5.a
+		ai_chance = { factor = 100 }
+	}
+
+}
+
+#ENG gets message RAJ is trying to distance itself
+country_event = {
+	id = britainindia.6
+	title = britainindia.6.t
+	desc = britainindia.6.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	#Send them a warning
+	option = {
+		name = britainindia.6.a
+		ai_chance = { factor = 90 }
+		RAJ = { country_event = { id = britishindia.2 days = 1 } }
+		custom_effect_tooltip = eoanb_tt_ENG_event_britainindia_6_a
+	}
+
+	#Threaten War
+	option = {
+		name = britainindia.6.b
+		ai_chance = {
+			factor = 8
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		RAJ = { country_event = { id = britishindia.3 days = 1 } }
+		custom_effect_tooltip = eoanb_tt_ENG_event_britainindia_6_b
+	}
+
+	#Release them
+	option = {
+		name = britainindia.6.c
+		ai_chance = {
+			factor = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		RAJ = { country_event = { id = britishindia.4 days = 1 } }
+		custom_effect_tooltip = eoanb_tt_ENG_event_britainindia_6_c
+	}
+
+}

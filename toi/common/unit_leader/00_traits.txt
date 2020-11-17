@@ -225,6 +225,19 @@ leader_traits = {
 		logistics_skill_factor = 1
 	}
 	
+	artillery_officer = { 
+		type = land
+		trait_type = personality_trait
+		
+		trait_xp_factor = {
+			artillery_leader = 1     #+100%
+		}
+		
+		
+		defense_skill_factor = 1
+		planning_skill_factor = 1
+	}
+	
 	armor_officer = { 
 		type = land
 		trait_type = personality_trait
@@ -236,7 +249,91 @@ leader_traits = {
 		attack_skill_factor = 1
 		planning_skill_factor = 1
 	}
-	
+
+	quick_marcher = {
+		type = land
+		trait_type = personality_trait
+
+		gain_xp = {
+			always = no
+		}
+		modifier = {
+			army_speed_factor = 0.15
+		}
+	}
+
+	war_of_1812_veteran = {
+		type = land
+		trait_type = personality_trait
+
+		gain_xp = {
+			always = no
+		}
+		modifier = {
+			political_power_gain = 1.00
+			experience_gain_factor = -0.25
+		}
+
+		defense_skill_factor = 1
+		planning_skill_factor = 1
+	}
+
+	aversion_to_offense = {
+		type = land
+		trait_type = personality_trait
+
+		gain_xp = {
+			always = no
+		}
+		modifier = {
+			army_attack_factor = -0.25
+			experience_loss_factor = -0.10
+		}
+
+		defense_skill_factor = 1
+		logistics_skill_factor = 1
+	}
+
+	butcher = {
+		type = land
+		trait_type = personality_trait
+
+		gain_xp = {
+			always = no
+		}
+		modifier = {
+			army_attack_factor = 25.00
+			experience_loss_factor = 10.0
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		attack_skill_factor = 1
+		logistics_skill_factor = 1
+	}
+
+	napoleonic_tactician = {
+		type = land
+		trait_type = personality_trait
+		
+		gain_xp = {
+			always = no
+		}
+		modifier = {
+			army_attack_factor = -0.025
+			army_defence_factor = -0.025
+			planning_speed = -0.20
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		planning_skill_factor = 1
+		logistics_skill_factor = 1
+	}
 ##################################
 # Field Marshal traits.
 ##################################
@@ -438,7 +535,7 @@ leader_traits = {
 		}
 		trait_type = assignable_trait
 		parent = skilled_staffer
-		gui_row = 15
+		gui_row = 16
 	}
 
 
@@ -491,6 +588,27 @@ leader_traits = {
 		gui_row = 3
 	}
 	
+	artillery_leader = { 
+		type = corps_commander
+		gain_xp = {
+			set_temp_variable = { temp = num_units }
+			multiply_temp_variable = { temp = 0.8 }
+			check_variable = { num_artillery > temp }
+		}
+		custom_gain_xp_trigger_tooltip = artillery_ratio_over_20
+		
+		cost = 1000
+		modifier = {
+			army_artillery_defence_factor = 0.10
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		gui_row = 6
+	}
+	
 	infantry_leader = { 
 		type = corps_commander
 		gain_xp = {
@@ -509,8 +627,9 @@ leader_traits = {
 			factor = 1
 		}
 		
-		gui_row = 6
+		gui_row = 7
 	}
+	
 	skilled_staffer = { 
 		type = corps_commander
 		gain_xp = {
@@ -529,7 +648,7 @@ leader_traits = {
 		}
 		logistics_skill_factor = 2
 		
-		gui_row = 15
+		gui_row = 16
 	}
 	trickster = { 
 		type = corps_commander
@@ -550,7 +669,7 @@ leader_traits = {
 			factor = 1
 		}
 		
-		gui_row = 13
+		gui_row = 14
 	}
 
 
@@ -692,7 +811,7 @@ leader_traits = {
 		ai_will_do = {
 			factor = 1
 		}
-		gui_row = 10
+		gui_row = 11
 	}
 
 	desert_fox = { 
@@ -858,11 +977,11 @@ leader_traits = {
 			factor = 1
 		}
 		
-		gui_row = 8
+		gui_row = 9
 	}
 	
 ##################################
-# Corps Commander assignabme traits.
+# Corps Commander assignable traits.
 ##################################
 
 
@@ -991,6 +1110,27 @@ leader_traits = {
 		mutually_exclusive = fortress_buster
 	}
 	
+	artillery_expert = { 
+		type = corps_commander
+		gain_xp = {
+			always = no # not gainable
+		}
+		cost = 500
+		modifier = {
+			army_artillery_attack_factor = 0.15
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+		
+		mutually_exclusive = infantry_expert
+		
+		trait_type = assignable_trait
+		parent = artillery_leader
+		gui_row = 6
+	}
+	
 	infantry_expert = { 
 		type = corps_commander
 		gain_xp = {
@@ -1009,7 +1149,7 @@ leader_traits = {
 		
 		trait_type = assignable_trait
 		parent = infantry_leader
-		gui_row = 6
+		gui_row = 7
 	}
 	
 	ambusher = { 
@@ -1032,7 +1172,7 @@ leader_traits = {
 		trait_type = assignable_trait
 		parent = infantry_leader
 		
-		gui_row = 7
+		gui_row = 8
 	}
 	invader_ii = { 
 		type = corps_commander
@@ -1053,7 +1193,7 @@ leader_traits = {
 		trait_type = assignable_trait
 		parent = naval_invader
 		
-		gui_row = 8
+		gui_row = 9
 	}
 	naval_liason = { 
 		type = corps_commander
@@ -1072,7 +1212,7 @@ leader_traits = {
 		trait_type = assignable_trait
 		parent = naval_invader
 		
-		gui_row = 9
+		gui_row = 10
 	}
 	
 	skirmisher = { 
@@ -1093,7 +1233,7 @@ leader_traits = {
 		trait_type = assignable_trait
 		parent = commando
 		
-		gui_row = 10
+		gui_row = 11
 	}
 	
 	paratrooper = { 
@@ -1115,7 +1255,7 @@ leader_traits = {
 		trait_type = assignable_trait
 		parent = commando
 		
-		gui_row = 11
+		gui_row = 12
 	}
 	
 	
@@ -1137,7 +1277,7 @@ leader_traits = {
 		trait_type = assignable_trait
 		parent = commando
 		
-		gui_row = 12
+		gui_row = 13
 	}
 	
 	expert_improviser = { 
@@ -1188,7 +1328,7 @@ leader_traits = {
 		}
 		custom_prerequisite_tooltip = needs_at_least_one_terrain
 		
-		gui_row = 13
+		gui_row = 14
 	}
 	
 	guerilla_fighter = { 
@@ -1208,7 +1348,7 @@ leader_traits = {
 		trait_type = assignable_trait
 		parent = trickster
 		
-		gui_row = 14
+		gui_row = 15
 	}
 	
 	
@@ -2466,6 +2606,20 @@ leader_traits = {
 			target_sabotage_factor = 0.25
 			target_sabotage_cost = -0.25
 			boost_resistance_factor = 0.25
+		}
+	}
+	
+	operative_geisha = {
+		type = operative
+		trait_type = personality_trait
+
+		#new_commander_weight = {
+		#}
+
+		modifier = { 
+			operation_infiltrate_outcome = 0.35
+			operation_infiltrate_risk = -0.35
+			own_operative_detection_chance_factor = -0.3
 		}
 	}
 

@@ -18,6 +18,24 @@ focus_tree = {
 		y = 0
 		completion_reward = {
 			add_political_power = 75
+			every_country = {
+				limit = {
+					NOT = { TAG = ZAN }
+					OR = {
+						AND = {
+							is_subject_of = OMA
+							afr_is_tribal = yes
+						}
+						AND = {
+							is_subject = yes
+							OVERLORD = { is_subject_of = OMA }
+							afr_is_tribal = yes
+						}
+					}
+				}
+				country_event = { id = EDC_afr_focus_path_change.3 }
+			}
+			hidden_effect = { GLD = { country_event = { id = EDC_afr_focus_path_change.3 } } }
 		}
 		mutually_exclusive={
 			focus = oma_vic_question_of_oman_and_muscat
@@ -75,23 +93,25 @@ focus_tree = {
 						target = MOM
 						autonomy_state = autonomy_colony
 					}
-					ZAN={
-						set_country_flag = accepted_OMA_lordship
-						set_political_party = {
-							ideology = autocracy
-							popularity = 100
-						}
-					}
-					MOM={
-						set_political_party = {
-							ideology = autocracy
-							popularity = 100
-						}
-					}
 				}
 			}
-			else={
+			else = {
 				custom_effect_tooltip = ZAN_regined_in
+				puppet = ZAN
+				puppet = MOM
+			}
+			ZAN={
+				set_country_flag = accepted_OMA_lordship
+				set_political_party = {
+					ideology = autocracy
+					popularity = 100
+				}
+			}
+			MOM={
+				set_political_party = {
+					ideology = autocracy
+					popularity = 100
+				}
 			}
 		}
 		
@@ -201,15 +221,7 @@ focus_tree = {
 		x = 0
 		y = 4
 		completion_reward = {
-			ZAN={
-				hidden_effect = {
-					load_focus_tree = industrialilzing_power_africa
-				}
-				swap_ideas = {
-					add_idea = afr_reforming_kingdom
-					remove_idea = AF_T_small_kingdom
-				}
-			}
+			custom_effect_tooltip = oma_vic_ZAN_industrialisation_tooltip
 			set_country_flag = oma_vic_ZAN_industrialisation_flag
 		}
 		prerequisite = {
@@ -270,15 +282,7 @@ focus_tree = {
 		x = 4
 		y = 4
 		completion_reward = {
-			MOM={
-				hidden_effect = {
-					load_focus_tree = industrialilzing_power_africa
-				}
-				swap_ideas = {
-					add_idea = afr_reforming_kingdom
-					remove_idea = AF_T_small_kingdom
-				}
-			}
+			custom_effect_tooltip = oma_vic_MOM_industrialisation_tooltip
 			set_country_flag = oma_vic_MOM_industrialisation_flag
 		}
 		prerequisite = {
@@ -829,7 +833,7 @@ focus_tree = {
 	}
 	focus = {
 		id = oma_vic_national_schools
-		icon = GFX_focus_research
+		icon = GFX_goal_school_investment_focus
 		cost = 80
 		x = 10
 		y = 8
@@ -1499,7 +1503,7 @@ focus_tree = {
 	
 	focus = {
 		id = oma_vic_death_of_thuwaini
-		icon = GFX_focus
+		icon = GFX_focus_state_funeral
 		cost = 35
 		x = 15
 		y = 10
@@ -1559,6 +1563,7 @@ focus_tree = {
 		x = 13
 		y = 12
 		completion_reward = {
+			OMA_muscat_and_oman_divide_decrease = yes
 		}
 		prerequisite={
 			focus = oma_vic_muscat_garrison
@@ -1578,6 +1583,7 @@ focus_tree = {
 		x = 16
 		y = 11
 		completion_reward = {
+			country_event = {id =arab_events.68}
 		}
 		prerequisite={
 			focus = oma_vic_death_of_thuwaini
@@ -1594,6 +1600,7 @@ focus_tree = {
 		x = 18
 		y = 11
 		completion_reward = {
+			country_event = {id =arab_events.69}
 		}
 		prerequisite={
 			focus = oma_vic_death_of_thuwaini
@@ -1610,6 +1617,7 @@ focus_tree = {
 		x = 17
 		y = 12
 		completion_reward = {
+			OMA_muscat_and_oman_divide_decrease = yes
 		}
 		prerequisite={
 			focus = oma_vic_support_of_the_ghafiri
@@ -1646,8 +1654,11 @@ focus_tree = {
 		id = oma_vic_new_muscat
 		icon = GFX_focus_oman_ideas_of_muscat
 		cost = 35
-		x = 13
+		x = 11
 		y = 14
+		available={
+			has_country_flag = OMA_salims_victory
+		}
 		completion_reward = {
 		}
 		prerequisite={
@@ -1656,6 +1667,153 @@ focus_tree = {
 		mutually_exclusive={
 			focus = oma_vic_past_and_future_kingdoms
 			focus = oma_vic_old_oman
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_paying_owned
+		icon = GFX_goal_focus_foreign_diplomacy_economy
+		cost = 140
+		x = 9
+		y = 15
+		completion_reward = {
+			if={
+				limit={
+					OR={
+						has_idea = OMA_trade_consessions_to_FRA 
+						has_idea = OMA_trade_consessions_to_FRA_2
+					}
+				}
+				FRA={add_political_power = 200}
+				add_political_power = -100
+			}
+			else_if={
+				limit={
+					OR={
+						has_idea = OMA_trade_consessions_to_ENG
+						has_idea = OMA_trade_consessions_to_ENG_2
+					}
+				}
+				ENG={add_political_power = 200}
+				add_political_power = -100
+			}
+			else={
+				add_political_power = 200
+			}
+			set_country_flag = paid_1862_succession
+		}
+		prerequisite={
+			focus = oma_vic_new_muscat
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_dealing_tribes
+		icon = GFX_focus_generic_concessions
+		cost = 140
+		x = 9
+		y = 16
+		completion_reward = {
+			remove_ideas = {OMA_tribal_ibadhi_fanaticism}
+		}
+		prerequisite={
+			focus = oma_vic_paying_owned
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_continue_fathers_policy
+		icon = GFX_focus_sunni_catholic_friendship
+		cost = 140
+		x = 11
+		y = 15
+		completion_reward = {
+			add_stability = 0.05
+		}
+		prerequisite={
+			focus = oma_vic_new_muscat
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_trade_lifeline
+		icon = GFX_focus_oman_ideas_of_muscat
+		cost = 140
+		x = 11
+		y = 16
+		completion_reward = {
+			add_timed_idea = { idea = eoanb_random_event_22_idea days = 200}
+		}
+		prerequisite={
+			focus = oma_vic_continue_fathers_policy
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_rail_invest
+		icon = GFX_goal_focus_railroad_development
+		cost = 140
+		x = 11
+		y = 17
+		completion_reward = {
+			294={
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		prerequisite={
+			focus = oma_vic_trade_lifeline
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_muscat_develop
+		icon = GFX_focus_oman_ideas_of_muscat
+		cost = 140
+		x = 11
+		y = 18
+		completion_reward = {
+			OMA_muscat_and_oman_divide_decrease = yes
+		}
+		prerequisite={
+			focus = oma_vic_rail_invest
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_entertaining_brits
+		icon = GFX_goal_focus_ally_ENG
+		cost = 140
+		x = 11
+		y = 19
+		completion_reward = {
+		}
+		prerequisite={
+			focus = oma_vic_muscat_develop
 		}
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1668,6 +1826,9 @@ focus_tree = {
 		cost = 35
 		x = 15
 		y = 14
+		available={
+			has_country_flag = Azzan_accepts_deal
+		}
 		completion_reward = {
 		}
 		prerequisite={
@@ -1683,11 +1844,157 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = oma_vic_compromise
+		icon = GFX_goal_focus_reform_government
+		cost = 140
+		x = 15
+		y = 15
+		completion_reward = {
+			add_stability = 0.05
+		}
+		prerequisite={
+			focus = oma_vic_past_and_future_kingdoms
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_best_of_both
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 140
+		x = 15
+		y = 16
+		completion_reward = {
+			OMA_muscat_and_oman_divide_decrease = yes
+		}
+		prerequisite={
+			focus = oma_vic_compromise
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_liberism_to_interior
+		icon = GFX_goal_focus_support_liberalism
+		cost = 140
+		x = 14
+		y = 17
+		completion_reward = {
+		}
+		prerequisite={
+			focus = oma_vic_best_of_both
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_conserve_coast
+		icon = GFX_goal_focus_support_conservatism
+		cost = 140
+		x = 16
+		y = 17
+		completion_reward = {
+		}
+		prerequisite={
+			focus = oma_vic_best_of_both
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_shared_values
+		icon = GFX_goal_generic_major_alliance
+		cost = 140
+		x = 15
+		y = 18
+		completion_reward = {
+			OMA_muscat_and_oman_divide_decrease = yes
+		}
+		prerequisite={
+			focus = oma_vic_conserve_coast
+		}
+		prerequisite={
+			focus = oma_vic_liberism_to_interior
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_nation_of_stability
+		icon = GFX_goal_focus_government_icon
+		cost = 140
+		x = 15
+		y = 19
+		completion_reward = {
+			increase_ps_by_one = yes
+		}
+		prerequisite={
+			focus = oma_vic_shared_values
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_invest_interior
+		icon = GFX_focus_oman_twin_kingdoms
+		cost = 140
+		x = 17
+		y = 15
+		completion_reward = {
+			797={
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+		prerequisite={
+			focus = oma_vic_past_and_future_kingdoms
+			focus = oma_vic_old_oman
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_invest_coast
+		icon = GFX_focus_oman_twin_kingdoms
+		cost = 140
+		x = 13
+		y = 15
+		completion_reward = {
+			294={
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+		prerequisite={
+			focus = oma_vic_past_and_future_kingdoms
+			focus = oma_vic_new_muscat
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
 		id = oma_vic_old_oman
 		icon = GFX_focus_oman_ideas_of_oman
 		cost = 35
-		x = 17
+		x = 19
 		y = 14
+		available={
+			has_country_flag = OMA_azzans_victory
+		}
 		completion_reward = {
 		}
 		prerequisite={
@@ -1702,5 +2009,180 @@ focus_tree = {
 			factor = 1
 		}
 	}
+	focus = {
+		id = oma_vic_power_tribes
+		icon = GFX_focus_afr_jihadist_regional_power_rally_for_jihad
+		cost = 140
+		x = 21
+		y = 15
+		completion_reward = {
+			remove_ideas = {OMA_tribal_ibadhi_fanaticism}
+		}
+		prerequisite={
+			focus = oma_vic_old_oman
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_ignore_brits
+		icon = GFX_focus_oman_ideas_of_oman
+		cost = 140
+		x = 21
+		y = 16
+		completion_reward = {
+			add_political_power = 200
+			set_country_flag = ignored_1862_succession_payments
+		}
+		prerequisite={
+			focus = oma_vic_power_tribes
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_ideals_ibadi
+		icon = GFX_goal_focus_religious_prayers
+		cost = 140
+		x = 19
+		y = 15
+		completion_reward = {
+			add_stability = 0.05
+		}
+		prerequisite={
+			focus = oma_vic_old_oman
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_concetrate_oman
+		icon = GFX_focus_oman_ideas_of_oman
+		cost = 140
+		x = 19
+		y = 16
+		completion_reward = {
+			797={
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		prerequisite={
+			focus = oma_vic_ideals_ibadi
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_influence_hinawai
+		icon = GFX_goal_generic_political_pressure
+		cost = 140
+		x = 18
+		y = 17
+		completion_reward = {
+		}
+		prerequisite={
+			focus = oma_vic_concetrate_oman
+		}
+		mutually_exclusive={
+			focus = oma_vic_influence_ghafiri
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_influence_ghafiri
+		icon = GFX_goal_generic_political_pressure_green
+		cost = 140
+		x = 20
+		y = 17
+		completion_reward = {
+		}
+		prerequisite={
+			focus = oma_vic_concetrate_oman
+		}
+		mutually_exclusive={
+			focus = oma_vic_influence_hinawai
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_subdue_minor_tribes
+		icon = GFX_goal_focus_suppress_liberalism
+		cost = 140
+		x = 19
+		y = 18
+		completion_reward = {
+			OMA_muscat_and_oman_divide_decrease = yes
+		}
+		prerequisite={
+			focus = oma_vic_influence_hinawai
+			focus = oma_vic_influence_ghafiri
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = oma_vic_dealing_uprising
+		icon = GFX_focus_violent_revolution
+		cost = 140
+		x = 19
+		y = 19
+		completion_reward = {
+			add_stability = 0.1
+		}
+		prerequisite={
+			focus = oma_vic_subdue_minor_tribes
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = oma_vic_forward_into_future
+		icon = GFX_focus_oman_twin_kingdoms
+		cost = 35
+		x = 15
+		y = 20
+		completion_reward = {
+			load_focus_tree = { tree = OMA_mac_open keep_completed = yes }
+		}
+		available={
+			has_country_leader = {
+				name = "Turki bin Said"
+				ruling_only = yes
+			}
+		}
+		prerequisite={
+			focus = oma_vic_nation_of_stability
+			focus = oma_vic_dealing_uprising
+			focus = oma_vic_entertaining_brits
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
 }
 

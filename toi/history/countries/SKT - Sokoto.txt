@@ -7,7 +7,7 @@
   
   set_research_slots = 2
       add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 1000 producer = SKT }
-  add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 producer = SKT }
+	  add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 producer = SKT }
 
   add_ideas = { 
     #POLITICS 
@@ -21,27 +21,35 @@
 
     civilian_economy
     closed_economy
-    five_percent
+    three_percent
     normal_taxes
 	cl_legal
+	lp_land_estates
 
     stagnation_growth
     border_control
-	limited_conscription
+	manpower_tribal_every_tenth
     slavery
     absolutism
 
-    no_constitution
+    sharia_constitution
     no_elections
 	
-    privileged_education
+    traditional_uluma
     theocratic_state
 	religion_sunni
+
+   hc_no_healthcare
+    law_police_force
+    inframain_no_subsidies_infrastructure
+    navinfra_no_naval_infrastructure
+    sfund_private_ventures_only
+
          #NATIONAL SPIRITS
 	
-			AF_T_small_kingdom
+			afr_large_kingdom
 			SKT_sokoto_jihad
-			AFR_history_of_colonial_resistance
+			AFR_history_of_colonial_resistance_1
 			AFR_transatlantic_consumer
 	
   }
@@ -50,7 +58,13 @@
 	  ruling_party = fundamentalism
 }
 
-SKT = { set_war_support = 0.65 }
+SKT = { 
+	set_war_support = 0.65
+	add_ideas={AF_T_Tribal_Army}
+	add_to_variable = {Tribal_army_num = 8000}
+	add_to_variable = {Tribal_horse_army_num = 2000}
+	set_country_flag = afr_jihadist_tree
+}
 
   #Diplomacy
 	add_opinion_modifier = { target = BAG modifier = AFR_fulani_jihad_conflict }
@@ -60,6 +74,41 @@ SKT = { set_war_support = 0.65 }
 	add_opinion_modifier = { target = GBG modifier = AFR_fulani_jihad_conflict }
 	add_opinion_modifier = { target = TUG modifier = AFR_fulani_jihad_conflict }
 	add_opinion_modifier = { target = DDI modifier = AFR_fulani_jihad_conflict }
+	add_opinion_modifier = { target = ADM modifier = AFR_sokoto_tributary }
+	add_opinion_modifier = { target = DSS modifier = AFR_sokoto_tributary }
+	
+  #Puppets
+	if = {
+		limit = { has_dlc = "Together for Victory" }
+		SKT = {
+			set_autonomy = {
+				target = ADM
+				autonomy_state = autonomy_afr_empire_level_2
+				freedom_level = 0.6
+			}
+			set_autonomy = {
+				target = DSS
+				autonomy_state = autonomy_afr_empire_level_3
+				freedom_level = 0.6
+			}
+		}
+	}
+	if = {
+		limit = { NOT { has_dlc = "Together for Victory" } }
+		SKT = { puppet = ADM } 
+		SKT = { puppet = DSS }
+	}
+	ADM = { 
+		set_variable = { var = afr_empire_subject_overlord value = SKT.id }
+		set_variable = { var = ADM.afr_empire_subject_loyalty_var value = 10 }
+		clamp_variable = { var = ADM.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
+	DSS = { 
+		set_variable = { var = afr_empire_subject_overlord value = SKT.id }
+		set_variable = { var = DSS.afr_empire_subject_loyalty_var value = 4 }
+		clamp_variable = { var = DSS.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
+	
 
   set_popularities = {
     anarchism = 0
@@ -76,13 +125,23 @@ SKT = { set_war_support = 0.65 }
 
   set_technology = {
 	tribaltech = 1
-	infantry_weapons = 1
+	tribal_society = 1
+	tribal_natral_economics = 1
+	tribal_crop_planting = 1
+	tribal_roads = 1
+	tribal_horse_and_cart = 1
+	tribal_weapons = 1
+	tribal_tatics = 1
+	tribal_riding = 1
+	tribal_gunpowder = 1
+	tribal_artisan = 1
+	tribal_forging = 1
+	tribal_guilds_trade = 1
+	tribal_healing_herbs = 1
 	start_build_tech = 1
+	traditional_mixed_arms = 1
+	basic_cavalry=1
 	tech_infantry_napoleonic_uniform = 1
-	tech_naval_mtg_simple_corvette_hull = 1
-    tech_naval_mtg_24_pounder_battery = 1
-    tech_naval_mtg_sails = 1
-    tech_naval_mtg_crows_nest = 1
   }
 
   # POLITICAL LEADERS
@@ -90,7 +149,7 @@ SKT = { set_war_support = 0.65 }
 create_country_leader = {
   name = "Ali Babba bin Bello"
   desc = "POLITICS_GEORGE_V_DESC"
-  picture = "gfx/leaders/Africa/generic_leader_king_3.dds"
+  picture = "gfx/leaders/SKT/Portrait_SKT_ali_babba_bin_bello.dds"
   expire = "1900.1.1"
   ideology = islamist
   traits = {

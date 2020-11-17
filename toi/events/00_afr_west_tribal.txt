@@ -1,4 +1,6 @@
 add_namespace = puppet_raise_army
+add_namespace = afr_regional_power_peace_treaty
+add_namespace = afr_regional_power_peace_treaty_reparations
 
 	#This should fix any puppet from not raising armies in war.
 	country_event = { 
@@ -7,7 +9,7 @@ add_namespace = puppet_raise_army
 		desc = puppet_raise_army.1.d
 		picture = GFX_report_event_chinese_army_training
 
-		is_triggered_only = no
+		is_triggered_only = yes
 		hidden = yes
 		trigger = {
 			is_subject = yes
@@ -16,10 +18,283 @@ add_namespace = puppet_raise_army
 			has_war = yes
 			NOT={has_country_flag = Tribal_Army_Raised}
 		}
-		mean_time_to_happen = {days = 45 }
+		#mean_time_to_happen = {days = 45 }
 
 		immediate = {
 			activate_decision = eoanb_decision_raise_tribal_army
 		}
 		
 	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.1
+		hidden = yes
+		is_triggered_only = yes
+
+		immediate = {
+			name = afr_regional_power_peace_treaty.1.a
+			FROM.FROM = { country_event = { id = afr_regional_power_peace_treaty.2 days = 1 } }
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.2
+		title = afr_regional_power_peace_treaty.2.t
+		desc = afr_regional_power_peace_treaty.2.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		trigger = {
+			AND = {
+				FROM = { NOT = { is_subject_of = ROOT } }
+				FROM = { exists = yes }
+			}
+		}
+
+		option = {
+			name = afr_regional_power_peace_treaty.2.a
+			FROM = { country_event = { id = afr_regional_power_peace_treaty.3 days = 1 } }
+			if = {
+				limit = {
+					any_owned_state = {
+						is_core_of = FROM
+						NOT = { is_core_of = ROOT }
+					}
+				}
+			}
+			else = {
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = 50
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_add_50
+			}
+		}
+		
+		option = {
+			name = afr_regional_power_peace_treaty.2.b
+			if = {
+				limit = {
+					any_owned_state = {
+						is_core_of = FROM
+						NOT = { is_core_of = ROOT }
+					}
+				}
+			}
+			else = {
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = 50
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_add_50
+			}
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.3
+		title = afr_regional_power_peace_treaty.3.t
+		desc = afr_regional_power_peace_treaty.3.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+
+		option = {
+			name = afr_regional_power_peace_treaty.3.a
+			trigger = { NOT = { has_country_flag = afr_regional_power_peace_treaty_reparations } }
+			FROM = { country_event = { id = afr_regional_power_peace_treaty.4 days = 1 } }
+			custom_effect_tooltip = afr_prosperity_mechanic_minus_50
+			add_to_variable = {
+				var = afr_prosperity_mechanic_value
+				value = -50
+			}
+		}
+		
+		option = {
+			name = afr_regional_power_peace_treaty.3.a
+			trigger = { has_country_flag = afr_regional_power_peace_treaty_reparations }
+			FROM = { country_event = { id = afr_regional_power_peace_treaty.4 days = 1 } }
+			custom_effect_tooltip = afr_prosperity_mechanic_minus_50
+			add_to_variable = {
+				var = afr_prosperity_mechanic_value
+				value = -50
+			}
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.4
+		title = afr_regional_power_peace_treaty.4.t
+		desc = afr_regional_power_peace_treaty.4.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+
+		option = {
+			name = afr_regional_power_peace_treaty.4.a
+			trigger = { FROM = { NOT = { has_country_flag = afr_regional_power_peace_treaty_reparations } } }
+			set_truce = {
+				target = FROM
+				days = 740
+			}
+			hidden_effect = {
+				set_variable = { FROM.afr_regional_power_peace_treaty@ROOT = 1 }
+				set_variable = { ROOT.afr_regional_power_peace_treaty@FROM = 1 }
+			}
+			hidden_effect = { FROM = { country_event = { id = afr_regional_power_peace_treaty.5 days = 720 } } }
+		}
+		
+		option = {
+			name = afr_regional_power_peace_treaty.4.a
+			trigger = { FROM = { has_country_flag = afr_regional_power_peace_treaty_reparations } }
+			set_truce = {
+				target = FROM
+				days = 740
+			}
+			hidden_effect = {
+				set_variable = { FROM.afr_regional_power_peace_treaty@ROOT = 1 }
+				set_variable = { ROOT.afr_regional_power_peace_treaty@FROM = 1 }
+				FROM = { clr_country_flag = afr_regional_power_peace_treaty_reparations }
+			}
+			hidden_effect = { FROM = { country_event = { id = afr_regional_power_peace_treaty_reparations.1 days = 720 } } }
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.5
+		hidden = yes
+		is_triggered_only = yes
+
+		immediate = {
+			hidden_effect = { FROM = { country_event = { id = afr_regional_power_peace_treaty.6 } } }
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty_reparations.1
+		title = afr_regional_power_peace_treaty_reparations.1.t
+		desc = afr_regional_power_peace_treaty_reparations.1.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		immediate = {
+			hidden_effect = { FROM = { country_event = { id = afr_regional_power_peace_treaty_reparations.2 } } }
+		}
+
+		option = {
+			name = afr_regional_power_peace_treaty_reparations.1.a
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty_reparations.2
+		title = afr_regional_power_peace_treaty_reparations.2.t
+		desc = afr_regional_power_peace_treaty_reparations.2.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+
+		option = {
+			name = afr_regional_power_peace_treaty_reparations.2.a
+			hidden_effect = {
+				set_truce = {
+					target = FROM
+					days = 1
+				}
+				clear_variable = FROM.afr_regional_power_peace_treaty@ROOT
+				clear_variable = ROOT.afr_regional_power_peace_treaty@FROM
+			}
+		}
+	}
+	
+	#Recurring Treaty Event
+	country_event = {
+		id = afr_regional_power_peace_treaty.6
+		title = afr_regional_power_peace_treaty.6.t
+		desc = afr_regional_power_peace_treaty.6.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+
+		option = {
+			name = afr_regional_power_peace_treaty.6.a
+			FROM = { country_event = { id = afr_regional_power_peace_treaty.7 days = 1 } }
+		}
+		
+		option = {
+			name = afr_regional_power_peace_treaty.6.b
+			FROM = { country_event = { id = afr_regional_power_peace_treaty.8 days = 1 } }
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.7
+		title = afr_regional_power_peace_treaty.7.t
+		desc = afr_regional_power_peace_treaty.7.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+
+		option = {
+			name = afr_regional_power_peace_treaty.7.a
+			FROM = { country_event = { id = afr_regional_power_peace_treaty.9 days = 1 } }
+		}
+		
+		option = {
+			name = afr_regional_power_peace_treaty.7.b
+			FROM = { country_event = { id = afr_regional_power_peace_treaty.10 days = 1 } }
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.8
+		title = afr_regional_power_peace_treaty.8.t
+		desc = afr_regional_power_peace_treaty.8.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+
+		option = {
+			name = afr_regional_power_peace_treaty.8.a
+			hidden_effect = {
+				set_truce = {
+					target = FROM
+					days = 1
+				}
+				clear_variable = FROM.afr_regional_power_peace_treaty@ROOT
+				clear_variable = ROOT.afr_regional_power_peace_treaty@FROM
+			}
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.9
+		title = afr_regional_power_peace_treaty.9.t
+		desc = afr_regional_power_peace_treaty.9.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+
+		option = {
+			name = afr_regional_power_peace_treaty.9.a
+			set_truce = {
+				target = FROM
+				days = 380
+			}
+			hidden_effect = { FROM = { country_event = { id = afr_regional_power_peace_treaty.5 days = 360 } } }
+		}
+	}
+	
+	country_event = {
+		id = afr_regional_power_peace_treaty.10
+		title = afr_regional_power_peace_treaty.10.t
+		desc = afr_regional_power_peace_treaty.10.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+
+		option = {
+			name = afr_regional_power_peace_treaty.10.a
+			hidden_effect = {
+				set_truce = {
+					target = FROM
+					days = 1
+				}
+				clear_variable = FROM.afr_regional_power_peace_treaty@ROOT
+				clear_variable = ROOT.afr_regional_power_peace_treaty@FROM
+			}
+		}
+	}
+	

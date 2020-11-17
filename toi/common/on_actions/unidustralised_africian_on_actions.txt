@@ -2,64 +2,69 @@ on_actions = {
 
 	on_startup = {
 		effect = {
-			every_country = {
-				limit = { 
-                    OR = {
-						tag = KON
-						tag = TIP
-						tag = BAB
-						tag = SNS
-						tag = KBO
-						tag = WDD
-						tag = BRG
-						tag = DAH
-						tag = ASH
-						tag = FTJ
-					}
+			if = {
+                limit = {
+                    has_start_date < 1858.1.1
                 }
-                set_variable = { industrisation_progress = 0 }
-                set_variable = { industrisation_progress_max = 100 }
-            }
+				every_country = {
+					limit = { 
+						OR = {
+							tag = KON
+							tag = TIP
+							tag = BAB
+							tag = SNS
+							tag = KBO
+							tag = WDD
+							tag = BRG
+							tag = DAH
+							tag = ASH
+							tag = FTJ
+						}
+					}
+					set_variable = { industrisation_progress = 0 }
+					set_variable = { industrisation_progress_max = 100 }
+				}
+			}
 			every_country = {
 				limit = { 
 					has_idea = afr_colonial_power
-                }
-                set_variable = { colonial_power = 15 }
-				set_variable = { colonial_power_rate = 1 }
+				}
+				set_variable = { colonial_power = 15 }
+				set_variable = { colonial_power_factory_mod = 8 }
 				set_variable = { colonial_power_max = num_of_factories }
-				multiply_variable = { var = colonial_power_max value = 8 }
+				multiply_variable = { var = colonial_power_max value = colonial_power_factory_mod }
 				set_variable = { colonial_power_max_add = 0}
 				add_to_variable = { colonial_power_max = colonial_power_max_add }
-				set_variable = { colonial_power_rate_factor = 1}
-            }
+			}
 		}
 	}
 	on_daily={
 		effect = {
 			if = {
 				limit = { 
-                    has_idea = AF_T_small_kingdom
-                }
-				#clamp_variable = { var = industrisation_progress min = 0 max = 100 }
-			}
-			if = {
-				limit = { 
                     has_idea = afr_colonial_power
                 }
-				set_variable={ cp_rate_temp = colonial_power_rate}
-				multiply_variable = { cp_rate_temp = colonial_power_rate_factor }
-				round_variable = cp_rate_temp
-                add_to_variable = { var = colonial_power value = cp_rate_temp }
-				#add_to_variable = { var = colonial_power value = colonial_power_rate }
-				#subtract_from_variable = { var = colonial_power value = colonial_power_rate }
-				clear_variable = cp_rate_temp
+				# set_variable={ cp_rate_temp = colonial_power_rate}
+				# multiply_variable = { cp_rate_temp = colonial_power_rate_factor }
+				# round_variable = cp_rate_temp
+                # add_to_variable = { var = colonial_power value = cp_rate_temp }
+				# #add_to_variable = { var = colonial_power value = colonial_power_rate }
+				# #subtract_from_variable = { var = colonial_power value = colonial_power_rate }
+				# clear_variable = cp_rate_temp
 				
-				set_variable = { colonial_power_max = num_of_factories }
-				multiply_variable = { var = colonial_power_max value = 8 }
-				add_to_variable = { colonial_power_max = colonial_power_max_add }
-				#set_variable = { colonial_power_max = temp_cp_calc }
+				set_variable={ cp_max_increase = num_of_factories}
+				multiply_variable = { var = cp_max_increase value = 8 }
+				add_to_variable = { cp_max_increase = colonial_power_max_add }#calcualate new max
+				set_variable={ cp_rate_temp = cp_max_increase}
+				subtract_from_variable = { var = cp_rate_temp value = colonial_power_max }#find the difference between the old and new max
+				set_variable = { colonial_power_max = cp_max_increase }#set the current max to the new max
+				clamp_variable = { var = cp_rate_temp min = 0 max = colonial_power_max }#clamp the change to the maxim in case of a negative addition
+				add_to_variable = { colonial_power = cp_rate_temp }#add the increase of the max to the normal pool
 				
-				clamp_variable = { var = colonial_power min = 0 max = colonial_power_max }
+				clamp_variable = { var = colonial_power min = 0 max = colonial_power_max }#clamp to normalize
+				
+				clear_variable = cp_rate_temp#remove the variables, i could use temp_vars but it can bug out
+				clear_variable = cp_max_increase
 			}
 		}
 	}

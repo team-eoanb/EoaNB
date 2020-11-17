@@ -1,0 +1,671 @@
+# Free States of America FT Civil War / Reconstruction Era
+# Civil War ~ 4 Years
+# Reconstruction ~ 10 Years
+
+focus_tree = {
+  id = mhc_victorian_era
+  country = {
+    factor = 0
+    modifier = {
+      add = 10
+      tag = MHC
+    }
+  }
+
+  #continuous_focus_position = {x = 600 y = 1000 }
+
+  default = no
+  
+	focus = {
+		id = MHC_our_neighbors
+		icon = GFX_goal_focus_continent_north_america
+		x = 14
+		y = 0
+		cost = 75
+		ai_will_do = {
+		  factor = 1
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_emergency_elections_concluded_tooltip
+				has_country_flag = MHC_emergency_elections_concluded_flag
+			}
+		}
+		completion_reward = {
+			
+		}
+	}
+	
+	focus = {
+		id = MHC_the_successor_question
+		icon = GFX_focus_Usurp_Throne
+		relative_position_id = MHC_our_neighbors
+		x = -1
+		y = 1
+		cost = 75
+		prerequisite = { 
+			focus = MHC_our_neighbors
+		}
+		completion_reward = {
+			country_event = { id = MHC_the_successor_question.1 }
+		}
+		ai_will_do = {
+		  factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_trade_diplomacy
+		icon = GFX_goal_generic_intelligence_exchange
+		relative_position_id = MHC_our_neighbors
+		x = 1
+		y = 1
+		cost = 75
+		available = {
+			has_completed_focus = MHC_the_successor_question
+		}
+		prerequisite = { 
+			focus = MHC_our_neighbors
+		}
+		completion_reward = {
+			country_event = { id = MHC_trade_diplomacy.1 }
+		}
+		ai_will_do = {
+		  factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_propose_new_england_treaty
+		icon = GFX_goal_SWE_ally_with_left
+		relative_position_id = MHC_our_neighbors
+		x = 4
+		y = 2
+		cost = 75
+		available = {
+			if = {
+				limit = { NEG = { has_country_flag = is_successor_state_of_usa_flag } }
+				MHC = {
+					custom_trigger_tooltip = {
+						tooltip = not_successor_state_tooltip
+						has_country_flag = not_successor_state_of_usa_flag
+					}
+				}
+			}
+			else_if = {
+				limit = { has_country_flag = is_successor_state_of_usa_flag }
+				NEG = {
+					custom_trigger_tooltip = {
+						tooltip = not_successor_state_tooltip
+						has_country_flag = not_successor_state_of_usa_flag
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					NEG = { has_country_flag = not_successor_state_of_usa_flag }
+					MHC = { has_country_flag = not_successor_state_of_usa_flag }
+				}
+				MHC = {
+					custom_trigger_tooltip = {
+						tooltip = not_successor_state_tooltip
+						has_country_flag = not_successor_state_of_usa_flag
+					}
+				}
+				NEG = {
+					custom_trigger_tooltip = {
+						tooltip = not_successor_state_tooltip
+						has_country_flag = not_successor_state_of_usa_flag
+					}
+				}
+			}
+			else = {
+				OR = {
+					MHC = {
+						custom_trigger_tooltip = {
+							tooltip = not_successor_state_tooltip
+							has_country_flag = not_successor_state_of_usa_flag
+						}
+					}
+					NEG = {
+						custom_trigger_tooltip = {
+							tooltip = not_successor_state_tooltip
+							has_country_flag = not_successor_state_of_usa_flag
+						}
+					}
+				}
+			}
+		}
+		prerequisite = { 
+			focus = MHC_the_successor_question
+		}
+		prerequisite = { 
+			focus = MHC_trade_diplomacy
+		}
+		completion_reward = {
+			country_event = { id = MHC_propose_new_england_treaty.1 }
+		}
+		ai_will_do = {
+		  factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_propose_manhattan_connecticut_railroad
+		icon = GFX_goal_focus_railroad_development
+		relative_position_id = MHC_propose_new_england_treaty
+		x = 0
+		y = 1
+		cost = 75
+		prerequisite = { 
+			focus = MHC_propose_new_england_treaty
+		}
+		completion_reward = {
+			country_event = { id = MHC_propose_manhattan_connecticut_railroad.1 }
+		}
+		ai_will_do = {
+		  factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_propose_free_movement_policies
+		icon = GFX_goal_focus_support_liberalism
+		relative_position_id = MHC_propose_new_england_treaty
+		x = 0
+		y = 2
+		cost = 75
+		available = { has_country_flag = MHC_manhattan_connecticut_railroad_finished }
+		prerequisite = { 
+			focus = MHC_propose_manhattan_connecticut_railroad
+		}
+		completion_reward = {
+			country_event = { id = MHC_propose_free_movement_policies.1 }
+		}
+		ai_will_do = {
+		  factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_achieve_economic_interdependence 
+		icon = GFX_focus_generic_the_giant_wakes
+		relative_position_id = MHC_propose_new_england_treaty
+		x = 0
+		y = 3
+		cost = 75
+		prerequisite = { 
+			focus = MHC_propose_free_movement_policies
+		}
+		completion_reward = {
+			country_event = { id = MHC_achieve_economic_interdependence.1 }
+		}
+		ai_will_do = {
+		  factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_support_general_strikes_abroad
+		icon = GFX_focus_YUG_pan_slavic_congress
+		relative_position_id = MHC_our_neighbors
+		x = 1
+		y = 2
+		cost = 75
+		prerequisite = { 
+			focus = MHC_the_successor_question
+		}
+		prerequisite = { 
+			focus = MHC_trade_diplomacy
+		}
+		completion_reward = {
+			
+		}
+		ai_will_do = {
+		  factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_support_anti_slavery_movements_abroad
+		icon = GFX_goal_continuous_boost_freedom
+		relative_position_id = MHC_our_neighbors
+		x = -1
+		y = 2
+		cost = 75
+		prerequisite = { 
+			focus = MHC_the_successor_question
+		}
+		prerequisite = { 
+			focus = MHC_trade_diplomacy
+		}
+		completion_reward = {
+			
+		}
+		ai_will_do = {
+		  factor = 1
+		}
+	}
+
+	focus = {
+		id = MHC_american_civil_war
+		icon = GFX_goal_focus_american_civil_war
+		x = 7
+		y = 0
+		cost = 14
+		ai_will_do = {
+		  factor = 1
+		}
+		completion_reward = {
+			
+		}
+		bypass = {
+			has_war = no
+		}
+	}
+  
+	focus = {
+		id = MHC_emergency_elections
+		icon = GFX_goal_focus_elections
+		relative_position_id = MHC_american_civil_war
+		x = 0
+		y = 1
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			
+		}
+		prerequisite = { 
+			focus = MHC_american_civil_war
+		}
+		completion_reward = {
+			ROOT = { country_event = { id = MHC_emergency_elections_event.1 } }
+			hidden_effect = {
+				MHC = {
+					set_variable = { var = council_leadership_score_social_egalitarianism 	value = 100 }
+					set_variable = { var = council_leadership_score_anarchism 				value = 100 }
+					set_variable = { var = council_leadership_score_collectivist_socialism 	value = 100 }
+					set_variable = { var = council_leadership_score_vanguard_communism 		value = 100 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_revolutionary_council_vote_militarism
+		icon = GFX_goal_focus_reformed_army
+		relative_position_id = MHC_emergency_elections
+		x = -3
+		y = 1
+		cost = 75
+		available_if_capitulated = no
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_emergency_elections_initiated_tooltip
+				has_country_flag = MHC_emergency_elections_initiated_flag
+			}
+		}
+		prerequisite = { 
+			focus = MHC_emergency_elections
+		}
+		completion_reward = {
+			custom_effect_tooltip = MHC_revolutionary_council_vote_militarism_tooltip
+			hidden_effect = {
+				MHC = {
+					country_event = { id = MHC_revolutionary_council_elections_event.1 }
+					country_event = { id = MHC_revolutionary_council_elections_event.2 days = 7 }
+					country_event = { id = MHC_revolutionary_council_elections_event.3 days = 14 }
+					country_event = { id = MHC_revolutionary_council_elections_event.4 days = 21 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_revolutionary_council_vote_bill_of_rights
+		icon = GFX_goal_SWE_liberty
+		relative_position_id = MHC_emergency_elections
+		x = -1
+		y = 1
+		cost = 75
+		available_if_capitulated = no
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_emergency_elections_initiated_tooltip
+				has_country_flag = MHC_emergency_elections_initiated_flag
+			}
+		}
+		prerequisite = { 
+			focus = MHC_emergency_elections
+		}
+		completion_reward = {
+			custom_effect_tooltip = MHC_revolutionary_council_vote_bill_of_rights_tooltip
+			hidden_effect = {
+				MHC = {
+					country_event = { id = MHC_revolutionary_council_elections_event.5 }
+					country_event = { id = MHC_revolutionary_council_elections_event.6 days = 7 }
+					country_event = { id = MHC_revolutionary_council_elections_event.7 days = 14 }
+					country_event = { id = MHC_revolutionary_council_elections_event.8 days = 21 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_revolutionary_council_vote_internationalism
+		icon = GFX_focus_usa_socialist_internationalism
+		relative_position_id = MHC_emergency_elections
+		x = 1
+		y = 1
+		cost = 75
+		available_if_capitulated = no
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_emergency_elections_initiated_tooltip
+				has_country_flag = MHC_emergency_elections_initiated_flag
+			}
+		}
+		prerequisite = { 
+			focus = MHC_emergency_elections
+		}
+		completion_reward = {
+			custom_effect_tooltip = MHC_revolutionary_council_vote_internationalism_tooltip
+			hidden_effect = {
+				MHC = {
+					country_event = { id = MHC_revolutionary_council_elections_event.9 }
+					country_event = { id = MHC_revolutionary_council_elections_event.10 days = 7 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_revolutionary_council_vote_capitalism
+		icon = GFX_goal_focus_working_hours
+		relative_position_id = MHC_emergency_elections
+		x = 3
+		y = 1
+		cost = 75
+		available_if_capitulated = no
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_emergency_elections_initiated_tooltip
+				has_country_flag = MHC_emergency_elections_initiated_flag
+			}
+		}
+		prerequisite = { 
+			focus = MHC_emergency_elections
+		}
+		completion_reward = {
+			custom_effect_tooltip = MHC_revolutionary_council_vote_capitalism_tooltip
+			hidden_effect = {
+				MHC = {
+					country_event = { id = MHC_revolutionary_council_elections_event.11 }
+					country_event = { id = MHC_revolutionary_council_elections_event.12 days = 7 }
+					country_event = { id = MHC_revolutionary_council_elections_event.13 days = 14 }
+					country_event = { id = MHC_revolutionary_council_elections_event.14 days = 21 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_emergency_elections_concluded
+		icon = GFX_focus_generic_soviet_politics
+		relative_position_id = MHC_emergency_elections
+		x = 0
+		y = 2
+		cost = 75
+		available_if_capitulated = no
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_voted_militarism_tooltip
+				has_country_flag = MHC_revolutionary_council_voted_militarism_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_voted_bill_of_rights_tooltip
+				has_country_flag = MHC_revolutionary_council_voted_bill_of_rights_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_voted_capitalism_tooltip
+				has_country_flag = MHC_revolutionary_council_voted_capitalism_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_voted_foreign_tooltip
+				has_country_flag = MHC_revolutionary_council_voted_foreign_flag
+			}
+		}
+		prerequisite = { 
+			focus = MHC_revolutionary_council_vote_militarism
+		}
+		prerequisite = { 
+			focus = MHC_revolutionary_council_vote_bill_of_rights
+		}
+		prerequisite = { 
+			focus = MHC_revolutionary_council_vote_internationalism
+		}
+		prerequisite = { 
+			focus = MHC_revolutionary_council_vote_capitalism
+		}
+		completion_reward = {
+			MHC = { country_event = { id = MHC_emergency_elections_event.2 } }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_social_egalitarianism_victory
+		icon = GFX_goal_focus_support_social_egalitarianism
+		relative_position_id = MHC_emergency_elections
+		x = 3
+		y = 3
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_voted_party_tooltip
+				has_country_flag = MHC_revolutionary_council_voted_party_flag
+			}
+			has_government = social_egalitarianism
+		}
+		prerequisite = { 
+			focus = MHC_emergency_elections_concluded
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = revolutionary_government
+				add_idea = presidential_republic
+			}
+			hidden_effect = {
+				add_ideas = {
+					NA_B_executive_branch_idea
+					NA_B_congressional_branch_idea
+					NA_B_judicial_branch_idea
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_anarchism_victory
+		icon = GFX_goal_focus_revolutionary_council
+		relative_position_id = MHC_emergency_elections
+		x = 1
+		y = 3
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_voted_party_tooltip
+				has_country_flag = MHC_revolutionary_council_voted_party_flag
+			}
+			has_government = anarchism
+		}
+		prerequisite = { 
+			focus = MHC_emergency_elections_concluded
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = revolutionary_government
+				add_idea = council_communism
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_collectivist_socialism_victory
+		icon = GFX_focus_prc_agrarian_socialism
+		relative_position_id = MHC_emergency_elections
+		x = -1
+		y = 3
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_voted_party_tooltip
+				has_country_flag = MHC_revolutionary_council_voted_party_flag
+			}
+			has_government = collectivist_socialism
+		}
+		prerequisite = { 
+			focus = MHC_emergency_elections_concluded
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = revolutionary_government
+				add_idea = council_communism
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_vanguard_communism_victory
+		icon = GFX_goal_focus_revolutionary_government
+		relative_position_id = MHC_emergency_elections
+		x = -3
+		y = 3
+		cost = 75
+		available_if_capitulated = no
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_voted_party_tooltip
+				has_country_flag = MHC_revolutionary_council_voted_party_flag
+			}
+			has_government = vanguard_communism
+		}
+		prerequisite = { 
+			focus = MHC_emergency_elections_concluded
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = revolutionary_government
+				add_idea = socialist_state
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_revolutionary_council_disjointed
+		icon = GFX_goal_anti_comintern_pact
+		relative_position_id = MHC_emergency_elections
+		x = -1
+		y = 4
+		cost = 75
+		available_if_capitulated = no
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_emergency_elections_concluded_tooltip
+				has_country_flag = MHC_emergency_elections_concluded_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_disjointed_tooltip
+				has_country_flag = MHC_revolutionary_council_disjointed_flag
+				NOT = { has_country_flag = MHC_revolutionary_council_risk_of_disjoint_flag }
+			}
+		}
+		prerequisite = { 
+			focus = MHC_vanguard_communism_victory
+			focus = MHC_collectivist_socialism_victory
+			focus = MHC_anarchism_victory
+			focus = MHC_social_egalitarianism_victory
+		}
+		completion_reward = {
+      
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+	focus = {
+		id = MHC_revolutionary_council_unified
+		icon = GFX_goal_support_communism
+		relative_position_id = MHC_emergency_elections
+		x = 1
+		y = 4
+		cost = 75
+		available_if_capitulated = no
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MHC_emergency_elections_concluded_tooltip
+				has_country_flag = MHC_emergency_elections_concluded_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = MHC_revolutionary_council_unified_tooltip
+				has_country_flag = MHC_revolutionary_council_unified_flag
+				NOT = { has_country_flag = MHC_revolutionary_council_risk_of_disjoint_flag }
+			}
+		}
+		prerequisite = { 
+			focus = MHC_vanguard_communism_victory
+			focus = MHC_collectivist_socialism_victory
+			focus = MHC_anarchism_victory
+			focus = MHC_social_egalitarianism_victory
+		}
+		completion_reward = {
+      
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	
+}

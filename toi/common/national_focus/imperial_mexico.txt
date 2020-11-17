@@ -1,0 +1,2693 @@
+focus_tree = {
+	id = imperial_mexico
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = MXE
+		}
+	}
+
+	### Economy
+
+    focus = {
+		id = MXE_Mexican_Economy
+		icon = GFX_focus_generic_self_management
+		x = 42
+		y = 0
+		cost = 14
+		available = {
+			date > 1861.12.08
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = humanities_tech }
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = mechanical_engineering_tech }
+			add_political_power = 60
+			add_ideas = MXE_idea_heavy_french_influence
+		}
+	}
+
+	## Banking System
+
+	focus = {
+		id = MXE_Banking_In_Mexico
+		icon = GFX_goal_focus_banks
+		x = 36
+		y = 1
+		cost = 14
+		prerequisite = {
+			focus = MXE_Mexican_Economy
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 1.5 uses = 1 category = humanities_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Invite_Foreign_Banks
+		icon = GFX_goal_tripartite_pact
+		x = 35
+		y = 2
+		cost = 35
+		prerequisite = {
+			focus = MXE_Banking_In_Mexico
+		}
+		mutually_exclusive = { focus = MXE_Promote_Mexican_Banking }
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+                factor = 100000000000000000000000000000000000000
+                is_historical_focus_on = yes
+            }
+		}
+		completion_reward = {
+			reverse_add_opinion_modifier = { target = ENG modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = FRA modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = USA modifier = eoanb_om_RUS_increase_very_small }
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = humanities_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Societe_Generale
+		icon = GFX_goal_focus_prussia_paris_declaration
+		x = 34
+		y = 3
+		cost = 35
+		prerequisite = {
+			focus = MXE_Invite_Foreign_Banks
+		}
+		available = {
+		    date > 1864.05.04
+		    NOT = { has_war_with = FRA }
+		}
+		mutually_exclusive = { focus = MXE_London_Bank_of_Mexico }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			remove_ideas = { MXE_idea_no_banking_system }
+			### Increase French Influence
+			if = {
+        limit = { has_idea = MXE_idea_massive_french_influence }
+        if = {
+					limit = { has_dlc = "Together for Victory" }
+					FRA = {
+						set_autonomy = {
+							target = MXE
+							autonomous_state = autonomy_dominion
+							freedom_level = 0.01
+						}
+					}
+				}
+				else = {
+					FRA = { puppet = MXE }
+				}
+            }
+            if = {
+                limit = { has_idea = MXE_idea_huge_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_huge_french_influence
+                    add_idea = MXE_idea_massive_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_heavy_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_heavy_french_influence
+                    add_idea = MXE_idea_huge_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_medium_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_medium_french_influence
+                    add_idea = MXE_idea_heavy_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_small_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_small_french_influence
+                    add_idea = MXE_idea_medium_french_influence
+                }
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_London_Bank_of_Mexico
+		icon = GFX_goal_focus_government_glass
+		x = 36
+		y = 3
+		cost = 35
+		prerequisite = {
+			focus = MXE_Invite_Foreign_Banks
+		}
+		available = { NOT = { has_war_with = ENG } }
+		mutually_exclusive = { focus = MXE_Societe_Generale }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+                factor = 100000000000000000000000000000000000000
+                is_historical_focus_on = yes
+            }
+		}
+		completion_reward = {
+			remove_ideas = { MXE_idea_no_banking_system }
+			reverse_add_opinion_modifier = { target = ENG modifier = eoanb_om_RUS_increase_small }
+		}
+	}
+
+	focus = {
+		id = MXE_Promote_Mexican_Banking
+		icon = GFX_goal_focus_the_elite
+		x = 37
+		y = 2
+		cost = 70
+		prerequisite = {
+			focus = MXE_Banking_In_Mexico
+		}
+		mutually_exclusive = { focus = MXE_Invite_Foreign_Banks }
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = humanities_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Reestablish_Banco_De_Avio
+		icon = GFX_goal_focus_enact_law
+		x = 37
+		y = 4
+		cost = 35
+		prerequisite = {
+			focus = MXE_Promote_Mexican_Banking
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			remove_ideas = { MXE_idea_no_banking_system }
+			add_political_power = 50
+			### Decrease French Influence
+			if = {
+                limit = { has_idea = MXE_idea_small_french_influence }
+                add_stability = 0.03
+            }
+            if = {
+                limit = { has_idea = MXE_idea_medium_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_medium_french_influence
+                    add_idea = MXE_idea_small_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_heavy_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_heavy_french_influence
+                    add_idea = MXE_idea_medium_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_huge_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_huge_french_influence
+                    add_idea = MXE_idea_heavy_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_massive_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_massive_french_influence
+                    add_idea = MXE_idea_huge_french_influence
+                }
+            }
+		}
+	}
+
+	## Railways
+
+	focus = {
+		id = MXE_Mexican_Railway_System
+		icon = GFX_goal_focus_railroad_development
+		x = 40
+		y = 2
+		cost = 14
+		prerequisite = {
+			focus = MXE_Mexican_Economy
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = transport_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Ask_For_French_Support
+		icon = GFX_goal_focus_ally_FRA
+		x = 39
+		y = 3
+		cost = 25
+		prerequisite = {
+			focus = MXE_Mexican_Railway_System
+		}
+		mutually_exclusive = { focus = MXE_Repair_Railroads_By_Yourself }
+		available = { NOT = { has_war_with = FRA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+                factor = 100000000000000000000000000000000000000
+                is_historical_focus_on = yes
+            }
+		}
+		completion_reward = {
+			### Increase French Influence
+			if = {
+        limit = { has_idea = MXE_idea_massive_french_influence }
+        if = {
+					limit = { has_dlc = "Together for Victory" }
+					FRA = {
+						set_autonomy = {
+							target = MXE
+							autonomous_state = autonomy_dominion
+							freedom_level = 0.01
+						}
+					}
+				}
+				else = {
+					FRA = { puppet = MXE }
+				}
+            }
+            if = {
+                limit = { has_idea = MXE_idea_huge_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_huge_french_influence
+                    add_idea = MXE_idea_massive_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_heavy_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_heavy_french_influence
+                    add_idea = MXE_idea_huge_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_medium_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_medium_french_influence
+                    add_idea = MXE_idea_heavy_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_small_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_small_french_influence
+                    add_idea = MXE_idea_medium_french_influence
+                }
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_Repair_Railroads_By_Yourself
+		icon = GFX_goal_generic_production
+		x = 41
+		y = 3
+		cost = 25
+		prerequisite = {
+			focus = MXE_Mexican_Railway_System
+		}
+		mutually_exclusive = { focus = MXE_Ask_For_French_Support }
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			### Decrease French Influence
+			if = {
+                limit = { has_idea = MXE_idea_small_french_influence }
+                add_stability = 0.03
+            }
+            if = {
+                limit = { has_idea = MXE_idea_medium_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_medium_french_influence
+                    add_idea = MXE_idea_small_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_heavy_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_heavy_french_influence
+                    add_idea = MXE_idea_medium_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_huge_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_huge_french_influence
+                    add_idea = MXE_idea_heavy_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_massive_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_massive_french_influence
+                    add_idea = MXE_idea_huge_french_influence
+                }
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_The_Imperial_Mexican_Railway_Company
+		icon = GFX_goal_generic_production2
+		x = 40
+		y = 4
+		cost = 45
+		prerequisite = {
+			focus = MXE_Repair_Railroads_By_Yourself
+			focus = MXE_Ask_For_French_Support
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = 35
+			custom_effect_tooltip = MXE_imrc_tt
+		}
+	}
+
+	focus = {
+		id = MXE_French_Engineers
+		icon = GFX_goal_focus_merchants_french
+		x = 38
+		y = 5
+		cost = 35
+		prerequisite = {
+			focus = MXE_Ask_For_French_Support
+		}
+		prerequisite = {
+			focus = MXE_The_Imperial_Mexican_Railway_Company
+		}
+		mutually_exclusive = {
+			focus = MXE_Foreign_Engineers
+			focus = MXE_Domestic_Engineers
+		}
+		available = { NOT = { has_war_with = FRA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.85 uses = 2 category = transport_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Foreign_Engineers
+		icon = GFX_goal_focus_foreign_diplomacy
+		x = 40
+		y = 5
+		cost = 35
+		prerequisite = {
+			focus = MXE_The_Imperial_Mexican_Railway_Company
+		}
+		mutually_exclusive = {
+			focus = MXE_Domestic_Engineers
+			focus = MXE_French_Engineers
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+                factor = 100000000000000000000000000000000000000
+                is_historical_focus_on = yes
+            }
+		}
+		completion_reward = {
+			custom_effect_tooltip = MXE_hire_engineers_tt
+			add_tech_bonus = { bonus = 1 uses = 1 category = transport_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Domestic_Engineers
+		icon = GFX_focus_research2
+		x = 42
+		y = 5
+		cost = 70
+		prerequisite = {
+			focus = MXE_Repair_Railroads_By_Yourself
+		}
+		prerequisite = {
+			focus = MXE_The_Imperial_Mexican_Railway_Company
+		}
+		mutually_exclusive = {
+			focus = MXE_Foreign_Engineers
+			focus = MXE_French_Engineers
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.35 uses = 2 category = transport_tech }
+			add_political_power = 35
+		}
+	}
+
+	focus = {
+		id = MXE_Railway_Expansion_1
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 40
+		y = 6
+		cost = 45
+		prerequisite = {
+			focus = MXE_French_Engineers
+			focus = MXE_Foreign_Engineers
+			focus = MXE_Domestic_Engineers
+		}
+		available = {
+			277 = { is_controlled_by = MXE }
+			476 = { is_controlled_by = MXE }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			unlock_decision_tooltip = MXE_decision_vic_Railway_1
+		}
+	}
+
+	focus = {
+		id = MXE_Railway_Expansion_2
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 40
+		y = 7
+		cost = 45
+		prerequisite = {
+			focus = MXE_Railway_Expansion_1
+		}
+		available = {
+			477 = { is_controlled_by = MXE }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			unlock_decision_tooltip = MXE_decision_vic_Railway_2
+		}
+	}
+
+	## Migration
+
+	focus = {
+		id = MXE_Immigration
+		icon = GFX_goal_generic_intelligence_exchange
+		x = 44
+		y = 2
+		cost = 14
+		prerequisite = {
+			focus = MXE_Mexican_Economy
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = 65
+		}
+	}
+
+	focus = {
+		id = MXE_Heavily_Regulated_Immigration
+		icon = GFX_goal_focus_decentralisation_power
+		x = 43
+		y = 3
+		cost = 35
+		prerequisite = {
+			focus = MXE_Immigration
+		}
+		mutually_exclusive = { focus = MXE_Immigration_Office }
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			reverse_add_opinion_modifier = { target = FRA modifier = eoanb_om_RUS_decrease_small }
+			### Decrease French Influence
+			if = {
+                limit = { has_idea = MXE_idea_small_french_influence }
+                add_stability = 0.03
+            }
+            if = {
+                limit = { has_idea = MXE_idea_medium_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_medium_french_influence
+                    add_idea = MXE_idea_small_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_heavy_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_heavy_french_influence
+                    add_idea = MXE_idea_medium_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_huge_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_huge_french_influence
+                    add_idea = MXE_idea_heavy_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_massive_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_massive_french_influence
+                    add_idea = MXE_idea_huge_french_influence
+                }
+            }
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = MXE_Promote_National_Unity
+		icon = GFX_goal_generic_national_unity
+		x = 43
+		y = 4
+		cost = 70
+		prerequisite = {
+			focus = MXE_Heavily_Regulated_Immigration
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = 35
+			add_war_support = 0.07
+		}
+	}
+
+	focus = {
+		id = MXE_Immigration_Office
+		icon = GFX_focus_generic_treaty
+		x = 45
+		y = 3
+		cost = 70
+		prerequisite = {
+			focus = MXE_Immigration
+		}
+		mutually_exclusive = { focus = MXE_Heavily_Regulated_Immigration }
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+                factor = 100000000000000000000000000000000000000
+                is_historical_focus_on = yes
+            }
+		}
+		completion_reward = {
+			add_political_power = 90
+			### Increase French Influence
+			if = {
+        limit = { has_idea = MXE_idea_massive_french_influence }
+        if = {
+					limit = { has_dlc = "Together for Victory" }
+					FRA = {
+						set_autonomy = {
+							target = MXE
+							autonomous_state = autonomy_dominion
+							freedom_level = 0.01
+						}
+					}
+				}
+				else = {
+					FRA = { puppet = MXE }
+				}
+            }
+            if = {
+                limit = { has_idea = MXE_idea_huge_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_huge_french_influence
+                    add_idea = MXE_idea_massive_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_heavy_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_heavy_french_influence
+                    add_idea = MXE_idea_huge_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_medium_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_medium_french_influence
+                    add_idea = MXE_idea_heavy_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_small_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_small_french_influence
+                    add_idea = MXE_idea_medium_french_influence
+                }
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_European_Immigrants
+		icon = GFX_goal_focus_continent_west_europe
+		x = 45
+		y = 5
+		cost = 35
+		prerequisite = {
+			focus = MXE_Immigration_Office
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.45 uses = 2 category = humanities_tech }
+			add_tech_bonus = { bonus = 0.35 uses = 3 category = mechanical_engineering_tech }
+			add_tech_bonus = { bonus = 0.35 uses = 2 category = process_engineering_tech }
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = electronics_devices_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Dixie_Immigrants
+		icon = GFX_goal_focus_continent_north_america
+		x = 45
+		y = 6
+		cost = 35
+		prerequisite = {
+			focus = MXE_European_Immigrants
+		}
+		available = {
+			USA = { has_country_flag = USASoaring_Eagle }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = USA modifier = eoanb_om_RUS_decrease_small }
+			add_tech_bonus = { bonus = 0.65 uses = 2 category = infantry_weapons }
+			add_tech_bonus = { bonus = 0.75 uses = 1 category = artillery }
+			random_owned_controlled_state = {
+			  	prioritize = { 1114 }
+			  	add_manpower = 2245
+			}
+			custom_effect_tooltip = MXE_vic_csa_advisors_tt
+
+			# Add Joseph O. Shelby as MHC
+			set_temp_variable = { temp_advisor_frame = 6 }
+			set_temp_variable = { temp_advisor_trait = 42 }
+			mhc_add_army_advisor = yes
+		}
+	}
+
+	## Trade
+
+	focus = {
+		id = MXE_Cotton_Trade
+		icon = GFX_goal_focus_cotton
+		x = 48
+		y = 1
+		cost = 14
+		prerequisite = {
+			focus = MXE_Mexican_Economy
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = 55
+			random_owned_controlled_state = {
+				add_resource = {
+					type = cotton
+					amount = 3
+				}
+			}
+			random_owned_controlled_state = {
+				add_resource = {
+					type = cotton
+					amount = 4
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_Supply_Dixie
+		icon = GFX_goal_focus_confederate_collaboration
+		x = 47
+		y = 2
+		cost = 15
+		prerequisite = {
+			focus = MXE_Cotton_Trade
+		}
+		available = {
+			CSA = {
+				exists = yes
+				has_war = yes
+			}
+			NOT = { has_war_with = CSA }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			add_stability = 0.02
+			add_political_power = 35
+			add_manpower = -3000
+			CSA = { add_manpower = 3000 }
+			send_equipment = {
+    			equipment = infantry_equipment
+   			 	amount = 150
+    			target = CSA
+			}
+			add_opinion_modifier = { target = CSA modifier = eoanb_om_RUS_increase_small }
+			reverse_add_opinion_modifier = { target = CSA modifier = eoanb_om_RUS_increase_small }
+		}
+	}
+
+	focus = {
+		id = MXE_Smuggle_CSA_Goods
+		icon = GFX_goal_focus_recognize_csa
+		x = 47
+		y = 3
+		cost = 45
+		prerequisite = {
+			focus = MXE_Supply_Dixie
+		}
+		available = {
+			CSA = {
+				exists = yes
+				has_war = yes
+			}
+			NOT = { has_war_with = CSA }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+			add_tech_bonus = { bonus = 0.5 uses = 2 category = biochemistry_tech }
+			add_equipment_to_stockpile = {
+    			type = convoy
+    			amount = 35
+    			producer = CSA
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_Matamoros_Port
+		icon = GFX_focus_generic_industry_3
+		x = 47
+		y = 4
+		cost = 45
+		prerequisite = {
+			focus = MXE_Smuggle_CSA_Goods
+		}
+		available = {
+			CSA = {
+				exists = yes
+				has_war = yes
+			}
+			NOT = { has_war_with = CSA }
+			controls_state = 479
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			479 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 5015
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_Trade_ENG
+		icon = GFX_goal_focus_merchants_british
+		x = 49
+		y = 2
+		cost = 45
+		prerequisite = {
+			focus = MXE_Cotton_Trade
+		}
+		mutually_exclusive = { focus = MXE_Trade_FRA }
+		available = { NOT = { has_war_with = ENG } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			reverse_add_opinion_modifier = { target = ENG modifier = eoanb_om_RUS_increase_small }
+			ENG = { add_political_power = 25 }
+			add_political_power = 45
+		}
+	}
+
+	focus = {
+		id = MXE_Open_Market
+		icon = GFX_goal_focus_support_liberalism
+		x = 50
+		y = 3
+		cost = 70
+		prerequisite = {
+			focus = MXE_Trade_ENG
+			focus = MXE_Trade_FRA
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			reverse_add_opinion_modifier = { target = USA modifier = eoanb_om_RUS_increase_very_small }
+			if = {
+                limit = { has_idea = free_trade }
+                add_political_power = 100
+            }
+            if = {
+                limit = { has_idea = export_focus }
+                add_political_power = 60
+            }
+            if = {
+                limit = { has_idea = limited_exports }
+                swap_ideas = {
+                    remove_idea = limited_exports
+                    add_idea = export_focus
+                }
+            }
+            if = {
+                limit = { has_idea = closed_economy }
+                swap_ideas = {
+                    remove_idea = closed_economy
+                    add_idea = export_focus
+                }
+                add_political_power = -40
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_Foreign_Investors
+		icon = GFX_goal_focus_international_investments
+		x = 50
+		y = 6
+		cost = 70
+		prerequisite = {
+			focus = MXE_Open_Market
+		}
+		prerequisite = {
+			focus = MXE_European_Immigrants
+		}
+		available = {}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_timed_idea = {
+                idea = MXE_idea_invite_investors
+                days = 1460
+            }
+            add_tech_bonus = { bonus = 0.75 uses = 1 category = mechanical_engineering_tech }
+            add_tech_bonus = { bonus = 0.75 uses = 1 category = process_engineering_tech }
+            add_tech_bonus = { bonus = 0.75 uses = 1 category = electronics_devices_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Import_British_Tech
+		icon = GFX_goal_generic_scientific_exchange
+		x = 49
+		y = 4
+		cost = 70
+		prerequisite = {
+			focus = MXE_Open_Market
+		}
+		prerequisite = {
+			focus = MXE_Trade_ENG
+		}
+		available = { NOT = { has_war_with = ENG } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.75 uses = 2 category = mechanical_engineering_tech }
+            add_tech_bonus = { bonus = 0.75 uses = 2 category = process_engineering_tech }
+		}
+	}
+
+	focus = {
+		id = MXE_Naval_Coop_With_UK
+		icon = GFX_focus_chi_british_cooperation
+		x = 49
+		y = 5
+		cost = 25
+		prerequisite = {
+			focus = MXE_Import_British_Tech
+		}
+		available = { NOT = { has_war_with = ENG } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			### Decrease French Influence
+			if = {
+                limit = { has_idea = MXE_idea_small_french_influence }
+                add_stability = 0.03
+            }
+            if = {
+                limit = { has_idea = MXE_idea_medium_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_medium_french_influence
+                    add_idea = MXE_idea_small_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_heavy_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_heavy_french_influence
+                    add_idea = MXE_idea_medium_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_huge_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_huge_french_influence
+                    add_idea = MXE_idea_heavy_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_massive_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_massive_french_influence
+                    add_idea = MXE_idea_huge_french_influence
+                }
+            }
+            ENG = {
+            	country_event = {
+    				id = mexico.27
+    				days = 8
+				}
+			}
+            custom_effect_tooltip = MXE_naval_coop_UK_vic_tt
+            effect_tooltip = {
+    			add_tech_bonus = { bonus = 2 uses = 2 category = naval_doctrine }
+    			add_tech_bonus = { bonus = 1 uses = 3 category = naval_equipment }
+    			navy_experience = 45
+    			ENG = {
+    				diplomatic_relation = {
+    					country = MXE
+    					relation = docking_rights
+   			 			active = yes
+					}
+					diplomatic_relation = {
+    					country = MXE
+    					relation = non_aggression_pact
+   			 			active = yes
+					}
+					reverse_add_opinion_modifier = { target = MXE modifier = eoanb_om_RUS_increase_small }
+					add_opinion_modifier = { target = MXE modifier = eoanb_om_RUS_increase_small }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_Trade_FRA
+		icon = GFX_goal_focus_merchants_french
+		x = 51
+		y = 2
+		cost = 45
+		prerequisite = {
+			focus = MXE_Cotton_Trade
+		}
+		mutually_exclusive = { focus = MXE_Trade_ENG }
+		available = { NOT = { has_war_with = FRA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+			modifier = {
+                factor = 100000000000000000000000000000000000000
+                is_historical_focus_on = yes
+            }
+		}
+		completion_reward = {
+			reverse_add_opinion_modifier = { target = FRA modifier = eoanb_om_RUS_increase_small }
+			FRA = { add_political_power = 25 }
+			add_political_power = 45
+		}
+	}
+
+	focus = {
+		id = MXE_Import_French_Tech
+		icon = GFX_goal_focus_napoleonic_assemblee_nationale
+		x = 51
+		y = 4
+		cost = 45
+		prerequisite = {
+			focus = MXE_Open_Market
+		}
+		prerequisite = {
+			focus = MXE_Trade_FRA
+		}
+		available = { NOT = { has_war_with = FRA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_political_power = 55
+			add_tech_bonus = { bonus = 1 uses = 2 category = humanities_tech }
+			### Increase French Influence
+			if = {
+        limit = { has_idea = MXE_idea_massive_french_influence }
+        if = {
+					limit = { has_dlc = "Together for Victory" }
+					FRA = {
+						set_autonomy = {
+							target = MXE
+							autonomous_state = autonomy_dominion
+							freedom_level = 0.01
+						}
+					}
+				}
+				else = {
+					FRA = { puppet = MXE }
+				}
+            }
+            if = {
+                limit = { has_idea = MXE_idea_huge_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_huge_french_influence
+                    add_idea = MXE_idea_massive_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_heavy_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_heavy_french_influence
+                    add_idea = MXE_idea_huge_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_medium_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_medium_french_influence
+                    add_idea = MXE_idea_heavy_french_influence
+                }
+            }
+            if = {
+                limit = { has_idea = MXE_idea_small_french_influence }
+                swap_ideas = {
+                    remove_idea = MXE_idea_small_french_influence
+                    add_idea = MXE_idea_medium_french_influence
+                }
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_French_Army_Expertise
+		icon = GFX_goal_generic_army_doctrines
+		x = 51
+		y = 5
+		cost = 45
+		prerequisite = {
+			focus = MXE_Import_French_Tech
+		}
+		available = { NOT = { has_war_with = FRA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			army_experience = 35
+			add_tech_bonus = { bonus = 1 uses = 2 category = land_doctrine }
+		}
+	}
+
+	###Foreign Relations
+	focus = {
+		id = MXE_acquring_allies
+		icon = GFX_goal_focus_decentralisation_power
+		x = 63
+		y = 0
+		cost = 45
+		prerequisite = {
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_stability = 0.05
+		}
+	}
+	focus = {
+		id = MXE_new_friend
+		icon = GFX_goal_focus_confederate_collaboration
+		x = 61
+		y = 1
+		cost = 45
+		prerequisite = {
+		    focus = MXE_acquring_allies
+		}
+		mutually_exclusive = { focus = MXE_old_masters }
+		available = { CSA = { has_war_with = USA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = CSA modifier = eoanb_om_RUS_increase_small }
+			add_political_power = -100
+		}
+	}
+
+    focus = {
+		id = MXE_old_masters
+		icon = GFX_focus_USA_save_the_republic
+		x = 65
+		y = 1
+		cost = 45
+		prerequisite = {
+		    focus = MXE_acquring_allies
+		}
+		mutually_exclusive = { focus = MXE_new_friend }
+		available = { USA = { has_war_with = CSA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = USA modifier = eoanb_om_RUS_increase_small }
+			add_political_power = -100
+		}
+	}
+
+	focus = {
+		id = MXE_smuggling_weapons
+		icon = GFX_goal_focus_confederate_slave_trade
+		x = 61
+		y = 2
+		cost = 45
+		prerequisite = {
+		    focus = MXE_new_friend
+		}
+		available = { CSA = { has_war_with = USA }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_war_support = 0.02
+			army_experience = 50
+			send_equipment = {
+    			equipment = infantry_equipment
+   			 	amount = 300
+    			target = CSA
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_appeasing_uncle_sam
+		icon = GFX_goal_focus_enact_law
+		x = 65
+		y = 2
+		cost = 45
+		prerequisite = {
+		    focus = MXE_old_masters
+		}
+		available = { NOT = { has_war_with = FRA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    diplomatic_relation = {
+                country = USA
+                relation = non_aggression_pact
+                active = yes
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_economic_rebuild
+		icon = GFX_goal_focus_us_gilded_age
+		x = 65
+		y = 3
+		cost = 45
+		prerequisite = {
+		    focus = MXE_appeasing_uncle_sam
+		}
+		available = { }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_timed_idea = {
+				idea = MXE_uncle_sam_invests
+				days = 180
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_complete_victory
+		icon = GFX_goal_focus_american_civil_war
+		x = 61
+		y = 3
+		cost = 45
+		prerequisite = {
+		    focus = MXE_smuggling_weapons
+		}
+		available = { CSA = {
+				exists = yes
+				has_war = no
+			}
+            date > 1865.9.1
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		   add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = MXE_new_empire
+		icon = GFX_goal_SWE_kings_loyalty
+		x = 63
+		y = 4
+		cost = 45
+		prerequisite = {
+		    focus = MXE_acquring_allies
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = MXE_counterbalance_to_the_yankees
+		icon = GFX_goal_focus_continent_north_america
+		x = 57
+		y = 5
+		cost = 45
+		prerequisite = {
+		    focus = MXE_new_empire
+		}
+		mutually_exclusive = { focus = MXE_reapproch_the_union }
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = USA modifier = eoanb_om_RUS_decrease_small }
+		}
+	}
+
+	focus = {
+		id = MXE_establish_relations_with_canada
+		icon = GFX_focus_expand_canada
+		x = 57
+		y = 6
+		cost = 45
+		prerequisite = {
+		    focus = MXE_counterbalance_to_the_yankees
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = CAN modifier = eoanb_om_RUS_increase_very_small }
+			diplomatic_relation = {
+                country = CAN
+                relation = non_aggression_pact
+                active = yes
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_reapproch_the_union
+		icon = GFX_goal_focus_foreign_diplomacy
+		x = 59
+		y = 5
+		cost = 45
+		prerequisite = {
+		   focus = MXE_new_empire
+		}
+		mutually_exclusive = { focus = MXE_counterbalance_to_the_yankees }
+		available = { NOT = { has_war_with = FRA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = USA modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = ENG modifier = eoanb_om_RUS_decrease_very_small }
+		}
+	}
+
+    focus = {
+		id = MXE_normalize_relations
+		icon = GFX_goal_focus_freedom_association
+		x = 59
+		y = 6
+		cost = 45
+		prerequisite = {
+		   focus = MXE_reapproch_the_union
+		}
+		available = { NOT = { has_war_with = FRA } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    diplomatic_relation = {
+                country = USA
+                relation = non_aggression_pact
+                active = yes
+            }
+		}
+	}
+
+	focus = {
+		id = MXE_french_debt
+		icon = GFX_goal_focus_trade_france_focus
+		x = 61
+		y = 5
+		cost = 90
+		prerequisite = {
+		   focus = MXE_new_empire
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    MXE = {
+            	country_event = {
+    				id = imperialmexico.3
+    				days = 8
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_spanish_debt
+		icon = GFX_focus_the_sun_never_sets
+		x = 63
+		y = 5
+		cost = 90
+		prerequisite = {
+		   focus = MXE_new_empire
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    MXE = {
+            	country_event = {
+    				id = imperialmexico.2
+    				days = 8
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_english_debt
+		icon = GFX_goal_focus_merchants_british
+		x = 65
+		y = 5
+		cost = 90
+		prerequisite = {
+		   focus = MXE_new_empire
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    MXE = {
+            	country_event = {
+    				id = imperialmexico.1
+    				days = 8
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MXE_last_debt
+		icon = GFX_focus_increase_civillian_budget
+		x = 63
+		y = 6
+		cost = 90
+		prerequisite = {
+		   focus = MXE_english_debt
+		}
+		prerequisite = {
+		   focus = MXE_french_debt
+		}
+        prerequisite = {
+		   focus = MXE_spanish_debt
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    remove_ideas = MXE_french_debt
+			remove_ideas = MXE_spanish_debt
+			SPR = { add_political_power = 100 }
+			FRA = { add_political_power = 100 }
+		}
+	}
+	focus = {
+		id = MXE_finance_recovery
+		icon = GFX_goal_focus_stimulate_economy
+		x = 63
+		y = 7
+		cost = 90
+		prerequisite = {
+		   focus = MXE_last_debt
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    remove_ideas = MXE_british_debt
+			add_timed_idea = {
+				idea = MXE_finance_recovery
+				days = 720
+			}
+			ENG = { add_political_power = 100 }
+		}
+	}
+	focus = {
+		id = MXE_establish_relations_brazil
+		icon = GFX_goal_focus_brazil
+		x = 67
+		y = 5
+		cost = 45
+		prerequisite = {
+		    focus = MXE_new_empire
+		}
+		mutually_exclusive = { focus = MXE_confront_brazil }
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = BRA modifier = eoanb_om_RUS_increase_small }
+		}
+	}
+
+	focus = {
+		id = MXE_economy_and_military_cooperation
+		icon = GFX_goal_focus_ave_imperio
+		x = 67
+		y = 6
+		cost = 45
+		prerequisite = {
+		    focus = MXE_establish_relations_brazil
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    BRA = { diplomatic_relation = {
+    					country = MXE
+    					relation = non_aggression_pact
+   			 			active = yes
+					}
+		        }
+			add_timed_idea = {
+				idea = MXE_brazilian_mexican_cooperation
+				days = 365
+			}
+            BRA = { add_timed_idea = {
+				idea = MXE_brazilian_mexican_cooperation
+				days = 365
+	        }
+        }
+	}
+}
+	focus = {
+		id = MXE_confront_brazil
+		icon = GFX_focus_continent_southern_america
+		x = 69
+		y = 5
+		cost = 45
+		prerequisite = {
+		   focus = MXE_new_empire
+		}
+		mutually_exclusive = { focus = MXE_establish_relations_brazil }
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = BRA modifier = eoanb_om_RUS_decrease_small }
+			BRA = { add_war_support = -0.02 army_experience = -10 }
+		}
+	}
+
+    focus = {
+		id = MXE_establish_relations_argentina
+		icon = GFX_goal_focus_negotiate_argentina
+		x = 69
+		y = 6
+		cost = 45
+		prerequisite = {
+		   focus = MXE_confront_brazil
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = ARG modifier = eoanb_om_RUS_increase_small }
+			ARG = { add_war_support = 0.02 army_experience = 10 }
+		}
+	}
+
+	###Army
+	focus = {
+		id = MXE_reform_the_imperial_army
+		icon = GFX_goal_focus_mexican_intervention
+		x = 76
+		y = 0
+		cost = 45
+
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    army_experience = 80
+			navy_experience = 80
+		}
+	}
+	focus = {
+		id = MXE_expand_the_royal_guard
+		icon = GFX_focus_death_or_dishonor
+		x = 74
+		y = 1
+		cost = 45
+		prerequisite = {
+		   focus = MXE_reform_the_imperial_army
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+	277 = {
+		create_unit = {
+			division = "name = \"Palatine Guard\" division_template = \"Palatine Guard\"  start_experience_factor = 1"
+			owner = MXE
+		    }
+		create_unit = {
+			division = "name = \"Palatine Guard\" division_template = \"Palatine Guard\"  start_experience_factor = 1"
+			owner = MXE
+		    }
+	    }
+	}
+}
+	focus = {
+		id = MXE_imperial_volunteers_corp
+		icon = GFX_goal_focus_reformed_army
+		x = 74
+		y = 2
+		cost = 45
+		prerequisite = {
+		   focus = MXE_expand_the_royal_guard
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_manpower = 100000
+		}
+	}
+	focus = {
+		id = MXE_collaborate_french
+		icon = GFX_goal_focus_invite_french_diplomats
+		x = 73
+		y = 3
+		cost = 45
+		prerequisite = {
+		   focus = MXE_imperial_volunteers_corp
+		}
+		mutually_exclusive = { focus = MXE_our_own_doctrine }
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    FRA = {
+	            every_unit_leader = {
+                limit = {
+                    OR = {
+                        has_id = 178934
+                    }
+                }
+                set_nationality = MXE
+            }
+        }
+		custom_effect_tooltip = MXE_french_general
+	}
+}
+	focus = {
+		id = MXE_our_own_doctrine
+		icon = GFX_goal_focus_traditional_army
+		x = 75
+		y = 3
+		cost = 45
+		prerequisite = {
+		   focus = MXE_imperial_volunteers_corp
+		}
+		mutually_exclusive = { focus = MXE_collaborate_french }
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    create_corps_commander = {
+  		    name = "Emilio Langberg"
+ 		    picture = " "
+		    traits = { career_officer organisational_leader eoanb_conservative_tendencies eoanb_mexican_general }
+ 		    skill = 3
+  		    attack_skill = 2
+		    defense_skill = 1
+		    planning_skill = 1
+		    logistics_skill = 2
+		}
+		create_corps_commander = {
+  		    name = "Tomás O'Horán Escudero"
+ 		    picture = " "
+		    traits = { politically_connected eoanb_conservative_tendencies eoanb_mexican_general }
+ 		    skill = 2
+  		    attack_skill = 1
+		    defense_skill = 2
+		    planning_skill = 1
+		    logistics_skill = 3
+		}
+	add_tech_bonus = { bonus = 0.1 uses = 3 category = land_doctrine }
+	}
+}
+	focus = {
+		id = MXE_focus_on_artillery
+		icon = GFX_goal_SWE_artillery_supremacy
+		x = 73
+		y = 4
+		cost = 70
+		prerequisite = {
+		   focus = MXE_collaborate_french
+		}
+		available = {
+			has_political_power > 49
+			has_opinion = { target = FRA value = 61 }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.1 uses = 3 category = artillery }
+			add_equipment_to_stockpile = { type = cannon_equipment_1 amount = 200 producer = FRA }
+		}
+	}
+	focus = {
+		id = MXE_prioritize_french_generals
+		icon = GFX_goal_focus_napoleonic_tactics
+		x = 73
+		y = 5
+		cost = 45
+		prerequisite = {
+		   focus = MXE_focus_on_artillery
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = MXE_focus_infantry_weapons
+		icon = GFX_focus_BEL_arms_sale
+		x = 75
+		y = 4
+		cost = 45
+		prerequisite = {
+		   focus = MXE_our_own_doctrine
+		}
+		available = {
+			has_political_power > 49
+			has_opinion = { target = BEL value = 51 }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.1 uses = 3 category = infantry_weapons }
+			add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 2000 producer = BEL }
+		}
+	}
+	focus = {
+		id = MXE_prioritize_mexican_generals
+		icon = GFX_goal_focus_foreign_diplomacy_military
+		x = 75
+		y = 5
+		cost = 45
+		prerequisite = {
+		   focus = MXE_focus_infantry_weapons
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	    completion_reward = {
+    }
+}
+	focus = {
+		id = MXE_integrate_paramilitary_forces
+		icon = GFX_focus_exploration
+		x = 74
+		y = 6
+		cost = 45
+		prerequisite = {
+		   focus = MXE_prioritize_mexican_generals
+		}
+		prerequisite = {
+		   focus = MXE_prioritize_french_generals
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = MXE_idea_mexican_imperial_army
+				add_idea = MXE_idea_mexican_imperial_army_1
+		}
+	}
+}
+	focus = {
+		id = MXE_build_up_imperial_armada
+		icon = GFX_focus_battleship_production
+		x = 78
+		y = 1
+		cost = 45
+		prerequisite = {
+		   focus = MXE_reform_the_imperial_army
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_timed_idea = {
+				idea = MXE_mexican_armada
+				days = 720
+			}
+		}
+	}
+	focus = {
+		id = MXE_request_for_openings_ports
+		icon = GFX_focus_naval_restrictions
+		x = 78
+		y = 2
+		cost = 45
+		prerequisite = {
+		   focus = MXE_build_up_imperial_armada
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_equipment_to_stockpile = { type = convoy_1 amount = 30 producer = FRA }
+		}
+	}
+	focus = {
+		id = MXE_rebuild_the_docks
+		icon = GFX_goal_focus_mass_produce_ships
+		x = 78
+		y = 3
+		cost = 45
+		prerequisite = {
+		   focus = MXE_request_for_openings_ports
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		   hidden_effect = {
+		    unlock_decision_tooltip = MXE_decision_vic_dockyard_veracruz
+			unlock_decision_tooltip = MXE_decision_vic_dockyard_yucatan
+			unlock_decision_tooltip = MXE_decision_vic_dockyard_chiapas
+			}
+			custom_effect_tooltip = MXE_new_dockyards
+		}
+	}
+	focus = {
+		id = MXE_import_british_models
+		icon = GFX_goal_focus_commision_monitors
+		x = 78
+		y = 4
+		cost = 45
+		prerequisite = {
+		   focus = MXE_rebuild_the_docks
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.15 uses = 1 technology = tech_naval_mtg_modern_ironclad_rams }
+			add_tech_bonus = { bonus = 0.15 uses = 1 technology = tech_naval_mtg_breach_loaded_shells }
+		}
+	}
+	focus = {
+		id = MXE_focus_on_steamships
+		icon = GFX_focus_gunboat_basic
+		x = 78
+		y = 5
+		cost = 45
+		prerequisite = {
+		   focus = MXE_import_british_models
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.15 uses = 1 technology = tech_naval_mtg_efficient_steam_propellers }
+			add_tech_bonus = { bonus = 0.15 uses = 1 technology = tech_naval_mtg_steam_driven_single_screw_propeller }
+		}
+	}
+	focus = {
+		id = MXE_request_for_french_ships
+		icon = GFX_goal_focus_defy_british_navy
+		x = 78
+		y = 6
+		cost = 45
+		prerequisite = {
+		   focus = MXE_focus_on_steamships
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    FRA = { transfer_ship={ prefer_name = "La Bretagne" type = corvette target = MXE } }
+			FRA = { transfer_ship={ prefer_name = "La Pomone" type = corvette target = MXE } }
+			MXE = { add_political_power = -100 }
+			FRA = { add_political_power = 100 }
+			custom_effect_tooltip = MXE_new_ships
+		}
+	}
+	focus = {
+		id = MXE_a_new_imperial_force
+		icon = GFX_goal_focus_victory_mexico
+		x = 76
+		y = 7
+		cost = 45
+		prerequisite = {
+		   focus = MXE_request_for_french_ships
+		}
+		prerequisite = {
+		   focus = MXE_integrate_paramilitary_forces
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+       completion_reward = {
+		    swap_ideas = {
+			    remove_idea = MXE_idea_mexican_imperial_army_1
+				add_idea = MXE_idea_mexican_imperial_army_2
+		}
+	}
+}
+	###POLITICAL TREE
+	focus = {
+		id = MXE_the_powderkeg_of_mexican_politics
+		icon = GFX_goal_focus_victory_mexico
+		x = 86
+		y = 0
+		cost = 45
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 75
+		}
+	}
+	focus = {
+		id = MXE_rekindle_our_ties_to_the_church
+		icon = GFX_focus_papal_bull
+		x = 84
+		y = 1
+		cost = 45
+		prerequisite = {
+		   focus = MXE_the_powderkeg_of_mexican_politics
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_ideas = MEX_idea_uncontrolled_catholic_church_2
+		}
+	}
+	focus = {
+		id = MXE_ally_with_the_conservatives
+		icon = GFX_goal_focus_support_conservatism
+		x = 86
+		y = 1
+		cost = 45
+		prerequisite = {
+		   focus = MXE_the_powderkeg_of_mexican_politics
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = MXE_secure_imperial_popularity
+		icon = GFX_focus_Usurp_Throne
+		x = 88
+		y = 1
+		cost = 45
+		prerequisite = {
+		   focus = MXE_the_powderkeg_of_mexican_politics
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    remove_ideas = MXE_no_internal_support
+		}
+	}
+	focus = {
+		id = MXE_dealing_with_the_liberal_opposition
+		icon = GFX_goal_SWE_purge_liberals
+		x = 86
+		y = 2
+		cost = 45
+		prerequisite = {
+		   focus = MXE_secure_imperial_popularity
+		}
+		prerequisite = {
+		   focus = MXE_ally_with_the_conservatives
+		}
+		prerequisite = {
+		   focus = MXE_rekindle_our_ties_to_the_church
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = -75
+		}
+	}
+	focus = {
+		id = MXE_the_iron_fist
+		icon = GFX_goal_SWE_famine
+		x = 85
+		y = 3
+		cost = 45
+		prerequisite = {
+		   focus = MXE_dealing_with_the_liberal_opposition
+		}
+		mutually_exclusive = { focus = MXE_the_soft_fist }
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = MXE_liberal_hates
+				add_idea = MXE_liberal_hates_2
+		}
+	}
+}
+	focus = {
+		id = MXE_ask_for_french_support
+		icon = GFX_goal_focus_merchants_french
+		x = 85
+		y = 4
+		cost = 45
+		prerequisite = {
+		   focus = MXE_the_iron_fist
+		}
+		available = {
+			NOT = { country_exists = MEX  }
+			has_political_power > 49
+			has_opinion = { target = FRA value = 51 }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = MXE_liberal_hates_2
+				add_idea = MXE_liberal_hates_1
+		    }
+		add_political_power = -50
+		add_stability = -0.05
+	    }
+    }
+	focus = {
+		id = MXE_suspress_liberal_militias
+		icon = GFX_goal_focus_refugee_management
+		x = 85
+		y = 5
+		cost = 45
+		prerequisite = {
+		   focus = MXE_ask_for_french_support
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_manpower = -50000
+			add_war_support = 0.03
+		}
+	}
+	focus = {
+		id = MXE_arrest_and_execute_liberal_leaders
+		icon = GFX_focus_assassination
+		x = 85
+		y = 6
+		cost = 45
+		prerequisite = {
+		   focus = MXE_suspress_liberal_militias
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = MXE_the_soft_fist
+		icon = GFX_goal_SWE_legislative_agenda
+		x = 87
+		y = 3
+		cost = 45
+		prerequisite = {
+		   focus = MXE_dealing_with_the_liberal_opposition
+		}
+		mutually_exclusive = { focus = MXE_the_iron_fist }
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = -75
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = MXE_deal_in_our_own_way
+		icon = GFX_goal_focus_victory_mexico
+		x = 87
+		y = 4
+		cost = 45
+		prerequisite = {
+		   focus = MXE_the_soft_fist
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 50
+		}
+	}
+	focus = {
+		id = MXE_agreement_liberals
+		icon = GFX_goal_SWE_victory
+		x = 87
+		y = 5
+		cost = 45
+		prerequisite = {
+		   focus = MXE_deal_in_our_own_way
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = MXE_liberal_hates_1
+				add_idea = MXE_liberal_hates
+		    }
+		}
+	}
+	focus = {
+		id = MXE_liberals_congress
+		icon = GFX_goal_SWE_voting
+		x = 87
+		y = 6
+		cost = 45
+		prerequisite = {
+		   focus = MXE_agreement_liberals
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    remove_ideas = MXE_liberal_hates
+		}
+	}
+
+	###POLITICAL TREE - WITHOUT WAR
+	focus = {
+		id = MXE_allying_the_church_and_the_army
+		icon = GFX_focus_papal_bull
+		x = 86
+		y = 0
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_ideas = MEX_idea_uncontrolled_catholic_church_2
+			add_ideas = MEX_idea_large_military_influence
+		}
+	}
+	focus = {
+		id = MXE_dealing_with_the_liberal_opposition_1
+		icon = GFX_goal_focus_victory_mexico
+		x = 84
+		y = 1
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_allying_the_church_and_the_army
+		}
+		available = { NOT = { country_exists = MEX  } }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 75
+		}
+	}
+	focus = {
+		id = MXE_rebuilding_the_mexican_institutions
+		icon = GFX_goal_focus_victory_mexico
+		x = 88
+		y = 1
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_allying_the_church_and_the_army
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 100
+		}
+	}
+	focus = {
+		id = MXE_industralization_of_mexico
+		icon = GFX_goal_focus_industrial_revolution
+		x = 86
+		y = 2
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_rebuilding_the_mexican_institutions
+		}
+		prerequisite = {
+		   focus = MXE_dealing_with_the_liberal_opposition_1
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.1 uses = 1 category = biochemistry_tech }
+			add_tech_bonus = { bonus = 0.1 uses = 1 category = mechanical_engineering_tech }
+			add_tech_bonus = { bonus = 0.1 uses = 1 category = process_engineering_tech }
+		}
+	}
+	focus = {
+		id = MXE_technological_and_education_advances
+		icon = GFX_goal_focus_victory_mexico
+		x = 86
+		y = 3
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_industralization_of_mexico
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_research_slot = 1
+			swap_ideas = {
+                remove_idea = open_schools
+                add_idea = compulsory_education }
+			add_political_power = -100
+
+		}
+	}
+	focus = {
+		id = MXE_long_process_of_independence_from_france
+		icon = GFX_goal_focus_invite_french_diplomats
+		x = 86
+		y = 4
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_technological_and_education_advances
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 75
+		}
+	}
+	focus = {
+		id = MXE_keep_aliances_and_guarantess_1
+		icon = GFX_focus_financial_domination
+		x = 84
+		y = 5
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_long_process_of_independence_from_france
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    FRA = { diplomatic_relation = {
+                    country = MXE
+                    relation = guarantee
+                    active = yes
+                }
+			}
+		}
+	}
+	focus = {
+		id = MXE_lally_the_csa_approach_the_usa
+		icon = GFX_goal_focus_confederate_collaboration
+		x = 88
+		y = 5
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_long_process_of_independence_from_france
+		}
+		available = { country_exists = CSA }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    reverse_add_opinion_modifier = { target = CSA modifier = eoanb_om_RUS_increase_small }
+		}
+	}
+	focus = {
+		id = MXE_ambitions_and_claims_to_the_south
+		icon = GFX_goal_focus_victory_mexico
+		x = 86
+		y = 6
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_lally_the_csa_approach_the_usa
+		}
+		prerequisite = {
+		   focus = MXE_keep_aliances_and_guarantess_1
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_state_claim = 313
+		}
+	}
+	focus = {
+		id = MXE_border_conflicts
+		icon = GFX_focus_exploration
+		x = 86
+		y = 7
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_ambitions_and_claims_to_the_south
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    GUA = { add_manpower = -500 }
+		}
+	}
+	focus = {
+		id = MXE_the_guatemalan_war
+		icon = GFX_focus_anything_will_do
+		x = 86
+		y = 8
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_border_conflicts
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    declare_war_on = {
+               target = GUA
+               type = annex_everything
+            }
+		}
+	}
+	focus = {
+		id = MXE_victory_and_conquest
+		icon = GFX_goal_focus_imperialism
+		x = 84
+		y = 9
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_the_guatemalan_war
+		}
+		mutually_exclusive = { focus = MXE_defeat_and_hummiliation }
+		available = { always = no }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = MXE_integration
+		icon = GFX_goal_focus_forced_refugee_management
+		x = 84
+		y = 10
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_victory_and_conquest
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_state_core = 313
+		}
+	}
+	focus = {
+		id = MXE_future
+		icon = GFX_focus_Usurp_Throne
+		x = 84
+		y = 11
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_integration
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 75
+		}
+	}
+	focus = {
+		id = MXE_defeat_and_hummiliation
+		icon = GFX_goal_focus_bankruptcy
+		x = 88
+		y = 9
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_the_guatemalan_war
+		}
+		mutually_exclusive = { focus = MXE_victory_and_conquest }
+		available = { always = no }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 75
+		}
+	}
+	focus = {
+		id = MXE_the_army_overthrows_the_empire
+		icon = GFX_goal_focus_refugee_management
+		x = 88
+		y = 10
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_defeat_and_hummiliation
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 75
+		}
+	}
+	focus = {
+		id = MXE_juarez_back
+		icon = GFX_focus_violent_revolution
+		x = 88
+		y = 11
+		cost = 45
+		allow_branch = {
+        has_country_flag = MXE_empire_without_war
+        }
+		prerequisite = {
+		   focus = MXE_the_army_overthrows_the_empire
+		}
+		available = {  }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		    add_political_power = 75
+		}
+	}
+}

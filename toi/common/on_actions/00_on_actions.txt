@@ -24,27 +24,34 @@ on_actions = {
 				GEO = { country_event = { id = russiageorgia.1 days = 1 } }
 				SER = { country_event = { id = SERmisc.5 days = 1 } }
 				FRA = { country_event = { id = nap_france.21 } }
+                USA = {		
+                    set_division_template_lock = {
+                        division_template = "National Guard"
+                        is_locked = yes
+                    }
+                }
 				set_global_flag = eoanb_flag_sepoy_rebellion_ongoing
 				set_global_flag = eoanb_flag_sow_ongoing
 				every_country = {
 					country_event = { id = pssystem.16 days = 365 }
 				}
-				if = {
-					limit = {
-						has_game_rule = {
-							rule = state_city_names
-							option = use_endonyms_state_city_names
-						}
-					}
-					set_global_flag = use_endonyms_state_city_names
-					random_country = {
-						limit = { is_ai = yes }
-						endonyms = yes 
-					}
-				}
-				else = {
+				##Add game rule here
+				# if = {
+					# limit = {
+						# has_game_rule = {
+							# rule = state_city_names
+							# option = use_endonyms_state_city_names
+						# }
+					# }
+					# set_global_flag = use_endonyms_state_city_names
+					# random_country = {
+						# limit = { is_ai = yes }
+						# endonyms = yes
+					# }
+				# }
+				# else = {
 					set_global_flag = use_english_state_city_names
-				}
+				# }
 				set_global_flag = eoanb_flag_ps_no_commies_until_allowed
 			}
 		}
@@ -161,11 +168,32 @@ on_actions = {
 	#}
 
 	#FROM is war target
-	#on_declare_war = {
-	#	effect = {
-	#
-	#	}
-	#}
+	on_declare_war = {
+		effect = {
+            hidden_effect = {
+                if = {
+                    limit = {
+                        OR = {
+                            tag = AUS
+                            tag = PIE
+                        }
+                        FROM = {
+                            OR = {
+                                tag = AUS
+                                tag = PIE
+                            }
+                        }
+                    }
+                    every_country = {
+                        limit = {
+                            has_idea = GER_general_idea_ger_confed
+                        }
+                        activate_mission = eoanb_decision_ALL_gerconfed_war1
+                    }
+                }
+            }
+		}
+	}
 
 	# When a new faction is formed
 	#on_faction_formed = {
@@ -213,6 +241,20 @@ on_actions = {
 					FROM = { tag = KBY }
 				}
 				country_event = { id = nap_france.154 }
+			}
+			if = {
+				limit = {
+					ROOT = { tag = FRA }
+					FROM = { tag = MEX }
+				}
+				MXE = { country_event = { id = nap_france.3635 } }
+			}
+			if = {
+				limit = {
+					ROOT = { tag = MXE }
+					FROM = { tag = MEX }
+				}
+				country_event = { id = nap_france.3635 }
 			}
 			if = {
 				limit = {
@@ -388,11 +430,11 @@ on_actions = {
 							OR = {
 								has_id = 18624
 								has_id = 18628
-								has_id = 18626 
+								has_id = 18626
 								has_id = 186211
 							}
 						}
-						set_nationality = FRA
+						set_nationality = MXE
 					}
         				remove_state_core = 277
         				remove_state_core = 474
@@ -412,13 +454,13 @@ on_actions = {
         				remove_state_core = 1124
         				remove_state_core = 485
 				}
-				MEX = { 
+				MEX = {
 					white_peace = ROOT
 		            annex_country = {
 		           		target = MEC
 		           	}
 					increase_ps_by_one = yes
-					country_event = { days = 1 id = mexico.12 } 
+					country_event = { days = 1 id = mexico.12 }
 					delete_unit_template_and_units = { division_template = "Local Militia" }
 					set_capital = 277
 					set_global_flag = MEX_reform_war_end
@@ -459,13 +501,13 @@ on_actions = {
         				remove_state_core = 1124
         				remove_state_core = 485
 				}
-				MEC = { 
+				MEC = {
 					white_peace = ROOT
 		            annex_country = {
 		       	   		target = MEX
 		           	}
 					increase_ps_by_one = yes
-					country_event = { days = 1 id = mexico.12 } 
+					country_event = { days = 1 id = mexico.12 }
 					delete_unit_template_and_units = { division_template = "Light Infantry" }
 					set_capital = 277
 					set_global_flag = MEX_reform_war_end
@@ -477,35 +519,6 @@ on_actions = {
 	# ROOT is capitulated country, FROM is winner
 	on_capitulation = {
 		effect = {
-			if = {
-				limit = {
-					ROOT = { tag = CSA }
-					FROM = { tag = USA }
-					has_global_flag = ACWAmerican_Civil_War
-				}
-				USA = { country_event = { id = acw.7 } }
-				CSA = { country_event = { id = acw.7 } }
-			}
-			if = {
-				limit = {
-					FROM = { tag = CSA }
-					ROOT = { tag = USA }
-					has_global_flag = ACWAmerican_Civil_War
-					NOT = { USA = { has_country_flag = USA_Radical_Coup } }
-				}
-				USA = { country_event = { id = acw.8 } }
-				CSA = { country_event = { id = acw.8 } }
-			}
-			if = {
-				limit = {
-					FROM = { tag = CSA }
-					ROOT = { tag = USA }
-					has_global_flag = ACWAmerican_Civil_War
-					USA = { has_country_flag = USA_Radical_Coup }
-				}
-				USA = { country_event = { id = acw.57 } }
-				CSA = { country_event = { id = acw.57 } }
-			}
 	        if = {
                 limit = {
 					FROM = { tag = RUS }
@@ -548,7 +561,7 @@ on_actions = {
 				}
 				USV = {
 					drop_cosmetic_tag = yes
-					country_event = venezuela.7 
+					country_event = venezuela.7
 					annex_country = {
 						target = VEN
 						transfer_troops = no
@@ -558,11 +571,18 @@ on_actions = {
 			if = {
 				limit = {
 					tag = PAR
-					FROM = { tag = BRA }
+					FROM = {
+						OR = {
+							tag = BRA
+							tag = ARG
+							tag = URC
+							tag = URG
+						}
+					}
 					PAR = { has_country_flag = Paraguayan_War }
 				}
 				ROOT = { white_peace = FROM }
-				PAR = { country_event = { id = par.16 } }
+				PAR = { country_event = { id = par.15 } }
 			}
 			if = {
 				limit = {
@@ -571,7 +591,7 @@ on_actions = {
 					PAR = { has_country_flag = Paraguayan_War }
 				}
 				ROOT = { white_peace = FROM }
-				PAR = { country_event = { id = par.15 } }
+				PAR = { country_event = { id = par.16 } }
 			}
 			if = {
 				limit = {
@@ -586,6 +606,22 @@ on_actions = {
 					}
 				}
 			}
+			if = {
+                limit = {
+					FROM = { 
+						tag = OTO 
+						has_country_flag = BOS_nevesinje
+					}
+					ROOT = { tag = BOS }
+                }
+                clr_country_flag = BOS_nevesinje
+				FROM={
+					annex_country = {
+						target = BOS
+						transfer_troops = no
+					}
+				}
+            }
 		}
 	}
 
@@ -816,7 +852,7 @@ on_actions = {
 						FROM.FROM = { is_owned_by = NEG }
 						FROM.FROM = { is_owned_by = MHC }
 					}
-					has_global_flag = ACWAmerican_Civil_War
+					has_global_flag = ACW_American_Civil_War
 				}
 		        random_list = {
 		        	25 = {
@@ -874,6 +910,42 @@ on_actions = {
 				}
 				USA = { country_event = { id = csa.31 } }
 			}
+            if = {
+                limit = {
+                    tag = SWE
+                    FROM.FROM = {
+                        state = 104
+                    }
+                }
+                country_event = { id = eoanb_sweden.13 days = 1 }
+            }
+            if = {
+                limit = {
+                    OR = {
+                        tag = PRS
+                        tag = BAD
+                        tag = WUR
+                        tag = BAV
+                    }
+                    has_global_flag = eoanb_flag_franco_prussian_war_ongoing
+                    FROM.FROM = {
+                        is_owned_by = FRA
+                    }
+                }
+                PRS = {
+                    country_event = fraprswar.13
+                }
+            }
+            if = {
+                limit = {
+                    tag = FRA
+                    has_global_flag = eoanb_flag_franco_prussian_war_ongoing
+                    FROM.FROM = {
+                        is_owned_by = PRS
+                    }
+                }
+                country_event = fraprswar.11
+            }
 		}
 	}
 }

@@ -2,12 +2,12 @@ focus_tree = {
 	id = vic_SouthAfricanRepublic
 	country = {
 		factor = 0
-		# modifier = {#
-			# add = 10
-			# OR = {
-				# tag = TRV
-			# }
-		# }
+		modifier = {#
+			add = 10
+			OR = {
+				tag = TRV
+			}
+		}
 	}
 	default = no
 	focus = {
@@ -26,7 +26,7 @@ focus_tree = {
 	}
 	focus = {
 		id = trv_vic_question_of_church_state
-		icon = GFX_goal_focus_reform_administration
+		icon = GFX_goal_focus_religious_prayers
 		cost = 35
 		x = 3
 		y = 1
@@ -85,7 +85,7 @@ focus_tree = {
 	}
 	focus = {
 		id = trv_vic_only_one_church
-		icon = GFX_goal_focus_reform_administration
+		icon = GFX_goal_focus_christianity_state_religion
 		cost = 70
 		x = 4
 		y = 2
@@ -125,12 +125,18 @@ focus_tree = {
 	}
 	focus = {
 		id = trv_vic_imergration_reforms
-		icon = GFX_goal_focus_reform_administration
+		icon = GFX_goal_focus_freedom_abode
 		cost = 70
 		x = 5
 		y = 4
 		completion_reward = {
-			
+			add_timed_idea={
+				idea = TRV_immergation
+				days = 720
+			}
+		}
+		prerequisite = {
+			focus = trv_vic_the_question_of_slavery
 		}
 		prerequisite = {
 			focus = trv_vic_one_people_under_god
@@ -146,8 +152,28 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = trv_vic_establish_constiution
+		icon = GFX_goal_focus_enact_law
+		cost = 70
+		x = 5
+		y = 5
+		completion_reward = {
+			swap_ideas={
+				add_idea = limited_constitution
+				remove_idea = no_constitution
+			}
+		}
+		prerequisite = {
+			focus = trv_vic_imergration_reforms
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
 		id = trv_vic_the_question_of_our_racial_politices
-		icon = GFX_goal_focus_reform_administration
+		icon = GFX_goal_focus_gerrymandering
 		cost = 70
 		x = 8
 		y = 1
@@ -169,7 +195,7 @@ focus_tree = {
 		x = 7
 		y = 2
 		completion_reward = {
-			
+			add_ideas={TRV_boer_policies}
 		}
 		prerequisite = {
 			focus = trv_vic_the_question_of_our_racial_politices
@@ -189,7 +215,10 @@ focus_tree = {
 		x = 6
 		y = 3
 		completion_reward = {
-			
+			swap_ideas={
+				remove_idea =TRV_boer_policies
+				add_idea = TRV_boer_policies_2
+			}
 		}
 		prerequisite = {
 			focus = trv_vic_pro_dutch_policies
@@ -201,12 +230,13 @@ focus_tree = {
 	}
 	focus = {
 		id = trv_vic_equal_policies
-		icon = GFX_goal_focus_reform_administration
+		icon = GFX_goal_tripartite_pact
 		cost = 70
 		x = 9
 		y = 2
 		completion_reward = {
 			add_stability = -0.05
+			add_ideas={TRV_equal_policies}
 		}
 		mutually_exclusive = {
 			focus = trv_vic_pro_dutch_policies
@@ -227,6 +257,10 @@ focus_tree = {
 		y = 3
 		completion_reward = {
 			add_stability = -0.05
+			swap_ideas={
+				remove_idea = TRV_equal_policies
+				add_idea = TRV_equal_policies_2
+			}
 		}
 		prerequisite = {
 			focus = trv_vic_equal_policies
@@ -238,12 +272,12 @@ focus_tree = {
 	}
 	focus = {
 		id = trv_vic_the_question_of_slavery
-		icon = GFX_goal_focus_reform_administration
+		icon = GFX_goal_focus_tribal_slavery
 		cost = 70
 		x = 8
 		y = 3
 		completion_reward = {
-			
+			country_event={id=boer_states.120}
 		}
 		prerequisite = {
 			focus = trv_vic_pro_dutch_policies
@@ -531,8 +565,13 @@ focus_tree = {
 		cost = 70
 		x = 17
 		y = 1
+		select_effect = {
+			country_event={id=boer_states.92 days = 10}
+		}
+		cancel = {
+		}
 		completion_reward = {
-			country_event={id=boer_states.92}
+			add_stability = 0.05
 		}
 		prerequisite = {
 			focus = trv_vic_foreign_affars
@@ -555,7 +594,7 @@ focus_tree = {
 			
 		}
 		allow_branch = {
-			#has_country_flag = trv_ignore_british
+			has_country_flag = trv_ignore_british
 		}
 		prerequisite = {
 			focus = trv_vic_british_policy
@@ -584,7 +623,6 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = trv_vic_british_policy
-			
 		}
 		available ={
 			has_war = no
@@ -643,6 +681,47 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = trv_vic_accept_british_domintation
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		x = 17
+		y = 3
+		completion_reward = {
+			add_political_power = 75
+		}
+		prerequisite = {
+			focus = trv_vic_remain_within_the_british_sphere
+		}
+		available ={
+			has_war = no
+			has_country_flag = trv_british_loyalty
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = trv_vic_portugese_diplomacy
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		x = 17
+		y = 3
+		completion_reward = {
+			
+		}
+		prerequisite = {
+			focus = trv_vic_ignore_the_british_sphere
+		}
+		available ={
+			has_war = no
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
 		id = trv_vic_army_focus
 		icon = GFX_goal_generic_allies_build_infantry
 		cost = 70
@@ -651,11 +730,486 @@ focus_tree = {
 			factor = 1
 		}
 		available = {
+			has_completed_focus = trv_vic_establish_constiution
 		}
 		x = 21
 		y = 0
 		completion_reward = {
 			army_experience = 10
+		}
+	}
+	focus = {
+		id = trv_vic_rifle_innovation
+		icon = GFX_goal_generic_allies_build_infantry
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_army_focus
+		}
+		available = {
+		}
+		x = 19
+		y = 1
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+	focus = {
+		id = trv_vic_increase_rifle_investments
+		icon = GFX_goal_generic_allies_build_infantry
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_rifle_innovation
+		}
+		available = {
+		}
+		x = 19
+		y = 2
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+	focus = {
+		id = trv_vic_invest_tatics
+		icon = GFX_goal_generic_allies_build_infantry
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_army_focus
+		}
+		available = {
+		}
+		x = 21
+		y = 1
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 3
+				category = land_doctrine
+			}
+		}
+	}
+	focus = {
+		id = trv_vic_boer_style_doctrine
+		icon = GFX_goal_generic_allies_build_infantry
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_invest_tatics
+		}
+		available = {
+		}
+		x = 21
+		y = 2
+		completion_reward = {
+			add_ideas={
+				boer_standing_army
+			}
+		}
+	}
+	focus = {
+		id = trv_vic_african_cavalry
+		icon = GFX_goal_generic_allies_build_infantry
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_army_focus
+		}
+		available = {
+		}
+		x = 23
+		y = 1
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.33
+				uses = 2
+				category = tech_category_cavalry
+			}
+		}
+	}
+	focus = {
+		id = trv_vic_research_artillery
+		icon = GFX_goal_generic_allies_build_infantry
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_invest_tatics
+		}
+		available = {
+		}
+		x = 23
+		y = 2
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.33
+				uses = 2
+				category = artillery
+			}
+		}
+	}
+	focus = {
+		id = trv_vic_quick_hidden
+		icon = GFX_goal_generic_allies_build_infantry
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_boer_style_doctrine
+		}
+		prerequisite = {
+			focus = trv_vic_increase_rifle_investments
+		}
+		available = {
+		}
+		x = 21
+		y = 3
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = trv_vic_eco_branch
+		icon = GFX_goal_focus_stimulate_economy
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+		}
+		x = 32
+		y = 0
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_establish_industry
+		icon = GFX_goal_focus_industrial_revolution
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_eco_branch
+		}
+		available = {
+		}
+		x = 27
+		y = 1
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_mechanical_engineering
+		icon = GFX_goal_generic_production2
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_establish_industry
+		}
+		available = {
+		}
+		x = 26
+		y = 2
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_production_methods
+		icon = GFX_goal_generic_production
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_establish_industry
+		}
+		available = {
+		}
+		x = 28
+		y = 2
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_industrial_dev
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_production_methods
+		}
+		prerequisite = {
+			focus = trv_vic_mechanical_engineering
+		}
+		available = {
+		}
+		x = 27
+		y = 3
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_expand_pretoria
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_industrial_dev
+		}
+		available = {
+		}
+		x = 27
+		y = 4
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_expand_military_production
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_expand_pretoria
+		}
+		available = {
+		}
+		x = 27
+		y = 5
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_industrialisation
+		icon = GFX_goal_focus_urbanization
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_expand_military_production
+		}
+		available = {
+		}
+		x = 27
+		y = 6
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_infra_pretoria
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_eco_branch
+		}
+		available = {
+		}
+		x = 32
+		y = 1
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_road_west
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_infra_pretoria
+		}
+		available = {
+		}
+		x = 31
+		y = 2
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_road_east
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_infra_pretoria
+		}
+		available = {
+		}
+		x = 33
+		y = 2
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_road_matenence
+		icon = GFX_goal_generic_construction2
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_road_east
+		}
+		prerequisite = {
+			focus = trv_vic_road_west
+		}
+		available = {
+		}
+		x = 32
+		y = 3
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_resource_investments
+		icon = GFX_focus_exploration
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_eco_branch
+		}
+		available = {
+		}
+		x = 37
+		y = 1
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = trv_vic_coal_mine_expansion
+		icon = GFX_goal_focus_coal_mines
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_resource_investments
+		}
+		available = {
+		}
+		x = 35
+		y = 2
+		completion_reward = {
+			1142={
+				add_resource = {
+					type = coal
+					amount = 12
+				}
+			}
+		}
+	}
+	focus = {
+		id = trv_vic_diamond_fields
+		icon = GFX_focus_gems
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_resource_investments
+		}
+		available = {
+			has_country_flag = TRV_diamond_mines
+		}
+		x = 37
+		y = 2
+		completion_reward = {
+			add_ideas = {trv_diamonds}
+		}
+	}
+	focus = {
+		id = trv_vic_riches_of_witwatersrand
+		icon = GFX_nzl_goal_gold_otago
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+			focus = trv_vic_resource_investments
+		}
+		available = {
+			has_idea = afr_ofs_gold_mines_1
+		}
+		x = 39
+		y = 2
+		completion_reward = {
+			swap_ideas = {
+				add_idea = afr_ofs_gold_mines_2
+				remove_idea = afr_ofs_gold_mines_1
+			}
 		}
 	}
 }

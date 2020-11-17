@@ -1,0 +1,1926 @@
+focus_tree = {
+	id = siam
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = SIA
+		}
+	}
+	default = no
+	focus = {
+		id = SIA_honor_rama_IV
+		icon = GFX_focus_hun_elect_a_king
+		cost = 70
+		x = 4
+		y = 1
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+	
+	focus = {
+		id = SIA_our_neighbors
+		icon = GFX_goal_generic_improve_relations
+		cost = 70
+		relative_position_id = SIA_honor_rama_IV
+		x = 3
+		y = 1
+		prerequisite = {
+			focus = SIA_honor_rama_IV
+		}
+	}
+
+	focus = {
+		id = SIA_our_rivals
+		icon = GFX_goal_focus_faith_vietnam
+		cost = 70
+		relative_position_id = SIA_our_neighbors
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_our_neighbors
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = SIA_our_friends
+		icon = GFX_focus_continent_asia
+		cost = 70
+		relative_position_id = SIA_our_neighbors
+		x = -1
+		y = 2
+		prerequisite = {
+			focus = SIA_our_neighbors
+		}
+		completion_reward = {
+		}
+	}
+	
+	
+
+	focus = {
+		id = SIA_anna_leonowens
+		icon = GFX_goal_focus_british_colonial_empire
+		cost = 70
+		relative_position_id = SIA_honor_rama_IV
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_honor_rama_IV
+		}
+		completion_reward = {
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = SIA_expand_our_trade_network
+		icon = GFX_goal_focus_profits_tea_spices
+		cost = 70
+		relative_position_id = SIA_our_neighbors
+		x = 1
+		y = 2
+		available = {
+			if = {
+				limit = { 
+					all_owned_state = { naval_base < 1 }
+				}
+				custom_trigger_tooltip = {
+					tooltip = Ocenaia_has_infrastructure_to_support_new_buildings_on_coast
+					Oceania_one_extra_building_slots_supported_for_coast_not_core_trigger = yes
+				}
+			}
+			else = {
+				any_owned_state = {
+					is_coastal = yes
+					naval_base > 0
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_our_neighbors
+		}
+		completion_reward = {
+			if = {
+				limit = { 
+					OR = {
+						AND = {
+							all_owned_state = { naval_base < 1 }
+							all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+							capital_scope = { is_coastal = no }
+						}
+						owns_state = 724
+					}
+				}
+				add_political_power = -250
+				if = {
+					limit = { owns_state = 724 }
+					724 = {
+						set_state_flag = afr_port_town
+						hidden_effect = {
+							add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+						}
+						add_extra_state_shared_building_slots = 1
+						afr_add_one_building_naval_base_scripted_effect = yes
+						add_building_construction = {
+							type = infrastructure
+							level = 1
+							instant_build = yes
+						}
+						if = {
+							limit = { THIS = { NOT = { is_core_of = ROOT } } }
+							add_core_of = ROOT
+						}
+						add_manpower = 12853
+					}
+				}
+				else = {
+					random_owned_controlled_state = {
+						limit = {
+							Oceania_infrastructure_for_extra_building_slots_trigger = yes
+							is_coastal = yes
+						}
+						set_state_flag = afr_port_town
+						hidden_effect = {
+							add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+						}
+						add_extra_state_shared_building_slots = 1
+						afr_add_one_building_naval_base_scripted_effect = yes
+						add_building_construction = {
+							type = infrastructure
+							level = 1
+							instant_build = yes
+						}
+						if = {
+							limit = { THIS = { NOT = { is_core_of = ROOT } } }
+							add_core_of = ROOT
+						}
+						add_manpower = 12853
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					any_owned_state = { has_state_flag = afr_port_town }
+				}
+				add_political_power = -150
+				random_owned_controlled_state = {
+					limit = {
+						has_state_flag = afr_port_town
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					if = {
+						limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						add_core_of = ROOT
+					}
+					add_manpower = 12853
+				}
+			}
+			else_if = {
+				limit = {
+					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					capital_scope = { is_coastal = yes naval_base < 1 }
+				}
+				add_political_power = -250
+				random_owned_state = {
+					limit = {
+						is_coastal = yes
+						is_capital = yes
+					}
+					set_state_flag = afr_port_town
+					hidden_effect = {
+						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+					}
+					add_extra_state_shared_building_slots = 1
+					afr_add_one_building_naval_base_scripted_effect = yes
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					capital_scope = { is_coastal = yes naval_base > 0 }
+				}
+				add_political_power = -100
+				random_owned_state = {
+					limit = {
+						is_coastal = yes
+						is_capital = yes
+					}
+					set_state_flag = afr_port_town
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				add_political_power = -150
+				random_owned_controlled_state = {
+					limit = {
+						naval_base > 0
+						is_coastal = yes
+					}
+					set_state_flag = afr_port_town
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					if = {
+						limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						add_core_of = ROOT
+					}
+					add_manpower = 12853
+				}
+			}
+			add_equipment_to_stockpile = { type = convoy_1 amount = 35 }
+			if = {
+				limit = {
+					check_variable = {ROOT.industrisation_progress < 100}
+					OR = {
+						has_idea = afr_reforming_kingdom
+						has_country_flag = Oceania_industrializing
+						has_country_flag = afr_colony_industrializing
+						has_country_flag = afr_an_african_industrializing
+					}
+				}
+				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+				custom_effect_tooltip = EDC_afr.6.t
+				hidden_effect = {
+					country_event = { id = EDC_afr.6 hours = 1 } 
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_open_embassy_in_britain
+		icon = GFX_goal_focus_ally_ENG
+		cost = 70
+		relative_position_id = SIA_expand_our_trade_network
+		x = 2
+		y = 1
+		prerequisite = {
+			focus = SIA_expand_our_trade_network
+		}
+		completion_reward = {
+			ENG = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_trading_england
+				}
+			}
+			custom_effect_tooltip = SIA_ENG_gain_int
+			add_to_variable = { SIA_british_interest = 1}
+		}
+	}
+
+	focus = {
+		id = SIA_open_embassy_in_france
+		icon = GFX_goal_focus_ally_FRA
+		cost = 70
+		relative_position_id = SIA_expand_our_trade_network
+		x = 4
+		y = 1
+		prerequisite = {
+			focus = SIA_expand_our_trade_network
+		}
+		prerequisite = {
+			focus = SIA_treaty_of_bangkok
+		}
+		completion_reward = {
+			FRA = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_embassy_france
+				}
+			}
+			custom_effect_tooltip = SIA_FRA_gain_int
+			add_to_variable = { SIA_british_interest = 1}
+		}
+	}
+	
+	focus = {
+		id = SIA_trade_with_ryukyu
+		icon = GFX_focus_jap_spiritual_mobilization
+		cost = 70
+		available = {
+			RYU = { has_country_flag = Oceania_ryukyuan_trade_expanded_flag }
+		}
+		prerequisite = {
+			focus = SIA_expand_our_trade_network
+		}
+		relative_position_id = SIA_expand_our_trade_network
+		x = 0
+		y = 1
+		completion_reward = {
+			hidden_effect = {
+				add_opinion_modifier = { target = RYU modifier = eoanb_om_africa_trade_focus }
+				reverse_add_opinion_modifier = { target = RYU modifier = eoanb_om_africa_trade_focus }
+			}
+			custom_effect_tooltip = Oceania_merchant_adopted_ryu
+			RYU = {
+				country_event = { id = RYU_open_trade.1 }
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_finally_talk_to_qing
+		icon = GFX_goal_focus_ally_CHI
+		cost = 70
+		relative_position_id = SIA_our_friends
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_our_friends
+		}
+		completion_reward = {
+			country_event = { id = siam_china_negotiations.1 }
+		}
+	}
+
+	focus = {
+		id = SIA_siamese_enlightenment
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 70
+		relative_position_id = SIA_honor_rama_IV
+		x = -3
+		y = 1
+		prerequisite = {
+			focus = SIA_honor_rama_IV
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = mechanical_engineering_tech }
+		}
+	}
+
+	focus = {
+		id = SIA_keep_a_secure_border
+		icon = GFX_goal_generic_fortify_city
+		cost = 70
+		relative_position_id = SIA_siamese_enlightenment
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = SIA_siamese_enlightenment
+		}
+		completion_reward = {
+			996 = {
+				add_building_construction = {
+					type = bunker
+					province = 1607
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 7603
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 2061
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_protect_the_gulf
+		icon = GFX_AUS_focus_fortify_italy
+		cost = 70
+		relative_position_id = SIA_siamese_enlightenment
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = SIA_siamese_enlightenment
+		}
+		completion_reward = {
+			994 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = 7404
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = 1353
+					level = 2
+					instant_build = yes
+				}
+			}
+			985 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = 4433
+					level = 2
+					instant_build = yes
+				}
+			}
+			289 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = 7408
+					level = 2
+					instant_build = yes
+				}
+			}
+			724 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = 7236
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = 1279
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = 4388
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = 4312
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_learn_from_the_british
+		icon = GFX_goal_focus_question_eic
+		cost = 70
+		relative_position_id = SIA_siamese_enlightenment
+		x = -1
+		y = 2
+		prerequisite = {
+			focus = SIA_keep_a_secure_border
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = electronics_devices_tech }
+			custom_effect_tooltip = EDC_afr.5.t
+			hidden_effect = {
+				country_event = { id = EDC_afr.5 hours = 1 } 
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_proud_siamese_army
+		icon = GFX_focus_generic_little_entente
+		cost = 70
+		relative_position_id = SIA_siamese_enlightenment
+		x = 1
+		y = 2
+		prerequisite = {
+			focus = SIA_protect_the_gulf
+		}
+		completion_reward = {
+			army_experience = 15
+			navy_experience = 15
+		}
+	}
+
+	focus = {
+		id = SIA_innovation
+		icon = GFX_AUS_focus_private_schools
+		cost = 70
+		x = 7
+		y = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = Oceania_industrisation_progress_greater_than_25
+				check_variable = {ROOT.industrisation_progress > 24}
+			}
+		}
+		prerequisite = {
+			focus = SIA_open_embassy_in_france
+			focus = SIA_open_embassy_in_britain
+		}
+		prerequisite = {
+			focus = SIA_finally_talk_to_qing
+		}
+		completion_reward={
+			swap_ideas={
+				add_idea = SIA_slow_industry_2
+				remove_idea = SIA_slow_industry_1
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_generic_french_merchants
+		icon = GFX_goal_focus_merchants_french
+		cost = 75
+		available = {
+			FRA={
+				custom_trigger_tooltip = {
+					tooltip = SIA_interest_higher_than_noticing
+					check_variable = { SIA.SIA_british_interest > 1}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SIA_is_open_to_change_tooltip
+				has_country_flag = SIA_is_open_to_change_flag
+			}
+			FRA = { has_country_flag = FRA_has_colonial_ambitions }
+			FRA = {
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_western_oriented_nation_tooltip
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_innovation
+		}
+		#mutually_exclusive = {
+			#focus = SIA_generic_pursue_isolationist_policy
+		#}
+		relative_position_id = SIA_innovation
+		x = -1
+		y = 1
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = tech_humanities_mercantilism }
+				}
+				set_technology = { tech_humanities_mercantilism = 1 }
+			}
+			hidden_effect = {
+				add_opinion_modifier = { target = FRA modifier = eoanb_om_africa_trade_focus }
+				reverse_add_opinion_modifier = { target = FRA modifier = eoanb_om_africa_trade_focus }
+			}
+			custom_effect_tooltip = Oceania_merchant_adopted_fra
+			FRA = { country_event = { id = oceania_trading_partner.1 } }
+			set_country_flag = Oceania_generic_french_merchants
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
+			}
+		}
+		ai_will_do = {
+			factor = 1 
+			modifier = {
+				TAG = SIA
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+	}
+	focus = {
+		id = SIA_generic_french_administrators
+		icon = GFX_goal_focus_napoleonic_assemblee_nationale
+		cost = 75
+		prerequisite = {
+			focus = SIA_generic_french_merchants
+		}
+		relative_position_id = SIA_generic_french_merchants
+		x = 0
+		y = 1
+		completion_reward = {
+			add_stability = -0.01
+			add_political_power = 50
+			set_country_flag = Oceania_generic_french_administrators
+			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+			hidden_effect = { add_ideas = { Oceania_antoine_dufresne } }
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = Oceania_antoine_dufresne
+			custom_effect_tooltip = SIA_FRA_influence_increased
+			add_to_variable = { SIA_french_influence = 1}
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
+			}
+		}
+	}
+	focus = {
+		id = SIA_generic_french_military_expertise
+		icon = GFX_goal_focus_napoleonic_tactics
+		cost = 75
+		available = {
+			FRA={
+				custom_trigger_tooltip = {
+					tooltip = SIA_interest_higher_than_interested
+					check_variable = { SIA.SIA_british_interest > 2}
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_generic_french_administrators
+		}
+		relative_position_id = SIA_generic_french_merchants
+		x = 0
+		y = 2
+		completion_reward = {
+			add_manpower = 500
+			add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 500 producer = FRA }
+			add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 500 producer = FRA }
+			custom_effect_tooltip = SIA_FRA_influence_increased
+			add_to_variable = { SIA_french_influence = 1}
+		}
+	}
+	focus = {
+		id = SIA_generic_the_french_sphere
+		icon = GFX_goal_focus_colonial_empire_france
+		cost = 75
+		available = {
+			FRA={
+				custom_trigger_tooltip = {
+					tooltip = SIA_interest_higher_than_influencing
+					check_variable = { SIA.SIA_british_interest > 3}
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_generic_french_military_expertise
+		}
+		mutually_exclusive = {
+			focus = SIA_generic_british_companies
+			focus = SIA_limit_foreign_economic_influence
+		}
+		relative_position_id = SIA_generic_french_merchants
+		x = -1
+		y = 3
+		completion_reward = {
+			add_political_power = 100
+			FRA = { add_political_power = 100 }
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_generic_british_merchants
+		icon = GFX_goal_focus_merchants_british
+		cost = 75
+		prerequisite = {
+			focus = SIA_innovation
+		}
+		available = {
+			ENG={
+				custom_trigger_tooltip = {
+					tooltip = SIA_interest_higher_than_noticing
+					check_variable = { SIA.SIA_british_interest > 1}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SIA_is_open_to_change_tooltip
+				has_country_flag = SIA_is_open_to_change_flag
+			}
+			ENG = {
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_western_oriented_nation_tooltip
+				}
+			}
+		}
+		#mutually_exclusive = {
+		#	#focus = SIA_generic_pursue_isolationist_policy
+		#}
+		relative_position_id = SIA_innovation
+		x = 1
+		y = 1
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = tech_humanities_mercantilism }
+				}
+				set_technology = { tech_humanities_mercantilism = 1 }
+			}
+			hidden_effect = {
+				add_opinion_modifier = { target = ENG modifier = eoanb_om_africa_trade_focus }
+				reverse_add_opinion_modifier = { target = ENG modifier = eoanb_om_africa_trade_focus }
+			}
+			custom_effect_tooltip = Oceania_merchant_adopted_eng
+			set_country_flag = Oceania_generic_british_merchants
+			ENG = { country_event = { id = oceania_trading_partner.1 } }
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = {  
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
+			}
+		}
+		ai_will_do = {
+			factor = 1 
+			modifier = {
+				TAG = SIA
+				factor = 1.5
+			}
+			modifier = {
+				TAG = SIA
+				factor = 10
+				is_historical_focus_on = yes
+			}
+		}
+	}
+	focus = {
+		id = SIA_generic_british_administrators
+		icon = GFX_goal_focus_government_glass
+		cost = 75
+		prerequisite = {
+			focus = SIA_generic_british_merchants
+		}
+		relative_position_id = SIA_generic_british_merchants
+		x = 0
+		y = 1
+		completion_reward = {
+			add_stability = -0.01
+			add_political_power = 50
+			set_country_flag = Oceania_generic_british_administrators
+			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+			hidden_effect = { add_ideas = { Oceania_theodore_wilkinson } }
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = Oceania_theodore_wilkinson
+			custom_effect_tooltip = SIA_ENG_influence_increased
+			add_to_variable = { SIA_british_influence = 1}
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_2
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 } }
+			}
+		}
+	}
+	focus = {
+		id = SIA_generic_british_loans
+		icon = GFX_goal_focus_increase_wages
+		cost = 75
+		available = {
+			ENG={
+				custom_trigger_tooltip = {
+					tooltip = SIA_interest_higher_than_interested
+					check_variable = { SIA.SIA_british_interest > 2}
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_generic_british_administrators
+		}
+		relative_position_id = SIA_generic_british_merchants
+		x = 0
+		y = 2
+		completion_reward = {
+			add_political_power = 150
+			custom_effect_tooltip = SIA_ENG_influence_increased
+			add_to_variable = { SIA_british_influence = 1}
+		}
+	}
+	focus = {
+		id = SIA_generic_british_companies
+		icon = GFX_goal_focus_colonial_empire_uk
+		cost = 75
+		available = {
+			ENG={
+				custom_trigger_tooltip = {
+					tooltip = SIA_interest_higher_than_influencing
+					check_variable = { SIA.SIA_british_interest > 3}
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_generic_british_loans
+		}
+		mutually_exclusive = {
+			focus = SIA_generic_the_french_sphere
+			focus = SIA_limit_foreign_economic_influence
+		}
+		relative_position_id = SIA_generic_british_merchants
+		x = 1
+		y = 3
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = tech_humanities_capitalism }
+				}
+				set_technology = { tech_humanities_capitalism = 1  }
+			}
+			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+			custom_effect_tooltip = eoanb_af_t_tt_focus_british_companies
+			custom_effect_tooltip = EDC_afr.5.t
+			hidden_effect = {
+				country_event = { id = EDC_afr.5 hours = 1 } 
+			}
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_limit_foreign_economic_influence
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 75
+		prerequisite = {
+			focus = SIA_generic_british_loans
+			focus = SIA_generic_french_military_expertise
+		}
+		mutually_exclusive = {
+			focus = SIA_generic_british_companies
+			focus = SIA_generic_the_french_sphere
+		}
+		relative_position_id = SIA_innovation
+		x = 0
+		y = 4
+		completion_reward = {
+			add_political_power = -100
+			subtract_from_variable = {SIA_british_influence = 1}
+			subtract_from_variable = {SIA_french_influence = 1}
+			custom_effect_tooltip = SIA_trade_FRA_decrease_influence_1
+			custom_effect_tooltip = SIA_trade_ENG_decrease_influence_1
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.1 } }
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_generic_chinese_merchants
+		icon = GFX_goal_focus_ally_QNG
+		cost = 75
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SIA_has_picked_a_system_tooltip
+				OR = {
+					has_country_flag = SIA_kept_the_old_system_flag
+					has_country_flag = SIA_is_open_to_change_flag
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SIA_continued_the_envoys_to_qing_tooltip
+				has_country_flag = SIA_continued_the_envoys_to_qing_flag
+			}
+			CHI = {
+				custom_trigger_tooltip = {
+					tooltip = Oceania_is_eastern_oriented_nation_tooltip
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_innovation
+		}
+		#mutually_exclusive = {
+		#	focus = SIA_generic_pursue_isolationist_policy
+		#}
+		relative_position_id = SIA_innovation
+		x = 5
+		y = 1
+		completion_reward = {
+			hidden_effect = {
+				add_opinion_modifier = { target = CHI modifier = eoanb_om_africa_trade_focus }
+				reverse_add_opinion_modifier = { target = CHI modifier = eoanb_om_africa_trade_focus }
+			}
+			custom_effect_tooltip = Oceania_merchant_adopted_china
+			set_country_flag = Oceania_generic_qing_merchants
+			CHI = { country_event = { id = oceania_trading_partner.2 } }
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			}
+		}
+		ai_will_do = { 
+			factor = 1 
+			modifier = {
+				factor = 0
+				TAG = SIA
+				is_historical_focus_on = yes
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_generic_limit_chinese_influence
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 75
+		prerequisite = {
+			focus = SIA_generic_chinese_merchants
+		}
+		relative_position_id = SIA_generic_chinese_merchants
+		x = -1
+		y = 1
+		mutually_exclusive = {
+			focus = SIA_generic_chinese_administrators
+		}
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 50
+			if = {
+				limit = {
+					TAG = LAN
+				}
+				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+				remove_ideas = Oceania_qing_tributary
+			}
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_decrease.1 } }
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				TAG = SIA
+				factor = 1.5
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_generic_chinese_administrators
+		icon = GFX_focus_man_claim_the_mandate_of_heaven
+		cost = 75
+		available = {
+		}
+		prerequisite = {
+			focus = SIA_generic_chinese_merchants
+		}
+		relative_position_id = SIA_generic_chinese_merchants
+		x = 1
+		y = 1
+		mutually_exclusive = {
+			focus = SIA_generic_limit_chinese_influence
+		}
+		completion_reward = {
+			add_stability = -0.01
+			add_political_power = 50
+			set_country_flag = Oceania_generic_chinese_administrators
+			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+			hidden_effect = { add_ideas = { Oceania_zhu_yating } }
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = Oceania_zhu_yating
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = {  
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_generic_chinese_military_advisors
+		icon = GFX_focus_generic_military_mission
+		cost = 75
+		prerequisite = {
+			focus = SIA_generic_chinese_administrators
+		}
+		relative_position_id = SIA_generic_chinese_administrators
+		x = 0
+		y = 1
+		completion_reward = {
+			set_country_flag = Oceania_generic_chinese_military_advisors
+			#hidden_effect = { add_ideas = { Oceania_xiang_ling } }
+			custom_effect_tooltip = available_political_advisor
+			#show_ideas_tooltip = Oceania_xiang_ling
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			capital_scope = { 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			}
+		}
+	}
+	
+	
+	focus = {
+		id = SIA_generic_become_chinese_tributary
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 75
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = Oceania_industrisation_progress_greater_than_45
+				check_variable = {ROOT.industrisation_progress > 44}
+			}
+		}
+		prerequisite = {
+			focus = SIA_generic_chinese_military_advisors
+		}
+		relative_position_id = SIA_generic_chinese_administrators
+		x = 0
+		y = 2
+		completion_reward = {
+			CHI = {
+				add_political_power = 100
+			}
+			add_stability = 0.10
+			if = {
+				limit = {
+					NOT = { TAG = LAN }
+				}
+				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+				add_ideas = { Oceania_qing_tributary }
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				capital_scope = { 
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_generic_chinese_logging_industry
+		icon = GFX_focus_back_to_basics
+		cost = 75
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = Ocenaia_has_infrastructure_to_support_new_buildings
+				Oceania_one_extra_building_slots_supported_trigger = yes
+			}
+		}
+		prerequisite = {
+			focus = SIA_generic_limit_chinese_influence
+			focus = SIA_generic_chinese_administrators
+		}
+		relative_position_id = SIA_generic_limit_chinese_influence
+		x = 0
+		y = 1
+		completion_reward = {
+			random_owned_controlled_state ={
+				limit = {
+					is_core_of = ROOT 
+					NOT = { has_state_flag = Oceania_historically_colonized_land  }
+					Oceania_infrastructure_for_extra_building_slots_trigger = yes
+				}
+				hidden_effect = {
+					add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = logging_camp
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = EDC_afr.5.t
+			hidden_effect = {
+				country_event = { id = EDC_afr.5 hours = 1 } 
+			}
+		}
+	}
+	
+	
+	focus = {
+		id = SIA_generic_chinese_commerce_investment
+		icon = GFX_goal_focus_banks
+		cost = 75
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = Oceania_industrisation_progress_greater_than_25
+				check_variable = {ROOT.industrisation_progress > 24}
+			}
+		}
+		prerequisite = {
+			focus = SIA_generic_chinese_logging_industry
+		}
+		relative_position_id = SIA_generic_limit_chinese_influence
+		x = 0
+		y = 2
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = tech_humanities_mercantilism }
+				}
+				set_technology = { tech_humanities_mercantilism = 1 }
+			}
+			if = {
+				limit = {
+					capital_scope = {
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+				}
+				capital_scope = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					capital_scope = {
+						free_building_slots = {
+							building = infrastructure
+							size < 1
+						}
+					}
+				}
+				random_owned_controlled_state ={
+					limit = { 
+						is_capital = no
+						free_building_slots = {
+							building = infrastructure
+							size > 0
+						}
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = SIA_generic_pursue_isolationist_policy
+		icon = GFX_idea_isolation
+		cost = 75
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SIA_kept_the_old_system_tooltip
+				has_country_flag = SIA_kept_the_old_system_flag
+			}
+		}
+		prerequisite = {
+			focus = SIA_innovation
+		}
+		mutually_exclusive = {
+			#focus = SIA_generic_chinese_merchants
+			#focus = SIA_generic_british_merchants
+			#focus = SIA_generic_french_merchants
+		}
+		relative_position_id = SIA_innovation
+		x = -5
+		y = 1
+		completion_reward = {
+			custom_effect_tooltip = Oceania_generic_pursue_isolationist_policy_tooltip
+			add_ideas = closed_economy
+			hidden_effect = { add_ideas = closed_borders }
+			set_country_flag = Oceania_generic_pursue_isolationist_policy
+			if = {
+				limit = {
+					is_subject = yes
+					OR = {
+						has_idea = AFR_french_protectorate
+						has_idea = AFR_british_protectorate
+						has_idea = AFR_netherland_protectorate
+						has_idea = AFR_spanish_protectorate
+					}
+				}
+				custom_effect_tooltip = Oceania_this_will_infuriate_protectorate_overlord_tooltip
+				hidden_effect = { 
+					OVERLORD = { ROOT = { set_variable = { rival_country = PREV.id } } }
+					set_country_flag = Oceania_resisting_protectorate_flag
+				}
+			}
+			if = {
+				limit = { 
+					any_owned_state = { 
+						check_variable = { detrimental_colonial_impact_value > 0 } 
+						is_core_of = ROOT
+					}
+				}
+				custom_effect_tooltip = afr_colonial_effect_tooltip
+				random_owned_controlled_state = { 
+					limit = {
+						check_variable = { detrimental_colonial_impact_value > 0 } 
+						is_core_of = ROOT
+					}
+					custom_effect_tooltip = AFR_Racial_Tension_minus_1
+					hidden_effect = { 
+						if = {
+							limit = { PREV = { check_variable = { detrimental_colonial_impact_value@ROOT > 0 } } }
+							subtract_from_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+						}
+						subtract_from_variable = { var = detrimental_colonial_impact_value value = 1 }
+						OWNER = { subtract_from_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+					}
+				}
+			}
+		}
+		ai_will_do = { 
+			factor = 1
+			modifier = {
+				factor = 0
+				TAG = SIA
+				is_historical_focus_on = yes
+			}
+		}
+		allow_branch = {
+			always = no
+		}
+	}
+
+	focus = {
+		id = SIA_a_new_indochina
+		icon = GFX_goal_focus_angkor_wat
+		cost = 70
+		x = 24
+		y = 0
+		available = {
+			has_completed_focus = SIA_innovation
+		}
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = SIA_colonial_empires
+		icon = GFX_goal_focus_imperialism
+		cost = 70
+		x = 14
+		y = 1
+	}
+
+	focus = {
+		id = SIA_the_french_problem
+		icon = GFX_goal_focus_colonize_vietnam
+		cost = 70
+		relative_position_id = SIA_colonial_empires
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_colonial_empires
+		}
+		available = {
+			FRA = {
+				custom_trigger_tooltip = {
+					tooltip = FRA_CCH_colony_established_tooltip
+					CCH = { is_subject_of = FRA }
+					CCH = { exists = yes }
+				}
+			}
+		}
+		bypass = { FRA = { NOT = { has_country_flag = FRA_has_colonial_ambitions } } }
+	}
+
+	focus = {
+		id = SIA_the_french_threat
+		icon = GFX_goal_focus_authoritarian_empire
+		cost = 70
+		relative_position_id = SIA_the_french_problem
+		x = 2
+		y = 1
+		available = {
+			FRA = {
+				custom_trigger_tooltip = {
+					tooltip = FRA_CAM_subjected_tooltip
+					CAM = { is_subject_of = FRA }
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_the_french_problem	
+		}
+		mutually_exclusive = {
+			focus = SIA_a_french_compromise
+		}
+		completion_reward = {
+			add_stability = 0.05
+			FRA = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_french_threat
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_claim_the_lost_lands
+		icon = GFX_goal_siam_claim_vietnam
+		cost = 70
+		relative_position_id = SIA_the_french_threat
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_the_french_threat
+		}
+		completion_reward = {
+			add_state_claim = 671
+			add_state_claim = 286
+			add_state_claim = 998
+			add_state_claim = 1336
+			add_state_claim = 1337
+		}
+	}
+
+	focus = {
+		id = SIA_embargo_the_french
+		icon = GFX_goal_generic_trade
+		cost = 70
+		relative_position_id = SIA_the_french_threat
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = SIA_claim_the_lost_lands
+		}
+		completion_reward = {
+			FRA = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_french_embargo
+				}
+			}
+			custom_effect_tooltip = SIA_trade_FRA_int_for_inf
+			add_to_variable = {SIA_french_interest = 1}
+			subtract_from_variable = {SIA_french_influence = 2}
+		}
+	}
+
+	focus = {
+		id = SIA_a_french_compromise
+		icon = GFX_goal_focus_paris_revival
+		cost = 70
+		relative_position_id = SIA_the_french_problem
+		x = -2
+		y = 1
+		available = {
+			FRA = {
+				custom_trigger_tooltip = {
+					tooltip = FRA_CAM_subjected_tooltip
+					CAM = { is_subject_of = FRA }
+				}
+			}
+		}
+		prerequisite = {
+			focus = SIA_the_french_problem
+		}
+		mutually_exclusive = {
+			focus = SIA_the_french_threat
+		}
+		completion_reward = {
+			add_stability = -0.05
+			add_political_power = -50
+		}
+		bypass = { FRA = { NOT = { has_country_flag = FRA_has_colonial_ambitions } } }
+	}
+
+	focus = {
+		id = SIA_treaty_of_bangkok
+		icon = GFX_goal_focus_protectorate_cambodia
+		cost = 105
+		relative_position_id = SIA_a_french_compromise
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_a_french_compromise
+		}
+		completion_reward = {
+			FRA = {
+				country_event = { id = siam.1 }
+			}
+		}
+		bypass = { FRA = { NOT = { has_country_flag = FRA_has_colonial_ambitions } } }
+	}
+
+	focus = {
+		id = SIA_political_decisions
+		icon = GFX_focus_generic_treaty
+		cost = 70
+		x = 24
+		y = 1
+		prerequisite = {
+			focus = SIA_a_new_indochina
+		}
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = SIA_open_to_change
+		icon = GFX_goal_focus_liberal_empire
+		cost = 70
+		x = 22
+		y = 2
+		prerequisite = {
+			focus = SIA_political_decisions
+		}
+		mutually_exclusive = {
+			focus = SIA_keep_the_old_system
+		}
+		ai_will_do = {
+			factor = 0.8
+		}
+		completion_reward = {
+			add_stability = -0.1
+			hidden_effect = { set_country_flag = SIA_is_open_to_change_flag }
+			custom_effect_tooltip = SIA_is_open_to_change_effect_tooltip
+		}
+	}
+
+	focus = {
+		id = SIA_keep_the_old_system
+		icon = GFX_focus_rom_royal_dictatorship
+		cost = 70
+		x = 26
+		y = 2
+		prerequisite = {
+			focus = SIA_political_decisions
+		}
+		mutually_exclusive = {
+			focus = SIA_open_to_change
+		}
+		ai_will_do = {
+			factor = 0.2
+		}
+		completion_reward = {
+			add_stability = 0.1
+			hidden_effect = { set_country_flag = SIA_kept_the_old_system_flag }
+			custom_effect_tooltip = SIA_kept_the_old_system_effect_tooltip
+		}
+	}
+
+	focus = {
+		id = SIA_bring_back_the_magha_puja
+		icon = GFX_AUS_focus_additional_goods
+		cost = 70
+		x = 24
+		y = 3
+		prerequisite = {
+			focus = SIA_open_to_change
+			focus = SIA_keep_the_old_system
+		}
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = SIA_misstrust_europeans
+		icon = GFX_focus_ger_break_anglo_french_colonial_hegemony
+		cost = 70
+		x = 26
+		y = 3
+		prerequisite = {
+			focus = SIA_keep_the_old_system
+		}
+		completion_reward = {
+			FRA = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_european_hate
+				}
+			}
+			SPR = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_european_hate
+				}
+			}
+			ENG = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_european_hate
+				}
+			}
+			HOL = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_european_hate
+				}
+			}
+			POR = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_european_hate
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_accute_rama_IV
+		icon = GFX_focus_rom_handle_king
+		cost = 70
+		x = 26
+		y = 4
+		prerequisite = {
+			focus = SIA_misstrust_europeans
+		}
+		completion_reward = {
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = SIA_elevate_the_vice_king_pinklao
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		cost = 70
+		x = 26
+		y = 5
+		prerequisite = {
+			focus = SIA_accute_rama_IV
+		}
+		completion_reward = {
+			SIA = { country_event = { id = siam.2 } }
+		}
+	}
+
+	focus = {
+		id = SIA_the_strongest_empire_in_asia
+		icon = GFX_focus_smiling_buddha
+		cost = 70
+		x = 26
+		y = 6
+		prerequisite = {
+			focus = SIA_elevate_the_vice_king_pinklao
+		}
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = SIA_the_kings_new_powers
+		icon = GFX_focus_ger_return_of_the_kaiser
+		cost = 70
+		x = 26
+		y = 7
+		prerequisite = {
+			focus = SIA_the_strongest_empire_in_asia
+		}
+		completion_reward = {
+			SIA = { country_event = { id = siam.3 } }
+		}
+	}
+
+	focus = {
+		id = SIA_suppress_the_bangkok_recorder_newspaper
+		icon = GFX_focus_newspapers
+		cost = 70
+		x = 26
+		y = 8
+		prerequisite = {
+			focus = SIA_the_kings_new_powers
+		}
+	}
+
+	focus = {
+		id = SIA_imperial_diplomacy
+		icon = GFX_goal_focus_imperialism
+		cost = 70
+		x = 31
+		y = 7
+		prerequisite = {
+			focus = SIA_the_strongest_empire_in_asia
+		}
+		completion_reward = {
+			SIA = { country_event = { id = siam.4 } }
+		}
+	}
+
+	focus = {
+		id = SIA_greater_siam
+		icon = GFX_goal_focus_fund_partisans
+		cost = 70
+		x = 31
+		y = 8
+		prerequisite = {
+			focus = SIA_imperial_diplomacy
+		}
+		completion_reward = {
+			add_state_claim = 925
+			add_state_claim = 336
+			add_state_claim = 922
+			add_state_claim = 640
+		}
+	}
+
+	focus = {
+		id = SIA_An_Ultimatum_to_China
+		icon = GFX_focus_chi_one_china_policy
+		cost = 70
+		x = 30
+		y = 9
+		prerequisite = {
+			focus = SIA_greater_siam
+		}
+		completion_reward = {
+			CHI = {
+				SIA = { country_event = { id = siam.5 } }
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_spark_chaos_in_malaysia
+		icon = GFX_goal_focus_burn_summer_palace
+		cost = 70
+		x = 32
+		y = 9
+		prerequisite = {
+			focus = SIA_greater_siam
+		}
+	}
+
+	focus = {
+		id = SIA_not_afraid_of_war
+		icon = GFX_focus_prc_infiltration
+		cost = 70
+		x = 31
+		y = 10
+		prerequisite = {
+			focus = SIA_An_Ultimatum_to_China
+		}
+		prerequisite = {
+			focus = SIA_spark_chaos_in_malaysia
+		}
+		completion_reward = {
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = SIA_speed_up_modernization
+		icon = GFX_AUS_focus_ind_ind_ind
+		cost = 200
+		x = 24
+		y = 4
+		prerequisite = {
+			focus = SIA_bring_back_the_magha_puja
+		}
+		completion_reward={
+			swap_ideas={
+				add_idea = SIA_slow_industry_3
+				remove_idea = SIA_slow_industry_2
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_mongkuts_reformation
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		x = 22
+		y = 3
+		prerequisite = {
+			focus = SIA_open_to_change
+		}
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.9 uses = 1 category = process_engineering_tech }
+		}
+	}
+
+	focus = {	
+		id = SIA_renew_the_bowring_treaty
+		icon = GFX_goal_focus_enact_law
+		cost = 70
+		x = 22
+		y = 4
+		prerequisite = {
+			focus = SIA_mongkuts_reformation
+		}
+		completion_reward = {
+			ENG = {
+				add_opinion_modifier = {
+					target = SIA
+					modifier = sia_bowring_uk
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_education_reform
+		icon = GFX_focus_research
+		cost = 70
+		x = 22
+		y = 5
+		prerequisite = {
+			focus = SIA_renew_the_bowring_treaty
+		}
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = SIA_liberal_but_unchanged
+		icon = GFX_goal_focus_support_liberalism
+		cost = 70
+		relative_position_id = SIA_education_reform
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_education_reform
+		}
+		mutually_exclusive = {
+			focus = SIA_emulate_the_europeans
+		}
+		ai_will_do = {
+			factor = 0.9
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.2
+			}
+			add_political_power = -100
+		}
+	}
+
+	focus = {
+		id = SIA_keep_mongkuts_reforms
+		icon = GFX_goal_focus_military_reforms
+		cost = 70
+		relative_position_id = SIA_liberal_but_unchanged
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_liberal_but_unchanged
+		}
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = SIA_emulate_the_europeans
+		icon = GFX_goal_focus_continent_west_europe
+		cost = 70
+		relative_position_id = SIA_education_reform
+		x = -4
+		y = 1
+		prerequisite = {
+			focus = SIA_education_reform
+		}
+		mutually_exclusive = {
+			focus = SIA_liberal_but_unchanged
+		}
+		completion_reward = {	
+			add_political_power = -50
+		}
+	}
+
+	focus = {	
+		id = SIA_british_politics
+		icon = GFX_focus_ITA_Britain
+		cost = 84
+		relative_position_id = SIA_emulate_the_europeans
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_emulate_the_europeans
+		}
+		completion_reward = {
+			add_stability = -0.05
+			add_political_power = -100
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = social_egalitarianism
+				popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_expand_civil_rights
+		icon = GFX_goal_focus_divide_unite_army
+		cost = 70
+		relative_position_id = SIA_british_politics
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = SIA_british_politics
+		}
+		completion_reward = {
+			add_stability = -0.05
+			add_political_power = 100
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = social_egalitarianism
+				popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = SIA_time_to_take_action
+		icon = GFX_goal_continuous_suppression
+		cost = 168
+		relative_position_id = SIA_expand_civil_rights
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = SIA_expand_civil_rights
+		}
+		completion_reward = {
+			add_stability = 0.15
+			add_political_power = 250
+		}
+	}
+
+	focus = {
+		id = SIA_the_first_thai_republic
+		icon = GFX_goal_focus_support_liberalism 
+		cost = 140
+		relative_position_id = SIA_time_to_take_action
+		x = -2
+		y = 1
+		prerequisite = {
+			focus = SIA_time_to_take_action
+		}
+		mutually_exclusive = {
+			focus = SIA_sign_a_constitutional_monarchy
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = social_egalitarianism
+				popularity = 0.05
+			}
+			SIA = { country_event = { id = siam.6 } }
+		}
+	}
+
+	focus = {
+		id = SIA_sign_a_constitutional_monarchy
+		icon = GFX_goal_focus_support_conservatism
+		cost = 70
+		relative_position_id = SIA_time_to_take_action
+		x = 2
+		y = 1
+		prerequisite = {
+			focus = SIA_time_to_take_action
+		}
+		mutually_exclusive = {
+			focus = SIA_the_first_thai_republic
+		}
+	}
+
+	focus = {
+		id = SIA_the_first_ever_election
+		icon = GFX_goal_focus_elections
+		cost = 70
+		relative_position_id = SIA_time_to_take_action
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = SIA_the_first_thai_republic
+			focus = SIA_sign_a_constitutional_monarchy
+		}
+		completion_reward = {
+			SIA = { country_event = { id = siam.7 } }
+		}
+	}
+
+	#focus = {
+	#	id = SIA_the_new_treaty_of_amity
+	#	icon = GFX_goal_focus_eagle_soaring
+	#	cost = 70
+	#	relative_position_id = SIA_our_neighbors
+	#	x = 0
+	#	y = 1
+	#	prerequisite = {
+	#		focus = SIA_our_neighbors
+	#	}
+	#	completion_reward = {
+	#		USA = {
+	#			add_opinion_modifier = {
+	#				target = SIA
+	#				modifier = sia_friend_usa
+	#			}
+	#		}
+	#	}
+	#}
+}

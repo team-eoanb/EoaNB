@@ -1,94 +1,56 @@
-# monthly on_action by Yard1
-
 on_actions = {
-	on_startup = { # on_daily is executed before on_startup
+	on_monthly = {
 		effect = {
-			add_to_variable = { global.next_month = 1 }
-		}
-	}
+            if = {
+                limit = {
+                    mhc_system_active_trigger = yes
+                    has_capitulated = no
+                }
+                mhc_raise_power_collector = yes
+                mhc_lower_power_collector = yes
+                mhc_get_results_collector = yes
+                mhc_get_results_effects_collector = yes
 
-	# on_monthly
-	# this is executed on the 1st of every month FOR ONE RANDOM COUNTRY - use every_country inside
-	on_daily = {
-		effect = {
-			if = {
-				# don't touch!
-				limit = {
-					NOT = { 
-						has_global_flag = on_monthly_done
-					}
-					meta_trigger = {
-						text = {
-							date > [YEAR].[MONTH].1
-						}
-						YEAR = "[?global.year]"
-						MONTH = "[?global.next_month]"
-					}
-				}
-				add_to_variable = { global.month = 1 }
-				add_to_variable = { global.next_month = 1 }
-				set_global_flag = { flag = on_monthly_done value = 1 days = 27 }
-				if = {
-					limit = { check_variable = { global.month > 12 } }
-					set_variable = { global.month = 1 }
-				}
-				if = {
-					limit = { check_variable = { global.next_month > 12 } }
-					set_variable = { global.next_month = 1 }
-					set_global_flag = { flag = on_monthly_done value = 1 days = 31 }
-				}
-				# this is done only ONCE per month, even though on_daily fires for every country
-				# will also be done on startup
-
-				# your code here
-				every_country = {
-					if = {
-						limit = {
-							mhc_system_active_trigger = yes
-							has_capitulated = no
-						}
-						mhc_raise_power_collector = yes
-						mhc_lower_power_collector = yes
-						mhc_get_results_collector = yes
-						mhc_get_results_effects_collector = yes
-						
-						mhc_junta_collector = yes
-						
-						if = {
-							limit = {
-								is_ai = yes
-								has_country_flag = mhc_ai_is_active
-							}
-							if = {
-								limit = {
-									NOT = {
-										has_country_flag = mhc_ai_decision_active_army
-									}
-								}
-								mhc_ai_army_initiate_activate = yes
-							}
-							if = {
-								limit = {
-									mhc_airforce_tab_enabled = yes
-									NOT = {
-										has_country_flag = mhc_ai_decision_active_airforce
-									}
-								}
-								mhc_ai_airforce_initiate_activate = yes
-							}
-							if = {
-								limit = {
-									mhc_navy_tab_enabled = yes
-									NOT = {
-										has_country_flag = mhc_ai_decision_active_navy
-									}
-								}
-								mhc_ai_navy_initiate_activate = yes
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+              	mhc_junta_collector = yes
+                
+                if = {
+                    limit = {
+                        is_ai = yes
+                        has_country_flag = mhc_ai_is_active
+                    }
+                    if = {
+                        limit = {
+                            NOT = {
+                                has_country_flag = mhc_ai_decision_active_army
+                            }
+                        }
+                        mhc_ai_army_initiate_activate = yes
+                    }
+                    if = {
+                        limit = {
+                            mhc_airforce_tab_enabled = yes
+                            NOT = {
+                                has_country_flag = mhc_ai_decision_active_airforce
+                            }
+                        }
+                        mhc_ai_airforce_initiate_activate = yes
+                    }
+                    if = {
+                        limit = {
+                            mhc_navy_tab_enabled = yes
+                            NOT = {
+                                has_country_flag = mhc_ai_decision_active_navy
+                            }
+                        }
+                        mhc_ai_navy_initiate_activate = yes
+                    }
+                }
+            }
+        }        
+    }
+    on_monthly_PIE = {
+        effect = {
+            add_to_variable = { southern_revolt_risk = modifier@PIE_Southern_Unrest_Modifier }
+        }
+    }
 }

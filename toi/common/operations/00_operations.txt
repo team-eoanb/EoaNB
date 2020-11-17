@@ -1,4 +1,4 @@
-### operations are sorted by order of 
+### operations are sorted by order of
 ### 1) no. of required operatives
 ### 2) required network strength
 ### eg. 1/70 comes before 2/40
@@ -27,18 +27,17 @@ operation_rescue_operative = { ### 0 1/35
 	}
 
 	available = {
-		
+
 	}
 
 	equipment = {
-		
+
 	}
 	risk_chance = 0.1
 	experience = 2
 	cost_multiplier = 0 # we dont scale in cost for rescues
 
-	outcome_chance = 0 #not technically needed?
-	outcome_extra_execute = { # SCOPE_OPERATION
+	outcome_execute = { # SCOPE_OPERATION
 		ROOT = {
 			free_random_operative = {
 				captured_by = FROM
@@ -64,10 +63,10 @@ operation_rescue_operative = { ### 0 1/35
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -98,10 +97,10 @@ operation_rescue_operative = { ### 0 1/35
 		free_operative_smuggle_in_escape_gear = { base = 33 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -140,7 +139,7 @@ operation_infiltrate_civilian = { ### 1 1/35
 	}
 
 	equipment = {
-		
+
 	}
 
 	available = {
@@ -156,7 +155,7 @@ operation_infiltrate_civilian = { ### 1 1/35
 		token_civilian
 	}
 	risk_chance = 0.1
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	risk_modifiers = { operation_infiltrate_risk operation_risk }
 	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
 	cost_modifiers = { operation_infiltrate_cost operation_cost }
@@ -190,7 +189,7 @@ operation_infiltrate_civilian = { ### 1 1/35
 						token = token_civilian
 					}
 					add_political_power = 25
-				}	
+				}
 			}
 		}
 	}
@@ -207,10 +206,10 @@ operation_infiltrate_civilian = { ### 1 1/35
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -241,10 +240,10 @@ operation_infiltrate_civilian = { ### 1 1/35
 		}
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -278,9 +277,9 @@ operation_fake_intel = { ### 2 1/40
 			has_war_with = ROOT
 		}
 	}
-	
+
 	scale_cost_independent_of_target = yes
-	
+
 	available = {
 		ROOT = {
 			# check if we have at most x2.5 amount units we will generate
@@ -292,11 +291,11 @@ operation_fake_intel = { ### 2 1/40
 				var = num_max_fake_intel_unit
 				min = 24
 			}
-			multiply_temp_variable = { num_max_fake_intel_unit = 2.5 } 
+			multiply_temp_variable = { num_max_fake_intel_unit = 2.5 }
 			round_temp_variable = num_max_fake_intel_unit
-			
+
 			num_fake_intel_divisions < num_max_fake_intel_unit
-			
+
 			# if enemy has high intel, don't do mission at all
 			all_enemy_country = {
 				intel_level_over = {
@@ -306,18 +305,17 @@ operation_fake_intel = { ### 2 1/40
 			}
 		}
 	}
-	
+
 	equipment = {
 
 	}
 
 	required_tokens = {
-		
+
 	}
 	risk_chance = 0 #there shouldn't be any risk
 	experience = 0.5
-	outcome_chance = 0 #no variations
-	outcome_extra_execute = { # SCOPE_OPERATION
+	outcome_execute = { # SCOPE_OPERATION
 		ROOT = {
 			hidden_effect = {
 				if = {
@@ -329,7 +327,7 @@ operation_fake_intel = { ### 2 1/40
 					}
 					division_template = {
 						name = "Fake Intel Division"
-						
+
 						is_fake_intel_division = yes
 						is_locked = yes
 						regiments = {
@@ -338,7 +336,7 @@ operation_fake_intel = { ### 2 1/40
 					}
 					set_country_flag = fake_intel_template_created
 				}
-				
+
 				# give it an id and store id & current date so it can be deleted later
 				if = {
 					limit = { NOT = { has_variable = fake_intel_id } }
@@ -350,7 +348,7 @@ operation_fake_intel = { ### 2 1/40
 					fake_intel_ids_to_delete = id_to_set
 				}
 				set_variable = { num_days_for_fake_intel_id@var:id_to_set = global.num_days }
-				
+
 				# minimum of 0.25 of current armies or 24
 				set_temp_variable = { num_to_create = num_armies }
 				multiply_temp_variable = { num_to_create = 0.25 }
@@ -360,17 +358,17 @@ operation_fake_intel = { ### 2 1/40
 					var = num_to_create
 					min = 24
 				}
-				
+
 				# create actual units
 				capital_scope = {
 					create_unit = {
-						division = "division_template = \"Fake Intel Division\" start_experience_factor = 0.5" 
+						division = "division_template = \"Fake Intel Division\" start_experience_factor = 0.5"
 						owner = PREV
 						count = num_to_create
 						id = id_to_set
 					}
 				}
-				
+
 				# will delete them after 90 days
 				country_event = { id = lar_fake_intel_units.1 days = 90 }
 			}
@@ -381,7 +379,7 @@ operation_fake_intel = { ### 2 1/40
 	outcome_potential = {
 		custom_effect_tooltip = CUSTOM_EFFECT_CREATE_FAKE_ARMIES
 	}
-	
+
 	#since this operation is taking place in friendly territory, no infiltration/exfiltration is necessary
 	phases = { #
 		fake_intel_decoy_tanks = { base = 33 }
@@ -416,13 +414,16 @@ operation_capture_cipher = { ### 3 1/55
 		}
 		has_tech = eniac
 		has_done_agency_upgrade = upgrade_form_department
+		NOT = {
+			ROOT = { is_fully_decrypted = FROM }
+		}
 	}
 
 	equipment = {
-		
+
 	}
 	risk_chance = 0.2
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	outcome_execute = {
 		ROOT = {
 			add_decryption = {
@@ -475,7 +476,7 @@ operation_capture_cipher = { ### 3 1/55
 					}
 				}
 			}
-		}	
+		}
 	}
 
 	outcome_potential = {
@@ -490,10 +491,10 @@ operation_capture_cipher = { ### 3 1/55
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -527,10 +528,10 @@ operation_capture_cipher = { ### 3 1/55
 	}
 
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -569,7 +570,7 @@ operation_infiltrate_armed_forces_army = { ### 4 1/55
 	}
 
 	equipment = {
-		
+
 	}
 
 	available = {
@@ -580,14 +581,14 @@ operation_infiltrate_armed_forces_army = { ### 4 1/55
 		#	}
 		#}
 	}
-	
+
 	awarded_tokens = {
 		token_army
 	}
 
 	risk_chance = 0.1
 	risk_modifiers = { operation_infiltrate_risk operation_risk }
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
 	cost_modifiers = { operation_infiltrate_cost operation_cost }
 	outcome_execute = {
@@ -635,10 +636,10 @@ operation_infiltrate_armed_forces_army = { ### 4 1/55
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -676,10 +677,10 @@ operation_infiltrate_armed_forces_army = { ### 4 1/55
 		}
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -717,11 +718,11 @@ operation_infiltrate_armed_forces_navy = { ### 5 1/55
 		}
 		FROM = {
 			has_country_flag = naval_command_founded
-		}		
+		}
 	}
 
 	equipment = {
-		
+
 	}
 
 	available = {
@@ -742,7 +743,7 @@ operation_infiltrate_armed_forces_navy = { ### 5 1/55
 		token_navy
 	}
 	risk_chance = 0.1
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	risk_modifiers = { operation_infiltrate_risk operation_risk }
 	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
 	cost_modifiers = { operation_infiltrate_cost operation_cost }
@@ -791,10 +792,10 @@ operation_infiltrate_armed_forces_navy = { ### 5 1/55
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -832,10 +833,10 @@ operation_infiltrate_armed_forces_navy = { ### 5 1/55
 		}
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -870,14 +871,14 @@ operation_infiltrate_armed_forces_airforce = { ### 6 1/55
 				tag = FROM
 				token = token_airforce
 			}
-		}		
+		}
 		FROM={
 			has_country_flag = air_force_founded
 		}
 	}
 
 	equipment = {
-		
+
 	}
 
 	available = {
@@ -893,7 +894,7 @@ operation_infiltrate_armed_forces_airforce = { ### 6 1/55
 		token_airforce
 	}
 	risk_chance = 0.1
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	risk_modifiers = { operation_infiltrate_risk operation_risk }
 	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
 	cost_modifiers = { operation_infiltrate_cost operation_cost }
@@ -945,10 +946,10 @@ operation_infiltrate_armed_forces_airforce = { ### 6 1/55
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -986,10 +987,10 @@ operation_infiltrate_armed_forces_airforce = { ### 6 1/55
 		}
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1038,15 +1039,25 @@ operation_coup_government = { ### 7 1/70
 				option = BLOCKED
 			}
 		}
+		NOT={
+			OR={
+				has_idea = pre_industrial_era
+				has_idea = victorian_era
+				has_idea = machine_era
+				has_idea = oil_era
+				has_idea = aviation_era
+				has_idea = modern_era
+			}
+		}
 	}
 
 	available = {
-		
+
 		FROM = {
 				#set_temp_variable = { coup_ideology@ROOT = PREV.ROOT.current_party_ideology_group }
 				#set_temp_variable = { coup_ideology_popularity@ROOT = party_popularity@ROOT.coup_ideology }
 				#check_variable = { ROOT.coup_ideology_popularity > 0.2 }
-			
+
 			OR = {
 				AND = {
 					is_major = no
@@ -1085,8 +1096,7 @@ operation_coup_government = { ### 7 1/70
 	risk_chance = 0.3
 	experience = 2.5
 	cost_modifiers = { operation_coup_cost }
-	outcome_chance = 0
-	outcome_extra_execute = { # SCOPE_OPERATION
+	outcome_execute = { # SCOPE_OPERATION
 		FROM = {
 			if = {
 				limit = {
@@ -1148,7 +1158,7 @@ operation_coup_government = { ### 7 1/70
 							tag = FROM
 							token = token_navy
 						}
-						
+
 					}
 				}
 				add_to_temp_variable = { civil_war_navy_fraction = 0.15 }
@@ -1209,10 +1219,10 @@ operation_coup_government = { ### 7 1/70
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1241,6 +1251,8 @@ operation_boost_resistance = { ### 8 2/40
 	name = operation_boost_resistance
 	desc = operation_boost_resistance_desc
 	priority = 8
+
+	cost_multiplier = 0.25
 
 	days = 60
 	network_strength = 35
@@ -1275,7 +1287,7 @@ operation_boost_resistance = { ### 8 2/40
 	}
 	risk_chance = 0.2
 	experience = 1.5
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	outcome_modifiers = { boost_resistance_factor }
 	outcome_execute = {
 		FROM.FROM = {
@@ -1283,6 +1295,7 @@ operation_boost_resistance = { ### 8 2/40
 				amount = 10
 				tooltip = intelligency_agency_resistance_boost_tt
 			}
+			subtract_from_variable = { boost_resistance_chance = 10 }
 		}
 	}
 	outcome_extra_execute = { # SCOPE_OPERATION
@@ -1293,6 +1306,7 @@ operation_boost_resistance = { ### 8 2/40
 						amount = 20
 						tooltip = intelligency_agency_resistance_boost_tt
 					}
+					subtract_from_variable = { boost_resistance_chance = 10 }
 				}
 				FROM.FROM = {
 					add_compliance = -10
@@ -1304,6 +1318,7 @@ operation_boost_resistance = { ### 8 2/40
 						amount = 20
 						tooltip = intelligency_agency_resistance_boost_tt
 					}
+					subtract_from_variable = { boost_resistance_chance = 10 }
 				}
 			}
 		}
@@ -1318,11 +1333,28 @@ operation_boost_resistance = { ### 8 2/40
 		}
 	}
 
-	phases = { #infiltration
+
+	target_weight = {
+		base = 100
+
+		modifier = {
+			add = boost_resistance_chance
+		}
+
+		modifier = {
+			set_temp_variable = { t = distance_to@ROOT.capital }
+			divide_temp_variable = { t = 600 }
+			clamp_temp_variable = { var = t min = 0 max = 1 }
+			multiply_temp_variable = { t = -40 }
+
+			add = t
+		}
+	}
+		phases = { #infiltration
 		infiltration_border = { base = 50 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 		}
 	}
 	phases = { #resistance support
@@ -1340,8 +1372,8 @@ operation_boost_resistance = { ### 8 2/40
 		}
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 		}
 		exfiltration_border = { base = 30 }
 		exfiltration_go_to_ground = { base = 30 }
@@ -1376,18 +1408,18 @@ operation_make_resistance_contacts = { ### 9 2/40
 				token = token_resistance_contacts
 			}
 		}
-		
+
 		FROM = {
 			any_controlled_state = {
 				has_resistance = yes
 			}
-		}		
+		}
 	}
 
 	equipment = {
-		
+
 	}
-	
+
 	selection_target = {
 		targets = { FROM }
 	}
@@ -1410,12 +1442,12 @@ operation_make_resistance_contacts = { ### 9 2/40
 		#	}
 		#}
 	}
-	
+
 	awarded_tokens = {
 		token_resistance_contacts
 	}
 	risk_chance = 0.1
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	risk_modifiers = { operation_infiltrate_risk operation_risk }
 	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
 	cost_modifiers = { operation_infiltrate_cost operation_cost }
@@ -1442,6 +1474,7 @@ operation_make_resistance_contacts = { ### 9 2/40
 						tooltip = intelligency_agency_resistance_boost_tt
 						days = 180
 					}
+					subtract_from_variable = { boost_resistance_chance = 10 }
 				}
 			}
 			67 = {
@@ -1457,6 +1490,7 @@ operation_make_resistance_contacts = { ### 9 2/40
 						tooltip = intelligency_agency_resistance_boost_tt
 						days = 60
 					}
+					subtract_from_variable = { boost_resistance_chance = 10 }
 				}
 			}
 		}
@@ -1471,13 +1505,29 @@ operation_make_resistance_contacts = { ### 9 2/40
 		}
 	}
 
-	phases = { #infiltration
+	target_weight = {
+		base = 100
+
+		modifier = {
+			add = boost_resistance_chance
+		}
+
+		modifier = {
+			set_temp_variable = { t = distance_to@ROOT.capital }
+			divide_temp_variable = { t = 600 }
+			clamp_temp_variable = { var = t min = 0 max = 1 }
+			multiply_temp_variable = { t = -40 }
+
+			add = t
+		}
+	}
+		phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1492,10 +1542,10 @@ operation_make_resistance_contacts = { ### 9 2/40
 		resistance_contacts_briefings = { base = 33 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1520,7 +1570,9 @@ operation_collaboration_government = { ### 10 2/55
 	network_strength = 50
 	operatives = 2
 
-	visible = {
+
+	cost_multiplier = 0.25
+		visible = {
 		network_strength = {
 			target = FROM
 			value > 25
@@ -1549,7 +1601,7 @@ operation_collaboration_government = { ### 10 2/55
 	}
 	risk_chance = 0.1
 	experience = 1.5
-	outcome_chance = 0.33
+	outcome_extra_chance = 0.33
 	outcome_execute = { # SCOPE_OPERATION
 		ROOT = {
 			add_collaboration = {
@@ -1579,10 +1631,10 @@ operation_collaboration_government = { ### 10 2/55
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1607,10 +1659,10 @@ operation_collaboration_government = { ### 10 2/55
 		collaboration_government_contact_military_officers = { base = 33 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1670,12 +1722,11 @@ operation_coordinated_strike = { ### 11 2/70
 	will_lead_to_war_with = yes
 	risk_chance = 0.3
 	experience = 2
-	outcome_chance = 0 #no variation base
-	outcome_extra_execute = { # SCOPE_OPERATION
+	outcome_execute = { # SCOPE_OPERATION
 		ROOT = {
 			declare_war_on = { target = FROM type = annex_everything }
 		}
-		
+
 		execute_operation_coordinated_strike = {
 			# Amount determines how often the mission simulation is run
 			amount = 12 #1 attack per 6 hours --> 12 attacks = 3 days
@@ -1689,10 +1740,10 @@ operation_coordinated_strike = { ### 11 2/70
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1719,8 +1770,8 @@ operation_coordinated_strike = { ### 11 2/70
 	phases = { #execution
 		coordinated_strike_sabotage_communications = { base = 34 }
 		coordinated_strike_direct_units = { base = 34 }
-		coordinated_strike_occupy_bridges = { 
-			base = 34 
+		coordinated_strike_occupy_bridges = {
+			base = 34
 			modifier = {
 				NOT = {
 					FROM = {
@@ -1745,7 +1796,7 @@ operation_steal_tech_civilian = { ### 12 3/35
 	days = 120
 	network_strength = 35
 	operatives = 3
-
+	cost_multiplier = 0.05
 	visible = {
 		num_of_operatives > 0
 		network_national_coverage = {
@@ -1760,7 +1811,7 @@ operation_steal_tech_civilian = { ### 12 3/35
 	}
 
 	equipment = {
-	
+
 	}
 
 	required_tokens = {
@@ -1768,7 +1819,7 @@ operation_steal_tech_civilian = { ### 12 3/35
 	}
 	risk_chance = 0.2
 	experience = 2
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	risk_modifiers = { operation_steal_tech_risk operation_risk FROM.black_site_defense}
 	outcome_modifiers = { operation_steal_tech_outcome operation_outcome }
 	cost_modifiers = { operation_cost }
@@ -1778,15 +1829,25 @@ operation_steal_tech_civilian = { ### 12 3/35
 			steal_random_tech_bonus = {
 				folder = electronics_folder
 				folder = industry_folder
-				bonus = 2.0
+				bonus = 3.0
 				name = operation_steal_tech_civilian
 				target = FROM
+				dynamic = yes
+				instant = yes
 				uses = 1
 			}
-			remove_operation_token = {
-				tag = FROM
-				token = token_civilian
+			random_list = {
+				25 = {
+					remove_operation_token = {
+					tag = FROM
+					token = token_civilian
+					}
+				}
+				75 = {
+
+				}
 			}
+
 		}
 	}
 	outcome_extra_execute = { # SCOPE_OPERATION
@@ -1794,10 +1855,17 @@ operation_steal_tech_civilian = { ### 12 3/35
 			33 = {
 				ROOT = {
 					steal_random_tech_bonus = {
-						folder = electronics_folder
-						folder = industry_folder
+
+						folder = mechanical_engineering_folder
+						folder = biochemistry_folder
+						folder = process_engineering_folder
+						folder = electronics_devices_folder
+						folder = humanities_folder
 
 						bonus = 3.0
+						ahead_reduction = 2
+						dynamic = yes
+						instant = yes
 						name = operation_steal_tech_civilian
 						target = FROM
 						uses = 1
@@ -1807,25 +1875,39 @@ operation_steal_tech_civilian = { ### 12 3/35
 			67 = {
 				ROOT = {
 					steal_random_tech_bonus = {
-						folder = electronics_folder
-						folder = industry_folder
 
-						bonus = 2.0
+						folder = mechanical_engineering_folder
+						folder = biochemistry_folder
+						folder = process_engineering_folder
+						folder = electronics_devices_folder
+						folder = humanities_folder
+
+						bonus = 3.0
+						ahead_reduction = 1
+						dynamic = yes
+						instant = yes
 						name = operation_steal_tech_civilian
 						target = FROM
 						uses = 1
 					}
 				}
 			}
-		}	
+		}
 	}
 
 	outcome_potential = {
 		ROOT = {
 			steal_random_tech_bonus = {
-				folder = electronics_folder
-				folder = industry_folder
-				bonus = 2.0
+
+				folder = mechanical_engineering_folder
+				folder = biochemistry_folder
+				folder = process_engineering_folder
+				folder = electronics_devices_folder
+				folder = humanities_folder
+
+				bonus = 3.0
+				dynamic = yes
+				instant = yes
 				name = operation_steal_tech_civilian
 				target = FROM
 				uses = 1
@@ -1837,10 +1919,10 @@ operation_steal_tech_civilian = { ### 12 3/35
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1871,10 +1953,10 @@ operation_steal_tech_civilian = { ### 12 3/35
 		steal_blueprints_middle_manager = { base = 20 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -1915,8 +1997,7 @@ operation_targeted_sabotage_industry = { ### 13 3/35
 
 	requirements = {
 		FROM = {
-			any_state = {
-				is_controlled_by = PREV
+			any_controlled_state = {
 				has_resistance = yes
 			}
 		}
@@ -1930,12 +2011,12 @@ operation_targeted_sabotage_industry = { ### 13 3/35
 	}
 	required_tokens = { token_resistance_contacts }
 	equipment = {
-		
+
 	}
 
 	risk_chance = 0.2
 	experience = 2
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	outcome_modifiers = { target_sabotage_factor operation_risk }
 	risk_modifiers = { target_sabotage_risk operation_outcome }
 	cost_modifiers = { target_sabotage_cost operation_cost }
@@ -1943,7 +2024,7 @@ operation_targeted_sabotage_industry = { ### 13 3/35
 		FROM.FROM = {
 			add_to_variable = {
 				var = targeted_sabotage_industry
-				value = 2
+				value = 5
 			}
 			custom_effect_tooltip = targeted_sabotage_industry_2_tt
 		}
@@ -1955,26 +2036,14 @@ operation_targeted_sabotage_industry = { ### 13 3/35
 		}
 	}
 	outcome_extra_execute = { # SCOPE_OPERATION
-		random_list = {
-			33 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_industry
-						value = 3
-					}
-					custom_effect_tooltip = targeted_sabotage_industry_3_tt
-				}
+
+		FROM.FROM = {
+			add_to_variable = {
+				var = targeted_sabotage_industry
+				value = 8
 			}
-			67 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_industry
-						value = 2
-					}
-					custom_effect_tooltip = targeted_sabotage_industry_2_tt
-				}
-			}
-		}	
+			custom_effect_tooltip = targeted_sabotage_industry_3_tt
+		}
 	}
 
 	outcome_potential = {
@@ -1985,10 +2054,10 @@ operation_targeted_sabotage_industry = { ### 13 3/35
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2018,10 +2087,10 @@ operation_targeted_sabotage_industry = { ### 13 3/35
 		targeted_sabotage_organize_more_meetings = { base = 10 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2057,12 +2126,11 @@ operation_targeted_sabotage_infrastructure = { ### 14 3/35
 			tag = FROM
 			token = token_resistance_contacts
 		}
-	}	
+	}
 
 	requirements = {
 		FROM = {
-			any_state = {
-				is_controlled_by = PREV
+			any_controlled_state = {
 				has_resistance = yes
 			}
 		}
@@ -2075,20 +2143,20 @@ operation_targeted_sabotage_infrastructure = { ### 14 3/35
 	}
 	required_tokens = { token_resistance_contacts }
 	equipment = {
-		
+
 	}
 	risk_chance = 0.2
 	experience = 2
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	outcome_modifiers = { target_sabotage_factor operation_risk }
 	risk_modifiers = { target_sabotage_risk operation_outcome }
 	cost_modifiers = { target_sabotage_cost operation_cost }
-	
+
 	outcome_execute = {
 		FROM.FROM = {
 			add_to_variable = {
 				var = targeted_sabotage_infrastructure
-				value = 2
+				value = 5
 			}
 			custom_effect_tooltip = targeted_sabotage_infrastructure_2_tt
 		}
@@ -2100,27 +2168,14 @@ operation_targeted_sabotage_infrastructure = { ### 14 3/35
 		}
 	}
 	outcome_extra_execute = { # SCOPE_OPERATION
-		random_list = {
-			33 = {
 				FROM.FROM = {
 					add_to_variable = {
 						var = targeted_sabotage_infrastructure
-						value = 3
+						value = 8
 					}
 					custom_effect_tooltip = targeted_sabotage_infrastructure_3_tt
 				}
 			}
-			67 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_infrastructure
-						value = 2
-					}
-					custom_effect_tooltip = targeted_sabotage_infrastructure_2_tt
-				}
-			}
-		}
-	}
 	outcome_potential = {
 		custom_effect_tooltip = operation_outcome_sabotage_infrastructure_tt
 		custom_effect_tooltip = operation_outcome_consumes_token_tt
@@ -2128,10 +2183,10 @@ operation_targeted_sabotage_infrastructure = { ### 14 3/35
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2163,10 +2218,10 @@ operation_targeted_sabotage_infrastructure = { ### 14 3/35
 		targeted_sabotage_immobilize_rolling_stock = { base = 25 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2204,11 +2259,10 @@ operation_targeted_sabotage_resources = { ### 15 3/35
 			token = token_resistance_contacts
 		}
 	}
-	
+
 	requirements = {
 		FROM = {
-			any_state = {
-				is_controlled_by = PREV
+			any_controlled_state = {
 				has_resistance = yes
 			}
 		}
@@ -2221,11 +2275,11 @@ operation_targeted_sabotage_resources = { ### 15 3/35
 	}
 	required_tokens = { token_resistance_contacts }
 	equipment = {
-		
+
 	}
 	risk_chance = 0.2
 	experience = 2
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	outcome_modifiers = { target_sabotage_factor operation_outcome }
 	risk_modifiers = { target_sabotage_risk operation_risk }
 	cost_modifiers = { target_sabotage_cost operation_cost }
@@ -2233,7 +2287,7 @@ operation_targeted_sabotage_resources = { ### 15 3/35
 		FROM.FROM = {
 			add_to_variable = {
 				var = targeted_sabotage_resources
-				value = 2
+				value = 5
 			}
 			custom_effect_tooltip = targeted_sabotage_resources_2_tt
 		}
@@ -2245,27 +2299,14 @@ operation_targeted_sabotage_resources = { ### 15 3/35
 		}
 	}
 	outcome_extra_execute = { # SCOPE_OPERATION
-		random_list = {
-			33 = {
 				FROM.FROM = {
 					add_to_variable = {
 						var = targeted_sabotage_resources
-						value = 3
-					}
-					custom_effect_tooltip = targeted_sabotage_resources_3_tt
-				}
-			}
-			67 = {
-				FROM.FROM = {
-					add_to_variable = {
-						var = targeted_sabotage_resources
-						value = 2
+						value = 8
 					}
 					custom_effect_tooltip = targeted_sabotage_resources_2_tt
 				}
 			}
-		}
-	}
 	outcome_potential = {
 		custom_effect_tooltip = operation_outcome_sabotage_resources_tt
 		custom_effect_tooltip = operation_outcome_consumes_token_tt
@@ -2273,10 +2314,10 @@ operation_targeted_sabotage_resources = { ### 15 3/35
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2306,10 +2347,10 @@ operation_targeted_sabotage_resources = { ### 15 3/35
 		targeted_sabotage_destroy_mining_equipment = { base = 50 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2333,6 +2374,7 @@ operation_steal_tech_army = { ### 16 3/55
 	days = 120
 	network_strength = 50
 	operatives = 3
+	cost_multiplier = 0.05
 
 	visible = {
 		num_of_operatives > 1
@@ -2348,7 +2390,7 @@ operation_steal_tech_army = { ### 16 3/55
 	}
 
 	equipment = {
-		
+
 	}
 
 	required_tokens = {
@@ -2357,7 +2399,7 @@ operation_steal_tech_army = { ### 16 3/55
 	risk_chance = 0.2
 	experience = 2
 	risk_modifiers = { operation_steal_tech_risk operation_risk FROM.black_site_defense }
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	outcome_modifiers = { operation_steal_tech_outcome operation_outcome }
 	cost_modifiers = { operation_cost }
 	outcome_execute = {
@@ -2367,14 +2409,23 @@ operation_steal_tech_army = { ### 16 3/55
 				folder = artillery_folder
 				folder = infantry_folder
 				folder = support_folder
-				bonus = 2.0
+				bonus = 3.0
+				dynamic = yes
+				instant = yes
 				name = operation_steal_tech_army
 				target = FROM
 				uses = 1
 			}
-			remove_operation_token = {
-				tag = FROM
-				token = token_army
+			random_list = {
+				25 = {
+					remove_operation_token = {
+					tag = FROM
+					token = token_army
+					}
+				}
+				75 = {
+
+				}
 			}
 		}
 	}
@@ -2389,6 +2440,9 @@ operation_steal_tech_army = { ### 16 3/55
 						folder = support_folder
 
 						bonus = 3.0
+						ahead_reduction = 2
+						dynamic = yes
+						instant = yes
 						name = operation_steal_tech_army
 						target = FROM
 						uses = 1
@@ -2403,7 +2457,10 @@ operation_steal_tech_army = { ### 16 3/55
 						folder = infantry_folder
 						folder = support_folder
 
-						bonus = 2.0
+						bonus = 3.0
+						dynamic = yes
+						instant = yes
+						ahead_reduction = 1
 						name = operation_steal_tech_army
 						target = FROM
 						uses = 1
@@ -2420,7 +2477,9 @@ operation_steal_tech_army = { ### 16 3/55
 				folder = artillery_folder
 				folder = infantry_folder
 				folder = support_folder
-				bonus = 2.0
+				bonus = 3.0
+				dynamic = yes
+				instant = yes
 				name = operation_steal_tech_army
 				target = FROM
 				uses = 1
@@ -2432,10 +2491,10 @@ operation_steal_tech_army = { ### 16 3/55
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2465,10 +2524,10 @@ operation_steal_tech_army = { ### 16 3/55
 		steal_blueprints_seduction = { base = 50 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2492,6 +2551,7 @@ operation_steal_tech_navy = { ### 17 3/55
 	days = 120
 	network_strength = 50
 	operatives = 3
+	cost_multiplier = 0.05
 
 	visible = {
 		num_of_operatives > 1
@@ -2507,7 +2567,7 @@ operation_steal_tech_navy = { ### 17 3/55
 	}
 
 	equipment = {
-		
+
 	}
 
 	required_tokens = {
@@ -2515,53 +2575,126 @@ operation_steal_tech_navy = { ### 17 3/55
 	}
 	risk_chance = 0.2
 	experience = 2
-	outcome_chance = 0.25
+	outcome_extra_chance = 0.25
 	risk_modifiers = { operation_steal_tech_risk operation_risk }
 	outcome_modifiers = { operation_steal_tech_outcome operation_outcome }
 	cost_modifiers = { operation_cost }
 	outcome_execute = {
-		ROOT = {
-			steal_random_tech_bonus = {
-				folder = naval_folder
-				folder = mtgnavalfolder
 
-				bonus = 2.0
-				name = operation_steal_tech_navy
-				target = FROM
-				uses = 1
+		if = {
+  			limit = { has_dlc = "Man the Guns"}
+  			ROOT = {
+				steal_random_tech_bonus = {
+					folder = mtgnavalfolder
+
+					bonus = 3.0
+					dynamic = yes
+					instant = yes
+					name = operation_steal_tech_navy
+					target = FROM
+					uses = 1
+				}
+				remove_operation_token = {
+					tag = FROM
+					token = token_navy
+				}
 			}
-			remove_operation_token = {
-				tag = FROM
-				token = token_civilian
+  		}
+  		else = {
+	  		ROOT = {
+				steal_random_tech_bonus = {
+					folder = naval_folder
+
+					bonus = 3.0
+					dynamic = yes
+					instant = yes
+					name = operation_steal_tech_navy
+					target = FROM
+					uses = 1
+				}
+				random_list = {
+					25 = {
+						remove_operation_token = {
+						tag = FROM
+						token = token_navy
+						}
+					}
+					75 = {
+
+					}
+				}
 			}
-		}
+  		}
 	}
+
 	outcome_extra_execute = { # SCOPE_OPERATION
 
 		random_list = {
 			33 = {
-				ROOT = {
-					steal_random_tech_bonus = {
-						folder = naval_folder
-						folder = mtgnavalfolder
+				if = {
+  					limit = { has_dlc = "Man the Guns"}
 
-						bonus = 3.0
-						name = operation_steal_tech_navy
-						target = FROM
-						uses = 1
+  					ROOT = {
+						steal_random_tech_bonus = {
+							folder = mtgnavalfolder
+
+							bonus = 3.0
+							ahead_reduction = 2
+							dynamic = yes
+							instant = yes
+							name = operation_steal_tech_navy
+							target = FROM
+							uses = 1
+						}
 					}
-				}
+  				}
+  				else = {
+					ROOT = {
+						steal_random_tech_bonus = {
+							folder = naval_folder
+
+							bonus = 3.0
+							ahead_reduction = 2
+							dynamic = yes
+							instant = yes
+							name = operation_steal_tech_navy
+							target = FROM
+							uses = 1
+						}
+					}
+  				}
 			}
 			67 = {
-				ROOT = {
-					steal_random_tech_bonus = {
-						folder = naval_folder
-						folder = mtgnavalfolder
+				if = {
+  					limit = { has_dlc = "Man the Guns"}
 
-						bonus = 2.0
-						name = operation_steal_tech_navy
-						target = FROM
-						uses = 1
+					ROOT = {
+						steal_random_tech_bonus = {
+							folder = mtgnavalfolder
+
+							bonus = 3.0
+							ahead_reduction = 1
+							dynamic = yes
+							instant = yes
+							name = operation_steal_tech_navy
+							target = FROM
+							uses = 1
+						}
+					}
+				}
+				else = {
+					ROOT = {
+						steal_random_tech_bonus = {
+							folder = naval_folder
+
+							bonus = 3.0
+							ahead_reduction = 1
+							dynamic = yes
+							instant = yes
+							name = operation_steal_tech_navy
+							target = FROM
+							uses = 1
+						}
 					}
 				}
 			}
@@ -2573,7 +2706,9 @@ operation_steal_tech_navy = { ### 17 3/55
 				folder = naval_folder
 				folder = mtgnavalfolder
 
-				bonus = 2.0
+				bonus = 3.0
+				dynamic = yes
+				instant = yes
 				name = operation_steal_tech_navy
 				target = FROM
 				uses = 1
@@ -2584,10 +2719,10 @@ operation_steal_tech_navy = { ### 17 3/55
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2618,10 +2753,10 @@ operation_steal_tech_navy = { ### 17 3/55
 		steal_blueprints_infiltrate_naval_design_office = { base = 20 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2646,7 +2781,7 @@ operation_steal_tech_airforce = { ### 18 3/55
 	days = 120
 	network_strength = 50
 	operatives = 3
-
+	cost_multiplier = 0.05
 	visible = {
 		num_of_operatives > 1
 		network_national_coverage = {
@@ -2661,7 +2796,7 @@ operation_steal_tech_airforce = { ### 18 3/55
 	}
 
 	equipment = {
-		
+
 	}
 
 	required_tokens = {
@@ -2669,22 +2804,31 @@ operation_steal_tech_airforce = { ### 18 3/55
 	}
 	risk_chance = 0.2
 	experience = 2
-	outcome_chance = 0.25
-	risk_modifiers = { operation_steal_tech_risk operation_risk }	
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_steal_tech_risk operation_risk }
 	outcome_modifiers = { operation_steal_tech_outcome operation_outcome }
 	cost_modifiers = { operation_cost }
 	outcome_execute = {
 		ROOT = {
 			steal_random_tech_bonus = {
 				folder = air_techs_folder
-				bonus = 2.0
+				bonus = 3.0
+				dynamic = yes
+				instant = yes
 				name = operation_steal_tech_airforce
 				target = FROM
 				uses = 1
 			}
-			remove_operation_token = {
-				tag = FROM
-				token = token_airforce
+			random_list = {
+				25 = {
+					remove_operation_token = {
+						tag = FROM
+						token = token_airforce
+					}
+				}
+				75 = {
+					#DoNothing
+				}
 			}
 		}
 	}
@@ -2695,6 +2839,9 @@ operation_steal_tech_airforce = { ### 18 3/55
 					steal_random_tech_bonus = {
 						folder = air_techs_folder
 						bonus = 3.0
+						ahead_reduction = 2
+						dynamic = yes
+						instant = yes
 						name = operation_steal_tech_airforce
 						target = FROM
 						uses = 1
@@ -2705,7 +2852,10 @@ operation_steal_tech_airforce = { ### 18 3/55
 				ROOT = {
 					steal_random_tech_bonus = {
 						folder = air_techs_folder
-						bonus = 2.0
+						bonus = 3.0
+						ahead_reduction = 1
+						dynamic = yes
+						instant = yes
 						name = operation_steal_tech_airforce
 						target = FROM
 						uses = 1
@@ -2719,7 +2869,9 @@ operation_steal_tech_airforce = { ### 18 3/55
 		ROOT = {
 			steal_random_tech_bonus = {
 				folder = air_techs_folder
-				bonus = 2.0
+				bonus = 3.0
+				dynamic = yes
+				instant = yes
 				name = operation_steal_tech_airforce
 				target = FROM
 				uses = 1
@@ -2731,10 +2883,10 @@ operation_steal_tech_airforce = { ### 18 3/55
 	phases = { #infiltration
 		infiltration_border = { base = 25 }
 		infiltration_submarine = { base = 25 }
-		infiltration_paradrop = { 
-			base = 25 
+		infiltration_paradrop = {
+			base = 25
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}
@@ -2765,10 +2917,10 @@ operation_steal_tech_airforce = { ### 18 3/55
 		steal_blueprints_steal_prototype = { base = 20 }
 	}
 	phases = { #exfiltration
-		exfiltration_air_pickup = { 
-			base = 15 
+		exfiltration_air_pickup = {
+			base = 15
 			modifier = {
-				ROOT = { 
+				ROOT = {
 					has_equipment = {
 						transport_plane_equipment < 1
 					}

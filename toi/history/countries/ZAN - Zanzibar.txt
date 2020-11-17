@@ -12,7 +12,10 @@
 
   set_convoys = 100
 
-  add_ideas = { 
+  add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 100 producer = ZAN }
+  add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 100 producer = ZAN }
+
+  add_ideas = {
           #POLITICS
     hos_is_leader
     pre_industrial_era
@@ -30,41 +33,71 @@
 
     stagnation_growth
     border_control
-    tribal_slavery
-    manpower_tribal_warriors
+    slavery
+    limited_conscription
     absolutism
 
     no_constitution
     no_elections
 
-    oral_tradition
+    privileged_education
     state_religion
 	religion_sunni
+
+   hc_no_healthcare
+    law_police_force
+    inframain_no_subsidies_infrastructure
+    navinfra_no_naval_infrastructure
+    sfund_private_ventures_only
+
          #NATIONAL SPIRITS
-    AF_T_small_kingdom
+    afr_reforming_kingdom
 	AFR_transatlantic_consumer
   }
 
-  if = { #AUTONOMY LEVEL IF NEEDED
-    limit = {
-      has_dlc = "Together for Victory"
-    }
-    set_autonomy = {
-      target = MOM
-      autonomous_state = autonomy_colony
-      freedom_level = 0.1
-    }
-    else = {
-      puppet = MOM
-    }
-  }
+    #AUTONOMY LEVEL IF NEEDED
+    if = {
+		limit = { has_dlc = "Together for Victory" }
+		ZAN = {
+			MOM = { store_current_ideologies = yes }
+			set_autonomy = {
+				target = MOM
+				autonomy_state = autonomy_afr_empire_level_3
+				freedom_level = 0.6
+			}
+			MOM = { load_prevous_ideologies = yes }
+		}
+	}
+	if = {
+		limit = { NOT { has_dlc = "Together for Victory" } }
+		MOM = { store_current_ideologies = yes }
+		ZAN = { puppet = MOM }
+		MOM = { load_prevous_ideologies = yes }
+	}
+	MOM = { 
+		set_variable = { var = afr_empire_subject_overlord value = ZAN.id }
+		set_variable = { var = MOM.afr_empire_subject_loyalty_var value = 9 }
+		clamp_variable = { var = MOM.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
 
   set_politics = {
 	ruling_party = autocracy
 }
 
+  #Rivals
+    set_variable = { rival_country = GLD.id }
+  #Favored
+	set_variable = { most_favoured_country = MOM.id }
+
   #Diplomacy
 	add_opinion_modifier = { target = GLD modifier = AFR_geledi_liberation_conflicts }
+
+  ZAN = {
+	set_country_flag = afr_progress_tree
+	add_ideas={AF_T_Tribal_Army}
+	add_to_variable = {Tribal_army_num = 15000}
+	add_to_variable = {Tribal_horse_army_num = 6000}
+  }
 
 set_popularities = {
     anarchism = 0
@@ -79,16 +112,31 @@ set_popularities = {
     fundamentalism = 25
 }
 
-  set_research_slots = 1
+  set_research_slots = 2
 
   set_technology = {
-	  tribaltech = 1
-	start_build_tech = 1
-	infantry_weapons = 1
+	infantry_weapons = 1 traditional_mixed_arms = 1
+	tribal_carrier_birds=1 tribal_electrical_theory=1
+	tribal_steel_tools=1
+	tribal_tatics=1
+	tribal_gunpowder=1
+	tribal_riding=1
+	tribal_steam_experiments=1
+	tribal_forging=1
+	tribal_artisan=1
+	tribal_chemistry=1
+	tribal_guilds_trade=1
+	tribal_crop_planting=1
+	tribal_irrigation=1
+	tribal_crop_rotation=1
+	tribal_salted_smoked_goods=1
+	tribal_leching=1
+	tech_infantry_napoleonic_uniform = 1
 	tech_naval_mtg_simple_corvette_hull = 1
     tech_naval_mtg_24_pounder_battery = 1
     tech_naval_mtg_sails = 1
     tech_naval_mtg_crows_nest = 1
+	start_build_tech = 1
   }
 
   # POLITICAL LEADERS
@@ -101,7 +149,7 @@ set_popularities = {
     ideology = despotism
     traits = { }
   }
-  
+
   if = {
 	limit = { has_dlc = "Man the Guns" }
 	create_equipment_variant = {
@@ -110,7 +158,7 @@ set_popularities = {
 		name_group = GER_CA_HISTORICAL
 		parent_version = 0
 		modules = {
-        	fixed_ship_battery_slot = ship_light_battery_0
+        	fixed_ship_battery_slot = ship_cannon_battery_0
 			fixed_ship_fire_control_system_slot = fire_control_system_0
 			fixed_ship_engine_slot = ship_engine_sail_0
 			fixed_ship_armor_slot = empty

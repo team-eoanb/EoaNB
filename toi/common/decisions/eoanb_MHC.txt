@@ -1,0 +1,75 @@
+economic_decisions = {
+
+	MHC_manhattan_connecticut_railroad_decision = {
+		icon = generic_construction
+		
+		allowed = { 
+			OR = {
+				TAG = NEG
+				TAG = MHC
+			}
+		}
+		available = { hidden_trigger = { always = no } }
+		visible = { has_country_flag = manhattan_connecticut_railroad_started_flag }
+		highlight_states = {
+			if = {
+				limit = { 
+					ROOT = {
+						TAG = NEG 
+					}
+				}
+				state = 958
+			}
+			else = {
+				state = 954
+			}
+		}
+		days_remove = 360
+		complete_effect = {
+			add_political_power = -100
+			hidden_effect = { clr_country_flag = manhattan_connecticut_railroad_started_flag }
+		}
+		modifier = {
+			civilian_factory_use = 1
+			political_advisor_cost_factor = 0.15
+			MONTHLY_POPULATION = 0.07
+		}
+		cancel_trigger = {
+			NEG = { NOT = { owns_state = 958 } }
+			MHC = { NOT = { owns_state = 954 } }
+		}
+		remove_effect = {
+			if = {
+				limit = { TAG = NEG }
+				958 = {
+					if = { 
+						limit = { 958 = { infrastructure < 11 } }
+						set_building_level = {
+							type = infrastructure
+							level = 11
+							instant_build = yes
+						} 
+					}
+				}
+				add_ideas = NEG_manhattan_connecticut_railroad_idea_1
+				hidden_effect = { set_country_flag = MHC_manhattan_connecticut_railroad_finished }
+			}
+			if = {
+				limit = { TAG = MHC }
+				954 = {
+					if = { 
+						limit = { 958 = { infrastructure < 11 } }
+						set_building_level = {
+							type = infrastructure
+							level = 11
+							instant_build = yes
+						} 
+					}
+				}
+				add_ideas = MHC_manhattan_connecticut_railroad_idea_1
+				hidden_effect = { set_country_flag = MHC_manhattan_connecticut_railroad_finished }
+			}
+		}
+	}
+	
+}

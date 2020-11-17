@@ -179,7 +179,7 @@ scripted_gui = {
 				ROOT={add_political_power = -10}
 				if={
 					limit={
-						NOT=[
+						NOT={
 							any_country = {
 								AND={
 									is_colonial_nation = yes
@@ -223,8 +223,8 @@ scripted_gui = {
 							}
 						}
 						event_target:colonial_puppet={
-							set_state_owner = PREV
-							transfer_state = PREV
+							#set_state_owner = PREV
+							#transfer_state = PREV
 						}
 					}
 					else_if={
@@ -243,14 +243,14 @@ scripted_gui = {
 							limit={
 								is_puppet_of = ROOT
 							}
-							set_state_owner = PREV
-							transfer_state = PREV
+							#set_state_owner = PREV
+							#transfer_state = PREV
 						}
 					}
 					else={
 						ROOT = {
-							set_state_owner = PREV
-							transfer_state = PREV
+							#set_state_owner = PREV
+							#transfer_state = PREV
 						}
 					}
 				}
@@ -277,11 +277,25 @@ scripted_gui = {
 				ROOT={
 					add_political_power = -15
 					add_command_power = -5
+					custom_effect_tooltip = afr_colonial_effect_tooltip
+					PREV = {
+						custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					}
 				}
 				FROM={set_state_flag =@ROOT_colonised}
+				hidden_effect = { 
+					if = {
+						limit = { OWNER = { NOT = { has_idea = afr_total_detrimental_colonial_impact_idea } } }
+						OWNER = { add_ideas = afr_total_detrimental_colonial_impact_idea }
+					}
+					add_to_variable = { var = detrimental_colonial_impact_value value = 1 }
+					add_to_variable = { var = detrimental_colonial_impact_value@ROOT value = 1 }
+					OWNER = { add_to_variable = { var = total_detrimental_colonial_impact_value value = 1 } }
+				}
 				every_country={
 					limit ={
 						has_variable = colonisation_progress_@FROM
+						NOT = { TAG = ROOT }
 					}
 					clear_variable = colonisation_progress_@FROM
 					if={
@@ -312,8 +326,12 @@ scripted_gui = {
 			colonisation_stage_7_bg_click = {
 				#add_to_variable ={ ROOT.colonisation_progress_@THIS = 1 }
 				ROOT={
-				add_political_power = -15
+					add_political_power = -15
 					add_command_power = -5
+					custom_effect_tooltip = afr_colonial_effect_tooltip
+					PREV = {
+						custom_effect_tooltip = AFR_Racial_Tension_plus_4
+					}
 				}
 				clear_variable = ROOT.colonisation_progress_@THIS 
 				if={
@@ -352,6 +370,9 @@ scripted_gui = {
 					event_target:colonial_puppet={
 						set_state_owner = PREV
 						transfer_state = PREV
+						PREV = {
+							hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.4 trigger_for = controller } }
+						}
 					}
 				}
 				else_if={
@@ -372,12 +393,18 @@ scripted_gui = {
 						}
 						set_state_owner = PREV
 						transfer_state = PREV
+						PREV = {
+							hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.4 trigger_for = controller } }
+						}
 					}
 				}
 				else={
 					ROOT = {
 						set_state_owner = PREV
 						transfer_state = PREV
+						PREV = {
+							hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.4 trigger_for = controller } }
+						}
 					}
 				}
 			}
@@ -552,7 +579,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_senegal = yes
+            		    FROM = {is_in_senegal = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -569,7 +596,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_manuritania = yes
+            		    FROM = {is_in_manuritania = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -586,7 +613,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_mali = yes
+            		    FROM = {is_in_mali = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -603,7 +630,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_guinea = yes
+            		    FROM = {is_in_guinea = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -620,7 +647,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_sierra_leone = yes
+            		    FROM = {is_in_sierra_leone = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -637,7 +664,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_nigeria = yes
+            		    FROM = {is_in_nigeria = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -654,7 +681,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_gabon = yes
+            		    FROM = {is_in_gabon = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -671,7 +698,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_kongo = yes
+            		    FROM = {is_in_kongo = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -688,7 +715,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_angola = yes
+            		   FROM = { is_in_angola = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -705,7 +732,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_african_horn = yes
+            		    FROM = {is_in_african_horn = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -722,7 +749,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_nambia = yes
+            		    FROM = {is_in_nambia = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -739,7 +766,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_rhodesia = yes
+            		    FROM = {is_in_rhodesia = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -756,7 +783,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_zanzabar = yes
+            		    FROM = {is_in_zanzabar = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -773,7 +800,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_kenya = yes
+            		    FROM = {is_in_kenya = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -790,7 +817,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_uganda = yes
+            		   FROM = { is_in_uganda = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -807,7 +834,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_equatorial_africa = yes
+            		    FROM = {is_in_equatorial_africa = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -824,7 +851,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_ivory_coast = yes
+            		   FROM = { is_in_ivory_coast = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -841,7 +868,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_ghana = yes
+            		    FROM = {is_in_ghana = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -858,7 +885,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_niger = yes
+            		    FROM = {is_in_niger = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -875,7 +902,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_togo = yes
+            		    FROM = {is_in_togo = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -892,7 +919,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_benin = yes
+            		    FROM = {is_in_benin = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -909,7 +936,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_burkina_faso = yes
+            		    FROM = {is_in_burkina_faso = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -926,7 +953,7 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = {
-            		    is_in_chad = yes
+            		    FROM = {is_in_chad = yes}
 						ROOT ={
 							OR= {
 								any_owned_state ={
@@ -948,14 +975,16 @@ scripted_gui = {
 						add = 5
             		}
 					modifier = { # ENG historical colonies
-            		    OR = {
-							is_in_nigeria = yes
-							is_in_togo = yes
-							is_in_kenya = yes
-							is_in_uganda = yes
-							is_in_rhodesia = yes
-							is_in_sierra_leone = yes
-							is_in_ghana = yes
+            		    FROM = {
+							OR = {
+								is_in_nigeria = yes
+								is_in_togo = yes
+								is_in_kenya = yes
+								is_in_uganda = yes
+								is_in_rhodesia = yes
+								is_in_sierra_leone = yes
+								is_in_ghana = yes
+							}
 						}
 						add = 5
 						ROOT = {
@@ -963,11 +992,13 @@ scripted_gui = {
 						}
             		}
 					modifier = {#German historical colonies
-            		    OR = {
-							is_in_equatorial_africa = yes
-							is_in_nambia = yes
-							is_in_zanzabar = yes
-							is_in_togo = yes
+						FROM = {
+							OR = {
+								is_in_equatorial_africa = yes
+								is_in_nambia = yes
+								is_in_zanzabar = yes
+								is_in_togo = yes
+							}
 						}
 						add = 5
 						ROOT = {
@@ -975,8 +1006,10 @@ scripted_gui = {
 						}
             		}
 					modifier = {#porugese historical colonies
-            		    OR = {
-							is_in_angola = yes
+            		   FROM = {
+							OR = {
+								is_in_angola = yes
+							}
 						}
 						add = 5
 						ROOT = {
@@ -984,13 +1017,15 @@ scripted_gui = {
 						}
             		}
 					modifier = {#french historical colonies
-            		    OR = {
-							is_in_ivory_coast = yes
-							is_in_mali = yes
-							is_in_manuritania = yes
-							is_in_gabon = yes
-							is_in_niger = yes
-							is_in_senegal = yes
+            		    FROM = {
+							OR = {
+								is_in_ivory_coast = yes
+								is_in_mali = yes
+								is_in_manuritania = yes
+								is_in_gabon = yes
+								is_in_niger = yes
+								is_in_senegal = yes
+							}
 						}
 						add = 5
 						ROOT = {
@@ -998,8 +1033,10 @@ scripted_gui = {
 						}
             		}
 					modifier = {#belgim historical colonies
-            		    OR = {
-							is_in_kongo = yes
+            		    FROM = {
+							OR = {
+								is_in_kongo = yes
+							}
 						}
 						add = 5
 						ROOT = {
@@ -1118,6 +1155,14 @@ scripted_gui = {
 				array = EGY.suezInvestors
 				entry_container = suez_stockholder_entry
 			} 
+		}
+		triggers={
+			suez_construction_header_visible={
+				NOT={has_global_flag = SUEZ_CANAL_BUILT}
+			}
+			suez_operation_header_visible={
+				has_global_flag = SUEZ_CANAL_BUILT
+			}
 		}
 	}
 	nuclear_missile_tab = {

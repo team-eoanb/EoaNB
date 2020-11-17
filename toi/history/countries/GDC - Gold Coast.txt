@@ -7,7 +7,7 @@
   
   set_research_slots = 2
       add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 1000 producer = GDC }
-  add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 producer = GDC }
+	  add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 producer = GDC }
 
   add_ideas = { 
     #POLITICS 
@@ -35,12 +35,24 @@
 	religion_protestant
     privileged_education
     state_religion
+
+     hc_no_healthcare
+    law_police_force
+    inframain_no_subsidies_infrastructure
+    navinfra_no_naval_infrastructure
+    sfund_private_ventures_only
+
          #NATIONAL SPIRITS
 		AFR_netherland_colony
 		afr_colonial_reforming_kingdom
-		AFR_Racial_Tension_3
+		afr_colonial_malaria_scourge
+		afr_total_detrimental_colonial_impact_idea
 		AFR_transatlantic_consumer
 
+  }
+  
+  GDC = {
+	set_country_flag = AFR_is_a_colonial_company_flag
   }
 
 	
@@ -54,9 +66,9 @@
         autonomous_state = autonomy_colony
         freedom_level = 0.25
       }
-      else = {
-        puppet = GDC
-      }
+    }
+    else = {
+      puppet = GDC
     }
   }
 
@@ -68,12 +80,25 @@
 
   #Favored
 	set_variable = { most_favoured_country = HOL.id }
-	
-  add_to_variable = { var = detrimental_colonial_impact_value value = 3 }
   
   #Diplomacy
 	add_opinion_modifier = { target = HOL modifier = AFR_netherland_colony }
 	add_opinion_modifier = { target = INS modifier = AFR_netherland_colony }
+	GDC = {
+		diplomatic_relation = {
+			country = ASH
+			relation = non_aggression_pact
+			active = yes
+		}
+		set_variable = { ASH.afr_has_special_diplomacy@GDC = 1 }
+	}
+	ASH = {
+		diplomatic_relation = {
+			country = GDC
+			relation = docking_rights
+			active = yes
+		}
+	}
 
 set_popularities = {
     anarchism = 0
@@ -89,7 +114,22 @@ set_popularities = {
 }
 
   set_technology = {
-	infantry_weapons = 1
+	infantry_weapons = 1 traditional_mixed_arms = 1
+	tribal_carrier_birds=1 tribal_electrical_theory=1
+	tribal_steel_tools=1
+	tribal_tatics=1
+	tribal_gunpowder=1
+	tribal_riding=1
+	tribal_steam_experiments=1
+	tribal_forging=1
+	tribal_artisan=1
+	tribal_chemistry=1
+	tribal_guilds_trade=1
+	tribal_crop_planting=1
+	tribal_irrigation=1
+	tribal_crop_rotation=1
+	tribal_salted_smoked_goods=1
+	tribal_leching=1
 	tech_infantry_napoleonic_uniform = 1
 	start_build_tech = 1
 	tech_naval_mtg_simple_corvette_hull = 1
@@ -101,33 +141,11 @@ set_popularities = {
   # POLITICAL LEADERS
 
  create_country_leader = {
-	name = "Charles Ferdinand Pahud"
-	desc = ""
-	picture = "Portrait_INS_Charles_Ferdinand_Pahud.dds"
+	name = "Cornelis Nagtglas"
+	desc = "POLITICS_TEMP_DESC"
+	picture = "Portrait_GDC_Cornelis_Nagtglas.dds"
 	expire = "1953.3.1"
 	ideology = despotism
  }
 	
   ### GENERALS 
- create_field_marshal = {
-  name = "Willem Boetje"
-  picture = ""
-  traits = { }
-  skill = 3
-  attack_skill = 1
-  defense_skill = 1
-  planning_skill = 1
-  logistics_skill = 1
- }
-
- create_corps_commander = {
-  name = "Anthonie Haga"
-  picture = ""
-  traits = { }
-  skill = 3
-  attack_skill = 1
-  defense_skill = 1
-  planning_skill = 1
-  logistics_skill = 1
- }
-}

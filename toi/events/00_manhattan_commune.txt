@@ -1,0 +1,1825 @@
+﻿add_namespace = MHC_emergency_elections_event
+add_namespace = MHC_revolutionary_council_elections_event
+add_namespace = MHC_the_successor_question
+add_namespace = MHC_trade_diplomacy
+add_namespace = MHC_propose_new_england_treaty
+add_namespace = MHC_propose_manhattan_connecticut_railroad
+add_namespace = MHC_propose_free_movement_policies
+add_namespace = MHC_achieve_economic_interdependence
+
+country_event = {
+	id = MHC_trade_diplomacy.1
+	title = MHC_trade_diplomacy.1.t
+	desc = MHC_trade_diplomacy.1.d
+	picture = GFX_report_event_merchant_ship_01
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_trade_diplomacy.1.a
+		ai_chance = { 
+			base = 0 
+		}
+		hidden_effect = {
+			every_country = {
+				limit = { 
+					OR = {	
+						has_idea = slavery
+						has_idea = usa_slavery_law
+						has_idea = tribal_slavery
+					}
+				}
+				MHC = {
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_slaver_state_trade
+					}
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_slaver_state_opinion
+					}
+					set_variable = { MHC.NA_B_slaver_has_embargo@PREV = 1 }
+				}
+			}
+		}
+	}
+	option = {
+		name = MHC_trade_diplomacy.1.b
+		trigger = { has_country_flag = not_successor_state_of_usa_flag }
+		ai_chance = { 
+			base = 0 
+		}
+		hidden_effect = {
+			every_country = {
+				limit = { 
+					has_country_flag = is_successor_state_of_usa_flag 
+					NOT = { has_country_flag = MHC_accepted_proposal_flag }
+				}
+				MHC = {
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_successor_state_trade
+					}
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_successor_state_opinion
+					}
+					set_variable = { MHC.NA_B_successor_has_embargo@PREV = 1 }
+				}
+			}
+		}
+	}
+	option = {
+		name = MHC_trade_diplomacy.1.c
+		trigger = { has_country_flag = not_successor_state_of_usa_flag }
+		ai_chance = { 
+			base = 100 
+		}
+		hidden_effect = {
+			every_country = {
+				limit = { 
+					OR = {	
+						has_idea = slavery
+						has_idea = usa_slavery_law
+						has_idea = tribal_slavery
+					}
+				}
+				MHC = {
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_slaver_state_trade
+					}
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_slaver_state_opinion
+					}
+					set_variable = { MHC.NA_B_slaver_has_embargo@PREV = 1 }
+				}
+			}
+			every_country = {
+				limit = { 
+					has_country_flag = is_successor_state_of_usa_flag 
+					NOT = { has_country_flag = MHC_accepted_proposal_flag }
+				}
+				MHC = {
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_successor_state_trade
+					}
+					add_opinion_modifier = {
+						target = PREV
+						modifier = NA_B_embargo_successor_state_opinion
+					}
+					set_variable = { MHC.NA_B_successor_has_embargo@PREV = 1 }
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.1
+	title = MHC_the_successor_question.1.t
+	desc = {
+		text = MHC_the_successor_question.1.d
+		trigger = {
+			NEG = { NOT = { has_country_flag = is_successor_state_of_usa_flag } }
+		}
+	}
+	desc = {
+		text = MHC_the_successor_question.1.f
+		trigger = {
+			NEG = { has_country_flag = is_successor_state_of_usa_flag }
+		}
+	}
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.1.a
+		trigger = { NOT = { has_country_flag = is_successor_state_of_usa_flag } }
+		ai_chance = { 
+			base = 60 
+			modifier = {
+				factor = 0
+				NEG = { has_country_flag = is_successor_state_of_usa_flag } 
+			}
+		}
+		add_political_power = -100
+		custom_effect_tooltip = MHC_the_successor_question_2_tooltip
+		hidden_effect = { GRL = { country_event = { id = MHC_the_successor_question.2 days = 3 } } }
+	}
+	option = {
+		name = MHC_the_successor_question.1.b
+		trigger = { 
+			NOT = { has_country_flag = is_successor_state_of_usa_flag } 
+			NEG = { has_country_flag = is_successor_state_of_usa_flag } 
+		}
+		ai_chance = { 
+			base = 90 
+		}
+		add_political_power = -100
+		custom_effect_tooltip = MHC_the_successor_question_8_tooltip
+		hidden_effect = { NEG = { country_event = { id = MHC_the_successor_question.8 days = 3 } } }
+	}
+	option = {
+		name = MHC_the_successor_question.1.c
+		trigger = { NOT = { has_country_flag = is_successor_state_of_usa_flag } }
+		ai_chance = { 
+			base = 10 
+			modifier = {
+				factor = 0
+				NEG = { has_country_flag = is_successor_state_of_usa_flag } 
+			}
+		}
+		add_political_power = -100
+		if = {
+			limit = { 
+				OR = {
+					has_dlc = "Together for Victory"
+					has_dlc = "Death or Dishonor"
+				}
+			}
+			custom_effect_tooltip = MHC_the_successor_question_5_DLC_tooltip
+		}
+		else = {
+			custom_effect_tooltip = MHC_the_successor_question_5_no_DLC_tooltip
+		}
+		hidden_effect = { ASA = { country_event = { id = MHC_the_successor_question.5 days = 3 } } }
+	}
+	option = {
+		name = MHC_the_successor_question.1.e
+		ai_chance = { 
+			base = 30 
+			modifier = {
+				add = -20
+				NEG = { has_country_flag = is_successor_state_of_usa_flag } 
+			}
+		}
+		add_political_power = 25
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.2
+	title = MHC_the_successor_question.2.t
+	desc = MHC_the_successor_question.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.2.a
+		ai_chance = { 
+			base = 50 
+		}
+		GRL = { give_guarantee = MHC }
+		MHC = { give_guarantee = GRL }
+		MHC = { give_military_access = GRL }
+		hidden_effect = {
+			set_country_flag = MHC_accepted_proposal_flag
+			GRL = {
+				diplomatic_relation = {
+					country = MHC
+					relation = non_aggression_pact
+					active = yes
+				}
+				diplomatic_relation = {
+					country = MHC
+					relation = docking_rights
+					active = yes
+				}
+			}
+			MHC = { country_event = { id = MHC_the_successor_question.3 days = 3 } }
+		}
+	}
+	option = {
+		name = MHC_the_successor_question.2.b
+		ai_chance = { 
+			base = 50 
+		}
+		hidden_effect = {
+			MHC = { country_event = { id = MHC_the_successor_question.4 days = 3 } }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.3
+	title = MHC_the_successor_question.3.t
+	desc = MHC_the_successor_question.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.3.a
+		ai_chance = { factor = 1 }
+		add_stability = 0.07
+		add_war_support = 0.05
+		hidden_effect = { set_variable = { most_favoured_country = GRL.id } }
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.4
+	title = MHC_the_successor_question.4.t
+	desc = MHC_the_successor_question.4.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.4.a
+		ai_chance = { factor = 1 }
+		add_stability = -0.03
+		add_war_support = 0.05
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.5
+	title = MHC_the_successor_question.5.t
+	desc = MHC_the_successor_question.5.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.5.a
+		ai_chance = { 
+			base = 50  
+		}
+		if = {
+			limit = { 
+				has_dlc = "Together for Victory"
+			}
+			ASA = {
+				set_autonomy = {
+					target = MHC
+					autonomy_state = autonomy_organized_unincorporated_commonwealth
+				}
+			}
+		}
+		else = {
+			ASA = { puppet = MHC }
+		}
+		hidden_effect = {
+			set_country_flag = MHC_accepted_proposal_flag
+			MHC = { set_country_flag = USA_has_given_commonwealth_status_flag }
+			MHC = { country_event = { id = MHC_the_successor_question.6 days = 3 } }
+		}
+	}
+	option = {
+		name = MHC_the_successor_question.5.b
+		ai_chance = { 
+			base = 50 
+		}
+		hidden_effect = {
+			MHC = { country_event = { id = MHC_the_successor_question.7 days = 3 } }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.6
+	title = MHC_the_successor_question.6.t
+	desc = MHC_the_successor_question.6.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.6.a
+		ai_chance = { factor = 1 }
+		add_war_support = 0.03
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.7
+	title = MHC_the_successor_question.7.t
+	desc = MHC_the_successor_question.7.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.7.a
+		ai_chance = { factor = 1 }
+		add_stability = -0.03
+		add_war_support = 0.05
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.8
+	title = MHC_the_successor_question.8.t
+	desc = MHC_the_successor_question.8.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.8.a
+		ai_chance = { 
+			base = 100 
+		}
+		NEG = { give_guarantee = MHC }
+		MHC = { give_guarantee = NEG }
+		MHC = { give_military_access = NEG }
+		hidden_effect = {
+			set_country_flag = MHC_accepted_proposal_flag
+			NEG = {
+				diplomatic_relation = {
+					country = MHC
+					relation = non_aggression_pact
+					active = yes
+				}
+				diplomatic_relation = {
+					country = MHC
+					relation = docking_rights
+					active = yes
+				}
+			}
+			MHC = { 
+				country_event = { id = MHC_the_successor_question.9 days = 3 } 
+				set_country_flag = MHC_NEG_accepted_proposal_flag
+			}
+		}
+	}
+	option = {
+		name = MHC_the_successor_question.8.b
+		ai_chance = { 
+			base = 0 
+		}
+		hidden_effect = {
+			MHC = { country_event = { id = MHC_the_successor_question.10 days = 3 } }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.9
+	title = MHC_the_successor_question.9.t
+	desc = MHC_the_successor_question.9.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.9.a
+		ai_chance = { factor = 1 }
+		add_stability = 0.03
+		add_war_support = 0.05
+		hidden_effect = { 
+			set_variable = { most_favoured_country = NEG.id } 
+			MHC = { complete_national_focus = MHC_propose_new_england_treaty }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_the_successor_question.10
+	title = MHC_the_successor_question.10.t
+	desc = MHC_the_successor_question.10.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_the_successor_question.10.a
+		ai_chance = { factor = 1 }
+		add_stability = -0.03
+		add_war_support = 0.05
+	}
+}
+
+country_event = {
+	id = MHC_propose_new_england_treaty.1
+	title = MHC_propose_new_england_treaty.1.t
+	desc = {
+		text = MHC_propose_new_england_treaty.1.c
+		trigger = { MHC = { has_country_flag = MHC_NEG_accepted_proposal_flag } }
+	}
+	desc = {
+		text = MHC_propose_new_england_treaty.1.d
+		trigger = { MHC = { NOT = { has_country_flag = MHC_NEG_accepted_proposal_flag } } }
+	}
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_new_england_treaty.1.a
+		ai_chance = { base =  100 }
+		hidden_effect = { NEG = { country_event = { id = MHC_propose_new_england_treaty.2 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = MHC_propose_new_england_treaty.2
+	title = MHC_propose_new_england_treaty.2.t
+	desc = {
+		text = MHC_propose_new_england_treaty.2.d
+		trigger = { MHC = { has_country_flag = MHC_NEG_accepted_proposal_flag } }
+	}
+	desc = {
+		text = MHC_propose_new_england_treaty.2.f
+		trigger = { MHC = { NOT = { has_country_flag = MHC_NEG_accepted_proposal_flag } } }
+	}
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_new_england_treaty.2.a
+		trigger = { NOT = { has_country_flag = is_successor_state_of_usa_flag } }
+		ai_chance = { 
+			base = 100 
+		}
+		hidden_effect = { NEG = { country_event = { id = MHC_propose_new_england_treaty.3 days = 3 } } }
+	}
+	option = {
+		name = MHC_propose_new_england_treaty.2.b
+		trigger = { MHC = { has_country_flag = MHC_NEG_accepted_proposal_flag } }
+		ai_chance = { 
+			base = 1 
+		}
+		hidden_effect = { NEG = { country_event = { id = MHC_propose_new_england_treaty.4 days = 3 } } }
+	}
+	option = {
+		name = MHC_propose_new_england_treaty.2.c
+		trigger = { MHC = { NOT = { has_country_flag = MHC_NEG_accepted_proposal_flag } } }
+		ai_chance = { 
+			base = 1 
+		}
+		hidden_effect = { NEG = { country_event = { id = MHC_propose_new_england_treaty.4 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = MHC_propose_new_england_treaty.3
+	title = MHC_propose_new_england_treaty.3.t
+	desc = MHC_propose_new_england_treaty.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_new_england_treaty.3.a
+		ai_chance = { base =  100 }
+	}
+}
+
+country_event = {
+	id = MHC_propose_new_england_treaty.4
+	title = MHC_propose_new_england_treaty.4.t
+	desc = MHC_propose_new_england_treaty.4.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_new_england_treaty.4.a
+		ai_chance = { base =  100 }
+	}
+}
+
+country_event = {
+	id = MHC_propose_manhattan_connecticut_railroad.1
+	title = MHC_propose_manhattan_connecticut_railroad.1.t
+	desc = MHC_propose_manhattan_connecticut_railroad.1.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_manhattan_connecticut_railroad.1.a
+		ai_chance = { base = 100 }
+		hidden_effect = { NEG = { country_event = { id = MHC_propose_manhattan_connecticut_railroad.2 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = MHC_propose_manhattan_connecticut_railroad.2
+	title = MHC_propose_manhattan_connecticut_railroad.2.t
+	desc = MHC_propose_manhattan_connecticut_railroad.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_manhattan_connecticut_railroad.2.a
+		ai_chance = { base = 100 }
+		custom_effect_tooltip = NEG_manhattan_connecticut_railroad_idea_1_effect
+		hidden_effect = { MHC = { country_event = { id = MHC_propose_manhattan_connecticut_railroad.3 days = 3 } } }
+	}
+	option = {
+		name = MHC_propose_manhattan_connecticut_railroad.2.b
+		ai_chance = { base = 100 }
+		hidden_effect = { MHC = { country_event = { id = MHC_propose_manhattan_connecticut_railroad.4 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = MHC_propose_manhattan_connecticut_railroad.3
+	title = MHC_propose_manhattan_connecticut_railroad.3.t
+	desc = MHC_propose_manhattan_connecticut_railroad.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_manhattan_connecticut_railroad.3.a
+		ai_chance = { base = 100 }
+		954 = { 
+			add_extra_state_shared_building_slots = 1 
+			add_manpower = 2183
+		}
+		custom_effect_tooltip = MHC_manhattan_connecticut_railroad_idea_1_effect
+		hidden_effect = {
+			MHC = { 
+				set_country_flag = manhattan_connecticut_railroad_started_flag 
+				activate_decision = MHC_manhattan_connecticut_railroad_decision
+			}
+			NEG = { 
+				set_country_flag = manhattan_connecticut_railroad_started_flag 
+				activate_decision = MHC_manhattan_connecticut_railroad_decision
+			}
+		}
+	}
+}
+
+country_event = {
+	id = MHC_propose_manhattan_connecticut_railroad.4
+	title = MHC_propose_manhattan_connecticut_railroad.4.t
+	desc = MHC_propose_manhattan_connecticut_railroad.4.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_manhattan_connecticut_railroad.4.a
+		ai_chance = { base = 100 }
+	}
+}
+
+country_event = {
+	id = MHC_propose_free_movement_policies.1
+	title = MHC_propose_free_movement_policies.1.t
+	desc = MHC_propose_free_movement_policies.1.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_free_movement_policies.1.a
+		ai_chance = { base = 100 }
+		hidden_effect = { NEG = { country_event = { id = MHC_propose_free_movement_policies.2 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = MHC_propose_free_movement_policies.2
+	title = MHC_propose_free_movement_policies.2.t
+	desc = MHC_propose_free_movement_policies.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_free_movement_policies.2.a
+		ai_chance = { base = 100 }
+		swap_ideas = {
+			remove_idea = NEG_manhattan_connecticut_railroad_idea_1
+			add_idea = NEG_manhattan_connecticut_railroad_idea_2
+		}
+		hidden_effect = { MHC = { country_event = { id = MHC_propose_free_movement_policies.3 days = 3 } } }
+	}
+	option = {
+		name = MHC_propose_free_movement_policies.2.b
+		ai_chance = { base = 100 }
+		hidden_effect = { MHC = { country_event = { id = MHC_propose_free_movement_policies.4 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = MHC_propose_free_movement_policies.3
+	title = MHC_propose_free_movement_policies.3.t
+	desc = MHC_propose_free_movement_policies.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_free_movement_policies.3.a
+		ai_chance = { base = 100 }
+		954 = { 
+			add_extra_state_shared_building_slots = 4 
+			add_manpower = 10357
+		}
+		swap_ideas = {
+			remove_idea = MHC_manhattan_connecticut_railroad_idea_1
+			add_idea = MHC_manhattan_connecticut_railroad_idea_2
+		}
+	}
+}
+
+country_event = {
+	id = MHC_propose_free_movement_policies.4
+	title = MHC_propose_free_movement_policies.4.t
+	desc = MHC_propose_free_movement_policies.4.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_propose_free_movement_policies.4.a
+		ai_chance = { base = 100 }
+	}
+}
+
+country_event = {
+	id = MHC_achieve_economic_interdependence.1
+	title = MHC_achieve_economic_interdependence.1.t
+	desc = MHC_achieve_economic_interdependence.1.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_achieve_economic_interdependence.1.a
+		ai_chance = { base = 100 }
+		hidden_effect = { NEG = { country_event = { id = MHC_achieve_economic_interdependence.2 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = MHC_achieve_economic_interdependence.2
+	title = MHC_achieve_economic_interdependence.2.t
+	desc = MHC_achieve_economic_interdependence.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_achieve_economic_interdependence.2.a
+		ai_chance = { base = 100 }
+	}
+	option = {
+		name = MHC_achieve_economic_interdependence.2.b
+		ai_chance = { base = 0 }
+		MHC = { country_event = { id = MHC_achieve_economic_interdependence.3 days = 3 } }
+	}
+}
+
+country_event = {
+	id = MHC_achieve_economic_interdependence.3
+	title = MHC_achieve_economic_interdependence.3.t
+	desc = MHC_achieve_economic_interdependence.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_achieve_economic_interdependence.3.a
+		ai_chance = { base = 100 }
+	}
+}
+
+
+#MHC Leadership is chosen
+country_event = {
+	id = MHC_emergency_elections_event.1
+	title = MHC_emergency_elections_event.1.t
+	desc = MHC_emergency_elections_event.1.d
+	picture = GFX_report_event_election_vote
+		
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_emergency_elections_event.1.a
+		ai_chance = { factor = 1 }
+		create_country_leader = {
+			name = "Uriah Smith Stephens"
+			desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+			picture = ""
+			expire = "1947.1.1"
+			ideology = liberal_social
+		}
+		set_politics = { ruling_party = social_egalitarianism }
+		hidden_effect = {
+			set_country_flag = MHC_emergency_elections_initiated_flag
+			create_country_leader = {
+				name = "Josiah Warren"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = "Portrait_USA_Josiah_Warren.dds"
+				expire = "1947.1.1"
+				ideology = mutualism
+			}
+			create_country_leader = {
+				name = "Friedrich Sorge"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = owensim
+			}
+			create_country_leader = {
+				name = "Joseph Dietzgen"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = marxism
+			}
+		}
+	}
+	option = {
+		name = MHC_emergency_elections_event.1.b
+		ai_chance = { factor = 1 }
+		create_country_leader = {
+			name = "Josiah Warren"
+			desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+			picture = "Portrait_USA_Josiah_Warren.dds"
+			expire = "1947.1.1"
+			ideology = mutualism
+		}
+		set_politics = { ruling_party = anarchism }
+		hidden_effect = {
+			set_country_flag = MHC_emergency_elections_initiated_flag
+			create_country_leader = {
+				name = "Uriah Smith Stephens"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = liberal_social
+			}
+			create_country_leader = {
+				name = "Friedrich Sorge"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = owensim
+			}
+			create_country_leader = {
+				name = "Joseph Dietzgen"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = marxism
+			}
+		}
+	}
+	option = {
+		name = MHC_emergency_elections_event.1.c
+		ai_chance = { factor = 1 }
+		create_country_leader = {
+			name = "Friedrich Sorge"
+			desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+			picture = ""
+			expire = "1947.1.1"
+			ideology = owensim
+		}
+		set_politics = { ruling_party = collectivist_socialism }
+		hidden_effect = {
+			set_country_flag = MHC_emergency_elections_initiated_flag
+			create_country_leader = {
+				name = "Josiah Warren"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = "Portrait_USA_Josiah_Warren.dds"
+				expire = "1947.1.1"
+				ideology = mutualism
+			}
+			create_country_leader = {
+				name = "Uriah Smith Stephens"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = liberal_social
+			}
+			create_country_leader = {
+				name = "Joseph Dietzgen"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = marxism
+			}
+		}
+	}
+	option = {
+		name = MHC_emergency_elections_event.1.e
+		ai_chance = { factor = 1 }
+		create_country_leader = {
+			name = "Joseph Dietzgen"
+			desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+			picture = ""
+			expire = "1947.1.1"
+			ideology = marxism
+		}
+		set_politics = { ruling_party = vanguard_communism }
+		hidden_effect = {
+			set_country_flag = MHC_emergency_elections_initiated_flag
+			create_country_leader = {
+				name = "Josiah Warren"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = "Portrait_USA_Josiah_Warren.dds"
+				expire = "1947.1.1"
+				ideology = mutualism
+			}
+			create_country_leader = {
+				name = "Uriah Smith Stephens"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = liberal_social
+			}
+			create_country_leader = {
+				name = "Friedrich Sorge"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = ""
+				expire = "1947.1.1"
+				ideology = owensim
+			}
+		}
+	}
+}
+
+country_event = {
+	id = MHC_emergency_elections_event.2
+	title = MHC_emergency_elections_event.2.t
+	desc = MHC_emergency_elections_event.2.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		MHC = {
+			set_country_flag = MHC_emergency_elections_concluded_flag
+			if = {
+				limit = {
+					AND = {
+						check_variable = { var = council_leadership_score_social_egalitarianism value = council_leadership_score_anarchism compare = greater_than_or_equals }
+						check_variable = { var = council_leadership_score_social_egalitarianism value = council_leadership_score_collectivist_socialism compare = greater_than_or_equals }
+						check_variable = { var = council_leadership_score_social_egalitarianism value = council_leadership_score_vanguard_communism compare = greater_than_or_equals }
+					}
+				}
+				set_country_flag = council_leadership_score_social_egalitarianism_victory_flag
+			}
+			else_if = {
+				limit = {
+					AND = {
+						check_variable = { var = council_leadership_score_anarchism value = council_leadership_score_social_egalitarianism compare = greater_than_or_equals }
+						check_variable = { var = council_leadership_score_anarchism value = council_leadership_score_collectivist_socialism compare = greater_than_or_equals }
+						check_variable = { var = council_leadership_score_anarchism value = council_leadership_score_vanguard_communism compare = greater_than_or_equals }
+					}
+				}
+				set_country_flag = council_leadership_score_anarchism_victory_flag
+			}
+			else_if = {
+				limit = {
+					AND = {
+						check_variable = { var = council_leadership_score_collectivist_socialism value = council_leadership_score_social_egalitarianism compare = greater_than_or_equals }
+						check_variable = { var = council_leadership_score_collectivist_socialism value = council_leadership_score_anarchism compare = greater_than_or_equals }
+						check_variable = { var = council_leadership_score_collectivist_socialism value = council_leadership_score_vanguard_communism compare = greater_than_or_equals }
+					}
+				}
+				set_country_flag = council_leadership_score_collectivist_socialism_victory_flag
+			}
+			else_if = {
+				limit = {
+					AND = {
+						check_variable = { var = council_leadership_score_vanguard_communism value = council_leadership_score_social_egalitarianism compare = greater_than_or_equals }
+						check_variable = { var = council_leadership_score_vanguard_communism value = council_leadership_score_anarchism compare = greater_than_or_equals }
+						check_variable = { var = council_leadership_score_vanguard_communism value = council_leadership_score_collectivist_socialism compare = greater_than_or_equals }
+					}
+				}
+				set_country_flag = council_leadership_score_vanguard_communism_victory_flag
+			}
+		}
+		MHC = {
+			if = {
+				limit = {
+					OR = { 
+						check_variable = { var = council_leadership_score_social_egalitarianism 	value = 30 compare = less_than_or_equals }
+						check_variable = { var = council_leadership_score_anarchism 				value = 30 compare = less_than_or_equals }
+						check_variable = { var = council_leadership_score_collectivist_socialism 	value = 30 compare = less_than_or_equals }
+						check_variable = { var = council_leadership_score_vanguard_communism 		value = 30 compare = less_than_or_equals }
+					}
+				}
+				set_country_flag = MHC_revolutionary_council_risk_of_disjoint_flag
+				country_event = { id = MHC_emergency_elections_event.3 days = 7 }
+			}
+			if = {
+				limit = {
+					check_variable = { var = council_leadership_score_social_egalitarianism value = 30 compare = less_than_or_equals }
+				}
+				set_country_flag = MHC_revolutionary_council_social_egalitarianism_disjointed_flag
+			}
+			if = {
+				limit = {
+					check_variable = { var = council_leadership_score_anarchism value = 30 compare = less_than_or_equals }
+				}
+				set_country_flag = MHC_revolutionary_council_anarchism_disjointed_flag
+			}
+			if = {
+				limit = {
+					check_variable = { var = council_leadership_score_collectivist_socialism value = 30 compare = less_than_or_equals }
+				}
+				set_country_flag = MHC_revolutionary_council_collectivist_socialism_disjointed_flag
+			}
+			if = {
+				limit = {
+					check_variable = { var = council_leadership_score_vanguard_communism value = 30 compare = less_than_or_equals }
+				}
+				set_country_flag = MHC_revolutionary_council_vanguard_communism_disjointed_flag
+			}
+		}
+	}
+		
+	option = {
+		name = MHC_emergency_elections_event.2.a
+		ai_chance = { factor = 1 }
+		trigger = {
+			has_country_flag = council_leadership_score_social_egalitarianism_victory_flag
+		}
+		set_politics = { ruling_party = social_egalitarianism }
+		hidden_effect = {
+			clr_country_flag = council_leadership_score_social_egalitarianism_victory_flag
+			set_country_flag = MHC_revolutionary_council_voted_party_flag
+			set_country_flag = MHC_revolutionary_council_unified_flag
+		}
+	}
+	option = {
+		name = MHC_emergency_elections_event.2.b
+		ai_chance = { factor = 1 }
+		trigger = {
+			has_country_flag = council_leadership_score_anarchism_victory_flag
+		}
+		set_politics = { ruling_party = anarchism }
+		hidden_effect = {
+			clr_country_flag = council_leadership_score_anarchism_victory_flag
+			set_country_flag = MHC_revolutionary_council_voted_party_flag
+			set_country_flag = MHC_revolutionary_council_unified_flag
+		}
+	}
+	option = {
+		name = MHC_emergency_elections_event.2.c
+		ai_chance = { factor = 1 }
+		trigger = {
+			has_country_flag = council_leadership_score_collectivist_socialism_victory_flag
+		}
+		set_politics = { ruling_party = social_egalitarianism }
+		hidden_effect = {
+			clr_country_flag = council_leadership_score_collectivist_socialism_victory_flag
+			set_country_flag = MHC_revolutionary_council_voted_party_flag
+			set_country_flag = MHC_revolutionary_council_unified_flag
+		}
+	}
+	option = {
+		name = MHC_emergency_elections_event.2.e
+		ai_chance = { factor = 1 }
+		trigger = {
+			has_country_flag = council_leadership_score_vanguard_communism_victory_flag
+		}
+		set_politics = { ruling_party = vanguard_communism }
+		hidden_effect = {
+			clr_country_flag = council_leadership_score_vanguard_communism_victory_flag
+			set_country_flag = MHC_revolutionary_council_voted_party_flag
+			set_country_flag = MHC_revolutionary_council_unified_flag
+		}
+	}
+	option = {
+		name = MHC_emergency_elections_event.2.f
+		ai_chance = { factor = 1 }
+		trigger = {
+			NOT = { has_country_flag = MHC_revolutionary_council_risk_of_disjoint_flag }
+			OR = {
+				AND = {
+					has_country_flag = council_leadership_score_social_egalitarianism_victory_flag
+					NOT = { has_government = social_egalitarianism }
+				}
+				AND = {
+					has_country_flag = council_leadership_score_anarchism_victory_flag
+					NOT = { has_government = anarchism }
+				}
+				AND = {
+					has_country_flag = council_leadership_score_social_egalitarianism_victory_flag
+					NOT = { has_government = social_egalitarianism }
+				}
+				AND = {
+					has_country_flag = council_leadership_score_vanguard_communism_victory_flag
+					NOT = { has_government = vanguard_communism }
+				}
+			}
+		}
+		hidden_effect = {
+			clr_country_flag = council_leadership_score_social_egalitarianism_victory_flag
+			clr_country_flag = council_leadership_score_anarchism_victory_flag
+			clr_country_flag = council_leadership_score_social_egalitarianism_victory_flag
+			clr_country_flag = council_leadership_score_vanguard_communism_victory_flag
+			set_country_flag = MHC_council_leadership_postponed_flag
+			set_country_flag = MHC_revolutionary_council_voted_party_flag
+			set_country_flag = MHC_revolutionary_council_unified_flag
+		}
+	}
+}
+
+country_event = {
+	id = MHC_emergency_elections_event.3
+	title = MHC_emergency_elections_event.3.t
+	desc = MHC_emergency_elections_event.3.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_emergency_elections_event.3.a
+		ai_chance = { factor = 1 }
+		trigger = {
+			has_country_flag = MHC_revolutionary_council_social_egalitarianism_disjointed_flag
+		}
+		if = {
+			limit = { 
+				has_idea = lp_african_communalism
+			}
+			swap_ideas = {
+				remove_idea = lp_african_communalism
+				add_idea = lp_land_purchase
+			}
+			hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = 6 }
+			add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = -15 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		}
+		else_if = {
+			limit = { 
+				has_idea = lp_collectivization
+			}
+			swap_ideas = {
+				remove_idea = lp_collectivization
+				add_idea = lp_land_purchase
+			}
+			hidden_effect = {
+				add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = 3 }
+				country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+			}
+		}
+		custom_effect_tooltip = MHC_emergency_elections_event_3
+		hidden_effect = { clr_country_flag = MHC_revolutionary_council_risk_of_disjoint_flag }
+	}
+	option = {
+		name = MHC_emergency_elections_event.3.b
+		ai_chance = { factor = 1 }
+		trigger = {
+			OR = {
+				has_country_flag = MHC_revolutionary_council_collectivist_socialism_disjointed_flag
+				has_country_flag = MHC_revolutionary_council_anarchism_disjointed_flag
+			}
+		}
+		if = {
+			limit = { 
+				has_idea = lp_land_purchase
+			}
+			swap_ideas = {
+				remove_idea = lp_land_purchase
+				add_idea = lp_african_communalism
+			}
+			hidden_effect = {
+				add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -6 }
+				add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = 15 }
+				country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+			}
+		}
+		else_if = {
+			limit = { 
+				has_idea = lp_collectivization
+			}
+			swap_ideas = {
+				remove_idea = lp_collectivization
+				add_idea = lp_african_communalism
+			}
+			hidden_effect = {
+				add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -3 }
+				add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = 15 }
+				country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+			}
+		}
+		custom_effect_tooltip = MHC_emergency_elections_event_3
+		hidden_effect = { clr_country_flag = MHC_revolutionary_council_risk_of_disjoint_flag }
+	}
+	option = {
+		name = MHC_emergency_elections_event.3.c
+		ai_chance = { factor = 1 }
+		trigger = {
+			has_country_flag = MHC_revolutionary_council_vanguard_communism_disjointed_flag
+		}
+		if = {
+			limit = { 
+				has_idea = lp_african_communalism
+			}
+			swap_ideas = {
+				remove_idea = lp_african_communalism
+				add_idea = lp_collectivization
+			}
+			hidden_effect = {
+				add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = 3 }
+				add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = -15 }
+				country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+			}
+		}
+		else_if = {
+			limit = { 
+				has_idea = lp_land_purchase
+			}
+			swap_ideas = {
+				remove_idea = lp_land_purchase
+				add_idea = lp_collectivization
+			}
+			hidden_effect = {
+				add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -3 }
+				country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+			}
+		}
+		custom_effect_tooltip = MHC_emergency_elections_event_3
+		hidden_effect = { clr_country_flag = MHC_revolutionary_council_risk_of_disjoint_flag }
+	}
+	option = {
+		name = MHC_emergency_elections_event.3.e
+		ai_chance = { factor = 1 }
+		custom_effect_tooltip = MHC_emergency_elections_event_3_e
+		hidden_effect = { 
+			clr_country_flag = MHC_revolutionary_council_risk_of_disjoint_flag
+			set_country_flag = MHC_revolutionary_council_disjointed_flag 
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.1
+	title = MHC_revolutionary_council_elections_event.1.t
+	desc = MHC_revolutionary_council_elections_event.1.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.1.a
+		ai_chance = { factor = 1 }
+		add_ideas = volunteer_only
+		custom_effect_tooltip = MHC_this_will_anger_marxists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 3 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 12 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.1.b
+		ai_chance = { factor = 1 }
+		add_ideas = limited_conscription
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 3 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.1.c
+		ai_chance = { factor = 1 }
+		add_ideas = all_adults_serve
+		custom_effect_tooltip = MHC_this_will_upset_mutualists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 3 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 6 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 1 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.2
+	title = MHC_revolutionary_council_elections_event.2.t
+	desc = MHC_revolutionary_council_elections_event.2.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.2.a
+		ai_chance = { factor = 1 }
+		add_ideas = partial_economic_mobilisation
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 3 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.2.b
+		ai_chance = { factor = 1 }
+		add_ideas = war_economy
+		custom_effect_tooltip = MHC_this_will_upset_liberals
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 2 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.3
+	title = MHC_revolutionary_council_elections_event.3.t
+	desc = MHC_revolutionary_council_elections_event.3.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.3.a
+		ai_chance = { factor = 1 }
+		add_ideas = three_percent
+		custom_effect_tooltip = MHC_this_will_upset_marxists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 6 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.3.b
+		ai_chance = { factor = 1 }
+		add_ideas = five_percent
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 3 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.3.c
+		ai_chance = { factor = 1 }
+		add_ideas = ten_percent
+		custom_effect_tooltip = MHC_this_will_upset_liberals
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 2 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 2 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.4
+	title = MHC_revolutionary_council_elections_event.4.t
+	desc = MHC_revolutionary_council_elections_event.4.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.4.a
+		ai_chance = { factor = 1 }
+		add_ideas = law_communal_policing
+		custom_effect_tooltip = MHC_this_will_anger_liberals
+		custom_effect_tooltip = MHC_this_will_upset_marxists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 3 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 6 }
+			set_country_flag = MHC_revolutionary_council_voted_militarism_flag
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.4.b
+		ai_chance = { factor = 1 }
+		add_ideas = law_police_force
+		custom_effect_tooltip = MHC_this_will_upset_mutualists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 6 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+			set_country_flag = MHC_revolutionary_council_voted_militarism_flag
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.4.c
+		ai_chance = { factor = 1 }
+		add_ideas = law_military_police_force
+		custom_effect_tooltip = MHC_this_will_anger_liberals
+		custom_effect_tooltip = MHC_this_will_anger_mutualists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 12 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 3 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+			set_country_flag = MHC_revolutionary_council_voted_militarism_flag
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.5
+	title = MHC_revolutionary_council_elections_event.5.t
+	desc = MHC_revolutionary_council_elections_event.5.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.5.a
+		ai_chance = { factor = 1 }
+		add_ideas = free_press
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 3 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.5.b
+		ai_chance = { factor = 1 }
+		add_ideas = censored_press
+		custom_effect_tooltip = MHC_this_will_upset_liberals
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = -3 }
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 3 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.5.c
+		ai_chance = { factor = 1 }
+		add_ideas = state_controlled_press
+		custom_effect_tooltip = MHC_this_will_anger_liberals
+		custom_effect_tooltip = MHC_this_will_upset_mutualists
+		custom_effect_tooltip = MHC_this_will_upset_owenists
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = -6 }
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 6 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.6
+	title = MHC_revolutionary_council_elections_event.6.t
+	desc = MHC_revolutionary_council_elections_event.6.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.6.a
+		ai_chance = { factor = 1 }
+		add_ideas = secular_state
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 3 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.6.b
+		ai_chance = { factor = 1 }
+		add_ideas = atheistic_state
+		custom_effect_tooltip = MHC_this_will_anger_liberals
+		custom_effect_tooltip = MHC_this_will_upset_mutualists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 6 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.7
+	title = MHC_revolutionary_council_elections_event.7.t
+	desc = MHC_revolutionary_council_elections_event.7.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.7.a
+		ai_chance = { factor = 1 }
+		add_ideas = foa_free_assembly
+		add_ideas = pp_open_politics
+		custom_effect_tooltip = MHC_this_will_upset_marxists
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = 5 }
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 6 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.7.b
+		ai_chance = { factor = 1 }
+		add_ideas = foa_restricted_attendance
+		add_ideas = pp_ban_extremist_parties
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = -5 }
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 2 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 1 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 1 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.8
+	title = MHC_revolutionary_council_elections_event.8.t
+	desc = MHC_revolutionary_council_elections_event.8.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.8.a
+		ai_chance = { factor = 1 }
+		add_ideas = jury_court
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 1 }
+			set_country_flag = MHC_revolutionary_council_voted_bill_of_rights_flag
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.8.b
+		ai_chance = { factor = 1 }
+		add_ideas = quasi_jury_court
+		custom_effect_tooltip = MHC_this_will_upset_mutualists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 3 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 6 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 3 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+			set_country_flag = MHC_revolutionary_council_voted_bill_of_rights_flag
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.9
+	title = MHC_revolutionary_council_elections_event.9.t
+	desc = MHC_revolutionary_council_elections_event.9.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.9.a
+		ai_chance = { factor = 1 }
+		add_ideas = open_borders
+		custom_effect_tooltip = MHC_this_will_upset_liberals
+		custom_effect_tooltip = MHC_this_will_upset_marxists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 6 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.9.b
+		ai_chance = { factor = 1 }
+		add_ideas = border_control
+		custom_effect_tooltip = MHC_this_will_upset_mutualists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 6 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 1 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.10
+	title = MHC_revolutionary_council_elections_event.10.t
+	desc = MHC_revolutionary_council_elections_event.10.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.10.a
+		ai_chance = { factor = 1 }
+		add_ideas = free_trade
+		custom_effect_tooltip = MHC_this_will_anger_marxists
+		custom_effect_tooltip = MHC_this_will_upset_liberals
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 12 }
+			set_country_flag = MHC_revolutionary_council_voted_foreign_flag
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.10.b
+		ai_chance = { factor = 1 }
+		add_ideas = limited_exports
+		custom_effect_tooltip = MHC_this_will_upset_marxists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 3 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 3 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 6 }
+			set_country_flag = MHC_revolutionary_council_voted_foreign_flag
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.10.c
+		ai_chance = { factor = 1 }
+		add_ideas = closed_economy
+		custom_effect_tooltip = MHC_this_will_anger_owenists
+		custom_effect_tooltip = MHC_this_will_anger_mutualists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 12 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+			set_country_flag = MHC_revolutionary_council_voted_foreign_flag
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.11
+	title = MHC_revolutionary_council_elections_event.11.t
+	desc = MHC_revolutionary_council_elections_event.11.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.11.a
+		ai_chance = { factor = 1 }
+		add_ideas = lp_land_purchase
+		custom_effect_tooltip = MHC_this_will_upset_mutualists
+		custom_effect_tooltip = MHC_this_will_anger_owenists
+		custom_effect_tooltip = MHC_this_will_anger_marxists
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 6 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 12 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.11.b
+		ai_chance = { factor = 1 }
+		add_ideas = lp_african_communalism
+		custom_effect_tooltip = MHC_this_will_anger_liberals
+		custom_effect_tooltip = MHC_this_will_upset_marxists
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -6 }
+			add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = 15 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 6 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.11.c
+		ai_chance = { factor = 1 }
+		add_ideas = lp_collectivization
+		custom_effect_tooltip = MHC_this_will_anger_liberals
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -3 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 1 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.12
+	title = MHC_revolutionary_council_elections_event.12.t
+	desc = MHC_revolutionary_council_elections_event.12.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.12.a
+		ai_chance = { factor = 1 }
+		add_ideas = tu_free_unions
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -3 }
+			add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = 20 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 2 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 2 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.12.b
+		ai_chance = { factor = 1 }
+		add_ideas = tu_general_comitee
+		custom_effect_tooltip = MHC_this_will_upset_liberals
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -3 }
+			add_to_variable = { var = MHC.NA_B_idea_working_class_organization_score_var@MHC value = 17 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 2 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.13
+	title = MHC_revolutionary_council_elections_event.13.t
+	desc = MHC_revolutionary_council_elections_event.13.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.13.a
+		ai_chance = { factor = 1 }
+		add_ideas = twelve_hour_work_day
+		custom_effect_tooltip = MHC_this_will_upset_mutualists
+		custom_effect_tooltip = MHC_this_will_upset_owenists
+		custom_effect_tooltip = MHC_this_will_upset_marxists
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -2 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 6 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 6 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.13.b
+		ai_chance = { factor = 1 }
+		add_ideas = ten_hour_work_day
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -4 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 2 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.13.c
+		ai_chance = { factor = 1 }
+		add_ideas = eight_hour_work_day
+		custom_effect_tooltip = MHC_this_will_upset_liberals
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -6 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 6 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+		}
+	}
+}
+
+country_event = {
+	id = MHC_revolutionary_council_elections_event.14
+	title = MHC_revolutionary_council_elections_event.14.t
+	desc = MHC_revolutionary_council_elections_event.14.d
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = MHC_revolutionary_council_elections_event.14.a
+		ai_chance = { factor = 1 }
+		add_ideas = cl_restricted
+		custom_effect_tooltip = MHC_this_will_anger_mutualists
+		custom_effect_tooltip = MHC_this_will_anger_owenists
+		custom_effect_tooltip = MHC_this_will_anger_marxists
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -1 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 12 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 12 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 12 }
+			set_country_flag = MHC_revolutionary_council_voted_capitalism_flag
+		}
+	}
+	option = {
+		name = MHC_revolutionary_council_elections_event.14.b
+		ai_chance = { factor = 1 }
+		add_ideas = cl_illegal
+		hidden_effect = {
+			add_to_variable = { var = MHC.NA_B_idea_working_class_exploitation_score_var@MHC value = -3 }
+			country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 } 
+		}
+		hidden_effect = {
+			subtract_from_variable = { var = council_leadership_score_social_egalitarianism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_anarchism 				value = 0 }
+			subtract_from_variable = { var = council_leadership_score_collectivist_socialism 	value = 0 }
+			subtract_from_variable = { var = council_leadership_score_vanguard_communism 		value = 0 }
+			set_country_flag = MHC_revolutionary_council_voted_capitalism_flag
+		}
+	}
+}

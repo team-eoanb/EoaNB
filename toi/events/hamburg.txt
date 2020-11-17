@@ -1,0 +1,285 @@
+﻿add_namespace = hamburgcolonialtrade
+add_namespace = HAM_negotiate_with_african_kingdoms_event
+
+#Woermann Traiding Company
+country_event = {
+	id = hamburgcolonialtrade.1
+	title = hamburgcolonialtrade.1.t
+	desc = hamburgcolonialtrade.1.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = hamburgcolonialtrade.1.a
+		ai_chance = { factor = 100 }
+		add_political_power = 20
+		add_equipment_to_stockpile = { type = convoy_1 amount = 30 producer = HAM }
+		country_event = { id = hamburgcolonialtrade.2 days = 720 }
+		hidden_effect = {
+			HAM = { set_country_flag = HAM_woermann_tradeport_expansion_flag }
+		}
+	}
+}
+
+	
+#Woermanns Trade Station in Gabon 
+country_event = {
+	id = hamburgcolonialtrade.2
+	title = hamburgcolonialtrade.2.t
+	desc = hamburgcolonialtrade.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = hamburgcolonialtrade.2.a
+		ai_chance = { factor = 100 } 
+		539 = { OWNER = { country_event = { id = HAM_negotiate_with_african_kingdoms_event.1 } } }
+	}
+}
+#Woermanns Trade Station in Kamerun
+country_event = {
+	id = hamburgcolonialtrade.3
+	title = hamburgcolonialtrade.3.t
+	desc = hamburgcolonialtrade.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = hamburgcolonialtrade.3.a
+		ai_chance = { factor = 100 }
+		538 = { OWNER = { country_event = { id = HAM_negotiate_with_african_kingdoms_event.1 } } }
+	}
+}
+
+country_event = {
+	id = HAM_negotiate_with_african_kingdoms_event.1
+	title = HAM_negotiate_with_african_kingdoms_event.1.t
+	desc = HAM_negotiate_with_african_kingdoms_event.1.d
+	picture = HAM_negotiate_with_african_kingdoms_event
+	
+	is_triggered_only = yes
+	
+	option = {
+	    name = HAM_negotiate_with_african_kingdoms_event.1.a
+		trigger = {
+			NOT = { has_country_flag = AF_O_K_isolated_nation_flag }
+			NOT = { has_country_flag = afr_traditional_tree }
+			NOT = { has_country_flag = afr_jihadist_tree }
+			NOT = { has_idea = AFR_history_of_colonial_resistance }
+			NOT = { has_idea = AFR_history_of_colonial_resistance_1 }
+			NOT = {
+				has_country_flag = afr_rrp_british_company_port
+				has_country_flag = afr_rrp_sweden_company_port
+				has_country_flag = afr_rrp_french_company_port
+				has_country_flag = afr_rrp_german_company_port
+				has_country_flag = afr_rrp_bremen_company_port
+				has_country_flag = afr_rrp_portugal_company_port
+			}
+		}
+		ai_chance = {
+			factor = 100
+		}
+		set_country_flag = HAM_negotiation_with_afr_kingdom_success_flag
+		hidden_effect = {
+			if = {
+				limit = { ROOT = { owns_state = 539 } }
+				set_global_flag = HAM_woermann_tradeport_gabon
+				HAM = { country_event = { id = hamburgcolonialtrade.3 days = 720 } }
+			}
+			ROOT = { country_event = { id = HAM_negotiate_with_african_kingdoms_event.5 days = 1 } }
+			FROM = { country_event = { id = HAM_negotiate_with_african_kingdoms_event.2 days = 10 random = 5 } }
+		}
+	}
+	option = { 
+	    name = HAM_negotiate_with_african_kingdoms_event.1.b
+		trigger = {
+			NOT = {
+				has_country_flag = afr_rrp_british_company_port
+				has_country_flag = afr_rrp_sweden_company_port
+				has_country_flag = afr_rrp_french_company_port
+				has_country_flag = afr_rrp_german_company_port
+				has_country_flag = afr_rrp_bremen_company_port
+				has_country_flag = afr_rrp_portugal_company_port
+				has_country_flag = afr_rrp_hamburg_company_port
+			}
+		}
+		ai_chance = {
+			factor = 100
+		}
+		hidden_effect = {
+			FROM = { country_event = { id = HAM_negotiate_with_african_kingdoms_event.3 days = 10 random = 5 } }
+			if = {
+				limit = { ROOT = { owns_state = 539 } }
+				HAM = { set_country_flag = HAM_woermann_tradeport_gabon_declined }
+			}
+			if = {
+				limit = { ROOT = { owns_state = 538 } }
+				HAM = { set_country_flag = HAM_woermann_tradeport_cameroon_declined }
+			}
+		}
+	}
+	option = {
+	    name = HAM_negotiate_with_african_kingdoms_event.1.c
+		trigger={
+			OR = {
+				has_country_flag = afr_rrp_british_company_port
+				has_country_flag = afr_rrp_sweden_company_port
+				has_country_flag = afr_rrp_french_company_port
+				has_country_flag = afr_rrp_german_company_port
+				has_country_flag = afr_rrp_bremen_company_port
+				has_country_flag = afr_rrp_portugal_company_port
+			}
+			NOT = { has_country_flag = afr_rrp_hamburg_company_port }
+		}
+		ai_chance = {
+			factor = 100
+		}
+		hidden_effect = {
+			FROM = { country_event = { id = HAM_negotiate_with_african_kingdoms_event.4 days = 5 random = 5 } }
+			if = {
+				limit = { ROOT = { owns_state = 539 } }
+				HAM = { set_country_flag = HAM_woermann_tradeport_gabon_declined }
+			}
+			if = {
+				limit = { ROOT = { owns_state = 538 } }
+				HAM = { set_country_flag = HAM_woermann_tradeport_cameroon_declined }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = HAM_negotiate_with_african_kingdoms_event.2
+	title = HAM_negotiate_with_african_kingdoms_event.2.t
+	desc = HAM_negotiate_with_african_kingdoms_event.2.d
+
+	is_triggered_only = yes
+	
+	option = { 
+	    name = HAM_negotiate_with_african_kingdoms_event.2.a
+		ai_chance = {
+			factor = 100
+		}
+		FROM = { add_ideas = HAM_woermann_trading_company_idea }
+		FROM = { give_military_access = HAM }
+		add_political_power = 100
+		add_stability = 0.1
+	}
+}
+
+country_event = {
+	id = HAM_negotiate_with_african_kingdoms_event.3
+	title = HAM_negotiate_with_african_kingdoms_event.3.t
+	desc = HAM_negotiate_with_african_kingdoms_event.3.d
+
+	is_triggered_only = yes
+	
+	option = { 
+	    name = HAM_negotiate_with_african_kingdoms_event.3.a
+		trigger = {
+			NOT = { has_country_flag = HAM_woermann_tradeport_cameroon_declined }
+		}
+		ai_chance = {
+			factor = 100
+		}
+	}
+	
+	option = { 
+	    name = HAM_negotiate_with_african_kingdoms_event.3.b
+		trigger = {
+			has_country_flag = HAM_woermann_tradeport_gabon_declined
+			NOT = { has_country_flag = HAM_woermann_tradeport_cameroon_alternative }
+		}
+		ai_chance = {
+			factor = 100
+		}
+		add_political_power = -100
+		hidden_effect = {
+			country_event = { id = hamburgcolonialtrade.3 days = 30 }
+			clr_country_flag = HAM_woermann_tradeport_gabon_declined
+			set_country_flag = HAM_woermann_tradeport_cameroon_alternative
+		}
+	}
+	
+	option = { 
+	    name = HAM_negotiate_with_african_kingdoms_event.3.c
+		trigger = {
+			has_country_flag = HAM_woermann_tradeport_cameroon_declined
+		}
+		ai_chance = {
+			factor = 100
+		}
+		add_stability = -0.05
+		hidden_effect = {
+			clr_country_flag = HAM_woermann_tradeport_cameroon_declined
+			clr_country_flag = HAM_woermann_tradeport_cameroon_alternative
+		}
+	}
+}
+
+country_event = {
+	id = HAM_negotiate_with_african_kingdoms_event.4
+	title = HAM_negotiate_with_african_kingdoms_event.4.t
+	desc = HAM_negotiate_with_african_kingdoms_event.4.d
+
+	is_triggered_only = yes
+	
+	option = { 
+	    name = HAM_negotiate_with_african_kingdoms_event.4.a
+		ai_chance = {
+			factor = 100
+		}
+		add_political_power = 100
+		add_stability = 0.1
+	}
+	
+	option = { 
+	    name = HAM_negotiate_with_african_kingdoms_event.4.b
+		trigger = {
+			has_country_flag = HAM_woermann_tradeport_gabon_declined
+			NOT = { has_country_flag = HAM_woermann_tradeport_cameroon_alternative }
+		}
+		ai_chance = {
+			factor = 100
+		}
+		add_political_power = -100
+		hidden_effect = {
+			country_event = { id = hamburgcolonialtrade.3 days = 30 }
+			clr_country_flag = HAM_woermann_tradeport_gabon_declined
+			set_country_flag = HAM_woermann_tradeport_cameroon_alternative
+		}
+	}
+	
+	option = { 
+	    name = HAM_negotiate_with_african_kingdoms_event.4.c
+		trigger = {
+			has_country_flag = HAM_woermann_tradeport_cameroon_declined
+		}
+		ai_chance = {
+			factor = 100
+		}
+		add_stability = -0.05
+		hidden_effect = {
+			clr_country_flag = HAM_woermann_tradeport_cameroon_declined
+			clr_country_flag = HAM_woermann_tradeport_cameroon_alternative
+		}
+	}
+}
+
+country_event = {
+	id = HAM_negotiate_with_african_kingdoms_event.5
+	is_triggered_only = yes
+	hidden = yes
+	immediate = {
+		FROM = {
+			if = {
+				limit = { NOT = { has_country_flag = afr_rrp_hamburg_company_port } }
+				activate_decision = afr_rrp_hamburg_company_port
+			}
+		}
+	}
+}
+	

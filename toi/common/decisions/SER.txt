@@ -11,6 +11,7 @@ SER_ctg_withdrawal = {
 			TAG = SER
             has_completed_focus = SER_Turkish_Withdrawal
 		}
+		allowed = { TAG = SER }
 
 		fire_only_once = yes
 		cost = 75
@@ -41,6 +42,7 @@ SER_ctg_withdrawal = {
 			TAG = SER
             has_completed_focus = SER_Turkish_Withdrawal
 		}
+		allowed = { TAG = SER }
 
 		fire_only_once = yes
 		cost = 100
@@ -63,3 +65,451 @@ SER_ctg_withdrawal = {
 		}
 	}
 }
+
+SER_french_mission  = {
+    SER_mission_army_modernization = {
+		
+		icon = generic_nationalism
+		
+		allowed = {
+			tag = SER
+		}
+		
+		available = { 
+			has_war_support > 0.3
+			num_of_military_factories > 2
+			has_tech = rifle_equipment3
+			has_tech = sixfour_army_cloth
+			has_tech = improved_cavalry
+			has_tech = improved_handguns
+			has_completed_focus = SER_First_Minister_Of_Military
+			has_completed_focus = SER_Equipment_Modernization
+			has_completed_focus = SER_Improve_Strategies
+			has_country_flag = SER_kragujevac_fortress_renovation
+			has_equipment = {
+                infantry_equipment_rifle_1 > 4999
+            }
+			has_equipment = {
+                support_equipment > 499
+            }
+			has_equipment = {
+                cannon_equipment_0 > 499
+            }
+		}
+		
+		activation = {
+			tag = SER
+			has_completed_focus = SER_First_Minister_Of_Military
+		}
+		
+		visible = {
+			tag = SER
+			has_completed_focus = SER_First_Minister_Of_Military
+		}
+		
+		days_mission_timeout = 1900
+		
+		timeout_effect = {
+		    add_political_power = -100
+		    decrease_ps_by_one = yes
+			add_stability = -0.1
+			add_war_support = -0.1
+			}
+		
+		complete_effect = {
+			swap_ideas = { remove_idea = law_pre_industrial_army add_idea = law_victorian_army }
+		}
+	}
+	
+	SER_decision_kragujevac_fortress_renovation = {
+
+        icon = GFX_decision_border_war
+
+        allowed = {
+            tag = SER
+        }
+		
+		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = SER_army_reform_ongoing
+				}
+			}
+		    has_completed_focus = SER_Improve_Strategies
+		}
+		
+		visible = {
+		   tag = SER
+		   has_completed_focus = SER_First_Minister_Of_Military
+	    }
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 50
+		
+		modifier = {
+		    political_power_gain = -0.05
+			consumer_goods_factor = 0.05
+			production_speed_buildings_factor = -0.05
+		}
+		
+		cancel_trigger = {
+			SER = { NOT = { owns_state = 107 } }
+		}
+
+		complete_effect = {
+		    hidden_effect = {
+				set_country_flag = { flag = SER_army_reform_ongoing value = 1 days = 70 }
+			}
+		    107 = { add_building_construction = { type = bunker level = 1 instant_build = yes province = 6998 } }
+			set_country_flag = SER_kragujevac_fortress_renovation
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	SER_decision_purchase_foreign_firearms = {
+		
+		icon = GFX_decision_generic_construction
+
+		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = SER_army_reform_ongoing
+				}
+			}
+			has_completed_focus = SER_Equipment_Modernization
+		}
+
+		visible = {
+			TAG = SER
+			has_completed_focus = SER_First_Minister_Of_Military
+		}
+		allowed = { TAG = SER }
+
+		fire_only_once = no
+		is_good = yes
+
+		cost = 75
+		days_remove = 60
+		
+		days_re_enable = 360
+
+		modifier = {
+		    political_power_gain = -0.05
+			consumer_goods_factor = 0.01
+		}
+		
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = { flag = SER_army_reform_ongoing value = 1 days = 80 }
+			}
+		}
+
+		remove_effect = { 
+            SER = { add_equipment_to_stockpile = { type = infantry_equipment_rifle_1 amount = 500 producer = FRA } }
+		}
+
+		ai_will_do = {
+			base = 1000
+		    }
+        }
+
+    SER_decision_purchase_support_equipment = {
+		
+		icon = GFX_decision_generic_construction
+
+		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = SER_army_reform_ongoing
+				}
+			}
+			has_completed_focus = SER_Equipment_Modernization
+		}
+
+		visible = {
+			TAG = SER
+			has_completed_focus = SER_First_Minister_Of_Military
+		}
+		allowed = { TAG = SER }
+
+		fire_only_once = no
+		is_good = yes
+
+		cost = 75
+		days_remove = 60
+		
+		days_re_enable = 360
+
+		modifier = {
+		    political_power_gain = -0.05
+			consumer_goods_factor = 0.01
+		}
+		
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = { flag = SER_army_reform_ongoing value = 1 days = 80 }
+			}
+		}
+
+		remove_effect = { 
+            SER = { add_equipment_to_stockpile = { type = support_equipment amount = 200 producer = FRA } }
+		}
+
+		ai_will_do = {
+			base = 1000
+		    }
+        }
+    
+    SER_decision_purchase_foreign_artillery = {
+		
+		icon = GFX_decision_generic_construction
+
+		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = SER_army_reform_ongoing
+				}
+			}
+			has_completed_focus = SER_Equipment_Modernization
+		}
+
+		visible = {
+			TAG = SER
+			has_completed_focus = SER_First_Minister_Of_Military
+		}
+		allowed = { TAG = SER }
+
+		fire_only_once = no
+		is_good = yes
+
+		cost = 75
+		days_remove = 60
+		
+		days_re_enable = 360
+
+		modifier = {
+		    political_power_gain = -0.05
+			consumer_goods_factor = 0.01
+		}
+		
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = { flag = SER_army_reform_ongoing value = 1 days = 80 }
+			}
+		}
+
+		remove_effect = { 
+            SER = { add_equipment_to_stockpile = { type = cannon_equipment_0 amount = 75 producer = FRA } }
+		}
+
+		ai_will_do = {
+			base = 1000
+		    }
+        }
+		
+	SER_decree_on_state_armory = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+            TAG = SER
+        }
+
+        available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = SER_army_reform_ongoing
+				}
+			}
+		    has_completed_focus = SER_First_Minister_Of_Military
+			has_completed_focus = SER_French_Military_Rules
+			has_completed_focus = SER_Equipment_Modernization
+			num_of_civilian_factories_available_for_projects > 1
+			SER = { controls_state = 107 }
+        }
+
+		visible = {
+			TAG = SER
+			has_completed_focus = SER_First_Minister_Of_Military
+		}
+
+		fire_only_once = yes
+
+		days_remove = 260
+
+		cost = 100
+
+        highlight_states = {
+			state = 107
+		}
+
+        remove_effect = {
+			107 = { add_extra_state_shared_building_slots = 1 }
+			107 = { add_building_construction = { type = arms_factory level = 1 instant_build = yes } }
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+			production_speed_buildings_factor = -0.05
+		}
+		
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = { flag = SER_army_reform_ongoing value = 1 days = 280 }
+			}
+		}
+		
+		cancel_trigger = {
+			SER = { NOT = { owns_state = 107 } }
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	SER_decree_chief_arsenal = {
+		
+		icon = GFX_decision_generic_construction
+
+		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = SER_army_reform_ongoing
+				}
+			}
+			has_completed_focus = SER_First_Minister_Of_Military
+			has_completed_focus = SER_French_Military_Rules
+			has_completed_focus = SER_Equipment_Modernization
+		}
+
+		visible = {
+			TAG = SER
+			has_completed_focus = SER_First_Minister_Of_Military
+		}
+		allowed = { TAG = SER }
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 75
+		days_remove = 60
+		
+		days_re_enable = 360
+
+		modifier = {
+		    political_power_gain = -0.1
+		}
+		
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = { flag = SER_army_reform_ongoing value = 1 days = 80 }
+			}
+		}
+
+		remove_effect = { 
+            army_experience = 50
+		}
+
+		ai_will_do = {
+			base = 1000
+		    }
+        }
+		
+	SER_decree_people_army = {
+		
+		icon = GFX_decision_generic_construction
+
+		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = SER_army_reform_ongoing
+				}
+			}
+			has_completed_focus = SER_First_Minister_Of_Military
+			has_completed_focus = SER_National_Army_Law
+		}
+
+		visible = {
+			TAG = SER
+			has_completed_focus = SER_First_Minister_Of_Military
+		}
+		allowed = { TAG = SER }
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 75
+		days_remove = 60
+		
+		days_re_enable = 360
+
+		modifier = {
+		    political_power_gain = -0.05
+		}
+
+        complete_effect = {
+			hidden_effect = {
+				set_country_flag = { flag = SER_army_reform_ongoing value = 1 days = 80 }
+			}
+		}
+
+		remove_effect = { 
+            add_manpower = 20000
+		}
+
+		ai_will_do = {
+			base = 1000
+		    }
+        }
+	SER_decision_serbian_gendermerie = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+            tag = SER
+        }
+		
+		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = SER_army_reform_ongoing
+				}
+			}
+		    has_completed_focus = SER_Improve_Strategies
+		}
+		
+		visible = {
+		   tag = SER
+		   has_completed_focus = SER_Gendarmery
+	    }
+
+		fire_only_once = yes
+
+		cost = 20
+		
+		days_remove = 10
+		
+		modifier = {
+		    political_power_gain = -0.05
+		}
+		
+
+		complete_effect = {
+		    hidden_effect = {
+				set_country_flag = { flag = SER_army_reform_ongoing value = 1 days = 10 }
+			}
+		    country_event = { days = 5 id = SERmisc.6 }
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+      }
+    }

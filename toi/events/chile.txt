@@ -1,0 +1,287 @@
+add_namespace = chile
+
+country_event = {
+		id = chile.1
+		title = chile.1.t
+		desc = chile.1.d
+		picture = GFX_report_event_gre_academy_athens_construct
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			tag = CHL
+			#date > 1857.9.15
+		}
+	
+		option = {
+			name = chile.1.a 
+			279 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			
+		}
+	}
+	
+	country_event = {
+		id = chile.2
+		title = chile.2.t
+		desc = chile.2.d
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			tag = CHL
+			#date > 1857.12.29
+		}
+	
+		option = {
+			name = chile.2.a 
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.10
+			}
+			add_political_power = -30
+		}
+	}
+	
+	country_event = {
+		id = chile.3
+		title = chile.3.t
+		desc = chile.3.d
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			tag = CHL
+			#date > 1858.1.15
+		}
+	
+		option = {
+			name = chile.3.a 
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.15
+			}
+			add_stability = -0.05
+		}
+	}
+	
+	
+	country_event = {
+		id = chile.4
+		title = chile.4.t
+		desc = chile.4.d
+		picture = GFX_report_event_march_revolution
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			tag = CHL
+			#date > 1859.1.5
+			NOT = { has_global_flag = chile_event_4 }
+		}
+		
+		immediate = {
+			set_global_flag = chile_event_4
+			CHL = {
+				start_civil_war = {
+				    ruling_party = traditional_conservatism
+				    ideology = centrism
+					size = 0.25
+					capital = 1086
+					states = { 506 1086 }
+				}
+			}
+		}
+	
+		option = {
+			name = chile.4.a
+			add_stability = -0.25
+			hidden_effect = {
+				set_country_flag = chile_1859_civ
+				every_other_country = {
+					limit = {
+						has_civil_war = yes
+						has_war_with = ROOT
+						original_tag = CHL
+					}
+					set_country_flag = chile_1859_lib	
+					remove_state_core = 1088
+				}
+			}	
+		}
+	}
+
+	
+	country_event = {
+		id = chile.5
+		title = chile.5.t
+		desc = chile.5.d
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			tag = CHL
+			has_country_flag = chile_1859_civ
+			NOT = { has_global_flag = chile_event_5 }
+		}
+		
+		immediate = {
+			set_global_flag = chile_event_5
+		}
+		
+		option = {
+			name = chile.5.a
+			add_stability = 0.2
+			add_political_power = 15
+			set_country_flag = chile_1859_conwin
+		}
+	}
+	
+	country_event = {
+		id = chile.6
+		title = chile.6.t
+		desc = chile.6.d
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			original_tag = CHL
+			has_government = centrism
+			has_country_flag = chile_1859_lib
+			NOT = { has_global_flag = chile_event_6 }
+		}
+	
+		immediate = {
+			set_global_flag = chile_event_6
+			if = {
+				limit = { is_ai = yes }
+				every_country_with_original_tag = { original_tag_to_check = ROOT limit = { NOT = { TAG = ROOT } } 
+					transfer_state = 1088
+				}
+			}
+			else = {
+				every_country_with_original_tag = { original_tag_to_check = ROOT limit = { NOT = { TAG = ROOT } } 
+					transfer_state = 1088
+					THIS = { change_tag_from = ROOT }
+				}
+			}
+		}
+		
+		option = {
+			name = chile.6.a
+			every_country_with_original_tag = { original_tag_to_check = ROOT limit = { NOT = { TAG = ROOT } }
+					annex_country = {
+						target = PREV
+						transfer_troops = yes
+					}
+					set_politics = {
+						ruling_party = centrism
+					}
+					add_popularity = {
+						ideology = centrism
+						popularity = 0.8
+					}
+					create_country_leader = {
+						name = "Pedro Leon Gallo"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_CHL_Pedro_Leon_Gallo.dds"
+						expire = 1868.9.18
+						ideology = radical_liberal
+					}
+					set_country_flag = chile_1859_libwin
+					remove_ideas = CHL_idea_divided_party
+			}
+		}
+	}
+	
+	country_event = {
+		id = chile.7
+		title = chile.7.t
+		desc = chile.7.d
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			tag = CHL 
+			has_country_flag = chile_1859_conwin
+			#date > 1861.7.16
+		}
+	
+		option = {
+			name = chile.7.a
+				set_politics = {
+					ruling_party = centrism
+				}
+				add_popularity = {
+					ideology = centrism
+					popularity = 0.5
+				}
+				create_country_leader = {
+					name = "Jose Joaquin Perez"
+					desc = "POLITICS_TEMP_DESC"
+					picture = "Portrait_CHL_Jose_Joaquin_Perez.dds"
+					expire = 1871.9.18
+					ideology = conserv_liberal
+				}
+				add_stability = 0.10
+				add_political_power = 50
+				remove_ideas = CHL_idea_divided_party
+		}
+	}
+	
+	country_event = {
+		id = chile.8
+		title = chile.8.t
+		desc = chile.8.d
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			original_tag = CHL 
+			#date > 1863.7.16
+		}
+	
+		option = {
+			name = chile.8.a
+			add_political_power = -50
+		}
+	}
+	
+	country_event = {
+		id = chile.9
+		title = chile.9.t
+		desc = chile.9.d
+		
+		fire_only_once = yes
+		is_triggered_only = yes
+		
+		trigger = {
+			tag = CHL 
+			has_country_flag = chile_1859_conwin
+			#date > 1863.7.16
+		}
+	
+		option = {
+			name = chile.9.a
+			add_political_power = 50
+			add_stability = 0.1
+		}
+	}
+	
+
+	
+	
+

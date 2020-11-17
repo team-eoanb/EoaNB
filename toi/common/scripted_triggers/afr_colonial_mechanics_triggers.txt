@@ -14,25 +14,23 @@ afr_is_colony_trigger = {
 
 afr_start_company_trigger = {
 	date < 1910.1.1
-		Root = {
-			OR = {
-				has_idea = AF_T_small_kingdom
-				has_idea = afr_reforming_kingdom
-			}
-		}
-		has_stability > 0.60
-		if = {
-			limit = {
-				tag = SKT
-			}
-			NOT = {
-				has_country_flag = SKT_jihad_formed
-			}
+	has_stability > 0.60
+	if = {
+		limit = {
+			tag = SKT
 		}
 		NOT = {
-			has_country_flag = afr_rrp_colonial_project_active
+			has_country_flag = SKT_jihad_formed
 		}
+	}
+	custom_trigger_tooltip = {
+		tooltip = afr_rrp_colonial_project_not_active_tooltip
+		NOT = { has_country_flag = afr_rrp_colonial_project_active }
+	}
+	custom_trigger_tooltip = {
+		tooltip = afr_rrp_not_affiliated_to_anyone_tooltip
 		NOT = { has_country_flag = ACS_affiliate }
+	}
 }
 
 afr_visible_company_trigger = {
@@ -42,14 +40,25 @@ afr_visible_company_trigger = {
 	}
 	ROOT = {
 		OR = {
+			has_idea = afr_post_tribal
 			has_idea = afr_reforming_kingdom
 			has_idea = AF_T_small_kingdom
 			has_completed_focus = AF_O_K_invite_foreign_investors
 			has_completed_focus = afr_wes_governmental_westernisation
+			has_country_flag = afr_rrp_orange_rhodesia_company_partnership_flag
+			has_country_flag = afr_rrp_orange_rhodesia_company_proposal_failed_flag
+			has_country_flag = afr_rrp_special_company_partnership_flag
 		}
 	}
-	NOT = { has_idea = AFR_history_of_colonial_resistance }
-	NOT = { has_idea = AFR_history_of_colonial_resistance_1 }
+	OR = {
+		AND = {
+			NOT = { has_idea = AFR_history_of_colonial_resistance }
+			NOT = { has_idea = AFR_history_of_colonial_resistance_1 }
+		}
+		has_country_flag = afr_rrp_orange_rhodesia_company_partnership_flag
+		has_country_flag = afr_rrp_orange_rhodesia_company_proposal_failed_flag
+		has_country_flag = afr_rrp_special_company_partnership_flag
+	}
 	NOT = {
 		has_country_flag = afr_rrp_company_port
 		has_country_flag = afr_rrp_railway_infrastructure_construction_independant
@@ -123,6 +132,28 @@ afr_hamburg_company_port_trigger = {
 	}
 }
 
+afr_sweden_company_port_trigger = {
+	AND = {
+		country_exists = SWE
+		has_country_flag = afr_rrp_sweden_company_port
+		OR = {
+			is_subject_of = SWE
+			gives_military_access_to = SWE
+		}
+	}
+}
+
+afr_orange_company_port_trigger = {
+	AND = {
+		country_exists = OFS
+		has_country_flag = afr_rrp_orange_company_port
+		OR = {
+			is_subject_of = OFS
+			gives_military_access_to = OFS
+		}
+	}
+}
+
 afr_has_company_port_trigger = {
 	custom_trigger_tooltip = {
 		tooltip = afr_has_company_port_trigger_tooltip
@@ -133,6 +164,8 @@ afr_has_company_port_trigger = {
 			afr_prussian_company_port_trigger = yes
 			afr_bremen_company_port_trigger = yes
 			afr_hamburg_company_port_trigger = yes
+			afr_sweden_company_port_trigger = yes
+			afr_orange_company_port_trigger = yes
 		}
 	}
 }

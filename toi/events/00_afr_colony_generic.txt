@@ -6,6 +6,1004 @@ add_namespace = french_senegal_colony_development
 add_namespace = french_senegal_colonial_navy
 add_namespace = start_french_senegal_colony_development
 add_namespace = french_senega_futa_toro_war
+add_namespace = usa_liberia_investment_development
+add_namespace = start_usa_liberia_investment_development
+add_namespace = GDC_ASH_diplomacy_event
+add_namespace = PRS_GDC_purchase_colony_event
+add_namespace = PRS_whydah_purchase_colony_event
+add_namespace = PRS_german_african_company_event
+
+country_event = {
+	id = PRS_german_african_company_event.1
+	title = PRS_german_african_company_event.1.t
+	desc = PRS_german_african_company_event.1.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_german_african_company_event.1.a
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 4
+				OR = {
+					has_idea = AFR_history_of_colonial_resistance
+					has_idea = AFR_history_of_colonial_resistance_1
+				}
+			}
+		}
+		FROM = { country_event = { id = PRS_german_african_company_event.2 days = 4 random = 2 } }
+		if = {
+			limit = { afr_is_tribal = yes }
+			custom_effect_tooltip = afr_prosperity_mechanic_add_200
+			add_to_variable = {
+				var = afr_prosperity_mechanic_value
+				value = 200
+			}
+		}
+		else = {
+			add_political_power = 150
+		}
+	}
+	
+	option = {
+		name = PRS_german_african_company_event.1.b
+		trigger = { 
+			OR = {
+				afr_is_tribal = yes 
+				has_idea = afr_post_tribal
+			}
+		}
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 2
+				OR = {
+					has_idea = AFR_history_of_colonial_resistance
+					has_idea = AFR_history_of_colonial_resistance_1
+				}
+			}
+			modifier = {
+				factor = 9
+				OR = {
+					has_country_flag = afr_progress_tree
+					has_idea = AF_T_idea_trading_nation
+					has_idea = AF_T_idea_trading_nation_2
+				}
+			}
+		}
+		custom_effect_tooltip = PRS_german_african_company_event_tooltip
+		FROM = { country_event = { id = PRS_german_african_company_event.3 days = 4 random = 2 } }
+		if = {
+			limit = { afr_is_tribal = yes }
+			custom_effect_tooltip = afr_prosperity_mechanic_add_50
+			add_to_variable = {
+				var = afr_prosperity_mechanic_value
+				value = 50
+			}
+		}
+		else = {
+			add_political_power = 150
+		}
+	}
+	
+	option = {
+		name = PRS_german_african_company_event.1.c
+		trigger = { afr_is_tribal = yes }
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 4
+				OR = {
+					has_idea = AFR_history_of_colonial_resistance
+					has_idea = AFR_history_of_colonial_resistance_1
+				}
+			}
+		}
+		FROM = { country_event = { id = PRS_german_african_company_event.4 days = 4 random = 2 } }
+	}
+	
+	option = {
+		name = PRS_german_african_company_event.1.e
+		trigger = { NOT = { afr_is_tribal = yes } }
+		ai_chance = {
+			factor = 10 
+			modifier = {
+				factor = 7
+				has_idea = afr_colonial_power
+			}
+		}
+		FROM = { country_event = { id = PRS_german_african_company_event.4 days = 4 random = 2 } }
+	}
+}
+
+country_event = {
+	id = PRS_german_african_company_event.2
+	title = PRS_german_african_company_event.2.t
+	desc = PRS_german_african_company_event.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { add_state_claim = 1109 } }
+	}
+
+	option = {
+		name = PRS_german_african_company_event.2.a
+		ai_chance = { factor = 100 }
+		ROOT = { transfer_state = 1109 }
+		hidden_effect = { 1109 = { set_state_flag = PRS_1109_has_been_purchased } }
+		1109 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_1
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+		}
+		if = {
+			limit = { FROM = { afr_is_tribal = yes } }
+			diplomatic_relation = {
+				country = FROM
+				relation = non_aggression_pact
+				active = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = PRS_german_african_company_event.3
+	title = PRS_german_african_company_event.3.t
+	desc = PRS_german_african_company_event.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_german_african_company_event.3.a
+		ai_chance = { factor = 100 }
+		diplomatic_relation = {
+			country = FROM
+			relation = non_aggression_pact
+			active = yes
+		}
+		diplomatic_relation = {
+			country = FROM
+			relation = docking_rights
+			active = yes
+		}
+		hidden_effect = { set_variable = { FROM.afr_has_special_diplomacy@ROOT = 1 } }
+		FROM = {
+			give_military_access = ROOT
+			hidden_effect = {
+				1109 = { set_state_flag = PRS_german_african_company_event_town }
+				set_country_flag = afr_rrp_special_company_partnership_flag
+				activate_decision = afr_rrp_prussian_company_port
+				if = {
+					limit = {
+						afr_is_tribal = yes
+						check_variable = {ROOT.industrisation_progress < 100}
+						NOT = { 
+							has_idea = afr_reforming_kingdom
+							has_country_flag = Oceania_industrializing
+							has_country_flag = afr_colony_industrializing
+							has_country_flag = afr_an_african_industrializing
+						}
+					}
+					set_country_flag = Oceania_industrializing
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = PRS_german_african_company_event.4
+	title = PRS_german_african_company_event.4.t
+	desc = PRS_german_african_company_event.4.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_german_african_company_event.4.a
+		ai_chance = { factor = 100 }
+	}
+	
+	option = {
+		name = PRS_german_african_company_event.4.b
+		trigger = {
+			FROM = { afr_is_tribal = yes }
+			1109 = { NOT = { is_claimed_by = ROOT } }
+		}
+		ai_chance = { factor = 100 }
+		add_state_claim = 1109
+	}
+}
+
+country_event = {
+	id = PRS_whydah_purchase_colony_event.1
+	title = PRS_whydah_purchase_colony_event.1.t
+	desc = PRS_whydah_purchase_colony_event.1.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_whydah_purchase_colony_event.1.a
+		ai_chance = {
+			factor = 10 
+			modifier = {
+				factor = 5
+				afr_is_tribal = yes
+			}
+		}
+		FROM = { country_event = { id = PRS_whydah_purchase_colony_event.2 days = 4 random = 2 } }
+		if = {
+			limit = { afr_is_tribal = yes }
+			custom_effect_tooltip = afr_prosperity_mechanic_add_200
+			add_to_variable = {
+				var = afr_prosperity_mechanic_value
+				value = 200
+			}
+		}
+		else = {
+			add_political_power = 150
+		}
+	}
+	
+	option = {
+		name = PRS_whydah_purchase_colony_event.1.b
+		ai_chance = {
+			factor = 10 
+			modifier = {
+				factor = 5
+				OR = {
+					has_idea = AFR_history_of_colonial_resistance
+					has_idea = AFR_history_of_colonial_resistance_1
+				}
+			}
+			modifier = {
+				factor = 9
+				has_idea = afr_colonial_power
+			}
+		}
+		FROM = { country_event = { id = PRS_whydah_purchase_colony_event.3 days = 4 random = 2 } }
+	}
+}
+
+country_event = {
+	id = PRS_whydah_purchase_colony_event.2
+	title = PRS_whydah_purchase_colony_event.2.t
+	desc = PRS_whydah_purchase_colony_event.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { add_state_claim = 1111 } }
+	}
+
+	option = {
+		name = PRS_whydah_purchase_colony_event.2.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { FROM = { afr_is_tribal = yes } }
+			diplomatic_relation = {
+				country = FROM
+				relation = non_aggression_pact
+				active = yes
+			}
+		}
+		ROOT = { transfer_state = 1111 }
+		hidden_effect = { 1111 = { set_state_flag = PRS_1111_has_been_purchased } }
+		1111 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_1
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+		}
+	}
+}
+
+country_event = {
+	id = PRS_whydah_purchase_colony_event.3
+	title = PRS_whydah_purchase_colony_event.3.t
+	desc = PRS_whydah_purchase_colony_event.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_whydah_purchase_colony_event.3.a
+		ai_chance = { factor = 10 }
+	}
+	
+	option = {
+		name = PRS_whydah_purchase_colony_event.3.b
+		trigger = {
+			FROM = { 
+				OR = {
+					afr_is_tribal = yes 
+					has_idea = afr_post_tribal
+				}
+			}
+			1111 = { NOT = { is_claimed_by = ROOT } }
+			FROM = { NOT = { has_country_flag = PRS_offer_company_deal } }
+		}
+		ai_chance = { factor = 10 }
+		add_state_claim = 1111
+	}
+	
+	option = {
+		name = PRS_whydah_purchase_colony_event.3.c
+		trigger = {
+			FROM = { 
+				OR = {
+					afr_is_tribal = yes 
+					has_idea = afr_post_tribal
+				}
+			}
+			1111 = { NOT = { is_claimed_by = ROOT } }
+			FROM = { NOT = { has_country_flag = PRS_offer_company_deal } }
+		}
+		ai_chance = { factor = 80 }
+		FROM = { country_event = { id = PRS_whydah_purchase_colony_event.4 days = 4 random = 2 } }
+	}
+}
+
+country_event = {
+	id = PRS_whydah_purchase_colony_event.4
+	title = PRS_whydah_purchase_colony_event.4.t
+	desc = PRS_whydah_purchase_colony_event.4.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_whydah_purchase_colony_event.4.a
+		trigger = { 
+			OR = {
+				afr_is_tribal = yes 
+				has_idea = afr_post_tribal
+			}
+		}
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 2
+				OR = {
+					has_idea = AFR_history_of_colonial_resistance
+					has_idea = AFR_history_of_colonial_resistance_1
+				}
+			}
+			modifier = {
+				factor = 9
+				OR = {
+					has_country_flag = afr_progress_tree
+					has_idea = AF_T_idea_trading_nation
+					has_idea = AF_T_idea_trading_nation_2
+				}
+			}
+		}
+		hidden_effect = { set_country_flag = PRS_offer_company_deal }
+		custom_effect_tooltip = PRS_german_african_company_event_tooltip
+		FROM = { country_event = { id = PRS_whydah_purchase_colony_event.5 days = 4 random = 2 } }
+		if = {
+			limit = { afr_is_tribal = yes }
+			custom_effect_tooltip = afr_prosperity_mechanic_add_50
+			add_to_variable = {
+				var = afr_prosperity_mechanic_value
+				value = 50
+			}
+		}
+		else = {
+			add_political_power = 150
+		}
+	}
+	
+	option = {
+		name = PRS_whydah_purchase_colony_event.4.b
+		trigger = { afr_is_tribal = yes }
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 4
+				OR = {
+					has_idea = AFR_history_of_colonial_resistance
+					has_idea = AFR_history_of_colonial_resistance_1
+				}
+			}
+		}
+		hidden_effect = { set_country_flag = PRS_offer_company_deal }
+		FROM = { country_event = { id = PRS_whydah_purchase_colony_event.6 days = 4 random = 2 } }
+	}
+}
+
+country_event = {
+	id = PRS_whydah_purchase_colony_event.5
+	title = PRS_whydah_purchase_colony_event.5.t
+	desc = PRS_whydah_purchase_colony_event.5.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_whydah_purchase_colony_event.5.a
+		ai_chance = { factor = 100 }
+		diplomatic_relation = {
+			country = FROM
+			relation = non_aggression_pact
+			active = yes
+		}
+		diplomatic_relation = {
+			country = FROM
+			relation = docking_rights
+			active = yes
+		}
+		hidden_effect = { set_variable = { FROM.afr_has_special_diplomacy@ROOT = 1 } }
+		FROM = {
+			give_military_access = ROOT
+			hidden_effect = {
+				set_country_flag = afr_rrp_special_company_partnership_flag
+				activate_decision = afr_rrp_prussian_company_port
+				if = {
+					limit = {
+						afr_is_tribal = yes
+						check_variable = {ROOT.industrisation_progress < 100}
+						NOT = { 
+							has_idea = afr_reforming_kingdom
+							has_country_flag = Oceania_industrializing
+							has_country_flag = afr_colony_industrializing
+							has_country_flag = afr_an_african_industrializing
+						}
+					}
+					set_country_flag = Oceania_industrializing
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = PRS_whydah_purchase_colony_event.6
+	title = PRS_whydah_purchase_colony_event.6.t
+	desc = PRS_whydah_purchase_colony_event.6.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_whydah_purchase_colony_event.6.a
+		ai_chance = { factor = 100 }
+	}
+}
+
+
+# Prussia Purchases St Friedrichsburg from Netherlands
+country_event = {
+	id = PRS_GDC_purchase_colony_event.1
+	title = PRS_GDC_purchase_colony_event.1.t
+	desc = PRS_GDC_purchase_colony_event.1.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_GDC_purchase_colony_event.1.a
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		FROM = { country_event = { id = PRS_GDC_purchase_colony_event.2 days = 4 random = 2 } }
+	}
+	  
+	option = {
+		name = PRS_GDC_purchase_colony_event.1.b
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		FROM = { country_event = { id = PRS_GDC_purchase_colony_event.3 days = 4 random = 2 } }
+	}
+	
+	option = {
+		name = PRS_GDC_purchase_colony_event.1.c
+		ai_chance = {
+			factor = 10
+		}
+		FROM = { country_event = { id = PRS_GDC_purchase_colony_event.6 days = 4 random = 2 } }
+	}
+}
+
+country_event = {
+	id = PRS_GDC_purchase_colony_event.2
+	title = PRS_GDC_purchase_colony_event.2.t
+	desc = PRS_GDC_purchase_colony_event.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = { ROOT = { add_state_claim = 1110 } }
+	}
+
+	option = {
+		name = PRS_GDC_purchase_colony_event.2.a
+		ai_chance = { factor = 100 }
+		if = { 
+			limit = { 1110 = { OWNER = { NOT = { TAG = HOL } } } }
+			1110 = {
+				OWNER = {
+					country_event = { id = PRS_GDC_purchase_colony_event.8 }
+				} 
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+			}
+		}
+		else = {
+			ROOT = { transfer_state = 1110 }
+			1110 = {
+				add_manpower = -537
+			}
+			hidden_effect = { 1110 = { set_state_flag = PRS_1110_has_been_purchased } }
+			1111 = {
+				custom_effect_tooltip = AFR_Racial_Tension_plus_1
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = PRS_GDC_purchase_colony_event.3
+	title = PRS_GDC_purchase_colony_event.3.t
+	desc = PRS_GDC_purchase_colony_event.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_GDC_purchase_colony_event.3.a
+		trigger = { GDC = { exists = yes } }
+		ai_chance = {
+			factor = 100
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		FROM = { country_event = { id = PRS_GDC_purchase_colony_event.5 days = 4 random = 2 } }
+		ROOT = {
+			if = {
+				limit = {
+				  has_dlc = "Together for Victory"
+				}
+				set_autonomy = {
+				  target = GDC
+				  autonomous_state = autonomy_afr_colonial_company
+				  freedom_level = 0.52
+				}
+			}
+			else={
+				puppet = GDC
+			}
+		}
+		GDC = { country_event = { id = PRS_GDC_purchase_colony_event.7 } }
+		hidden_effect = { 1110 = { set_state_flag = PRS_1110_has_been_purchased } }
+	}
+	  
+	option = {
+		name = PRS_GDC_purchase_colony_event.3.b
+		ai_chance = {
+			factor = 100
+		}
+		FROM = { country_event = { id = PRS_GDC_purchase_colony_event.4 days = 4 random = 2 } }
+	}
+}
+
+country_event = {
+	id = PRS_GDC_purchase_colony_event.4
+	title = PRS_GDC_purchase_colony_event.4.t
+	desc = PRS_GDC_purchase_colony_event.4.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_GDC_purchase_colony_event.4.a
+		ai_chance = { factor = 100 }
+		FROM = { country_event = { id = PRS_GDC_purchase_colony_event.2 days = 4 random = 2 } }
+	}
+}
+
+country_event = {
+	id = PRS_GDC_purchase_colony_event.5
+	title = PRS_GDC_purchase_colony_event.5.t
+	desc = PRS_GDC_purchase_colony_event.5.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_GDC_purchase_colony_event.5.a
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = PRS_GDC_purchase_colony_event.6
+	title = PRS_GDC_purchase_colony_event.6.t
+	desc = PRS_GDC_purchase_colony_event.6.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_GDC_purchase_colony_event.6.a
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = PRS_GDC_purchase_colony_event.7
+	title = PRS_GDC_purchase_colony_event.7.t
+	desc = PRS_GDC_purchase_colony_event.7.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_GDC_purchase_colony_event.7.a
+		ai_chance = { factor = 100 }
+		7 = {
+			add_manpower = 537
+		}
+	}
+}
+
+country_event = {
+	id = PRS_GDC_purchase_colony_event.8
+	title = PRS_GDC_purchase_colony_event.8.t
+	desc = PRS_GDC_purchase_colony_event.8.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = PRS_GDC_purchase_colony_event.8.a
+		ai_chance = { factor = 100 }
+		FROM = { transfer_state = 1110 }
+		hidden_effect = { 1110 = { set_state_flag = PRS_1110_has_been_purchased } }
+		1110 = {
+			add_manpower = -537
+		}
+		capital_scope = {
+			add_manpower = 537
+		}
+		1111 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_1
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+		}
+	}
+}
+
+
+
+
+# The Gold Dutch Coast Confirms Diplomacy
+country_event = { 
+  id = GDC_ASH_diplomacy_event.1
+  title = GDC_ASH_diplomacy_event.1.t
+  desc = GDC_ASH_diplomacy_event.1.d
+  picture = GFX_report_event_soviet_finnish_pact
+
+  is_triggered_only = yes
+
+  option = {
+    name = GDC_ASH_diplomacy_event.1.a
+	ai_chance = {
+		factor = 100
+	}
+	add_political_power = 25
+	custom_effect_tooltip = GDC_ASH_diplomacy_continued_tooltip
+	hidden_effect = { 
+		ASH = {
+			set_country_flag = GDC_ASH_diplomacy_event_accept
+			country_event = { id = GDC_ASH_diplomacy_event.2 days = 5 random = 2 }
+		}
+	}
+  }
+  
+  option = {
+    name = GDC_ASH_diplomacy_event.1.b
+	ai_chance = {
+		factor = 0
+	}
+	add_political_power = -250
+	274 = { add_claim_by = GDC }
+	if = { 
+		limit = { has_non_aggression_pact_with = ASH }
+		diplomatic_relation = {
+			country = ASH
+			relation = non_aggression_pact
+			active = no
+		}
+	}
+	diplomatic_relation = {
+		country = ASH
+		relation = docking_rights
+		active = no
+	}
+	hidden_effect = { 
+		set_variable = { rival_country = ASH.id }
+		ASH = {
+			set_country_flag = GDC_ASH_diplomacy_event_decline
+			country_event = { id = GDC_ASH_diplomacy_event.2 days = 5 random = 2 }
+		}
+	}
+  }
+}
+country_event = {
+  id = GDC_ASH_diplomacy_event.2
+  title = GDC_ASH_diplomacy_event.2.t
+  desc = {
+	text = GDC_ASH_diplomacy_event.2.d
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_accept }
+  }
+  desc = {
+	text = GDC_ASH_diplomacy_event.2.e
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_decline }
+  }
+  picture = GFX_report_event_soviet_finnish_pact
+
+  is_triggered_only = yes
+
+  option = {
+    name = GDC_ASH_diplomacy_event.2.a
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_accept }
+	ai_chance = {
+		factor = 100
+	}
+	add_political_power = 50
+	custom_effect_tooltip = GDC_ASH_diplomacy_continued_tooltip
+	hidden_effect = { 
+		add_opinion_modifier = { target = GDC modifier = eoanb_om_africa_trade_focus }
+		reverse_add_opinion_modifier = { target = GDC modifier = eoanb_om_africa_trade_focus }
+		ROOT = { clr_country_flag = GDC_ASH_diplomacy_event_accept }
+		FROM = {
+			set_country_flag = GDC_ASH_diplomacy_event_accept
+			country_event = { id = GDC_ASH_diplomacy_event.3 days = 5 random = 2 }
+		}
+	}
+  }
+  
+  option = {
+    name = GDC_ASH_diplomacy_event.2.b
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_accept }
+	ai_chance = {
+		factor = 0
+	}
+	add_political_power = -500
+	1108 = { add_claim_by = ROOT }
+	if = { 
+		limit = { has_non_aggression_pact_with = FROM }
+		diplomatic_relation = {
+			country = FROM
+			relation = non_aggression_pact
+			active = no
+		}
+	}
+	hidden_effect = {
+		clear_variable = ROOT.afr_has_special_diplomacy@FROM
+		clear_variable = most_favoured_country
+		ROOT = { clr_country_flag = GDC_ASH_diplomacy_event_accept }
+		FROM = {
+			set_country_flag = GDC_ASH_diplomacy_event_decline
+			country_event = { id = GDC_ASH_diplomacy_event.3 days = 5 random = 2 }
+		}
+	}
+  }
+  
+  option = {
+    name = GDC_ASH_diplomacy_event.2.c
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_decline }
+	ai_chance = {
+		factor = 0
+	}
+	1108 = { add_claim_by = ROOT }
+	hidden_effect = { 
+		clear_variable = ROOT.afr_has_special_diplomacy@FROM
+		clear_variable = most_favoured_country
+		ROOT = { clr_country_flag = GDC_ASH_diplomacy_event_decline }
+	}
+  }
+}
+country_event = { 
+  id = GDC_ASH_diplomacy_event.3
+  title = GDC_ASH_diplomacy_event.3.t
+  desc = {
+	text = GDC_ASH_diplomacy_event.3.c
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_accept }
+  }
+  desc = {
+	text = GDC_ASH_diplomacy_event.3.d
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_decline }
+  }
+  picture = GFX_report_event_soviet_finnish_pact
+
+  is_triggered_only = yes
+
+  option = {
+    name = GDC_ASH_diplomacy_event.3.a
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_accept }
+	ai_chance = {
+		factor = 100
+	}
+	hidden_effect = { 
+		ROOT = { clr_country_flag = GDC_ASH_diplomacy_event_accept }
+	}
+  }
+  
+  option = {
+    name = GDC_ASH_diplomacy_event.3.b
+	trigger = { has_country_flag = GDC_ASH_diplomacy_event_decline }
+	ai_chance = {
+		factor = 0
+	}
+	274 = { add_claim_by = GDC }
+	diplomatic_relation = {
+		country = ASH
+		relation = docking_rights
+		active = no
+	}
+	hidden_effect = { 
+		ROOT = { clr_country_flag = GDC_ASH_diplomacy_event_decline }
+		set_variable = { rival_country = FROM.id }
+	}
+  }
+}
+
+
+
+
+country_event = { # The US Government develops Liberia
+  id = start_usa_liberia_investment_development.1
+  title = start_usa_liberia_investment_development.1.t
+  desc = {
+	text = start_usa_liberia_investment_development.1.d
+	trigger = { LIB = { has_country_flag = USA_LIB_investments_high } }
+  }
+  desc = {
+	text = start_usa_liberia_investment_development.1.e
+	trigger = { LIB = { has_country_flag = USA_LIB_investments_medium } }
+  }
+  desc = {
+	text = start_usa_liberia_investment_development.1.f
+	trigger = { LIB = { has_country_flag = USA_LIB_investments_low } }
+  }
+  picture = GFX_report_event_election_vote
+
+  is_triggered_only = yes
+
+  option = {
+    name = start_usa_liberia_investment_development.1.a
+	trigger = {
+		LIB = { has_country_flag = USA_LIB_investments_high }
+	}
+	ai_chance = {
+		factor = 100
+	}
+	LIB = { country_event = { id = usa_liberia_investment_development.1 days = 3 } }
+	custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+	if = {
+		limit = {
+			LIB = { NOT = { has_completed_focus = LIB_colony_generic_regional_industry } }
+		}
+		LIB = { complete_national_focus = LIB_colony_generic_regional_industry }
+		custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+	}
+	if = {
+		limit = {
+			LIB = { NOT = { has_completed_focus = LIB_colony_generic_regional_resources } }
+		}
+		LIB = { complete_national_focus = LIB_colony_generic_regional_resources }
+		custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+	}
+	if = {
+		limit = {
+			LIB = { NOT = { has_completed_focus = LIB_colony_generic_regional_infrastructure } }
+		}
+		LIB = { complete_national_focus = LIB_colony_generic_regional_infrastructure }
+		custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+	}
+  }
+  
+  option = {
+	name = start_usa_liberia_investment_development.1.b
+	trigger = {
+		LIB = { has_country_flag = USA_LIB_investments_medium }
+	}
+	ai_chance = {
+		factor = 100
+	}
+	LIB = { country_event = { id = usa_liberia_investment_development.1 days = 3 } }
+  }
+  
+  option = {
+	name = start_usa_liberia_investment_development.1.c
+	trigger = {
+		LIB = { NOT = { has_country_flag = USA_LIB_investments_high } }
+		LIB = { NOT = { has_country_flag = USA_LIB_investments_medium } }
+	}
+	ai_chance = {
+		factor = 100
+	}
+	LIB = { country_event = { id = usa_liberia_investment_development.1 days = 3 } }
+  }
+}
+
+country_event = { # The USA Government develops Liberia
+  id = usa_liberia_investment_development.1
+  title = usa_liberia_investment_development.1.t
+  desc = {
+	text = usa_liberia_investment_development.1.d
+	trigger = { LIB = { has_country_flag = USA_LIB_investments_high } }
+  }
+  desc = {
+	text = usa_liberia_investment_development.1.e
+	trigger = { LIB = { has_country_flag = USA_LIB_investments_medium } }
+  }
+  desc = {
+	text = usa_liberia_investment_development.1.f
+	trigger = { LIB = { has_country_flag = USA_LIB_investments_low } }
+  }
+  picture = GFX_report_event_election_vote
+
+  is_triggered_only = yes
+
+  option = {
+    name = usa_liberia_investment_development.1.a
+	trigger = { LIB = { has_country_flag = USA_LIB_investments_high } }
+	add_political_power = 100
+	custom_effect_tooltip = EGY_afr_decrease_debt_3
+	hidden_effect = {
+		subtract_from_variable = {var = debt_level value = 3}
+	}
+	custom_effect_tooltip = usa_liberia_investment_development_1_tooltip
+	set_country_flag = finish_afr_colony_generic_regional_infrastructure_decision_mission
+	set_country_flag = finish_afr_colony_generic_regional_resources_decision_mission
+	set_country_flag = finish_afr_colony_generic_regional_industry_decision_mission
+	
+  }
+  
+  option = {
+    name = usa_liberia_investment_development.1.b
+	trigger = { LIB = { has_country_flag = USA_LIB_investments_medium } }
+	add_political_power = 50
+	custom_effect_tooltip = EGY_afr_decrease_debt_1
+	hidden_effect = {
+		subtract_from_variable = {var = debt_level value = 1}
+	}
+	custom_effect_tooltip = usa_liberia_investment_development_2_tooltip
+	set_country_flag = finish_afr_colony_generic_regional_infrastructure_decision_mission
+	set_country_flag = finish_afr_colony_generic_regional_resources_decision_mission
+  }
+  
+  option = {
+    name = usa_liberia_investment_development.1.c
+	trigger = { 
+		LIB = { 
+			NOT = { has_country_flag = USA_LIB_investments_high }
+			NOT = { has_country_flag = USA_LIB_investments_medium }
+		}
+	}
+	custom_effect_tooltip = usa_liberia_investment_development_3_tooltip
+	set_country_flag = finish_afr_colony_generic_regional_infrastructure_decision_mission
+  }
+}
 
 #Picking future of current administration
 country_event = {
@@ -46,7 +1044,7 @@ country_event = { # The French Government develops Senegal
   id = start_french_senegal_colony_development.1
   title = start_french_senegal_colony_development.1.t
   desc = start_french_senegal_colony_development.1.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 
@@ -61,18 +1059,18 @@ country_event = { # The French Government develops Senegal
 		}
 		modifier = {
 			factor = 2
-			SNG = { NOT = { has_completed_focus = afr_colony_generic_regional_industry } }
+			SNG = { NOT = { has_completed_focus = afr_colony_generic_regional_resources } }
 		}
 		modifier = {
 			factor = 2
-			SNG = { NOT = { has_completed_focus = afr_colony_generic_regional_industry } }
+			SNG = { NOT = { has_completed_focus = afr_colony_generic_regional_infrastructure } }
 		}
 		modifier = {
 			factor = 0
 			AND = {
 				SNG = { has_completed_focus = afr_colony_generic_regional_industry }
-				SNG = { has_completed_focus = afr_colony_generic_regional_industry }
-				SNG = { has_completed_focus = afr_colony_generic_regional_industry }
+				SNG = { has_completed_focus = afr_colony_generic_regional_resources }
+				SNG = { has_completed_focus = afr_colony_generic_regional_infrastructure }
 			}
 		}
 	}
@@ -109,8 +1107,8 @@ country_event = { # The French Government develops Senegal
 			factor = 0
 			AND = {
 				SNG = {  NOT = { has_completed_focus = afr_colony_generic_regional_industry } }
-				SNG = {  NOT = { has_completed_focus = afr_colony_generic_regional_industry } }
-				SNG = {  NOT = { has_completed_focus = afr_colony_generic_regional_industry } }
+				SNG = {  NOT = { has_completed_focus = afr_colony_generic_regional_resources } }
+				SNG = {  NOT = { has_completed_focus = afr_colony_generic_regional_infrastructure } }
 			}
 		}
 	}
@@ -122,7 +1120,7 @@ country_event = { # The French Government develops Senegal
   id = french_senegal_colony_development.1
   title = french_senegal_colony_development.1.t
   desc = french_senegal_colony_development.1.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 
@@ -140,7 +1138,7 @@ country_event = { # The French Government develops bunker in Senegal
   id = french_senegal_colony_development.2
   title = french_senegal_colony_development.2.t
   desc = french_senegal_colony_development.2.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 
@@ -154,7 +1152,7 @@ country_event = { # The French Government develops infrastructure in Senegal
   id = french_senegal_colony_development.3
   title = french_senegal_colony_development.3.t
   desc = french_senegal_colony_development.3.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 
@@ -168,13 +1166,20 @@ country_event = { # The French Government develops docks in Senegal
   id = french_senegal_colony_development.4
   title = french_senegal_colony_development.4.t
   desc = french_senegal_colony_development.4.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 
   option = {
     name = french_senegal_colony_development.4.a
-	272 = { custom_effect_tooltip = french_senegal_colony_development_4_tooltip }
+	if = {
+		limit = { SNG = { owns_state = 272 } }
+		272 = { 
+			custom_effect_tooltip = french_senegal_colony_development_4_tooltip
+			set_state_flag = afr_port_town
+			hidden_effect = { SNG = { set_country_flag = FRA_develop_port_dakar_flag } }
+		}
+	}
   }
 }
 
@@ -182,7 +1187,7 @@ country_event = { # The French Government develops docks in Senegal
   id = french_senegal_colonial_navy.1
   title = french_senegal_colonial_navy.1.t
   desc = french_senegal_colonial_navy.1.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 
@@ -194,6 +1199,7 @@ country_event = { # The French Government develops docks in Senegal
 		traits = { superior_tactician }
 		skill = 3
 	}
+	hidden_effect = { SNG = { set_country_flag = FRA_establish_senegal_navy_flag } }
 	custom_effect_tooltip = afr_colonial_effect_tooltip
 	custom_effect_tooltip = AFR_Racial_Tension_plus_1
 	hidden_effect = {
@@ -213,7 +1219,7 @@ country_event = { # French Senegal Declares war
   id = french_senega_futa_toro_war.1
   title = french_senega_futa_toro_war.1.t
   desc = french_senega_futa_toro_war.1.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = no
 	hidden = no
@@ -249,7 +1255,7 @@ country_event = { # French Senegal Declares war
   id = french_senega_futa_toro_war.2
   title = french_senega_futa_toro_war.2.t
   desc = french_senega_futa_toro_war.2.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 
@@ -290,7 +1296,7 @@ country_event = { # French Senegal Declares war
   id = french_senega_futa_toro_war.3
   title = french_senega_futa_toro_war.3.t
   desc = french_senega_futa_toro_war.3.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 
@@ -309,7 +1315,7 @@ country_event = { # French Senegal Declares war
   id = french_senega_futa_toro_war.4
   title = french_senega_futa_toro_war.4.t
   desc = french_senega_futa_toro_war.4.d
-  picture = GFX_report_event_suez_canal
+  picture = GFX_report_event_soviet_finnish_pact
 
   is_triggered_only = yes
 

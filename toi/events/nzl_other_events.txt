@@ -44,8 +44,11 @@ country_event = {
 		hidden_effect = {
 			load_oob = NZL_ENG_reneforcements
 		}
-		add_autonomy_score = {
-			value = -50
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			add_autonomy_score = {
+				value = -50
+			}
 		}
 	}
 }
@@ -59,8 +62,11 @@ country_event = {
 
 	option = {
 		name = nzl_other.3.a #how dare they
-		add_autonomy_score = {
-			value = 75
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			add_autonomy_score = {
+				value = 75
+			}
 		}
 	}
 }
@@ -204,12 +210,13 @@ country_event = {
 
 	#is_triggered_only = yes
 	trigger = {
+		tag = NZL
 		has_country_flag = NSW_votes
 		has_country_flag = VIC_votes
 		has_country_flag = TSM_votes
 	}
 	mean_time_to_happen = {
-		days = 7
+		days = 20
 	}
 	option = {
 		name = nzl_other.8.a #they decided to put it in wellington
@@ -288,8 +295,11 @@ country_event = {
 		hidden_effect = {
 			load_oob = NZL_ENG_reneforcements_cannons
 		}
-		add_autonomy_score = {
-			value = -75
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			add_autonomy_score = {
+				value = 75
+			}
 		}
 	}
 }
@@ -303,8 +313,11 @@ country_event = {
 
 	option = {
 		name = nzl_other.11.a #how dare they
-		add_autonomy_score = {
-			value = 100
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			add_autonomy_score = {
+				value = -100
+			}
 		}
 	}
 }
@@ -314,18 +327,27 @@ country_event = { #Otago Gold Rush
 	desc =  nzl_other.12.d
 	picture = GFX_report_event_generic_read_write
 
-	#is_triggered_only = yes
+	is_triggered_only = yes
 	fire_only_once = yes
 	trigger = {
-		date > 1861.05.19
+		#date > 1861.05.19
 		tag = NZL
-	}
-	mean_time_to_happen = {
-		days = 2
 	}
 	option = {
 		name = nzl_other.12.a #GOLD!
 		add_ideas = {nzl_otago_gold_mines}
+	}
+}
+country_event = { #Eruption of Mt Tarawera and the destruction of the pink and white terraces
+	id = nzl_other.133
+	hidden = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	immediate = {
+		every_country = {
+			limit = { has_idea = nzl_pink_white_terraces }
+			country_event = {id = nzl_other.13}
+		}
 	}
 }
 country_event = { #Eruption of Mt Tarawera and the destruction of the pink and white terraces
@@ -334,13 +356,14 @@ country_event = { #Eruption of Mt Tarawera and the destruction of the pink and w
 	desc =  nzl_other.13.d
 	picture = GFX_report_event_generic_read_write
 
-	#is_triggered_only = yes
+	is_triggered_only = yes
+	#fire_only_once = yes
 	
 	trigger = {
-		date > 1886.06.19
+		#date > 1886.06.19
 		has_idea = nzl_pink_white_terraces
 	}
-	fire_only_once = yes
+	
 	option = {
 		name = nzl_other.13.a #No!
 		remove_ideas = {nzl_pink_white_terraces}
@@ -356,7 +379,7 @@ country_event = { #Kingitanga offered a small amount of land
 	fire_only_once = yes
 	option = {
 		name = nzl_other.14.a #yes
-		remove_ideas = {nzl_landless_maori_king}
+		NZL={remove_ideas = {nzl_landless_maori_king}}
 		ai_chance = {
 			factor = 20
 		}
@@ -545,9 +568,11 @@ country_event = { #KIN - The Kingitanga deal - limited autonomy
 		}
 		add_political_power = 25
 		add_stability = -0.025
-		add_autonomy_score = {
-			value = 250
-			localization = KIN_deal_autonomy_grant
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			add_autonomy_score = {
+				value = 250
+			}
 		}
 		FROM = {
 			country_event = {id = nzl_other.25}
@@ -580,9 +605,12 @@ country_event = { #KIN - The Kingitanga deal - greater autonomy
 		}
 		add_political_power = 50
 		add_stability = -0.05
-		add_autonomy_score = {
-			value = 500
-			localization = KIN_deal_autonomy_grant
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			add_autonomy_score = {
+				value = 500
+				localization = KIN_deal_autonomy_grant
+			}
 		}
 		FROM= {
 			country_event = {id = nzl_other.25}
@@ -707,18 +735,18 @@ country_event = { #NZL - George Edward Grey offers to become governer
 	title =  nzl_other.26.t
 	desc =  nzl_other.26.d
 	picture = GFX_report_event_generic_read_write
-
-	#is_triggered_only = yes
+	
+	is_triggered_only = yes
 	
 	trigger = {
-		date > 1861.06.13
+		#date > 1861.06.13
 		SAF={
 			has_country_leader = {
 				name = "George Edward Grey"
 				ruling_only = yes
 			}
 		}
-		has_country_flag = first_taranaki_war
+		tag = NZL
 	}
 	fire_only_once = yes
 	option = {

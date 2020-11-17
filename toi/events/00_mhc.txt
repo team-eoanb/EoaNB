@@ -96,7 +96,7 @@ news_event = {
 #vote
 country_event = {
   id = mhc.11
-  title = pmhc.11.t
+  title = mhc.11.t
   desc = mhc.11.d
   picture = GFX_report_event_generic_parliament
 
@@ -157,7 +157,7 @@ country_event = {
     clr_country_flag = eoanb_reform_vote_success
     enact_voted_reform = yes
 
-    set_variable = { 
+    set_variable = {
       var = current_reform_id
       value = 0
     }
@@ -239,6 +239,441 @@ country_event = {
 	}
 }
 
+#Military Junta - Army can prevent junta
+country_event = {
+	id = mhc.17
+	title = mhc.17.t
+	desc = mhc.17.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.a
+		
+		if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_airforce
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_airforce_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_airforce_power = 20 }
+			clr_country_flag = mhc_pre_junta_airforce
+		}
+		else_if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_navy
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_navy_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_navy_power = 20 }
+			clr_country_flag = mhc_pre_junta_navy
+		}
+		
+		set_temp_variable = { temp_pre_mhc_army_power = mhc_army_power }
+		add_to_temp_variable = { temp_pre_mhc_army_power = 20 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_army_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_army_power
+				value = 20
+			}
+		}
+		else = {
+			set_variable = { mhc_army_power = 100 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.b
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_airforce
+				}
+				mhc_create_junta_airforce = yes
+				clr_country_flag = mhc_pre_junta_airforce
+			}
+			else_if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_navy
+				}
+				mhc_create_junta_navy = yes
+				clr_country_flag = mhc_pre_junta_navy
+			}
+		}
+	}
+}
+
+#Military Junta - Airforce can prevent junta
+country_event = {
+	id = mhc.18
+	title = mhc.18.t
+	desc = mhc.18.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.a
+		
+		if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_army
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_army_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_army_power = 20 }
+			clr_country_flag = mhc_pre_junta_army
+		}
+		else_if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_navy
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_navy_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_navy_power = 20 }
+			clr_country_flag = mhc_pre_junta_navy
+		}
+		
+		set_temp_variable = { temp_pre_mhc_airforce_power = mhc_airforce_power }
+		add_to_temp_variable = { temp_pre_mhc_airforce_power = 20 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_airforce_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_airforce_power
+				value = 20
+			}
+		}
+		else = {
+			set_variable = { mhc_airforce_power = 100 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.b
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_army
+				}
+				mhc_create_junta_army = yes
+				clr_country_flag = mhc_pre_junta_army
+			}
+			else_if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_navy
+				}
+				mhc_create_junta_navy = yes
+				clr_country_flag = mhc_pre_junta_navy
+			}
+		}
+	}
+}
+
+#Military Junta - Navy can prevent junta
+country_event = {
+	id = mhc.19
+	title = mhc.19.t
+	desc = mhc.19.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.a
+		
+		if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_army
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_army_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_army_power = 20 }
+			clr_country_flag = mhc_pre_junta_army
+		}
+		else_if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_airforce
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_airforce_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_airforce_power = 20 }
+			clr_country_flag = mhc_pre_junta_airforce
+		}
+		
+		set_temp_variable = { temp_pre_mhc_navy_power = mhc_navy_power }
+		add_to_temp_variable = { temp_pre_mhc_navy_power = 20 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_navy_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_navy_power
+				value = 20
+			}
+		}
+		else = {
+			set_variable = { mhc_navy_power = 100 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.b
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_army
+				}
+				mhc_create_junta_army = yes
+				clr_country_flag = mhc_pre_junta_army
+			}
+			else_if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_airforce
+				}
+				mhc_create_junta_airforce = yes
+				clr_country_flag = mhc_pre_junta_airforce
+			}
+		}
+	}
+}
+
+#Military Junta - Army and Airforce can prevent junta
+country_event = {
+	id = mhc.20
+	title = mhc.20.t
+	desc = mhc.20.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.a
+		
+		if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_navy
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_navy_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_navy_power = 20 }
+			clr_country_flag = mhc_pre_junta_navy
+		}
+		
+		set_temp_variable = { temp_pre_mhc_army_power = mhc_army_power }
+		add_to_temp_variable = { temp_pre_mhc_army_power = 10 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_army_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_army_power
+				value = 10
+			}
+		}
+		else = {
+			set_variable = { mhc_army_power = 100 }
+		}
+		
+		set_temp_variable = { temp_pre_mhc_airforce_power = mhc_airforce_power }
+		add_to_temp_variable = { temp_pre_mhc_airforce_power = 10 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_airforce_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_airforce_power
+				value = 10
+			}
+		}
+		else = {
+			set_variable = { mhc_airforce_power = 100 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.b
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_navy
+				}
+				mhc_create_junta_navy = yes
+				clr_country_flag = mhc_pre_junta_navy
+			}
+		}
+	}
+}
+
+#Military Junta - Army and Navy can prevent junta
+country_event = {
+	id = mhc.21
+	title = mhc.21.t
+	desc = mhc.21.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.a
+		
+		if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_airforce
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_airforce_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_airforce_power = 20 }
+			clr_country_flag = mhc_pre_junta_airforce
+		}
+		
+		set_temp_variable = { temp_pre_mhc_army_power = mhc_army_power }
+		add_to_temp_variable = { temp_pre_mhc_army_power = 10 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_army_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_army_power
+				value = 10
+			}
+		}
+		else = {
+			set_variable = { mhc_army_power = 100 }
+		}
+		
+		set_temp_variable = { temp_pre_mhc_navy_power = mhc_navy_power }
+		add_to_temp_variable = { temp_pre_mhc_navy_power = 10 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_navy_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_navy_power
+				value = 10
+			}
+		}
+		else = {
+			set_variable = { mhc_navy_power = 100 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.b
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_airforce
+				}
+				mhc_create_junta_airforce = yes
+				clr_country_flag = mhc_pre_junta_airforce
+			}
+		}
+	}
+}
+
+#Military Junta - Navy and Airforce can prevent junta
+country_event = {
+	id = mhc.22
+	title = mhc.22.t
+	desc = mhc.22.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.a
+		
+		if = {
+			limit = {
+				has_country_flag = mhc_pre_junta_army
+			}
+			add_timed_idea = {
+				idea = mhc_military_junta_idea_army_after_effects
+				days = 60
+			}
+			subtract_from_variable = { mhc_army_power = 20 }
+			clr_country_flag = mhc_pre_junta_army
+		}
+		
+		set_temp_variable = { temp_pre_mhc_airforce_power = mhc_airforce_power }
+		add_to_temp_variable = { temp_pre_mhc_airforce_power = 10 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_airforce_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_airforce_power
+				value = 10
+			}
+		}
+		else = {
+			set_variable = { mhc_airforce_power = 100 }
+		}
+		
+		set_temp_variable = { temp_pre_mhc_navy_power = mhc_navy_power }
+		add_to_temp_variable = { temp_pre_mhc_navy_power = 10 }
+		if = {
+			limit = {
+				check_variable = { temp_pre_mhc_navy_power < 101 }
+			}
+			add_to_variable = {
+				var = mhc_navy_power
+				value = 10
+			}
+		}
+		else = {
+			set_variable = { mhc_navy_power = 100 }
+		}
+	}
+	
+	option = {
+		ai_chance = { factor = 50 }
+		name = mhc.17.b
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = mhc_pre_junta_army
+				}
+				mhc_create_junta_army = yes
+				clr_country_flag = mhc_pre_junta_army
+			}
+		}
+	}
+}
+
 #Generic setup
 country_event = {
 	id = mhc.99
@@ -308,97 +743,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		name = mhc.0.a
 		
-		###ADVISOR SETUP###
-		#Value is reference to frame of minister
-		add_to_array = {
-			array = local_mhc_army_available_array
-			value = 1
-		}
-		add_to_array = {
-			array = local_mhc_army_available_array
-			value = 2
-		}
-		add_to_array = {
-			array = local_mhc_army_available_array
-			value = 3
-		}
-		add_to_array = {
-			array = local_mhc_army_available_array
-			value = 4
-		}
-		add_to_array = {
-			array = local_mhc_army_available_array
-			value = 5
-		}
-		add_to_array = {
-			array = local_mhc_army_available_array
-			value = 6
-		}
-		add_to_array = {
-			array = local_mhc_army_available_array
-			value = 7
-		}
-		
-		###TRAITS SETUP###
-		#Index is reference to minister
-		#Value is reference to trait
-		add_to_array = { # position 0 is null value
-			array = local_mhc_army_available_traits_array
-			index = 0
-			value = 0
-		}
-		add_to_array = {
-			array = local_mhc_army_available_traits_array
-			index = 1
-			value = 5
-		}
-		add_to_array = {
-			array = local_mhc_army_available_traits_array
-			index = 2
-			value = 44
-		}
-		add_to_array = {
-			array = local_mhc_army_available_traits_array
-			index = 3
-			value = 41
-		}
-		add_to_array = {
-			array = local_mhc_army_available_traits_array
-			index = 4
-			value = 1
-		}
-		add_to_array = {
-			array = local_mhc_army_available_traits_array
-			index = 5
-			value = 51
-		}
-		add_to_array = {
-			array = local_mhc_army_available_traits_array
-			index = 6
-			value = 26
-		}
-		add_to_array = {
-			array = local_mhc_army_available_traits_array
-			index = 7
-			value = 24
-		}
-		
-		#navy and airforce receive new arrays, numbers continue from 7 (in this case)
-		
-		###ALLOWED ADVISORS IN HIGH POSITIONS SETUP###
-		#Value is reference to minister
-		add_to_array = {
-			array = local_mhc_high_army_available_array
-			value = 1
-		}
-		add_to_array = {
-			array = local_mhc_high_army_available_array
-			value = 5
-		}
-		add_to_array = {
-			array = local_mhc_high_army_available_array
-			value = 7
-		}
+		mhc_create_junta_army = yes
 	}
 	
 	option = {
@@ -416,7 +761,7 @@ country_event = {
 			mhc_get_results_collector = yes
 			mhc_get_results_effects_collector = yes
 			
-			mhc_junta_collector = yes
+			#mhc_junta_collector = yes
 		}
 	}
 	
@@ -474,7 +819,9 @@ country_event = {
 		#set_temp_variable = { temp_advisor_frame = 14 }
 		#mhc_remove_army_advisor = yes
 		
-		mhc_ai_army_initiate_activate = yes
+		#mhc_ai_army_initiate_activate = yes
+		
+		#mhc_junta_collector = yes
 		
 		print_variables = {
 			file = log_file
@@ -499,15 +846,15 @@ country_event = {
 		#	value = 100
 		#}
 		
-		#add_to_variable = {
-		#	var = mhc_airforce_power
-		#	value = 80
-		#}
-		
 		add_to_variable = {
-			var = mhc_navy_power
-			value = 90
+			var = mhc_airforce_power
+			value = 70
 		}
+		
+		#add_to_variable = {
+		#	var = mhc_army_power
+		#	value = 90
+		#}
 		
 		#mhc_ai_army_assign = yes
 		
@@ -527,11 +874,11 @@ country_event = {
 		#	}
 		#}
 		
-		print_variables = {
-			file = log_file
-			text = header_text
-			append = no
-			print_global = no
-		}
+		#print_variables = {
+		#	file = log_file
+		#	text = header_text
+		#	append = no
+		#	print_global = no
+		#}
 	}
 }

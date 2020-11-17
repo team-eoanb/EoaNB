@@ -7,7 +7,604 @@ focus_tree = {
 			add = 10
 			OR = {
 				tag = ALZ
+				tag = ZAN
+				tag = ASH
+				tag = KBY
 			}
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_investment
+		icon = GFX_goal_focus_international_investments
+		x = 8
+		y = 0
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		available = {
+			if = { 
+				limit = {
+					OR = {
+						has_idea = AFR_french_colony
+						has_idea = AFR_french_colony_tribute
+						has_idea = AFR_british_colony
+						has_idea = AFR_british_colony_tribute
+						has_idea = AFR_netherland_colony
+						has_idea = AFR_netherland_colony_tribute
+						has_idea = AFR_spanish_colony
+						has_idea = AFR_spanish_colony_tribute
+					}
+				}
+				#has_completed_focus = afr_reforming_regional_power_focus_strengthen_government
+			}
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_has_oman
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 9
+					}
+				}
+			}
+		}
+		select_effect = {
+			set_country_flag = afr_prosperity_mechanic_dont_select_flag
+		}
+		completion_reward = {
+			hidden_effect = { clr_country_flag = afr_prosperity_mechanic_dont_select_flag }
+			set_country_flag = afr_reforming_regional_power_foreign_investments_decisions_flag
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = { afr_is_tribal = no }
+				custom_effect_tooltip = EGY_afr_increase_debt_1
+				hidden_effect = {
+					add_to_variable = {var = debt_level value = 1}
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 9 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					check_variable = { afr_prosperity_mechanic_value < 10 }
+					OR = {
+						has_country_flag = afr_rrp_company_port
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_industry
+		icon = GFX_goal_continuous_research
+		x = 0
+		y = 1
+		relative_position_id = afr_reforming_regional_power_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		available = {
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_has_oman
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 19
+					}
+				}
+			}
+		}
+		prerequisite = { focus = afr_reforming_regional_power_regional_investment }
+		
+		select_effect = {
+			set_country_flag = afr_prosperity_mechanic_dont_select_flag
+		}
+		completion_reward = {
+			hidden_effect = { clr_country_flag = afr_prosperity_mechanic_dont_select_flag }
+			if = {
+				limit = { afr_is_tribal = no }
+				custom_effect_tooltip = EGY_afr_increase_debt_1
+				hidden_effect = {
+					add_to_variable = {var = debt_level value = 1}
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 19 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -20
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					check_variable = { afr_prosperity_mechanic_value < 20 }
+					OR = {
+						has_country_flag = afr_rrp_company_port
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -20
+				}
+			}
+			custom_effect_tooltip = afr_reforming_regional_power_regional_industry_tooltip
+			hidden_effect = {
+				set_country_flag = afr_reforming_regional_power_regional_industry_decision_mission
+				set_country_flag = afr_reforming_regional_power_regional_industry_focus
+			}
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_industry_completed
+		icon = GFX_focus_focus_generic_industry_1
+		x = 0
+		y = 4
+		relative_position_id = afr_reforming_regional_power_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			has_country_flag = afr_reforming_regional_power_regional_industry_completed
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = afr_reforming_regional_power_regional_infrastructure_completed }
+		prerequisite = { focus = afr_reforming_regional_power_regional_resources_completed }
+		
+		completion_reward = {
+			custom_effect_tooltip = EDC_afr.5.t
+			hidden_effect = {
+				country_event = { id = EDC_afr.5 hours = 1 } 
+			}
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_resources
+		icon = GFX_goal_continuous_non_factory_construct
+		x = -2
+		y = 1
+		relative_position_id = afr_reforming_regional_power_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		available = {
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_has_oman
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 19
+					}
+				}
+			}
+		}
+		prerequisite = { focus = afr_reforming_regional_power_regional_investment }
+		
+		select_effect = {
+			set_country_flag = afr_prosperity_mechanic_dont_select_flag
+		}
+		completion_reward = {
+			hidden_effect = { clr_country_flag = afr_prosperity_mechanic_dont_select_flag }
+			if = {
+				limit = { afr_is_tribal = no }
+				custom_effect_tooltip = EGY_afr_increase_debt_1
+				hidden_effect = {
+					add_to_variable = {var = debt_level value = 1}
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 19 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -20
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					check_variable = { afr_prosperity_mechanic_value < 20 }
+					OR = {
+						has_country_flag = afr_rrp_company_port
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -20
+				}
+			}
+			custom_effect_tooltip = afr_reforming_regional_power_regional_resources_tooltip
+			hidden_effect = {
+				set_country_flag = afr_reforming_regional_power_regional_resources_decision_mission
+				set_country_flag = afr_reforming_regional_power_regional_resources_focus
+			}
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_resources_completed
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -1
+		y = 3
+		relative_position_id = afr_reforming_regional_power_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			has_country_flag = afr_reforming_regional_power_regional_resources_completed
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = afr_reforming_regional_power_regional_victorian_era }
+		
+		completion_reward = {
+			custom_effect_tooltip = EDC_afr.5.t
+			hidden_effect = {
+				country_event = { id = EDC_afr.5 hours = 1 } 
+			}
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_infrastructure
+		icon = GFX_goal_continuous_repairments
+		x = 2
+		y = 1
+		relative_position_id = afr_reforming_regional_power_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		available = {
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_has_oman
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 19
+					}
+				}
+			}
+		}
+		prerequisite = { focus = afr_reforming_regional_power_regional_investment }
+		
+		select_effect = {
+			set_country_flag = afr_prosperity_mechanic_dont_select_flag
+		}
+		completion_reward = {
+			hidden_effect = { clr_country_flag = afr_prosperity_mechanic_dont_select_flag }
+			if = {
+				limit = { afr_is_tribal = no }
+				custom_effect_tooltip = EGY_afr_increase_debt_1
+				hidden_effect = {
+					add_to_variable = {var = debt_level value = 1}
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 19 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -20
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					check_variable = { afr_prosperity_mechanic_value < 20 }
+					OR = {
+						has_country_flag = afr_rrp_company_port
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -20
+				}
+			}
+			custom_effect_tooltip = afr_reforming_regional_power_regional_infrastructure_tooltip
+			hidden_effect = {
+				set_country_flag = afr_reforming_regional_power_regional_infrastructure_decision_mission
+				set_country_flag = afr_reforming_regional_power_regional_infrastructure_focus
+			}
+			
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_infrastructure_completed
+		icon = GFX_goal_focus_industrial_revolution
+		x = 1
+		y = 3
+		relative_position_id = afr_reforming_regional_power_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			has_country_flag = afr_reforming_regional_power_regional_infrastructure_completed
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = afr_reforming_regional_power_regional_victorian_era }
+		
+		completion_reward = {
+			custom_effect_tooltip = EDC_afr.5.t
+			hidden_effect = {
+				country_event = { id = EDC_afr.5 hours = 1 } 
+			}
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_victorian_era
+		icon = GFX_goal_focus_railroad_development
+		x = 0
+		y = 2
+		relative_position_id = afr_reforming_regional_power_regional_investment
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			if = {
+				limit = { has_idea = afr_imperial_decline }
+				custom_trigger_tooltip = {
+					tooltip = afr_not_imperial_decline_tooltip
+					NOT = { has_idea = afr_imperial_decline }
+				}
+			}
+			date > 1862.01.01
+			has_country_flag = afr_reforming_regional_power_regional_resources_decision_flag
+			has_country_flag = afr_reforming_regional_power_regional_industry_decision_flag
+			has_country_flag = afr_reforming_regional_power_regional_infrastructure_decision_flag
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = afr_reforming_regional_power_regional_infrastructure }
+		prerequisite = { focus = afr_reforming_regional_power_regional_industry }
+		prerequisite = { focus = afr_reforming_regional_power_regional_resources }
+		
+		completion_reward = {
+			if = {
+				limit = { has_idea = afr_imperial_decline }
+				remove_ideas = afr_imperial_decline
+			}
+			custom_effect_tooltip = EDC_afr.5.t
+			hidden_effect = {
+				country_event = { id = EDC_afr.5 hours = 1 } 
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {	
+				tooltip = afr_reforming_regional_power_regional_victorian_era_tooltip
+				has_idea = victorian_era
+			}
+		}
+	}
+	
+	focus = {
+		id = afr_reforming_regional_power_regional_industrializing
+		icon = GFX_goal_generic_production2
+		x = 14
+		y = 8
+		cost = 75
+		available_if_capitulated = no
+		available = {
+			has_idea = industrializing
+			has_country_flag = afr_reforming_regional_power_regional_resources_completed
+			has_country_flag = afr_reforming_regional_power_regional_industry_completed
+			has_country_flag = afr_reforming_regional_power_regional_infrastructure_completed
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		prerequisite = { focus = afr_industrialize_further }
+		prerequisite = { 
+			focus = afr_a_new_navy 
+			focus = afr_a_new_military 
+		}
+		completion_reward = {
+			if = {
+				limit= {
+					has_political_power<-1999
+				}
+				add_political_power = 2000
+			}
+			else_if={
+				limit= {
+					has_political_power<-999
+				}
+				add_political_power = 1000
+			}
+			else={
+				add_political_power = 100
+			}
+			custom_effect_tooltip = afr_advance_to_victorian
+			hidden_effect = {
+				load_focus_tree = industrialised_african_formed_nation
+				add_ideas = victorian_era
+			}
+			set_country_flag = afr_rrp_non_colonial_industrialization
+			custom_effect_tooltip = afr_rrp_inspiration_to_africa
 		}
 	}
 	
@@ -18,8 +615,11 @@ focus_tree = {
 		bypass={
 			has_tech = early_artificial_fertilizer
 		}
-		x = 5
-		y = 0
+		prerequisite = {
+			focus = afr_reforming_regional_power_regional_resources
+		}
+		x = 3
+		y = 2
 		completion_reward = {
 			custom_effect_tooltip = EDC_afr.4.t
 			hidden_effect = {
@@ -32,9 +632,12 @@ focus_tree = {
 		id = afr_dirt_to_paved_roads
 		icon = GFX_goal_generic_construction2
 		cost = 70
-		x = 8
-		y = 0
-		
+		available = { has_country_flag = afr_reforming_regional_power_regional_infrastructure_decision_flag }
+		prerequisite = {
+			focus = afr_reforming_regional_power_regional_infrastructure
+		}
+		x = 11
+		y = 2
 		completion_reward = {
 			random_owned_controlled_state = {
 				limit = {
@@ -70,7 +673,7 @@ focus_tree = {
 		id = afr_improve_our_army
 		icon = GFX_goal_generic_allies_build_infantry
 		cost = 70
-		x = 12
+		x = 18
 		y = 0
 		completion_reward = {
 			army_experience = 10
@@ -81,7 +684,7 @@ focus_tree = {
 		id = afr_create_naval_designs
 		icon = GFX_goal_generic_amphibious_assault
 		cost = 70
-		x = 16
+		x = 14
 		y = 0
 		completion_reward = {
 			navy_experience = 10
@@ -94,11 +697,51 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = afr_acquire_fabric_for_uniforms
+		icon = GFX_goal_anschluss
+		cost = 70
+		prerequisite = {
+			focus = afr_western_farming_methods
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = cotton_farm
+						size > 0
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = cotton_farm
+										size > 0
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_building_construction = {
+					type = cotton_farm
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		x = -2
+		y = 1
+		relative_position_id = afr_western_farming_methods
+	}
+	focus = {
 		id = afr_new_production_methods
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 100.00
 		prerequisite = {
-			focus = afr_western_farming_methods
+			focus = afr_reforming_regional_power_regional_industry
 		}
 		completion_reward = {
 			custom_effect_tooltip = EDC_afr.4.t
@@ -107,9 +750,9 @@ focus_tree = {
 			}
 			add_tech_bonus = { bonus = 0.25 uses = 1 category = process_engineering_tech }
 		}
-		x = 5
-		y = 1
-
+		x = 2
+		y = 0
+		relative_position_id = afr_western_farming_methods
 	}
 	focus = {
 		id = afr_electronic_device_production
@@ -118,8 +761,9 @@ focus_tree = {
 		prerequisite = {
 			focus = afr_new_production_methods
 		}
-		x = 1
-		y = 2
+		x = -2
+		y = 1
+		relative_position_id = afr_new_production_methods
 		completion_reward = {
 			add_tech_bonus = { bonus = 0.2 uses = 1 category = electronics_devices_tech }
 		}
@@ -131,146 +775,185 @@ focus_tree = {
 		prerequisite = {
 			focus = afr_new_production_methods
 		}
-		x = 3
-		y = 2
+		x = 0
+		y = 1
+		relative_position_id = afr_new_production_methods
 		completion_reward = {
 			add_tech_bonus = { bonus = 0.2 uses = 1 category = mechanical_engineering_tech }
 		}
 	}
 	focus = {
 		id = afr_expand_research_facilities
-		icon = GFX_focus_research2
+		icon = GFX_goal_school_investment_focus
 		cost = 125
+		available = {
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_40_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_40_has_oman
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_40_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 39
+					}
+				}
+			}
+		}
 		prerequisite = {
 			focus = afr_electronic_device_production
 			focus = afr_mechanical_engineering_research
 		}
-		x = 2
-		y = 3
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
-	focus = {
-		id = afr_encorage_industrial_introduction
-		icon = GFX_goal_generic_construct_civ_factory
-		cost = 360
-		prerequisite = {
-			focus = afr_new_production_methods
-		}
-		available = {
-			always = no
-		}
-		bypass = {
-			has_country_flag = afr_rrp_factory_construction
-		}
-		completion_reward = {
-			custom_effect_tooltip = EDC_afr.5.t
-		}
-		x = 5
+		x = -1
 		y = 2
-
-	}
-	focus = {
-		id = afr_fund_industrial_development
-		icon = GFX_goal_generic_build_tank
-		cost = 150
-		prerequisite = {
-			focus = afr_encorage_industrial_introduction
+		relative_position_id = afr_new_production_methods
+		select_effect = {
+			set_country_flag = afr_prosperity_mechanic_dont_select_flag
 		}
 		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 0
-						include_locked = yes
-					}
+			hidden_effect = { clr_country_flag = afr_prosperity_mechanic_dont_select_flag }
+			if = {
+				limit = { afr_is_tribal = no }
+				custom_effect_tooltip = EGY_afr_increase_debt_1
+				hidden_effect = {
+					add_to_variable = {var = debt_level value = 1}
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
 					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = industrial_complex
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
+						check_variable = { afr_prosperity_mechanic_value > 39 }
+						NOT = { has_country_flag = afr_rrp_company_port }
 					}
 				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_40_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -40
 				}
 			}
-			custom_effect_tooltip = EDC_afr.3.t
-			hidden_effect = {
-				country_event = { id = EDC_afr.3 hours = 1 } 
-			}
-		}
-		x = 5
-		y = 3
-
-	}
-	focus = {
-		id = afr_build_the_first_military_production_falicity
-		icon = GFX_goal_generic_construct_mil_factory
-		cost = 110
-		prerequisite = {
-			focus = afr_fund_industrial_development
-		}
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = arms_factory
-						size > 0
-						include_locked = yes
-					}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					check_variable = { afr_prosperity_mechanic_value < 40 }
 					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = arms_factory
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
+						has_country_flag = afr_rrp_company_port
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
 					}
 				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = arms_factory
-					level = 1
-					instant_build = yes
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_40_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -40
 				}
 			}
-			custom_effect_tooltip = EDC_afr.3.t
-			hidden_effect = {
-				country_event = { id = EDC_afr.3 hours = 1 } 
+			add_research_slot = 1
+			if = {
+				limit = {
+					OR = { 
+						has_idea = afr_reforming_kingdom
+						has_country_flag = Oceania_industrializing
+						has_country_flag = afr_colony_industrializing
+						has_country_flag = afr_an_african_industrializing
+					}
+				}
+				custom_effect_tooltip = EDC_afr.5.t
+				hidden_effect = {
+					country_event = { id = EDC_afr.5 hours = 1 } 
+				}
 			}
 		}
-		x = 5
-		y = 4
-
 	}
+	#focus = {
+	#	id = afr_encorage_industrial_introduction
+	#	icon = GFX_goal_generic_construct_civ_factory
+	#	cost = 360
+	#	prerequisite = {
+	#		focus = afr_new_production_methods
+	#	}
+	#	available = {
+	#		always = no
+	#	}
+	#	bypass = {
+	#		has_country_flag = afr_rrp_factory_construction
+	#	}
+	#	completion_reward = {
+	#		custom_effect_tooltip = EDC_afr.5.t
+	#	}
+	#	x = 1
+	#	y = 1
+	#	relative_position_id = afr_new_production_methods
+	#}
+	#focus = {
+	#	id = afr_fund_industrial_development
+	#	icon = GFX_goal_generic_build_tank
+	#	cost = 150
+	#	prerequisite = {
+	#		focus = afr_encorage_industrial_introduction
+	#	}
+	#	completion_reward = {
+	#		custom_effect_tooltip = EDC_afr.3.t
+	#		hidden_effect = {
+	#			country_event = { id = EDC_afr.3 hours = 1 } 
+	#		}
+	#	}
+	#	x = 1
+	#	y = 2
+	#	relative_position_id = afr_new_production_methods
+	#}
+	#focus = {
+	#	id = afr_build_the_first_military_production_falicity
+	#	icon = GFX_goal_generic_construct_mil_factory
+	#	cost = 110
+	#	prerequisite = {
+	#		focus = afr_fund_industrial_development
+	#	}
+	#	available = {
+	#		has_country_flag = 
+	#	}
+	#	completion_reward = {
+	#		custom_effect_tooltip = EDC_afr.3.t
+	#		hidden_effect = {
+	#			country_event = { id = EDC_afr.3 hours = 1 } 
+	#		}
+	#	}
+	#	x = 1
+	#	y = 3
+	#	relative_position_id = afr_new_production_methods
+	#}
 	focus = {
 		id = afr_military_technology_development
 		icon = GFX_focus_research
 		cost = 70
 		prerequisite = {
-			focus = afr_build_the_first_military_production_falicity
+			focus = afr_reforming_regional_power_regional_industry_completed
 		}
 		prerequisite = {
 			focus = afr_expand_research_facilities
@@ -279,8 +962,9 @@ focus_tree = {
 		#available = {
 		#	var.industrisation_progress > 49.9
 		#}
-		x = 2
-		y = 5
+		x = 0
+		y = 3
+		relative_position_id = afr_new_production_methods
 		completion_reward = {
 			add_tech_bonus = { bonus = 0.25 uses = 1 category = infantry_tech }
 		}
@@ -289,9 +973,9 @@ focus_tree = {
 	focus = {
 		id = afr_clear_more_land_for_factories
 		icon = GFX_goal_generic_construct_civilian
-		cost = 750
+		cost = 250
 		prerequisite = {
-			focus = afr_build_the_first_military_production_falicity
+			focus = afr_reforming_regional_power_regional_industry_completed
 		}
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -302,70 +986,120 @@ focus_tree = {
 				country_event = { id = EDC_afr.3 hours = 1 } 
 			}
 		}
-		x = 5
-		y = 6
-
+		x = 3
+		y = 4
+		relative_position_id = afr_new_production_methods
 	}
 	focus = {
 		id = afr_industrialize_further
 		icon = GFX_goal_generic_construct_mil_factory
-		cost = 750
+		cost = 250
 		prerequisite = {
 			focus = afr_clear_more_land_for_factories
 		}
 		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = industrial_complex
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
 				country_event = { id = EDC_afr.5 hours = 1 } 
 			}
 		}
-		x = 5
-		y = 8
-
+		x = 3
+		y = 5
+		relative_position_id = afr_new_production_methods
 	}
 	focus = {
 		id = afr_regular_road_matenece
 		icon = GFX_goal_generic_construction2
 		cost = 180
+		available = {
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_has_oman
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 9
+					}
+				}
+			}
+		}
 		prerequisite = {
 			focus = afr_dirt_to_paved_roads
 		}
+		select_effect = {
+			set_country_flag = afr_prosperity_mechanic_dont_select_flag
+		}
 		completion_reward = {
+			hidden_effect = { clr_country_flag = afr_prosperity_mechanic_dont_select_flag }
+			if = {
+				limit = { afr_is_tribal = no }
+				custom_effect_tooltip = EGY_afr_increase_debt_1
+				hidden_effect = {
+					add_to_variable = {var = debt_level value = 1}
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 9 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					check_variable = { afr_prosperity_mechanic_value < 10 }
+					OR = {
+						has_country_flag = afr_rrp_company_port
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
 			add_timed_idea = { idea = AF_T_road_matienence days = 3650 }
 		}
-		x = 8
+		x = 0
 		y = 1
-
+		relative_position_id = afr_dirt_to_paved_roads
 	}
 	focus = {
 		id = afr_Build_more_roads
@@ -373,6 +1107,9 @@ focus_tree = {
 		cost = 180
 		prerequisite = {
 			focus = afr_regular_road_matenece
+		}
+		prerequisite = {
+			focus = afr_reforming_regional_power_regional_infrastructure_completed
 		}
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -403,9 +1140,9 @@ focus_tree = {
 				}
 			}
 		}
-		x = 8
+		x = 0
 		y = 2
-
+		relative_position_id = afr_dirt_to_paved_roads
 	}
 	#focus = {
 	#	id = afr_begin_to_invest_in_railways
@@ -464,15 +1201,18 @@ focus_tree = {
 		prerequisite = {
 			focus = afr_Build_more_roads
 		}
+		prerequisite = {
+			focus = afr_reforming_regional_power_regional_industry_completed
+		}
 		bypass = {
 			has_country_flag = afr_rrp_railway_infrastructure_construction
 		}
 		completion_reward = {
 			custom_effect_tooltip = EDC_afr.20.t
 		}
-		x = 8
-		y = 4
-	
+		x = 0
+		y = 3
+		relative_position_id = afr_dirt_to_paved_roads
 	}
 	#focus = {
 	#	id = afr_railway_infrastructure
@@ -544,47 +1284,7 @@ focus_tree = {
 	#	y = 5
 	#
 	#}
-	focus = {
-		id = afr_acquire_fabric_for_uniforms
-		icon = GFX_goal_anschluss
-		cost = 70
-		prerequisite = {
-			focus = afr_railway_infrastructure
-			focus = afr_build_the_first_military_production_falicity
-		}
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = cotton_farm
-						size > 0
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = cotton_farm
-										size > 0
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_building_construction = {
-					type = cotton_farm
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-		x = 8
-		y = 6
-
-	}
+	
 	focus = {
 		id = afr_introduce_coal_mining
 		icon = GFX_goal_focus_coal_mines
@@ -625,14 +1325,15 @@ focus_tree = {
 				country_event = { id = EDC_afr.3 hours = 1 } 
 			}
 		}
-		x = 7
-		y = 7
-
+		x = -1
+		y = 1
+		relative_position_id = afr_acquire_fabric_for_uniforms
 	}
 	focus = {
 		id = afr_dedicate_roads_for_farms
 		icon = GFX_goal_generic_construct_infrastructure
 		cost = 70
+		available = { has_country_flag = afr_reforming_regional_power_regional_infrastructure_decision_flag }
 		prerequisite = {
 			focus = afr_acquire_fabric_for_uniforms
 		}
@@ -665,9 +1366,9 @@ focus_tree = {
 				}
 			}
 		}
-		x = 8
-		y = 8
-
+		x = 0
+		y = 2
+		relative_position_id = afr_acquire_fabric_for_uniforms
 	}
 	focus = {
 		id = afr_build_logging_camps
@@ -705,9 +1406,9 @@ focus_tree = {
 				}
 			}
 		}
-		x = 9
-		y = 7
-
+		x = 1
+		y = 1
+		relative_position_id = afr_acquire_fabric_for_uniforms
 	}
 	focus = {
 		id = afr_new_tactics
@@ -719,9 +1420,9 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = { bonus = 0.20 uses = 1 category = land_doctrine }
 		}
-		x = 11
+		x = -1
 		y = 1
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_revised_stratergies
@@ -733,9 +1434,9 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = { bonus = 0.20 uses = 1 category = land_doctrine }
 		}
-		x = 11
+		x = -1
 		y = 2
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_new_weapons_designs
@@ -747,9 +1448,9 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = { bonus = 0.15 uses = 1 category = infantry_weapons }
 		}
-		x = 13
+		x = 1
 		y = 1
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_diplomatic_espionage
@@ -761,9 +1462,9 @@ focus_tree = {
 		completion_reward = {
 			add_timed_idea = { idea = eoanb_idea_generic_focus_intel days = 3650 }
 		}
-		x = 13
+		x = 1
 		y = 2
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_improve_military_staff
@@ -775,24 +1476,47 @@ focus_tree = {
 		}
 		completion_reward = {
 			army_experience = 15
+			if = {
+				limit = { 
+					has_idea = law_army_tribal_basic
+				}
+				swap_ideas = {
+					remove_idea = law_army_tribal_basic
+					add_idea = law_army_tribal_advanced
+				}
+			}
+			if = {
+				limit = { 
+					has_idea = law_army_tribal_improved
+				}
+				swap_ideas = {
+					remove_idea = law_army_tribal_improved
+					add_idea = law_army_tribal_advanced
+				}
+			}
+			add_timed_idea = {
+				idea = afr_regional_power_address_tribal_military_idea
+				days = 1800
+			}
+			afr_regional_power_address_tribal_military_scripted_effect = yes
 		}
-		x = 12
+		x = 0
 		y = 3
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_artillary_research
 		icon = GFX_goal_generic_army_artillery
-		cost = 1000
+		cost = 500
 		prerequisite = {
 			focus = afr_improve_military_staff
 		}
 		completion_reward = {
-			add_tech_bonus = { bonus = 0.25 uses = 1 category = artillery }
+			add_tech_bonus = { bonus = 0.75 uses = 2 category = artillery }
 		}
-		x = 11
+		x = -1
 		y = 4
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_comission_cannons
@@ -813,9 +1537,9 @@ focus_tree = {
 				amount = 25
 			}
 		}
-		x = 12
+		x = 0
 		y = 5
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_rifling
@@ -854,9 +1578,9 @@ focus_tree = {
 				}
 			}
 		}
-		x = 14
+		x = 2
 		y = 4
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_line_armys
@@ -868,9 +1592,9 @@ focus_tree = {
 		completion_reward={
 			add_ideas = { afr_line_army_tactics }
 		}
-		x = 14
+		x = 2
 		y = 5
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_plan_a_naval_force
@@ -885,8 +1609,9 @@ focus_tree = {
 		bypass = {
 			#has_tech = tech_naval_1812_corvette
 		}
-		x = 16
+		x = 0
 		y = 1
+		relative_position_id = afr_create_naval_designs
 		completion_reward={
 			#BROKEN BY MTG
 			#set_technology = {tech_naval_1812_corvette=1}
@@ -912,41 +1637,173 @@ focus_tree = {
 				amount = 1
 			}
 		}
-		x = 16
+		x = 0
 		y = 4
-
+		relative_position_id = afr_create_naval_designs
 	}
 	focus = {
 		id = afr_build_a_port
-		icon = GFX_goal_generic_construct_naval_dockyard
+		icon = GFX_goal_focus_profits_tea_spices
 		cost = 70
 		prerequisite = {
 			focus = afr_plan_a_naval_force
 		}
-		available = {
-			any_owned_state = { is_coastal = yes }
+		prerequisite = {
+			focus = afr_reforming_regional_power_regional_infrastructure
 		}
-		completion_reward={
-			random_owned_controlled_state = {
-				limit = {
-					is_coastal = yes
-					#free_building_slots = { 
-					#	building = naval_base
-					#	size > 1
-					#	include_locked = yes 
-					#}
+		available = {
+			if = {
+				limit = { 
+					all_owned_state = { naval_base < 1 }
 				}
-				add_building_construction = {
-					type = naval_base
-					#province = THIS
-					level = 2
-					instant_build = yes
+				custom_trigger_tooltip = {
+					tooltip = Ocenaia_has_infrastructure_to_support_new_buildings_on_coast
+					Oceania_one_extra_building_slots_supported_for_coast_not_core_trigger = yes
+				}
+			}
+			else = {
+				any_owned_state = {
+					is_coastal = yes
+					naval_base > 0
 				}
 			}
 		}
-		x = 16
+		completion_reward={
+			if = {
+				limit = { 
+					all_owned_state = { naval_base < 1 }
+					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					capital_scope = { is_coastal = no }
+				}
+				add_political_power = -250
+				random_owned_controlled_state = {
+					limit = {
+						Oceania_infrastructure_for_extra_building_slots_trigger = yes
+						is_coastal = yes
+					}
+					set_state_flag = afr_port_town
+					hidden_effect = {
+						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+					}
+					add_extra_state_shared_building_slots = 1
+					afr_add_one_building_naval_base_scripted_effect = yes
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					if = {
+						limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						add_core_of = ROOT
+					}
+					add_manpower = 1853
+				}
+			}
+			else_if = {
+				limit = {
+					any_owned_state = { has_state_flag = afr_port_town }
+				}
+				add_political_power = -100
+				random_owned_controlled_state = {
+					limit = {
+						has_state_flag = afr_port_town
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					if = {
+						limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						add_core_of = ROOT
+					}
+					add_manpower = 1853
+				}
+			}
+			else_if = {
+				limit = {
+					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					capital_scope = { is_coastal = yes naval_base < 1 }
+				}
+				add_political_power = -250
+				random_owned_state = {
+					limit = {
+						is_coastal = yes
+						is_capital = yes
+					}
+					set_state_flag = afr_port_town
+					hidden_effect = {
+						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+					}
+					add_extra_state_shared_building_slots = 1
+					afr_add_one_building_naval_base_scripted_effect = yes
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					capital_scope = { is_coastal = yes naval_base > 0 }
+				}
+				add_political_power = -100
+				random_owned_state = {
+					limit = {
+						is_coastal = yes
+						is_capital = yes
+					}
+					set_state_flag = afr_port_town
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				add_political_power = -100
+				random_owned_controlled_state = {
+					limit = {
+						naval_base > 0
+						is_coastal = yes
+					}
+					set_state_flag = afr_port_town
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+					if = {
+						limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						add_core_of = ROOT
+					}
+					add_manpower = 1853
+				}
+			}
+			add_equipment_to_stockpile = { type = convoy_1 amount = 14 }
+			if = {
+				limit = {
+					check_variable = {ROOT.industrisation_progress < 100}
+					OR = {
+						has_idea = afr_reforming_kingdom
+						has_country_flag = Oceania_industrializing
+						has_country_flag = afr_colony_industrializing
+						has_country_flag = afr_an_african_industrializing
+					}
+				}
+				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+				custom_effect_tooltip = EDC_afr.6.t
+				hidden_effect = {
+					country_event = { id = EDC_afr.6 hours = 1 } 
+				}
+			}
+		}
+		x = 0
 		y = 2
-
+		relative_position_id = afr_create_naval_designs
 	}
 	focus = {
 		id = afr_build_shipyards
@@ -980,9 +1837,9 @@ focus_tree = {
 				country_event = { id = EDC_afr.3 hours = 1 } 
 			}
 		}
-		x = 16
+		x = 0
 		y = 3
-
+		relative_position_id = afr_create_naval_designs
 	}
 	focus = {
 		id = afr_more_dockyards
@@ -990,6 +1847,9 @@ focus_tree = {
 		cost = 70
 		prerequisite = {
 			focus = afr_build_our_first_ship
+		}
+		prerequisite = {
+			focus = afr_reforming_regional_power_regional_industry_completed
 		}
 		available = {
 			any_owned_state = { is_coastal = yes }
@@ -1016,24 +1876,50 @@ focus_tree = {
 				country_event = { id = EDC_afr.3 hours = 1 } 
 			}
 		}
-		x = 16
+		x = 0
 		y = 5
-
+		relative_position_id = afr_create_naval_designs
 	}
 	focus = {
 		id = afr_buy_cannons_from_europeans
 		icon = GFX_goal_generic_army_artillery
 		cost = 70
 		available = {
-			any_other_country ={
-				has_tech = gw_artillery
-				has_opinion = {
-					target = ROOT
-					value > 0
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
 				}
-				any_owned_state={
-					is_capital = yes
-					is_on_continent = europe
+				custom_trigger_tooltip = {
+					tooltip = afr_buy_cannons_from_europeans_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_buy_cannons_from_europeans_has_oman
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_buy_cannons_from_europeans_no_company
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
 				}
 			}
 		}
@@ -1060,10 +1946,47 @@ focus_tree = {
 			#	}
 			#	country_event = { id = EDC_afr.10 hours = 16 } 
 			#}
+			if = {
+				limit = { afr_is_tribal = no }
+				custom_effect_tooltip = EGY_afr_increase_debt_1
+				hidden_effect = {
+					add_to_variable = {var = debt_level value = 1}
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 9 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_buy_cannons_from_europeans_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					check_variable = { afr_prosperity_mechanic_value < 10 }
+					OR = {
+						has_country_flag = afr_rrp_company_port
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_effect_tooltip = afr_buy_cannons_from_europeans_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
 		}
-		x = 10
+		x = -2
 		y = 5
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_a_new_military
@@ -1083,9 +2006,9 @@ focus_tree = {
 				add_idea = law_pre_industrial_army
 			}
 		}
-		x = 12
+		x = 0
 		y = 6
-
+		relative_position_id = afr_improve_our_army
 	}
 	focus = {
 		id = afr_a_new_navy
@@ -1100,55 +2023,23 @@ focus_tree = {
 		completion_reward = {
 			navy_experience = 25
 		}
-		x = 16
+		x = 0
 		y = 6
-
+		relative_position_id = afr_create_naval_designs
 	}
-	focus = {
-		id = afr_an_industral_nation
-		icon = GFX_goal_generic_construct_civ_factory
-		cost = 70
-		prerequisite = {
-			focus = afr_industrialize_further
-		}
-		prerequisite = {
-			focus = afr_dedicate_roads_for_farms
-		}
-		prerequisite = {
-			focus = afr_a_new_military
-			focus = afr_a_new_navy
-		}
-		available = {
-			has_idea = industrializing
-		}
-		completion_reward = {
-			if = {
-				limit= {
-					has_political_power<-1999
-				}
-				add_political_power = 2000
-			}
-			else_if={
-				limit= {
-					has_political_power<-999
-				}
-				add_political_power = 1000
-			}
-			else={
-				add_political_power = 100
-			}
-			custom_effect_tooltip = afr_advance_to_victorian
-			hidden_effect = {
-				load_focus_tree = industrialised_african_formed_nation
-				add_ideas = victorian_era
-			}
-			set_country_flag = afr_rrp_non_colonial_industrialization
-			custom_effect_tooltip = afr_rrp_inspiration_to_africa
-		}
-		x = 12
-		y = 9
-
-	}
+	#focus = {
+	#	id = afr_an_industral_nation
+	#	icon = GFX_goal_generic_construct_civ_factory
+	#	cost = 70
+	#	available = {
+	#		has_idea = industrializing
+	#	}
+	#	completion_reward = {
+	#	}
+	#	x = 12
+	#	y = 9
+	#
+	#}
 	focus = {
 		id = afr_expand_military_production
 		icon = GFX_goal_generic_construct_mil_factory
@@ -1192,18 +2083,98 @@ focus_tree = {
 				country_event = { id = EDC_afr.3 hours = 1 } 
 			}
 		}
-		x = 3
-		y = 6
-
+		x = 1
+		y = 4
+		relative_position_id = afr_new_production_methods
 	}
 	focus = {
 		id = afr_military_production_streamlining
 		icon = GFX_focus_research
 		cost = 70
+		available = {
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_has_oman
+					OR = {
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					NOT = { OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag } }
+					NOT = { OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag } }
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 9
+					}
+				}
+			}
+		}
 		prerequisite = {
 			focus = afr_military_technology_development
 		}
+		select_effect = {
+			set_country_flag = afr_prosperity_mechanic_dont_select_flag
+		}
 		completion_reward = {
+			hidden_effect = { clr_country_flag = afr_prosperity_mechanic_dont_select_flag }
+			if = {
+				limit = { afr_is_tribal = no }
+				custom_effect_tooltip = EGY_afr_increase_debt_1
+				hidden_effect = {
+					add_to_variable = {var = debt_level value = 1}
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 9 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
+			if = {
+				limit = { 
+					afr_is_tribal = yes 
+					check_variable = { afr_prosperity_mechanic_value < 10 }
+					OR = {
+						has_country_flag = afr_rrp_company_port
+						OMA = { has_country_flag = oma_vic_MOM_industrialisation_flag }
+						OMA = { has_country_flag = oma_vic_ZAN_industrialisation_flag }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
 			add_ideas = {
 				AF_T_military_streamlining
 			}
@@ -1212,9 +2183,9 @@ focus_tree = {
 				country_event = { id = EDC_afr.3 hours = 1 } 
 			}
 		}
-		x = 1
-		y = 6
-
+		x = -1
+		y = 4
+		relative_position_id = afr_new_production_methods
 	}
 	focus = {
 		id = afr_increased_industrial_efforts
@@ -1229,8 +2200,9 @@ focus_tree = {
 		prerequisite = {
 			focus = afr_clear_more_land_for_factories
 		}
-		x = 3
-		y = 7
+		x = 1
+		y = 5
+		relative_position_id = afr_new_production_methods
 		completion_reward = {
 			custom_effect_tooltip = EDC_afr_2ip
 			hidden_effect = {

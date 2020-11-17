@@ -1,0 +1,1564 @@
+# Free States of America FT Civil War / Reconstruction
+
+# Beckenridge Election
+  # Vanadium was here 7/2020
+
+focus_tree = {
+  id = fsa_reconstruction
+  country = {
+    factor = 0
+    modifier = {
+      add = 12
+      OR = {
+        has_cosmetic_tag = USA_free_states_of_america
+      }
+    }
+  }
+
+  default = no
+  shared_focus = USA_foreign_diplomacy
+
+  continuous_focus_position = {
+    x = 1500
+    y = 1100
+  }
+
+  # Beckenridge Route
+
+  focus = {
+    id = FSA_resign_from_the_union
+    icon = GFX_goal_generic_forceful_treaty
+    x = 7
+    y = 0
+    ai_will_do = {
+      factor = 16
+    }
+    available = {
+      has_country_flag = fsa_acw_rebellion
+    }
+    bypass = {
+      NOT = { country_exists = USA }
+    }
+    cost = 14
+    completion_reward = {
+      add_political_power = 50
+      swap_ideas = {
+        remove_idea = FSA_new_union_0
+        add_idea = FSA_new_union_1
+      }
+      hidden_effect = {
+        ROOT = { country_event { days = 1 id = neg.100 } }
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_prioritize_the_war_effort
+    icon = GFX_focus_secret_rearmament
+    relative_position_id = FSA_resign_from_the_union
+    x = -5
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    prerequisite = {
+      focus = FSA_resign_from_the_union
+    }
+    bypass = {
+      has_war = no
+    }
+    cost = 14
+    completion_reward = {
+      army_experience = 25
+      add_manpower = 2500
+    }
+  }
+
+  focus = {
+    id = FSA_enact_martial_law
+    icon = GFX_focus_generic_home_defense
+    relative_position_id = FSA_prioritize_the_war_effort
+    x = -2
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    bypass = {
+      has_war = no
+    }
+    cost = 21
+    prerequisite = {
+      focus = FSA_prioritize_the_war_effort
+    }
+    completion_reward = {
+      add_political_power = 50
+      add_ideas = FSA_civil_war_martial_law_1
+    }
+  }
+
+  focus = {
+    id = FSA_mobilization_of_the_textile_industry
+    icon = GFX_goal_generic_production2
+    relative_position_id = FSA_prioritize_the_war_effort
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    cost = 21
+    prerequisite = {
+      focus = FSA_prioritize_the_war_effort
+    }
+    completion_reward = {
+      random_owned_controlled_state = {
+        add_resource = {
+          type = fabric
+          amount = 4
+        }
+      }
+      add_equipment_to_stockpile = {
+        type = uniform_equipment_2
+        amount = 3500
+        producer = USA
+      }
+      add_timed_idea = {
+        idea = FSA_civil_war_industry_1
+        days = 120
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_west_point_restructurement
+    icon = GFX_focus_generic_military_academy
+    relative_position_id = FSA_enact_martial_law
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_enact_martial_law
+    }
+    prerequisite = {
+      focus = FSA_mobilization_of_the_textile_industry
+    }
+    completion_reward = {
+      army_experience = 10
+      swap_ideas = {
+        remove_idea = FSA_napoleonic_thought_1
+        add_idea = FSA_napoleonic_thought_2
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_study_civil_war_battles
+    icon = GFX_goal_generic_position_armies
+    relative_position_id = FSA_west_point_restructurement
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_west_point_restructurement
+    }
+    completion_reward = {
+      army_experience = 10
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 1
+        category = land_doctrine
+      }
+      remove_ideas = FSA_civil_war_incompetency
+      add_timed_idea = {
+        idea = FSA_new_tactics_1
+        days = 720
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_promote_capable_officers
+    icon = GFX_goal_focus_general_sherman
+    relative_position_id = FSA_study_civil_war_battles
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_study_civil_war_battles
+    }
+    completion_reward = {
+      army_experience = 15
+      swap_ideas = {
+        remove_idea = FSA_civil_war_martial_law_1
+        add_idea = FSA_civil_war_martial_law_2
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_reform_the_army
+    icon = GFX_focus_generic_military_mission
+    relative_position_id = FSA_promote_capable_officers
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 128
+    }
+    cost = 105
+    prerequisite = {
+      focus = FSA_promote_capable_officers
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 1
+        category = land_doctrine
+      }
+      remove_ideas = FSA_napoleonic_thought_2
+      add_timed_idea = {
+        idea = FSA_civil_war_army_reform
+        days = 3650
+      }
+      add_political_power = 25
+    }
+  }
+
+  focus = {
+    id = FSA_star_spangled
+    icon = GFX_goal_generic_consumer_goods
+    relative_position_id = FSA_mobilization_of_the_textile_industry
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_mobilization_of_the_textile_industry
+    }
+    prerequisite = {
+      focus = FSA_enact_martial_law
+    }
+    completion_reward = {
+      add_equipment_to_stockpile = {
+        type = infantry_equipment_rifle_3
+        amount = 2500
+      }
+      if = {
+        limit = { has_idea = FSA_civil_war_industry_1 }
+        remove_ideas = { FSA_civil_war_industry_1 }
+      }
+      add_timed_idea = {
+        idea = FSA_civil_war_industry_1
+        days = 700
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_erie_supply_lines
+    icon = GFX_focus_generic_coastal_fort
+    relative_position_id = FSA_star_spangled
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    bypass = {
+      has_war = no
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_star_spangled
+    }
+    completion_reward = {
+      navy_experience = 10
+      add_timed_idea = {
+        idea = FSA_erie_supplies
+        days = 1000
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_mobilize_newengland_milita
+    icon = GFX_goal_generic_allies_build_infantry
+    relative_position_id = FSA_prioritize_the_war_effort
+    x = 2
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    bypass = {
+      has_war = no
+    }
+    cost = 21
+    prerequisite = {
+      focus = FSA_prioritize_the_war_effort
+    }
+    completion_reward = {
+      add_manpower = 20000
+      add_political_power = 50
+      add_ideas = FSA_green_units
+      hidden_effect = {
+        ROOT = { country_event = { id = neg.110 } }
+      }
+      hidden_effect = {
+        add_timed_idea = {
+          idea = FSA_green_units
+          days = 20
+        }
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_expand_recruitment_programs
+    icon = GFX_focus_secret_rearmament
+    relative_position_id = FSA_mobilize_newengland_milita
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    bypass = {
+      has_war = no
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_mobilize_newengland_milita
+    }
+    completion_reward = {
+      add_manpower = 10000
+      hidden_effect = {
+        add_timed_idea = {
+          idea = FSA_green_units
+          days = 60
+        }
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_muster_black_units
+    icon = GFX_focus_generic_military_academy
+    relative_position_id = FSA_expand_recruitment_programs
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 24
+    }
+    bypass = {
+      has_war = no
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_expand_recruitment_programs
+    }
+    completion_reward = {
+      country_event = { id = neg.111 }
+    }
+  }
+
+  focus = {
+    id = FSA_abolitionists_of_the_west
+    icon = GFX_goal_generic_demand_territory
+    relative_position_id = FSA_muster_black_units
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    bypass = {
+      OR = {
+        has_war = no
+        date > 1870.1.1
+      }
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_erie_supply_lines
+    }
+    prerequisite = {
+      focus = FSA_muster_black_units
+    }
+    completion_reward = {
+      add_political_power = 25
+      country_event = { id = neg.115 }
+    }
+  }
+
+  focus = {
+    id = FSA_unite_the_abolitionists
+    icon = GFX_focus_generic_anti_fascist_diplomacy
+    relative_position_id = FSA_resign_from_the_union
+    x = 5
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    bypass = {
+      date > 1880.1.1
+    }
+    cost = 14
+    prerequisite = {
+      focus = FSA_resign_from_the_union
+    }
+    completion_reward = {
+      add_political_power = 25
+      increase_ps_by_one = yes
+      swap_ideas = {
+        remove_idea = FSA_new_union_1
+        add_idea = FSA_new_union_2
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_invite_seward
+    icon = GFX_focus_william_seward
+    relative_position_id = FSA_unite_the_abolitionists
+    x = -3
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    bypass = {
+      OR = {
+        date > 1880.1.1
+        has_idea = USA_william_h_seward
+      }
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_unite_the_abolitionists
+    }
+    completion_reward = {
+      add_ideas = USA_william_h_seward
+    }
+  }
+
+  focus = {
+    id = FSA_envoys_to_europe
+    icon = GFX_goal_focus_continent_west_europe
+    relative_position_id = FSA_invite_seward
+    x = -2
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    bypass = {
+      has_war = no
+    }
+    cost = 105
+    prerequisite = {
+      focus = FSA_invite_seward
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 105
+      #ASKCOGG
+      #add_relation_modifier = {
+      #  target = ENG
+      #  target = FRA
+      #  target = HOL
+      #  target = BEL
+      #  target = SPR
+      #  target = RUS
+      #}
+      #add_relation_modifier = {
+      #  target = CSA
+      #  target = USA
+      #}
+    }
+  }
+
+  focus = {
+    id = FSA_placate_british_concerns
+    icon = GGFX_goal_generic_dangerous_deal
+    relative_position_id = FSA_envoys_to_europe
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_envoys_to_europe
+    }
+    mutually_exclusive = {
+      focus = FSA_russians_and_french
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 35
+      #ASKCOGG
+    }
+  }
+
+  focus = {
+    id = FSA_accept_canadian_volunteers
+    icon = GFX_goal_generic_military_deal
+    relative_position_id = FSA_placate_british_concerns
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_muster_black_units
+    }
+    prerequisite = {
+      focus = FSA_placate_british_concerns
+    }
+    mutually_exclusive = {
+      focus = FSA_raid_the_maritimes
+      focus = FSA_align_canada
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 35
+      #ASKCOGG
+    }
+  }
+
+  focus = {
+    id = FSA_negotiate_with_norton
+    icon = GFX_goal_generic_dangerous_deal
+    relative_position_id = FSA_invite_seward
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    cost =  70
+    prerequisite = {
+      focus = FSA_invite_seward
+    }
+    available = {
+      country_exists = USA_imperial_states_of_america
+    }
+    mutually_exclusive = {
+      focus = FSA_secure_the_west
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = -20
+      ROOT = { country_event = { days = 1 id = neg.120 } }
+    }
+  }
+
+  focus = {
+    id = FSA_russians_and_french
+    icon = GFX_focus_chi_reach_out_to_france
+    relative_position_id = FSA_envoys_to_europe
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 32
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_envoys_to_europe
+      focus = FSA_negotiate_with_norton
+    }
+    mutually_exclusive = {
+      focus = FSA_placate_british_concerns
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 35
+      #ASKCOGG
+    }
+  }
+
+  focus = {
+    id = FSA_raid_the_maritimes
+    icon = GFX_raid_maritimes
+    relative_position_id = FSA_russians_and_french
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    bypass = {
+      owns_state = 634
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_russians_and_french
+    }
+    mutually_exclusive = {
+      focus = FSA_accept_canadian_volunteers
+      focus = FSA_align_canada
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 35
+      hidden_effect = {
+        #ADDEVENTHERE
+        add_manpower = -100
+      }
+      hidden_effect = {
+        add_equipment_to_stockpile = {
+          type = uniform_equipment_2
+          amount = 3500
+          producer = USA
+        }
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_align_canada
+    icon = GFX_focus_eng_decolonization
+    relative_position_id = FSA_russians_and_french
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 12
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_russians_and_french
+    }
+    mutually_exclusive = {
+      focus = FSA_accept_canadian_volunteers
+      focus = FSA_raid_the_maritimes
+    }
+    completion_reward = {
+      #ASKCOGG
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 35
+    }
+  }
+
+  focus = {
+    id = FSA_secure_the_west
+    icon = GFX_goal_generic_military_sphere
+    relative_position_id = FSA_invite_seward
+    x = 2
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    bypass = {
+      NOT = {
+        AND = {
+          country_exists = USA_imperial_states_of_america
+          country_exists = CAL
+          country_exists = COM
+          country_exists = UTA
+          country_exists = NEZ
+          country_exists = APA
+          country_exists = SIX
+          country_exists = NAV
+          country_exists = BFT
+          country_exists = CRW
+          country_exists = SHO
+          country_exists = CHY
+        }
+      }
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_invite_seward
+    }
+    mutually_exclusive = {
+      focus = FSA_negotiate_with_norton
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 70
+    }
+  }
+
+  focus = {
+    id = FSA_establish_native_treaties
+    icon = GFX_focus_generic_treaty
+    relative_position_id = FSA_secure_the_west
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    cost = 42
+    prerequisite = {
+      focus = FSA_secure_the_west
+      focus = FSA_negotiate_with_norton
+    }
+    mutually_exclusive = {
+      focus = FSA_establish_manifest_destiny
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 42
+    }
+  }
+
+  focus = {
+    id = FSA_establish_manifest_destiny
+    icon = GFX_goal_focus_continent_north_america
+    relative_position_id = FSA_secure_the_west
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 6
+    }
+    bypass = {
+      NOT = {
+        AND = {
+          country_exists = UTA
+          country_exists = NEZ
+          country_exists = APA
+          country_exists = SIX
+          country_exists = NAV
+          country_exists = BFT
+          country_exists = CRW
+          country_exists = SHO
+          country_exists = CHY
+        }
+      }
+    }
+    cost = 42
+    prerequisite = {
+      focus = FSA_secure_the_west
+    }
+    mutually_exclusive = {
+      focus = FSA_establish_native_treaties
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 42
+    }
+  }
+
+  focus = {
+    id = FSA_focus_address_confederacy
+    icon = GFX_goal_generic_attack_allies
+    relative_position_id = FSA_establish_native_treaties
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    bypass = {
+      NOT = { country_exists = CSA }
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_establish_native_treaties
+      focus = FSA_establish_manifest_destiny
+    }
+    completion_reward = {
+      custom_effect_tooltip = fsa_focus_unfinished
+      add_political_power = 100
+    }
+  }
+
+  focus = {
+    id = FSA_security_of_the_movement
+    icon = GFX_focus_generic_self_management
+    relative_position_id = FSA_raid_the_maritimes
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 6
+    }
+    cost = 42
+    prerequisite = {
+      focus = FSA_abolitionists_of_the_west
+    }
+    prerequisite = {
+    focus = FSA_accept_canadian_volunteers
+    focus = FSA_raid_the_maritimes
+    focus = FSA_align_canada
+    }
+    prerequisite = {
+      focus = FSA_focus_address_confederacy
+    }
+    completion_reward = {
+      add_political_power = -100
+    }
+  }
+
+  focus = {
+    id = FSA_call_for_a_convention
+    icon = GFX_focus_generic_support_the_left_right
+    relative_position_id = FSA_unite_the_abolitionists
+    x = 3
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_unite_the_abolitionists
+    }
+    completion_reward = {
+      add_political_power = -100
+      #ASKCOGG
+    }
+  }
+
+  focus = {
+    id = FSA_promote_douglass
+    icon = GFX_goal_unknown
+    relative_position_id = FSA_call_for_a_convention
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    cost = 14
+    prerequisite = {
+      focus = FSA_call_for_a_convention
+    }
+    mutually_exclusive = {
+      focus = FSA_promote_garnet
+    }
+    completion_reward = {
+      #ASKCOGG
+    }
+  }
+
+  focus = {
+    id = FSA_promote_garnet
+    icon = GFX_goal_unknown
+    relative_position_id = FSA_call_for_a_convention
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 3
+    }
+    cost = 14
+    prerequisite = {
+      focus = FSA_call_for_a_convention
+    }
+    mutually_exclusive = {
+      focus = FSA_promote_douglass
+    }
+    completion_reward = {
+      #ASKCOGG
+    }
+  }
+
+  focus = {
+    id = FSA_found_the_ufpl
+    icon = GFX_goal_generic_improve_relations
+    relative_position_id = FSA_promote_douglass
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_promote_garnet
+      focus = FSA_promote_douglass
+    }
+    completion_reward = {
+      country_event = { id = neg.125 }
+    }
+  }
+
+  focus = {
+    id = FSA_articles_of_abolitionism
+    icon = GFX_goal_anschluss
+    relative_position_id = FSA_promote_garnet
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 32
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_promote_garnet
+      focus = FSA_promote_douglass
+    }
+    completion_reward = {
+      increase_ps_by_one = yes
+      add_political_power = 50
+    }
+  }
+
+  focus = {
+    id = FSA_amend_the_constitution
+    icon = GFX_focus_generic_self_management
+    relative_position_id = FSA_found_the_ufpl
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_found_the_ufpl
+    }
+    prerequisite = {
+      focus = FSA_articles_of_abolitionism
+    }
+    completion_reward = {
+      swap_ideas = {
+        remove_idea = FSA_new_union_2
+        add_idea = FSA_new_union_3
+      }
+      add_political_power = 50
+    }
+  }
+
+  focus = {
+    id = FSA_exonerate_past_abolitionists
+    icon = GFX_goal_continuous_restrict_freedom
+    relative_position_id = FSA_amend_the_constitution
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_amend_the_constitution
+    }
+    completion_reward = {
+      add_political_power = 85
+    }
+  }
+
+  focus = {
+    id = FSA_new_bill_of_rights
+    icon = GFX_goal_generic_national_unity
+    relative_position_id = FSA_amend_the_constitution
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 20
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_amend_the_constitution
+    }
+    completion_reward = {
+      remove_ideas = FSA_catholic_discrimination
+    }
+  }
+
+  focus = {
+    id = FSA_new_union_strong
+    icon = GFX_goal_generic_demand_territory
+    relative_position_id = FSA_security_of_the_movement
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 16
+    }
+    cost = 35
+    prerequisite = {
+      focus = FSA_reform_the_army
+    }
+    prerequisite = {
+      focus = FSA_security_of_the_movement
+    }
+    prerequisite = {
+      focus = FSA_new_bill_of_rights
+    }
+    completion_reward = {
+      clr_country_flag = fsa_acw_rebellion
+      set_country_flag = fsa_acw_end
+      swap_ideas = {
+        remove_idea = FSA_new_union_3
+        add_idea = FSA_new_union_4
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_army_effort_focus_1
+    icon = GFX_goal_generic_occupy_states_ongoing_war
+    relative_position_id = FSA_new_union_strong
+    x = -4
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    cost = 70
+    completion_reward = {
+      army_experience = 35
+    }
+  }
+
+  focus = {
+    id = FSA_land_doctrine_focus_1
+    icon = GFX_focus_generic_military_academy
+    relative_position_id = FSA_army_effort_focus_1
+    x = -3
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_army_effort_focus_1
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        name = land_doc_bonus
+        bonus = 0.4
+        uses = 1
+        category = land_doctrine
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_land_doctrine_focus_2
+    icon = GFX_focus_generic_military_academy
+    relative_position_id = FSA_land_doctrine_focus_1
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_land_doctrine_focus_1
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        name = land_doc_bonus
+        bonus = 0.4
+        uses = 1
+        category = land_doctrine
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_land_doctrine_focus_3
+    icon = GFX_focus_generic_military_academy
+    relative_position_id = FSA_land_doctrine_focus_2
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_land_doctrine_focus_2
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.4
+        uses = 1
+        category = land_doctrine
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_small_arms_effort_focus_1
+    icon = GFX_focus_secret_rearmament
+    relative_position_id = FSA_army_effort_focus_1
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_army_effort_focus_1
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 1
+        category = infantry_weapons
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_small_arms_effort_focus_2
+    icon = GFX_focus_secret_rearmament
+    relative_position_id = FSA_small_arms_effort_focus_1
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_small_arms_effort_focus_1
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 1
+        category = infantry_weapons
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_specialist_effort_focus
+    icon = GFX_focus_generic_commonwealth_build_infantry
+    relative_position_id = FSA_small_arms_effort_focus_2
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 2
+    }
+    cost = 105
+    prerequisite = {
+      focus = FSA_small_arms_effort_focus_2
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 2
+        category = infantry_weapons
+      }
+    }
+  }
+
+  focus = {
+    id = FSA_production_investments
+    icon = GFX_goal_continuous_repairments
+    relative_position_id = FSA_land_doctrine_focus_3
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 100
+    }
+    bypass = {
+      arms_factory > 20
+    }
+    cost = 105
+    prerequisite = {
+      focus = FSA_land_doctrine_focus_3
+      focus = FSA_specialist_effort_focus
+    }
+    completion_reward = {
+      add_political_power = -50
+      random_owned_controlled_state = {
+        limit = {
+          is_core_of = USA
+        }
+        add_extra_state_shared_building_slots = 1
+        add_building_construction = {
+          type = arms_factory
+          level = 1
+          instant_build = yes
+        }
+      }
+    }
+  }
+  focus = {
+    id = FSA_firepower_focus_1
+    icon = GFX_goal_generic_army_artillery
+    relative_position_id = FSA_small_arms_effort_focus_1
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    cost = 105
+    prerequisite = {
+      focus = FSA_small_arms_effort_focus_1
+    }
+    mutually_exclusive = {
+      focus = FSA_mobile_focus_1
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 2
+        category = artillery
+      }
+    }
+  }
+  focus = {
+    id = FSA_firepower_focus_2
+    icon = GFX_goal_generic_army_artillery
+    relative_position_id = FSA_firepower_focus_1
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_firepower_focus_1
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 1
+        category = artillery
+      }
+    }
+  }
+  focus = {
+    id = FSA_supplies_effort_focus
+    icon = GFX_goal_generic_army_artillery
+    relative_position_id = FSA_army_effort_focus_1
+    x = 3
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_army_effort_focus_1
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.35
+        uses = 3
+        category = biochemistry_tech
+      }
+    }
+  }
+  focus = {
+    id = FSA_mobile_focus_1
+    icon = GFX_goal_generic_army_motorized
+    relative_position_id = FSA_supplies_effort_focus
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    mutually_exclusive = {
+      focus = FSA_firepower_focus_1
+    }
+    cost = 105
+    prerequisite = {
+      focus = FSA_supplies_effort_focus
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 2
+        category = tech_category_cavalry
+      }
+    }
+  }
+  focus = {
+    id = FSA_mobile_focus_2
+    icon = GFX_goal_generic_army_motorized
+    relative_position_id = FSA_mobile_focus_1
+    x = 0
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_mobile_focus_1
+    }
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 1
+        category = tech_category_cavalry
+      }
+    }
+  }
+  focus = {
+    id = FSA_army_effort_focus_2
+    icon = GFX_goal_generic_occupy_states_ongoing_war
+    relative_position_id = FSA_mobile_focus_2
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 8
+    }
+    cost = 70
+    prerequisite = {
+      focus = FSA_mobile_focus_2
+      focus = FSA_firepower_focus_2
+    }
+    completion_reward = {
+      army_experience = 50
+    }
+  }
+  focus = {
+    id = FSA_naval_effort_focus_1
+    icon = GFX_goal_generic_navy_cruiser
+    relative_position_id = FSA_new_union_strong
+    x = 3
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    available = {
+      AND = {
+        date > 1864.7.1
+        any_owned_state = {
+          is_coastal = yes
+        }
+      }
+    }
+    cost = 70
+    completion_reward = {
+      navy_experience = 35
+    }
+  }
+  focus = {
+    id = FSA_naval_effort_focus_2
+    icon = GFX_goal_generic_more_territorial_claims
+    relative_position_id = FSA_naval_effort_focus_1
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    prerequisite = {
+      focus = FSA_naval_effort_focus_1
+    }
+    cost = 70
+    completion_reward = {
+      navy_experience = 70
+    }
+  }
+  focus = {
+    id = FSA_sea_doctrine_focus_1
+    icon = GFX_goal_generic_navy_doctrine_tactics
+    relative_position_id = FSA_naval_effort_focus_1
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    available = {
+      any_owned_state = {
+        is_coastal = yes
+      }
+    }
+    prerequisite = {
+      focus = FSA_naval_effort_focus_1
+    }
+    cost = 70
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.4
+        uses = 1
+        category = naval_doctrine
+      }
+    }
+  }
+  focus = {
+    id = FSA_naval_screen_effort
+    icon = GFX_goal_unknown
+    relative_position_id = FSA_naval_effort_focus_2
+    x = -1
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    available = {
+      any_owned_state = {
+        is_coastal = yes
+      }
+    }
+    prerequisite = {
+      focus = FSA_naval_effort_focus_2
+    }
+    prerequisite = {
+      focus = FSA_sea_doctrine_focus_1
+    }
+    mutually_exclusive = {
+      focus = FSA_naval_capital_effort
+    }
+    cost = 105
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.4
+        uses = 2
+        category = naval_mtg_screen_ship_tech
+      }
+    }
+  }
+  focus = {
+    id = FSA_naval_capital_effort
+    icon = GFX_goal_unknown
+    relative_position_id = FSA_naval_effort_focus_2
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    available = {
+      any_owned_state = {
+        is_coastal = yes
+      }
+    }
+    prerequisite = {
+      focus = FSA_naval_effort_focus_2
+    }
+    prerequisite = {
+      focus = FSA_sea_doctrine_focus_2
+    }
+    mutually_exclusive = {
+      focus = FSA_naval_screen_effort
+    }
+    cost = 70
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.4
+        uses = 2
+        category = naval_mtg_lineship_tech
+      }
+    }
+  }
+  focus = {
+    id = FSA_transport_effort
+    icon = GFX_goal_unknown
+    relative_position_id = FSA_naval_screen_effort
+    x = 1
+    y = 1
+    available = {
+      any_owned_state = {
+        is_coastal = yes
+      }
+    }
+    ai_will_do = {
+      factor = 4
+    }
+    prerequisite = {
+      focus = FSA_naval_screen_effort
+      focus = FSA_naval_capital_effort
+    }
+    cost = 70
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 1
+        category = naval_mtg_module_transport_tech
+      }
+    }
+  }
+  focus = {
+    id = FSA_sea_doctrine_focus_2
+    icon = GFX_goal_generic_navy_doctrine_tactics
+    relative_position_id = FSA_sea_doctrine_focus_1
+    x = 1
+    y = 1
+    ai_will_do = {
+      factor = 4
+    }
+    available = {
+      any_owned_state = {
+        is_coastal = yes
+      }
+    }
+    prerequisite = {
+      focus = FSA_naval_effort_focus_2
+    }
+    prerequisite = {
+      focus = FSA_sea_doctrine_focus_1
+    }
+    cost = 70
+    completion_reward = {
+      add_tech_bonus = {
+        bonus = 0.5
+        uses = 1
+        category = naval_doctrine
+      }
+    }
+  }
+  focus = {
+    id = FSA_dockyards_1
+    icon = GFX_goal_generic_construct_naval_dockyard
+    relative_position_id = FSA_sea_doctrine_focus_2
+    x = 0
+    y = 1
+    available = {
+      any_owned_state = {
+        is_coastal = yes
+      }
+    }
+    ai_will_do = {
+      factor = 4
+    }
+    prerequisite = {
+      focus = FSA_sea_doctrine_focus_2
+    }
+    cost = 70
+    completion_reward = {
+      add_political_power = -70
+      random_owned_state = {
+        limit = {
+          is_coastal = yes
+        }
+        add_extra_state_shared_building_slots = 1
+        add_building_construction = {
+          type = dockyard
+          instant_build = yes
+        }
+        add_building_construction = {
+          type = infrastructure
+          level = 1
+          instant_build = yes
+        }
+      }
+    }
+  }
+
+  # Reconstruction Tree
+  focus = {
+    id = FSA_reconstruction_start
+    icon = GFX_goal_focus_industrial_revolution
+    x = 13
+    y = 0
+    ai_will_do = {
+      factor = 100
+    }
+    allow_branch = {
+      has_country_flag = fsa_acw_end
+    }
+    available = {
+      has_war = no
+    }
+    bypass = {
+      has_war = no
+    }
+    cost = 5
+    completion_reward = {
+        #country_event
+    }
+  }
+
+  #focus = {
+  #  id =
+  #  icon = GFX_goal_unknown
+  #  relative_position_id
+  #  x =
+  #  y =
+  #  ai_will_do = {
+  #    factor =
+  #  }
+  #  available = {
+
+  #  }
+  #  bypass = {
+
+  #  }
+  #  prerequisite = {
+
+  #  }
+  #  cost =
+  #  completion_reward = {
+  #
+  #  }
+  #}
+}

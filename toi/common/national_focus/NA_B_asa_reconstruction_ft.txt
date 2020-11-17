@@ -1,0 +1,3961 @@
+##########ACW BRANCH##########
+	focus_tree = {
+	id = asa_reconstruction_focus
+	continuous_focus_position = { x = 5400 y = 1600 }
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = ASA
+		}
+	}
+
+	default = no
+
+	shared_focus = NA_B_recon_infrastructure_effort_1
+	shared_focus = NA_B_recon_academic_effort_1
+	shared_focus = NA_B_recon_militia_effort_1
+	shared_focus = NA_B_recon_the_sea
+
+###What We Have Left###
+	focus = {
+		id = ASA_What_We_Have_Left
+		icon = GFX_focus_generic_self_management
+		x = 0
+		y = 0
+		cost = 14
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+
+		available = {
+			not = {
+				has_idea = ASA_Economic_Crisis_level_5
+				has_idea = ASA_Economic_Crisis_level_4
+				has_idea = ASA_Economic_Crisis_level_3
+				has_idea = ASA_Economic_Crisis_level_2
+				has_idea = ASA_Economic_Crisis_level_1
+			}
+		}
+
+		mutually_exclusive = {
+			focus = ASA_Seize_What_We_Can
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_Find_Friends
+		icon = GFX_goal_continuous_increase_nu
+		relative_position_id = ASA_What_We_Have_Left
+		x = 0
+		y = 1
+		cost = 28
+		prerequisite = { focus = ASA_What_We_Have_Left }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = 50
+			custom_effect_tooltip = ASA_Non_Aggression_Pacts_tt
+		}
+	}
+
+	focus = {
+		id = ASA_Our_Place_On_The_Continent
+		icon = GFX_goal_focus_continent_north_america
+		relative_position_id = ASA_Find_Friends
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_Find_Friends }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_Focus_On_Our_Own_Matters
+		icon = GFX_goal_focus_reform_administration
+		relative_position_id = ASA_Our_Place_On_The_Continent
+		x = -2
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_Our_Place_On_The_Continent }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		mutually_exclusive = { focus = ASA_The_American_Stage }
+
+		completion_reward = {
+			add_political_power = 100
+			news_event = asa_isolation.1
+		}
+	}
+
+	focus = {
+		id = ASA_Close_Our_Borders
+		icon = GFX_focus_generic_provoke_border_clashes
+		relative_position_id = ASA_Focus_On_Our_Own_Matters
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_Focus_On_Our_Own_Matters }
+		bypass = {
+			has_idea = closed_borders
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = -50
+			if = {
+				limit = { has_idea = no_borders }
+				swap_ideas = {
+					remove_idea = no_borders
+					add_idea = closed_borders
+				}
+			}
+			if = {
+				limit = { has_idea = open_borders }
+				swap_ideas = {
+					remove_idea = open_borders
+					add_idea = closed_borders
+				}
+			}
+			if = {
+				limit = { has_idea = border_control }
+				swap_ideas = {
+					remove_idea = border_control
+					add_idea = closed_borders
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_National_Security_Act
+		icon = GFX_goal_continuous_def_against_influence
+		relative_position_id = ASA_Close_Our_Borders
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_Close_Our_Borders }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = -50
+			add_ideas = ASA_National_Security_Act_spirit
+		}
+	}
+
+	focus = {
+		id = ASA_Strict_Isolation
+		icon = GFX_goal_generic_defence
+		relative_position_id = ASA_National_Security_Act
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_National_Security_Act }
+		bypass = {
+			has_idea = closed_economy
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = 100
+			if = {
+				limit = { has_idea = free_trade }
+				swap_ideas = {
+					remove_idea = free_trade
+					add_idea = closed_economy
+				}
+			}
+			if = {
+				limit = { has_idea = limited_exports }
+				swap_ideas = {
+					remove_idea = limited_exports
+					add_idea = closed_economy
+				}
+			}
+			if = {
+				limit = { has_idea = export_focus }
+				swap_ideas = {
+					remove_idea = export_focus
+					add_idea = closed_economy
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_The_American_Stage
+		icon = GFX_goal_focus_continent_north_america
+		relative_position_id = ASA_Our_Place_On_The_Continent
+		x = 2
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_Our_Place_On_The_Continent }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		mutually_exclusive = { focus = ASA_Focus_On_Our_Own_Matters }
+
+		completion_reward = {
+			add_political_power = 100
+			news_event = asa_cont_ambition.1
+		}
+	}
+
+	focus = {
+		id = ASA_A_Nation_Of_Immigrants
+		icon = GFX_goal_focus_the_workers
+		relative_position_id = ASA_The_American_Stage
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_The_American_Stage }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = 200
+		}
+	}
+
+	focus = {
+		id = ASA_Atlantic_States_Volunteer_Corps
+		icon = GFX_focus_generic_little_entente
+		relative_position_id = ASA_A_Nation_Of_Immigrants
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_A_Nation_Of_Immigrants }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = -50
+			add_ideas = ASA_Atlantic_States_Volunteer_Corps_spirit
+			set_rule = { can_send_volunteers = yes }
+		}
+	}
+
+	focus = {
+		id = ASA_Free_Trade_Agreements
+		icon = GFX_goal_generic_positive_trade_relations
+		relative_position_id = ASA_Atlantic_States_Volunteer_Corps
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_Atlantic_States_Volunteer_Corps }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = -100
+			if = {
+				limit = { has_idea = closed_economy }
+				swap_ideas = {
+					remove_idea = closed_economy
+					add_idea = free_trade
+				}
+			}
+			if = {
+				limit = { has_idea = limited_exports }
+				swap_ideas = {
+					remove_idea = limited_exports
+					add_idea = free_trade
+				}
+			}
+			if = {
+				limit = { has_idea = export_focus }
+				swap_ideas = {
+					remove_idea = export_focus
+					add_idea = free_trade
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Bolster_DC_Defenses
+		icon = GFX_goal_generic_fortify_city
+		relative_position_id = ASA_Our_Place_On_The_Continent
+		x = 0
+		y = 3
+		cost = 70
+		prerequisite = {
+			focus = ASA_Close_Our_Borders OR = ASA_A_Nation_Of_Immigrants
+		}
+		available = {
+			1091 = {
+					is_fully_controlled_by = ASA
+				}
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			1091 = {
+				add_building_construction = {
+					type = bunker
+					province = 3957
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id  = ASA_Fortress_Atlantis
+		icon = GFX_goal_generic_fortify_city
+		relative_position_id = ASA_Bolster_DC_Defenses
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = {
+			focus = ASA_Bolster_DC_Defenses
+		}
+		available = {
+			1091 = {
+				is_fully_controlled_by = ASA
+			}
+			361 = {
+				is_fully_controlled_by = ASA
+			}
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			set_country_flag = ASA_Fortify_Borders_unlocked_flag
+			361 = {
+				add_building_construction = {
+					type = bunker
+					province = 13661
+					level = 1
+					instant_build = yes
+				}
+			}
+			361 = {
+				add_building_construction = {
+					type = bunker
+					province = 11892
+					level = 1
+					instant_build = yes
+				}
+			}
+			1091 = {
+				add_building_construction = {
+					type = bunker
+					province = 3957
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Seize_What_We_Can
+		icon = GFX_goal_generic_demand_territory
+		x = 7
+		y = 0
+		cost = 14
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+
+		available = {
+			not = {
+				has_idea = ASA_Economic_Crisis_level_5
+				has_idea = ASA_Economic_Crisis_level_4
+				has_idea = ASA_Economic_Crisis_level_3
+				has_idea = ASA_Economic_Crisis_level_2
+				has_idea = ASA_Economic_Crisis_level_1
+			}
+		}
+
+		mutually_exclusive = {
+			focus = ASA_What_We_Have_Left
+		}
+
+		completion_reward = {
+			add_war_support = 0.10
+		}
+	}
+
+	focus = {
+		id = ASA_Train_Reserves
+		icon = GFX_goal_focus_conscription
+		relative_position_id = ASA_Seize_What_We_Can
+		x = 0
+		y = 1
+		cost = 14
+		prerequisite = {
+			focus = ASA_Seize_What_We_Can
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_manpower = 7500
+		}
+	}
+
+	focus = {
+		id = ASA_Reunite_With_West_Virginia
+		icon = GFX_goal_generic_political_pressure
+		relative_position_id = ASA_Train_Reserves
+		x = 0
+		y = 1
+		cost = 14
+		prerequisite = { focus = ASA_Train_Reserves }
+		bypass = {
+			NOT = {country_exists = WVG }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			WVG = {
+				country_event = asa_reunion_with_west_virginia.1
+			}
+		}
+	}
+
+	focus = { #Referendum in Ohio
+		id = ASA_Ohio_Referendum
+		icon = GFX_goal_focus_elections
+		relative_position_id = ASA_Train_Reserves
+		x = -2
+		y = 1
+		cost = 14
+		prerequisite = { focus = ASA_Train_Reserves }
+		ai_will_do ={
+			factor = 10
+			}
+		completion_reward = {
+			GRL = {
+				country_event = asa_referendum_in_ohio.1
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Connecticut_Referendum
+		icon = GFX_goal_focus_elections
+		relative_position_id = ASA_Train_Reserves
+		x = 2
+		y = 1
+		cost = 14
+		prerequisite = { focus = ASA_Train_Reserves }
+		ai_will_do {
+			factor = 10
+			}
+
+		completion_reward = {
+			NEG = {
+				country_event = asa_referendum_in_connecticut.1
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Reunite_With_Kentucky
+		icon = GFX_goal_focus_elections
+		relative_position_id = ASA_Reunite_With_West_Virginia
+		x = 0
+		y = 1
+		cost = 14
+		prerequisite = { 
+			focus = ASA_Reunite_With_West_Virginia
+		}
+		bypass = {
+			NOT = {country_exists = KTY }
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			KTY = {
+				country_event = asa_reunion_with_kentucky.1
+			}
+		}
+	}
+	focus = {
+		id = ASA_Construct_Border_Defenses
+		icon = GFX_goal_generic_fortify_city
+		relative_position_id = ASA_Reunite_With_Kentucky
+		x = 0
+		y = 1
+		cost = 14
+		prerequisite = {
+			focus = ASA_Reunite_With_Kentucky
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = 50
+			custom_effect_tooltip = asa_construct_border_defenses.tt
+		}
+	}
+
+	focus = {
+		id = ASA_Regroup_And_Rearm
+		icon = GFX_goal_generic_small_arms
+		relative_position_id = ASA_Construct_Border_Defenses
+		x = -1
+		y = 1
+		cost = 105
+
+		mutually_exclusive = { focus = ASA_Prepare_To_Claim_The_Mantle_Of_States }
+
+		prerequisite = { focus = ASA_Construct_Border_Defenses }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ASA_Loot_Captured_Armories
+		icon = GFX_goal_continuous_suppression
+		relative_position_id = ASA_Regroup_And_Rearm
+		x = -1
+		y = 1
+		cost = 77
+		prerequisite = { focus = ASA_Regroup_And_Rearm }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_rifle_1
+				amount = 1500
+				producer = ASA
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_rifle_2
+				amount = 500
+				producer = ASA
+			}
+			add_equipment_to_stockpile = {
+				type = uniform_equipment_1
+				amount = 1500
+				producer = ASA
+			}
+			add_equipment_to_stockpile = {
+				type = uniform_equipment_2
+				amount = 500
+				producer = ASA
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment_1
+				amount = 1000
+				producer = ASA
+			}
+			add_equipment_to_stockpile = {
+				type = rifled_cannon_equipment_1
+				amount = 500
+				producer = ASA
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_New_Weapons
+		icon = GFX_goal_generic_build_tank
+		relative_position_id = ASA_Loot_Captured_Armories
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_Loot_Captured_Armories }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 2
+				category = infantry_weapons
+            }
+		}
+	}
+
+	focus = {
+		id = ASA_Prepare_To_Claim_The_Mantle_Of_States
+		icon = GFX_goal_focus_eagle_soaring
+		relative_position_id = ASA_Construct_Border_Defenses
+		x = 1
+		y = 1
+		cost = 105
+
+		mutually_exclusive = { focus = ASA_Regroup_And_Rearm }
+
+		prerequisite = { focus = ASA_Construct_Border_Defenses }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+			news_event = asa_legitimacy_proclamation.1
+		}
+	}
+
+	focus = {
+		id = ASA_The_True_Successors
+		icon = GFX_focus_usa_guarantee_the_american_dream
+		relative_position_id = ASA_Prepare_To_Claim_The_Mantle_Of_States
+		x = 1
+		y = 1
+		cost = 77
+		prerequisite = { focus = ASA_Prepare_To_Claim_The_Mantle_Of_States }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ASA_We_Didnt_Hear_No_Bell
+		icon = GFX_focus_generic_support_the_left_right
+		relative_position_id = ASA_The_True_Successors
+		x = 0
+		y = 1
+		cost = 70
+		prerequisite = { focus = ASA_The_True_Successors }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ASA_Solidify_Control_Over_New_Territories
+		icon = GFX_focus_generic_self_management
+		relative_position_id = ASA_Construct_Border_Defenses
+		x = 0
+		y = 2
+		cost = 70
+		prerequisite = { 
+			focus = ASA_Regroup_And_Rearm
+			focus = ASA_Prepare_To_Claim_The_Mantle_Of_States
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_Solidify_Control_Over_New_Territories_tt
+		}
+	}
+
+	focus = {
+		id = ASA_Foreign_Aid
+		icon = GFX_goal_focus_foreign_diplomacy
+		x = 47
+		y = 0
+		cost = 56
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+			OR = {
+				has_completed_focus = ASA_Radical_Republican_Administration
+				has_completed_focus = ASA_Stalwart_Republican_Administration
+				has_completed_focus = ASA_Democratic_Administration
+			}
+		}
+
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ASA_Atlantic_States_Diplomatic_Corps
+		icon = GFX_goal_generic_intelligence_exchange
+		relative_position_id = ASA_Foreign_Aid
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Foreign_Aid }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ASA_Atlantic_States_Department_Of_State
+		icon = GFX_goal_focus_foreign_diplomacy_central
+		relative_position_id = ASA_Atlantic_States_Diplomatic_Corps
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Atlantic_States_Diplomatic_Corps }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ASA_British_Preference
+		icon = GFX_goal_focus_ally_ENG
+		relative_position_id = ASA_Atlantic_States_Department_Of_State
+		x = -3
+		y = 1
+		cost = 35
+		prerequisite = { focus = ASA_Atlantic_States_Department_Of_State }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		mutually_exclusive = {
+			focus = ASA_Prussian_Preference
+		}
+		mutually_exclusive = {
+			focus = ASA_French_Preference
+		}
+		mutually_exclusive = {
+			focus = ASA_Russian_Preference
+		}
+
+		completion_reward = {
+			add_opinion_modifier = { target = ENG modifier = medium_increase }
+			ENG = {
+				add_opinion_modifier = { target = ASA modifier = medium_increase }
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Prussian_Preference
+		icon = GFX_goal_focus_ally_PRS
+		relative_position_id = ASA_Atlantic_States_Department_Of_State
+		x = -1
+		y = 1
+		cost = 35
+		prerequisite = { focus = ASA_Atlantic_States_Department_Of_State }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		mutually_exclusive = {
+			focus = ASA_British_Preference
+		}
+		mutually_exclusive = {
+			focus = ASA_French_Preference
+		}
+		mutually_exclusive = {
+			focus = ASA_Russian_Preference
+		}
+
+		completion_reward = {
+			add_opinion_modifier = { target = PRS modifier = medium_increase }
+			PRS = {
+				add_opinion_modifier = { target = ASA modifier = medium_increase }
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_French_Preference
+		icon = GFX_goal_focus_ally_FRA
+		relative_position_id = ASA_Atlantic_States_Department_Of_State
+		x = 1
+		y = 1
+		cost = 35
+		prerequisite = { focus = ASA_Atlantic_States_Department_Of_State }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		mutually_exclusive = {
+			focus = ASA_Prussian_Preference
+		}
+		mutually_exclusive = {
+			focus = ASA_British_Preference
+		}
+		mutually_exclusive = {
+			focus = ASA_Russian_Preference
+		}
+
+		completion_reward = {
+			add_opinion_modifier = { target = FRA modifier = medium_increase }
+			FRA = {
+				add_opinion_modifier = { target = ASA modifier = medium_increase }
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Russian_Preference
+		icon = GFX_goal_focus_ally_RUS
+		relative_position_id = ASA_Atlantic_States_Department_Of_State
+		x = 3
+		y = 1
+		cost = 35
+		prerequisite = { focus = ASA_Atlantic_States_Department_Of_State }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		mutually_exclusive = {
+			focus = ASA_Prussian_Preference
+		}
+		mutually_exclusive = {
+			focus = ASA_French_Preference
+		}
+		mutually_exclusive = {
+			focus = ASA_British_Preference
+		}
+
+		completion_reward = {
+			add_opinion_modifier = { target = RUS modifier = medium_increase }
+			RUS = {
+				add_opinion_modifier = { target = ASA modifier = medium_increase }
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Rebuild_The_Military
+		icon = GFX_focus_anything_will_do
+		x = 0
+		y = 8
+		cost = 56
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+			OR = {
+				has_completed_focus = ASA_Boost_National_Defense
+				has_completed_focus = ASA_The_Stevens_Seward_Act
+			}
+		}
+
+		completion_reward = {
+			army_experience = 15
+			navy_experience = 15
+		}
+	}
+
+	focus = {
+		id = ASA_Rebuild_The_Army
+		icon = GFX_goal_focus_military_reforms
+		relative_position_id = ASA_Rebuild_The_Military
+		x = -2
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Rebuild_The_Military }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			army_experience = 30
+		}
+	}
+
+	focus = {
+		id = ASA_Professional_Army_Focus
+		icon = GFX_goal_asa_pro_army_focus
+		relative_position_id = ASA_Rebuild_The_Army
+		x = -1
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Rebuild_The_Army }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+
+		mutually_exclusive = { focus = ASA_Militia_Focus }
+
+		completion_reward = {
+			add_ideas = ASA_Professional_Army_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Open_Federal_Training_Camps
+		icon = GFX_focus_generic_military_mission
+		relative_position_id = ASA_Professional_Army_Focus
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Professional_Army_Focus }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Professional_Army_level_1
+				add_idea = ASA_Professional_Army_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Open_Army_Officer_Training_Camps
+		icon = GFX_goal_SWE_officer_reform
+		relative_position_id = ASA_Open_Federal_Training_Camps
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Open_Federal_Training_Camps }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Professional_Army_level_2
+				add_idea = ASA_Professional_Army_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Army_Of_The_Atlantic_States
+		icon = GFX_focus_usa_army
+		relative_position_id = ASA_Open_Army_Officer_Training_Camps
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Open_Army_Officer_Training_Camps }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Professional_Army_level_3
+				add_idea = ASA_Army_Of_The_Atlantic_States_level_4
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Militia_Focus
+		icon = GFX_goal_SWE_rally_people
+		relative_position_id = ASA_Rebuild_The_Army
+		x = 1
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Rebuild_The_Army }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+
+		mutually_exclusive = { focus = ASA_Professional_Army_Focus }
+
+		completion_reward = {
+			add_ideas = ASA_Militia_Army_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Fund_Civilian_Training_Camps
+		icon = GFX_goal_focus_conscription
+		relative_position_id = ASA_Militia_Focus
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Militia_Focus }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Militia_Army_level_1
+				add_idea = ASA_Militia_Army_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Distribute_Officer_Training_Books
+		icon = GFX_goal_SWE_officer_reform
+		relative_position_id = ASA_Fund_Civilian_Training_Camps
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Fund_Civilian_Training_Camps }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Militia_Army_level_2
+				add_idea = ASA_Militia_Army_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_The_Minutemen_Act
+		icon = GFX_goal_asa_minutemen_act
+		relative_position_id = ASA_Distribute_Officer_Training_Books
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Distribute_Officer_Training_Books }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_The_Minutemen_Act_tt
+			hidden_effect = {
+				swap_ideas = {
+					remove_idea = ASA_Militia_Army_level_3
+					add_idea = ASA_Minutemen_Army_level_4
+				}
+				division_template = {
+					name = "Minutemen Militia"
+					priority = 1
+					is_locked = yes
+
+					regiments = {
+						irregular_infantry = { x = 0 y = 0 }
+						irregular_infantry = { x = 1 y = 0 }
+						irregular_infantry = { x = 0 y = 1 }
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_The_Federal_Guard
+		icon = GFX_goal_asa_federal_guard
+		relative_position_id = ASA_Rebuild_The_Army
+		x = 0
+		y = 5
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Army_Of_The_Atlantic_States
+			focus = ASA_The_Minutemen_Act
+		}
+
+		completion_reward = {
+			set_country_flag = ASA_established_federal_guard_flag
+			custom_effect_tooltip = ASA_The_Federal_Guard_tt
+			division_template = {
+				name = "Federal Guard Regiment"
+				priority = 1
+				is_locked = no
+
+				regiments = {
+					guard_infantry = { x = 0 y = 0 }
+					guard_infantry = { x = 1 y = 0 }
+					guard_infantry = { x = 0 y = 1 }
+					guard_infantry = { x = 1 y = 1 }
+				}
+			}
+			ASA = {
+				1091 = {
+					create_unit = { 
+						division = "name = \"Federal Guard Regiment\" division_template = \"Federal Guard Regiment\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"Federal Guard Regiment\" division_template = \"Federal Guard Regiment\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"Federal Guard Regiment\" division_template = \"Federal Guard Regiment\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"Federal Guard Regiment\" division_template = \"Federal Guard Regiment\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"Federal Guard Regiment\" division_template = \"Federal Guard Regiment\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Zouave_Regiments
+		icon = GFX_focus_ASA_zouaves
+		relative_position_id = ASA_The_Federal_Guard
+		x = 1
+		y = 1
+		cost = 42
+
+		mutually_exclusive = { focus = ASA_Establish_The_Free_Corps }
+
+		prerequisite = {
+			focus = ASA_The_Federal_Guard
+		}
+
+		completion_reward = {
+			set_country_flag = ASA_established_zouaves_flag
+			division_template = {
+				name = "Zouave Regiment"
+				priority = 1
+				is_locked = no
+
+				regiments = {
+					light_infantry = { x = 0 y = 0 }
+					light_infantry = { x = 1 y = 0 }
+					light_infantry = { x = 0 y = 1 }
+					light_infantry = { x = 1 y = 1 }
+				}
+			}
+			create_corps_commander = {
+				name = "Elmer E. Ellsworth"
+				picture = placeholder
+				traits = { quick_marcher }
+				skill = 2
+				id = 44810
+				attack_skill = 3
+				defense_skill = 2
+				planning_skill = 3
+				logistics_skill = 3
+  			}
+		}
+	}
+
+	focus = {
+		id = ASA_Establish_The_Free_Corps
+		icon = GFX_focus_usa_recruit_the_free_corps
+		relative_position_id = ASA_The_Federal_Guard
+		x = -1
+		y = 1
+		cost = 42
+
+		mutually_exclusive = { focus = ASA_Zouave_Regiments }
+
+		prerequisite = {
+			focus = ASA_The_Federal_Guard
+		}
+
+		completion_reward = {
+			set_country_flag = ASA_established_free_corps_flag
+			division_template = {
+				name = "Free Corps"
+				priority = 1
+				is_locked = no
+
+				regiments = {
+					irregular_infantry = { x = 0 y = 0 }
+					irregular_infantry = { x = 1 y = 0 }
+					irregular_infantry = { x = 0 y = 1 }
+					irregular_infantry = { x = 1 y = 1 }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Rebuild_The_Navy
+		icon = GFX_goal_focus_mass_produce_ships
+		relative_position_id = ASA_Rebuild_The_Military
+		x = 2
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Rebuild_The_Military }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			navy_experience = 30
+		}
+	}
+
+	focus = {
+		id = ASA_A_Federal_Navy
+		icon = GFX_goal_generic_navy_battleship
+		relative_position_id = ASA_Rebuild_The_Navy
+		x = -1
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Rebuild_The_Navy }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		mutually_exclusive = { focus = ASA_Hire_Privateers }
+
+		completion_reward = {
+			add_ideas = ASA_Federal_Navy_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Contract_Local_Shipbuilders
+		icon = GFX_goal_generic_construct_naval_dockyard
+		relative_position_id = ASA_A_Federal_Navy
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_A_Federal_Navy }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Federal_Navy_level_1
+				add_idea = ASA_Federal_Navy_level_2
+			}
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				add_tech_bonus = {
+					bonus = 0.25
+					uses = 1
+					category = naval_mtg_module_batteries_light_tech
+					}
+				add_tech_bonus = {
+					bonus = 0.25
+					uses = 1
+					category = naval_mtg_module_batteries_heavy_tech
+				}
+			}
+			else_if = {
+				add_tech_bonus = {
+					navy_experience = 30
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Open_Naval_Officer_Training_Schools
+		icon = GFX_focus_generic_military_mission
+		relative_position_id = ASA_Contract_Local_Shipbuilders
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Contract_Local_Shipbuilders }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Federal_Navy_level_2
+				add_idea = ASA_Federal_Navy_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Navy_Of_The_Atlantic_States
+		icon = GFX_focus_gunboat_basic
+		relative_position_id = ASA_Open_Naval_Officer_Training_Schools
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Open_Naval_Officer_Training_Schools }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Federal_Navy_level_3
+				add_idea = ASA_Navy_Of_The_Atlantic_States_level_4
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Hire_Privateers
+		icon = GFX_focus_battleship_production
+		relative_position_id = ASA_Rebuild_The_Navy
+		x = 1
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Rebuild_The_Navy }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		mutually_exclusive = { focus = ASA_A_Federal_Navy }
+
+		completion_reward = {
+			add_ideas = ASA_Privateer_Navy_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Arm_Merchant_Vessels
+		icon = GFX_focus_generic_navy_battleship2
+		relative_position_id = ASA_Hire_Privateers
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Hire_Privateers }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Privateer_Navy_level_1
+				add_idea = ASA_Privateer_Navy_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Decentralize_Naval_Command
+		icon = GFX_goal_focus_decentralisation_power
+		relative_position_id = ASA_Arm_Merchant_Vessels
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Arm_Merchant_Vessels }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Privateer_Navy_level_2
+				add_idea = ASA_Privateer_Navy_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Emergency_Naval_Requisitioning_Act
+		icon = GFX_goal_focus_generic_navy_ironclad
+		relative_position_id = ASA_Decentralize_Naval_Command
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Decentralize_Naval_Command }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Privateer_Navy_level_3
+				add_idea = ASA_Privateer_Navy_level_4
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_AS_Marine_Corps
+		icon = GFX_focus_asa_marine_corps
+		relative_position_id = ASA_Rebuild_The_Navy
+		x = 0
+		y = 5
+		cost = 56
+		prerequisite = {
+			focus = ASA_Navy_Of_The_Atlantic_States
+			focus = ASA_Emergency_Naval_Requisitioning_Act
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10 
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = marine_corps_bonus
+				bonus = 0.5
+				uses = 2
+				category = marine_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Prioritize_Marine_Weapons
+		icon = GFX_focus_asa_marine_corps_weapons
+		relative_position_id = ASA_AS_Marine_Corps
+		x = -1
+		y = 1
+		cost = 56
+		prerequisite = {
+			focus = ASA_AS_Marine_Corps
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = marine_corps_weapon_bonus
+				bonus = 0.75
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Prioritize_Marine_Ships
+		icon = GFX_focus_asa_marine_corps_ships
+		relative_position_id = ASA_AS_Marine_Corps
+		x = 1
+		y = 1
+		cost = 56
+		prerequisite = {
+			focus = ASA_AS_Marine_Corps
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = marine_corps_weapon_bonus
+				bonus = 0.75
+				uses = 1
+				category = tp_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Establish_The_Atlantic_States_Department_Of_Defense
+		icon = GFX_goal_generic_military_sphere
+		relative_position_id = ASA_Rebuild_The_Military
+		x = 0
+		y = 6
+		cost = 56
+		prerequisite = {
+			focus = ASA_Army_Of_The_Atlantic_States
+			focus = ASA_The_Minutemen_Act
+		}
+		prerequisite = {
+			focus = ASA_Navy_Of_The_Atlantic_States
+			focus = ASA_Emergency_Naval_Requisitioning_Act
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_ideas = ASA_The_Atlantic_States_Department_Of_Defense
+			add_command_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_Council_Of_Studying_Army_History
+		icon = GFX_goal_focus_military_reforms
+		x = 7
+		y = 8
+		cost = 56
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+			OR = {
+				has_completed_focus = ASA_Boost_National_Defense
+				has_completed_focus = ASA_The_Stevens_Seward_Act
+			}
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = ASA_Council_Of_Studying_Army_History_spirit
+				days = 180
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Study_Old_Commanders
+		icon = GFX_goal_generic_army_doctrines
+		relative_position_id = ASA_Council_Of_Studying_Army_History
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Council_Of_Studying_Army_History }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = ASA_Studying_Old_Commanders
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Infantry_Officers
+		icon = GFX_goal_generic_small_arms
+		relative_position_id = ASA_Study_Old_Commanders
+		x = -2
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Study_Old_Commanders }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			create_corps_commander = {
+				name = "Rufus King"
+				picture = placeholder
+				traits = { infantry_officer }
+				skill = 2
+				id = 4487
+				attack_skill = 2
+				defense_skill = 3
+				planning_skill = 3
+				logistics_skill = 3
+  			}
+		}
+	}
+
+	focus = {
+		id = ASA_Study_George_Washington
+		icon = GFX_focus_asa_study_george_washington
+		relative_position_id = ASA_Infantry_Officers
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Infantry_Officers }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 1
+				category = infantry_weapons
+            }
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 1
+				category = doctrine_victorian_traditional_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Study_Frederick_The_Great
+		icon = GFX_focus_asa_study_frederick_ii
+		relative_position_id = ASA_Study_George_Washington
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Study_George_Washington }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 1
+				category = infantry_weapons
+            }
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 1
+				category = doctrine_victorian_traditional_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Artillerists
+		icon = GFX_goal_focus_RUS_new_russian_seige_guns
+		relative_position_id = ASA_Study_Old_Commanders
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Study_Old_Commanders }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			create_corps_commander = {
+				name = "John Gibbon"
+				picture = placeholder
+				traits = { artillery_officer }
+				skill = 2
+				id = 4488
+				attack_skill = 4
+				defense_skill = 2
+				planning_skill = 2
+				logistics_skill = 3
+  			}
+		}
+	}
+
+	focus = {
+		id = ASA_Study_Gustavus_Adolphus
+		icon = GFX_focus_asa_study_gustavus_adolphus
+		relative_position_id = ASA_Artillerists
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Artillerists }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 1
+				category = artillery
+            }
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 1
+				category = doctrine_victorian_innovative_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Study_Napoleon_Bonaparte
+		icon = GFX_focus_asa_study_napoleon_bonaparte
+		relative_position_id = ASA_Study_Gustavus_Adolphus
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Study_Gustavus_Adolphus }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 2
+				category = artillery
+            }
+		}
+	}
+
+	focus = {
+		id = ASA_Cavalrymen
+		icon = GFX_goal_generic_cavalry
+		relative_position_id = ASA_Study_Old_Commanders
+		x = 2
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Study_Old_Commanders }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			create_corps_commander = {
+				name = "George Stoneman Jr."
+				picture = placeholder
+				traits = { cavalry_officer career_officer }
+				skill = 3
+				id = 4489
+				attack_skill = 5
+				defense_skill = 2
+				planning_skill = 3
+				logistics_skill = 4
+  			}
+		}
+	}
+
+	focus = {
+		id = ASA_Study_Carolus_Rex
+		icon = GFX_focus_asa_study_carolus_rex
+		relative_position_id = ASA_Cavalrymen
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Cavalrymen }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 2
+				category = tech_category_cavalry
+            }
+		}
+	}
+
+	focus = {
+		id = ASA_Study_Jan_Sobieski_III
+		icon = GFX_focus_asa_study_jan_sobieski_iii
+		relative_position_id = ASA_Study_Carolus_Rex
+		x = 0
+		y = 1
+		cost = 56
+		prerequisite = { focus = ASA_Study_Carolus_Rex }
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 2
+				category = tech_category_cavalry
+            }
+		}
+	}
+
+	focus = {
+		id = ASA_Create_A_New_Doctrine
+		icon = GFX_focus_exploration
+		relative_position_id = ASA_Study_Old_Commanders
+		x = -1
+		y = 4
+		cost = 56
+
+		mutually_exclusive = { focus = ASA_Utilize_An_Old_Doctrine }
+
+		prerequisite = { focus = ASA_Study_Jan_Sobieski_III }
+		prerequisite = { focus = ASA_Study_Frederick_The_Great }
+		prerequisite = { focus = ASA_Study_Napoleon_Bonaparte }
+
+		completion_reward = {
+			country_event = asa_create_a_new_doctrine_event.1
+		}
+	}
+
+	focus = {
+		id = ASA_Utilize_An_Old_Doctrine
+		icon = GFX_goal_focus_napoleonic_tactics
+		relative_position_id = ASA_Study_Old_Commanders
+		x = 1
+		y = 4
+		cost = 56
+
+		mutually_exclusive = { focus = ASA_Create_A_New_Doctrine }
+
+		prerequisite = { focus = ASA_Study_Jan_Sobieski_III }
+		prerequisite = { focus = ASA_Study_Frederick_The_Great }
+		prerequisite = { focus = ASA_Study_Napoleon_Bonaparte }
+
+		completion_reward = {
+			country_event = asa_utilize_an_old_doctrine_event.1
+		}
+	}
+
+	focus = {
+		id = ASA_Finish_Study
+		icon = GFX_focus_PIE_Casus_Belli
+		relative_position_id = ASA_Study_Old_Commanders
+		x = 0
+		y = 5
+		cost = 56
+
+		prerequisite = {
+			focus = ASA_Create_A_New_Doctrine
+			focus = ASA_Utilize_An_Old_Doctrine
+		}
+
+		completion_reward = {
+			army_experience = 20
+		}
+	}
+
+	### Political Tree ###
+
+	focus = {
+		id = ASA_E_Pluribus_Unum
+		icon = GFX_focus_asa_e_pluribus_unum
+		x = 39
+		y = 0
+		cost = 7
+
+		completion_reward = {
+			add_ideas = ASA_E_Pluribus_Unum
+		}
+	}
+
+	focus = {
+		id = ASA_Domestic_Issues
+		icon = GFX_goal_focus_reform_administration
+		relative_position_id = ASA_E_Pluribus_Unum
+		x = 0
+		y = 1
+		cost = 35
+
+		prerequisite = {
+			focus = ASA_E_Pluribus_Unum
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			add_political_power = 100
+			custom_effect_tooltip = ASA_Domestic_Issues_tt
+			hidden_effect = {
+				clr_country_flag = NA_B_infrastructure_progress_disabled
+				clr_country_flag = NA_B_infrastructure_progress_disabled
+				clr_country_flag = NA_B_academic_progress_disabled
+				clr_country_flag = NA_B_militia_progress_disabled
+				clr_country_flag = NA_B_navy_progress_disabled
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Atlantic_States_Bill_Of_Rights
+		icon = GFX_goal_focus_enact_law
+		relative_position_id = ASA_Domestic_Issues
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Domestic_Issues
+		}
+
+		completion_reward = {
+			country_event = asa_congress_reaffirms_constitution.1
+		}
+	}
+
+	focus = {
+		id = ASA_The_Way_Forward
+		icon = GFX_goal_focus_government_control
+		relative_position_id = ASA_Atlantic_States_Bill_Of_Rights
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Atlantic_States_Bill_Of_Rights
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_Stalwart_Republican_Administration
+		icon = GFX_goal_focus_us_republican_party
+		relative_position_id = ASA_The_Way_Forward
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_The_Way_Forward
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_American_Austerity
+		icon = GFX_goal_SWE_secure_vote
+		relative_position_id = ASA_Stalwart_Republican_Administration
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_Stalwart_Republican_Administration
+		}
+
+		completion_reward = {
+			add_ideas = ASA_American_Austerity_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Address_Issues_Of_Labor
+		icon = GFX_goal_focus_the_workers
+		relative_position_id = ASA_American_Austerity
+		x = -1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_American_Austerity
+		}
+
+		mutually_exclusive = { focus = ASA_Address_Issues_Of_Capital }
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_Address_Issues_Of_Labor_tt
+		}
+	}
+
+	focus = {
+		id = ASA_Address_Issues_Of_Capital
+		icon = GFX_goal_focus_banks
+		relative_position_id = ASA_American_Austerity
+		x = 1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_American_Austerity
+		}
+
+		mutually_exclusive = { focus = ASA_Address_Issues_Of_Labor }
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_Address_Issues_Of_Capital_tt
+		}
+	}
+
+	focus = {
+		id = ASA_Regain_The_Peoples_Trust
+		icon = GFX_goal_focus_support_conservatism
+		relative_position_id = ASA_American_Austerity
+		x = 0
+		y = 2
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_Address_Issues_Of_Labor
+			focus = ASA_Address_Issues_Of_Capital
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_American_Austerity_level_1
+				add_idea = ASA_American_Austerity_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Reconcile_With_One_Side
+		icon = GFX_goal_molotov_ribbentrop_pact
+		relative_position_id = ASA_Regain_The_Peoples_Trust
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_Regain_The_Peoples_Trust
+		}
+
+		completion_reward = {
+			add_political_power = 75
+		}
+	}
+
+	focus = {
+		id = ASA_Reconcile_With_Radical_Republicans
+		icon = GFX_goal_SWE_ally_with_left
+		relative_position_id = ASA_Reconcile_With_One_Side
+		x = -1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		mutually_exclusive = { focus = ASA_Reconcile_With_Democrats }
+
+		prerequisite = {
+			focus = ASA_Reconcile_With_One_Side
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = social_egalitarianism
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Reconcile_With_Democrats
+		icon = GFX_goal_SWE_compromise_liberals
+		relative_position_id = ASA_Reconcile_With_One_Side
+		x = 1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_Reconcile_With_One_Side
+		}
+
+		mutually_exclusive = {
+			focus = ASA_Reconcile_With_Radical_Republicans
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Live_Up_To_Our_Creed
+		icon = GFX_goal_focus_freedom_association
+		relative_position_id = ASA_Reconcile_With_Radical_Republicans
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_Reconcile_With_Radical_Republicans
+			focus = ASA_Reconcile_With_Democrats
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_American_Austerity_level_2
+				add_idea = ASA_American_Austerity_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Reach_Out_To_Protestors
+		icon = GFX_focus_generic_military_academy
+		relative_position_id = ASA_Reconcile_With_Democrats
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_Reconcile_With_Democrats
+			focus = ASA_Reconcile_With_Radical_Republicans
+		}
+
+		completion_reward = {
+			add_political_power = 75
+		}
+	}
+
+	focus = {
+		id = ASA_Ring_The_Bell_Of_Liberty
+		icon = GFX_goal_focus_popularize
+		relative_position_id = ASA_Reconcile_With_One_Side
+		x = 0
+		y = 3
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_Live_Up_To_Our_Creed
+		}
+		prerequisite = {
+			focus = ASA_Reach_Out_To_Protestors
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_American_Austerity_level_3
+				add_idea = ASA_American_Austerity_level_4
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_A_New_Age
+		icon = GFX_focus_asa_new_age
+		relative_position_id = ASA_Ring_The_Bell_Of_Liberty
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = centrism
+		}
+
+		prerequisite = {
+			focus = ASA_Ring_The_Bell_Of_Liberty
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_Radical_Republican_Administration
+		icon = GFX_goal_focus_us_republican_party
+		relative_position_id = ASA_The_Way_Forward
+		x = -4
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_The_Way_Forward
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_Social_Egalitarianism
+		icon = GFX_goal_focus_socialist_regime
+		relative_position_id = ASA_Radical_Republican_Administration
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_Radical_Republican_Administration
+		}
+
+		completion_reward = {
+			add_political_power = 100
+			add_ideas = ASA_Social_Egalitarianism_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Wage_Equity
+		icon = GFX_goal_focus_fund_partisans
+		relative_position_id = ASA_Social_Egalitarianism
+		x = -1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		mutually_exclusive = { focus = ASA_Legal_Equality }
+
+		prerequisite = {
+			focus = ASA_Social_Egalitarianism
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Social_Egalitarianism_level_1
+				add_idea = ASA_Social_Egalitarianism_legal_equality_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Legal_Equality
+		icon = GFX_goal_SWE_legislative_agenda
+		relative_position_id = ASA_Social_Egalitarianism
+		x = 1
+		y = 1
+		cost = 42
+
+		mutually_exclusive = { focus = ASA_Wage_Equity }
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_Social_Egalitarianism
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Social_Egalitarianism_level_1
+				add_idea = ASA_Social_Egalitarianism_legal_equality_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Merge_With_The_Half_Breeds
+		icon = GFX_goal_molotov_ribbentrop_pact
+		relative_position_id = ASA_Social_Egalitarianism
+		x = 0
+		y = 2
+		cost = 42
+
+		available = {
+			has_idea = limited_equality
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_Wage_Equity
+			focus = ASA_Legal_Equality
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = ASA_Social_Egalitarianism_wage_equity_level_2
+				}
+				swap_ideas = {
+					remove_idea = ASA_Social_Egalitarianism_wage_equity_level_2
+					add_idea = ASA_Social_Egalitarianism_wage_equity_level_3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ASA_Social_Egalitarianism_legal_equality_level_2
+				}
+				swap_ideas = {
+					remove_idea = ASA_Social_Egalitarianism_legal_equality_level_2
+					add_idea = ASA_Social_Egalitarianism_legal_equality_level_3
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_New_Social_Issues
+		icon = GFX_goal_focus_refugee_management
+		relative_position_id = ASA_Merge_With_The_Half_Breeds
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_Merge_With_The_Half_Breeds
+		}
+
+		completion_reward = {
+			add_political_power = 50
+			country_event = asa_new_social_issues.1
+		}
+	}
+
+	focus = {
+		id = ASA_Demand_Unconditional_Emancipation_Abroad
+		icon = GFX_goal_continuous_boost_freedom
+		relative_position_id = ASA_New_Social_Issues
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_New_Social_Issues
+		}
+
+		completion_reward = {
+			every_neighbor_country = {
+				limit = {
+					OR = {
+						has_idea = usa_slavery_law
+						has_idea = tribal_slavery
+						has_idea = slavery
+						has_idea = slavery_all_but_name
+					}
+				}
+				country_event = generic_asa_demands_emancipation.1
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Demands_Accepted
+		icon = GFX_focus_generic_treaty
+		relative_position_id = ASA_Demand_Unconditional_Emancipation_Abroad
+		x = -1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+			has_country_flag = ASA_emancipation_demand_accepted
+		}
+
+		prerequisite = {
+			focus = ASA_Demand_Unconditional_Emancipation_Abroad
+		}
+
+		mutually_exclusive = { focus = ASA_Demands_Rejected }
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_Demands_Rejected
+		icon = GFX_goal_generic_forceful_treaty
+		relative_position_id = ASA_Demand_Unconditional_Emancipation_Abroad
+		x = 1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+			has_country_flag = ASA_emancipation_demand_rejected
+		}
+
+		prerequisite = {
+			focus = ASA_Demand_Unconditional_Emancipation_Abroad
+		}
+
+		mutually_exclusive = {
+			focus = ASA_Demands_Accepted
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = ASA_Alliance_With_New_England
+		icon = GFX_goal_focus_ally_NEG
+		relative_position_id = ASA_Demand_Unconditional_Emancipation_Abroad
+		x = 0
+		y = 2
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_Demands_Accepted
+			focus = ASA_Demands_Rejected
+		}
+		completion_reward = {
+			NEG = {
+				country_event = asa_alliance_with_new_england.1
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Ensure_Emancipation
+		icon = GFX_focus_generic_military_mission
+		relative_position_id = ASA_Demands_Accepted
+		x = -1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_Demands_Accepted
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = ASA_Abolition_Observers
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Abolitionist_Crusade
+		icon = GFX_goal_focus_popularize
+		relative_position_id = ASA_Demands_Rejected
+		x = 1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_Demands_Rejected
+		}
+
+		completion_reward = {
+			every_neighbor_country = {
+				limit = {
+					OR = {
+						has_idea = usa_slavery_law
+						has_idea = tribal_slavery
+						has_idea = slavery
+						has_idea = slavery_all_but_name
+					}
+				}
+				ASA = {
+					create_wargoal = {
+						type = annex_everything
+						target = PREV
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_American_Dawn
+		icon = GFX_focus_asa_american_dawn
+		relative_position_id = ASA_Alliance_With_New_England
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = social_egalitarianism
+		}
+
+		prerequisite = {
+			focus = ASA_Ensure_Emancipation
+			focus = ASA_Abolitionist_Crusade
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_Democratic_Administration
+		icon = GFX_goal_focus_us_democratic_party
+		relative_position_id = ASA_The_Way_Forward
+		x = 4
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_The_Way_Forward
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_President_McClellan
+		icon = GFX_goal_focus_general_mcclellan
+		relative_position_id = ASA_Democratic_Administration
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government =traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_Democratic_Administration
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Conservatism_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Prioritize_Social_Conservatism
+		icon = GFX_goal_generic_defence
+		relative_position_id = ASA_President_McClellan
+		x = -1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_President_McClellan
+		}
+
+		mutually_exclusive=  { focus = ASA_Prioritize_Fiscal_Conservatism }
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Conservatism_level_1
+				add_idea = ASA_Conservatism_social_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Prioritize_Fiscal_Conservatism
+		icon = GFX_goal_focus_increase_wages
+		relative_position_id = ASA_President_McClellan
+		x = 1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_President_McClellan
+		}
+
+		mutually_exclusive = { focus = ASA_Prioritize_Social_Conservatism }
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Conservatism_level_1
+				add_idea = ASA_Conservatism_fiscal_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Pacify_Pillagers
+		icon = GFX_goal_focus_controlled_press
+		relative_position_id = ASA_President_McClellan
+		x = 0
+		y = 2
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_Prioritize_Social_Conservatism
+			focus = ASA_Prioritize_Fiscal_Conservatism
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_Pacify_Pillagers_tt
+		}
+	}
+
+	focus = {
+		id = ASA_Boost_National_Defense
+		icon = GFX_goal_generic_fortify_city
+		relative_position_id = ASA_Pacify_Pillagers
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_Pacify_Pillagers
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = ASA_National_Defense_Act
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Domestic_Interstate_Railroad
+		icon = GFX_goal_generic_construct_infrastructure
+		relative_position_id = ASA_Boost_National_Defense
+		x = -1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		mutually_exclusive = { focus = ASA_Trans_Continental_Railroad }
+
+		prerequisite = {
+			focus = ASA_Boost_National_Defense
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_Domestic_Interstate_Railroad_tt
+		}
+	}
+
+	focus = {
+		id = ASA_Trans_Continental_Railroad
+		icon = GFX_goal_focus_railroad_development
+		relative_position_id = ASA_Boost_National_Defense
+		x = 1
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		mutually_exclusive = { focus = ASA_Domestic_Interstate_Railroad }
+
+		prerequisite = {
+			focus = ASA_Boost_National_Defense
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_Trans_Continental_Railroad_tt
+		}
+	}
+
+	focus = {
+		id = ASA_Protection_Of_All_Citizens
+		icon = GFX_goal_focus_enact_law
+		relative_position_id = ASA_Domestic_Interstate_Railroad
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_Domestic_Interstate_Railroad
+			focus = ASA_Trans_Continental_Railroad
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = ASA_Conservatism_social_level_2
+				}
+				swap_ideas = {
+					remove_idea = ASA_Conservatism_social_level_2
+					add_idea = ASA_Conservatism_social_level_3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ASA_Conservatism_fiscal_level_2
+				}
+				swap_ideas = {
+					remove_idea = ASA_Conservatism_fiscal_level_2
+					add_idea = ASA_Conservatism_fiscal_level_3
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Defend_Railroads
+		icon = GFX_goal_generic_military_sphere
+		relative_position_id = ASA_Trans_Continental_Railroad
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_Trans_Continental_Railroad
+			focus = ASA_Domestic_Interstate_Railroad
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_completed_focus = ASA_Trans_Continental_Railroad
+				}
+				WVG = {
+					add_opinion_modifier = {
+						target = ASA
+						modifier = ASA_defending_transcontinental_railroad
+					}
+				}
+				KTY = {
+					add_opinion_modifier = {
+						target = ASA
+						modifier = ASA_defending_transcontinental_railroad
+					}
+				}
+				MIO = {
+					add_opinion_modifier = {
+						target = ASA
+						modifier = ASA_defending_transcontinental_railroad
+					}
+				}
+				KNS = {
+					add_opinion_modifier = {
+						target = ASA
+						modifier = ASA_defending_transcontinental_railroad
+					}
+				}
+				CHY = {
+					add_opinion_modifier = {
+						target = ASA
+						modifier = ASA_defending_transcontinental_railroad
+					}
+				}
+				UTA = {
+					add_opinion_modifier = {
+						target = ASA
+						modifier = ASA_defending_transcontinental_railroad
+					}
+				}
+				CAL = {
+					add_opinion_modifier = {
+						target = ASA
+						modifier = ASA_defending_transcontinental_railroad
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_completed_focus = ASA_Domestic_Interstate_Railroad
+				}
+				add_stability = 0.05
+				add_war_support = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Enforce_Federal_Powers
+		icon = GFX_goal_generic_political_pressure
+		relative_position_id = ASA_Boost_National_Defense
+		x = 0
+		y = 3
+		cost = 42
+		
+		available = {
+			has_government = traditional_conservatism
+		}
+
+		prerequisite = {
+			focus = ASA_Protection_Of_All_Citizens
+		}
+		prerequisite = {
+			focus = ASA_Defend_Railroads
+		}
+
+		completion_reward = {
+			add_political_power = 150
+			if = {
+				limit = {
+					has_idea = ASA_Conservatism_social_level_3
+				}
+				swap_ideas = {
+					remove_idea = ASA_Conservatism_social_level_3
+					add_idea = ASA_Conservatism_social_level_4
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ASA_Conservatism_fiscal_level_3
+				}
+				swap_ideas = {
+					remove_idea = ASA_Conservatism_fiscal_level_3
+					add_idea = ASA_Conservatism_fiscal_level_4
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_God_Bless_America
+		icon = GFX_focus_asa_god_bless_america
+		relative_position_id = ASA_Enforce_Federal_Powers
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Enforce_Federal_Powers
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_The_Stevens_Seward_Act
+		icon = GFX_goal_generic_intelligence_exchange
+		relative_position_id = ASA_Regain_The_Peoples_Trust
+		x = -2
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Regain_The_Peoples_Trust
+			focus = ASA_Merge_With_The_Half_Breeds
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = autocracy
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = radical_democracy
+				popularity = -0.05
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_McClellan_Granted_Emergency_Powers
+		icon = GFX_focus_generic_strike_at_democracy1
+		x = 62
+		y = 0
+		cost = 42
+
+		available = {
+			has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+		}
+
+		mutually_exclusive = {
+			focus = ASA_McClellan_Third_Term
+		}
+
+		completion_reward = {
+			add_political_power = 100
+			add_stability = -0.10
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = ASA_Suspend_Habeus_Corpus
+		icon = GFX_focus_renounce_the_treaty_of_trianon
+		relative_position_id = ASA_McClellan_Granted_Emergency_Powers
+		x = 3
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_McClellan_Granted_Emergency_Powers
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Habeus_Corpus_Suspended_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Implement_A_Curfew
+		icon = GFX_goal_focus_newspapers
+		relative_position_id = ASA_Suspend_Habeus_Corpus
+		x = 1
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Suspend_Habeus_Corpus
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Habeus_Corpus_Suspended_level_1
+				add_idea = ASA_Habeus_Corpus_Suspended_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Mobilize_National_Guard_Reserves
+		icon = GFX_goal_focus_conscription
+		relative_position_id = ASA_Suspend_Habeus_Corpus
+		x = -1
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Suspend_Habeus_Corpus
+		}
+
+		completion_reward = {
+			add_manpower = 2000
+		}
+	}
+
+	focus = {
+		id = ASA_Maintain_Order
+		icon = GFX_goal_demand_sudetenland
+		relative_position_id = ASA_Mobilize_National_Guard_Reserves
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Mobilize_National_Guard_Reserves
+		}
+		prerequisite = {
+			focus = ASA_Implement_A_Curfew
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Habeus_Corpus_Suspended_level_2
+				add_idea = ASA_Habeus_Corpus_Suspended_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_More_Executive_Orders
+		icon = GFX_focus_generic_support_the_left_right
+		relative_position_id = ASA_Implement_A_Curfew
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Mobilize_National_Guard_Reserves
+		}
+		prerequisite = {
+			focus = ASA_Implement_A_Curfew
+		}
+
+		completion_reward = {
+			add_political_power = 200
+		}
+	}
+
+	focus = {
+		id = ASA_McClellan_Third_Term
+		icon = GFX_goal_focus_general_mcclellan
+		x = 56
+		y = 0
+		cost = 42
+
+		available = {
+			OR = {
+				has_government = radical_democracy
+				has_government = autocracy
+			}
+		}
+
+		mutually_exclusive = {
+			focus = ASA_McClellan_Granted_Emergency_Powers
+		}
+
+		completion_reward = {
+			add_ideas = ASA_McClellan_Third_Term
+		}
+	}
+
+	focus = {
+		id = ASA_Maintain_Democracy
+		icon = GFX_goal_focus_support_conservatism
+		relative_position_id = ASA_McClellan_Third_Term
+		x = -3
+		y = 1
+		cost = 42
+
+		available = {
+			has_civil_war = no
+		}
+
+		mutually_exclusive = {
+			focus = ASA_The_New_America
+		}
+
+		prerequisite = {
+			focus = ASA_McClellan_Third_Term
+			focus = ASA_McClellan_Granted_Emergency_Powers
+		}
+
+		completion_reward = {
+			add_political_power = 150
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = .10
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_The_New_America
+		icon = GFX_goal_focus_eagle_soaring
+		relative_position_id = ASA_McClellan_Third_Term
+		x = 3
+		y = 1
+		cost = 42
+
+		mutually_exclusive = {
+			focus = ASA_Maintain_Democracy
+		}
+
+		prerequisite = {
+			focus = ASA_McClellan_Third_Term
+			focus = ASA_McClellan_Granted_Emergency_Powers
+		}
+
+		completion_reward = {
+			country_event = asa_the_new_america.1
+		}
+	}
+
+	focus = {
+		id = ASA_Pan_Americanism
+		icon = GFX_goal_focus_continent_north_america
+		relative_position_id = ASA_The_New_America
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_The_New_America
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Pan_Americanism_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Reunionism
+		icon = GFX_focus_chi_mission_to_the_us
+		relative_position_id = ASA_Pan_Americanism
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Pan_Americanism
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ASA_Faux_Republic
+		icon = GFX_goal_focus_brutal_end_republic
+		relative_position_id = ASA_Reunionism
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Reunionism
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Pan_Americanism_level_1
+				add_idea = ASA_Pan_Americanism_level_2
+			}
+			add_timed_idea = {
+				idea = ASA_Faux_Republic
+				days = 1825
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Continue_The_Junta
+		icon = GFX_focus_generic_strike_at_democracy1
+		relative_position_id = ASA_Faux_Republic
+		x = -6
+		y = 1
+		cost = 42
+
+		mutually_exclusive = { focus = ASA_The_McClellan_Cult }
+
+		available = {
+			has_country_flag = ASA_military_coup
+		}
+
+		prerequisite = {
+			focus = ASA_Faux_Republic
+		}
+
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = ASA_Amend_The_Constitution
+		icon = GFX_goal_generic_forceful_treaty
+		relative_position_id = ASA_Continue_The_Junta
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Continue_The_Junta
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_Amend_The_Constitution_tt
+		}
+	}
+
+	focus = {
+		id = ASA_A_Militaristic_Republic
+		icon = GFX_focus_asa_militaristic_republic
+		relative_position_id = ASA_Amend_The_Constitution
+		x = -4
+		y = 1
+		cost = 42
+
+		mutually_exclusive = { 
+			focus = ASA_A_Military_Republic 
+			focus = ASA_A_Military_Dictatorship
+		}
+
+		prerequisite = {
+			focus = ASA_Amend_The_Constitution
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Militaristic_Republic_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Streamline_Reserve_Deployment
+		icon = GFX_goal_focus_conscription
+		relative_position_id = ASA_A_Militaristic_Republic
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_A_Militaristic_Republic
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Militaristic_Republic_level_1
+				add_idea = ASA_Militaristic_Republic_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Encourage_Volunteership
+		icon = GFX_focus_generic_military_mission
+		relative_position_id = ASA_Streamline_Reserve_Deployment
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Streamline_Reserve_Deployment
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Military_Republic_level_2
+				add_idea = ASA_Military_Republic_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Everyone_A_Rifleman_First
+		icon = GFX_goal_focus_reformed_army
+		relative_position_id = ASA_Encourage_Volunteership
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Encourage_Volunteership
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Militaristic_Republic_level_3
+				add_idea = ASA_Militaristic_Republic_level_4
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Enforce_The_Second_Amendment
+		icon = GFX_focus_PIE_Casus_Belli
+		relative_position_id = ASA_Encourage_Volunteership
+		x = 2
+		y = 1
+
+		prerequisite = {
+			focus = ASA_Encourage_Volunteership
+			focus = ASA_Congress_Of_Commanders
+		}
+		prerequisite = {
+			focus = ASA_Allotment_System
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ASA_Enforce_The_Second_Amendment_tt
+		}
+	}
+
+	focus = {
+		id = ASA_A_Military_Republic
+		icon = GFX_focus_asa_military_republic
+		relative_position_id = ASA_Amend_The_Constitution
+		x = 0
+		y = 1
+		cost = 42
+
+		mutually_exclusive = { 
+			focus = ASA_A_Militaristic_Republic 
+			focus = ASA_A_Military_Dictatorship
+		}
+
+		prerequisite = {
+			focus = ASA_Amend_The_Constitution
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Military_Republic_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Allotment_System
+		icon = GFX_goal_SWE_buy_guns
+		relative_position_id = ASA_Streamline_Reserve_Deployment
+		x = 2
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Streamline_Reserve_Deployment
+			focus = ASA_Elect_Military_Governors
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Allotment_System_idea
+			custom_effect_tooltip = ASA_Allotment_System_tt ###Increased conscription factor for professional army, Minutemen spawn with more equipment
+		}
+	}
+
+	focus = {
+		id = ASA_Elect_Military_Governors
+		icon = GFX_focus_military_elections
+		relative_position_id = ASA_A_Military_Republic
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_A_Military_Republic
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Military_Republic_level_1
+				add_idea = ASA_Military_Republic_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Congress_Of_Commanders
+		icon = GFX_focus_military_government
+		relative_position_id = ASA_Elect_Military_Governors
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Elect_Military_Governors
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Military_Republic_level_2
+				add_idea = ASA_Military_Republic_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_General_Council
+		icon = GFX_goal_focus_generic_army_staff
+		relative_position_id = ASA_Congress_Of_Commanders
+		x = 2
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Congress_Of_Commanders
+			focus = ASA_An_Iron_Fist
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Military_Dictatorship_level_3
+				add_idea = ASA_Military_Dictatorship_level_4
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_A_Military_Dictatorship
+		icon = GFX_focus_asa_military_dictatorship
+		relative_position_id = ASA_Amend_The_Constitution
+		x = 4
+		y = 1
+		cost = 42
+
+		mutually_exclusive = { 
+			focus = ASA_A_Military_Republic 
+			focus = ASA_A_Militaristic_Republic
+		}
+
+		prerequisite = {
+			focus = ASA_Amend_The_Constitution
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Military_Dictatorship_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_The_Commander_In_Chief
+		icon = GFX_focus_militarist_asa
+		relative_position_id = ASA_A_Military_Dictatorship
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_A_Military_Dictatorship
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Military_Dictatorship_level_1
+				add_idea = ASA_Military_Dictatorship_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Reunionist_Education
+		icon = GFX_focus_na_b_push_education_legislation
+		relative_position_id = ASA_Elect_Military_Governors
+		x = 2
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Elect_Military_Governors
+			focus = ASA_The_Commander_In_Chief
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Reunionist_Education_idea
+		}
+	}
+
+	focus = {
+		id = ASA_An_Iron_Fist
+		icon = GFX_goal_generic_political_pressure
+		relative_position_id = ASA_The_Commander_In_Chief
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_The_Commander_In_Chief
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Military_Dictatorship_level_2
+				add_idea = ASA_Military_Dictatorship_level_3
+			}
+			custom_effect_tooltip = ASA_An_Iron_Fist_tt
+		}
+	}
+
+	focus = {
+		id = ASA_Heavy_Centralization
+		icon = GFX_goal_focus_reform_government
+		relative_position_id = ASA_An_Iron_Fist
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_An_Iron_Fist
+		}
+
+		completion_reward = {
+			add_political_power = 100
+			custom_effect_tooltip = ASA_Heavy_Centralization_tt
+		}
+	}
+
+	focus = {
+		id = ASA_March_Into_The_Future
+		icon = GFX_focus_asa_march_into_future
+		relative_position_id = ASA_Congress_Of_Commanders
+		x = 0
+		y = 2
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Enforce_The_Second_Amendment
+			focus = ASA_General_Council
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ASA_The_McClellan_Cult
+		icon = GFX_goal_focus_general_mcclellan
+		relative_position_id = ASA_Faux_Republic
+		x = 6
+		y = 1
+		cost = 42
+
+		mutually_exclusive = { focus = ASA_Continue_The_Junta }
+
+		prerequisite = {
+			focus = ASA_Faux_Republic
+		}
+
+		completion_reward = {
+			country_event = asa_the_mcclellan_cult_event.1
+		}
+	}
+
+	focus = {
+		id = ASA_The_American_Napoleon
+		icon = GFX_focus_asa_american_napoleon
+		relative_position_id = ASA_The_McClellan_Cult
+		x = 0
+		y = 1
+		cost = 42
+
+		available = {
+			autocracy > .95
+			NOT = {
+				has_idea = ASA_Faux_Republic
+			}
+		}
+
+		prerequisite = {
+			focus = ASA_The_McClellan_Cult
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = autocracy
+				popularity = var:asa_mcclellan_cult_drift
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_March_Of_The_Eagles
+		icon = GFX_focus_asa_march_of_the_eagles
+		relative_position_id = ASA_The_American_Napoleon
+		x = -3
+		y = 1
+		cost = 42
+
+		mutually_exclusive = {
+			focus = ASA_March_Of_The_Eagle
+		}
+
+		prerequisite = {
+			focus = ASA_The_American_Napoleon
+		}
+
+		completion_reward = {
+			add_political_power = 100
+			country_event = asa_mcclellan_seizes_power.1
+		}
+	}
+
+	focus = {
+		id = ASA_Liberal_Empire
+		icon = GFX_focus_asa_liberal_empire
+		relative_position_id = ASA_March_Of_The_Eagles
+		x = -1
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_March_Of_The_Eagles
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Liberal_Empire_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Adopt_A_New_Constitution
+		icon = GFX_focus_renounce_the_treaty_of_trianon
+		relative_position_id = ASA_March_Of_The_Eagles
+		x = 1
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_March_Of_The_Eagles
+		}
+
+		completion_reward = {
+			add_political_power = 150
+			add_stability = 0.10
+			add_war_support = -0.05
+		}
+	}
+
+	focus = {
+		id = ASA_An_American_Civil_Code
+		icon = GFX_focus_generic_treaty
+		relative_position_id = ASA_Liberal_Empire
+		x = 1
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Liberal_Empire
+		}
+		prerequisite = {
+			focus = ASA_Adopt_A_New_Constitution
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Liberal_Empire_level_1
+				add_idea = ASA_Liberal_Empire_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Civil_Procedure
+		icon = GFX_goal_focus_enact_law
+		relative_position_id = ASA_An_American_Civil_Code
+		x = -2
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_An_American_Civil_Code
+		}
+
+		completion_reward = {
+			add_stability = 0.10
+		}
+	}
+
+	focus = {
+		id = ASA_Criminal_Procedure
+		icon = GFX_focus_CZE_german_puppet
+		relative_position_id = ASA_An_American_Civil_Code
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_An_American_Civil_Code
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Liberal_Empire_level_2
+				add_idea = ASA_Liberal_Empire_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Military_Procedure
+		icon = GFX_focus_death_or_dishonor
+		relative_position_id = ASA_An_American_Civil_Code
+		x = 2
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_An_American_Civil_Code
+		}
+
+		completion_reward = {
+			add_manpower = 7500
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ASA_March_Of_The_Eagle
+		icon = GFX_focus_asa_march_of_the_eagle
+		relative_position_id = ASA_The_American_Napoleon
+		x = 3
+		y = 1
+		cost = 42
+
+		mutually_exclusive = {
+			focus = ASA_March_Of_The_Eagles
+		}
+
+		prerequisite = {
+			focus = ASA_The_American_Napoleon
+		}
+
+		completion_reward = {
+			add_political_power = 100
+			country_event = asa_mcclellan_seizes_power.1
+		}
+	}
+
+	focus = {
+		id = ASA_Authoritarian_Empire
+		icon = GFX_focus_asa_authoritarian_empire
+		relative_position_id = ASA_March_Of_The_Eagle
+		x = -1
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_March_Of_The_Eagle
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Authoritarian_Empire_level_1
+		}
+	}
+
+	focus = {
+		id = ASA_Absolute_Power
+		icon = GFX_goal_generic_political_pressure
+		relative_position_id = ASA_March_Of_The_Eagle
+		x = 1
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_March_Of_The_Eagle
+		}
+
+		completion_reward = {
+			add_political_power = 150
+			add_war_support = 0.10
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = ASA_New_Diktats
+		icon = GFX_focus_generic_support_the_left_right
+		relative_position_id = ASA_March_Of_The_Eagle
+		x = 0
+		y = 2
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Authoritarian_Empire
+		}
+		prerequisite = {
+			focus = ASA_Absolute_Power
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Authoritarian_Empire_level_1
+				add_idea = ASA_Authoritarian_Empire_level_2
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_An_Orderly_Society
+		icon = GFX_goal_focus_the_workers
+		relative_position_id = ASA_New_Diktats
+		x = -2
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_New_Diktats
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = ASA_Department_Of_Public_Safety
+		icon = GFX_focus_generic_self_management
+		relative_position_id = ASA_New_Diktats
+		x = 0
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_New_Diktats
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ASA_Authoritarian_Empire_level_3
+				add_idea = ASA_Authoritarian_Empire_level_3
+			}
+		}
+	}
+
+	focus = {
+		id = ASA_Force_Conscription
+		icon = GFX_goal_focus_conscription
+		relative_position_id = ASA_New_Diktats
+		x = 2
+		y = 1
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_New_Diktats
+		}
+
+		completion_reward = {
+			add_manpower = 7500
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = ASA_McClellan_Will_Lead_The_Way
+		icon = GFX_focus_asa_mcclellan_will_lead_the_way
+		relative_position_id = ASA_The_American_Napoleon
+		x = 0
+		y = 5
+		cost = 42
+
+		prerequisite = {
+			focus = ASA_Civil_Procedure
+			focus = ASA_An_Orderly_Society
+		}
+		prerequisite = {
+			focus = ASA_Criminal_Procedure
+			focus = ASA_Department_Of_Public_Safety
+		}
+		prerequisite = {
+			focus = ASA_Military_Procedure
+			focus = ASA_Force_Conscription
+		}
+	}
+
+	focus = {
+		id = ASA_American_Imperial_Guard
+		icon = GFX_focus_asa_imperial_guard
+		relative_position_id = ASA_The_American_Napoleon
+		x = 0
+		y = 2
+		cost = 42
+
+		available = {
+			has_completed_focus = ASA_The_Federal_Guard
+		}
+
+		prerequisite = {
+			focus = ASA_The_American_Napoleon
+		}
+
+		completion_reward = {
+			add_ideas = ASA_Imperial_Guard
+		}
+	}
+}

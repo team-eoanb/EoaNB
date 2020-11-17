@@ -1,0 +1,688 @@
+focus_tree = {
+	id = eic_vic
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = RAJ
+			date < 1872.01.01
+		}
+	}
+    default = no
+	
+	focus = {
+		id = RAJ_vic_north_revolt
+		icon = GFX_goal_generic_demand_territory
+		cost = 70
+		x = 10
+		y = 0
+		available={
+			has_war_with = SRS
+		}
+		bypass={
+			OR={
+				NOT={ has_war_with = SRS}
+				SRS={exists = no}
+			}
+		}
+		completion_reward = {
+			add_war_support = 0.1
+		}
+
+	}	
+	focus = {
+		id = RAJ_vic_dealing_with_mutinies
+		icon = GFX_goal_generic_major_war
+		cost = 70
+		x = 10
+		y = 1
+		prerequisite = {
+			focus = RAJ_vic_north_revolt
+		}
+		bypass={
+			OR={
+				NOT={ has_war_with = SRS}
+				SRS={exists = no}
+			}
+		}
+		available={
+			has_war_with = SRS
+		}
+		completion_reward = {
+			swap_ideas={
+				add_idea = EIC_idea_army_muntinies_2
+				remove_idea = EIC_idea_army_muntinies
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_supress_with_force
+		icon = GFX_focus_generic_manpower
+		cost = 70
+		x = 8
+		y = 2
+		prerequisite = {
+			focus = RAJ_vic_dealing_with_mutinies
+		}
+		bypass={
+			OR={
+				NOT={ has_war_with = SRS}
+				SRS={exists = no}
+			}
+		}
+		available={
+			has_war_with = SRS
+		}
+		mutually_exclusive={
+			focus = RAJ_vic_supress_with_diplomacy
+		}
+		completion_reward = {
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = RAJ_vic_supress_with_diplomacy
+		icon = GFX_focus_generic_diplomatic_treaty
+		cost = 70
+		x = 12
+		y = 2
+		prerequisite = {
+			focus = RAJ_vic_dealing_with_mutinies
+		}
+		bypass={
+			OR={
+				NOT={ has_war_with = SRS}
+				SRS={exists = no}
+			}
+		}
+		mutually_exclusive={
+			focus = RAJ_vic_supress_with_force
+		}
+		available={
+			has_war_with = SRS
+		}
+		completion_reward = {
+			add_stability = 0.075
+		}
+	}
+	focus = {
+		id = RAJ_vic_the_fate_of_the_mutiners
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 70
+		x = 10
+		y = 3
+		prerequisite = {
+			focus = RAJ_vic_supress_with_force
+			focus = RAJ_vic_supress_with_diplomacy
+		}
+		bypass={
+			OR={
+				NOT={ has_war_with = SRS}
+				SRS={exists = no}
+			}
+		}
+		completion_reward = {
+			swap_ideas={
+				add_idea = EIC_idea_army_muntinies_3
+				remove_idea = EIC_idea_army_muntinies_2
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_ending_the_revolt
+		icon = GFX_focus_generic_treaty
+		cost = 70
+		x = 10
+		y = 4
+		prerequisite = {
+			focus = RAJ_vic_the_fate_of_the_mutiners
+		}
+		cancel = {
+		}
+		available={
+			OR={
+				NOT={ has_war_with = SRS}
+				SRS={exists = no}
+			}
+		}
+		completion_reward = {
+			if={
+				limit={has_idea=EIC_idea_army_muntinies_3}
+				remove_ideas={EIC_idea_army_muntinies_3}
+			}
+			if={
+				limit={has_idea=EIC_idea_army_muntinies_2}
+				remove_ideas={EIC_idea_army_muntinies_2}
+			}
+			else={
+				remove_ideas={EIC_idea_army_muntinies}
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_development_of_india
+		icon = GFX_goal_focus_form_british_raj
+		cost = 70
+		x = 10
+		y = 5
+		cancel = {
+		}
+		available={
+			has_war = no
+		}
+		completion_reward={
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = RAJ_vic_national_cotton_farms
+		icon = GFX_goal_generic_consumer_goods
+		cost = 140
+		x = 10
+		y = 6
+		available={
+			controls_state = 429
+		}
+		prerequisite = {
+			focus = RAJ_vic_development_of_india
+		}
+		completion_reward = {
+			add_resource = {
+				type = cotton
+				amount = 50
+				state = 429
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_national_silk_farms
+		icon = GFX_goal_focus_textile
+		cost = 70
+		x = 10
+		y = 7
+		prerequisite = {
+			focus = RAJ_vic_national_cotton_farms
+		}
+		available={
+			controls_state = 425
+			controls_state = 432
+		}
+		completion_reward = {
+			add_resource = {
+				type = fabric
+				amount = 18
+				state = 425
+			}
+			add_resource = {
+				type = fabric
+				amount = 12
+				state = 432
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_purse_farming
+		icon = GFX_focus_agriculture_2
+		cost = 70
+		x = 9
+		y = 8
+		mutually_exclusive={
+			focus = RAJ_vic_purse_heavy_industry
+		}
+		prerequisite = {
+			focus = RAJ_vic_national_silk_farms
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_modern_farming
+		icon = GFX_goal_generic_major_war
+		cost = 70
+		x = 9
+		y = 9
+		prerequisite = {
+			focus = RAJ_vic_purse_farming
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_the_modern_silk_road
+		icon = GFX_goal_generic_trade
+		cost = 70
+		x = 9
+		y = 10
+		prerequisite = {
+			focus = RAJ_vic_modern_farming
+		}
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = convoy_1
+				amount = 50
+				producer = ENG
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_purse_heavy_industry
+		icon = GFX_goal_focus_industrial_revolution
+		cost = 70
+		x = 11
+		y = 8
+		mutually_exclusive={
+			focus = RAJ_vic_purse_farming
+		}
+		prerequisite = {
+			focus = RAJ_vic_national_silk_farms
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_building_civilan_industry
+		icon = GFX_goal_focus_urbanization
+		cost = 70
+		x = 11
+		y = 9
+		prerequisite = {
+			focus = RAJ_vic_purse_heavy_industry
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_preferenal_trading_with_the_british
+		icon = GFX_goal_focus_ally_ENG
+		cost = 70
+		x = 11
+		y = 10
+		prerequisite = {
+			focus = RAJ_vic_building_civilan_industry
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_flourishing_economy
+		icon = GFX_goal_focus_stimulate_economy
+		cost = 70
+		x = 10
+		y = 11
+		prerequisite = {
+			focus = RAJ_vic_preferenal_trading_with_the_british
+			focus = RAJ_vic_the_modern_silk_road
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_learn_from_revolt
+		icon = GFX_focus_RAJ_indian_gurkhas
+		cost = 70
+		x = 14
+		y = 6
+		prerequisite = {
+			focus = RAJ_vic_development_of_india
+		}
+		completion_reward = {
+			army_experience = 25
+		}
+	}
+	focus = {
+		id = RAJ_vic_reform_army
+		icon = GFX_goal_focus_military_reforms
+		cost = 70
+		x = 14
+		y = 7
+		prerequisite = {
+			focus = RAJ_vic_learn_from_revolt
+		}
+		completion_reward = {
+			add_ideas={
+				EIC_idea_army_reformation
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_command_restructure
+		icon = GFX_focus_generic_military_academy
+		cost = 70
+		x = 14
+		y = 8
+		prerequisite = {
+			focus = RAJ_vic_reform_army
+		}
+		completion_reward = {
+			swap_ideas={
+				remove_idea = EIC_idea_army_reformation
+				add_idea = EIC_idea_army_reformation_2
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_army_modernisation
+		icon = GFX_focus_RAJ_indian_gentlemen_offcers
+		cost = 70
+		x = 14
+		y = 9
+		prerequisite = {
+			focus = RAJ_vic_command_restructure
+		}
+		completion_reward = {
+			remove_ideas = {EIC_idea_army_reformation_2}
+			swap_ideas={
+				add_idea = law_victorian_army
+				remove_idea = law_pre_industrial_army
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_army_for_india
+		icon = GFX_focus_RAJ_lions_of_the_great_war
+		cost = 70
+		x = 14
+		y = 10
+		prerequisite = {
+			focus = RAJ_vic_army_modernisation
+		}
+		available={
+			ENG={
+				OR={
+					has_completed_focus = ENG_focus_respect_indian_culture
+					has_completed_focus = ENG_focus_european_army_traditions_india
+				}
+			}
+		}
+		completion_reward = {
+			if={
+				limit={
+					has_idea = ENG_idea_RAJ_army_indian_4
+				}
+				swap_ideas={
+					add_idea = ENG_idea_RAJ_army_indian_5
+					remove_idea = ENG_idea_RAJ_army_indian_4
+				}
+			}
+			else={
+				swap_ideas={
+					add_idea = ENG_idea_RAJ_army_european_5
+					remove_idea = ENG_idea_RAJ_army_european_4
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = RAJ_vic_hms_indian_navy
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		cost = 70
+		x = 18
+		y = 6
+		prerequisite = {
+			focus = RAJ_vic_development_of_india
+		}
+		completion_reward = {
+			navy_experience = 25
+		}
+	}
+	focus = {
+		id = RAJ_vic_ENG_naval_assistance
+		icon = GFX_goal_focus_british_royal_navy
+		cost = 70
+		x = 18
+		y = 7
+		prerequisite = {
+			focus = RAJ_vic_hms_indian_navy
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.1
+				uses = 1
+				category = naval_equipment
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_ENG_naval_leadership
+		icon = GFX_goal_generic_major_war
+		cost = 70
+		x = 18
+		y = 8
+		prerequisite = {
+			focus = RAJ_vic_ENG_naval_assistance
+		}
+		completion_reward = {
+			create_navy_leader = {
+				name = "Charles Gordon"
+				picture = "Portrait_Indian_Charles_Gordon.dds"
+				traits = { }
+				skill = 3
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_the_gloire
+		icon = GFX_goal_corvette_focus
+		cost = 70
+		x = 18
+		y = 9
+		prerequisite = {
+			focus = RAJ_vic_ENG_naval_leadership
+		}
+		available={
+			date > 1858.01.01
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.15
+				uses = 1
+				category = naval_equipment
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_iron_hulled_construction
+		icon = GFX_goal_ironclad_focus
+		cost = 70
+		x = 18
+		y = 10
+		prerequisite = {
+			focus = RAJ_vic_the_gloire
+		}
+		available={
+			if={
+				limit={
+					has_dlc = "Man the Guns"
+				}
+				has_tech = tech_naval_mtg_1860_corvette_hull
+			}
+			else={
+				has_tech = tech_naval_corvette_2
+			}
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_world_class_navy
+		icon = GFX_goal_focus_britannia_rules_waves
+		cost = 70
+		x = 18
+		y = 11
+		prerequisite = {
+			focus = RAJ_vic_iron_hulled_construction
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.10
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+	
+	focus = {
+		id = RAJ_vic_opening_bombay_university
+		icon = GFX_goal_school_opening_focus
+		cost = 70
+		x = 6
+		y = 6
+		available={
+			controls_state = 429
+		}
+		prerequisite = {
+			focus = RAJ_vic_development_of_india
+		}
+		completion_reward = {
+			add_ideas={
+				EIC_idea_university_of_bombay
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_request_ENG_scientists
+		icon = GFX_focus_research
+		cost = 70
+		x = 6
+		y = 7
+		prerequisite = {
+			focus = RAJ_vic_opening_bombay_university
+		}
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = RAJ_vic_edcuate_indian_youths
+		icon = GFX_goal_school_investment_focus
+		cost = 70
+		x = 6
+		y = 8
+		prerequisite = {
+			focus = RAJ_vic_request_ENG_scientists
+		}
+		completion_reward = {
+			swap_ideas={
+				add_idea = EIC_idea_university_of_bombay_2
+				remove_idea = EIC_idea_university_of_bombay
+			}
+		}
+	}
+	focus = {
+		id = RAJ_vic_export_knowledge_to_the_empire
+		icon = GFX_focus_eng_the_sun_never_sets
+		cost = 70
+		x = 6
+		y = 9
+		prerequisite = {
+			focus = RAJ_vic_edcuate_indian_youths
+		}
+		completion_reward = {
+			swap_ideas={
+				add_idea = EIC_idea_university_of_bombay_3
+				remove_idea = EIC_idea_university_of_bombay_2
+			}
+		}
+	}
+	
+	focus = {
+		id = RAJ_vic_modernise_railroads
+		icon = GFX_goal_focus_railroad_development
+		cost = 70
+		x = 4
+		y = 6
+		prerequisite = {
+			focus = RAJ_vic_development_of_india
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_import_ENG_carriges
+		icon = GFX_goal_focus_railroad_development
+		cost = 70
+		x = 4
+		y = 7
+		prerequisite = {
+			focus = RAJ_vic_modernise_railroads
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_railroads_from_fac_to_cities
+		icon = GFX_goal_focus_war_gauges
+		cost = 70
+		x = 4
+		y = 8
+		prerequisite = {
+			focus = RAJ_vic_import_ENG_carriges
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_national_transport_network
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 70
+		x = 4
+		y = 9
+		prerequisite = {
+			focus = RAJ_vic_railroads_from_fac_to_cities
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_india_connected
+		icon = GFX_focus_continent_india
+		cost = 70
+		x = 4
+		y = 10
+		prerequisite = {
+			focus = RAJ_vic_national_transport_network
+		}
+		completion_reward = {
+			
+		}
+	}
+	
+	focus = {
+		id = RAJ_vic_services_of_a_modern_state
+		icon = GFX_goal_generic_major_war
+		cost = 70
+		x = 2
+		y = 6
+		prerequisite = {
+			focus = RAJ_vic_development_of_india
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = RAJ_vic_cheaper_services
+		icon = GFX_goal_generic_major_war
+		cost = 70
+		x = 2
+		y = 7
+		prerequisite = {
+			focus = RAJ_vic_services_of_a_modern_state
+		}
+		completion_reward = {
+			
+		}
+	}
+}

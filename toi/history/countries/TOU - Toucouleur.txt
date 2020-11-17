@@ -33,19 +33,53 @@
     no_constitution
     no_elections
 
-    oral_tradition
+    traditional_uluma
     theocratic_state
 	religion_sunni
+
+	 hc_no_healthcare
+    law_police_force
+    inframain_no_subsidies_infrastructure
+    navinfra_no_naval_infrastructure
+    sfund_private_ventures_only
+
          #NATIONAL SPIRITS
     
 	AF_T_small_kingdom
-	TOU_toucouleur_jihad
+	#TOU_toucouleur_jihad
 	AFR_history_of_colonial_resistance
 	
   }
   
-  add_opinion_modifier = { target = FTT modifier = AFR_futa_islamic_jihad }
-  add_opinion_modifier = { target = FTJ modifier = AFR_futa_islamic_jihad }
+  #Puppets
+	if = {
+		limit = { has_dlc = "Together for Victory" }
+		TOU = {
+			KAA = { store_current_ideologies = yes }
+			set_autonomy = {
+				target = KAA
+				autonomy_state = autonomy_afr_empire_level_1
+				freedom_level = 0.2
+			}
+			KAA = { load_prevous_ideologies = yes }
+		}
+	}
+	if = {
+		limit = { NOT { has_dlc = "Together for Victory" } }
+		KAA = { store_current_ideologies = yes }
+		TOU = { puppet = KAA }
+		KAA = { load_prevous_ideologies = yes }
+	}
+	KAA = { 
+		set_variable = { var = afr_empire_subject_overlord value = TOU.id }
+		set_variable = { var = KAA.afr_empire_subject_loyalty_var value = 2 }
+		clamp_variable = { var = KAA.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
+	
+  
+  #Diplomacy
+    add_opinion_modifier = { target = FTT modifier = AFR_futa_islamic_jihad }
+    add_opinion_modifier = { target = FTJ modifier = AFR_futa_islamic_jihad }
   
   #Rivals 
 	set_variable = { rival_country = SNG.id }
@@ -58,7 +92,22 @@
 }
 
 TOU = {
-	add_manpower = 2000
+	add_manpower = 4000
+	add_ideas={AF_T_Tribal_Army}
+	add_to_variable = {Tribal_army_num = 2000}
+	complete_national_focus = afr_generic_jihadist_jihad_way_not_thiers
+	complete_national_focus = afr_generic_jihadist_the_values_of_islamic_traditions
+	complete_national_focus = afr_generic_jihadist_unity_brings_stablity
+	complete_national_focus = afr_generic_jihadist_establish_the_viziers
+	complete_national_focus = afr_generic_jihadist_founding_traditions
+	complete_national_focus = afr_generic_jihadist_quranic_constitution
+	complete_national_focus = afr_generic_jihadist_quranic_military_values
+	complete_national_focus = afr_generic_jihadist_the_lands_of_our_fathers
+	complete_national_focus = afr_generic_jihadist_the_lands_of_our_sons
+	complete_national_focus = afr_generic_jihadist_where_we_stand
+	complete_national_focus = afr_generic_jihadist_keepers_of_the_old_ways
+	complete_national_focus = afr_generic_jihadist_protecting_our_people
+	complete_national_focus = afr_generic_jihadist_establish_our_jihad
 }
 
   #Diplomacy
@@ -82,7 +131,7 @@ set_popularities = {
 
   set_technology = {
 	tribaltech = 1
-	infantry_weapons = 1
+	infantry_weapons = 1 traditional_mixed_arms = 1
 	start_build_tech = 1
 	tech_infantry_napoleonic_uniform = 1
   }

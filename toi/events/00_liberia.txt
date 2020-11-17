@@ -6,15 +6,84 @@ add_namespace = LIB_repair_kru_relations
 add_namespace = LIB_purchase_kru_land
 add_namespace = LIB_it_was_unavoidable
 
+country_event = {
+	id = LIB_american_civil_war_outbreak.1
+	title = LIB_american_civil_war_outbreak.1.t
+	desc = LIB_american_civil_war_outbreak.1.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = LIB_american_civil_war_outbreak.1.a
+		ai_chance = { 
+			factor = 10
+			modifier = {
+				factor = 9
+				LIB = { NOT = { has_country_flag = LIB_adopted_ACS_policy_flag } }
+			}
+			modifier = {
+				factor = 8
+				LIB = { has_country_flag = LIB_adopted_ACS_policy_flag }
+			}
+		}
+		country_event = { id = LIB_american_civil_war_outbreak.2 days = 7 }
+	}
+	
+	option = {
+		name = LIB_american_civil_war_outbreak.1.b
+		ai_chance = { 
+			factor = 10
+			modifier = {
+				factor = 2
+				LIB = { has_country_flag = LIB_adopted_ACS_policy_flag }
+			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		country_event = { id = LIB_american_civil_war_outbreak.3 days = 7 }
+	}
+}
+
+country_event = {
+	id = LIB_american_civil_war_outbreak.2
+	title = LIB_american_civil_war_outbreak.2.t
+	desc = LIB_american_civil_war_outbreak.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = LIB_american_civil_war_outbreak.2.a
+		ai_chance = { factor = 100 }
+		clr_country_flag = USA_LIB_investment_flag
+	}
+}
+
+country_event = {
+	id = LIB_american_civil_war_outbreak.3
+	title = LIB_american_civil_war_outbreak.3.t
+	desc = LIB_american_civil_war_outbreak.3.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = LIB_american_civil_war_outbreak.3.a
+		ai_chance = { factor = 100 }
+	}
+}
 
 country_event = {
 	id = LIB_it_was_unavoidable.1
 	title = LIB_it_was_unavoidable.1.t
 	desc = LIB_it_was_unavoidable.1.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.1.a
 		ai_chance = { factor = 100 }
@@ -36,16 +105,16 @@ country_event = {
 	title = LIB_it_was_unavoidable.2.t
 	desc = LIB_it_was_unavoidable.2.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.2.a
 		ai_chance = { factor = 80 }
 		swap_ideas = { remove_idea = usa_slavery_law add_idea = slavery_all_but_name }
 		hidden_effect = { country_event = { id = LIB_it_was_unavoidable.4 days = 1800 } }
 	}
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.2.b
 		ai_chance = { factor = 20 }
@@ -58,13 +127,13 @@ country_event = {
 	title = LIB_it_was_unavoidable.3.t
 	desc = LIB_it_was_unavoidable.3.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	immediate = {
 		if = {
 			limit = {
-				LIB = { 
+				LIB = {
 					check_variable = {
 						debt_level < 20
 					}
@@ -72,15 +141,28 @@ country_event = {
 			}
 			hidden_effect = {
 				LIB = {
-					start_civil_war = {
-						ruling_party = centrism
-						ideology = traditional_conservatism 
-						size = 0.25
+					if = { 
+						limit = { owns_state = 1347 }
+						start_civil_war = {
+							ruling_party = centrism
+							ideology = traditional_conservatism
+							size = 0.25
+							capital = 1346
+							states = { 1347 }
+						}
+					}
+					else = {
+						start_civil_war = {
+							ruling_party = centrism
+							ideology = traditional_conservatism
+							size = 0.25
+							capital = 1346
+						}
 					}
 				}
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
 				LIB = {
 					AND = {
@@ -95,17 +177,30 @@ country_event = {
 			}
 			hidden_effect = {
 				LIB = {
-					start_civil_war = {
-						ruling_party = centrism
-						ideology = traditional_conservatism 
-						size = 0.4
+					if = { 
+						limit = { owns_state = 1347 }
+						start_civil_war = {
+							ruling_party = centrism
+							ideology = traditional_conservatism
+							size = 0.4
+							capital = 1346
+							states = { 1347 }
+						}
+					}
+					else = {
+						start_civil_war = {
+							ruling_party = centrism
+							ideology = traditional_conservatism
+							size = 0.4
+							capital = 1346
+						}
 					}
 				}
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
-				LIB = { 
+				LIB = {
 					check_variable = {
 						debt_level > 40
 					}
@@ -113,16 +208,29 @@ country_event = {
 			}
 			hidden_effect = {
 				LIB = {
-					start_civil_war = {
-						ruling_party = centrism
-						ideology = traditional_conservatism 
-						size = 0.6
+					if = { 
+						limit = { owns_state = 1347 }
+						start_civil_war = {
+							ruling_party = centrism
+							ideology = traditional_conservatism
+							size = 0.6
+							capital = 1346
+							states = { 1347 }
+						}
+					}
+					else = {
+						start_civil_war = {
+							ruling_party = centrism
+							ideology = traditional_conservatism
+							size = 0.6
+							capital = 1346
+						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.3.a
 		ai_chance = { factor = 100 }
@@ -192,57 +300,85 @@ country_event = {
 	title = LIB_it_was_unavoidable.4.t
 	desc = LIB_it_was_unavoidable.4.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.4.a
-		ai_chance = { factor = 60 }
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 3
+				has_government = centrism
+			}
+			modifier = {
+				factor = 4
+				has_government = chauvinist_populism
+			}
+			modifier = {
+				factor = 5
+				has_government = fundamentalism
+			}
+		}
 		trigger = {
 			OR = {
 				has_government = traditional_conservatism
-				has_government = chauvinist_populism
+				has_government = radical_democracy
 				has_government = autocracy
+				has_government = centrism
+				has_government = chauvinist_populism
+				has_government = fundamentalism
 			}
 		}
 		swap_ideas = { remove_idea = slavery_all_but_name add_idea = racial_laws }
 	}
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.4.b
-		ai_chance = { factor = 40 }
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 7
+				has_government = centrism
+			}
+			modifier = {
+				factor = 6
+				has_government = chauvinist_populism
+			}
+			modifier = {
+				factor = 5
+				has_government = fundamentalism
+			}
+		}
 		trigger = {
 			OR = {
-				has_government = traditional_conservatism
-				has_government = autocracy
+				has_government = centrism
+				has_government = chauvinist_populism
+				has_government = fundamentalism
 			}
 		}
 		swap_ideas = { remove_idea = slavery_all_but_name add_idea = segregation }
 	}
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.4.c
 		ai_chance = { factor = 100 }
 		trigger = {
 			OR = {
-				has_government = centrism
-				has_government = fundamentalism
-				has_government = radical_democracy
+				has_government = social_egalitarianism
+				has_government = anarchism
+				has_government = vanguard_communism
+				has_government = collectivist_socialism
 			}
 		}
-		swap_ideas = { remove_idea = slavery_all_but_name add_idea = limited_equality }
+		swap_ideas = { remove_idea = slavery_all_but_name add_idea = segregation }
 	}
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.4.e
 		ai_chance = { factor = 100 }
 		trigger = {
-			OR = {
-				has_government = anarchism
-				has_government = vanguard_communism
-				has_government = collectivist_socialism
-				has_government = social_egalitarianism
-			}
+			always = no
 		}
 		swap_ideas = { remove_idea = slavery_all_but_name add_idea = limited_equality }
 	}
@@ -253,13 +389,13 @@ country_event = {
 	title = LIB_it_was_unavoidable.5.t
 	desc = LIB_it_was_unavoidable.5.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = LIB_it_was_unavoidable.5.a
 		ai_chance = { factor = 100 }
-		
+
 	}
 }
 
@@ -268,9 +404,9 @@ country_event = {
 	title = LIB_repair_kru_relations.1.t
 	desc = LIB_repair_kru_relations.1.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = LIB_repair_kru_relations.1.a
 		ai_chance = { factor = 100 }
@@ -288,7 +424,7 @@ country_event = {
 			}
 		}
 	}
-	
+
 }
 
 country_event = {
@@ -296,13 +432,34 @@ country_event = {
 	title = LIB_purchase_kru_land.1.t
 	desc = LIB_purchase_kru_land.1.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = LIB_purchase_kru_land.1.a
 		ai_chance = { factor = 100 }
-		LIB = { transfer_state = 761 }
+		LIB = {
+			transfer_state = 760
+			add_state_core = 760
+		}
+
+		KRU = {
+			add_state_claim = 760
+			remove_state_core = 760
+			set_capital = 761
+		}
+
+		298 = {
+			remove_claim_by = KRU
+		}
+
+		760 = {
+			set_state_name = "Upper Liberia"
+		}
+
+		761 = {
+			set_state_name = "Kru"
+		}
 		add_equipment_to_stockpile = {
 			type = infantry_equipment_rifle_0
 			amount = 1000
@@ -310,25 +467,83 @@ country_event = {
 		}
 		add_political_power = 50
 	}
-	
+
 	option = {
-		name = LIB_purchase_kru_land.1.a
+		name = LIB_purchase_kru_land.1.b
 		ai_chance = { factor = 0 }
 		add_political_power = -150
-		LIB = { add_state_claim = 761 }
+		LIB = {
+			add_state_claim = 760
+			create_wargoal = {
+				type = annex_everything
+				target = KRU
+			}
+		}
 	}
-	
+
 }
-	
+
+country_event = {
+	id = LIB_purchase_kru_land.2
+	title = LIB_purchase_kru_land.2.t
+	desc = LIB_purchase_kru_land.2.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = LIB_purchase_kru_land.2.a
+		ai_chance = { factor = 50 }
+		LIB = {
+			transfer_state = 760
+			add_state_core = 760
+		}
+
+		KRU = {
+			add_state_claim = 760
+			remove_state_core = 760
+			set_capital = 761
+		}
+
+		298 = {
+			remove_claim_by = KRU
+		}
+
+		760 = {
+			set_state_name = "Upper Liberia"
+		}
+
+		761 = {
+			set_state_name = "Kru"
+		}
+		add_political_power = -50
+	}
+
+	option = {
+		name = LIB_purchase_kru_land.2.b
+		ai_chance = { factor = 50 }
+		add_political_power = 50
+		LIB = {
+			add_state_claim = 760
+			add_state_claim = 761
+			create_wargoal = {
+				type = annex_everything
+				target = KRU
+			}
+		}
+	}
+
+}
+
 #liberia Adopts ACS
 country_event = {
 	id = liberia.1
 	title = liberia.1.t
 	desc = liberia.1.d
 	picture = GFX_report_event_merchant_ship_01
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.1.a
 		ai_chance = { factor = 100 }
@@ -355,7 +570,7 @@ country_event = {
 			LIB = { country_event = { days = 1 id = liberia.2 } }
 			set_country_flag = USA_supports_acs
 			hidden_effect = { LIB = { set_country_flag = USA_assist_lib_debt } }
-			
+
 		}
 		#No Civil War & NO LINCON = Shit Reward Below
 		if = {
@@ -379,7 +594,7 @@ country_event = {
 					}
 				}
 			}
-			
+
 		}
 		#YES Civil War & YES LINCON = Gucchi Reward Below
 		if = {
@@ -404,7 +619,7 @@ country_event = {
 			LIB = { country_event = { days = 1 id = liberia.2 } }
 			set_country_flag = USA_supports_acs
 			hidden_effect = { LIB = { set_country_flag = USA_assist_lib_debt } }
-			
+
 		}
 		#YES Civil War & NO LINCON =  Shit Reward Below
 		if = {
@@ -428,9 +643,9 @@ country_event = {
 					}
 				}
 			}
-			
+
 		}
-		
+
 		#STRONG ACS: No Civil War & YES LINCON = Gucchi Reward Below
 		if = {
 			limit = {
@@ -452,7 +667,7 @@ country_event = {
 			LIB = { country_event = { days = 1 id = liberia.2 } }
 			set_country_flag = USA_supports_acs
 			hidden_effect = { LIB = { set_country_flag = USA_assist_lib_debt } }
-			
+
 		}
 		#STRONG ACS: No Civil War & NO LINCON = Okay Reward Below
 		if = {
@@ -476,7 +691,7 @@ country_event = {
 			}
 			LIB = { country_event = { days = 1 id = liberia.2 } }
 			set_country_flag = USA_supports_acs
-			
+
 		}
 		#STRONG ACS: YES Civil War & YES LINCON = Okay Reward Below
 		if = {
@@ -498,7 +713,7 @@ country_event = {
 			}
 			LIB = { country_event = { days = 1 id = liberia.2 } }
 			set_country_flag = USA_supports_acs
-			
+
 		}
 		#STRONG ACS: YES Civil War & NO LINCON =  Shit Reward Below
 		if = {
@@ -520,16 +735,16 @@ country_event = {
 					}
 				}
 			}
-			
+
 			hidden_effect = {
 
 			}
-			
+
 		}
-			
-		
+
+
 	}
-	
+
 	option = {
 		name = liberia.1.b
 		ai_chance = { factor = 0 }
@@ -537,7 +752,7 @@ country_event = {
 		set_country_flag = USA_supports_acs
 		hidden_effect = { LIB = { set_country_flag = USA_assist_lib_debt } }
 	}
-	
+
 }
 
 #USA Supports
@@ -546,9 +761,9 @@ country_event = {
 	title = liberia.2.t
 	desc = liberia.2.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.2.a
 		ai_chance = { factor = 100 }
@@ -565,29 +780,31 @@ country_event = {
 				subtract_from_variable = {var = debt_level value = 1}
 			}
 		}
-		
+
 	}
-	
+
 }
-	
-	
+
+
 #Kru War Aftermath
 country_event = {
 	id = liberia.3
 	title = liberia.3.t
 	desc = liberia.3.d
 	picture = GFX_report_event_merchant_ship_01
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.3.a
 		ai_chance = { factor = 90 }
+		custom_effect_tooltip = EGY_afr_increase_debt_10
 		hidden_effect = {
 			KRU = { country_event = { days = 1 id = liberia.4 } }
+			add_to_variable = { var = debt_level value = 10 }
 		}
 	}
-	
+
 }
 
 #Kru War Aftermath
@@ -596,22 +813,22 @@ country_event = {
 	title = liberia.4.t
 	desc = liberia.4.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.4.a
 		ai_chance = { factor = 100 }
-		
+
 		add_war_support = 0.12
 		army_experience = 10
 		#6 years untill this event happens
 		hidden_effect = {
 			KRU = { country_event = { days = 2190 id = liberia.5 } }
 		}
-			
+
 	}
-	
+
 }
 
 
@@ -621,15 +838,15 @@ country_event = {
 	title = liberia.5.t
 	desc = liberia.5.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.5.a
 		ai_chance = { factor = 100 }
 			add_stability = 0.13
 			add_war_support = 0.17
-			
+
 		create_corps_commander = {
 			name = "Yakpazuah Zaowolo"
 			picture = "Portrait_France_Jean_de_Lattre_de_Tassigny.dds"
@@ -640,20 +857,20 @@ country_event = {
 			planning_skill = 4
 			logistics_skill = 1
 		}
-		
+
 		hidden_effect = {
 			if = {
 				limit = {
-					LIB = { 
+					LIB = {
 						NOT = { has_country_flag = LIB_KRU_repaired_relations }
 					}
 				}
-				KRU = { country_event = { days = 7 id = liberia.6 } }
+				KRU = { country_event = { days = 7 id = liberia.7 } }
 			}
 		}
-			
+
 	}
-	
+
 }
 
 
@@ -663,13 +880,13 @@ country_event = {
 	title = liberia.7.t
 	desc = liberia.7.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.7.a
 		ai_chance = { factor = 70 }
-		trigger = { 
+		trigger = {
 			NOT = { has_country_flag = LIB_KRU_repaired_relations }
 			is_subject = no
 		}
@@ -677,11 +894,11 @@ country_event = {
 		army_experience = 5
 		add_political_power = -15
 		add_war_support = .03
-		
+
 		hidden_effect = {
 			if = {
 				limit = {
-					LIB = { 
+					LIB = {
 							NOT = {
 								has_tech = collodion_process
 							}
@@ -691,7 +908,7 @@ country_event = {
 			}
 			if = {
 				limit = {
-					LIB = { 
+					LIB = {
 							has_tech = collodion_process
 					}
 				}
@@ -699,7 +916,7 @@ country_event = {
 			}
 			if = {
 				limit = {
-					LIB = { 
+					LIB = {
 							AND = {
 								has_tech = collodion_process
 								has_tech = photographic_glass_plate
@@ -709,19 +926,19 @@ country_event = {
 					LIB = { country_event = { days = 7 id = liberia.10 } }
 			}
 		}
-		
-			
+
+
 	}
-	
+
 	option = {
 		name = liberia.7.b
 		ai_chance = { factor = 30 }
-		
+
 		add_political_power = 15
 		add_war_support = -.05
-			
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Success
@@ -730,22 +947,22 @@ country_event = {
 	title = liberia.8.t
 	desc = liberia.8.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.8.a
 		ai_chance = { factor = 100 }
-		
+
 		add_stability = -0.15
 		add_war_support = -0.20
 		set_country_flag = LIB_second_kru_raid
 		hidden_effect = {
 			KRU = { country_event = { days = 3 id = liberia.11 } }
 		}
-			
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Spotted
@@ -754,13 +971,13 @@ country_event = {
 	title = liberia.9.t
 	desc = liberia.9.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.9.a
 		ai_chance = { factor = 100 }
-		
+
 		start_border_war = {
 				change_state_after_war = no
 					attacker = {
@@ -770,7 +987,7 @@ country_event = {
 						on_lose = liberia.12
 						on_cancel = lib_border_conflict.4
 					}
-				
+
 					defender = {
 						state = 298
 						num_provinces = 4
@@ -780,9 +997,9 @@ country_event = {
 					}
 		}
 		set_country_flag = LIB_second_kru_raid
-			
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Worst Outcome
@@ -791,13 +1008,13 @@ country_event = {
 	title = liberia.10.t
 	desc = liberia.10.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.10.a
 		ai_chance = { factor = 100 }
-		
+
 		start_border_war = {
 				change_state_after_war = no
 					attacker = {
@@ -807,7 +1024,7 @@ country_event = {
 						on_lose = liberia.13
 						on_cancel = lib_border_conflict.4
 					}
-				
+
 					defender = {
 						state = 298
 						num_provinces = 4
@@ -817,9 +1034,9 @@ country_event = {
 					}
 		}
 		set_country_flag = LIB_second_kru_raid
-			
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Outcome 1
@@ -828,13 +1045,13 @@ country_event = {
 	title = liberia.11.t
 	desc = liberia.11.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.11.a
 		ai_chance = { factor = 0 }
-		
+
 		add_stability = 0.06
 		add_war_support = 0.05
 		add_equipment_to_stockpile = {
@@ -842,13 +1059,13 @@ country_event = {
 			amount = 2000
 			producer = LIB
 		}
-			
+
 	}
-	
+
 	option = {
 		name = liberia.11.b
 		ai_chance = { factor = 100 }
-		
+
 		add_stability = 0.17
 		add_war_support = 0.12
 		add_equipment_to_stockpile = {
@@ -861,7 +1078,7 @@ country_event = {
 		}
 		if = {
 				limit = {
-					KRU = { 
+					KRU = {
 						has_government = autocracy
 					}
 				}
@@ -877,7 +1094,7 @@ country_event = {
 		}
 		if = {
 				limit = {
-					KRU = { 
+					KRU = {
 						has_government = chauvinist_populism
 					}
 				}
@@ -891,10 +1108,10 @@ country_event = {
 						}
 					}
 		}
-		
-			
+
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Outcome 2
@@ -903,19 +1120,19 @@ country_event = {
 	title = liberia.12.t
 	desc = liberia.12.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.12.a
 		ai_chance = { factor = 100 }
-		
+
 		add_stability = -0.07
 		add_war_support = -0.05
 		army_experience = 5
-			
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Outcome 3
@@ -924,18 +1141,18 @@ country_event = {
 	title = liberia.13.t
 	desc = liberia.13.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.13.a
 		ai_chance = { factor = 100 }
-		
+
 		add_stability = -0.30
 		add_war_support = -0.20
-		add_manpower = -150	
+		add_manpower = -150
 	}
-	
+
 }
 
 
@@ -945,13 +1162,13 @@ country_event = {
 	title = liberia.14.t
 	desc = liberia.14.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.14.a
 		ai_chance = { factor = 100 }
-		
+
 		add_stability = -0.07
 		add_war_support = 0.05
 		298={
@@ -962,7 +1179,7 @@ country_event = {
 		}
 		set_country_flag = LIB_KRU_raids_stockpile
 	}
-	
+
 }
 
 #Back Up Plan
@@ -971,9 +1188,9 @@ country_event = {
 	title = liberia.15.t
 	desc = liberia.15.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.15.a
 		ai_chance = { factor = 50 }
@@ -983,7 +1200,7 @@ country_event = {
 		set_country_flag = LIB_USA_military_support
 		USA = { country_event = { days = 1 id = liberia.16 } }
 	}
-	
+
 	option = {
 		name = liberia.15.b
 		ai_chance = { factor = 50 }
@@ -993,13 +1210,13 @@ country_event = {
 		set_country_flag = LIB_CSA_military_support
 		CSA = { country_event = { days = 1 id = liberia.17 } }
 	}
-	
+
 	option = {
 		name = liberia.15.c
 		ai_chance = { factor = 0 }
-		
+
 	}
-	
+
 }
 
 #Back Up Plan
@@ -1008,16 +1225,16 @@ country_event = {
 	title = liberia.16.t
 	desc = liberia.16.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = {
 		name = liberia.16.a
 		ai_chance = { factor = 100 }
 		set_country_flag = LIB_USA_military_support
 	}
-	
+
 }
 
 #Back Up Plan
@@ -1026,55 +1243,186 @@ country_event = {
 	title = liberia.17.t
 	desc = liberia.17.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = {
 		name = liberia.17.a
 		ai_chance = { factor = 100 }
 		set_country_flag = LIB_CSA_military_support
 	}
-	
+
 }
 
 
 
 #Kru Colonization
 country_event = {
+	id = liberia.240
+	title = liberia.240.t
+	desc = liberia.240.d
+	picture = GFX_report_event_soviet_finnish_pact
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	trigger = {
+		tag = LIB
+		NOT = { has_global_flag = LIB_event_240_executed }
+		OR = {
+			LIB = {
+				owns_state = 760
+				owns_state = 761
+			}
+			KRU = {
+				owns_state = 760
+				owns_state = 761
+				is_subject_of = LIB
+			}
+			AND = {
+				LIB = {
+					owns_state = 760
+				}
+				KRU = {
+					owns_state = 761
+					is_subject_of = LIB
+				}
+			}
+			AND = {
+				LIB = {
+					owns_state = 761
+				}
+				KRU = {
+					owns_state = 760
+					is_subject_of = LIB
+				}
+			}
+		}
+		KRU = {
+			OR = {
+				is_subject_of = LIB
+				exists = no
+			}
+		}
+	}
+
+	immediate = {
+		set_global_flag = LIB_event_240_executed
+
+		760 = {
+			set_state_name = "Upper Liberia"
+		}
+	}
+
+	option = {
+		name = liberia.240.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 100
+				is_historical_focus_on = yes
+			}
+		}
+		set_country_flag = american_colonial_confederation
+		custom_effect_tooltip = liberia_240_event_tooltip_a
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		capital_scope = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_3
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.3  } }
+		}
+		hidden_effect = {
+			KRU = {
+				set_capital = 761
+				transfer_state = 761
+				remove_state_core = 760
+			}
+			760 = {
+				add_manpower = -6000
+			}
+			761 = {
+				add_manpower = 6000
+			}
+			LIB = {
+				if = {
+					limit = {
+						has_dlc = "Together for Victory"
+					}
+					set_autonomy = {
+						target = KRU
+						autonomy_state = autonomy_dominion
+						freedom_level = 0.3
+					}
+				}
+				else = {
+					puppet = KRU
+				}
+			}
+			country_event = {id = liberia.24}
+			LIB = {
+				transfer_state = 760
+				add_state_core = 760
+			}
+			760 = {
+				add_manpower = 1000
+
+			}
+			298 = {
+				add_manpower = -1000
+			}
+		}
+	}
+
+	option = {
+		name = liberia.240.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		custom_effect_tooltip = liberia_240_event_tooltip_b
+	}
+
+}
+
+country_event = {
 	id = liberia.24
 	title = liberia.24.t
 	desc = liberia.24.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = {
 		name = liberia.24.a
-		ai_chance = { factor = 10 }
+		ai_chance = {
+			factor = 50
+		}
 		761 = {
 				set_state_name = "Maryland County"
 		}
+
 		KRU = {
 			set_cosmetic_tag = KRU_maryland
 			add_ideas = afr_reforming_kingdom
 			add_ideas = KRU_underground_kru_resistance
 			hidden_effect = {
-				set_party_name = { 
-					ideology = centrism 
+				set_party_name = {
+					ideology = centrism
 					long_name = AFR_party_republican
 					name = AFR_party_republican
 				}
-				set_party_name = { 
+				set_party_name = {
 					ideology = traditional_conservatism
 					long_name = AFR_party_democratic
 					name = AFR_party_democratic
 				}
-				set_party_name = { 
-					ideology = autocracy 
+				set_party_name = {
+					ideology = autocracy
 					long_name = AFR_party_monarch
-					name = AFR_party_monarch 
+					name = AFR_party_monarch
 				}
 				set_country_flag = ACS_colony
 				if = {
@@ -1087,7 +1435,7 @@ country_event = {
 					}
 					load_focus_tree = industrialilzing_power_africa
 				}
-				
+
 				retire_country_leader = yes
 				create_country_leader = {
 					name = "Samuel Hampton"
@@ -1096,7 +1444,7 @@ country_event = {
 					expire = "1920.1.1"
 					ideology = conserv_liberal
 					traits = {
-		
+
 					}
 				}
 				swap_ideas = {
@@ -1110,15 +1458,15 @@ country_event = {
 				swap_ideas = {
 					remove_idea = no_constitution
 					add_idea = constitution_adopted
-				}	
+				}
 				swap_ideas = {
 					remove_idea = no_heir
 					add_idea = non_monarchical_system
 				}
-				#swap_ideas = {
-				#	remove_idea = religion_animist
-				#	add_idea = religion_protestant
-				#}
+				swap_ideas = {
+					remove_idea = religion_animist
+					add_idea = religion_protestant
+				}
 				swap_ideas = {
 					remove_idea = no_elections
 					add_idea = limited_elections
@@ -1175,9 +1523,9 @@ country_event = {
 					remove_idea = absolutism
 					add_idea = property_owners_suffrage
 				}
-				
+
 			}
-			
+
 		}
 		KRU = {
 			hidden_effect = {
@@ -1192,7 +1540,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_1
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_1
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1202,7 +1550,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_2
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_2
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1212,7 +1560,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_3
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_3
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1222,7 +1570,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_4
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_4
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1232,7 +1580,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_5
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_5
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1242,7 +1590,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_6
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_6
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1252,7 +1600,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_7
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_7
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1262,7 +1610,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_8
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_8
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1272,7 +1620,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_9
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_9
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1282,7 +1630,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_10
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_10
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1292,7 +1640,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_11
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_11
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1302,7 +1650,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_12
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_12
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1312,7 +1660,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_13
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_13
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1322,7 +1670,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_14
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_14
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1332,7 +1680,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_15
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_15
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1342,7 +1690,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_16
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_16
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1352,7 +1700,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_17
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_17
 						add_idea = AFR_Racial_Tension_18
 					}
@@ -1362,7 +1710,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_18
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_18
 						add_idea = AFR_Racial_Tension_19
 					}
@@ -1372,7 +1720,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_19
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_19
 						add_idea = AFR_Racial_Tension_20
 					}
@@ -1382,7 +1730,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_20
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_20
 						add_idea = AFR_Racial_Tension_21
 					}
@@ -1392,7 +1740,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_21
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_21
 						add_idea = AFR_Racial_Tension_22
 					}
@@ -1402,7 +1750,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_22
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_22
 						add_idea = AFR_Racial_Tension_23
 					}
@@ -1412,7 +1760,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_23
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_23
 						add_idea = AFR_Racial_Tension_24
 					}
@@ -1422,7 +1770,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_24
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_24
 						add_idea = AFR_Racial_Tension_25
 					}
@@ -1432,7 +1780,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_25
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_25
 						add_idea = AFR_Racial_Tension_26
 					}
@@ -1442,7 +1790,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_26
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_26
 						add_idea = AFR_Racial_Tension_27
 					}
@@ -1452,7 +1800,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_27
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_27
 						add_idea = AFR_Racial_Tension_28
 					}
@@ -1462,7 +1810,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_28
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_28
 						add_idea = AFR_Racial_Tension_29
 					}
@@ -1472,7 +1820,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_29
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_29
 						add_idea = AFR_Racial_Tension_30
 					}
@@ -1482,7 +1830,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_30
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_30
 						add_idea = AFR_Racial_Tension_31
 					}
@@ -1492,7 +1840,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_31
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_31
 						add_idea = AFR_Racial_Tension_32
 					}
@@ -1502,7 +1850,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_32
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_32
 						add_idea = AFR_Racial_Tension_33
 					}
@@ -1512,7 +1860,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_33
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_33
 						add_idea = AFR_Racial_Tension_34
 					}
@@ -1522,7 +1870,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_34
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_34
 						add_idea = AFR_Racial_Tension_35
 					}
@@ -1532,7 +1880,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_35
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_35
 						add_idea = AFR_Racial_Tension_36
 					}
@@ -1542,7 +1890,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_36
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_36
 						add_idea = AFR_Racial_Tension_37
 					}
@@ -1552,7 +1900,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_37
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_37
 						add_idea = AFR_Racial_Tension_38
 					}
@@ -1562,7 +1910,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_38
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_38
 						add_idea = AFR_Racial_Tension_39
 					}
@@ -1572,7 +1920,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_39
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_39
 						add_idea = AFR_Racial_Tension_40
 					}
@@ -1594,8 +1942,8 @@ country_event = {
 		LIB = { country_event = {id = liberia.37} }
 		hidden_effect = {
 			KRU = { country_event = { days = 15 id = liberia.25 } }
-			LIB = { 
-				country_event = { days = 6 id = liberia.27 } 
+			LIB = {
+				country_event = { days = 6 id = liberia.27 }
 				country_event = {id = liberia.40}
 			}
 			KRU = {
@@ -1651,10 +1999,17 @@ country_event = {
 			}
 		}
 	}
-	
+
 	option = {
 		name = liberia.24.b
-		ai_chance = { factor = 90 }
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
 		KRU = { country_event = { days = 15 id = liberia.26 } }
 		KRU = {
 			hidden_effect = {
@@ -1669,7 +2024,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_1
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_1
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1679,7 +2034,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_2
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_2
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1689,7 +2044,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_3
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_3
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1699,7 +2054,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_4
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_4
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1709,7 +2064,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_5
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_5
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1719,7 +2074,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_6
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_6
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1729,7 +2084,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_7
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_7
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1739,7 +2094,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_8
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_8
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1749,7 +2104,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_9
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_9
 						add_idea = AFR_Racial_Tension_9
 					}
@@ -1759,7 +2114,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_10
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_10
 						add_idea = AFR_Racial_Tension_11
 					}
@@ -1769,7 +2124,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_11
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_11
 						add_idea = AFR_Racial_Tension_12
 					}
@@ -1779,7 +2134,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_12
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_12
 						add_idea = AFR_Racial_Tension_13
 					}
@@ -1789,7 +2144,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_13
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_13
 						add_idea = AFR_Racial_Tension_14
 					}
@@ -1799,7 +2154,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_14
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_14
 						add_idea = AFR_Racial_Tension_15
 					}
@@ -1809,7 +2164,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_15
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_15
 						add_idea = AFR_Racial_Tension_16
 					}
@@ -1819,7 +2174,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_16
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_16
 						add_idea = AFR_Racial_Tension_17
 					}
@@ -1829,7 +2184,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_17
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_17
 						add_idea = AFR_Racial_Tension_18
 					}
@@ -1839,7 +2194,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_18
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_18
 						add_idea = AFR_Racial_Tension_19
 					}
@@ -1849,7 +2204,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_19
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_19
 						add_idea = AFR_Racial_Tension_20
 					}
@@ -1859,7 +2214,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_20
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_20
 						add_idea = AFR_Racial_Tension_21
 					}
@@ -1869,7 +2224,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_21
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_21
 						add_idea = AFR_Racial_Tension_22
 					}
@@ -1879,7 +2234,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_22
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_22
 						add_idea = AFR_Racial_Tension_23
 					}
@@ -1889,7 +2244,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_23
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_23
 						add_idea = AFR_Racial_Tension_24
 					}
@@ -1899,7 +2254,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_24
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_24
 						add_idea = AFR_Racial_Tension_25
 					}
@@ -1909,7 +2264,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_25
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_25
 						add_idea = AFR_Racial_Tension_26
 					}
@@ -1919,7 +2274,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_26
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_26
 						add_idea = AFR_Racial_Tension_27
 					}
@@ -1929,7 +2284,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_27
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_27
 						add_idea = AFR_Racial_Tension_28
 					}
@@ -1939,7 +2294,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_28
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_28
 						add_idea = AFR_Racial_Tension_29
 					}
@@ -1949,7 +2304,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_29
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_29
 						add_idea = AFR_Racial_Tension_30
 					}
@@ -1959,7 +2314,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_30
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_30
 						add_idea = AFR_Racial_Tension_31
 					}
@@ -1969,7 +2324,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_31
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_31
 						add_idea = AFR_Racial_Tension_32
 					}
@@ -1979,7 +2334,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_32
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_32
 						add_idea = AFR_Racial_Tension_33
 					}
@@ -1989,7 +2344,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_33
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_33
 						add_idea = AFR_Racial_Tension_34
 					}
@@ -1999,7 +2354,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_34
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_34
 						add_idea = AFR_Racial_Tension_35
 					}
@@ -2009,7 +2364,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_35
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_35
 						add_idea = AFR_Racial_Tension_36
 					}
@@ -2019,7 +2374,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_36
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_36
 						add_idea = AFR_Racial_Tension_37
 					}
@@ -2029,7 +2384,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_37
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_37
 						add_idea = AFR_Racial_Tension_38
 					}
@@ -2039,7 +2394,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_38
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_38
 						add_idea = AFR_Racial_Tension_39
 					}
@@ -2049,7 +2404,7 @@ country_event = {
 					limit = {
 						has_idea = AFR_Racial_Tension_39
 					}
-					swap_ideas = { 
+					swap_ideas = {
 						remove_idea = AFR_Racial_Tension_39
 						add_idea = AFR_Racial_Tension_40
 					}
@@ -2068,26 +2423,26 @@ country_event = {
 				}
 			}
 		}
-		
+
 		KRU = {
 			set_cosmetic_tag = KRU_republic
 			add_ideas = AF_T_organized_tribal_nation
 			add_ideas = KRU_underground_kru_resistance
 			hidden_effect = {
-				set_party_name = { 
-					ideology = centrism 
+				set_party_name = {
+					ideology = centrism
 					long_name = AFR_party_republican
 					name = AFR_party_republican
 				}
-				set_party_name = { 
+				set_party_name = {
 					ideology = traditional_conservatism
 					long_name = AFR_party_democratic
 					name = AFR_party_democratic
 				}
-				set_party_name = { 
-					ideology = autocracy 
+				set_party_name = {
+					ideology = autocracy
 					long_name = AFR_party_monarch
-					name = AFR_party_monarch 
+					name = AFR_party_monarch
 				}
 				if = {
 					limit = {
@@ -2107,7 +2462,7 @@ country_event = {
 					expire = "1920.1.1"
 					ideology = conserv_liberal
 					traits = {
-		
+
 					}
 				}
 				remove_ideas = AF_T_unorganized_tribal_nation
@@ -2175,9 +2530,9 @@ country_event = {
 					remove_idea = absolutism
 					add_idea = property_owners_suffrage
 				}
-				
+
 			}
-			
+
 		}
 		hidden_effect = {
 			LIB = {country_event = {id = liberia.40}}
@@ -2195,7 +2550,7 @@ country_event = {
 			}
 		}
 	}
-	
+
 }
 
 #Independant State Of Maryland
@@ -2204,24 +2559,31 @@ country_event = {
 	title = liberia.25.t
 	desc = liberia.25.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = {
 		name = liberia.25.a
-		ai_chance = { factor = 100 }
-		set_country_flag = KRU_colonial_governance 
+		ai_chance = { factor = 50 }
+		set_country_flag = KRU_colonial_governance
+		set_country_flag = KRU_resist_colonial_governance
 
 	}
-	
+
 	option = {
 		name = liberia.25.b
-		ai_chance = { factor = 0 }
-		set_country_flag = KRU_colonial_governance 
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		set_country_flag = KRU_colonial_governance
 
 	}
-	
+
 }
 
 #Kru Colony
@@ -2230,16 +2592,16 @@ country_event = {
 	title = liberia.26.t
 	desc = liberia.26.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = {
 		name = liberia.26.a
 		ai_chance = { factor = 100 }
 		set_country_flag = KRU_self_governance
 	}
-	
+
 }
 
 #Mass Migration Troubles 1
@@ -2248,10 +2610,10 @@ country_event = {
 	title = liberia.27.t
 	desc = liberia.27.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = {
 		name = liberia.27.a
 		ai_chance = { factor = 100 }
@@ -2259,7 +2621,7 @@ country_event = {
 				LIB = { country_event = { days = 30 id = liberia.28 } }
 		}
 	}
-	
+
 	option = {
 		name = liberia.27.b
 		ai_chance = { factor = 0 }
@@ -2267,7 +2629,7 @@ country_event = {
 				LIB = { country_event = { days = 30 id = liberia.29 } }
 		}
 	}
-	
+
 }
 
 #Kru Guerrilla Raids_1
@@ -2276,10 +2638,10 @@ country_event = {
 	title = liberia.28.t
 	desc = liberia.28.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = {
 		name = liberia.28.a
 		ai_chance = { factor = 100 }
@@ -2302,11 +2664,11 @@ country_event = {
 				add_stability = -.01
 			}
 		}
-			
+
 	}
-	
-	
-	
+
+
+
 }
 
 #Kru Guerrilla Raids_2
@@ -2315,10 +2677,10 @@ country_event = {
 	title = liberia.29.t
 	desc = liberia.29.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
-	
+
+
 	option = {
 		name = liberia.29.a
 		ai_chance = { factor = 0 }
@@ -2342,10 +2704,10 @@ country_event = {
 			}
 		}
 		hidden_effect = {
-			
+
 		}
 	}
-	
+
 }
 
 #Kru wins
@@ -2366,7 +2728,7 @@ country_event = {
 				type = infantry_equipment_rifle_0
 				amount = 500
 				producer = LIB
-			}	
+			}
 			add_equipment_to_stockpile = {
 				type = uniform_equipment_0
 				amount = 500
@@ -2432,23 +2794,23 @@ country_event = {
 	title = Kru_Raiders_Spotted.6.t
 	desc = lib_border_conflict.6.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = lib_border_conflict.6.a
 		ai_chance = { factor = 100 }
-		
-		
+
+
 		add_stability = 0.15
 		add_war_support = 0.12
 		army_experience = 10
 		hidden_effect = {
 			KRU = { country_event = { days = 3 id = liberia.12 } }
 		}
-			
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Worst Outcome - LIB WON
@@ -2457,21 +2819,21 @@ country_event = {
 	title = lib_border_conflict.7.t
 	desc = lib_border_conflict.7.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = lib_border_conflict.7.a
 		ai_chance = { factor = 100 }
-		
-		
+
+
 		add_stability = 0.15
 		add_war_support = 0.3
 		army_experience = 10
 			KRU = { country_event = { days = 3 id = liberia.13 } }
-			
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Spotted - LIB LOSS
@@ -2480,20 +2842,20 @@ country_event = {
 	title = lib_border_conflict.8.t
 	desc = lib_border_conflict.8.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = lib_border_conflict.8.a
 		ai_chance = { factor = 100 }
-		
-		
+
+
 		add_stability = -0.15
 		add_war_support = -0.20
 		army_experience = 5
-			
+
 	}
-	
+
 }
 
 #Kru War Aftermath - Kru Raid - Worst Outcome - LIB LOSS
@@ -2502,20 +2864,20 @@ country_event = {
 	title = lib_border_conflict.9.t
 	desc = lib_border_conflict.9.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = lib_border_conflict.9.a
 		ai_chance = { factor = 100 }
-		
-		
+
+
 		add_stability = -0.15
 		add_war_support = -0.20
 		army_experience = 5
-			
+
 	}
-	
+
 }
 
 #Info on Annexation of Independent State of Maryland
@@ -2524,15 +2886,15 @@ country_event = {
 	title = liberia.30.t
 	desc = liberia.30.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.30.a
 		ai_chance = { factor = 100 }
 		add_political_power = 100
 	}
-	
+
 }
 
 #Request US Gov Road Investment
@@ -2540,241 +2902,254 @@ country_event = {
 	id = liberia.31
 	title = liberia.31.t
 	desc = liberia.31.d
-	picture = GFX_report_event_soviet_finnish_pact
-	
+	picture = GFX_report_event_election_vote
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.31.a
 		ai_chance = { factor = 100 }
-		#No Civil War & YES LINCON = Gucchi Reward Below
-		if = {
-			limit = {
-				AND = {
-					USA = {
-						has_civil_war = no
-					}
-					USA = {
-						has_country_leader = {
-							name = "Abraham Lincoln"
-							ruling_only = yes
+		hidden_effect = {
+			#No Civil War & YES LINCON = Gucchi Reward Below
+			if = {
+				limit = {
+					AND = {
+						USA = {
+							has_civil_war = no
 						}
-					}
-					LIB = {
-						NOT = {
-							has_country_flag = LIB_adopted_ACS_policy_flag
-						}
-					}
-				}
-			}
-			hidden_effect = {
-				LIB = {
-					country_event = { days = 1 id = liberia.32 }
-				}
-			}
-			activate_decision = LIB_Request_Gov_Road_Investment_3
-			
-		}
-		#No Civil War & NO LINCON = Okay Reward Below
-		if = {
-			limit = {
-				AND = {
-					USA = {
-						has_civil_war = no
-					}
-					USA = {
-						NOT = {
+						USA = {
 							has_country_leader = {
 								name = "Abraham Lincoln"
 								ruling_only = yes
 							}
 						}
+						LIB = {
+							NOT = {
+								has_country_flag = LIB_adopted_ACS_policy_flag
+							}
+						}
 					}
+				}
+				hidden_effect = {
 					LIB = {
-						NOT = {
-							has_country_flag = LIB_adopted_ACS_policy_flag
+						country_event = { days = 1 id = liberia.32 }
+					}
+				}
+				LIB = { set_country_flag = USA_LIB_investments_high }
+
+			}
+			#No Civil War & NO LINCON = Okay Reward Below
+			if = {
+				limit = {
+					AND = {
+						USA = {
+							has_civil_war = no
+						}
+						USA = {
+							NOT = {
+								has_country_leader = {
+									name = "Abraham Lincoln"
+									ruling_only = yes
+								}
+							}
+						}
+						LIB = {
+							NOT = {
+								has_country_flag = LIB_adopted_ACS_policy_flag
+							}
 						}
 					}
 				}
-			}
-			hidden_effect = {
-				LIB = {
-					country_event = { days = 1 id = liberia.33 }
-				}
-			}
-			activate_decision = LIB_Request_Gov_Road_Investment_4
-			
-		}
-		#YES Civil War & YES LINCON = Okay Reward Below
-		if = {
-			limit = {
-				AND = {
-					USA = {
-						has_civil_war = yes
-					}
-					USA = {
-						has_country_leader = {
-							name = "Abraham Lincoln"
-							ruling_only = yes
-						}
-					}
+				hidden_effect = {
 					LIB = {
-						NOT = {
-							has_country_flag = LIB_adopted_ACS_policy_flag
+						country_event = { days = 1 id = liberia.32 }
+					}
+				}
+				LIB = { set_country_flag = USA_LIB_investments_medium }
+
+			}
+			#YES Civil War & YES LINCON = Okay Reward Below
+			if = {
+				limit = {
+					AND = {
+						USA = {
+							has_civil_war = yes
 						}
-					}
-				}
-			}
-			hidden_effect = {
-				LIB = {
-					country_event = { days = 1 id = liberia.33 }
-				}
-			}
-			activate_decision = LIB_Request_Gov_Road_Investment_3
-		}
-		#YES Civil War & NO LINCON =  Shit Reward Below
-		if = {
-			limit = {
-				AND = {
-					USA = {
-						has_civil_war = yes
-					}
-					USA = {
-						NOT = {
+						USA = {
 							has_country_leader = {
 								name = "Abraham Lincoln"
 								ruling_only = yes
 							}
 						}
+						LIB = {
+							NOT = {
+								has_country_flag = LIB_adopted_ACS_policy_flag
+							}
+						}
 					}
+				}
+				hidden_effect = {
 					LIB = {
-						NOT = {
+						country_event = { days = 1 id = liberia.32 }
+					}
+				}
+				LIB = { set_country_flag = USA_LIB_investments_high }
+			}
+			#YES Civil War & NO LINCON =  Shit Reward Below
+			if = {
+				limit = {
+					AND = {
+						USA = {
+							has_civil_war = yes
+						}
+						USA = {
+							NOT = {
+								has_country_leader = {
+									name = "Abraham Lincoln"
+									ruling_only = yes
+								}
+							}
+						}
+						LIB = {
+							NOT = {
+								has_country_flag = LIB_adopted_ACS_policy_flag
+							}
+						}
+					}
+				}
+				hidden_effect = {
+					LIB = {
+						country_event = { days = 1 id = liberia.32 }
+					}
+				}
+				LIB = { set_country_flag = USA_LIB_investments_low }
+
+			}
+
+			#STRONG ACS: No Civil War & YES LINCON = Gucchi Reward Below
+			if = {
+				limit = {
+					AND = {
+						USA = {
+							has_civil_war = no
+						}
+						USA = {
+							has_country_leader = {
+								name = "Abraham Lincoln"
+								ruling_only = yes
+							}
+						}
+						LIB = {
 							has_country_flag = LIB_adopted_ACS_policy_flag
 						}
 					}
 				}
-			}
-			hidden_effect = {
-				LIB = {
-					country_event = { days = 1 id = liberia.34 }
-				}
-			}
-			activate_decision = LIB_Request_Gov_Road_Investment_5
-			
-		}
-		
-		#STRONG ACS: No Civil War & YES LINCON = Gucchi Reward Below
-		if = {
-			limit = {
-				AND = {
-					USA = {
-						has_civil_war = no
+
+				hidden_effect = {
+					LIB = {
+						country_event = { days = 1 id = liberia.32 }
 					}
-					USA = {
-						has_country_leader = {
-							name = "Abraham Lincoln"
-							ruling_only = yes
+				}
+				LIB = { set_country_flag = USA_LIB_investments_high }
+			}
+			#STRONG ACS: No Civil War & NO LINCON = Gucchi Reward Below
+			if = {
+				limit = {
+					AND = {
+						USA = {
+							has_civil_war = no
+						}
+						USA = {
+							NOT = {
+								has_country_leader = {
+									name = "Abraham Lincoln"
+									ruling_only = yes
+								}
+							}
+						}
+						LIB = {
+							has_country_flag = LIB_adopted_ACS_policy_flag
 						}
 					}
+				}
+				hidden_effect = {
 					LIB = {
-						has_country_flag = LIB_adopted_ACS_policy_flag
+						country_event = { days = 1 id = liberia.32 }
 					}
 				}
+				LIB = { set_country_flag = USA_LIB_investments_high }
 			}
-			
-			hidden_effect = {
-				LIB = {
-					country_event = { days = 1 id = liberia.32 }
-				}
-			}
-			activate_decision = LIB_Request_Gov_Road_Investment_1
-		}
-		#STRONG ACS: No Civil War & NO LINCON = Gucchi Reward Below
-		if = {
-			limit = {
-				AND = {
-					USA = {
-						has_civil_war = no
-					}
-					USA = {
-						NOT = {
+			#STRONG ACS: YES Civil War & YES LINCON = Okay Reward Below
+			if = {
+				limit = {
+					AND = {
+						USA = {
+							has_civil_war = yes
+						}
+						USA = {
 							has_country_leader = {
 								name = "Abraham Lincoln"
 								ruling_only = yes
 							}
 						}
-					}
-					LIB = {
-						has_country_flag = LIB_adopted_ACS_policy_flag
-					}
-				}
-			}
-			hidden_effect = {
-				LIB = {
-					country_event = { days = 1 id = liberia.32 }
-				}
-			}
-			activate_decision = LIB_Request_Gov_Road_Investment_2
-		}
-		#STRONG ACS: YES Civil War & YES LINCON = Okay Reward Below
-		if = {
-			limit = {
-				AND = {
-					USA = {
-						has_civil_war = yes
-					}
-					USA = {
-						has_country_leader = {
-							name = "Abraham Lincoln"
-							ruling_only = yes
+						LIB = {
+							has_country_flag = LIB_adopted_ACS_policy_flag
 						}
 					}
+				}
+				hidden_effect = {
 					LIB = {
-						has_country_flag = LIB_adopted_ACS_policy_flag
+						country_event = { days = 1 id = liberia.32 }
 					}
 				}
+				LIB = { set_country_flag = USA_LIB_investments_medium }
 			}
-			hidden_effect = {
-				LIB = {
-					country_event = { days = 1 id = liberia.33 }
-				}
-			}
-			activate_decision = LIB_Request_Gov_Road_Investment_3
-		}
-		#STRONG ACS: YES Civil War & NO LINCON =  Shit Reward Below
-		if = {
-			limit = {
-				AND = {
-					USA = {
-						has_civil_war = yes
-					}
-					USA = {
-						NOT = {
-							has_country_leader = {
-								name = "Abraham Lincoln"
-								ruling_only = yes
+			#STRONG ACS: YES Civil War & NO LINCON =  Shit Reward Below
+			if = {
+				limit = {
+					AND = {
+						USA = {
+							has_civil_war = yes
+						}
+						USA = {
+							NOT = {
+								has_country_leader = {
+									name = "Abraham Lincoln"
+									ruling_only = yes
+								}
 							}
 						}
+						LIB = {
+							has_country_flag = LIB_adopted_ACS_policy_flag
+						}
 					}
+				}
+				hidden_effect = {
 					LIB = {
-						has_country_flag = LIB_adopted_ACS_policy_flag
+						country_event = { days = 1 id = liberia.32 }
 					}
 				}
+				LIB = { set_country_flag = USA_LIB_investments_low }
 			}
-			hidden_effect = {
-				LIB = {
-					country_event = { days = 1 id = liberia.34 }
-				}
-			}
-			activate_decision = LIB_Request_Gov_Road_Investment_4
 		}
 	}
-	
+
 	option = {
 		name = liberia.31.b
+		trigger = {
+			USA = {
+				has_country_leader = {
+					name = "James Buchanan"
+					ruling_only = yes
+				}
+			}
+		}
 		ai_chance = { factor = 0 }
+		add_political_power = -250
+		hidden_effect = { LIB = { set_country_flag = USA_LIB_investments_high } }
+		LIB = { country_event = { days = 1 id = liberia.32 } }
 	}
-	
+
 }
 
 #Request US Gov Road Investment
@@ -2782,51 +3157,16 @@ country_event = {
 	id = liberia.32
 	title = liberia.32.t
 	desc = liberia.32.d
-	picture = GFX_report_event_soviet_finnish_pact
-	
+	picture = GFX_report_event_election_vote
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.32.a
 		ai_chance = { factor = 0 }
-		custom_effect_tooltip = EGY_afr_decrease_debt_1
-		hidden_effect = {
-			subtract_from_variable = {var = debt_level value = 1}
-		}
+		hidden_effect = { USA = { country_event = { id = start_usa_liberia_investment_development.1 days = 20 } } }
 	}
-	
-}
 
-#Request US Gov Road Investment
-country_event = {
-	id = liberia.33
-	title = liberia.33.t
-	desc = liberia.33.d
-	picture = GFX_report_event_soviet_finnish_pact
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = liberia.33.a
-		ai_chance = { factor = 0 }
-	}
-	
-}
-
-#Request US Gov Road Investment
-country_event = {
-	id = liberia.34
-	title = liberia.34.t
-	desc = liberia.34.d
-	picture = GFX_report_event_soviet_finnish_pact
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = liberia.34.a
-		ai_chance = { factor = 0 }
-	}
-	
 }
 
 #Request US Gov Shipyard Investment
@@ -2835,9 +3175,9 @@ country_event = {
 	title = liberia.35.t
 	desc = liberia.35.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.35.a
 		ai_chance = { factor = 100 }
@@ -2869,14 +3209,14 @@ country_event = {
 					instant_build = yes
 				}
 			}
-			USA = { 
+			USA = {
 				diplomatic_relation = {
 					country = LIB
 					relation = docking_rights
 					active = yes
 				}
 			}
-			LIB = { 
+			LIB = {
 				diplomatic_relation = {
 					country = USA
 					relation = docking_rights
@@ -2886,7 +3226,7 @@ country_event = {
 				hidden_effect = {
 					subtract_from_variable = {var = debt_level value = 1}
 				}
-			}	
+			}
 		}
 		#No Civil War & NO LINCON = bad Reward Below
 		if = {
@@ -2911,22 +3251,22 @@ country_event = {
 				}
 			}
 			hidden_effect = {
-				
+
 			}
-			USA = { 
+			USA = {
 				diplomatic_relation = {
 					country = LIB
 					relation = docking_rights
 					active = yes
 				}
 			}
-			LIB = { 
+			LIB = {
 				diplomatic_relation = {
 					country = USA
 					relation = docking_rights
 					active = yes
 				}
-			}	
+			}
 		}
 		#YES Civil War & YES LINCON = okay Reward Below
 		if = {
@@ -2956,20 +3296,20 @@ country_event = {
 					instant_build = yes
 				}
 			}
-			USA = { 
+			USA = {
 				diplomatic_relation = {
 					country = LIB
 					relation = docking_rights
 					active = yes
 				}
 			}
-			LIB = { 
+			LIB = {
 				diplomatic_relation = {
 					country = USA
 					relation = docking_rights
 					active = yes
 				}
-			}	
+			}
 		}
 		#YES Civil War & NO LINCON =  Shit Reward Below
 		if = {
@@ -2994,24 +3334,24 @@ country_event = {
 				}
 			}
 			hidden_effect = {
-				
+
 			}
-			USA = { 
+			USA = {
 				diplomatic_relation = {
 					country = LIB
 					relation = docking_rights
 					active = yes
 				}
 			}
-			LIB = { 
+			LIB = {
 				diplomatic_relation = {
 					country = USA
 					relation = docking_rights
 					active = yes
 				}
-			}	
+			}
 		}
-		
+
 		#STRONG ACS: No Civil War & YES LINCON = Gucchi Reward Below
 		if = {
 			limit = {
@@ -3038,14 +3378,14 @@ country_event = {
 					instant_build = yes
 				}
 			}
-			USA = { 
+			USA = {
 				diplomatic_relation = {
 					country = LIB
 					relation = docking_rights
 					active = yes
 				}
 			}
-			LIB = { 
+			LIB = {
 				diplomatic_relation = {
 					country = USA
 					relation = docking_rights
@@ -3055,8 +3395,8 @@ country_event = {
 				hidden_effect = {
 					subtract_from_variable = {var = debt_level value = 1}
 				}
-			}	
-			
+			}
+
 		}
 		#STRONG ACS: No Civil War & NO LINCON = Okay Reward Below
 		if = {
@@ -3086,21 +3426,21 @@ country_event = {
 					instant_build = yes
 				}
 			}
-			USA = { 
+			USA = {
 				diplomatic_relation = {
 					country = LIB
 					relation = docking_rights
 					active = yes
 				}
 			}
-			LIB = { 
+			LIB = {
 				diplomatic_relation = {
 					country = USA
 					relation = docking_rights
 					active = yes
 				}
-			}	
-			
+			}
+
 		}
 		#STRONG ACS: YES Civil War & YES LINCON = Okay Reward Below
 		if = {
@@ -3129,22 +3469,22 @@ country_event = {
 				}
 			}
 			hidden_effect = {
-				
+
 			}
-			USA = { 
+			USA = {
 				diplomatic_relation = {
 					country = LIB
 					relation = docking_rights
 					active = yes
 				}
 			}
-			LIB = { 
+			LIB = {
 				diplomatic_relation = {
 					country = USA
 					relation = docking_rights
 					active = yes
 				}
-			}	
+			}
 		}
 		#STRONG ACS: YES Civil War & NO LINCON =  Shit Reward Below
 		if = {
@@ -3167,31 +3507,31 @@ country_event = {
 				}
 			}
 			hidden_effect = {
-				
+
 			}
-			USA = { 
+			USA = {
 				diplomatic_relation = {
 					country = LIB
 					relation = docking_rights
 					active = yes
 				}
 			}
-			LIB = { 
+			LIB = {
 				diplomatic_relation = {
 					country = USA
 					relation = docking_rights
 					active = yes
 				}
-			}	
+			}
 		}
-		
-		
+
+
 	}
-	
+
 	option = {
 		name = liberia.35.b
 		ai_chance = { factor = 0 }
-		USA = { 
+		USA = {
 			diplomatic_relation = {
 				country = LIB
 				relation = docking_rights
@@ -3218,7 +3558,7 @@ country_event = {
 			}
 		}
 	}
-	
+
 }
 
 #Request US Gov Road Investment
@@ -3227,14 +3567,59 @@ country_event = {
 	title = liberia.36.t
 	desc = liberia.36.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.36.a
-		ai_chance = { factor = 15 }
+		ai_chance = {
+			factor = 33
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		custom_effect_tooltip = LIB_liberia_36_event_tooltip_a
+		hidden_effect = {
+			complete_national_focus = LIB_adopt_strong_ACS_policies
+		}
 	}
-	
+
+	option = {
+		trigger = {
+			NOT = {
+				has_country_flag = LIB_Warner_1863
+			}
+		}
+		name = liberia.36.b
+		ai_chance = {
+			factor = 33
+			modifier = {
+				factor = 100
+				is_historical_focus_on = yes
+			}
+		}
+		custom_effect_tooltip = LIB_liberia_36_event_tooltip_b
+		hidden_effect = {
+			complete_national_focus = LIB_president_bensons_reforms
+		}
+	}
+
+	option = {
+		name = liberia.36.c
+		ai_chance = {
+			factor = 33
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		custom_effect_tooltip = LIB_liberia_36_event_tooltip_c
+		hidden_effect = {
+			complete_national_focus = LIB_status_quo
+		}
+	}
+
 }
 
 #Mass Migration #1
@@ -3243,13 +3628,14 @@ country_event = {
 	title = liberia.37.t
 	desc = liberia.37.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.37.a
 		ai_chance = { factor = 100 }
 		add_political_power = -25
+		custom_effect_tooltip = liberia_37_event_tooltip_a
 		hidden_effect = {
 			298 = {
 				add_manpower = -1000
@@ -3270,14 +3656,15 @@ country_event = {
 			LIB = { country_event = { days = 1008 id = liberia.38 } }
 			LIB = { country_event = { days = 1152 id = liberia.38 } }
 			LIB = { country_event = { days = 1296 id = liberia.38 } }
-			LIB = { country_event = { days = 1440 id = liberia.38 } }
+			LIB = { country_event = { days = 1440 id = liberia.380 } }
 		}
 	}
-	
+
 	option = {
 		name = liberia.37.b
 		ai_chance = { factor = 0 }
 		add_political_power = -50
+		custom_effect_tooltip = liberia_37_event_tooltip_b
 		hidden_effect = {
 			298 = {
 				add_manpower = -2000
@@ -3293,10 +3680,10 @@ country_event = {
 			LIB = { country_event = { days = 288 id = liberia.38 } }
 			LIB = { country_event = { days = 432 id = liberia.38 } }
 			LIB = { country_event = { days = 576 id = liberia.38 } }
-			LIB = { country_event = { days = 720 id = liberia.38 } }
+			LIB = { country_event = { days = 720 id = liberia.380 } }
 		}
 	}
-	
+
 }
 
 #Mass Migration #2
@@ -3305,19 +3692,19 @@ country_event = {
 	title = liberia.38.t
 	desc = liberia.38.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.38.a
 		ai_chance = { factor = 100 }
 		KRU = {
-			 country_event = { days = 15 id = liberia.39 } 
+			 country_event = { days = 15 id = liberia.390 }
 		}
 		if = {
 			limit = {
 				LIB = {
-					AND = { 
+					AND = {
 						has_country_flag = LIB_four_year_plan
 						NOT = {
 							has_country_flag = KRU_migration_security
@@ -3336,9 +3723,9 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
-					AND = { 
+					AND = {
 						has_country_flag = LIB_four_year_plan
 						has_country_flag = KRU_migration_security
 					}
@@ -3355,9 +3742,9 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
-					AND = { 
+					AND = {
 						has_country_flag = LIB_two_year_plan
 						NOT = {
 							has_country_flag = KRU_migration_security
@@ -3376,9 +3763,9 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
-					AND = { 
+					AND = {
 						has_country_flag = LIB_two_year_plan
 						has_country_flag = KRU_migration_security
 					}
@@ -3392,6 +3779,117 @@ country_event = {
 			}
 			hidden_effect = {
 				clr_country_flag = KRU_migration_security
+			}
+		}
+	}
+}
+
+country_event = {
+	id = liberia.380
+	title = liberia.380.t
+	desc = liberia.380.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = liberia.38.a
+		ai_chance = { factor = 100 }
+		KRU = {
+			 country_event = { days = 15 id = liberia.39 }
+		}
+		if = {
+			limit = {
+				LIB = {
+					AND = {
+						has_country_flag = LIB_four_year_plan
+						NOT = {
+							has_country_flag = KRU_migration_security
+						}
+					}
+				}
+			}
+			298 = {
+				add_manpower = -1000
+			}
+			761 = {
+				add_manpower = 1000
+			}
+			hidden_effect = {
+				clr_country_flag = KRU_migration_security
+			}
+		}
+		if = {
+			limit = {
+				LIB = {
+					AND = {
+						has_country_flag = LIB_four_year_plan
+						has_country_flag = KRU_migration_security
+					}
+				}
+			}
+			298 = {
+				add_manpower = -1000
+			}
+			761 = {
+				add_manpower = 1000
+			}
+			hidden_effect = {
+				clr_country_flag = KRU_migration_security
+			}
+		}
+		if = {
+			limit = {
+				LIB = {
+					AND = {
+						has_country_flag = LIB_two_year_plan
+						NOT = {
+							has_country_flag = KRU_migration_security
+						}
+					}
+				}
+			}
+			298 = {
+				add_manpower = -2000
+			}
+			761 = {
+				add_manpower = 2000
+			}
+			hidden_effect = {
+				clr_country_flag = KRU_migration_security
+			}
+		}
+		if = {
+			limit = {
+				LIB = {
+					AND = {
+						has_country_flag = LIB_two_year_plan
+						has_country_flag = KRU_migration_security
+					}
+				}
+			}
+			298 = {
+				add_manpower = -2000
+			}
+			761 = {
+				add_manpower = 2000
+			}
+			hidden_effect = {
+				clr_country_flag = KRU_migration_security
+			}
+		}
+		760 = {
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+		}
+		298 = {
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
 			}
 		}
 	}
@@ -3403,14 +3901,15 @@ country_event = {
 	title = liberia.39.t
 	desc = liberia.39.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.39.a
 		ai_chance = { factor = 50 }
+		trigger = { NOT = { has_country_flag = KRU_resist_colonial_governance } }
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
 					has_country_flag = LIB_four_year_plan
 				}
@@ -3419,10 +3918,10 @@ country_event = {
 				add_stability = 0.01
 				add_political_power = 15
 			}
-			
+
 		}
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
 					has_country_flag = LIB_two_year_plan
 				}
@@ -3433,12 +3932,13 @@ country_event = {
 			}
 		}
 	}
-	
+
 	option = {
 		name = liberia.39.b
 		ai_chance = { factor = 50 }
+		trigger = { NOT = { has_country_flag = KRU_resist_colonial_governance } }
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
 					has_country_flag = LIB_four_year_plan
 				}
@@ -3448,10 +3948,10 @@ country_event = {
 				add_political_power = -30
 			}
 			set_country_flag = KRU_migration_security
-			
+
 		}
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
 					has_country_flag = LIB_two_year_plan
 				}
@@ -3463,12 +3963,13 @@ country_event = {
 			set_country_flag = KRU_migration_security
 		}
 	}
-	
+
 	option = {
 		name = liberia.39.c
 		ai_chance = { factor = 0 }
+		trigger = { has_country_flag = KRU_resist_colonial_governance }
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
 					has_country_flag = LIB_four_year_plan
 				}
@@ -3477,10 +3978,10 @@ country_event = {
 				add_stability = 0.01
 				add_political_power = 15
 			}
-			
+
 		}
 		if = {
-			limit = { 
+			limit = {
 				LIB = {
 					has_country_flag = LIB_two_year_plan
 				}
@@ -3491,7 +3992,96 @@ country_event = {
 			}
 		}
 	}
-	
+
+}
+
+country_event = {
+	id = liberia.390
+	title = liberia.390.t
+	desc = liberia.390.d
+	picture = GFX_report_event_soviet_finnish_pact
+
+	is_triggered_only = yes
+
+	option = {
+		name = liberia.390.a
+		ai_chance = { factor = 50 }
+		trigger = { NOT = { has_country_flag = KRU_resist_colonial_governance } }
+		if = {
+			limit = {
+				LIB = {
+					has_country_flag = LIB_four_year_plan
+				}
+			}
+			KRU = {
+				add_stability = 0.01
+				add_political_power = 15
+			}
+
+		}
+		if = {
+			limit = {
+				LIB = {
+					has_country_flag = LIB_two_year_plan
+				}
+			}
+			KRU = {
+				add_stability = 0.02
+				add_political_power = 30
+			}
+		}
+		761 = {
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+
+	option = {
+		name = liberia.390.b
+		ai_chance = { factor = 50 }
+		trigger = { has_country_flag = KRU_resist_colonial_governance }
+		if = {
+			limit = {
+				LIB = {
+					has_country_flag = LIB_four_year_plan
+				}
+			}
+			KRU = {
+				add_stability = 0.01
+				add_political_power = 15
+			}
+
+		}
+		if = {
+			limit = {
+				LIB = {
+					has_country_flag = LIB_two_year_plan
+				}
+			}
+			KRU = {
+				add_stability = 0.02
+				add_political_power = 30
+			}
+		}
+		761 = {
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+		}
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		custom_effect_tooltip = AFR_Racial_Tension_minus_1
+		hidden_effect = {
+			ROOT = {
+				country_event = {id = afr_rrp_racial_tension_decrease.1}
+			}
+		}
+	}
+
 }
 
 #Mass Migration #2
@@ -3500,18 +4090,18 @@ country_event = {
 	title = liberia.40.t
 	desc = liberia.40.d
 	picture = GFX_report_event_soviet_finnish_pact
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = liberia.40.a
 		ai_chance = { factor = 100 }
 	}
-	
+
 	option = {
 		name = liberia.40.b
 		ai_chance = { factor = 0 }
 		KRU = { change_tag_from = ROOT }
 	}
-	
+
 }

@@ -1,0 +1,491 @@
+﻿add_namespace = sem
+add_namespace = sem_on_annex
+add_namespace = sem_on_puppet
+add_namespace = navajo
+
+country_event = {
+	id = sem.1
+	title = sem.1.t
+	desc = sem.1.d
+	picture = GFX_report_event_election_vote
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	trigger = {
+		TAG = USA
+		has_war_with = SEM
+		SEM = { exists = yes }
+		CSA = { exists = yes }
+	}
+
+	option = {
+		name = sem.1.a #focus on csa
+		SEM = { country_event = { id = sem.2 } }
+	}
+	option = {
+		name = sem.1.b #no peace
+		add_political_power = -50
+	}
+}
+country_event = {
+	id = sem.2
+	title = sem.2.t
+	desc = sem.2.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	option = {
+		name = sem.2.a #accept peace
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				366 = { is_owned_by = USA }
+				366 = { is_controlled_by = SEM }
+			}
+			transfer_state = 366
+			add_state_core = 366
+		}
+		USA = {
+			remove_state_core = 1211
+			add_state_claim = 1211
+		}
+		white_peace = USA
+	}
+	option = {
+		name = sem.2.b #no peace
+		ai_chance = { factor = 0 }
+		add_political_power = -100
+	}
+}
+
+country_event = {
+	id = sem.3
+	title = sem.3.t
+	desc = sem.3.d
+	picture = GFX_report_event_election_vote
+
+	trigger = {
+		tag = SEM
+		has_war_with = USA
+	}
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = sem.3.a
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 200
+			producer = USA
+		}
+		add_equipment_to_stockpile = {
+			type = uniform_equipment
+			amount = 200
+			producer = USA
+		}
+		add_equipment_to_stockpile = {
+			type = cavalry_equipment
+			amount = 200
+			producer = USA
+		}
+	}
+}
+
+country_event = {
+	id = sem.4
+	title = sem.4.t
+	desc = sem.4.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			SEM = {
+				if = {
+					limit = {
+						SEM = { has_idea = chiefdom }
+					}
+					SEM = {
+						set_cosmetic_tag = USA_organized_incorporated_territory
+						set_popularities = {
+							anarchism = 1
+							vanguard_communism = 0
+							collectivist_socialism = 0
+							social_egalitarianism = 3
+							centrism = 5
+							traditional_conservatism = 5
+							radical_democracy = 0
+							chauvinist_populism = 0
+							autocracy = 0
+							fundamentalism = 86
+						}
+						set_politics = {
+							ruling_party = fundamentalism
+						}
+					}
+				}
+				else = {
+					SEM = { set_cosmetic_tag = USA_organized_incorporated_territory }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = sem.4.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_stability = 0.07
+		add_war_support = -0.25
+		custom_effect_tooltip = SEM_become_stay_nomadic_tribe
+		hidden_effect = { SEM = { set_variable = { rival_country = USA.id } } }
+	}
+
+	option = {
+		name = sem.4.b
+		ai_chance = {
+			factor = 50
+		}
+		add_stability = 0.07
+		add_war_support = -0.25
+		custom_effect_tooltip = SEM_become_settled_tribe
+		remove_ideas = FN_T_nomadic_tribal_nation
+		swap_ideas = {
+			remove_idea = manpower_tribal_everyone
+			add_idea = manpower_tribal_warriors
+		}
+		hidden_effect = { SEM = { set_variable = { rival_country = USA.id } } }
+	}
+}
+
+country_event = {
+	id = sem_on_annex.1
+	title = sem_on_annex.1.t
+	desc = sem_on_annex.1.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { has_global_flag = SEM_puppeted_or_annexed_by_war_flag }
+	}
+
+	immediate = {
+		hidden_effect = {
+			SEM = { set_country_flag = USA_this_nation_has_native_reservation_status_flag }
+			set_global_flag = SEM_puppeted_or_annexed_by_war_flag
+		}
+	}
+
+	option = {
+		name = sem_on_annex.1.a
+		ai_chance = {
+			factor = 90
+		}
+		1211 = {
+			add_core_of = USA
+			remove_core_of = SEM
+		}
+		366 = {
+			remove_claim_by = SEM
+		}
+		374 = {
+			custom_effect_tooltip = USA_sem_native_reservation
+			add_manpower = 15000
+		}
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		1211 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_4
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.4 trigger_for = controller } }
+		}
+		374 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_2
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 trigger_for = controller } }
+		}
+		hidden_effect = {
+			1211 = {
+				remove_claim_by = USA
+				set_state_flag = DCI_all_natives_relocated
+				set_state_flag = DCI_few_natives_remain
+			}
+		}
+	}
+
+	option = {
+		name = sem_on_annex.1.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_political_power = -250
+		add_popularity = { ideology = social_egalitarianism popularity = 0.01 }
+		366 = {
+			remove_claim_by = SEM
+		}
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			release_autonomy = {
+				target = SEM
+				autonomy_state = autonomy_first_nations_reservation
+				freedom_level = 0.1
+			}
+		}
+		SEM = { country_event = { id = sem.4 } }
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		1211 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_2
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 trigger_for = controller } }
+		}
+		hidden_effect = {
+			1211 = {
+				remove_claim_by = USA
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sem_on_puppet.1
+	title = sem_on_puppet.1.t
+	desc = sem_on_puppet.1.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { has_global_flag = SEM_puppeted_or_annexed_by_war_flag }
+	}
+
+	immediate = {
+		hidden_effect = {
+			SEM = { set_country_flag = USA_this_nation_has_native_reservation_status_flag }
+			set_global_flag = SEM_puppeted_or_annexed_by_war_flag
+		}
+	}
+
+	option = {
+		name = sem_on_puppet.1.a
+		ai_chance = {
+			factor = 90
+		}
+		1211 = {
+			add_core_of = USA
+			remove_core_of = SEM
+		}
+		366 = {
+			remove_claim_by = SEM
+		}
+		374 = {
+			custom_effect_tooltip = USA_sem_native_reservation
+			add_manpower = 15000
+		}
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		1211 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_4
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.4 trigger_for = controller } }
+		}
+		374 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_2
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 trigger_for = controller } }
+		}
+		hidden_effect = {
+			1211 = {
+				remove_claim_by = USA
+				set_state_flag = DCI_all_natives_relocated
+				set_state_flag = DCI_few_natives_remain
+			}
+			SEM = { country_event = { id = sem_on_puppet.2 days = 1 } }
+		}
+	}
+
+	option = {
+		name = sem_on_puppet.1.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_political_power = -250
+		add_popularity = { ideology = social_egalitarianism popularity = 0.01 }
+		366 = {
+			remove_claim_by = SEM
+		}
+		if = {
+			limit = {
+				has_dlc = "Together for Victory"
+			}
+			set_autonomy = {
+				target = SEM
+				autonomy_state = autonomy_first_nations_reservation
+			}
+		}
+		else = {
+			puppet = SEM
+		}
+		SEM = { country_event = { id = sem.4 } }
+		custom_effect_tooltip = afr_colonial_effect_tooltip
+		1211 = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_2
+			hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.2 trigger_for = controller } }
+		}
+		hidden_effect = {
+			1211 = {
+				remove_claim_by = USA
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sem_on_puppet.2
+	title = sem_on_puppet.2.t
+	desc = sem_on_puppet.2.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = sem_on_puppet.2.a
+		hidden_effect = {
+			USA = { country_event = { id = sem_on_puppet.3 days = 14 } }
+		}
+		USA = {
+			annex_country = {
+				target = SEM
+				transfer_troops = no
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sem_on_puppet.3
+	title = sem_on_puppet.3.t
+	desc = sem_on_puppet.3.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = sem_on_puppet.3.a
+	}
+}
+
+country_event = {
+	id = navajo.1
+	title = navajo.1.t
+	desc = navajo.1.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	immediate = {
+		add_state_claim = 1297
+		hidden_effect = {
+			add_political_power = -15
+		}
+	}
+
+	option = {
+		name = navajo.1.a
+		hidden_effect = {
+			USA = { country_event = navajo.2 }
+		}
+	}
+	option = {
+		name = navajo.1.b
+		custom_effect_tooltip = navajo.1.b_tt
+		hidden_effect = {
+			activate_mission = navajo_take_defiance
+		}
+	}
+}
+
+country_event = {
+	id = navajo.2
+	title = navajo.2.t
+	desc = navajo.2.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = navajo.2.a
+		hidden_effect = {
+			NAV = { country_event = navajo.3 }
+		}
+	}
+	option = {
+		name = navajo.2.b
+		hidden_effect = {
+			NAV = { country_event = navajo.4 }
+		}
+	}
+}
+
+country_event = {
+	id = navajo.3
+	title = navajo.3.t
+	desc = navajo.3.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = navajo.3.a
+		custom_effect_tooltip = navajo.1.b_tt
+		hidden_effect = {
+			activate_mission = navajo_take_defiance
+		}
+	}
+	option = {
+		name = navajo.3.b
+		add_political_power = 15
+	}
+}
+
+country_event = {
+	id = navajo.4
+	title = navajo.4.t
+	desc = navajo.4.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			USA = { remove_state_core = 1297 }
+			remove_state_claim = 1297
+		}
+		transfer_state = 1297
+		add_state_core = 1297
+	}
+
+	option = {
+		name = navajo.4.a
+		add_political_power = -50
+		# add_ideas for payments
+	}
+}

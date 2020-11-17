@@ -1,0 +1,228 @@
+﻿add_namespace = NA_B_congress_mechanic_election_calculator
+add_namespace = LIB_congress_mechanic_election_calculator
+add_namespace = NA_B_congress_slavery_abolitionist_vote_calculator
+
+
+country_event = {
+	id = NA_B_congress_slavery_abolitionist_vote_calculator.1
+	hidden = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = {
+			has_country_flag = NA_B_congress_senate_mechanic_election_occurred_flag
+			has_country_flag = NA_B_congress_house_mechanic_election_occurred_flag
+		}
+		OR = {	
+			has_idea = slavery
+			has_idea = usa_slavery_law
+			has_idea = tribal_slavery
+		}
+	}
+	
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { 
+					OR = {	
+						has_idea = slavery
+						has_idea = usa_slavery_law
+						has_idea = tribal_slavery
+					}
+				}
+				state_event = { id = NA_B_congress_slavery_abolitionist_vote_calculator.1 days = 90 }
+			}
+			if = {
+				limit = { has_country_flag = NA_B_congress_house_mechanic_election_occurred_flag }
+				set_variable = { var = THIS.NA_B_pro_abolitionist_house_seats@THIS value = 0 }
+				set_variable = { var = THIS.NA_B_anti_abolitionist_house_seats@THIS value = 0 }
+				
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_house_seats@THIS value = THIS.NA_B_social_egalitarianism_house_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_house_seats@THIS value = THIS.NA_B_collectivist_socialism_house_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_house_seats@THIS value = THIS.NA_B_vanguard_communism_house_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_house_seats@THIS value = THIS.NA_B_fundamentalism_house_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_house_seats@THIS value = THIS.NA_B_chauvinist_populism_house_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_house_seats@THIS value = THIS.NA_B_anarchism_house_seats@THIS }
+				
+				add_to_variable = { var = THIS.NA_B_anti_abolitionist_house_seats@THIS value = THIS.NA_B_centrism_house_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_anti_abolitionist_house_seats@THIS value = THIS.NA_B_traditional_conservatism_house_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_anti_abolitionist_house_seats@THIS value = THIS.NA_B_autocracy_house_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_anti_abolitionist_house_seats@THIS value = THIS.NA_B_radical_democracy_house_seats@THIS }
+				if = {
+					limit = { has_country_flag = NA_B_congress_house_mechanic_election_occurred_flag }
+					clr_country_flag = NA_B_congress_house_mechanic_election_occurred_flag
+				}
+			}
+			if = {
+				limit = { has_country_flag = NA_B_congress_senate_mechanic_election_occurred_flag }
+				set_variable = { var = THIS.NA_B_pro_abolitionist_senate_seats@THIS value = 0 }
+				set_variable = { var = THIS.NA_B_anti_abolitionist_senate_seats@THIS value = 0 }
+				
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_senate_seats@THIS value = THIS.NA_B_social_egalitarianism_senate_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_senate_seats@THIS value = THIS.NA_B_collectivist_socialism_senate_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_senate_seats@THIS value = THIS.NA_B_vanguard_communism_senate_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_senate_seats@THIS value = THIS.NA_B_fundamentalism_senate_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_senate_seats@THIS value = THIS.NA_B_chauvinist_populism_senate_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_pro_abolitionist_senate_seats@THIS value = THIS.NA_B_anarchism_senate_seats@THIS }
+				
+				add_to_variable = { var = THIS.NA_B_anti_abolitionist_senate_seats@THIS value = THIS.NA_B_centrism_senate_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_anti_abolitionist_senate_seats@THIS value = THIS.NA_B_traditional_conservatism_senate_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_anti_abolitionist_senate_seats@THIS value = THIS.NA_B_autocracy_senate_seats@THIS }
+				add_to_variable = { var = THIS.NA_B_anti_abolitionist_senate_seats@THIS value = THIS.NA_B_radical_democracy_senate_seats@THIS }
+				if = {
+					limit = { has_country_flag = NA_B_congress_senate_mechanic_election_occurred_flag }
+					clr_country_flag = NA_B_congress_senate_mechanic_election_occurred_flag
+				}
+			}
+		}
+	}
+}
+
+#
+state_event = {
+	id = NA_B_congress_mechanic_election_calculator.1
+	title = NA_B_set_up_senate.9.t
+	desc = NA_B_set_up_senate.9.d
+	picture = GFX_report_event_chinese_army_training #Picture for event
+	hidden = yes
+	is_triggered_only = yes
+	
+	
+		
+	option = {
+		custom_effect_tooltip = NA_B_mantle_of_the_states_calculator_check_3_state_tooltip
+		ROOT = { state_event = { id = NA_B_congress_mechanic_election_calculator.1 days = 1440 random = 20 } }
+		if = {
+			limit = { 
+				OR = {
+					OWNER = { has_idea = USA_congressional_branch_idea }
+					OWNER = { has_idea = NA_B_congressional_branch_idea }
+				}
+			}
+			#Senate
+			OWNER = {
+				custom_effect_tooltip = NA_B_mantle_of_the_states_calculator_check_3_state_tooltip
+				subtract_from_variable = { var = THIS.NA_B_centrism_senate_seats@THIS value = PREV.NA_B_active_state_centrism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_traditional_conservatism_senate_seats@THIS value = PREV.NA_B_active_state_traditional_conservatism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_social_egalitarianism_senate_seats@THIS value = PREV.NA_B_active_state_social_egalitarianism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_collectivist_socialism_senate_seats@THIS value = PREV.NA_B_active_state_collectivist_socialism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_vanguard_communism_senate_seats@THIS value = PREV.NA_B_active_state_vanguard_communism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_autocracy_senate_seats@THIS value = PREV.NA_B_active_state_autocracy_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_fundamentalism_senate_seats@THIS value = PREV.NA_B_active_state_fundamentalism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_radical_democracy_senate_seats@THIS value = PREV.NA_B_active_state_radical_democracy_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_chauvinist_populism_senate_seats@THIS value = PREV.NA_B_active_state_chauvinist_populism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_anarchism_senate_seats@THIS value = PREV.NA_B_active_state_anarchism_senate_seat@PREV }
+			}
+			NA_B_calculator_state_party_popularity_effect = yes
+			OWNER = {
+				add_to_variable = { var = THIS.NA_B_centrism_senate_seats@THIS value = PREV.NA_B_active_state_centrism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_traditional_conservatism_senate_seats@THIS value = PREV.NA_B_active_state_traditional_conservatism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_social_egalitarianism_senate_seats@THIS value = PREV.NA_B_active_state_social_egalitarianism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_collectivist_socialism_senate_seats@THIS value = PREV.NA_B_active_state_collectivist_socialism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_vanguard_communism_senate_seats@THIS value = PREV.NA_B_active_state_vanguard_communism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_autocracy_senate_seats@THIS value = PREV.NA_B_active_state_autocracy_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_fundamentalism_senate_seats@THIS value = PREV.NA_B_active_state_fundamentalism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_radical_democracy_senate_seats@THIS value = PREV.NA_B_active_state_radical_democracy_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_chauvinist_populism_senate_seats@THIS value = PREV.NA_B_active_state_chauvinist_populism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_anarchism_senate_seats@THIS value = PREV.NA_B_active_state_anarchism_senate_seat@PREV }
+				if = {
+					limit = { NOT = { has_country_flag = NA_B_congress_senate_mechanic_election_occurred_flag } }
+					set_country_flag = NA_B_congress_senate_mechanic_election_occurred_flag
+				}
+			}
+		}
+	}
+}
+
+state_event = {
+	id = LIB_congress_mechanic_election_calculator.1
+	title = NA_B_set_up_senate.9.t
+	desc = NA_B_set_up_senate.9.d
+	picture = GFX_report_event_chinese_army_training #Picture for event
+	hidden = yes
+	is_triggered_only = yes
+	
+	trigger = {
+		OR = {
+			STATE = 298
+			STATE = 1346
+		}
+	}
+		
+	option = {
+		custom_effect_tooltip = NA_B_mantle_of_the_states_calculator_check_3_state_tooltip
+		ROOT = { state_event = { id = LIB_congress_mechanic_election_calculator.1 days = 1440 random = 20 } }
+		if = {
+			limit = { 
+				STATE = 298
+				OR = {
+					OWNER = { has_idea = USA_congressional_branch_idea }
+					OWNER = { has_idea = NA_B_congressional_branch_idea }
+				}
+			}
+			#Senate
+			OWNER = {
+				custom_effect_tooltip = NA_B_mantle_of_the_states_calculator_check_3_state_tooltip
+				subtract_from_variable = { var = THIS.NA_B_centrism_senate_seats@THIS value = PREV.NA_B_active_state_centrism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_traditional_conservatism_senate_seats@THIS value = PREV.NA_B_active_state_traditional_conservatism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_social_egalitarianism_senate_seats@THIS value = PREV.NA_B_active_state_social_egalitarianism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_collectivist_socialism_senate_seats@THIS value = PREV.NA_B_active_state_collectivist_socialism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_vanguard_communism_senate_seats@THIS value = PREV.NA_B_active_state_vanguard_communism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_autocracy_senate_seats@THIS value = PREV.NA_B_active_state_autocracy_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_fundamentalism_senate_seats@THIS value = PREV.NA_B_active_state_fundamentalism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_radical_democracy_senate_seats@THIS value = PREV.NA_B_active_state_radical_democracy_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_chauvinist_populism_senate_seats@THIS value = PREV.NA_B_active_state_chauvinist_populism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_anarchism_senate_seats@THIS value = PREV.NA_B_active_state_anarchism_senate_seat@PREV }
+			}
+			LIB_calculator_state_party_popularity_effect = yes
+			OWNER = {
+				add_to_variable = { var = THIS.NA_B_centrism_senate_seats@THIS value = PREV.NA_B_active_state_centrism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_traditional_conservatism_senate_seats@THIS value = PREV.NA_B_active_state_traditional_conservatism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_social_egalitarianism_senate_seats@THIS value = PREV.NA_B_active_state_social_egalitarianism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_collectivist_socialism_senate_seats@THIS value = PREV.NA_B_active_state_collectivist_socialism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_vanguard_communism_senate_seats@THIS value = PREV.NA_B_active_state_vanguard_communism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_autocracy_senate_seats@THIS value = PREV.NA_B_active_state_autocracy_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_fundamentalism_senate_seats@THIS value = PREV.NA_B_active_state_fundamentalism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_radical_democracy_senate_seats@THIS value = PREV.NA_B_active_state_radical_democracy_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_chauvinist_populism_senate_seats@THIS value = PREV.NA_B_active_state_chauvinist_populism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_anarchism_senate_seats@THIS value = PREV.NA_B_active_state_anarchism_senate_seat@PREV }
+			}
+		}
+		else_if = {
+			limit = { 
+				STATE = 1346
+				OR = {
+					OWNER = { has_idea = USA_congressional_branch_idea }
+					OWNER = { has_idea = NA_B_congressional_branch_idea }
+				}
+			}
+			#Senate
+			OWNER = {
+				custom_effect_tooltip = NA_B_mantle_of_the_states_calculator_check_3_state_tooltip
+				subtract_from_variable = { var = THIS.NA_B_centrism_senate_seats@THIS value = PREV.NA_B_active_state_centrism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_traditional_conservatism_senate_seats@THIS value = PREV.NA_B_active_state_traditional_conservatism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_social_egalitarianism_senate_seats@THIS value = PREV.NA_B_active_state_social_egalitarianism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_collectivist_socialism_senate_seats@THIS value = PREV.NA_B_active_state_collectivist_socialism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_vanguard_communism_senate_seats@THIS value = PREV.NA_B_active_state_vanguard_communism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_autocracy_senate_seats@THIS value = PREV.NA_B_active_state_autocracy_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_fundamentalism_senate_seats@THIS value = PREV.NA_B_active_state_fundamentalism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_radical_democracy_senate_seats@THIS value = PREV.NA_B_active_state_radical_democracy_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_chauvinist_populism_senate_seats@THIS value = PREV.NA_B_active_state_chauvinist_populism_senate_seat@PREV }
+				subtract_from_variable = { var = THIS.NA_B_anarchism_senate_seats@THIS value = PREV.NA_B_active_state_anarchism_senate_seat@PREV }
+			}
+			LIB_calculator_state_party_popularity_effect = yes
+			OWNER = {
+				add_to_variable = { var = THIS.NA_B_centrism_senate_seats@THIS value = PREV.NA_B_active_state_centrism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_traditional_conservatism_senate_seats@THIS value = PREV.NA_B_active_state_traditional_conservatism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_social_egalitarianism_senate_seats@THIS value = PREV.NA_B_active_state_social_egalitarianism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_collectivist_socialism_senate_seats@THIS value = PREV.NA_B_active_state_collectivist_socialism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_vanguard_communism_senate_seats@THIS value = PREV.NA_B_active_state_vanguard_communism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_autocracy_senate_seats@THIS value = PREV.NA_B_active_state_autocracy_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_fundamentalism_senate_seats@THIS value = PREV.NA_B_active_state_fundamentalism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_radical_democracy_senate_seats@THIS value = PREV.NA_B_active_state_radical_democracy_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_chauvinist_populism_senate_seats@THIS value = PREV.NA_B_active_state_chauvinist_populism_senate_seat@PREV }
+				add_to_variable = { var = THIS.NA_B_anarchism_senate_seats@THIS value = PREV.NA_B_active_state_anarchism_senate_seat@PREV }
+			}
+		}
+	}
+}

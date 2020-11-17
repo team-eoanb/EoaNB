@@ -8,10 +8,11 @@ country_event = {
 	
 	trigger = {
 	    TAG = GRE
-        date > 1857.11.25
-		}
+        #date > 1857.11.25
+	}
 
 	fire_only_once = yes
+	is_triggered_only = yes
 	
 	option = {
 	name = Greecemisc.1.a #replace with miaoulis
@@ -163,10 +164,11 @@ country_event = {
 	
 	trigger = {
 	    TAG = GRE
-        date > 1862.05.16 
+        #date > 1862.05.16 
 		}
 
 	fire_only_once = yes
+	is_triggered_only = yes
 	
 	option = {
 	     name = Greecemisc.5.a #Remove Miaoulis  
@@ -243,10 +245,11 @@ country_event = {
 	picture = GFX_report_event_gre_athens_2 
 
 	fire_only_once = yes
+	is_triggered_only = yes
 	
 	trigger = {
 	    TAG = GRE
-        date > 1859.04.20 
+        #date > 1859.04.20 
 	}	
 	
 	option = {
@@ -329,10 +332,11 @@ country_event = {        #1859 elections start
 	
 	trigger = {
 		TAG = GRE
-		date > 1859.07.1
+		#date > 1859.07.1
 	}
 	
 	fire_only_once = yes 
+	is_triggered_only = yes
 	
 	option = {
 		name = Greeceelections.1.a
@@ -363,10 +367,11 @@ country_event = { #1859 elections results
 	trigger = {
 		TAG = GRE
 		GRE = {has_country_flag = gre_election_1859}
-		date > 1859.10.1
+		#date > 1859.10.1
 	}
 	
 	fire_only_once = yes
+	is_triggered_only = yes
 	
 	immediate = {
 		hidden_effect = {
@@ -1414,7 +1419,7 @@ country_event = { #Turkey finds out about the Greek support
 		
 		
 		hidden_effect = {
-        GRE = { country_event = { id = GREdiplo.4 days = 20 } }
+        GRE = { country_event = { id = GREdiplo.3 days = 20 } }
 		}
 	}
 }
@@ -1562,7 +1567,8 @@ country_event = { #Greece - Informed of Britain supporting Turkey
 	}
 }
 
-country_event = { #Turkey - Informed of Britain supporting Greece       
+#Turkey - Informed of Britain supporting Greece       
+country_event = { 
 	id = GREdiplo.8
 	title = GREdiplo.8.t
 	desc = GREdiplo.8.d
@@ -1590,9 +1596,201 @@ country_event = { #Turkey - Informed of Britain supporting Greece
 	}
 }
 
+#Ask Britain for Help
+country_event = { 
+	id = GREdiplo.9
+	title = GREdiplo.9.t
+	desc = GREdiplo.9.d
+	picture = GFX_report_event_gre_athens_1
+	
+	is_triggered_only = yes 	
+
+	#Send the message to England
+	option = {         
+		name = GREdiplo.9.a  
+		add_political_power = -5
+		ENG = {
+			country_event = { 
+				id = britaingreece.1
+				days = 5 
+			}
+		} 
+	}
+}
+
+#Ask Russia for help
+country_event = { 
+	id = GREdiplo.10
+	title = GREdiplo.10.t
+	desc = GREdiplo.10.d
+	picture = GFX_report_event_gre_athens_1
+	
+	is_triggered_only = yes 	
+
+	#Send the message to Russia
+	option = {     
+		name = GREdiplo.10.a  
+		add_political_power = -5
+		RUS = {
+			country_event = { 
+				id = russiagreece.1
+				days = 5 
+			}
+		} 
+	}
+}
+
+#End of foreign Influence for Greece
+country_event = { 
+	id = GREdiplo.12
+	title = GREdiplo.12.t
+	desc = GREdiplo.12.d
+	picture = GFX_report_event_gre_athens_1
+	
+	is_triggered_only = yes 	
+
+	option = {      
+		name = GREdiplo.12.a  
+		GRE = {
+			transfer_state = 47
+		}
+	}
+}
+
+#End of Greek Influence for foreign country
+country_event = { 
+	id = GREdiplo.13
+	title = GREdiplo.13.t
+	desc = GREdiplo.13.d
+	picture = GFX_report_event_gre_athens_1
+	
+	is_triggered_only = yes 	
+
+	#Informative option
+	option = {      
+		name = GREdiplo.13.a  
+		add_political_power = 1
+	}
+}
+
+
+country_event = { #Turkey wins         
+	id = GREdiplo.14
+	title = GREdiplo.14.t
+	desc = GREdiplo.14.d
+	picture = GFX_report_event_gre_ionian_islands_1
+	
+	is_triggered_only = yes 	
+
+	option = { #enforce will      
+		name = GREdiplo.14.a  
+		ai_chance = {
+			factor = 20
+		}
+		
+		store_current_ideologies = yes
+		if = {
+			limit = { has_dlc = "Together for Victory" }
+			set_autonomy = {
+				target = GRE
+				autonomy_state = autonomy_khedive
+			}
+		}
+		load_prevous_ideologies = yes
+		# hidden_effect = {
+			# #inform greece about becoming a kevidate again
+			# GRE = { country_event = { id = GREdiplo.17 days = 5 } }
+		# }
+	}
+	option = { #mearly exstract concessions    
+		name = GREdiplo.14.b  
+		ai_chance = {
+			factor = 80
+		}
+		
+		# hidden_effect = {
+        # GRE = { country_event = { id = GREdiplo.3 days = 20 } }
+		# }
+	}
+}
+
+country_event = { #greece wins         
+	id = GREdiplo.15
+	title = GREdiplo.15.t
+	desc = GREdiplo.15.d
+	picture = GFX_report_event_gre_ionian_islands_1
+	
+	is_triggered_only = yes 	
+
+	option = { #ok    
+		name = GREdiplo.15.a 
+		trigger={
+			tag = OTO
+		}
+		ai_chance = {
+			factor = 20
+		}
+		white_peace = CET
+		effect_tooltip = {
+			GRE={
+				transfer_state = 811
+			}
+		}
+	}
+	option = { #we won?    
+		name = GREdiplo.15.b  
+		trigger={
+			tag = GRE
+		}
+		ai_chance = {
+			factor = 80
+		}
+		GRE={
+			transfer_state = 811
+		}
+		eoanb_add_10_prestige_score = yes
+		hidden_effect = {
+			#Crete decides to be independant or part of greece again
+			CET = { country_event = { id = GREcrete.5 days = 20 } }
+		}
+	}
+}
+#Status quo
+country_event = { 
+	id = GREdiplo.16
+	title = GREdiplo.16.t
+	desc = GREdiplo.16.d
+	picture = GFX_report_event_gre_athens_1
+	
+	is_triggered_only = yes 	
+
+	#Informative option
+	option = {      
+		name = GREdiplo.16.a  
+		
+	}
+}
+#Greece loss
+country_event = { 
+	id = GREdiplo.17
+	title = GREdiplo.17.t
+	desc = GREdiplo.17.d
+	picture = GFX_report_event_gre_athens_1
+	
+	is_triggered_only = yes 	
+
+	#Informative option
+	option = {      
+		name = GREdiplo.17.a  
+		
+	}
+}
+
 add_namespace = GREeconomy  
 
-country_event = { #Begin Construction of the Athens-Piraeus Railway        
+#Begin Construction of the Athens-Piraeus Railway        
+
+country_event = { 
 	id = GREeconomy.1
 	title = GREeconomy.1.t
 	desc = GREeconomy.1.d
@@ -1614,7 +1812,8 @@ country_event = { #Begin Construction of the Athens-Piraeus Railway
 	}
 }
 
-country_event = { #Begin Construction of the Athens-Piraeus Railway        
+#Begin Construction of the Athens-Piraeus Railway       
+country_event = {  
 	id = GREeconomy.2
 	title = GREeconomy.2.t
 	desc = GREeconomy.2.d
@@ -1706,7 +1905,9 @@ country_event = {      #Ask Britain for ship models
 }
 
 add_namespace = GRECulture
-country_event = {      #Construct the University
+
+#Construct the University
+country_event = {      
 	id = GRECulture.1
 	title = GRECulture.1.t
 	desc = GRECulture.1.d
@@ -1731,7 +1932,8 @@ country_event = {      #Construct the University
 	}
 }
 
-country_event = {      #Completion of the University
+#Completion of the University
+country_event = {      
 	id = GRECulture.10
 	title = GRECulture.10.t
 	desc = GRECulture.10.d
@@ -1759,7 +1961,8 @@ country_event = {      #Completion of the University
 	}
 }
 
-country_event = {      #Construct the Academy
+#Construct the Academy
+country_event = {      
 	id = GRECulture.2
 	title = GRECulture.2.t
 	desc = GRECulture.2.d
@@ -1784,7 +1987,8 @@ country_event = {      #Construct the Academy
 	}
 }
 
-country_event = {      #Completion of the Academy
+#Completion of the Academy
+country_event = {     
 	id = GRECulture.20
 	title = GRECulture.20.t
 	desc = GRECulture.20.d
@@ -1813,7 +2017,8 @@ country_event = {      #Completion of the Academy
 	}
 }
 
-country_event = {      #Construct the Library
+#Construct the Library
+country_event = {      
 	id = GRECulture.3
 	title = GRECulture.3.t
 	desc = GRECulture.3.d
@@ -1838,7 +2043,8 @@ country_event = {      #Construct the Library
 	}
 }
 
-country_event = {      #Completion of the Library
+#Completion of the Library
+country_event = {      
 	id = GRECulture.30
 	title = GRECulture.30.t
 	desc = GRECulture.30.d
@@ -1868,5 +2074,19 @@ country_event = {      #Completion of the Library
 	}
 }
 
-
-
+country_event = {
+	id = GRECulture.31
+	title = GRECulture.31.t
+	desc = GRECulture.31.d
+	picture = GFX_report_event_gre_ionian_islands_1
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {       
+		name = GRECulture.31.a  
+		GRE = { 
+			add_research_slot = 1
+		}
+	}
+}

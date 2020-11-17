@@ -19,7 +19,7 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 5
 		}
 		available={
 			has_idea = OTO_tanzimat_reform_2
@@ -43,7 +43,7 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 5
 		}
 		available={
 			NOT={has_idea = OTO_tanzimat_reform_2}
@@ -78,7 +78,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_mac_emphasis_title_caliph
-		icon = GFX_focus_ottoman_monarchy
+		icon = GFX_focus_holy_quran
 		cost = 70.00
 		x = 16
 		y = 2
@@ -107,7 +107,7 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 5
 		}
 		prerequisite = {
 			focus = OTO_mac_traditional_govt
@@ -128,7 +128,7 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 3
 		}
 		prerequisite = {
 			focus = OTO_mac_begin_constitution_debates
@@ -147,7 +147,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_mac_side_young_ottomans
-		icon = GFX_focus_tazimatcilar
+		icon = GFX_goal_focus_support_conservatism
 		cost = 70.00
 		x = 12
 		y = 2
@@ -155,7 +155,7 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 2
 		}
 		mutually_exclusive={
 			focus = OTO_mac_continue_tanzimat_reforms
@@ -171,7 +171,7 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_mac_sharia_law
-		icon = GFX_focus_tazimatcilar
+		icon = GFX_focus_islam_state_religion
 		cost = 70.00
 		x = 14
 		y = 2
@@ -179,7 +179,7 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 2
 		}
 		mutually_exclusive={
 			focus = OTO_mac_continue_tanzimat_reforms
@@ -206,7 +206,7 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 4
 		}
 		prerequisite = {
 			focus = OTO_mac_continue_tanzimat_reforms
@@ -228,7 +228,7 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 5
 		}
 		prerequisite = {
 			focus = OTO_mac_power_of_assembly
@@ -248,13 +248,13 @@ focus_tree = {
 			always = yes
 		}
 		ai_will_do={
-			factor = 1
+			factor = 5
 		}
 		prerequisite = {
 			focus = OTO_mac_power_of_sultan
 		}
 		completion_reward = {
-			
+			country_event = {id = OTO_events.15}
 		}
 	}
 	
@@ -270,11 +270,23 @@ focus_tree = {
 		# prerequisite = {
 			# focus = OTO_mac_rebuild_millet
 		# }
+		available={
+			custom_trigger_tooltip={
+				tooltip = OTO_has_debt
+				check_variable={debt_level>0}
+			}
+		}
+		bypass = {
+			has_idea = edc_bankrupt
+		}
 		ai_will_do={
 			factor = 1
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			hidden_effect = {
+				subtract_from_variable = {var = debt_level value = 1}
+			}
 		}
 	}
 	focus = {
@@ -288,6 +300,19 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = OTO_mac_debt_management
+		}
+		available={
+			has_idea = edc_bankrupt
+		}
+		completion_reward = {
+			swap_ideas={
+				remove_idea = edc_bankrupt
+				add_idea = edc_bankrupt_reduced
+			}
+			modify_timed_idea = {
+				idea = edc_bankrupt_reduced
+				days = -1275
+			}
 		}
 		ai_will_do={
 			factor = 1
@@ -312,7 +337,8 @@ focus_tree = {
 			factor = 1
 		}
 		completion_reward = {
-			
+			remove_ideas = {edc_bankrupt_reduced}
+			add_ideas = {OTO_debt_administration}
 		}
 	}
 	focus = {
@@ -327,11 +353,17 @@ focus_tree = {
 		prerequisite = {
 			focus = OTO_mac_debt_management
 		}
+		available = {
+			NOT={has_idea = edc_bankrupt}
+		}
 		ai_will_do={
 			factor = 1
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			hidden_effect = {
+				subtract_from_variable = {var = debt_level value = 1}
+			}
 		}
 	}
 	focus = {
@@ -346,16 +378,22 @@ focus_tree = {
 		prerequisite = {
 			focus = OTO_mac_reduce_spending
 		}
+		available = {
+			NOT={has_idea = edc_bankrupt}
+		}
 		ai_will_do={
 			factor = 1
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			hidden_effect = {
+				subtract_from_variable = {var = debt_level value = 1}
+			}
 		}
 	}
 	focus = {
 		id = OTO_mac_increase_taxes
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_generic_tax_raise
 		cost = 70.00
 		x = 18
 		y = 4
@@ -365,17 +403,27 @@ focus_tree = {
 		prerequisite = {
 			focus = OTO_mac_debt_management
 		}
+		available = {
+			NOT={has_idea = edc_bankrupt}
+		}
 		ai_will_do={
 			factor = 1
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = EGY_afr_decrease_debt_2
+			hidden_effect = {
+				subtract_from_variable = {var = debt_level value = 2}
+			}
+			add_timed_idea = {
+				idea = OTO_mac_increased_tax_burden
+				days = 720
+			}
 		}
 	}
 	
 	focus = {
 		id = OTO_mac_defense_balkans
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_generic_construct_military
 		cost = 70.00
 		x = 26
 		y = 0
@@ -386,34 +434,40 @@ focus_tree = {
 			# focus = OTO_mac_rebuild_millet
 		# }
 		ai_will_do={
-			factor = 1
+			factor = 5
 		}
 		completion_reward = {
-			
+			add_war_support = 0.1
 		}
 	}
 	focus = {
 		id = OTO_mac_manage_BOS
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_focus_supress_BOS
 		cost = 70.00
 		x = 25
 		y = 1
 		historical_ai = {
 			always = yes
 		}
+		available={
+			controls_state = 1272
+			controls_state = 1207
+			controls_state = 1205
+			controls_state = 1208
+		}
 		prerequisite = {
 			focus = OTO_mac_defense_balkans
 		}
 		ai_will_do={
-			factor = 1
+			factor = 3
 		}
 		completion_reward = {
-			
+			add_political_power = 100
 		}
 	}
 	focus = {
 		id = OTO_mac_BOS_garrisons
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_generic_manpower
 		cost = 70.00
 		x = 25
 		y = 2
@@ -424,34 +478,45 @@ focus_tree = {
 			focus = OTO_mac_manage_BOS
 		}
 		ai_will_do={
-			factor = 1
+			factor = 3
+		}
+		available={
+			has_manpower > 1999
+			BOS={exists = no}
 		}
 		completion_reward = {
-			
+			add_manpower = -2000
+			custom_effect_tooltip = OTO_WEAKEN_BOS_REB
 		}
 	}
 	focus = {
 		id = OTO_mac_manage_BUL
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_focus_supress_BUL
 		cost = 70.00
 		x = 23
 		y = 1
 		historical_ai = {
 			always = yes
 		}
+		available={
+			controls_state = 48
+			controls_state = 211
+			controls_state = 1023
+			controls_state = 963
+		}
 		prerequisite = {
 			focus = OTO_mac_defense_balkans
 		}
 		ai_will_do={
-			factor = 1
+			factor = 2
 		}
 		completion_reward = {
-			
+			add_political_power = 100
 		}
 	}
 	focus = {
 		id = OTO_mac_BUL_garrisons
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_generic_manpower
 		cost = 70.00
 		x = 23
 		y = 2
@@ -462,15 +527,20 @@ focus_tree = {
 			focus = OTO_mac_manage_BUL
 		}
 		ai_will_do={
-			factor = 1
+			factor = 3
+		}
+		available={
+			has_manpower > 1999
+			BUL={exists = no}
 		}
 		completion_reward = {
-			
+			add_manpower = -2000
+			custom_effect_tooltip = OTO_WEAKEN_BUL_REB
 		}
 	}
 	focus = {
 		id = OTO_mac_support_BUL_church
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_orthodox_state_religion
 		cost = 70.00
 		x = 23
 		y = 3
@@ -480,16 +550,27 @@ focus_tree = {
 		prerequisite = {
 			focus = OTO_mac_BUL_garrisons
 		}
+		available={
+			controls_state = 106
+			controls_state = 48
+			BUL={has_country_flag = BUL_exarchate_formed}
+		}
 		ai_will_do={
-			factor = 1
+			factor = 3
 		}
 		completion_reward = {
-			
+			GRE = {country_event={id=OTO_events.9}}
+			reverse_add_opinion_modifier = {
+				target = GRE
+				modifier = supported_BUL_exarchate
+			}
+			custom_effect_tooltip = OTO_split_BUL_GRE
+			set_global_flag = GRE_BUL_relgious_dominon_MAC
 		}
 	}
 	focus = {
 		id = OTO_mac_influtration_BRCC
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_focus_stop_fund_partisans
 		cost = 70.00
 		x = 23
 		y = 4
@@ -499,11 +580,18 @@ focus_tree = {
 		prerequisite = {
 			focus = OTO_mac_support_BUL_church
 		}
+		available={
+			BUL = {
+				exists = no
+				has_country_flag = OTO_BRCC_founded
+			}
+		}
 		ai_will_do={
 			factor = 1
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = EDC_OTO_unlocks_brcc_influtration_decisions
+			set_country_flag = OTO_infiltrate_BRCC
 		}
 	}
 	focus = {
@@ -515,6 +603,10 @@ focus_tree = {
 		historical_ai = {
 			always = yes
 		}
+		available={
+			controls_state = 44
+			controls_state = 1200
+		}
 		prerequisite = {
 			focus = OTO_mac_defense_balkans
 		}
@@ -522,17 +614,23 @@ focus_tree = {
 			factor = 1
 		}
 		completion_reward = {
-			
+			add_political_power = 100
 		}
 	}
 	focus = {
 		id = OTO_mac_enforce_ALB_millet
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_CZE_german_puppet
 		cost = 70.00
 		x = 19
 		y = 2
+		mutually_exclusive={
+			focus = OTO_mac_support_ALB_efforts
+		}
 		historical_ai = {
 			always = yes
+		}
+		available={
+			has_country_flag = OTO_albanians_take_up_arms
 		}
 		prerequisite = {
 			focus = OTO_mac_manage_ALB
@@ -546,29 +644,45 @@ focus_tree = {
 	}
 	focus = {
 		id = OTO_mac_deal_popular_army
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_focus_supress_ALB
 		cost = 70.00
 		x = 19
 		y = 3
+		dynamic = yes
 		historical_ai = {
 			always = yes
 		}
 		prerequisite = {
 			focus = OTO_mac_enforce_ALB_millet
 		}
+		available={
+			custom_trigger_tooltip = {
+				tooltip = prizren_league_exists	
+				ALB={
+					has_cosmetic_tag = ALB_prizren
+					exists = yes
+				}
+			}
+		}
 		ai_will_do={
 			factor = 1
 		}
 		completion_reward = {
-			
+			declare_war_on = {
+				target = ALB
+				type = annex_everything
+			}
 		}
 	}
 	focus = {
 		id = OTO_mac_support_ALB_efforts
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_death_or_dishonor
 		cost = 70.00
 		x = 21
 		y = 2
+		mutually_exclusive={
+			focus = OTO_mac_enforce_ALB_millet
+		}
 		historical_ai = {
 			always = yes
 		}
@@ -578,16 +692,21 @@ focus_tree = {
 		ai_will_do={
 			factor = 1
 		}
+		available={
+			has_country_flag = OTO_albanians_take_up_arms
+		}
 		completion_reward = {
-			
+			add_political_power = -75
+			add_stability = 0.05
 		}
 	}
 	focus = {
 		id = OTO_mac_integrate_popular_army
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_deal_league_of_prizren
 		cost = 70.00
 		x = 21
 		y = 3
+		dynamic = yes
 		historical_ai = {
 			always = yes
 		}
@@ -597,13 +716,22 @@ focus_tree = {
 		ai_will_do={
 			factor = 1
 		}
+		available={
+			custom_trigger_tooltip = {
+				tooltip = prizren_league_exists	
+				ALB={
+					has_cosmetic_tag = ALB_prizren
+					exists = yes
+				}
+			}
+		}
 		completion_reward = {
-			
+			ALB = {country_event = {id=OTO_events.31}}
 		}
 	}
 	focus = {
 		id = OTO_mac_end_prizren_league
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_ALB_league_of_prizren
 		cost = 70.00
 		x = 20
 		y = 4
@@ -614,16 +742,32 @@ focus_tree = {
 			focus = OTO_mac_integrate_popular_army
 			focus = OTO_mac_deal_popular_army
 		}
+		available={
+			custom_trigger_tooltip = {
+				tooltip = prizren_league_not_exists	
+				ALB={
+					has_cosmetic_tag = ALB_prizren
+					exists = no
+				}
+			}
+		}
 		ai_will_do={
 			factor = 1
 		}
 		completion_reward = {
-			
+			ALB={
+				remove_state_core = 44
+				remove_state_core = 1200
+				remove_state_core = 1201
+				remove_state_core = 966
+				remove_state_core = 105
+			}
+			add_stability = 0.1
 		}
 	}
 	focus = {
 		id = OTO_mac_manage_SER
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_focus_supress_SER
 		cost = 70.00
 		x = 27
 		y = 1
@@ -633,17 +777,20 @@ focus_tree = {
 		prerequisite = {
 			focus = OTO_mac_defense_balkans
 		}
+		available={
+			SER={is_subject_of = OTO}
+		}
 		ai_will_do={
-			factor = 1
+			factor = 2
 		}
 		completion_reward = {
-			
+			add_political_power = 100
 		}
 	}
 	focus = {
 		id = OTO_mac_SER_forts
-		icon = GFX_focus_generic_self_management
-		cost = 70.00
+		icon = GFX_goal_generic_construct_military
+		cost = 140.00
 		x = 27
 		y = 2
 		historical_ai = {
@@ -656,32 +803,86 @@ focus_tree = {
 			factor = 1
 		}
 		completion_reward = {
-			
+			966={
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+			}
+			1201={
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+			}
+			108={
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+			}
+			965={
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+			}
 		}
 	}
 	focus = {
 		id = OTO_mac_manage_MON
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_focus_supress_MNT
 		cost = 70.00
 		x = 29
 		y = 1
 		historical_ai = {
 			always = yes
 		}
+		available={
+			MNT={
+				exists = yes
+				OR={
+					is_subject = no
+					is_subject_of = OTO
+				}
+			}
+			controls_state = 1202
+			controls_state = 1204
+		}
 		prerequisite = {
 			focus = OTO_mac_defense_balkans
 		}
 		ai_will_do={
-			factor = 1
+			factor = 2
 		}
 		completion_reward = {
-			
+			add_political_power = 100
 		}
 	}
 	focus = {
 		id = OTO_mac_MON_forts
-		icon = GFX_focus_generic_self_management
-		cost = 70.00
+		icon = GFX_goal_generic_construct_military
+		cost = 140.00
 		x = 29
 		y = 2
 		historical_ai = {
@@ -706,6 +907,13 @@ focus_tree = {
 		historical_ai = {
 			always = yes
 		}
+		available={
+			GRE={
+				exists = yes
+				is_subject = no
+			}
+			controls_state = 811
+		}
 		prerequisite = {
 			focus = OTO_mac_defense_balkans
 		}
@@ -713,13 +921,13 @@ focus_tree = {
 			factor = 1
 		}
 		completion_reward = {
-			
+			add_political_power = 100
 		}
 	}
 	focus = {
 		id = OTO_mac_GRE_forts
-		icon = GFX_focus_generic_self_management
-		cost = 70.00
+		icon = GFX_goal_generic_construct_military
+		cost = 140.00
 		x = 31
 		y = 2
 		historical_ai = {
@@ -732,13 +940,44 @@ focus_tree = {
 			factor = 1
 		}
 		completion_reward = {
-			
+			if={
+				limit={
+					owns_state = 811
+				}
+				811={
+					add_building_construction = {
+						type = bunker
+						level = 1
+						instant_build = yes
+						province = {
+							all_provinces = yes
+							limit_to_border = yes
+						}
+					}
+				}
+			}
+			else_if={
+				limit={
+					owns_state = 841
+				}
+				841={
+					add_building_construction = {
+						type = bunker
+						level = 1
+						instant_build = yes
+						province = {
+							all_provinces = yes
+							limit_to_border = yes
+						}
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = OTO_mac_drought_management
-		icon = GFX_goal_focus_agriculture
+		icon = GFX_goal_SWE_famine
 		cost = 70.00
 		x = 34
 		y = 0
@@ -752,15 +991,15 @@ focus_tree = {
 			# focus = OTO_mac_defense_balkans
 		# }
 		ai_will_do={
-			factor = 1
+			factor = 1000
 		}
 		completion_reward = {
-			
+			OTO_lessen_grain_crisis = yes
 		}
 	}
 	focus = {
 		id = OTO_mac_crack_down_locusts
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_assassination
 		cost = 70.00
 		x = 33
 		y = 1
@@ -770,11 +1009,15 @@ focus_tree = {
 		prerequisite = {
 			focus = OTO_mac_drought_management
 		}
+		available={
+			has_manpower > 9999
+		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			OTO_lessen_grain_crisis = yes
+			add_manpower = -10000
 		}
 	}
 	focus = {
@@ -790,15 +1033,18 @@ focus_tree = {
 			focus = OTO_mac_crack_down_locusts
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			add_timed_idea={
+				idea = OTO_mac_grain_crisis_infra_repair
+				days = 360
+			}
 		}
 	}
 	focus = {
 		id = OTO_mac_ban_BUL_wheat_exports
-		icon = GFX_focus_generic_self_management
+		icon = GFX_focus_agriculture_2
 		cost = 70.00
 		x = 35
 		y = 1
@@ -809,10 +1055,11 @@ focus_tree = {
 			focus = OTO_mac_drought_management
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = OTO_mac_BUL_banned_wheat
+			OTO_lessen_grain_crisis = yes
 		}
 	}
 	focus = {
@@ -828,10 +1075,14 @@ focus_tree = {
 			focus = OTO_mac_ban_BUL_wheat_exports
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = EGY_afr_increase_debt_2
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 2}
+			}
+			OTO_lessen_grain_crisis = yes
 		}
 	}
 	focus = {
@@ -850,10 +1101,14 @@ focus_tree = {
 			focus = OTO_mac_begin_infra_rebuiling
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			remove_ideas={OTO_mac_grain_crisis5}
+			add_timed_idea={
+				idea = OTO_mac_grain_crisis_remains
+				days = 720
+			}
 		}
 	}
 	focus = {
@@ -867,12 +1122,10 @@ focus_tree = {
 		}
 		available={
 			#has_idea = long_depression
+			always = no
 		}
-		# prerequisite = {
-			# focus = OTO_mac_defense_balkans
-		# }
 		ai_will_do={
-			factor = 1
+			factor = 100
 		}
 		completion_reward = {
 			
@@ -891,10 +1144,13 @@ focus_tree = {
 			focus = OTO_mac_deal_with_long_depression
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = EGY_afr_increase_debt_5
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 5}
+			}
 		}
 	}
 	focus = {
@@ -910,15 +1166,18 @@ focus_tree = {
 			focus = OTO_mac_expand_borrowing
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = EGY_afr_increase_debt_2
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 2}
+			}
 		}
 	}
 	focus = {
 		id = OTO_mac_double_tax_collection
-		icon = GFX_focus_generic_self_management
+		icon = GFX_goal_generic_tax_raise
 		cost = 70.00
 		x = 35
 		y = 5
@@ -929,10 +1188,10 @@ focus_tree = {
 			focus = OTO_mac_deal_with_long_depression
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = OTO_mac_BOS_increased_tax
 		}
 	}
 	focus = {
@@ -948,10 +1207,13 @@ focus_tree = {
 			focus = OTO_mac_double_tax_collection
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
-			
+			add_timed_idea={
+				idea = OTO_mac_fixed_wheat_prices
+				days = 360
+			}
 		}
 	}
 	focus = {
@@ -970,7 +1232,7 @@ focus_tree = {
 			focus = OTO_mac_invest_eco
 		}
 		ai_will_do={
-			factor = 1
+			factor = 10
 		}
 		completion_reward = {
 			
@@ -979,8 +1241,8 @@ focus_tree = {
 	
 	focus = {
 		id = OTO_mac_great_eastern_crisis
-		icon = GFX_focus_generic_self_management
-		cost = 70.00
+		icon = GFX_goal_focus_economic_crisis
+		cost = 35.00
 		x = 28
 		y = 3
 		historical_ai = {
@@ -993,10 +1255,573 @@ focus_tree = {
 			has_country_flag = OTO_great_eastern_crisis
 		}
 		ai_will_do={
+			factor = 100
+		}
+		completion_reward = {
+			add_manpower = 10000
+		}
+	}
+	focus = {
+		id = OTO_mac_consentrate_russia
+		icon = GFX_goal_generic_political_pressure_blue
+		cost = 70.00
+		x = 25
+		y = 4
+		historical_ai = {
+			always = yes
+		}
+		available={
+			has_war_with = RUS
+		}
+		prerequisite = {
+			focus = OTO_mac_great_eastern_crisis
+		}
+		ai_will_do={
+			factor = 10
+		}
+		completion_reward = {
+			add_war_support = 0.1
+		}
+	}
+	focus = {
+		id = OTO_mac_fighting_russians
+		icon = GFX_goal_fight_RUS
+		cost = 70.00
+		x = 25
+		y = 5
+		historical_ai = {
+			always = yes
+		}
+		available={
+			has_war_with = RUS
+		}
+		prerequisite = {
+			focus = OTO_mac_consentrate_russia
+		}
+		ai_will_do={
+			factor = 10
+		}
+		completion_reward = {
+			add_ideas = {OTO_mac_war_focus_russia}
+		}
+	}
+	focus = {
+		id = OTO_mac_repulse_russians
+		icon = GFX_focus_generic_self_management
+		cost = 70.00
+		x = 25
+		y = 6
+		historical_ai = {
+			always = yes
+		}
+		available={
+			NOT={
+				any_owned_state = {
+					is_controlled_by = RUS
+				}
+			}
+		}
+		prerequisite = {
+			focus = OTO_mac_fighting_russians
+		}
+		ai_will_do={
+			factor = 10
+		}
+		completion_reward = {
+			swap_ideas={
+				add_idea=OTO_mac_keep_the_russians_out
+				remove_idea = OTO_mac_war_focus_russia
+			}
+		}
+	}
+	focus = {
+		id = OTO_mac_consentrate_serbs
+		icon = GFX_goal_generic_political_pressure_purple
+		cost = 35.00
+		x = 27
+		y = 4
+		historical_ai = {
+			always = yes
+		}
+		prerequisite = {
+			focus = OTO_mac_great_eastern_crisis
+		}
+		ai_will_do={
+			factor = 1
+		}
+		completion_reward = {
+			SER={add_stability = -0.05}
+		}
+	}
+	focus = {
+		id = OTO_mac_serbian_front
+		icon = GFX_goal_fight_SER
+		cost = 35.00
+		x = 27
+		y = 5
+		historical_ai = {
+			always = yes
+		}
+		available={
+			has_war_with = SER
+		}
+		prerequisite = {
+			focus = OTO_mac_consentrate_serbs
+		}
+		ai_will_do={
+			factor = 1
+		}
+		completion_reward = {
+			add_ideas = {OTO_mac_war_focus_serb}
+		}
+	}
+	focus = {
+		id = OTO_mac_end_obrenovic
+		icon = GFX_focus_generic_self_management
+		cost = 70.00
+		x = 27
+		y = 6
+		historical_ai = {
+			always = yes
+		}
+		available={
+			has_war_with = SER
+		}
+		prerequisite = {
+			focus = OTO_mac_serbian_front
+		}
+		ai_will_do={
+			factor = 1
+		}
+		completion_reward = {
+			if={
+				limit={
+					OR={
+						has_dlc = "Together for Victory"
+						has_dlc = "Waking the Tiger"
+						has_dlc = "Death or Dishonor"
+					}
+				}
+				add_political_power = 2
+			}
+			else={
+				add_political_power = 1
+			}
+		}
+	}
+	focus = {
+		id = OTO_mac_consentrate_bulgar
+		icon = GFX_goal_generic_political_pressure_green
+		cost = 25.00
+		x = 29
+		y = 4
+		historical_ai = {
+			always = yes
+		}
+		prerequisite = {
+			focus = OTO_mac_great_eastern_crisis
+		}
+		ai_will_do={
+			factor = 1
+		}
+		completion_reward = {
+			BUL={add_stability = -0.05}
+		}
+	}
+	focus = {
+		id = OTO_mac_fighting_bulgars
+		icon = GFX_goal_fight_BUL
+		cost = 25.00
+		x = 29
+		y = 5
+		historical_ai = {
+			always = yes
+		}
+		available={
+			has_war_with = BUL
+		}
+		prerequisite = {
+			focus = OTO_mac_consentrate_bulgar
+		}
+		ai_will_do={
+			factor = 1
+		}
+		completion_reward = {
+			add_ideas = {OTO_mac_war_focus_bulgar}
+		}
+	}
+	focus = {
+		id = OTO_mac_end_BRCC
+		icon = GFX_goal_BUL_supress_BRCC
+		cost = 70.00
+		x = 29
+		y = 6
+		historical_ai = {
+			always = yes
+		}
+		available={
+			has_war_with = BUL
+		}
+		prerequisite = {
+			focus = OTO_mac_fighting_bulgars
+		}
+		ai_will_do={
 			factor = 1
 		}
 		completion_reward = {
 			
 		}
+	}
+	focus = {
+		id = OTO_mac_berlin_congress
+		icon = GFX_goal_focus_foreign_diplomacy_central
+		cost = 70.00
+		x = 31
+		y = 4
+		historical_ai = {
+			always = yes
+		}
+		available={
+			has_country_flag = OTO_berlin_congress_complete
+		}
+		prerequisite = {
+			focus = OTO_mac_great_eastern_crisis
+		}
+		ai_will_do={
+			factor = 1
+		}
+		completion_reward = {
+			
+		}
+	}
+	focus = {
+		id = OTO_mac_stabilize_balkans
+		icon = GFX_goal_SWE_meritocratic
+		cost = 70.00
+		x = 31
+		y = 5
+		historical_ai = {
+			always = yes
+		}
+		prerequisite = {
+			focus = OTO_mac_berlin_congress
+		}
+		ai_will_do={
+			factor = 1
+		}
+		completion_reward = {
+			if={
+				limit={
+					has_country_flag = rus_oto_war_won
+				}
+				add_political_power = 2
+			
+			}
+			else={
+				add_political_power = 1
+			}
+		}
+	}
+	focus = {
+		id = OTO_mac_first_constitution
+		icon = GFX_focus_tazimatcilar
+		cost = 70.00
+		x = 4
+		y = 3
+		historical_ai = {
+			always = yes
+		}
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			has_country_flag = OTO_1_contitution_era
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_convene_general_assembly
+		icon = GFX_goal_focus_government_icon
+		cost = 70.00
+		x = 4
+		y = 4
+		historical_ai = {
+			always = yes
+		}
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		prerequisite = {
+			focus = OTO_mac_first_constitution
+		}
+		completion_reward = {
+			country_event={id=OTO_events.30}
+		}
+
+	}
+	focus = {
+		id = OTO_mac_general_assembly_power
+		icon = GFX_goal_focus_enact_law
+		cost = 70.00
+		x = 2
+		y = 5
+		historical_ai = {
+			always = yes
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		ai_will_do={
+			factor = 1
+		}
+		prerequisite = {
+			focus = OTO_mac_convene_general_assembly
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_electoral_law
+		icon = GFX_goal_focus_elections
+		cost = 70.00
+		x = 2
+		y = 6
+		historical_ai = {
+			always = yes
+		}
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		prerequisite = {
+			focus = OTO_mac_general_assembly_power
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_deputies_chamber_purpose
+		icon = GFX_goal_focus_liberty
+		cost = 70.00
+		x = 1
+		y = 7
+		historical_ai = {
+			always = yes
+		}
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		prerequisite = {
+			focus = OTO_mac_electoral_law
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_senate_purpose
+		icon = GFX_goal_focus_government_control
+		cost = 70.00
+		x = 3
+		y = 7
+		historical_ai = {
+			always = yes
+		}
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		prerequisite = {
+			focus = OTO_mac_electoral_law
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_sultan_power
+		icon = GFX_goal_focus_enact_law
+		cost = 70.00
+		x = 6
+		y = 5
+		historical_ai = {
+			always = yes
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		ai_will_do={
+			factor = 1
+		}
+		prerequisite = {
+			focus = OTO_mac_convene_general_assembly
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_sultans_veto
+		icon = GFX_focus_ottoman_monarchy
+		cost = 70.00
+		x = 6
+		y = 6
+		historical_ai = {
+			always = yes
+		}
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		prerequisite = {
+			focus = OTO_mac_sultan_power
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_sultans_purpose
+		icon = GFX_focus_holy_quran
+		cost = 70.00
+		x = 6
+		y = 7
+		historical_ai = {
+			always = yes
+		}
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		prerequisite = {
+			focus = OTO_mac_sultans_veto
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_revised_electorial_law
+		icon = GFX_goal_focus_reform_government
+		cost = 70.00
+		x = 4
+		y = 8
+		historical_ai = {
+			always = yes
+		}
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		prerequisite = {
+			focus = OTO_mac_sultans_purpose
+		}
+		prerequisite = {
+			focus = OTO_mac_deputies_chamber_purpose
+		}
+		prerequisite = {
+			focus = OTO_mac_senate_purpose
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_rights_of_the_people
+		icon = GFX_goal_focus_freedom_association
+		cost = 70.00
+		x = 4
+		y = 9
+		historical_ai = {
+			always = yes
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		ai_will_do={
+			factor = 1
+		}
+		prerequisite = {
+			focus = OTO_mac_revised_electorial_law
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_enforce_power_constitution
+		icon = GFX_focus_tazimatcilar
+		cost = 70.00
+		x = 5
+		y = 10
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		ai_will_do={
+			factor = 1
+		}
+		mutually_exclusive={
+			focus = OTO_mac_reduce_sultans_power
+		}
+		prerequisite = {
+			focus = OTO_mac_rights_of_the_people
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
+	}
+	focus = {
+		id = OTO_mac_reduce_sultans_power
+		icon = GFX_focus_tazimatcilar
+		cost = 70.00
+		x = 3
+		y = 10
+		ai_will_do={
+			factor = 1
+		}
+		available={
+			NOT={has_country_flag = OTO_parlement_prorogued}
+		}
+		mutually_exclusive={
+			focus = OTO_mac_enforce_power_constitution
+		}
+		prerequisite = {
+			focus = OTO_mac_rights_of_the_people
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+
 	}
 }

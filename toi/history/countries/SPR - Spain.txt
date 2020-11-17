@@ -5,6 +5,11 @@
   if = {
 	limit = { has_dlc = "Man the Guns" }
 		set_naval_oob = "SPR_1857_naval_mtg"
+		set_technology = {
+			    tech_naval_mtg_24_pounder_battery = 1
+				tech_naval_mtg_sails = 1
+				tech_naval_mtg_crows_nest = 1
+		}
 	else = {
 		set_naval_oob = "SPR_1857_naval_legacy"
 	}
@@ -15,58 +20,97 @@
   set_research_slots = 4
       add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 1000 producer = SPR }
   add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 producer = SPR }
-
-  add_ideas = { 
   
+  add_ideas = { 
+	
     #POLITICS
 		  
     hos_is_leader
     victorian_era
 	law_victorian_army
     agrarian
-    no_heir
+    weak_heir
     parliamentary_republic
 
     civilian_economy
     limited_exports
     two_percent
     normal_taxes
-	cl_restricted
-	fourteen_hour_work_day
+	cl_legal
+	unlimited_work_day
 
     stagnation_growth
     border_control
 	volunteer_only
     limited_equality
-    parliamentary_suffrage
+    property_owners_suffrage
 
     human_rights
-    no_elections
+    limited_elections
 
     privileged_education
     state_religion
 	religion_catholic
+
+    hc_no_healthcare
+    law_police_force
+    inframain_no_subsidies_infrastructure
+    navinfra_no_naval_infrastructure
+    sfund_private_ventures_only
+
     #NATIONAL SPIRITS
 	
-  }
+	SPR_pragmatica_sancion
+	SPR_a_divided_country
+	SPR_the_carlist_threat
+	SPR_the_madozs_confiscation
+	SPR_Isabella_II
+	}	
+		
    give_guarantee = ADR 
-   
-  add_ideas = SPR_Isabella_II 
-  
+
     #Rivals 
     set_variable = { rival_country = MOR.id }
 	#Most Favoured Country  
     set_variable = { most_favoured_country = POR.id }  
 
   set_technology = {
-	infantry_weapons = 1
+	infantry_weapons = 1 traditional_mixed_arms = 1
+	tribal_carrier_birds=1 tribal_electrical_theory=1
+	tribal_steel_tools=1
+	tribal_tatics=1
+	tribal_gunpowder=1
+	tribal_riding=1
+	tribal_steam_experiments=1
+	tribal_forging=1
+	tribal_artisan=1
+	tribal_chemistry=1
+	tribal_guilds_trade=1
+	tribal_crop_planting=1
+	tribal_irrigation=1
+	tribal_crop_rotation=1
+	tribal_salted_smoked_goods=1
+	tribal_leching=1
+	tech_infantry_flintlock_pistol = 1
+	tech_infantry_caplock_pistol = 1
+  	rifle_equipment1 = 1
+  	hand_revolvers = 1
+	tech_infantry_infantry_swords = 1
+  	socket_bayonet = 1
 	tech_infantry_napoleonic_uniform = 1
 	vic_army_cloth = 1
+	civil_army_cloth = 1
+  	basic_cavalry = 1
+  	horse_transport = 1
+  	horse_artillery = 1
+	mounted_infantry = 1
+	tech_support = 1
+	tech_engineers = 1
 	tech_naval_mtg_simple_corvette_hull = 1
-    tech_naval_mtg_24_pounder_battery = 1
-    tech_naval_mtg_sails = 1
-    tech_naval_mtg_crows_nest = 1
+	tech_naval_1850_frigate = 1
+	tech_naval_lineship_hull = 1
 	gw_artillery = 1
+	rml_field_gun = 1
 	iron_railways = 1
 	steam_engine = 1
 	manufactories = 1
@@ -75,11 +119,10 @@
 	food_preserving_icebox = 1
 	early_artificial_fertilizer = 1
 	electrical_engineering = 1
-	basic_cavalry = 1
   }
   
  set_politics = {
-    ruling_party = centrism
+    ruling_party = traditional_conservatism
     election_frequency = 48
     elections_allowed = no
 }
@@ -103,11 +146,11 @@ set_popularities = {
 
   # POLITICAL LEADERS
 
-  create_country_leader = {
+create_country_leader = {
 	name = "Isabella II"
 	desc = "POLITICS_ISABELLA_II_DESC"
 	picture = "Portrait_SPR_Isabella_II.dds"
-	expire = "1965.1.1"
+	expire = "1904.4.9"
 	ideology = despotism
 	traits = {
 		#
@@ -299,9 +342,12 @@ if = {
 		autonomous_state = autonomy_colony
 		freedom_level = 0.2
 	}
-	else = {
-		puppet = SUL
+}
+if ={
+	limit = {
+		NOT = { has_dlc = "Together for Victory" }
 	}
+	puppet = SUL
 }
 
 if = {
@@ -312,12 +358,48 @@ if = {
 		name_group = GER_CA_HISTORICAL
 		parent_version = 0
 		modules = {
-        	fixed_ship_battery_slot = ship_light_battery_0
+        	fixed_ship_battery_slot = ship_cannon_battery_0
 			fixed_ship_fire_control_system_slot = fire_control_system_0
-			fixed_ship_engine_slot = ship_engine_sail_0
-			fixed_ship_armor_slot = empty
-			mid_1_custom_slot = empty
-			front_1_custom_slot = empty
+			fixed_ship_engine_slot = ship_engine_sail_2
+			fixed_ship_armor_slot = ship_armor_screen_hardwood_0
+			mid_1_custom_slot = ship_cannon_battery_0
+			front_1_custom_slot = ship_cannon_battery_0
+    	}
+		#obsolete = no
+	}
+	create_equipment_variant = {
+		name = "Frigate Class"
+		type = ship_frigate_0
+		name_group = GER_CA_HISTORICAL
+		parent_version = 0
+		modules = {
+        	fixed_ship_battery_slot = ship_cannon_battery_0
+			fixed_ship_fire_control_system_slot = fire_control_system_0
+			fixed_ship_engine_slot = ship_engine_sail_2
+			fixed_ship_armor_slot = ship_armor_capital_hardwood_0
+			mid_1_custom_slot = ship_cannon_battery_0
+			mid_2_custom_slot = ship_cannon_battery_0
+			front_1_custom_slot = ship_cannon_battery_0
+			rear_1	_custom_slot = ship_cannon_battery_0
+    	}
+		#obsolete = no
+	}
+	create_equipment_variant = {
+		name = "Lineship Class"
+		type = ship_lineship_0
+		name_group = GER_CA_HISTORICAL
+		parent_version = 0
+		modules = {
+        	fixed_ship_battery_slot = ship_cannon_battery_0
+			fixed_ship_fire_control_system_slot = fire_control_system_0
+			fixed_ship_engine_slot = ship_engine_sail_2
+			fixed_ship_armor_slot = ship_armor_capital_hardwood_0
+			mid_1_custom_slot = ship_medium_battery_0
+			mid_2_custom_slot = ship_heavy_battery_0
+			mid_3_custom_slot = ship_medium_battery_0
+			front_1_custom_slot = ship_medium_battery_0
+			front_2_custom_slot = ship_heavy_battery_0
+			front_3_custom_slot = ship_medium_battery_0
     	}
 		#obsolete = no
 	}

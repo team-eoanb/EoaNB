@@ -62,9 +62,15 @@ country_event = {
 		
 		trigger = {
 			AND = {
-				PIE = {
-					has_completed_focus = PIE_The_War_Starts
+				OR = {
+					PIE = {
+						has_completed_focus = PIE_The_War_Starts
+					}
+					PIE = {
+						has_completed_focus = PIE_Provoke_Austria
+					}
 				}
+				
 					
 			TAG = PIE
 			divisions_in_state = {
@@ -155,25 +161,6 @@ country_event = {
 }
 
 #France gets called into the Second Independence War
-country_event = {
-		id = sardinia.5
-		title = sardinia.5.t
-		desc = sardinia.5.d
-		
-		fire_only_once = yes
-		
-		trigger = {
-			TAG = FRA
-			#PIE = { has_completed_focus = PIE_Second_Independence_War }
-			PIE = { has_war_with = LVN }
-			has_global_flag = FRA_PIE_OneCall
-		}
-		
-		option = {
-				name = sardinia.5.a
-				#Can't support PIE right now because whenever FRA is at war the game crashes
-		}
-}
 
 #Garibaldis March
 country_event = {
@@ -235,10 +222,7 @@ country_event = {
 		
 		fire_only_once = yes
 		
-		trigger = {
-			TAG = PIE
-			date > 1857.5.10
-		}
+		is_triggered_only = yes
 		
 		option = {
 				name = sardinia.9.a
@@ -254,9 +238,9 @@ country_event = {
 		
 		fire_only_once = yes
 
+		is_triggered_only = yes
+
 		trigger = {
-			date > 1858.7.20
-			tag = PIE
 			has_completed_focus = PIE_Risorgimento
 		}
 		
@@ -630,22 +614,44 @@ country_event = {
 
 		fire_only_once = yes
 
+		is_triggered_only = yes
+
 		trigger = {
-			date > 1859.4.24
-			has_completed_focus = PIE_Recruit_Nationalists
-			has_completed_focus = PIE_French_Aid
-			has_completed_focus = PIE_Start_Border_Operations
-			tag = PIE
+			if = {
+				limit = {
+					PIE = {
+						has_completed_focus = PIE_Risorgimento
+					}
+				}
+			    has_completed_focus = PIE_Recruit_Nationalists
+				has_completed_focus = PIE_French_Aid
+				has_completed_focus = PIE_Start_Border_Operations
+			}
+			if = {
+				limit = {
+					NOT = {
+						PIE = {
+							has_completed_focus = PIE_Risorgimento
+						}
+					}
+					
+				}
+				has_completed_focus = PIE_Provoke_Austria
+			}
 
 		}
 
 		option = {
 				name = sardinia.27.a
 				custom_effect_tooltip = PIE_LVN_War
-				hidden_effect = { complete_national_focus = PIE_The_War_Starts }
-				hidden_effect = { complete_national_focus = PIE_Occupy_Central_Italy }
-				hidden_effect = { complete_national_focus = PIE_French_Army_Arrives }
-
+				if = {
+					limit = {
+						has_completed_focus = PIE_Risorgimento
+					}
+					hidden_effect = { complete_national_focus = PIE_The_War_Starts }
+				    hidden_effect = { complete_national_focus = PIE_Occupy_Central_Italy }
+				    hidden_effect = { complete_national_focus = PIE_French_Army_Arrives }
+				}
 
 				declare_war_on = {
 					target = LVN
@@ -658,6 +664,11 @@ country_event = {
 						WUR = {
 							NOT = {
 								has_country_flag = WUR_zweikaisertreffen_success
+							}
+						}
+						PIE = {
+							NOT = {
+								has_completed_focus = PIE_Ensure_Russias_Neutrality
 							}
 						}
 					}
@@ -705,8 +716,9 @@ country_event = {
 		title = sardinia.29.t
 		desc = sardinia.29.d
 
+		is_triggered_only = yes
+
 		trigger = {
-			date > 1860.5.14
 			tag = PIE
 			country_exists = NSC
 			has_completed_focus = PIE_Risorgimento 
@@ -780,16 +792,23 @@ country_event = {
 		
 		fire_only_once = yes
 		
+		is_triggered_only = yes
+
 		trigger = {
 			TAG = PIE
-			NSC  = {
-				surrender_progress > 0.8
-			}
 			NOT = {
-				has_country_flag = PIE_go_with_Garibaldi_Focus
+				has_completed_focus = PIE_The_Carboneria
 			}
 			
-
+			OR = {
+				NSC  = {
+					surrender_progress > 0.7
+				}
+				
+				PIE = {
+					controls_state = 117
+			    }
+			}	
 			
 		}
 		
@@ -804,8 +823,6 @@ country_event = {
 				custom_effect_tooltip = PIE_NSC_Peace
 				hidden_effect = {
 					news_event = news.16
-
-
 				}
 		}
 }
@@ -830,9 +847,10 @@ country_event = {
 				hidden_effect = {
 					PIE = {
 						puppet = TUS
-						transfer_navy = {
-    						target = TUS
-						}
+					
+					}
+					transfer_navy = {
+						target = PIE
 					}
 					add_popularity = {
     				ideology = centrism
@@ -935,6 +953,13 @@ country_event = {
 
 	option = {
 			name = sardinia.37.a
+			hidden_effect = {
+				country_event = {
+					#House of Savoy flees
+					id = sardinia.48
+					days = 100
+				}
+			}
 			add_popularity = {
 				ideology = social_egalitarianism 
 				popularity = .1 
@@ -952,6 +977,7 @@ country_event = {
 
 	option = {
 			name = sardinia.38.a
+			ai_chance = { factor = 90 }
 			FRA = {
 				country_event = {
 					id = sardinia.40
@@ -960,6 +986,7 @@ country_event = {
 		}
 	option = {
 			name = sardinia.38.b
+			ai_chance = { factor = 10 }
 			
 	}
 	
@@ -974,6 +1001,7 @@ country_event = {
 
 	option = {
 			name = sardinia.39.a
+			ai_chance = { factor = 90 }
 			FRA = {
 				country_event = {
 					id = sardinia.40
@@ -982,6 +1010,7 @@ country_event = {
 		}
 	option = {
 			name = sardinia.39.b
+			ai_chance = { factor = 10 }
 			
 	}
 	
@@ -996,6 +1025,7 @@ country_event = {
 
 	option = {
 			name = sardinia.40.a
+			ai_chance = { factor = 50 }
 			PIE = {
 				country_event = {
 					id = sardinia.41
@@ -1004,6 +1034,7 @@ country_event = {
 		}
 	option = {
 			name = sardinia.40.b
+			ai_chance = { factor = 50 }
 			PIE = {
 				country_event = {
 					id = sardinia.42
@@ -1052,65 +1083,95 @@ country_event = {
 	option = {
 			name = sardinia.43.a
 			custom_effect_tooltip = PIE_CBI_Uprising_Sicily
-			hidden_effect = {
-				CBI = {
+			IF = {
+				limit = {
+					has_completed_focus = PIE_The_Carboneria
+				}
+				hidden_effect = {
+					CBI = {
+						transfer_state = 115
+						transfer_state = 156
+						load_oob = "PIE_Expedition_Thousand_CBI"
+						load_oob = "PIE_Expedition_Thousand"
+						load_oob = "PIE_Expedition_Thousand_CBI"
+						load_oob = "PIE_Expedition_Thousand"
+						hidden_effect = {
+						  add_state_core = 158
+						  add_state_core = 981
+						  add_state_core = 161
+						  add_state_core = 2
+						  add_state_core = 982
+						  add_state_core = 159
+						  add_state_core = 162
+						  add_state_core = 751
+						  add_state_core = 808
+						  add_state_core = 813
+						  add_state_core = 157
+						  add_state_core = 785
+						  add_state_core = 812
+						  add_state_core = 117
+						  add_state_core = 997
+						  add_state_core = 156
+						  add_state_core = 115
+						  add_state_core = 114
+						  add_state_claim = 979
+						  add_state_claim = 160
+						  add_state_claim = 1234
+						  add_state_claim = 787
+						}
+					  }
+					  CBI = {
+						set_politics = {
+						  ruling_party = social_egalitarianism
+						}
+						declare_war_on= {
+						  target = NSC
+						  type = annex_everything
+						}
+						create_country_leader = {
+						  name = "Giuseppe Garibaldi"
+						  picture = "Portrait_CBI_Giuseppe_Garibaldi.dds"
+						  expire = "1965.1.1"
+						  ideology = conserv_liberal
+						  traits = {
+				  
+						  }
+						}
+	
+					  }
+					  PIE = {
+						remove_unit_leader = 114
+						declare_war_on= {
+							target = NSC
+							type = annex_everything
+						  }
+						  puppet = CBI
+					  }
+				}
+			}
+
+
+			IF = {
+				limit = {
+					has_completed_focus = PIE_A_Deal_with_Napoleon
+				}
+
+				hidden_effect = {
 					transfer_state = 115
 					transfer_state = 156
-					load_oob = "PIE_Expedition_Thousand_CBI"
-					load_oob = "PIE_Expedition_Thousand"
-					hidden_effect = {
-					  add_state_core = 158
-					  add_state_core = 981
-					  add_state_core = 161
-					  add_state_core = 2
-					  add_state_core = 982
-					  add_state_core = 159
-					  add_state_core = 162
-					  add_state_core = 751
-					  add_state_core = 808
-					  add_state_core = 813
-					  add_state_core = 157
-					  add_state_core = 785
-					  add_state_core = 812
-					  add_state_core = 117
-					  add_state_core = 997
-					  add_state_core = 156
-					  add_state_core = 115
-					  add_state_core = 114
-					  add_state_claim = 979
-					  add_state_claim = 160
-					  add_state_claim = 1234
-					  add_state_claim = 787
-					}
-				  }
-				  CBI = {
-					set_politics = {
-					  ruling_party = social_egalitarianism
-					}
-					declare_war_on= {
-					  target = NSC
-					  type = annex_everything
-					}
-					create_country_leader = {
-					  name = "Giuseppe Garibaldi"
-					  picture = "Portrait_CBI_Giuseppe_Garibaldi.dds"
-					  expire = "1965.1.1"
-					  ideology = liberal_social
-					  traits = {
-			  
-					  }
-					}
-
-				  }
-				  PIE = {
-					remove_unit_leader = 114
-					declare_war_on= {
+					declare_war_on = {
 						target = NSC
 						type = annex_everything
-					  }
-					  puppet = CBI
-				  }
+				}
+					load_oob = "PIE_Expedition_Thousand"
+					load_oob = "PIE_Expedition_Thousand_French_Aid"
+					
 			}
+
+
+			}
+			
+
 			
 		}
 	
@@ -1127,7 +1188,8 @@ country_event = {
 		NSC  = {
 			surrender_progress > 0.8
 		}
-		has_country_flag = PIE_go_with_Garibaldi_Focus	
+		has_country_flag = PIE_go_with_Garibaldi_Focus
+		has_completed_focus = PIE_The_Carboneria
 	}
 	
 	option = {
@@ -1165,7 +1227,140 @@ country_event = {
 }
 }
 
+country_event = {
+	id = sardinia.46
+	title = sardinia.46.t
+	desc = sardinia.46.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+	
+	option = {
+			name = sardinia.46.a
+			diplomatic_relation = {
+				country = TUS
+				relation = guarantee
+				active = yes
+			}
+			add_manpower = 5000
 
+	}
+	option = {
+		name = sardinia.46.b
+		add_ideas = ITA_Improve_Public_Opinion
+		}
+
+		
+}
+country_event = {
+	id = sardinia.47
+	title = sardinia.47.t
+	desc = sardinia.47.d
+	
+	fire_only_once = yes
+
+	is_triggered_only = yes
+	
+	trigger = {
+        has_completed_focus = PIE_Path_of_the_Carbonari
+        OR = {
+            PIE = { 
+                divisions_in_state = {
+                    type = infantry
+                    size > 5
+                    state = 159
+                }
+            }
+            CBI = {
+                divisions_in_state = {
+                    type = infantry
+                    size > 5
+                    state = 159
+                }
+            }
+        }
+        date < 1865.5.10
+    }
+	
+	option = {
+			name = sardinia.47.a
+			PIE = { 
+				transfer_state = 159
+				transfer_state = 982 
+			}
+			custom_effect_tooltip = PIE_2I_Peace
+			hidden_effect = {
+				white_peace = LVN
+				white_peace = AUS
+				news_event = sardinia_news.1
+				clr_global_flag = FRA_PIE_OneCall
+				set_global_flag = PIE_2IW_Victory
+				CBI = {
+					white_peace = LVN
+					white_peace = AUS
+				}
+				AUS = {
+					add_to_variable = {
+						var = HUN_REVOLT_RISK
+						value = 2  
+					}
+					add_to_variable = {
+						var = SLA_REVOLT_RISK
+						value = 1 
+					}
+				
+				
+			}
+	}
+}
+}
+country_event = {
+	id = sardinia.48
+	title = sardinia.48.t
+	desc = sardinia.48.d
+	picture = GFX_event_ITA_Corazzieri
+
+	is_triggered_only = yes
+
+	option = {
+			name = sardinia.48.a
+			hidden_effect = {
+				every_country = {
+						remove_state_core = 114
+						remove_state_claim = 114
+					
+				}
+					SAR = {
+						add_state_core = 114
+						transfer_state = 114
+					}
+
+				
+			}
+	}
+}
+news_event = {
+	id = sardinia_news.5
+	title = sardinia_news.5.t
+	desc = sardinia_news.5.d
+	picture = GFX_news_event_king_speech
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = sardinia_news.5.a
+		trigger = {
+			NOT = {
+				TAG = PIE
+			}
+		}
+	}
+	option = {
+		name = sardinia_news.5.b
+		trigger = { TAG = PIE }
+	}
+}
 
 
 
@@ -1179,10 +1374,7 @@ country_event = {
 
 		fire_only_once = yes
 
-		trigger = {
-			tag = PIE
-			date > 1857.06.10
-		}
+		is_triggered_only = yes
 
 		option = {
 				name = sardinia.33.a
@@ -1200,10 +1392,8 @@ country_event = {
 
 		fire_only_once = yes
 
-		trigger = {
-			tag = NSC
-			date > 1858.04.1
-		}
+		is_triggered_only = yes
+
 
 		option = {
 				name = sardinia.34.a

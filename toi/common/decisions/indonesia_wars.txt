@@ -1,0 +1,209 @@
+ins_indonesia_wars_category = {
+	
+	INS_ACE_indonesia_colonial_expansion_war = {
+		ai_will_do = { factor = 1 }
+		available = {
+			if = {
+				limit = {
+					TAG = INS
+				}
+				custom_trigger_tooltip = { 
+					tooltip = afr_senegal_war_phase_one_available_trigger 
+					ACE = { exists = no }
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+					NOT { TAG = INS }
+				}
+				hidden_trigger = {
+					always = no
+				}
+			}
+			
+		}
+		
+		allowed = {
+			OR = {
+				TAG = ACE 
+				TAG = INS
+			}
+		}
+		activation = { 
+			has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+		}
+		selectable_mission = no
+		is_good = no
+		cancel_trigger = {
+			custom_trigger_tooltip = { 
+				tooltip = afr_senegal_war_phase_one_cancel_trigger 
+				INS = { exists = no }
+			}
+		}
+
+		visible = {
+			has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+		}
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 360
+		
+		days_remove = 30
+		
+		modifier = {
+			war_support_weekly = -0.02
+			industry_free_repair_factor = 0.25
+			consumer_goods_factor = 0.025
+		}
+		
+		complete_effect = {
+			if = {
+				limit = {
+					TAG = INS
+				}
+				custom_effect_tooltip = afr_senegal_war_phase_one_complete_sng_tooltip
+				if = {
+					limit = {
+						INS = { controls_state = 1184 }
+					}
+					INS = { transfer_state = 1184 }
+					1184 = {
+						custom_effect_tooltip = afr_colonial_effect_tooltip
+						custom_effect_tooltip = AFR_Racial_Tension_plus_1
+						hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+					}
+				}
+				if = {
+					limit = {
+						INS = { controls_state = 1185 }
+					}
+					INS = { transfer_state = 1185 }
+					1185 = {
+						custom_effect_tooltip = afr_colonial_effect_tooltip
+						custom_effect_tooltip = AFR_Racial_Tension_plus_1
+						hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+					}
+				}
+				if = {
+					limit = {
+						INS = { controls_state = 918 }
+					}
+					INS = { transfer_state = 918 }
+					918 = {
+						custom_effect_tooltip = afr_colonial_effect_tooltip
+						custom_effect_tooltip = AFR_Racial_Tension_plus_1
+						hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+					}
+				}
+				if = {
+					limit = {
+						TAG = INS
+						OR = {
+							INS = { owns_state = 1184 }
+							INS = { owns_state = 1185 }
+							INS = { owns_state = 918 }
+						}
+						INS = { is_subject_of = HOL }
+					}
+					#hidden_effect = { HOL = { country_event = { id = INS_ACE_indonesia_colonial_expansion_war_won.1 } } }
+				}
+			}
+			clr_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+			hidden_effect = { INS = { add_timed_idea = { idea = INS_indonesia_colonial_expansion_war_exhaustion_idea days = 180 } } }
+		}
+		remove_effect = {
+				hidden_effect = {
+					if = {
+						limit = {  
+							ACE = { exists = yes }
+							JOH = { exists = yes }
+						}
+						ACE = { become_exiled_in = { target = JOH legitimacy = 10 } }
+					}
+				}
+		}
+		timeout_effect = {
+			hidden_effect = { INS = { add_timed_idea = { idea = INS_indonesia_colonial_expansion_war_exhaustion_idea days = 180 } } }
+			if = {
+				limit = {
+					INS = { controls_state = 1184 }
+				}
+				INS = { transfer_state = 1184 }
+				1184 = {
+					custom_effect_tooltip = afr_colonial_effect_tooltip
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+			}
+			if = {
+				limit = {
+					INS = { controls_state = 1185 }
+				}
+				INS = { transfer_state = 1185 }
+				1185 = {
+					custom_effect_tooltip = afr_colonial_effect_tooltip
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+			}
+			if = {
+				limit = {
+					INS = { controls_state = 918 }
+				}
+				INS = { transfer_state = 918 }
+				918 = {
+					custom_effect_tooltip = afr_colonial_effect_tooltip
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+			}
+			hidden_effect = {
+				every_country = {
+					limit = {
+						has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+						NOT = { TAG = INS }
+					}
+					set_temp_variable = { INS_ACE_temp_country_id = THIS.id }
+				}
+			
+				every_country = {
+					limit = {
+						has_war_with = var:INS_ACE_temp_country_id
+					}
+					white_peace = var:INS_ACE_temp_country_id 
+				}
+			}
+			if = {
+				limit = {
+					TAG = INS
+					OR = {
+						INS = { owns_state = 1184 }
+						INS = { owns_state = 1185 }
+						INS = { owns_state = 918 }
+					}
+					INS = { is_subject_of = HOL }
+				}
+				#hidden_effect = { HOL = { country_event = { id = INS_ACE_indonesia_colonial_expansion_war_won.1 } } }
+			}
+			if = {
+				limit = {
+					TAG = INS
+				}
+				custom_effect_tooltip = afr_senegal_war_phase_one_holdout_sng_tooltip
+				set_country_flag = afr_senegal_war_phase_one_failure_sng
+			}
+			if = {
+				limit = {
+					TAG = var:INS_ACE_temp_country_id
+				}
+				custom_effect_tooltip = afr_senegal_war_phase_one_holdout_ftt_tooltip
+				set_country_flag = afr_senegal_war_phase_one_success_ftt
+			}
+			clr_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+		}
+	}
+}

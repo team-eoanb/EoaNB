@@ -1,7 +1,7 @@
 on_actions = {
 
-    on_startup = {
-        effect = {
+	on_startup = {
+		effect = {
 		    random_country = {
 		        eoanb_score_system_calc = yes
 				eoanb_score_system_calc = yes
@@ -10,98 +10,82 @@ on_actions = {
 			random_country = {
 				eoanb_ledger_system_calc = yes
 			}
-			USA={
-			set_variable = { global.time_counter = 14 }
+			USA = {
+				set_variable = { global.time_counter = 14 }
 			}
 			every_country = {
-			    if = {
-				    limit = {
-			            has_variable = rival_country
-					}
-                    meta_effect = {
-                        text = {
-                            add_opinion_modifier = {
-                                target = [RIVAL]
-                                modifier = rival_country
-                            }
-                        }
-                        RIVAL = "[?rival_country.GetTag]"
-                    }  
+				if = {
+				    limit = { has_variable = rival_country }
+					meta_effect = {
+						text = {
+							add_opinion_modifier = { 
+								target = [RIVAL]
+								modifier = rival_country
+							}
+						}
+                        			RIVAL = "[?rival_country.GetTag]"
+					}  
 				}
-			    if = {
-				    limit = {
-			            has_variable = most_favoured_country
-					}
-                    meta_effect = {
-                        text = {
-                            add_opinion_modifier = {
-                                target = [MOST_FAVOURED_COUNTRY]
-                                modifier = most_favoured_country
-                            }
-                        }
-                        MOST_FAVOURED_COUNTRY = "[?most_favoured_country.GetTag]"
-                    }					
+				if = {
+					limit = { has_variable = most_favoured_country }
+					meta_effect = {
+						text = {
+							add_opinion_modifier = {
+                                				target = [MOST_FAVOURED_COUNTRY]
+                                				modifier = most_favoured_country
+							}
+						}
+						MOST_FAVOURED_COUNTRY = "[?most_favoured_country.GetTag]"
+					}					
 				}
 			}
-	    }
-    } 
+		}
+	} 
 
 
-    on_daily = {
-        effect = {
-            if = {
-                limit = {
-                    OR = {
-                        original_tag = USA
-                        AND = {
-                            has_country_flag = eoanb_debug_score_handler
-                            NOT = { 
-                                country_exists = USA
-                            }
-                        }
-                    }
-                }
-                add_to_variable = { global.time_counter = 1 }
-                if = {
-                    limit = {
-                        check_variable = {
-                            global.time_counter = 15 
-                        }
-                    }
-					set_variable = { global.time_counter = 0 }					
-                    eoanb_score_system_calc = yes 
-					eoanb_ledger_system_calc = yes 							
-                }					
-            }
-            else_if = {
-                limit = {
-                    NOT = { 
-                        AND = {
-                            country_exists = USA 
-                            any_country = {
-                                has_country_flag = eoanb_debug_score_handler
-                            }
-                        }
-                    }
+	on_weekly = {
+        	effect = {
+			if = {
+				limit = {
+					OR = {
+                        			original_tag = USA
+                        			AND = {
+                            				has_country_flag = eoanb_debug_score_handler
+                            				NOT = { country_exists = USA }
+						}
+					}
 				}
-                random_country = {
-                    limit = {
-                        num_of_factories > 25
-                    }
-                    set_country_flag = eoanb_debug_score_handler
-                    if = {
-                        limit = {
-                            check_variable = {
-                                global.time_counter = 15
-                            }
-                        }
+				add_to_variable = { global.time_counter = 1 }
+				if = {
+					limit = { check_variable = { global.time_counter = 15 } }
+					set_variable = { global.time_counter = 0 }					
+                    			eoanb_score_system_calc = yes 
+					eoanb_ledger_system_calc = yes 							
+				}					
+			}
+			else_if = {
+				limit = {
+					NOT = { 
+						AND = {
+							country_exists = USA 
+							any_country = {
+								has_country_flag = eoanb_debug_score_handler
+							}
+						}
+					}
+				}
+                		random_country = {
+					limit = { num_of_factories > 25 }
+             			       set_country_flag = eoanb_debug_score_handler
+					if = {
+						limit = { check_variable = { global.time_counter = 15 } }
 						set_variable = { global.time_counter = 0 }
-                        eoanb_score_system_calc = yes 
+                        			eoanb_score_system_calc = yes 
 		 				eoanb_ledger_system_calc = yes 
-                    }
-                }
-            }
-	    }
+					}
+				}
+			}
+		}
 	}
 	
 	#ROOT is winner #FROM gets annexed - For civil wars on_civil_war_end is also fired
@@ -141,6 +125,6 @@ on_actions = {
 				multiply_temp_variable = { modified_military_score_temp1 = 0.75 }
 			    add_to_variable = { modified_military_score_temp1 = modified_military_score }
 			}			    			
-	    }
+		}
 	}
 }

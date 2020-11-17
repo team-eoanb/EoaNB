@@ -1,16 +1,30 @@
+ETH_unite_ethiopia_category = {
+	icon = generic_democracy
+	allowed = {
+		OR = {
+			TAG = ETH
+			TAG = HRR
+			TAG = AWS
+			TAG = MED
+			TAG = SID
+			TAG = ORO
+		}
+	}
+}
+
 ETH_global_diplomacy_category = {
 	icon = generic_democracy
+	allowed = {
+		tag = ETH
+	}
 	visible = {
-		AND = {
-			tag = ETH
-			has_country_flag = ETH_open_trading_post
-		}
+        has_country_flag = ETH_open_trading_post
 	}
 }
 
 ETH_proclaim_coalition_against_islam_category = {
 	icon = generic_democracy
-	visible = {
+	allowed = {
 		tag = ETH
 	}
 }
@@ -18,17 +32,45 @@ ETH_proclaim_coalition_against_islam_category = {
 ETH_islamic_christian_conflict = {
 	icon = generic_democracy
 	visible = {
-		OR = {
-			tag = HRR
-			tag = AWS
-			tag = MED
+		if = {
+			limit = { ROOT = { is_subject = yes } }
+			ROOT = { OVERLORD = { is_in_array = { array = national_religion_array value = global.sunni } } }
+		}
+		ROOT = { 
+			is_in_array = { array = national_religion_array value = global.sunni } 
+			OR = {
+				afr_is_tribal = yes
+				has_idea = afr_post_tribal
+			}
+			OR = {
+				has_country_flag = afr_jihadist_tree
+				if = {
+					limit = { ROOT = { is_subject = yes } }
+					ROOT = {
+						OVERLORD = {
+							OR = {
+								TAG = OTO
+								AND = {
+									TAG = EGY
+									EGY = { is_subject_of = OTO }
+								}
+								has_country_flag = afr_jihadist_tree
+							}
+						}
+						NOT = { has_country_flag = afr_progress_tree }
+					}
+				}
+				else = {
+					has_country_flag = afr_jihadist_tree
+				}
+			}
 		}
 	}
 }
 
 ETH_Internal_Affairs = {
 	icon = generic_democracy
-	visible = {
+	allowed = {
 		tag = ETH
 	}
 }
@@ -53,6 +95,12 @@ ETH_crush_the_oromo = {
 
 ETH_RUS_Diplomacy = {
 	icon = generic_democracy
+    allowed = {
+        OR = {
+            tag = ETH
+            tag = RUS
+        }
+    }
 	visible = {
 		has_country_flag = ETH_RUS_Merchants
 	}
@@ -60,22 +108,21 @@ ETH_RUS_Diplomacy = {
 
 ETH_Company = {
 	icon = generic_democracy
+    allowed = {
+        tag = ETH
+    }
 	visible = {
-		AND = {
-			has_country_flag = ETH_company_chosen
-			tag = ETH
-		}
-		
+        has_country_flag = ETH_company_chosen
 	}
 }
 
 ETH_Corporate_Coup = {
 	icon = generic_democracy
+    allowed = {
+        tag = ETH
+    }
 	visible = {
-		AND = {
-			has_country_flag = ETH_POR_Coup_Forming
-			has_country_flag = ETH_company_chosen
-			tag = ETH
-		}
+        has_country_flag = ETH_POR_Coup_Forming
+        has_country_flag = ETH_company_chosen
 	}
 }
