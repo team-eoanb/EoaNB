@@ -8,6 +8,313 @@ add_namespace = afr_integration_tribe_raid_supply
 add_namespace = afr_integration_tribe_poison_provisions
 add_namespace = afr_war_exhaustion_exertion
 add_namespace = afr_request_overlord_assistance
+add_namespace = afr_empire_politics_subject_levy_mission_event
+add_namespace = afr_empire_politics_subject_levy_mission_event_global
+
+	country_event = {
+		id = afr_empire_politics_subject_levy_mission_event_global.1
+		is_triggered_only = yes
+		hidden = yes
+		
+		immediate = {
+			random_country = {
+				limit = { exists = yes }
+				random_list = {
+					10 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 260 } }
+					20 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 240 } }
+					40 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 220 } }
+					20 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 200 } }
+					10 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 180 } }
+				}
+			}
+			every_country = {
+				limit = {
+					afr_is_tribal = yes
+					OR = {
+						has_autonomy_state = autonomy_afr_empire_level_1
+						has_autonomy_state = autonomy_afr_empire_level_2
+						has_autonomy_state = autonomy_afr_empire_level_3
+						has_autonomy_state = autonomy_afr_empire_level_4
+					}
+					if = {
+						limit = { is_subject = yes }
+						OR = {
+							OVERLORD = { has_idea = afr_large_kingdom }
+							OVERLORD = { has_idea = afr_reforming_kingdom }
+						}
+					}
+				}
+				random_list = {
+					20 = { set_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+					50 = { set_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+					30 = { set_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+				}
+				activate_mission = afr_empire_politics_subject_levy_mission
+			}
+		}
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_levy_mission_event.1
+		is_triggered_only = yes
+		hidden = yes
+		
+		immediate = {
+			FROM = { country_event = { id = afr_empire_politics_subject_levy_mission_event.2 } }
+		}
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_levy_mission_event.2
+		title = afr_empire_politics_subject_levy_mission_event.2.t
+		desc = afr_empire_politics_subject_levy_mission_event.2.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+
+		option = {
+			name = afr_empire_politics_subject_levy_mission_event.2.a
+			trigger = {
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+					check_variable = { Tribal_horse_army_num > 3000 }
+				}
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+					check_variable = { Tribal_horse_army_num > 2000 }
+				}
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+					check_variable = { Tribal_horse_army_num > 1000 }
+				}
+			}
+			ai_chance = { factor = 100 }
+			OVERLORD = { country_event = { id = afr_empire_politics_subject_levy_mission_event.3 days = 3 } }
+			set_country_flag = afr_empire_politics_subject_levy_mission_horse_flag
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+				custom_effect_tooltip= EDC_remove_3000_to_tribal_horse_army
+				add_to_variable = {Tribal_horse_army_num = -3000}
+			}
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+				custom_effect_tooltip= EDC_remove_2000_to_tribal_horse_army
+				add_to_variable = {Tribal_horse_army_num = -2000}
+			}
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+				custom_effect_tooltip= EDC_remove_1000_to_tribal_horse_army
+				add_to_variable = {Tribal_horse_army_num = -1000}
+			}
+		}
+		option = {
+			name = afr_empire_politics_subject_levy_mission_event.2.b
+			trigger = {
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+					check_variable = { Tribal_army_num > 6000 }
+				}
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+					check_variable = { Tribal_army_num > 4000 }
+				}
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+					check_variable = { Tribal_army_num > 2000 }
+				}
+			}
+			ai_chance = { factor = 100 }
+			OVERLORD = { country_event = { id = afr_empire_politics_subject_levy_mission_event.3 days = 3 } }
+			set_country_flag = afr_empire_politics_subject_levy_mission_warrior_flag
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+				custom_effect_tooltip= EDC_remove_6000_to_tribal_army
+				add_to_variable = {Tribal_army_num = -6000}
+			}
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+				custom_effect_tooltip= EDC_remove_4000_to_tribal_army
+				add_to_variable = {Tribal_army_num = -4000}
+			}
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+				custom_effect_tooltip= EDC_remove_2000_to_tribal_army
+				add_to_variable = {Tribal_army_num = -2000}
+			}
+		}
+		option = {
+			name = afr_empire_politics_subject_levy_mission_event.2.c
+			trigger = {
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+					check_variable = { afr_prosperity_mechanic_value > 19 }
+				}
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+					check_variable = { afr_prosperity_mechanic_value > 14 }
+				}
+				if = {
+					limit = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+					check_variable = { afr_prosperity_mechanic_value > 9 }
+				}
+			}
+			ai_chance = { factor = 100 }
+			OVERLORD = { country_event = { id = afr_empire_politics_subject_levy_mission_event.3 days = 3 } }
+			set_country_flag = afr_empire_politics_subject_levy_mission_prosperity_flag
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20
+				add_to_variable = { var = afr_prosperity_mechanic_value value = -20 }
+			}
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_15
+				add_to_variable = { var = afr_prosperity_mechanic_value value = -15 }
+			}
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10
+				add_to_variable = { var = afr_prosperity_mechanic_value value = -10 }
+			}
+		}
+
+	}
+	country_event = {
+		id = afr_empire_politics_subject_levy_mission_event.3
+		title = afr_empire_politics_subject_levy_mission_event.3.t
+		desc = afr_empire_politics_subject_levy_mission_event.3.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+
+		option = {
+			name = afr_empire_politics_subject_levy_mission_event.3.a
+			trigger = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag } }
+			ai_chance = { factor = 100 }
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_horse_flag } }
+				if={ limit={ NOT={has_idea = AF_T_Tribal_Army} } add_ideas={AF_T_Tribal_Army} }
+				custom_effect_tooltip= EDC_levy_3000_to_tribal_horse_army
+				add_to_variable = {Tribal_horse_army_num = 3000}
+			}
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_warrior_flag } }
+				if={ limit={ NOT={has_idea = AF_T_Tribal_Army} } add_ideas={AF_T_Tribal_Army} }
+				custom_effect_tooltip= EDC_levy_6000_to_tribal_army
+				add_to_variable = {Tribal_army_num = 6000}
+			}
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_prosperity_flag } }
+				custom_effect_tooltip = afr_prosperity_mechanic_add_20
+				add_to_variable = { var = afr_prosperity_mechanic_value value = 20 }
+			}
+			hidden_effect = {
+				FROM = {
+					clr_country_flag = afr_empire_politics_subject_levy_mission_large_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_horse_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_warrior_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_prosperity_flag
+				}
+			}
+		}
+		
+		option = {
+			name = afr_empire_politics_subject_levy_mission_event.3.a
+			trigger = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag } }
+			ai_chance = { factor = 100 }
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_horse_flag } }
+				if={ limit={ NOT={has_idea = AF_T_Tribal_Army} } add_ideas={AF_T_Tribal_Army} }
+				custom_effect_tooltip= EDC_levy_2000_to_tribal_horse_army
+				add_to_variable = {Tribal_horse_army_num = 2000}
+			}
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_warrior_flag } }
+				if={ limit={ NOT={has_idea = AF_T_Tribal_Army} } add_ideas={AF_T_Tribal_Army} }
+				custom_effect_tooltip= EDC_levy_4000_to_tribal_army
+				add_to_variable = {Tribal_army_num = 4000}
+			}
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_prosperity_flag } }
+				custom_effect_tooltip = afr_prosperity_mechanic_add_15
+				add_to_variable = { var = afr_prosperity_mechanic_value value = 15 }
+			}
+			hidden_effect = {
+				FROM = {
+					clr_country_flag = afr_empire_politics_subject_levy_mission_medium_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_horse_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_warrior_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_prosperity_flag
+				}
+			}
+		}
+		
+		option = {
+			name = afr_empire_politics_subject_levy_mission_event.3.a
+			trigger = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag } }
+			ai_chance = { factor = 100 }
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_horse_flag } }
+				if={ limit={ NOT={has_idea = AF_T_Tribal_Army} } add_ideas={AF_T_Tribal_Army} }
+				custom_effect_tooltip= EDC_levy_1000_to_tribal_horse_army
+				add_to_variable = {Tribal_horse_army_num = 1000}
+			}
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_warrior_flag } }
+				if={ limit={ NOT={has_idea = AF_T_Tribal_Army} } add_ideas={AF_T_Tribal_Army} }
+				custom_effect_tooltip= EDC_levy_2000_to_tribal_army
+				add_to_variable = {Tribal_army_num = 2000}
+			}
+			if = {
+				limit = { FROM = { has_country_flag = afr_empire_politics_subject_levy_mission_prosperity_flag } }
+				custom_effect_tooltip = afr_prosperity_mechanic_add_10
+				add_to_variable = { var = afr_prosperity_mechanic_value value = 10 }
+			}
+			hidden_effect = {
+				FROM = {
+					clr_country_flag = afr_empire_politics_subject_levy_mission_small_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_horse_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_warrior_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_prosperity_flag
+				}
+			}
+		}
+
+	}
+
+	country_event = {
+		id = afr_empire_politics_subject_levy_mission_event.4
+		title = afr_empire_politics_subject_levy_mission_event.4.t
+		desc = afr_empire_politics_subject_levy_mission_event.4.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+
+		option = {
+			name = afr_empire_politics_subject_levy_mission_event.4.a
+			ai_chance = { factor = 100 }
+			FROM = { country_event = { id = afr_empire_politics_subject_levy_mission_event.5 days = 3 } }
+		}
+
+	}
+	country_event = {
+		id = afr_empire_politics_subject_levy_mission_event.5
+		title = afr_empire_politics_subject_levy_mission_event.5.t
+		desc = afr_empire_politics_subject_levy_mission_event.5.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+
+		option = {
+			name = afr_empire_politics_subject_levy_mission_event.5.a
+			ai_chance = { factor = 100 }
+			add_autonomy_ratio = {
+				value = -200
+				localization = afr_empire_politics_subject_levy_mission_failed_tooltip
+			}
+		}
+
+	}
 
 	country_event = {
 		id = afr_request_overlord_assistance.22

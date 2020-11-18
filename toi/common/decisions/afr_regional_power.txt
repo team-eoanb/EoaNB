@@ -7,55 +7,103 @@ afr_regional_power_empire_politics_category = {
 		available = {
 			if = {
 				limit = { 
-					has_dlc = "Together for Victory" 
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+					ROOT = { num_subjects > 0 }
+					FROM = { is_subject_of = ROOT }
 				}
-				FROM = { compare_autonomy_progress_ratio < 0.755 }
+				if = {
+					limit = { 
+						has_dlc = "Together for Victory" 
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+					}
+					FROM = { compare_autonomy_progress_ratio < 0.01 }
+				}
+				else_if = {
+					limit = { 
+						has_dlc = "Together for Victory" 
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
+					}
+					FROM = { compare_autonomy_progress_ratio < 0.01 }
+				}
+				else_if = {
+					limit = { 
+						has_dlc = "Together for Victory" 
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
+					}
+					FROM = { compare_autonomy_progress_ratio < 0.01 }
+				}
+				else_if = {
+					limit = { 
+						has_dlc = "Together for Victory" 
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
+					}
+					FROM = { compare_autonomy_progress_ratio < 0.01 }
+				}
+				else = { FROM = { compare_autonomy_progress_ratio < 0.01 } }
 			}
 			else_if = {
 				limit = { 
-					has_dlc = "Together for Victory" 
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
-				}
-				FROM = { compare_autonomy_progress_ratio < 0.505 }
-			}
-			else_if = {
-				limit = { 
-					has_dlc = "Together for Victory" 
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
-				}
-				FROM = { compare_autonomy_progress_ratio < 0.255 }
-			}
-			else_if = {
-				limit = { 
-					has_dlc = "Together for Victory" 
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
-				}
-				FROM = { compare_autonomy_progress_ratio < 0.05 }
-			}
-			else = { 
-				FROM = {
-					custom_trigger_tooltip = {
-						tooltip = afr_empire_subject_loyalty_atleast_10
-						check_variable = { var = FROM.afr_empire_subject_loyalty_var value = 10 compare = less_than_or_equals }
+					ROOT = { is_subject_of = FROM }
+					OR = {
+						FROM = { has_idea = afr_large_kingdom }
+						FROM = { has_idea = afr_reforming_kingdom }
 					}
 				}
+				if = {
+					limit = { 
+						has_dlc = "Together for Victory" 
+						ROOT = { has_autonomy_state = autonomy_afr_empire_level_4 }
+					}
+					ROOT = { compare_autonomy_progress_ratio > 0.99 }
+				}
+				else_if = {
+					limit = { 
+						has_dlc = "Together for Victory" 
+						ROOT = { has_autonomy_state = autonomy_afr_empire_level_3 }
+					}
+					ROOT = { compare_autonomy_progress_ratio > 0.99 }
+				}
+				else_if = {
+					limit = { 
+						has_dlc = "Together for Victory" 
+						ROOT = { has_autonomy_state = autonomy_afr_empire_level_2 }
+					}
+					ROOT = { compare_autonomy_progress_ratio > 0.99 }
+				}
+				else_if = {
+					limit = { 
+						has_dlc = "Together for Victory" 
+						ROOT = { has_autonomy_state = autonomy_afr_empire_level_1 }
+					}
+					ROOT = { compare_autonomy_progress_ratio > 0.99 }
+				}
+				else = { ROOT = { compare_autonomy_progress_ratio > 0.99 } }
 			}
 		}
 		allowed = { 
 			afr_is_tribal_allowed = yes
 		}
-		visible = {
-			OR = {
-				has_idea = afr_large_kingdom
-				has_idea = afr_reforming_kingdom
-			}
-			ROOT = { num_subjects > 0 }
-		}
+		#visible = {
+		#	
+		#}
 		
 		target_trigger = {
 			FROM = { afr_is_tribal = yes }
-			FROM = { is_subject_of = ROOT }
+			OR = {
+				AND = {
+					ROOT = { is_subject_of = FROM }
+					OR = {
+						FROM = { has_idea = afr_large_kingdom }
+						FROM = { has_idea = afr_reforming_kingdom }
+					}
+				}
+				AND = {
+					FROM = { is_subject_of = ROOT }
+					OR = {
+						ROOT = { has_idea = afr_large_kingdom }
+						ROOT = { has_idea = afr_reforming_kingdom }
+					}
+				}
+			}
 		}
 		fire_only_once = no
 		days_re_enable = 360
@@ -68,6 +116,121 @@ afr_regional_power_empire_politics_category = {
 		ai_will_do = {
 			base = 100
 		}
+	}
+	
+	afr_empire_politics_subject_levy_mission = {
+		icon = generic_political_actions
+		available = {
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+				OR = {
+					custom_trigger_tooltip = {
+						tooltip = EDC_Tribal_Horse_Army_over_3000
+						check_variable = { Tribal_horse_army_num > 3000 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = EDC_Tribal_Army_over_6000
+						check_variable = { Tribal_army_num > 6000 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = afr_prosperity_mechanic_greater_than_20
+						check_variable = { afr_prosperity_mechanic_value > 20 }
+					}
+				}
+			}
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+				OR = {
+					custom_trigger_tooltip = {
+						tooltip = EDC_Tribal_Horse_Army_over_2000
+						check_variable = { Tribal_horse_army_num > 2000 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = EDC_Tribal_Army_over_4000
+						check_variable = { Tribal_army_num > 4000 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = afr_prosperity_mechanic_greater_than_15
+						check_variable = { afr_prosperity_mechanic_value > 15 }
+					}
+				}
+			}
+			if = {
+				limit = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+				OR = {
+					custom_trigger_tooltip = {
+						tooltip = EDC_Tribal_Horse_Army_over_1000
+						check_variable = { Tribal_horse_army_num > 1000 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = EDC_Tribal_Army_over_2000
+						check_variable = { Tribal_army_num > 2000 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = afr_prosperity_mechanic_greater_than_10
+						check_variable = { afr_prosperity_mechanic_value > 10 }
+					}
+				}
+			}
+		}
+		activation = { always = no }
+		days_mission_timeout = 90
+		selectable_mission = yes
+		is_good = yes
+		fire_only_once = no
+		
+		cancel_trigger = {
+			is_subject = no
+		}
+		complete_effect = {
+			if = {
+				limit = { is_subject = yes }
+				OVERLORD = { country_event = { id = afr_empire_politics_subject_levy_mission_event.1 random_days = 5 } }
+			}
+		}
+		timeout_effect = {
+			if = {
+				limit = { 
+					is_subject = yes 
+					if = {
+						limit = { has_country_flag = afr_empire_politics_subject_levy_mission_large_flag }
+						OR = {
+							check_variable = { Tribal_horse_army_num > 3000 }
+							check_variable = { Tribal_army_num > 6000 }
+							check_variable = { afr_prosperity_mechanic_value > 20 }
+						}
+					}
+					if = {
+						limit = { has_country_flag = afr_empire_politics_subject_levy_mission_medium_flag }
+						OR = {
+							check_variable = { Tribal_horse_army_num > 2000 }
+							check_variable = { Tribal_army_num > 4000 }
+							check_variable = { afr_prosperity_mechanic_value > 15 }
+						}
+					}
+					if = {
+						limit = { has_country_flag = afr_empire_politics_subject_levy_mission_small_flag }
+						OR = {
+							check_variable = { Tribal_horse_army_num > 1000 }
+							check_variable = { Tribal_army_num > 2000 }
+							check_variable = { afr_prosperity_mechanic_value > 10 }
+						}
+					}
+				}
+				OVERLORD = { country_event = { id = afr_empire_politics_subject_levy_mission_event.1 random_days = 5 } }
+			}
+			else_if = {
+				limit = { is_subject = yes }
+				OVERLORD = { country_event = { id = afr_empire_politics_subject_levy_mission_event.4 random_days = 5 } }
+			}
+			hidden_effect = {
+				clr_country_flag = afr_empire_politics_subject_levy_mission_large_flag
+				clr_country_flag = afr_empire_politics_subject_levy_mission_medium_flag
+				clr_country_flag = afr_empire_politics_subject_levy_mission_small_flag
+			}
+		}
+		
+		
 	}
 
 }
