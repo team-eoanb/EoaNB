@@ -39,7 +39,9 @@ We do not tolerate using content developed for EoaNB for other purposes. Any oth
 
 ### Crash Troubleshooting
 
-`Recalculating Naval Distances Crash`: The current version of our mod crashes during the game-booting process between the launcher window and the main menu for some users with incompatible graphics cards. A good fix for most users has been to enter the Steam Library and enter the option `-opengl` into Hearts of Iron 4's launch settings.
+`Recalculating Naval Distances Crash`: The current build of our mod crashes during the game-booting process between the launcher window and the main menu for some users with incompatible graphics cards. A good fix for most users has been to enter the Steam Library and enter the option `-opengl` into Hearts of Iron 4's launch settings.
+
+`Multiplayer Chat Crash`: The current build of our mod crashes during Multiplayer games when any individual tries to open the *multiplayer chat function* located at the bottom-left of the screen. We are working to fix this, for now please regulate all communication in MP games to voice-calls or other chat platforms.
 
 ## Meet the Team; Join the Discussion
 
