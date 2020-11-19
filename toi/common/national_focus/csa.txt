@@ -11,8 +11,8 @@ focus_tree = {
 	focus = {
 		id = CSA_proclaim_confederacy
 		icon = GFX_goal_focus_confederate_collaboration
-		cost = 75
-		x = 7
+		cost = 35
+		x = 8
 		y = 0
 		completion_reward = {
 			add_war_support = 0.05
@@ -22,25 +22,40 @@ focus_tree = {
 				popularity = 0.02
 			}
 		}
-
+	}
+	focus = {
+		id = CSA_initial_soldiers
+		icon = GFX_focus_generic_little_entente
+		cost = 56
+		relative_position_id = CSA_proclaim_confederacy
+		x = -1
+		y = 1
+		prerequisite = { focus = CSA_proclaim_confederacy }
+		completion_reward = {
+			add_war_support = 0.05
+			# add troops
+		}
 	}
 	focus = {
 		id = CSA_civil_war_sumter
 		icon = GFX_goal_focus_american_civil_war
-		cost = 75
+		cost = 35
 		prerequisite = {
 			focus = CSA_proclaim_confederacy
 		}
-		x = 7
+		x = 9
 		y = 1
-		available = {
+		available = { 
 			OR = {
 				has_country_flag = CSA_fort_sumter
-				USA = { exists = no }
+				has_war_with = USA
 			}
 		}
 		bypass = {
-			has_war_with = USA
+			OR = {
+				has_country_flag = CSA_fort_sumter
+				has_war_with = USA
+			}
 		}
 		completion_reward = {
 			add_political_power = 50
@@ -55,6 +70,9 @@ focus_tree = {
 		id = CSA_civil_war_address_issues
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 40
+		prerequisite = {
+			focus = CSA_initial_soldiers
+		}
 		prerequisite = {
 			focus = CSA_civil_war_sumter
 		}
@@ -398,17 +416,20 @@ focus_tree = {
 		prerequisite = {
 			focus = CSA_civil_war_sumter
 		}
+		prerequisite = {
+			focus = CSA_initial_soldiers
+		}
 		bypass = {
 			OR = {
 				has_country_flag = CSAIndependence_Loss
 				has_country_flag = CSAIndependence_Won
 			}
 		}
-		x = 11
+		x = 12
 		y = 2
-			completion_reward = {
-					set_capital = 362
-				}
+		completion_reward = {
+			set_capital = 362
+		}
 
 	}
 	focus = {
