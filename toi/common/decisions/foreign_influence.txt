@@ -3,69 +3,207 @@ eoanb_category_diplomatic_actions = {
 	Minor_Greek_Influence = {
 	
 		visible = {
-			AND = {
-				OR = {
-					TAG = RUS 
-					TAG = PRS
-					TAG = ENG
-					TAG = AUS
-					TAG = FRA
-				}
-				NOT = {
-					has_country_flag = major_greek_influence
-				}
+			OR = {
+				tag = ENG
+				tag = RUS
+				tag = AUS
+				tag = PRS
+				tag = FRA
 			}
 		}
 	
 		allowed = { 
 			OR = {
-				TAG = RUS 
-				TAG = PRS
-				TAG = ENG
-				TAG = AUS
-				TAG = FRA
+				tag = ENG
+				tag = RUS
+				tag = AUS
+				tag = PRS
+				tag = FRA
 			}
 		}
 		
 		available = {
-			GRE = {
-				check_variable = { greek_influence_cooldown = 0 }
+			 custom_trigger_tooltip = {
+				tooltip = Greek_influence_available
+				GRE = { is_great_power = no }
+			}
+			custom_trigger_tooltip = {
+				tooltip = battle_over_greek_influence
+				NOT = {
+					has_global_flag = battle_over_greek_influence
+				}
+			}
+			NOT = {
+				has_country_flag = major_greek_influence_flag
+			}
+			RUS = {
+				custom_trigger_tooltip = {
+					tooltip = Russian_influence_over_Greece
+					if = {
+						limit = {
+							has_country_flag = minor_greek_influence_flag
+						}
+						has_country_flag = {
+							flag = minor_greek_influence_flag
+							days > 180
+						}
+					}
+					else_if = {
+						limit = {
+							has_country_flag = major_greek_influence_flag
+						}	
+						has_country_flag = {
+							flag = major_greek_influence_flag
+							days > 365
+						}
+					}
+				}
+				
+			}
+			ENG = {
+				custom_trigger_tooltip = {
+					tooltip = English_influence_over_Greece
+					if = {
+						limit = {
+							has_country_flag = minor_greek_influence_flag
+						}
+						has_country_flag = {
+							flag = minor_greek_influence_flag
+							days > 180
+						}
+					}
+					else_if = {
+						limit = {
+							has_country_flag = major_greek_influence_flag
+						}	
+						has_country_flag = {
+							flag = major_greek_influence_flag
+							days > 365
+						}
+					}
+				}
+			}
+			PRS = {
+				custom_trigger_tooltip = {
+					tooltip = Prussian_influence_over_Greece
+					if = {
+						limit = {
+							has_country_flag = minor_greek_influence_flag
+						}
+						has_country_flag = {
+							flag = minor_greek_influence_flag
+							days > 180
+						}
+					}
+					else_if = {
+						limit = {
+							has_country_flag = major_greek_influence_flag
+						}	
+						has_country_flag = {
+							flag = major_greek_influence_flag
+							days > 365
+						}
+					}
+				}
+			}
+			AUS = {
+				custom_trigger_tooltip = {
+					tooltip = Austrian_influence_over_Greece
+					if = {
+						limit = {
+							has_country_flag = minor_greek_influence_flag
+						}
+						has_country_flag = {
+							flag = minor_greek_influence_flag
+							days > 180
+						}
+					}
+					else_if = {
+						limit = {
+							has_country_flag = major_greek_influence_flag
+						}	
+						has_country_flag = {
+							flag = major_greek_influence_flag
+							days > 365
+						}
+					}
+				}
+			}
+			FRA = {
+				custom_trigger_tooltip = {
+					tooltip = French_influence_over_Greece
+					if = {
+						limit = {
+							has_country_flag = minor_greek_influence_flag
+						}
+						has_country_flag = {
+							flag = minor_greek_influence_flag
+							days > 180
+						}
+					}
+					else_if = {
+						limit = {
+							has_country_flag = major_greek_influence_flag
+						}	
+						has_country_flag = {
+							flag = major_greek_influence_flag
+							days > 365
+						}
+					}
+				}
 			}
 		}
 		
-		days_remove = 365
+		days_remove = 180
 		
 		cost = 100
 		
 		complete_effect = {
 			custom_effect_tooltip = custom_tt_influence_availability
-			## MAJOR NATIONS ##
+			set_temp_variable = { temp1 = 0 }
+
 			
+				
 			ENG = { 
 				if = {
 					limit = {
-						has_country_flag = minor_greek_influence
+						has_country_flag = minor_greek_influence_flag
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
 					}
+					GRE = {
+						add_opinion_modifier = { 
+							target = ENG
+							modifier = small_decrease
+						}
+					}
+					
 				}
 				else_if = {
 					limit = {
-						has_country_flag = major_greek_influence
+						has_country_flag = major_greek_influence_flag
 					}
-					clr_country_flag = major_greek_influence
-					set_country_flag = minor_greek_influence
+					clr_country_flag = major_greek_influence_flag
+					set_country_flag = minor_greek_influence_flag
+					set_global_flag = battle_over_greek_influence
 					remove_ideas = GRE_idea_major_greek_influence
 					add_timed_idea = { idea = GRE_idea_minor_greek_influence  days = 365 }
 					set_temp_variable = { temp1 = 2 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = medium_decrease
+					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = ENG
+							modifier = medium_decrease
+						}
 					}
 				}
 			}
@@ -73,28 +211,43 @@ eoanb_category_diplomatic_actions = {
 			PRS = { 
 				if = {
 					limit = {
-						has_country_flag = minor_greek_influence
+						has_country_flag = minor_greek_influence_flag
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
 					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = PRS
+							modifier = small_decrease
+						}
+					}
 				}
 				else_if = {
 					limit = {
-						has_country_flag = major_greek_influence
+						has_country_flag = major_greek_influence_flag
 					}
-					clr_country_flag = major_greek_influence
-					set_country_flag = minor_greek_influence
+					clr_country_flag = major_greek_influence_flag
+					set_country_flag = minor_greek_influence_flag
+					set_global_flag = battle_over_greek_influence
 					remove_ideas = GRE_idea_major_greek_influence
 					add_timed_idea = { idea = GRE_idea_minor_greek_influence  days = 365 }
 					set_temp_variable = { temp1 = 2 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = medium_decrease
+					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = PRS
+							modifier = medium_decrease
+						}
 					}
 				}
 			}
@@ -102,28 +255,43 @@ eoanb_category_diplomatic_actions = {
 			FRA = { 
 				if = {
 					limit = {
-						has_country_flag = minor_greek_influence
+						has_country_flag = minor_greek_influence_flag
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
 					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = FRA
+							modifier = small_decrease
+						}
+					}
 				}
 				else_if = {
 					limit = {
-						has_country_flag = major_greek_influence
+						has_country_flag = major_greek_influence_flag
 					}
-					clr_country_flag = major_greek_influence
-					set_country_flag = minor_greek_influence
+					clr_country_flag = major_greek_influence_flag
+					set_country_flag = minor_greek_influence_flag
+					set_global_flag = battle_over_greek_influence
 					remove_ideas = GRE_idea_major_greek_influence
 					add_timed_idea = { idea = GRE_idea_minor_greek_influence  days = 365 }
 					set_temp_variable = { temp1 = 2 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = medium_decrease
+					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = FRA
+							modifier = medium_decrease
+						}
 					}
 				}
 			}
@@ -131,28 +299,43 @@ eoanb_category_diplomatic_actions = {
 			RUS = { 
 				if = {
 					limit = {
-						has_country_flag = minor_greek_influence
+						has_country_flag = minor_greek_influence_flag
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
 					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = RUS
+							modifier = small_decrease
+						}
+					}
 				}
 				else_if = {
 					limit = {
-						has_country_flag = major_greek_influence
+						has_country_flag = major_greek_influence_flag
 					}
-					clr_country_flag = major_greek_influence
-					set_country_flag = minor_greek_influence
+					clr_country_flag = major_greek_influence_flag
+					set_country_flag = minor_greek_influence_flag
+					set_global_flag = battle_over_greek_influence
 					remove_ideas = GRE_idea_major_greek_influence
 					add_timed_idea = { idea = GRE_idea_minor_greek_influence  days = 365 }
 					set_temp_variable = { temp1 = 2 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = medium_decrease
+					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = RUS
+							modifier = medium_decrease
+						}
 					}
 				}
 			}
@@ -160,22 +343,30 @@ eoanb_category_diplomatic_actions = {
 			AUS = { 
 				if = {
 					limit = {
-						has_country_flag = minor_greek_influence
+						has_country_flag = minor_greek_influence_flag
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
 					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = AUS
+							modifier = small_decrease
+						}
+					}
 				}
 				else_if = {
 					limit = {
-						has_country_flag = major_greek_influence
+						has_country_flag = major_greek_influence_flag
 					}
-					clr_country_flag = major_greek_influence
-					set_country_flag = minor_greek_influence
+					clr_country_flag = major_greek_influence_flag
+					set_country_flag = minor_greek_influence_flag
+					set_global_flag = battle_over_greek_influence
 					remove_ideas = GRE_idea_major_greek_influence
 					add_timed_idea = { idea = GRE_idea_minor_greek_influence  days = 365 }
 					set_temp_variable = { temp1 = 2 }
@@ -183,66 +374,200 @@ eoanb_category_diplomatic_actions = {
 						target = GRE
 						modifier = medium_decrease
 					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = AUS
+							modifier = medium_decrease
+						}
+					}
 				}
 			}
 			
-			## COUNTRY TO BE INFLUENCED ##
+			## NOTIFICATION EVENT FOR COUNTRY TO BE INFLUENCED ##
 			GRE = {
-				### Case where 1 nation got minor influence over another ###
-				if = {
-					limit = {
-						has_country_flag = minor_foreign_influence
+				hidden_effect = {
+					country_event = {
+						id = GRE_foreign_influence.1
+						days = 1
+					}
+					
+					if = {
+						limit = {
+							has_idea = GRE_idea_centrism_drift
+						}
+						remove_ideas = GRE_idea_centrism_drift
+					}
+					else_if = {
+						limit = {
+							has_idea = GRE_idea_traditional_conservatism_drift
+						}
+						remove_ideas = GRE_idea_traditional_conservatism_drift
+					}
+					else_if = {
+						limit = {
+							has_idea = GRE_idea_social_egalitarianism_drift
+						}
+						remove_ideas = GRE_idea_social_egalitarianism_drift
+					}
+					else_if = {
+						limit = {
+							has_idea = GRE_idea_collectivist_socialism_drift
+						}
+						remove_ideas = GRE_idea_collectivist_socialism_drift
+					}
+					else_if = {
+						limit = {
+							has_idea = GRE_idea_autocracy_drift
+						}
+						remove_ideas = GRE_idea_autocracy_drift
 					}
 				}
-				### Case where 2 nations have minor influence ###
-				else_if = {
-					limit = {
-						has_country_flag = major_foreign_influence
-					}
-				}
-				### Case where nobody had influence
-				else{
-					set_country_flag = minor_foreign_influence
-				}
-				set_variable = { greek_influence_cooldown = 1 }
 			}
 			
 			##MODIFIERS FOR COUNTRY THAT WILL INFLUENCE GREECE
 			
-			set_country_flag = minor_greek_influence
-			add_timed_idea = { 
-				idea = GRE_idea_minor_greek_influence  
-				days = 365 
-			}
+			ROOT = {
+				set_country_flag = minor_greek_influence_flag
+				add_timed_idea = { 
+					idea = GRE_idea_minor_greek_influence  
+					days = 365 
+				}
 
-			add_opinion_modifier = { 
-				target = GRE
-				modifier = small_increase 
-			}
-			
-			if = {
-				limit = {
-					check_variable = { temp1 = 1 }
+				add_opinion_modifier = { 
+					target = GRE
+					modifier = small_increase 
 				}
-				add_political_power = -25
-			}
-			if = {
-				limit = {
-					check_variable = { temp1 = 2 }
+				
+				
+				
+				
+				if = {
+					limit = {
+						check_variable = { temp1 = 0 }
+					}
+					GRE = {
+						add_timed_idea = { 
+							idea = GRE_idea_minor_foreign_influence  
+							days = 365
+						}
+						add_opinion_modifier = { 
+							target = ROOT
+							modifier = small_increase 
+						}
+					}
 				}
-				add_political_power = -50
+				else_if = {
+					limit = {
+						check_variable = { temp1 = 1 }
+					}
+					add_political_power = -25
+					GRE = {
+						remove_ideas = GRE_idea_minor_foreign_influence
+						add_timed_idea = { 
+							idea = GRE_idea_minor_foreign_influence  
+							days = 365
+						}
+						add_opinion_modifier = { 
+							target = ROOT
+							modifier = small_increase 
+						}
+					}
+					
+				}
+				else_if = {
+					limit = {
+						check_variable = { temp1 = 2 }
+					}
+					add_political_power = -50
+					GRE = {
+						remove_ideas = GRE_idea_major_foreign_influence
+						add_timed_idea = { 
+							idea = GRE_idea_shared_foreign_influence  
+							days = 365
+						}
+						add_opinion_modifier = { 
+							target = ROOT
+							modifier = small_increase 
+						}
+					}
+				}
+				
+				if = {
+					limit = {
+						has_government = centrism
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_centrism_drift
+							days = 365
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_government = traditional_conservatism
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_traditional_conservatism_drift
+							days = 365
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_government = autocracy
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_autocracy_drift
+							days = 365
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_government = social_egalitarianism
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_social_egalitarianism_drift
+							days = 365
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_government = collectivist_socialism
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_collectivist_socialism_drift
+							days = 365
+						}
+					}
+				}
 			}
-		
+				
 		}
 		
-		remove_effect = {
-			GRE = {
-				set_variable = { greek_influence_cooldown = 0 }
+		ai_will_do = {
+			base = 20  
+			
+			modifier = { 
+				OR = {
+					tag = RUS 
+					tag = AUS
+					tag = ENG
+				}
+				factor = 3
 			}
 		}
 		
 	}
 	
+
 	Major_Greek_Influence = {
 	
 		visible = {
@@ -254,7 +579,7 @@ eoanb_category_diplomatic_actions = {
 					TAG = ENG
 					TAG = FRA
 				}
-				has_country_flag = minor_greek_influence
+				has_country_flag = minor_greek_influence_flag
 			}
 		}
 	
@@ -269,7 +594,7 @@ eoanb_category_diplomatic_actions = {
 		}
 		
 		available = {
-			has_country_flag = minor_greek_influence
+			has_country_flag = minor_greek_influence_flag
 		}
 			
 		cost = 150
@@ -277,23 +602,55 @@ eoanb_category_diplomatic_actions = {
 		days_remove = 365
 		
 		complete_effect = {
-			custom_effect_tooltip = custom_tt_influence_availability_major
+			GRE = {
+				if = { 
+					limit = {
+						has_idea = GRE_idea_shared_foreign_influence
+					}
+					remove_ideas = GRE_idea_shared_foreign_influence
+				}
+				else_if = {
+					limit = {
+						has_idea = GRE_idea_minor_foreign_influence
+					}
+					remove_ideas = GRE_idea_minor_foreign_influence
+				}
+				
+				add_timed_idea = {
+					idea = GRE_idea_major_foreign_influence
+					days = 1095
+				}
+				
+				add_opinion_modifier = { 
+					target = GRE
+					modifier = medium_increase
+				}	
+			}	
+			
+			
 			ENG = { 
 				if = {
 					limit = {
 						AND = {
-							has_country_flag = minor_greek_influence
+							has_country_flag = minor_greek_influence_flag
 							NOT = {
-								has_country_flag = tag_got_decision_major
+								tag = ROOT
 							}
 						}
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
+					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = GRE
+							modifier = small_decrease
+						}
 					}
 				}
 			}
@@ -302,18 +659,25 @@ eoanb_category_diplomatic_actions = {
 				if = {
 					limit = {
 						AND = {
-							has_country_flag = minor_greek_influence
+							has_country_flag = minor_greek_influence_flag
 							NOT = {
-								has_country_flag = tag_got_decision_major
+								tag = ROOT
 							}
 						}
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
+					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = GRE
+							modifier = small_decrease
+						}
 					}
 				}
 			}
@@ -322,18 +686,25 @@ eoanb_category_diplomatic_actions = {
 				if = {
 					limit = {
 						AND = {
-							has_country_flag = minor_greek_influence
+							has_country_flag = minor_greek_influence_flag
 							NOT = {
-								has_country_flag = tag_got_decision_major
+								tag = ROOT
 							}
 						}
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
+					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = GRE
+							modifier = small_decrease
+						}
 					}
 				}
 			}
@@ -342,18 +713,25 @@ eoanb_category_diplomatic_actions = {
 				if = {
 					limit = {
 						AND = {
-							has_country_flag = minor_greek_influence
+							has_country_flag = minor_greek_influence_flag
 							NOT = {
-								has_country_flag = tag_got_decision_major
+								tag = ROOT
 							}
 						}
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
+					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = GRE
+							modifier = small_decrease
+						}
 					}
 				}
 			}
@@ -362,59 +740,156 @@ eoanb_category_diplomatic_actions = {
 				if = {
 					limit = {
 						AND = {
-							has_country_flag = minor_greek_influence
+							has_country_flag = minor_greek_influence_flag
 							NOT = {
-								has_country_flag = tag_got_decision_major
+								tag = ROOT
 							}
 						}
 					}
-					clr_country_flag = minor_greek_influence
+					clr_country_flag = minor_greek_influence_flag
 					remove_ideas = GRE_idea_minor_greek_influence
 					set_temp_variable = { temp1 = 1 }
 					add_opinion_modifier = { 
 						target = GRE
 						modifier = small_decrease
 					}
+					
+					GRE = {
+						add_opinion_modifier = { 
+							target = GRE
+							modifier = small_decrease
+						}
+					}
+				}
+			}
+			
+			## NOTIFICATION EVENT FOR COUNTRY TO BE INFLUENCED ##
+			GRE = {
+				hidden_effect = {
+					country_event = {
+						id = GRE_foreign_influence.2
+						days = 1
+					}
+					
+					if = {
+						limit = {
+							has_idea = GRE_idea_centrism_drift
+						}
+						remove_ideas = GRE_idea_centrism_drift
+					}
+					else_if = {
+						limit = {
+							has_idea = GRE_idea_traditional_conservatism_drift
+						}
+						remove_ideas = GRE_idea_traditional_conservatism_drift
+					}
+					else_if = {
+						limit = {
+							has_idea = GRE_idea_social_egalitarianism_drift
+						}
+						remove_ideas = GRE_idea_social_egalitarianism_drift
+					}
+					else_if = {
+						limit = {
+							has_idea = GRE_idea_collectivist_socialism_drift
+						}
+						remove_ideas = GRE_idea_collectivist_socialism_drift
+					}
+					else_if = {
+						limit = {
+							has_idea = GRE_idea_autocracy_drift
+						}
+						remove_ideas = GRE_idea_autocracy_drift
+					}
 				}
 			}
 		
-			clr_country_flag = minor_greek_influence
-			clr_country_flag = tag_got_decision_major
-			set_country_flag = major_greek_influence
+			ROOT = {
 			
-			if = {
-				limit = {
-					check_variable = { temp1 = 0 }
-				}
+				clr_country_flag = minor_greek_influence_flag
+				set_country_flag = major_greek_influence_flag
+
 				remove_ideas = GRE_idea_minor_greek_influence
-			}
-			
-			add_timed_idea = {
-				idea = GRE_idea_major_greek_influence
-				days = 1095
-			}
-			
-			add_opinion_modifier = { 
-				target = GRE
-				modifier = large_increase 
-			}
-			
-			
-			GRE = {
+				add_timed_idea = {
+					idea = GRE_idea_major_greek_influence
+					days = 1095
+				}
+				
+				add_opinion_modifier = { 
+					target = GRE
+					modifier = medium_increase 
+				}
+				
 				if = {
 					limit = {
-						has_country_flag = minor_foreign_influence
+						has_government = centrism
 					}
-					clr_country_flag = minor_foreign_influence
-					set_country_flag = major_foreign_influence
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_centrism_drift
+							days = 1095
+						}
+					}
 				}
-				set_variable = { greek_influence_cooldown = 1 }
-			}	
+				else_if = {
+					limit = {
+						has_government = traditional_conservatism
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_traditional_conservatism_drift
+							days = 1095
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_government = autocracy
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_autocracy_drift
+							days = 1095
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_government = social_egalitarianism
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_social_egalitarianism_drift
+							days = 1095
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_government = collectivist_socialism
+					}
+					GRE = {
+						add_timed_idea = {
+							idea = GRE_idea_collectivist_socialism_drift
+							days = 1095
+						}
+					}
+				}
+			}
 		}
 		
-		remove_effect = {
-			set_variable = { greek_influence_cooldown = 0 }
-		}	
+		ai_will_do = {
+			base = 20  
+			
+			modifier = { 
+				OR = {
+					tag = RUS 
+					tag = AUS
+					tag = ENG
+				}
+				factor = 3
+			}
+		}
 	}
 
 }
