@@ -1584,10 +1584,30 @@ d_check_culture = {
 			check_variable = { v > 0 }
 		}
 		set_temp_variable = { cult_total = 0 }
+		set_temp_variable = { previous = 1.0 }
+		set_temp_variable = { check = 0 }
+		set_temp_variable = { check2 = 0 }
 		for_each_loop = {
 			array = state_culture_array_num
 			value = v
 			add_to_temp_variable = { cult_total = v }
+			if = {
+				limit = {
+					check_variable = { previous < v }
+				}
+				set_temp_variable = { check = 1 }
+			}
+			set_temp_variable = { previous = v }
+		}
+		for_each_loop = {
+			array = state_culture_array
+			value = v
+			if = {
+				limit = {
+					check_variable = { v > 455 }					# MAKE SURE TO UPDATE THIS WHEN ADDING NEW CULTURES
+				}
+				set_temp_variable = { check2 = 1 }
+			}
 		}
 		if = {
 			limit = {
@@ -1598,8 +1618,22 @@ d_check_culture = {
 			add_to_temp_variable = { amount = 1 }
 			log = "Culture error found at state [THIS.GetID]. The total is equal to [?cult_total], not 1."
 		}
+		if = {
+			limit = {
+				check_variable = { check = 1 }
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Culture error found at state [THIS.GetID]. The cultures are not in descending order."
+		}
+		if = {
+			limit = {
+				check_variable = { check2 = 1 }
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Culture error found at state [THIS.GetID]. Unknown culture found. If it's an existing culture, please update the console command."
+		}
 	}
-	log = "Culture error checking finished. Total amount of states with errors: [?amount]" 
+	log = "Culture error checking finished. Total amount of errors within states: [?amount]" 
 }
 d_check_religion = {
 	set_temp_variable = { amount = 0 }
@@ -1609,10 +1643,30 @@ d_check_religion = {
 			check_variable = { v > 0 }
 		}
 		set_temp_variable = { rel_total = 0 }
+		set_temp_variable = { previous = 1.0 }
+		set_temp_variable = { check = 0 }
+		set_temp_variable = { check2 = 0 }
 		for_each_loop = {
 			array = state_religion_array_num
 			value = v
 			add_to_temp_variable = { rel_total = v }
+			if = {
+				limit = {
+					check_variable = { previous < v }
+				}
+				set_temp_variable = { check = 1 }
+			}
+			set_temp_variable = { previous = v }
+		}
+		for_each_loop = {
+			array = state_religion_array
+			value = v
+			if = {
+				limit = {
+					check_variable = { v > 24 }					# MAKE SURE TO UPDATE THIS WHEN ADDING NEW RELIGIONS
+				}
+				set_temp_variable = { check2 = 1 }
+			}
 		}
 		if = {
 			limit = {
@@ -1623,6 +1677,20 @@ d_check_religion = {
 			add_to_temp_variable = { amount = 1 }
 			log = "Religion error found at state [THIS.GetID]. The total is equal to [?rel_total], not 1."
 		}
+		if = {
+			limit = {
+				check_variable = { check = 1 }
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Religion error found at state [THIS.GetID]. The religions are not in descending order."
+		}
+		if = {
+			limit = {
+				check_variable = { check2 = 1 }
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Culture error found at state [THIS.GetID]. Unknown religion found. If it's an existing religion, please update the console command."
+		}
 	}
-	log = "Religion error checking finished. Total amount of states with errors: [?amount]" 
+	log = "Religion error checking finished. Total amount of errors within states: [?amount]" 
 }
