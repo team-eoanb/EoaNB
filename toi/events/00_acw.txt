@@ -3506,10 +3506,12 @@ news_event = {
 		hidden_effect = {
 			if = {
 				limit = { tag = USA }
+				set_global_flag = ACW_American_Civil_War_Start
 				country_event = { id = acw_generic.5 days = 14 }
 				country_event = { id = acw_generic.6 days = 20 }
 				country_event = { id = acw_generic.7 days = 40 }
 				country_event = { id = acw_generic.8 days = 60 }
+				activate_mission = eoanb_decision_acw_brewing
 				every_other_country = {
 					news_event = acw_generic.1
 				}
@@ -3519,6 +3521,7 @@ news_event = {
 				country_event = { id = acw_generic.6 days = 20 }
 				country_event = { id = acw_generic.7 days = 40 }
 				country_event = { id = acw_generic.8 days = 60 }
+				activate_mission = eoanb_decision_acw_brewing
 			}
 		}
 	}
@@ -3536,6 +3539,10 @@ news_event = {
 		trigger = { tag = USA }
 		add_war_support = 0.05
 		add_political_power = 35
+	}
+	option = {
+		name = acw_generic.1.c
+		trigger = { NOT = { tag = USA tag = CSA } }
 	}
 }
 
@@ -3593,7 +3600,6 @@ news_event = {
 		trigger = { NOT = { tag = USA tag = CSA } }
 	}
 }
-
 
 # Boston Harbor
 news_event = {
@@ -3666,6 +3672,10 @@ country_event = {
 		ACW_Weapons_Count_Get = yes
 		set_temp_variable = { acw_draft_count_change = 2 }
 		ACW_Draft_Count_Get = yes
+		if = {
+			limit = { tag = USA }
+			add_ideas = Generic_National_Riot_1
+		}
 	}
 }
 
@@ -3702,10 +3712,6 @@ country_event = {
 		if = {
 			limit = { OR = { tag = USA tag = CAL tag = NEG tag = CSA } }
 			every_owned_state = { set_demilitarized_zone = no }
-		}
-		if = {
-			limit = { tag = USA }
-			news_event = { id = acw_generic.9 days = 20 random_days = 10 }
 		}
 	}
 
@@ -3760,6 +3766,11 @@ news_event = {
 				set_temp_variable = { acw_draft_count_change = 22 }
 				ACW_Draft_Count_Get = yes
 				load_oob = USA_Standard_ACW
+				activate_mission = eoanb_decision_acw_csa_surrender_to_usa_union
+				CSA = { 
+					load_oob = CSA_Standard_ACW
+					activate_mission = eoanb_decision_acw_csa_surrender_to_usa_dixie
+				}
 			}
 			if = {
 				limit = { tag = CSA }
@@ -3769,7 +3780,6 @@ news_event = {
 				ACW_Weapons_Count_Get = yes
 				set_temp_variable = { acw_draft_count_change = 18 }
 				ACW_Draft_Count_Get = yes
-				load_oob = CSA_Standard_ACW
 			}
 			if = {
 				limit = { tag = NEG }
@@ -4881,7 +4891,13 @@ country_event = {
 
 	immediate = {
 		if = {
-			limit = { has_dlc = "Together for Victory" }
+			limit = { 
+				OR = {
+					has_dlc = "Together for Victory"
+					has_dlc = "Death or Dishonor"
+					has_dlc = "Waking the Tiger"
+				}
+			}
 			USA = {
 				set_autonomy = {
 					target = WVG
@@ -4978,7 +4994,7 @@ country_event = {
 	immediate = {
 		set_temp_variable = { USA_Slavery_Debate_Leaning_Change = 10 }
 		USA_Slavery_Debate_Leaning_Modify = yes
-		set_temp_variable = { USA_Slavery_Debate_Tension_Change = -7 }
+		set_temp_variable = { USA_Slavery_Debate_Tension_Change = -2 }
 		USA_Slavery_Debate_Tension_Modify = yes
 	}
 
@@ -5005,7 +5021,7 @@ country_event = {
 	immediate = {
 		set_temp_variable = { USA_Slavery_Debate_Leaning_Change = -10 }
 		USA_Slavery_Debate_Leaning_Modify = yes
-		set_temp_variable = { USA_Slavery_Debate_Tension_Change = 5 }
+		set_temp_variable = { USA_Slavery_Debate_Tension_Change = 8 }
 		USA_Slavery_Debate_Tension_Modify = yes
 	}
 
@@ -5046,6 +5062,7 @@ country_event = {
 			popularity = 0.02
 		}
 		hidden_effect = {
+			country_event = { id = acw_lincoln.6 days = 65 }
 			country_event = { id = acw_lincoln.5 days = 80 }
 		}
 	}
@@ -5074,17 +5091,34 @@ country_event = {
 				elections_allowed = no
 			}
 			create_country_leader = {
-    				name = "Abraham Lincoln"
-    				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
-    				picture = "Portrait_USA_Abraham_Lincoln.dds"
-    				expire = "1891.5.2"
-    				ideology = conserv_liberal
-    				traits = {
-    					  controversial_figure
-    					  eoanb_trait_patriotic_orator
-				}
-    			}
+				name = "Abraham Lincoln"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = "Portrait_USA_Abraham_Lincoln.dds"
+				expire = "1891.5.2"
+				ideology = conserv_liberal
+				traits = { controversial_figure eoanb_trait_patriotic_orator }
+			}
 		}
+	}
+}
+
+country_event = {
+	id = acw_lincoln.6
+	title = acw_lincoln.6.t
+	desc = acw_lincoln.6.d
+	picture = GFX_news_event_lincoln_elected
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		set_temp_variable = { USA_Slavery_Debate_Leaning_Change = -6 }
+		USA_Slavery_Debate_Leaning_Modify = yes
+		set_temp_variable = { USA_Slavery_Debate_Tension_Change = 5 }
+		USA_Slavery_Debate_Tension_Modify = yes
+	}
+	option = {
+		name = acw_lincoln.6.a
 	}
 }
 
@@ -6197,7 +6231,11 @@ country_event = {
 					}
 					OVERLORD = {
 						if = {
-							limit = { has_dlc = "Together for Victory" }
+							limit = { OR = {
+								has_dlc = "Together for Victory"
+								has_dlc = "Death or Dishonor"
+								has_dlc = "Waking the Tiger"
+							} }
 							set_autonomy = {
 								target = UTA
 								autonomy_state = autonomy_free
@@ -9643,124 +9681,9 @@ news_event = {
   desc = acw_peace_deal.1.d
   picture = GFX_news_event_appomattox_acw
 
-	trigger = {
-		tag = USA
-		has_global_flag = ACW_American_Civil_War
-		has_war_with = CSA
-		count_triggers = {
-			amount = 15
-			date > 1863.7.1
-			date > 1864.7.1
-			date > 1865.7.1
-			date > 1866.7.1
-			date > 1867.7.1
-			date > 1868.7.1
-			364 = { # South Carolina
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			364 = {
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			370 = { # Mississippi
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			370 = {
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			366 = { # Florida
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			367 = { #Alabama
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			367 = {
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			365 = { #Georgia
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			365 = {
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			365 = {
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			371 = { #Lousiana
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			375 = { #Texas
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			362 = { #Virginia
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			362 = {
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			363 = { #North Carolina
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			362 = { #Arkansas
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-			368 = { #Tennessee
-				AND = {
-					is_owned_by = CSA
-					is_controlled_by = USA
-				}
-			}
-		}
-	}
-  fire_only_once = yes
+	is_triggered_only = yes
 	major = yes
+
 	immediate = {
 		if = {
 			limit = { NOT = { has_global_flag = ACW_Radical_Coup } }
@@ -10285,241 +10208,9 @@ news_event = {
 
 	picture = GFX_news_event_appomattox_acw
 
-  fire_only_once = yes
-  major = yes
 
-	trigger = {
-		tag = USA
-		has_global_flag = ACW_American_Civil_War
-		has_war_with = CSA
-		count_triggers = {
-			amount = 17
-			has_country_leader = {
-				name = "George B. McClellan"
-				ruling_only = yes
-			}
-			has_country_leader = {
-				name = "George B. McClellan"
-				ruling_only = yes
-			}
-			has_country_leader = {
-				name = "George B. McClellan"
-				ruling_only = yes
-			}
-			has_country_leader = {
-				name = "George B. McClellan"
-				ruling_only = yes
-			}
-			has_country_leader = {
-				name = "George B. McClellan"
-				ruling_only = yes
-			}
-			has_country_leader = {
-				name = "George B. McClellan"
-				ruling_only = yes
-			}
-			has_country_leader = {
-				name = "George B. McClellan"
-				ruling_only = yes
-			}
-			has_country_leader = {
-				name = "George B. McClellan"
-				ruling_only = yes
-			}
-			date > 1863.7.1
-			date > 1864.7.1
-			date > 1865.7.1
-			date > 1866.7.1
-			date > 1867.7.1
-			date > 1868.7.1
-			378 = { #California
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			378 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			378 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			379 = { #Nevada
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			373 = { #Missouri
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			373 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			395 = { #Illinois
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			395 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			395 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			396 = { # Indiana
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			261 = { #Ohio
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			261 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			261 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			361 = { #Maryland
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			361 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			360 = { #Pennsylvania
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			360 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			360 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			360 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			1091 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			1091 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			1091 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			359 = { #New Jersey
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			359 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			358 = { #New York
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			358 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			954 = { #NYC
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			954 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			954 = {
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			393 = { #Michigan
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-			386 = { #Washington
-				AND = {
-					is_owned_by = USA
-					NOT = { is_controlled_by = USA }
-				}
-			}
-		}
-	}
+  major = yes
+	is_triggered_only = yes
 
 	immediate = {
 		hidden_effect = {

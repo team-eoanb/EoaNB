@@ -218,40 +218,8 @@ political_actions = {
 	}
 }
 	
-  economic_decisions  = {
+economic_decisions = {
 
-    GRE_decision_start_athens_piraeus_railway = { #Begin Construction - takes two years  
-
-		visible = {
-		  tag = GRE 
-		  has_completed_focus = GRE_athens-piraeus_rail 
-		}
-	
-		allowed = { TAG = GRE }
-		
-		cost = 150  
-
-		fire_only_once = yes
-		days_remove = 720 
-
-		remove_effect = {
-		    47 = {
-                add_building_construction = {
-                    type = infrastructure
-                    level = 2   
-                    instant_build = yes
-                }			
-			}        
-		    hidden_effect = {
-			    country_event = { id = GREeconomy.2 days = 10 }
-			}
-		}
-
-		ai_will_do = {
-			base = 100   
-		}
-	}
-	
 }
 
     eoanb_category_diplomatic_actions = {
@@ -506,42 +474,54 @@ political_actions = {
 			base = 100   
 		}	
 	}
+}
 	
-	#Cede the Ionian Islands to Greece
-	#eoanb_decision_ENG_cede_ION = {
-	
-	#	icon = generic_political_discourse
+GRE_decision_category_industry = {
+
+	GRE_Improve_Athens-Piraeus_Railway = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = { TAG = GRE }
+
+        available = {
+			AND = {
+				NOT = { 
+					has_idea = GRE_idea_Athens_Piraeus_rail
+				}
+				has_completed_focus = GRE_athens-piraeus_rail
+			}
+        }
+
+		visible = {
+			AND = {
+				TAG = GRE
+				has_idea = industrializing
+			}
+		}
+
+		days_remove = 365
+
+		cost = 25
+
+        highlight_states = {
+			state = 1251
+		}
+
+        remove_effect = {
+			1251 = { add_building_construction = { type = infrastructure level = 1 instant_build = yes } }
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
 		
-	#	available = {
-	#		date > 1864.03.19 
-	#	}
-		
-	#	visible = {
-	#		TAG = ENG
-	#		country_exists = ION 
-	#		AND = {
-	#		date > 1864.03.19
-	#		   OR = { 
-	###		        GRE = { has_country_flag = GRE_Alfred_I } 
-	#	        	GRE = { has_country_flag = GRE_George_I } 
-	#		    }
-	#		}
-	#	}
-		
-	#	fire_only_once = yes
-		
-	#	cost = 75 
-		
-	#	complete_effect = {
-	#		GRE = { country_event = { id = GREdiplo.1 days = 10 } } 
-	#	}
-		
-	#	ai_will_do = {
-	#		base = 100 
-	#	}	
-	#
-   # }
-	
-	
-	
+		cancel_trigger = {
+			GRE = { NOT = { owns_state = 1251 } }
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
 }
