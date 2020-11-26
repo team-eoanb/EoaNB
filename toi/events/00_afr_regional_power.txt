@@ -10,6 +10,7 @@ add_namespace = afr_war_exhaustion_exertion
 add_namespace = afr_request_overlord_assistance
 add_namespace = afr_empire_politics_subject_levy_mission_event
 add_namespace = afr_empire_politics_subject_levy_mission_event_global
+add_namespace = afr_empire_politics_subject_send_tribute_to_overlord_event
 
 	country_event = {
 		id = afr_empire_politics_subject_levy_mission_event_global.1
@@ -314,6 +315,60 @@ add_namespace = afr_empire_politics_subject_levy_mission_event_global
 			}
 		}
 
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_send_tribute_to_overlord_event.1
+		title = afr_empire_politics_subject_send_tribute_to_overlord_event.1.t
+		desc = afr_empire_politics_subject_send_tribute_to_overlord_event.1.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+
+		option = {
+			name = afr_empire_politics_subject_send_tribute_to_overlord_event.1.a
+			ai_chance = { factor = 100 }
+			custom_effect_tooltip = afr_prosperity_mechanic_add_10
+			add_to_variable = { var = afr_prosperity_mechanic_value value = 10 }
+			FROM = { country_event = { id = afr_empire_politics_subject_send_tribute_to_overlord_event.2 days = 3 } }
+		}
+
+	}
+	country_event = {
+		id = afr_empire_politics_subject_send_tribute_to_overlord_event.2
+		title = afr_empire_politics_subject_send_tribute_to_overlord_event.2.t
+		desc = afr_empire_politics_subject_send_tribute_to_overlord_event.2.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+
+		option = {
+			name = afr_empire_politics_subject_send_tribute_to_overlord_event.2.a
+			trigger = { 
+				OR = {
+					NOT = { has_government = fundamentalism }
+					NOT ={ is_in_array = { array = national_religion_array value = global.sunni } }
+				}
+			}
+			ai_chance = { factor = 100 }
+			add_autonomy_score = {
+				value = 200
+				localization = afr_empire_politics_subject_send_tribute_to_overlord_tooltip
+			}
+		}
+		
+		option = {
+			name = afr_empire_politics_subject_send_tribute_to_overlord_event.2.b
+			trigger = { 
+				has_government = fundamentalism
+				is_in_array = { array = national_religion_array value = global.sunni }
+			}
+			ai_chance = { factor = 100 }
+			add_autonomy_score = {
+				value = 200
+				localization = afr_empire_politics_subject_send_tribute_to_overlord_tooltip
+			}
+		}
 	}
 
 	country_event = {

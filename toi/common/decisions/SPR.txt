@@ -162,3 +162,391 @@ SPR_FLAVOUR = {
 		fire_only_once = yes
 		}
 }
+
+SPR_colonial_affairs_category = {
+	SPR_develop_puerto_rico_infrastructure_decision = {
+		available = {
+			owns_state = 686
+			custom_trigger_tooltip = {
+				tooltip = SPR_not_declared_bankruptcy_tooltip
+				date < 1868.9.19
+				check_variable = { var = debt_level value = 50 compare = less_than }
+			}
+		}
+		visible = {
+			date < 1868.9.19
+			check_variable = { var = debt_level value = 50 compare = less_than }
+			has_country_flag = SPR_develop_cuba_and_puerto_rico_flag
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		days_remove = 180
+		fire_only_once = yes
+		
+		cancel_trigger = {
+			NOT = {
+				owns_state = 686
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				NOT = {
+					date < 1868.9.19
+					check_variable = { var = debt_level value = 50 compare = less_than }
+				}
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
+		}
+		remove_effect = {
+			#finishing debt
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
+			686 = {
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 1440 }
+			}
+			custom_effect_tooltip = SPR_puerto_rico_has_infrastructure_investments_tooltip
+			set_country_flag = SPR_puerto_rico_has_infrastructure_investments_flag
+		}
+	}
+	
+	SPR_develop_cuba_infrastructure_decision = {
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_all_of_cuba_tooltip
+				owns_state = 315
+				owns_state = 1022
+				owns_state = 1350
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_not_declared_bankruptcy_tooltip
+				date < 1868.9.19
+				check_variable = { var = debt_level value = 50 compare = less_than }
+			}
+		}
+		visible = {
+			date < 1868.9.19
+			check_variable = { var = debt_level value = 50 compare = less_than }
+			has_country_flag = SPR_develop_cuba_and_puerto_rico_flag
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		days_remove = 180
+		fire_only_once = yes
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_all_of_cuba_tooltip
+				NOT = {
+					owns_state = 315
+					owns_state = 1022
+					owns_state = 1350
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				NOT = {
+					date < 1868.9.19
+					check_variable = { var = debt_level value = 50 compare = less_than }
+				}
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
+		}
+		remove_effect = {
+			#finishing debt
+			custom_effect_tooltip = EGY_afr_increase_debt_4
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 4}
+			}
+			1022 = {
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+			}
+			1350 = {
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+			}
+			315 = {
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 1550 }
+			}
+			custom_effect_tooltip = SPR_cuba_has_infrastructure_investments_tooltip
+			set_country_flag = SPR_cuba_has_infrastructure_investments_flag
+		}
+	}
+	
+	SPR_invest_sugar_trade_decision = {
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_all_of_cuba_tooltip
+				owns_state = 315
+				owns_state = 1022
+				owns_state = 1350
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_cuba_has_infrastructure_investments_trigger
+				has_country_flag = SPR_cuba_has_infrastructure_investments_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_not_declared_bankruptcy_tooltip
+				date < 1868.9.19
+				check_variable = { var = debt_level value = 50 compare = less_than }
+			}
+		}
+		visible = {
+			date < 1868.9.19
+			check_variable = { var = debt_level value = 50 compare = less_than }
+			has_country_flag = SPR_invest_in_sugar_trade_flag
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		days_remove = 180
+		fire_only_once = yes
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_all_of_cuba_tooltip
+				NOT = {
+					owns_state = 315
+					owns_state = 1022
+					owns_state = 1350
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				NOT = {
+					date < 1868.9.19
+					check_variable = { var = debt_level value = 50 compare = less_than }
+				}
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
+		}
+		remove_effect = {
+			#finishing debt
+			custom_effect_tooltip = EGY_afr_increase_debt_2
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 2}
+				set_country_flag = SPR_cuba_has_sugar_trade_investments_flag
+			}
+			add_ideas = SPR_cuban_trading_boom
+		}
+	}
+	
+	SPR_expand_tobacco_plantations_decision = {
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_all_of_cuba_tooltip
+				owns_state = 315
+				owns_state = 1022
+				owns_state = 1350
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_cuba_has_infrastructure_investments_trigger
+				has_country_flag = SPR_cuba_has_infrastructure_investments_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_not_declared_bankruptcy_tooltip
+				date < 1868.9.19
+				check_variable = { var = debt_level value = 50 compare = less_than }
+			}
+		}
+		visible = {
+			date < 1868.9.19
+			check_variable = { var = debt_level value = 50 compare = less_than }
+			has_country_flag = SPR_expand_tobacco_plantations_flag
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		days_remove = 180
+		fire_only_once = yes
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_all_of_cuba_tooltip
+				NOT = {
+					owns_state = 315
+					owns_state = 1022
+					owns_state = 1350
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				NOT = {
+					date < 1868.9.19
+					check_variable = { var = debt_level value = 50 compare = less_than }
+				}
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
+		}
+		remove_effect = {
+			#finishing debt
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+				set_country_flag = SPR_cuba_has_tobacco_plantation_investments_flag
+			}
+			315 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = farm
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	SPR_increase_cattle_land_in_puerto_rico_decision = {
+		available = {
+			owns_state = 686
+			custom_trigger_tooltip = {
+				tooltip = SPR_puerto_rico_has_infrastructure_investments_trigger
+				has_country_flag = SPR_puerto_rico_has_infrastructure_investments_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_not_declared_bankruptcy_tooltip
+				date < 1868.9.19
+				check_variable = { var = debt_level value = 50 compare = less_than }
+			}
+		}
+		visible = {
+			date < 1868.9.19
+			check_variable = { var = debt_level value = 50 compare = less_than }
+			has_country_flag = SPR_increase_cattle_land_flag
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		days_remove = 180
+		fire_only_once = yes
+		
+		cancel_trigger = {
+			NOT = {
+				owns_state = 686
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				NOT = {
+					date < 1868.9.19
+					check_variable = { var = debt_level value = 50 compare = less_than }
+				}
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
+		}
+		remove_effect = {
+			686 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = farm
+					level = 1
+					instant_build = yes
+				}
+			}
+			hidden_effect = { set_country_flag = SPR_puerto_rico_has_cattle_ranch_investments_flag }
+		}
+	}
+	
+	SPR_increase_cattle_land_in_cuba_decision = {
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_all_of_cuba_tooltip
+				owns_state = 315
+				owns_state = 1022
+				owns_state = 1350
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_cuba_has_infrastructure_investments_trigger
+				has_country_flag = SPR_cuba_has_infrastructure_investments_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_not_declared_bankruptcy_tooltip
+				date < 1868.9.19
+				check_variable = { var = debt_level value = 50 compare = less_than }
+			}
+		}
+		visible = {
+			date < 1868.9.19
+			check_variable = { var = debt_level value = 50 compare = less_than }
+			has_country_flag = SPR_increase_cattle_land_flag
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		days_remove = 180
+		fire_only_once = yes
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_all_of_cuba_tooltip
+				NOT = {
+					owns_state = 315
+					owns_state = 1022
+					owns_state = 1350
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				NOT = {
+					date < 1868.9.19
+					check_variable = { var = debt_level value = 50 compare = less_than }
+				}
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			custom_effect_tooltip = EGY_afr_increase_debt_1
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
+		}
+		remove_effect = {
+			#finishing debt
+			custom_effect_tooltip = EGY_afr_increase_debt_2
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 2}
+				set_country_flag = SPR_cuba_has_cattle_ranch_investments_flag
+			}
+			315 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = farm
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+}

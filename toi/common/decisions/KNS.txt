@@ -99,6 +99,9 @@ economic_decisions = {
 }
 KNS_american_trade_association_category = {
 	KNS_expand_association = {
+		allowed = {
+			always = no # via effect
+		}
 		target_trigger = {
 			FROM = {
 				OR = {
@@ -118,10 +121,19 @@ KNS_american_trade_association_category = {
 				tooltip = KNS_2_expansions_max
 				check_variable = { KNS_trade_association < 3 }
 			}
+			NOT = {
+				custom_trigger_tooltip = {
+					tooltip = KNS_recent_expansion
+					is_in_array = {
+						array = KNS_recent_expansion_array
+						value = FROM
+					}
+				}
+			}
 		}
 		cost = 50
 		days_remove = 75
-		days_re_enable = 365
+		#days_re_enable = 365		#Handled via array
 		complete_effect = {
 			add_to_variable = { KNS_trade_association = 1 }
 		}
@@ -131,9 +143,39 @@ KNS_american_trade_association_category = {
 			FROM = {
 				add_to_variable = { KNS_trade_association_size = 1 }
 			}
+			hidden_effect = {
+				if = {
+					limit = {
+						check_variable = { FROM.KNS_trade_association_size < 5 }
+					}
+					activate_targeted_decision = { target = FROM decision = KNS_expand_association }
+					add_to_array = { KNS_recent_expansion_array = FROM }
+					FROM = {
+						country_event = { id = american_trade_association.3 days = 365 }
+					}
+				}
+				if = {
+					limit = {
+						check_variable = { FROM.KNS_trade_association_size = 3 }
+					}
+					activate_targeted_decision = { target = FROM decision = KNS_trading_outpost }
+				}
+				if = {
+					limit = {
+						check_variable = { FROM.KNS_trade_association_size = 5 }
+						FROM = {
+							has_idea = KNS_ata_member
+						}
+					}
+					activate_targeted_decision = { target = FROM decision = KNS_expand_outputs }
+				}
+			}
 		}
 	}
 	KNS_trading_outpost = {
+		allowed = {
+			always = no # via effect
+		}
 		target_trigger = {
 			FROM = {
 				OR = {
@@ -193,9 +235,20 @@ KNS_american_trade_association_category = {
 			custom_effect_tooltip = KNS_increase_trade
 			add_to_variable = { KNS_ata_pp_gain = 0.05 }
 			add_to_variable = { KNS_ata_stab = 0.025 }
+			hidden_effect = {
+				if = {
+					limit = {
+						check_variable = { FROM.KNS_trade_association_size = 5 }
+					}
+					activate_targeted_decision = { target = FROM decision = KNS_expand_outputs }
+				}
+			}
 		}
 	}
 	KNS_expand_outputs = {
+		allowed = {
+			always = no # via effect
+		}
 		target_trigger = {
 			FROM = {
 				OR = {
@@ -208,16 +261,13 @@ KNS_american_trade_association_category = {
 				}
 				exists = yes
 				check_variable = { KNS_trade_association_size > 4 }
-				has_idea = KNS_ata_member
 			}
-		}
-		visible = {
-			has_completed_focus = KNS_export_focus
 		}
 		available = {
 			NOT = {
 				has_country_flag = KNS_increasing_trade
 			}
+			has_completed_focus = KNS_export_focus
 		}
 		cost = 50
 		days_remove = 100

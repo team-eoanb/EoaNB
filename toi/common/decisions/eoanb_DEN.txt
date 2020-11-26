@@ -936,10 +936,14 @@ DEN_decision_category_foreign_relations = {
         }
 		
 		available = {
-		    has_completed_focus = DEN_befriend_hamburg
-		    has_idea = DEN_hamburg_industry_influence_1
-			HAM = {has_idea = DEN_hamburg_industry_influence_2 }
+            has_country_flag = DEN_Hamburg_Trade
+			HAM = { 
+			    has_opinion = {
+                    target = DEN
+                    value > 29
+            }
 		}
+	}
 
 		visible = {
 		    tag = DEN
@@ -949,7 +953,7 @@ DEN_decision_category_foreign_relations = {
 
 		cost = 50
 		
-		days_remove = 30
+		days_remove = 100
 
 		complete_effect = {	
 		    add_opinion_modifier = {
@@ -961,7 +965,9 @@ DEN_decision_category_foreign_relations = {
 				modifier = medium_increase 
 			}
 			add_political_power = 25
-			HAM = { add_political_power = 25 }
+			HAM = { add_political_power = 50 }
+			add_offsite_building = { type = industrial_complex level = 1 }
+			HAM = { add_offsite_building = { type = industrial_complex level = 1 } }
 		}
 
 		ai_will_do = {
@@ -977,8 +983,14 @@ DEN_decision_category_foreign_relations = {
         }
 		
 		available = {
-		    has_completed_focus = DEN_befriend_hamburg
+		    has_country_flag = DEN_Lubeck_Trade
+			LCK = { 
+			    has_opinion = {
+                    target = DEN
+                    value > 29
+            }
 		}
+	}
 
 		visible = {
 		    tag = DEN
@@ -988,7 +1000,7 @@ DEN_decision_category_foreign_relations = {
 
 		cost = 50
 		
-		days_remove = 1
+		days_remove = 100
 
 		complete_effect = {	
 		    add_opinion_modifier = {
@@ -1000,11 +1012,13 @@ DEN_decision_category_foreign_relations = {
 				modifier = medium_increase 
 			}
 			add_political_power = 25
-			LCK = { add_political_power = 25 }
-			LCK = { add_ideas = DEN_trade_lubeck }
-			add_ideas = DEN_trade_lubeck
+			LCK = { add_political_power = 50 }
+			LCK = { add_ideas = DEN_trade_lubeck_2 }
+			add_ideas = DEN_trade_lubeck_1
 			remove_ideas = DEN_hamburg_industry_influence_1
 			HAM = { remove_ideas = DEN_hamburg_industry_influence_2 }
+			add_offsite_building = { type = industrial_complex level = 1 }
+			LCK = { add_offsite_building = { type = industrial_complex level = 1 } }
 		}
 
 		ai_will_do = {
@@ -1092,10 +1106,14 @@ DEN_army_reform  = {
 			has_tech = sixfour_army_cloth
 			has_tech = improved_cavalry
 			has_tech = improved_handguns
+			has_idea = three_percent
+			has_country_flag = DEN_comision_ended
+			has_completed_focus = DEN_recruitment_posters_in_our_towns
 		}
 		
 		activation = {
 			tag = DEN
+			has_completed_focus = DEN_thestrup_army_reforms
 		}
 		
 		visible = {
@@ -1103,6 +1121,8 @@ DEN_army_reform  = {
 		}
 		
 		days_mission_timeout = 1900
+		
+		fire_only_once = yes
 		
 		timeout_effect = {
 		    add_political_power = -100
@@ -1135,6 +1155,7 @@ DEN_army_reform  = {
 
 		visible = {
 			TAG = DEN
+			has_completed_focus = DEN_thestrup_army_reforms
 		}
 
 		fire_only_once = yes
@@ -1148,6 +1169,58 @@ DEN_army_reform  = {
 				set_country_flag = { flag = DEN_army_reform_ongoing value = 1 days = 60 }
 				}
 				swap_ideas = { remove_idea = limited_conscription add_idea = extensive_conscription }
+		}
+
+		modifier = {
+		    political_power_gain = -0.4
+			war_support_weekly = -0.001
+		}
+
+		cancel_trigger = {
+		     OR = {
+			 has_global_flag = eoanb_flag_second_schleswig_war 
+		}
+	}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	DEN_increase_army_spending = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+            TAG = DEN
+        }
+
+        available = {
+		    date > 1861.3.1
+			date < 1864.8.1
+		    NOT = { 
+				OR = { 
+					has_country_flag = DEN_army_reform_ongoing
+				}
+			}
+        }
+
+		visible = {
+			TAG = DEN
+			has_completed_focus = DEN_thestrup_army_reforms
+		}
+
+		fire_only_once = yes
+
+		days_remove = 160
+
+		cost = 100
+		
+        remove_effect = {  
+		    hidden_effect = {
+				set_country_flag = { flag = DEN_army_reform_ongoing value = 1 days = 60 }
+				}
+				swap_ideas = { remove_idea = two_percent add_idea = three_percent }
 		}
 
 		modifier = {
@@ -1186,6 +1259,7 @@ DEN_army_reform  = {
 
 		visible = {
 			TAG = DEN
+			has_completed_focus = DEN_thestrup_army_reforms
 		}
 
 		fire_only_once = yes
@@ -1200,6 +1274,7 @@ DEN_army_reform  = {
 				}
 			add_tech_bonus = { bonus = 0.25 uses = 3 category = tech_category_cavalry }
 			army_experience = 20
+			set_country_flag = DEN_comision_ended
 		}
 
 		modifier = {

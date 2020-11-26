@@ -341,9 +341,8 @@
 		cost = 35
 		available = {
 			OR = {
-				has_country_flag = USASoaring_Eagle
-				has_country_flag = USABroken_Eagle
-				has_country_flag = USA_Civil_War_Avoided
+				has_global_flag = ACW_American_Civil_War_Avoided
+				has_global_flag = ACW_American_CIvil_War_Happened
 			}
 		}
 		x = 29
@@ -1433,8 +1432,10 @@
 		cost = 40
 		available = {
 			AND = {
-				has_country_flag = USA_American_Civil_War
-				NOT = { has_idea = USA_Civil_War_Army_Competency }
+				has_global_flag = ACW_American_Civil_War
+				NOT = { has_idea = USA_Spirit_American_Civil_War_Army_Competency1 }
+				NOT = { has_idea = USA_Spirit_American_Civil_War_Army_Competency2 }
+				NOT = { has_idea = USA_Spirit_American_Civil_War_Army_Competency3 }
 				date > 1861.7.4
 			}
 		}
@@ -1442,9 +1443,9 @@
 		y = 13
 		completion_reward = {
 			add_tech_bonus = {
-    			bonus = 0.5
-    			uses = 1
-    			category = land_doctrine
+				bonus = 0.5
+				uses = 1
+				category = land_doctrine
 			}
 			army_experience = 10
 		}
@@ -1482,13 +1483,23 @@
 			add_political_power = -25
 			army_experience = 10
 			add_tech_bonus = {
-    			bonus = 0.5
-    			uses = 1
-    			category = land_doctrine
+				bonus = 0.5
+				uses = 1
+				category = land_doctrine
 			}
-			swap_ideas = {
-				add_idea = USA_Westpoint2
-				remove_idea = USA_Westpoint1
+			if = {
+				limit = { has_idea = USA_Spirit_West_Point_Napoleonic_Thought1 }
+				swap_ideas = {
+					remove_idea = USA_Spirit_West_Point_Napoleonic_Thought1
+					add_idea = USA_Spirit_West_Point_Napoleonic_Thought2
+				}
+			}
+			else_if = {
+				limit = { has_idea = USA_Spirit_West_Point_Napoleonic_Thought2 }
+				swap_ideas = {
+					remove_idea = USA_Spirit_West_Point_Napoleonic_Thought2
+					add_idea = USA_Spirit_West_Point_Napoleonic_Thought3
+				}
 			}
 		}
 	}
@@ -1503,12 +1514,27 @@
 		x = 0
 		y = 3
 		completion_reward = {
-			add_tech_bonus = {
-    			bonus = 0.5
-    			uses = 2
-    			category = land_doctrine
+			if = {
+				limit = { has_idea = USA_Spirit_West_Point_Napoleonic_Thought2 }
+				remove_ideas = USA_Spirit_West_Point_Napoleonic_Thought2
+				add_timed_idea = {
+					idea = USA_Spirit_West_Point_Napoleonic_Thought3
+					days = 3650
+				}
+				add_tech_bonus = {
+					bonus = 0.35
+					uses = 2
+					category = land_doctrine
+				}
 			}
-			remove_ideas = USA_Westpoint2
+			else = {
+				remove_ideas = USA_Spirit_West_Point_Napoleonic_Thought3
+				add_tech_bonus = {
+					bonus = 0.5
+					uses = 2
+					category = land_doctrine
+				}
+			}
 		}
 	}
 	shared_focus = {
@@ -1523,9 +1549,9 @@
 		y = 1
 		completion_reward = {
 			add_tech_bonus = {
-    			bonus = 0.25
-    			uses = 2
-    			category = infantry_weapons
+				bonus = 0.25
+				uses = 2
+				category = infantry_weapons
 			}
 		}
 	}
@@ -1660,11 +1686,8 @@
 		icon = GFX_focus_research
 		cost = 40
 		available = {
-			OR = {
-				has_country_flag = USASoaring_Eagle
-				has_country_flag = USABroken_Eagle
-				has_country_flag = USA_Civil_War_Avoided
-			}
+			has_global_flag = ACW_American_Civil_War_Avoided
+			has_global_flag = ACW_American_Civil_War_Happened
 		}
 		x = 12
 		y = 13

@@ -204,6 +204,10 @@ on_actions = {
 						autocracy = 100
 						fundamentalism = 0
 					}
+					set_province_name = {
+						id = 9152
+						name = "Bagirmi"
+					}
 				}
 				
 				ADM = {
@@ -298,75 +302,94 @@ on_actions = {
 		effect = {
 			if = {
 				limit = {
-					SKT = {
-						AND = {
-							owns_state = 1092
-							NOT = { owns_state = 660 }
+					FROM.FROM = {
+						OR = {
+							STATE = 1339
+							STATE = 1219
+							STATE = 660
+							STATE = 1340
+							STATE = 860
+							STATE = 805
+							STATE = 789
+							
 						}
-						has_country_flag = SKT_WDD_Joint_War_KAN
+					}
+					SKT = { 
+						NOT = { has_war_with = KBO }
+						NOT = { has_war_with = BAG }
+					}
+					WDD = { 
+						NOT = { has_war_with = KBO }
+						NOT = { has_war_with = BAG }
 					}
 				}
-				SKT = {
-					country_event = { id = SKT_joint_invasion_bagirmi.4 }
-					clr_country_flag = SKT_WDD_Joint_War_KAN
-				}
-			}
-			if = {
-				limit = {
-					SKT = {
-						AND = {
-							owns_state = 1092
-							owns_state = 660
+				if = {
+					limit = {
+						SKT = { has_country_flag = SKT_WDD_Joint_War_KAN }
+						any_country = {
+							OR = {
+								TAG = SKT
+								is_subject_of = WDD
+								is_subject_of = SKT
+							}
+							OR = {
+								has_full_control_of_state = 1339
+								has_full_control_of_state = 660
+							}
 						}
-						has_country_flag = SKT_WDD_Joint_War_KAN
 					}
-				}
-				SKT = {
-					country_event = { id = SKT_joint_invasion_bagirmi.4 }
-					clr_country_flag = SKT_WDD_Joint_War_KAN
-				}
-			}
-			if = {
-				limit = {
-					WDD = {
-						owns_state = 789
-						has_country_flag = SKT_WDD_Joint_War_Buffer
-					}
-				}
-				WDD = {
-					country_event = { id = SKT_joint_invasion_bagirmi.6 }
-					clr_country_flag = SKT_WDD_Joint_War_Buffer
-				}
-				SKT = {
-					clr_country_flag = SKT_WDD_Joint_War_BAG_Buffer
-				}
-			}
-			if = {
-				limit = {
-					WDD = {
-						owns_state = 1219
-						has_country_flag = SKT_WDD_Joint_War_BAG
-					}
-				}
-				WDD = {
-					country_event = { id = SKT_joint_invasion_bagirmi.5 }
-					clr_country_flag = SKT_WDD_Joint_War_BAG
-				}
-			}
-			if = {
-				limit = {
 					SKT = {
-						owns_state = 789
-						has_country_flag = SKT_WDD_Joint_War_BAG_Buffer
+						country_event = { id = SKT_joint_invasion_bagirmi.4 days = 2 }
+						clr_country_flag = SKT_WDD_Joint_War_KAN
 					}
 				}
-				SKT = {
-					country_event = { id = SKT_joint_invasion_bagirmi.7 }
-					clr_country_flag = SKT_WDD_Joint_War_BAG_Buffer
+				if = {
+					limit = {
+						WDD = { has_country_flag = SKT_WDD_Joint_War_BAG }
+						any_country = {
+							OR = {
+								TAG = WDD
+								is_subject_of = WDD
+								is_subject_of = SKT
+							}
+							has_full_control_of_state = 1219
+						}
+					}
+					WDD = {
+						country_event = { id = SKT_joint_invasion_bagirmi.5 days = 2 }
+						clr_country_flag = SKT_WDD_Joint_War_BAG
+					}
 				}
-				WDD = {
-					clr_country_flag = SKT_WDD_Joint_War_Buffer
-				}	
+				if = {
+					limit = {
+						OR = {
+							SKT = { has_country_flag = SKT_WDD_Joint_War_BAG_Buffer }
+							WDD = { has_country_flag = SKT_WDD_Joint_War_Buffer }
+						}
+						any_country = {
+							OR = {
+								TAG = WDD
+								TAG = SKT
+								is_subject_of = WDD
+								is_subject_of = SKT
+							}
+							OR = {
+								has_full_control_of_state = 1340
+								has_full_control_of_state = 860
+								has_full_control_of_state = 805
+								has_full_control_of_state = 789
+							}
+						}
+					}
+					WDD = {
+						country_event = { id = SKT_joint_invasion_bagirmi.6 }
+						clr_country_flag = SKT_WDD_Joint_War_Buffer
+					}
+					SKT = {
+						country_event = { id = SKT_joint_invasion_bagirmi.6 }
+						clr_country_flag = SKT_WDD_Joint_War_BAG_Buffer
+					}
+				}
 			}
 		}
 	}

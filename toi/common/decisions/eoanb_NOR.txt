@@ -1,3 +1,4 @@
+# Indentation must be set to tabs before editing! This file is edited with a tab size of 4.
 NOR_decision_category_raid_weapon_storage = {
 	NOR_decision_raid_weapons_storage = {
 		icon = generic_break_treaty
@@ -5,25 +6,23 @@ NOR_decision_category_raid_weapon_storage = {
 		fixed_random_seed = no
 		cost = 50
 		
-		allowed = { TAG = NOR }
-
-		available = {
-			TAG = NOR
-			has_completed_focus = NOR_revolts_in_the_union
-		}
-
-
-		visible = {
-		}
-		
-		days_remove = 10
-		
 		allowed = {
-			# Conditions
+			TAG = NOR
+			always = no
+		}
+		
+		visible = {
+			# Conditions to show
+		}
+		
+		available = {
+			# Conditions to be able to click
 		}
 
 		complete_effect = {
 		}
+
+		days_remove = 60
 		
 		remove_effect = {
 			random_list = {
@@ -58,14 +57,61 @@ NOR_decision_category_raid_weapon_storage = {
 }
 
 NOR_decision_category_industry = {
-	NOR_decision_subsidize_lumber_industry_sorlandet = {
+	NOR_decision_subsidize_lumber_industry = {
 		icon = generic_break_treaty
 		fire_only_once = yes
 		cost = 50
 
-		highlight_states = {
-			state = 1354
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+
+		allowed = {
+			TAG = NOR
+			always = no
 		}
+		
+		visible = {
+			# Conditions to show
+		}
+		
+		available = {
+			FROM = {
+				free_building_slots = {
+					building = logging_camp
+					size > 2
+					include_locked = yes
+				}
+			}
+			# Conditions to be able to click
+		}
+
+		complete_effect = {
+		}
+
+		days_remove = 60
+
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+
+		remove_effect = {
+			FROM = {
+				add_building_construction = { type = logging_camp level = 2 instant_build = yes }
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+	}
+
+	NOR_decision_industrial_land_reclamation = {
+		icon = generic_break_treaty
+		fire_only_once = yes
+		cost = 50
+
+		state_target = yes
+		on_map_mode = map_and_decisions_view
 
 		allowed = {
 			TAG = NOR
@@ -86,17 +132,17 @@ NOR_decision_category_industry = {
 		days_remove = 60
 
 		modifier = {
-			consumer_goods_factor = 0.05
+			consumer_goods_factor = 0.10
 		}
 
 		remove_effect = {
-			1354 = {
-				add_building_construction = { type = logging_camp level = 2 instant_build = yes }
+			FROM = {
+				add_extra_state_shared_building_slots = 2
 			}
 		}
 
 		ai_will_do = {
-			base = 0
+			base = 1
 		}
 	}
 }

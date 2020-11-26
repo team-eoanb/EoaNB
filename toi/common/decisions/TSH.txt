@@ -6,7 +6,11 @@ TSH_category_bakumatsu_modernization = {
 
 		allowed {
 			TAG = TSH
-		}
+		} 
+		
+		
+		fire_only_once = yes
+		is_good = yes
 
 		available = {
 			has_completed_focus = TSH_vic_legacy_of_ragnaku
@@ -2404,11 +2408,20 @@ TSH_category_ansei_purge = {
         icon = GFX_decision_generic_construction
 
 		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = TSH_ansei_purge_ongoing
+				}
+			}
 			has_country_leader = {
                 name = "Ii Naosuke"
                 ruling_only = yes
             }
-			has_completed_focus = TSH_vic_ansei_purge
+			has_active_mission = TSH_mission_purge_phase_1
+		}
+		
+		visible = {
+		    has_completed_focus = TSH_vic_ansei_purge
 		}
 
 		allowed = {
@@ -2425,7 +2438,31 @@ TSH_category_ansei_purge = {
 		}
 
 		remove_effect = { 
+		    hidden_effect = {
+				set_country_flag = { flag = TSH_ansei_purge_ongoing value = 1 days = 30 }
+			}
 		    set_country_flag = yokoi_shonan_assassinated
+			SAG = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			SAT = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			DTE = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			TOS = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			CHO = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			add_stability = -0.05
 		}
 
 		ai_will_do = {
@@ -2437,11 +2474,20 @@ TSH_category_ansei_purge = {
         icon = GFX_decision_generic_construction
 
 		available = {
+		    NOT = { 
+				OR = { 
+					has_country_flag = TSH_ansei_purge_ongoing
+				}
+			}
 			has_country_leader = {
                 name = "Ii Naosuke"
                 ruling_only = yes
             }
-			has_completed_focus = TSH_vic_ansei_purge
+			has_active_mission = TSH_mission_purge_phase_1
+		}
+		
+		visible = {
+		    has_completed_focus = TSH_vic_ansei_purge
 		}
 
 		allowed = {
@@ -2458,11 +2504,96 @@ TSH_category_ansei_purge = {
 		}
 
 		remove_effect = { 
+		    hidden_effect = {
+				set_country_flag = { flag = TSH_ansei_purge_ongoing value = 1 days = 30 }
+			}
 		    set_country_flag = sakuma_shozan_assassinated
+			SAG = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			SAT = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			DTE = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			TOS = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			CHO = {
+                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+                TSH_Meiji_Influence_Modify = yes
+            }
+			add_stability = -0.05
 		}
-
 		ai_will_do = {
 			base = 1000
 		}
     }
+    TSH_mission_purge_phase_1 = {
+		
+		icon = generic_nationalism
+		
+		available = {
+		   has_political_power < -100
+		   has_stability < -0.30
+		   TSH = { NOT = { exists = yes } }
+	    }
+		
+		activation = {
+			has_completed_focus = TSH_vic_ansei_purge
+		}
+		
+		visible = {
+		    has_completed_focus = TSH_vic_ansei_purge
+		}
+		
+		allowed = {
+			tag = TSH
+		}
+		
+		fire_only_once = yes
+		
+		days_mission_timeout = 360
+		
+		timeout_effect = {
+	}
+		
+		complete_effect = {
+	}
+	TSH_mission_purge_phase_2 = {
+		
+		icon = generic_nationalism
+		
+		available = {
+		   has_political_power < -100
+		   has_stability < -0.30
+		   TSH = { NOT = { exists = yes } }
+	    }
+		
+		activation = {
+			has_country_flag = TSH_purge_phase_2
+		}
+		
+		visible = {
+		    has_country_flag = TSH_purge_phase_2
+		}
+		
+		allowed = {
+			tag = TSH
+		}
+		
+		fire_only_once = yes
+		
+		days_mission_timeout = 360
+		
+		timeout_effect = {
+	}
+		
+		complete_effect = {
+	}
 }

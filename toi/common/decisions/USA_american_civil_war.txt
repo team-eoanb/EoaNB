@@ -3,7 +3,6 @@ USA_Slavery_Debate_Decision_Category = {
 		icon = generic_civil_support
 
 		allowed = { always = no }
-
 		available = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -287,10 +286,59 @@ ACW_American_Civil_War_Decisions = {
 			}
 		}
 	}
+	eoanb_decision_acw_reform_west_point1 = {
+		icon = power_struggle
+
+		allowed = { always = no }
+		available = { has_idea = USA_Spirit_West_Point_Napoleonic_Thought1 }
+		visible = {	has_idea = USA_Spirit_West_Point_Napoleonic_Thought1 }
+
+		ai_will_do = { base = 50 }
+
+		cost = 300
+		custom_cost_trigger = { has_army_experience > 299.9 }
+		custom_cost_text = army_experience_more_than_299
+
+		days_remove = 180
+		complete_effect = {
+			army_experience = -300
+		}
+		remove_effect = {
+			swap_ideas = {
+				remove_idea = USA_Spirit_West_Point_Napoleonic_Thought1
+				add_idea = USA_Spirit_West_Point_Napoleonic_Thought2
+			}
+		}
+	}
+	eoanb_decision_acw_reform_west_point2 = {
+		icon = power_struggle
+
+		allowed = { always = no }
+		available = { has_idea = USA_Spirit_West_Point_Napoleonic_Thought2 }
+		visible = {	has_idea = USA_Spirit_West_Point_Napoleonic_Thought2 }
+
+		ai_will_do = { base = 50 }
+
+		cost = 300
+		custom_cost_trigger = { has_army_experience > 299.9 }
+		custom_cost_text = army_experience_more_than_299
+
+		days_remove = 180
+		complete_effect = {
+			army_experience = -300
+		}
+		remove_effect = {
+			swap_ideas = {
+				remove_idea = USA_Spirit_West_Point_Napoleonic_Thought2
+				add_idea = USA_Spirit_West_Point_Napoleonic_Thought3
+			}
+		}
+	}
 	eoanb_decision_acw_csa_surrender_to_usa_union = {
 		icon = generic_political_discourse
 
 		allowed = { always = no }
+		activation = { always = no }
 		available = {
 			count_triggers = {
 				amount = 16
@@ -453,6 +501,16 @@ ACW_American_Civil_War_Decisions = {
 
 		is_good = yes
 
+		days_mission_timeout = 365
+
+		timeout_effect = {
+			hidden_effect = {
+				if = {
+					limit = { has_war_with = CSA }
+					activate_mission = eoanb_decision_acw_csa_surrender_to_usa_union
+				}
+			}
+		}
 		complete_effect = {
 			custom_effect_tooltip = acw_peace_deal.1.t
 			hidden_effect = {
@@ -467,6 +525,7 @@ ACW_American_Civil_War_Decisions = {
 		icon = generic_political_discourse
 
 		allowed = { always = no }
+		activation = { always = no }
 		available = {
 			count_triggers = {
 				amount = 16
@@ -629,6 +688,16 @@ ACW_American_Civil_War_Decisions = {
 
 		is_good = no
 
+		days_mission_timeout = 365
+
+		timeout_effect = {
+			hidden_effect = {
+				if = {
+					limit = { has_war_with = USA }
+					activate_mission = eoanb_decision_acw_csa_surrender_to_usa_dixie
+				}
+			}
+		}
 		complete_effect = {
 			custom_effect_tooltip = acw_peace_deal.1.t
 		}

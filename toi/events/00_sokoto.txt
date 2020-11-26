@@ -923,12 +923,12 @@ country_event = {
 			name = SKT_joint_invasion_bagirmi.1.a
 			ai_chance = { factor = 100 }
 			if = {
-				limit = { KBO = { owns_state = 832 } }
-				832 = { add_claim_by = WDD }
+				limit = { KBO = { owns_state = 838 } }
+				838 = { add_claim_by = WDD }
 			}
 			if = {
-				limit = { KBO = { owns_state = 839 } }
-				839 = { add_claim_by = WDD }
+				limit = { KBO = { owns_state = 1042 } }
+				1042 = { add_claim_by = WDD }
 			}
 			add_war_support = 0.15
 			give_military_access = SKT
@@ -1022,20 +1022,20 @@ country_event = {
 				if = {
 					limit = {
 						AND = {
-							KBO = { owns_state = 832 }
-							832 = { is_claimed_by = SKT }
+							KBO = { owns_state = 838 }
+							838 = { is_claimed_by = SKT }
 						}
 					}
-					832 = { remove_claim_by = SKT }
+					838 = { remove_claim_by = SKT }
 				}
 				if = {
 					limit = {
 						AND = {
-							KBO = { owns_state = 839 }
-							839 = { is_claimed_by = SKT }
+							KBO = { owns_state = 1042 }
+							1042 = { is_claimed_by = SKT }
 						}
 					}
-					839 = { remove_claim_by = SKT }
+					1042 = { remove_claim_by = SKT }
 				}
 			}
 		}
@@ -1131,16 +1131,24 @@ country_event = {
 		option = {
 			name = SKT_joint_invasion_bagirmi.4.a
 			ai_chance = { factor = 100 }
-			WDD = {
-				transfer_state = 1092
-			}
-				remove_state_claim = 1092
 			if = {
-				limit = { SKT = { owns_state = 660 } }
-				WDD = {
-					transfer_state = 660
+				limit = { 
+					any_country = {
+						OR = {
+							TAG = WDD
+							TAG = SKT
+							is_subject_of = WDD
+							is_subject_of = SKT
+						}
+						owns_state = 1339
+					}
+					WDD = { NOT = { owns_state = 1339 } }
 				}
-				remove_state_claim = 660
+				WDD = { transfer_state = 1339 }
+			}
+			if = {
+				limit = { 1339 = { is_claimed_by = SKT } }
+				SKT = { remove_state_claim = 1339 }
 			}
 		}
 	}
@@ -1156,14 +1164,29 @@ country_event = {
 		option = {
 			name = SKT_joint_invasion_bagirmi.5.a
 			ai_chance = { factor = 100 }
-			SKT = {
-				transfer_state = 1219
+			if = {
+				limit = { 
+					any_country = {
+						OR = {
+							TAG = WDD
+							TAG = SKT
+							is_subject_of = WDD
+							is_subject_of = SKT
+						}
+						owns_state = 1219
+					}
+					SKT = { NOT = { owns_state = 1219 } }
+				}
+				SKT = { transfer_state = 1219 }
 			}
-			remove_state_claim = 1219
+			if = {
+				limit = { 1219 = { is_claimed_by = WDD } }
+				WDD = { remove_state_claim = 1219 }
+			}
 		}
 	}
 
-	#BAG Is Transfered To Sokoto
+	#Buffer Zone Lands Distributed
 	country_event = {
 		id = SKT_joint_invasion_bagirmi.6
 		title = SKT_joint_invasion_bagirmi.6.t
@@ -1171,15 +1194,112 @@ country_event = {
 		picture = GFX_report_event_chinese_army_training
 
 		is_triggered_only = yes
+		
+		immediate = { 
+			if = {
+				limit = { NOT = { has_global_flag = SKT_joint_invasion_bagirmi_6_flag } }
+				hidden_effect = {
+					set_global_flag = SKT_joint_invasion_bagirmi_6_flag
+					WDD = { country_event = { id = SKT_joint_invasion_bagirmi.7 days = 20 } }
+					SKT = { country_event = { id = SKT_joint_invasion_bagirmi.7 days = 20 } }
+					789 = { set_demilitarized_zone = yes }
+					860 = { set_demilitarized_zone = yes }
+					1340 = { set_demilitarized_zone = yes }
+				}
+			}
+		}
 
 		option = {
 			name = SKT_joint_invasion_bagirmi.6.a
+			trigger = { TAG = SKT }
+			ai_chance = { factor = 100 }
+			WDD = {
+				if = {
+					limit = { 
+						any_country = {
+							OR = {
+								TAG = WDD
+								TAG = SKT
+								is_subject_of = WDD
+								is_subject_of = SKT
+							}
+							owns_state = 789
+						}
+						WDD = { NOT = { owns_state = 789 } }
+					}
+					transfer_state = 789
+				}
+				if = {
+					limit = { 
+						any_country = {
+							OR = {
+								TAG = WDD
+								TAG = SKT
+								is_subject_of = WDD
+								is_subject_of = SKT
+							}
+							owns_state = 860
+						}
+						WDD = { NOT = { owns_state = 860 } }
+					}
+					transfer_state = 860
+				}
+			}
+			if = {
+				limit = { 789 = { is_claimed_by = SKT } }
+				SKT = { remove_state_claim = 789 }
+			}
+			if = {
+				limit = { 860 = { is_claimed_by = SKT } }
+				SKT = { remove_state_claim = 860 }
+			}
+		}
+		
+		option = {
+			name = SKT_joint_invasion_bagirmi.6.b
+			trigger = { TAG = WDD }
 			ai_chance = { factor = 100 }
 			SKT = {
-				transfer_state = 789
-				country_event = { id = SKT_joint_invasion_bagirmi.7 }
+				if = {
+					limit = { 
+						any_country = {
+							OR = {
+								TAG = WDD
+								TAG = SKT
+								is_subject_of = WDD
+								is_subject_of = SKT
+							}
+							owns_state = 805
+						}
+						SKT = { NOT = { owns_state = 805 } }
+						ADM = { NOT = { owns_state = 805 } }
+					}
+					transfer_state = 805
+				}
+				if = {
+					limit = { 
+						any_country = {
+							OR = {
+								TAG = WDD
+								TAG = SKT
+								is_subject_of = WDD
+								is_subject_of = SKT
+							}
+							owns_state = 1340
+						}
+						SKT = { NOT = { owns_state = 1340 } }
+					}
+					transfer_state = 1340
+				}
 			}
-			WDD = { remove_state_claim = 789 }
+			if = {
+				limit = { 805 = { is_claimed_by = WDD } }
+				WDD = { remove_state_claim = 805 }
+			}
+			if = {
+				limit = { 1340 = { is_claimed_by = WDD } }
+				WDD = { remove_state_claim = 1340 }
+			}
 		}
 	}
 
@@ -1187,29 +1307,136 @@ country_event = {
 	country_event = {
 		id = SKT_joint_invasion_bagirmi.7
 		title = SKT_joint_invasion_bagirmi.7.t
-		desc = SKT_joint_invasion_bagirmi.7.d
+		desc = {
+			text = SKT_joint_invasion_bagirmi.7.c
+			trigger = { ADM = { is_subject_of = SKT } }
+		}
+		desc = {
+			text = SKT_joint_invasion_bagirmi.7.d
+			trigger = { ADM = { NOT = { is_subject_of = SKT } } }
+		}
 		picture = GFX_report_event_chinese_army_training
-
+		
+		immediate = { 
+			if = {
+				limit = { NOT = { has_global_flag = SKT_joint_invasion_bagirmi_7_flag } }
+				hidden_effect = {
+					set_global_flag = SKT_joint_invasion_bagirmi_7_flag
+					789 = { set_demilitarized_zone = no }
+					860 = { set_demilitarized_zone = no }
+					1340 = { set_demilitarized_zone = no }
+				} 
+			}
+		}
 		is_triggered_only = yes
 
 		option = {
 			name = SKT_joint_invasion_bagirmi.7.a
+			trigger = { TAG = WDD }
 			ai_chance = { factor = 100 }
-			SKT = {
-				hidden_effect = { BAG = { store_current_ideologies = yes } }
-				release_puppet = BAG
-				hidden_effect = { BAG = { load_prevous_ideologies = yes } }
+			if = {
+				limit = { 
+					OR = {
+						BAG = { NOT = { is_subject_of = WDD } } 
+						BAG = { exists = no }
+					}
+				}
+				BAG = {
+					transfer_state = 789
+					transfer_state = 860
+				}				
+				WDD = {
+					hidden_effect = { BAG = { store_current_ideologies = yes } }
+					puppet = BAG
+					hidden_effect = { BAG = { load_prevous_ideologies = yes } }
+				}
 			}
-			789 = {
-				remove_claim_by = SKT
+			if = {
+				limit = { 789 = { is_claimed_by = WDD } }
+				WDD = { remove_state_claim = 789 }
+			}
+			if = {
+				limit = { 860 = { is_claimed_by = WDD } }
+				WDD = { remove_state_claim = 860 }
+			}
+			if = {
+				limit = { 1340 = { is_claimed_by = WDD } }
+				WDD = { remove_state_claim = 1340 }
+			}
+			if = {
+				limit = { 
+					805 = { is_claimed_by = WDD }
+					ADM = { 
+						exists = yes 
+						is_subject_of = SKT
+					}
+				}
+				WDD = { remove_state_claim = 805 }
+			}
+			if = {
+				limit = {
+					OR = {
+						has_dlc = "Together for Victory"
+						has_dlc = "Waking the Tiger"
+						has_dlc = "Death or Dishonor"
+					}
+				}
+				set_autonomy = { target = BAG autonomy_state = autonomy_afr_empire_level_3 }
 			}
 			BAG = { country_event = { id = SKT_joint_invasion_bagirmi.8 days = 1 } }
+			clr_country_flag = SKT_WDD_Joint_War_BAG
+			BAG = { set_variable = { most_favoured_country = WDD.id } }
+			hidden_effect = {
+				clear_variable = rival_country
+			}
+		}
+		
+		option = {
+			name = SKT_joint_invasion_bagirmi.7.b
+			trigger = { TAG = SKT }
+			ai_chance = { factor = 100 }
+			if = {
+				limit = { 789 = { is_claimed_by = SKT } }
+				SKT = { remove_state_claim = 789 }
+			}
+			if = {
+				limit = { 860 = { is_claimed_by = SKT } }
+				SKT = { remove_state_claim = 860 }
+			}
+			if = {
+				limit = { 1340 = { is_claimed_by = SKT } }
+				SKT = { remove_state_claim = 1340 }
+			}
+			if = {
+				limit = { 
+					805 = { is_claimed_by = SKT }
+					ADM = { 
+						exists = yes 
+						is_subject_of = SKT
+					}
+				}
+				SKT = { remove_state_claim = 805 }
+			}
+			if = {
+				limit = { 
+					ADM = { 
+						exists = yes 
+						is_subject_of = SKT
+					}
+				}
+				1340 = { add_claim_by = ADM }
+				ADM = {
+					transfer_state = 1340
+					country_event = { id = SKT_joint_invasion_bagirmi.11 days = 1 }
+					set_variable = { most_favoured_country = SKT.id }
+				}
+			}
 			clr_country_flag = SKT_WDD_Joint_War_KAN
 			hidden_effect = {
+				clear_variable = rival_country
 				remove_opinion_modifier = { target = BAG modifier = AFR_fulani_jihad_conflict }
 				remove_opinion_modifier = { target = KBO modifier = AFR_fulani_jihad_conflict }
 			}
-			BAG = { set_variable = { most_favoured_country = SKT.id } }
 		}
 	}
 
@@ -1225,15 +1452,54 @@ country_event = {
 		option = {
 			name = SKT_joint_invasion_bagirmi.8.a
 			ai_chance = { factor = 100 }
+			every_state = {
+				limit = { 
+					OR = { 
+						is_owned_by = SKT
+						is_owned_by = WDD
+						is_owned_by = ADM
+					}
+					is_claimed_by = ROOT
+				}
+				remove_claim_by = ROOT
+			}
 			WDD = { country_event = { id = SKT_joint_invasion_bagirmi.9 days = 1 } }
 			SKT = { country_event = { id = SKT_joint_invasion_bagirmi.10 days = 1 } }
 			hidden_effect = {
-				add_opinion_modifier = { target = SKT modifier = AFR_sokoto_tributary }
 				remove_opinion_modifier = { target = SKT modifier = AFR_fulani_jihad_conflict }
 				remove_opinion_modifier = { target = ADM modifier = AFR_fulani_jihad_conflict }
 				remove_opinion_modifier = { target = KBO modifier = AFR_kanem_bornu_tributary }
 				clear_variable = rival_country
-				clear_variable = most_favoured_country
+			}
+		}
+	}
+	
+	#ADM Understands Situation
+	country_event = {
+		id = SKT_joint_invasion_bagirmi.11
+		title = SKT_joint_invasion_bagirmi.11.t
+		desc = SKT_joint_invasion_bagirmi.11.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+
+		option = {
+			name = SKT_joint_invasion_bagirmi.11.a
+			ai_chance = { factor = 100 }
+			every_state = {
+				limit = { 
+					OR = { 
+						is_owned_by = SKT
+						is_owned_by = WDD
+						is_owned_by = BAG
+					}
+					is_claimed_by = ROOT
+				}
+				remove_claim_by = ROOT
+			}
+			hidden_effect = {
+				remove_opinion_modifier = { target = BAG modifier = AFR_fulani_jihad_conflict }
+				clear_variable = rival_country
 			}
 		}
 	}
@@ -1252,18 +1518,46 @@ country_event = {
 			ai_chance = { factor = 100 }
 			add_political_power = 25
 			hidden_effect = {
-				diplomatic_relation = {
-					country = SKT
-					relation = military_access
-					active = no
+				WDD = {
+					diplomatic_relation = {
+						country = SKT
+						relation = military_access
+						active = no
+					}
+					if = {
+						limit = { WDD = { has_non_aggression_pact_with = SKT } }
+						diplomatic_relation = {
+							country = SKT
+							relation = non_aggression_pact
+							active = no
+						}
+					}
+					if = {
+						limit = { has_wargoal_against = SKT }
+						remove_wargoal = {
+							type = all
+							target = SKT
+						}
+					}
+					if = {
+						limit = { has_wargoal_against = BAG }
+						remove_wargoal = {
+							type = all
+							target = BAG
+						}
+					}
+					if = {
+						limit = { has_wargoal_against = KBO }
+						remove_wargoal = {
+							type = all
+							target = KBO
+						}
+					}
 				}
 			}
 			clr_country_flag = SKT_WDD_Joint_War_BAG
 			hidden_effect = {
-				add_opinion_modifier = { target = BAG modifier = AFR_sokoto_tributary }
-				remove_opinion_modifier = { target = KBO modifier = AFR_kanem_bornu_waddai_conflicts }
 				remove_opinion_modifier = { target = BAG modifier = AFR_kanem_bornu_waddai_conflicts_bagirmi }
-				clear_variable = rival_country
 			}
 		}
 	}
@@ -1281,10 +1575,41 @@ country_event = {
 			ai_chance = { factor = 100 }
 			add_political_power = 50
 			hidden_effect = {
-				diplomatic_relation = {
-					country = WDD
-					relation = military_access
-					active = no
+				SKT = {
+					diplomatic_relation = {
+						country = WDD
+						relation = military_access
+						active = no
+					}
+					if = {
+						limit = { SKT = { has_non_aggression_pact_with = WDD } }
+						diplomatic_relation = {
+							country = WDD
+							relation = non_aggression_pact
+							active = no
+						}
+					}
+					if = {
+						limit = { has_wargoal_against = WDD }
+						remove_wargoal = {
+							type = all
+							target = WDD
+						}
+					}
+					if = {
+						limit = { has_wargoal_against = BAG }
+						remove_wargoal = {
+							type = all
+							target = BAG
+						}
+					}
+					if = {
+						limit = { has_wargoal_against = KBO }
+						remove_wargoal = {
+							type = all
+							target = KBO
+						}
+					}
 				}
 			}
 		}

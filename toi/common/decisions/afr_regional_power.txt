@@ -22,7 +22,7 @@ afr_regional_power_empire_politics_category = {
 					FROM = { compare_autonomy_progress_ratio < 0.01 }
 				}
 				else_if = {
-					limit = { 
+					limit = {
 						OR = {
 							has_dlc = "Together for Victory"
 							has_dlc = "Waking the Tiger"
@@ -59,10 +59,6 @@ afr_regional_power_empire_politics_category = {
 			else_if = {
 				limit = { 
 					ROOT = { is_subject_of = FROM }
-					OR = {
-						FROM = { has_idea = afr_large_kingdom }
-						FROM = { has_idea = afr_reforming_kingdom }
-					}
 				}
 				if = {
 					limit = { 
@@ -73,6 +69,7 @@ afr_regional_power_empire_politics_category = {
 						}
 						ROOT = { has_autonomy_state = autonomy_afr_empire_level_4 }
 					}
+					afr_empire_raise_autonomy_level_progress_check = yes
 					ROOT = { compare_autonomy_progress_ratio > 0.99 }
 				}
 				else_if = {
@@ -84,6 +81,7 @@ afr_regional_power_empire_politics_category = {
 						}
 						ROOT = { has_autonomy_state = autonomy_afr_empire_level_3 }
 					}
+					afr_empire_raise_autonomy_level_progress_check = yes
 					ROOT = { compare_autonomy_progress_ratio > 0.99 }
 				}
 				else_if = {
@@ -95,6 +93,7 @@ afr_regional_power_empire_politics_category = {
 						}
 						ROOT = { has_autonomy_state = autonomy_afr_empire_level_2 }
 					}
+					afr_empire_raise_autonomy_level_progress_check = yes
 					ROOT = { compare_autonomy_progress_ratio > 0.99 }
 				}
 				else_if = {
@@ -106,35 +105,31 @@ afr_regional_power_empire_politics_category = {
 						}
 						ROOT = { has_autonomy_state = autonomy_afr_empire_level_1 }
 					}
+					afr_empire_raise_autonomy_level_progress_check = yes
 					ROOT = { compare_autonomy_progress_ratio > 0.99 }
 				}
-				else = { ROOT = { compare_autonomy_progress_ratio > 0.99 } }
+				else = { 
+					afr_empire_raise_autonomy_level_progress_check = yes
+					ROOT = { compare_autonomy_progress_ratio > 0.99 } 
+				}
 			}
 		}
 		allowed = { 
 			afr_is_tribal_allowed = yes
 		}
-		#visible = {
-		#	
-		#}
+		visible = {
+			OR = {
+				ROOT = { is_subject_of = FROM }
+				FROM = { is_subject_of = ROOT }
+			}
+		}
 		
 		target_trigger = {
 			FROM = { afr_is_tribal = yes }
+			afr_is_tribal = yes
 			OR = {
-				AND = {
-					ROOT = { is_subject_of = FROM }
-					OR = {
-						FROM = { has_idea = afr_large_kingdom }
-						FROM = { has_idea = afr_reforming_kingdom }
-					}
-				}
-				AND = {
-					FROM = { is_subject_of = ROOT }
-					OR = {
-						ROOT = { has_idea = afr_large_kingdom }
-						ROOT = { has_idea = afr_reforming_kingdom }
-					}
-				}
+				ROOT = { is_subject_of = FROM }
+				FROM = { is_subject_of = ROOT }
 			}
 		}
 		fire_only_once = no
@@ -261,8 +256,218 @@ afr_regional_power_empire_politics_category = {
 				clr_country_flag = afr_empire_politics_subject_levy_mission_small_flag
 			}
 		}
-		
-		
+	}
+	
+	afr_empire_politics_subject_send_tribute_to_overlord_decision = {
+
+		icon = generic_political_discourse
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = afr_prosperity_mechanic_greater_than_10
+				check_variable = { afr_prosperity_mechanic_value > 9 }
+			}
+		}
+		allowed = { 
+			afr_is_tribal_allowed = yes
+		}
+		visible = {
+			afr_is_tribal = yes
+			is_subject = yes
+			OVERLORD = { afr_is_tribal = yes }
+		}
+		days_remove = 180
+		fire_only_once = no
+		cost = 10
+		custom_cost_trigger = {
+			check_variable = { afr_prosperity_mechanic_value > 9 }
+		}
+		custom_cost_text = afr_prosperity_mechanic_custom_cost_10
+		complete_effect = {
+			hidden_effect = { add_to_variable = { var = afr_prosperity_mechanic_value value = -10 } }
+			OVERLORD = { country_event = { id = afr_empire_politics_subject_send_tribute_to_overlord_event.1 random_days = 7 } }
+		}
+		ai_will_do = {
+			factor = 4
+			modifier = {
+				factor = 20
+				compare_autonomy_progress_ratio < 0.05
+			}
+			modifier = {
+				factor = 10
+				compare_autonomy_progress_ratio < 0.10
+			}
+			modifier = {
+				factor = 0
+				has_active_mission = afr_decision_internal_tribal_coup
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_resources_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_resources_completed }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_industry_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_industry_completed }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_country_flag = afr_reforming_regional_power_regional_infrastructure_focus
+					NOT = { has_country_flag = afr_reforming_regional_power_regional_infrastructure_completed }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_clear_space_for_industry
+					OR = {
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_resources }
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_infrastructure }
+						NOT = { has_completed_focus = ETH_reforming_regional_power_regional_industry }
+					}
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_clear_space_for_industry
+					has_completed_focus = ETH_train_defensive_tactics
+					NOT = { has_completed_focus = ETH_plan_military_infrastructure }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_adress_education
+					NOT = { has_completed_focus = ETH_western_inspired_university }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = ETH_study_artillery
+					NOT = { has_completed_focus = ETH_foreign_artillery_instructors }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					OR = {
+						has_completed_focus = afr_improve_our_army
+						has_completed_focus = afr_create_naval_designs
+					}
+					NOT = { has_completed_focus = afr_reforming_regional_power_regional_investment }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_reforming_regional_power_regional_investment
+					OR = {
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_resources }
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_infrastructure }
+						NOT = { has_completed_focus = afr_reforming_regional_power_regional_industry }
+					}
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					OR = {
+						has_completed_focus = afr_mechanical_engineering_research
+						has_completed_focus = afr_electronic_device_production
+					}
+					NOT = { has_completed_focus = afr_expand_research_facilities }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_dirt_to_paved_roads
+					NOT = { has_completed_focus = afr_regular_road_matenece }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					has_completed_focus = afr_military_technology_development
+					NOT = { has_completed_focus = afr_military_production_streamlining }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				AND = {
+					AND = {
+						has_completed_focus = afr_plan_a_naval_force
+						has_completed_focus = afr_reforming_regional_power_regional_infrastructure
+					}
+					NOT = { has_completed_focus = afr_build_a_port }
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+			modifier = {
+				factor = 0
+				check_variable = { afr_prosperity_mechanic_value < 80 }
+				if = {
+					limit = { 
+						all_owned_state = { naval_base < 1 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = Ocenaia_has_infrastructure_to_support_new_buildings_on_coast
+						Oceania_one_extra_building_slots_supported_for_coast_not_core_trigger = yes
+					}
+				}
+				else = {
+					any_owned_state = {
+						is_coastal = yes
+						naval_base > 0
+					}
+				}
+				OR = {
+					AND = {
+						has_completed_focus = afr_inward_regional_power_expanding_our_regional_power
+						NOT = { has_completed_focus = afr_inward_regional_power_establish_port_town }
+					}
+					AND = {
+						has_completed_focus = afr_jihadist_regional_power_expanding_our_regional_power
+						NOT = { has_completed_focus = afr_jihadist_regional_power_establish_port_town }
+					}
+				}
+				NOT = { compare_autonomy_progress_ratio < 0.10 }
+			}
+		}
 	}
 
 }
