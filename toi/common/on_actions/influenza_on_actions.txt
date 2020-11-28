@@ -2,7 +2,6 @@ on_actions = {
 
 	on_startup = {
 		effect = {
-			
 		}
 	}
 	
@@ -829,6 +828,10 @@ on_actions = {
 								}
 							}	
 						}
+
+						every_neighbor_state = {
+
+						}
 					}	
 					### BEFORE ENDING CHECK IF THE CONTROLLER HAS NO MORE INFECTED STATES ###
 					
@@ -872,13 +875,13 @@ on_actions = {
 							}
 							else_if = {
 								limit = {
-									check_variable = { immune_population < 0.25}
+									check_variable = { immune_population < 0.26}
 								}
 								add_to_temp_variable = { impact_spread = 20 }
 							}
 							else_if = {
 								limit = {
-									check_variable = { immune_population < 0.50}
+									check_variable = { immune_population < 0.51}
 								}
 								add_to_temp_variable = { impact_spread = 30 }
 							}
@@ -1322,15 +1325,172 @@ on_actions = {
 									}
 								}
 							}
+
+
+							### TRANSPORT DISEASE TO CLOSE DISTANCE THROUGH SEA ###
+							if = {
+								limit = {
+									OR = {
+										is_coastal = yes
+										is_island_state = yes
+									}
+									naval_base > 1
+									check_variable = { influenza_duration > 1 }
+								}
+								set_temp_variable = { i = 0 }
+								while_loop_effect = {
+									limit = {
+										always = yes
+									}
+
+									add_to_temp_variable = { i = 1 }
+									if = {
+										limit = {
+											check_variable = { i = 3 }
+										}
+										set_temp_variable = { break = 1 }
+									}
+
+									random_state = { 
+										limit = { 
+											distance_to = {
+												value > 30
+												target = PREV
+											}
+											distance_to = {
+												value < 300
+												target = PREV
+											}
+											NOT = {
+												has_state_flag = state_influenza
+											}
+											OR = {
+												is_island_state = yes
+												is_coastal = yes
+											}
+											naval_base > 0		
+										} 
+										set_variable = { influenza_duration = 0 }
+										set_variable = { immune_population = 0 }
+										set_state_flag = state_influenza
+										add_dynamic_modifier = { modifier = influenza_impact_01 }
+										GRE = {
+											country_event = { id = Influenza.2 } 
+											add_to_array = { close_coastal_states_inf = PREV.id }
+										}
+										if = {
+											limit ={
+												controller = {
+													NOT = {
+														has_country_flag = country_influenza
+													}
+												}
+											}
+											controller = {
+												set_country_flag = country_influenza
+											}
+											
+										}
+									}
+
+								}
+	
+							}
+
+														### New York, Boston, Baltimore, Philadelphia and New Orleans ###
+							### TRANSPORT DISEASE TO CLOSE DISTANCE THROUGH SEA ###
+							if = {
+								limit = {
+									AND = {
+										OR = {
+											is_coastal = yes
+											is_island_state = yes
+										}
+										naval_base > 4
+										check_variable = { influenza_duration > 3 }
+									}
+								}
+								set_temp_variable = { i = 0 }
+								while_loop_effect = {
+									limit = {
+										always = yes
+									}
+
+									add_to_temp_variable = { i = 1 }
+									if = {
+										limit = {
+											check_variable = { i = 3 }
+										}
+										set_temp_variable = { break = 1 }
+									}
+
+									### TRANSPORT DISEASE TO LONG DISTANCE ###
+									random_state = { 
+										limit = { 
+											AND = {
+												distance_to = {
+													value > 1000
+													target = PREV
+												}
+												NOT = {
+													has_state_flag = state_influenza
+												}
+												OR = {
+													is_island_state = yes
+													is_coastal = yes
+												}
+												naval_base > 1
+											}	
+										} 
+										set_variable = { influenza_duration = 0 }
+										set_variable = { immune_population = 0 }
+										set_state_flag = state_influenza
+										add_dynamic_modifier = { modifier = influenza_impact_01 }
+										GRE = {
+											country_event = { id = Influenza.2 } 
+											add_to_array = { far_coastal_states_inf = PREV.id }
+										}
+										if = {
+											limit ={
+												controller = {
+													NOT = {
+														has_country_flag = country_influenza
+													}
+												}
+											}
+											controller = {
+												set_country_flag = country_influenza
+											}
+											
+										}
+									}
+
+								}
+	
+							}
+									
+							
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	on_monthly = {
 		effect = {
+			if = {
+				limit = {
+					tag = GRE
+				}
+				print_variables = {
+					file = log_file
+					text = header_text
+					append = yes
+					print_global = yes
+					var_list = { close_coastal_states_inf far_coastal_states_inf } #optional
+				}
+			}
 		}
 	}
 	

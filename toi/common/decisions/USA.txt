@@ -157,7 +157,7 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 		available = {
 			check_variable = {
 				var = USA_mormon_unrest
-				value < 15
+				value < 18
 			}
 		}
 
@@ -591,6 +591,43 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			}
 		}
 	}
+
+	utahWar90 = {#potential war mission
+
+		visible = {
+			NOT = {
+				380 = { is_controlled_by = USA }
+			}
+		}
+
+		available = {
+			always = yes
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		activation = {
+			always = no
+		}
+
+		is_good = no
+
+		days_mission_timeout = 150
+
+		timeout_effect = {
+			country_event = {
+				id = USA_utah_war.96
+			}
+		}
+
+		complete_effect = {
+			country_event = {
+				id = USA_utah_war.95
+			}
+		}
+	}
 }
 
 
@@ -870,6 +907,15 @@ USA_grant_statehood = {
 
 		available = {
 			USA = { controls_state = 379 }
+			if = {
+				limit = {
+					date < 1861.3.4
+				}
+				has_political_power > -150 
+			}
+			else = {
+				has_political_power > 49
+			}
 			379 = {
 				state_population > 40000
 				NOT = { is_core_of = USA }
@@ -889,7 +935,7 @@ USA_grant_statehood = {
 			}
 		}
 
-		cost = 50
+		#cost = 50
 
 		complete_effect = {
 			379 = {
@@ -913,6 +959,52 @@ USA_grant_statehood = {
 				var = usa_congress_house_total_seats
 				value = 1
 			}
+			set_variable = {
+				id = PP_cost
+				value = 50
+			}
+			if = {
+				limit = {
+					USA = {
+						has_completed_focus = USA_loyal_mormons
+					}
+				}
+				multiply_variable = {
+					id = PP_cost
+					value = 0.5
+				}
+			}
+			if = {
+				limit = {
+					USA = {
+						AND = {
+							has_decision = utahWar24
+							NOT = { has_completed_focus = USA_oppressed_mormons }
+						}
+					}
+				}
+				multiply_variable = {
+					id = PP_cost
+					value = 0.3
+				}
+			}
+			if = {
+				limit = {
+					USA = {
+						has_completed_focus = USA_oppressed_mormons
+					}
+				}
+				multiply_variable = {
+					id = PP_cost
+					value = 2.0
+				}
+			}
+			multiply_variable = {
+				id = PP_cost
+				value = -1
+			}
+			add_political_power = PP_cost
+			clear_variable = PP_cost
 		}
 
 		days_remove = 90
@@ -951,7 +1043,18 @@ USA_grant_statehood = {
 		icon = generic_political_discourse
 
 		available = {
-			USA = { controls_state = 380 }
+			USA = { 
+				controls_state = 380			
+			}
+			if = {
+				limit = {
+					date < 1861.3.4
+				}
+				has_political_power > -150 
+			}
+			else = {
+				has_political_power > 49
+			}
 			380 = {
 				state_population > 40000
 				NOT = { is_core_of = USA }
@@ -1004,12 +1107,26 @@ USA_grant_statehood = {
 			if = {
 				limit = {
 					USA = {
-						has_decision = utahWar24
+						AND = {
+							has_decision = utahWar24
+							NOT = { has_completed_focus = USA_oppressed_mormons }
+						}
 					}
 				}
 				multiply_variable = {
 					id = PP_cost
-					value = 0.25
+					value = 0.3
+				}
+			}
+			if = {
+				limit = {
+					USA = {
+						has_completed_focus = USA_oppressed_mormons
+					}
+				}
+				multiply_variable = {
+					id = PP_cost
+					value = 2.0
 				}
 			}
 			multiply_variable = {
@@ -1167,6 +1284,15 @@ USA_grant_statehood = {
 
 				}
 			}
+			if = {
+				limit = {
+					date < 1861.3.4
+				}
+				has_political_power > -150 
+			}
+			else = {
+				has_political_power > 49
+			}
 		}
 
 		allowed = {
@@ -1192,7 +1318,7 @@ USA_grant_statehood = {
 
 		fire_only_once = yes
 
-		cost = 50
+		#cost = 50
 
 		complete_effect = {
 			382 = {
@@ -1219,6 +1345,52 @@ USA_grant_statehood = {
 				var = usa_congress_house_total_seats
 				value = 1
 			}
+			set_variable = {
+				id = PP_cost
+				value = 50
+			}
+			if = {
+				limit = {
+					USA = {
+						has_completed_focus = USA_loyal_mormons
+					}
+				}
+				multiply_variable = {
+					id = PP_cost
+					value = 0.5
+				}
+			}
+			if = {
+				limit = {
+					USA = {
+						AND = {
+							has_decision = utahWar24
+							NOT = { has_completed_focus = USA_oppressed_mormons }
+						}
+					}
+				}
+				multiply_variable = {
+					id = PP_cost
+					value = 0.3
+				}
+			}
+			if = {
+				limit = {
+					USA = {
+						has_completed_focus = USA_oppressed_mormons
+					}
+				}
+				multiply_variable = {
+					id = PP_cost
+					value = 2.0
+				}
+			}
+			multiply_variable = {
+				id = PP_cost
+				value = -1
+			}
+			add_political_power = PP_cost
+			clear_variable = PP_cost
 		}
 
 		days_remove = 90

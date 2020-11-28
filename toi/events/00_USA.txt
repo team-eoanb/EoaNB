@@ -948,6 +948,55 @@ country_event = {#Promise to expedite statehood
 	}
 }
 
+country_event = {#war goes hot, US wins
+	id = USA_utah_war.95
+	title = USA_utah_war.95.t
+	desc = USA_utah_war.95.d
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = USA_utah_war.95.a
+		USA = {#annex UT
+			annex_country = {
+				target = UTA
+				transfer_troops = no
+			}
+		}
+		complete_national_focus = USA_real_utah_war
+	}
+}
+
+country_event = {#war goes hot, US loss
+	id = USA_utah_war.96
+	title = USA_utah_war.96.t
+	desc = USA_utah_war.96.d
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = USA_utah_war.96.a
+		USA = {
+			white_peace = UTA
+		}
+	}
+}
+
+country_event = { #event reacting to Utah breaking out of puppet status
+	id = USA_utah_war.97
+	title = USA_utah.war.97.t
+	desc = USA_utah.war.97.d
+
+	is_triggered_only = yes
+	fire_only_once = no
+
+	option = {
+		name = USA_utah_war.97.a
+	}
+}
+
 country_event = {#ongoing event which adds mormon unrest forcing the player to do something
 	id = USA_utah_war.98
 	title = USA_utah_war.98.t
@@ -965,7 +1014,7 @@ country_event = {#ongoing event which adds mormon unrest forcing the player to d
 			check_variable = {
 				var = USA_mormon_unrest
 				value = 5
-				compare = less_than_or_equals
+				compare = less_than
 			}
 			check_variable = {
 				var = USA_mormon_unrest
@@ -979,6 +1028,24 @@ country_event = {#ongoing event which adds mormon unrest forcing the player to d
 		}
 		hidden_effect = {
 			country_event = { id = USA_utah_war.98 days = 35 }
+			if = {
+				limit = {
+					AND = {
+						UTA = {
+							is_puppet_of = USA
+						}
+						check_variable = {
+							var = USA_mormon_unrest
+							value = 5
+							compare = greater_than_or_equals
+						}
+					}
+				}
+				USA = {
+					end_puppet = UTA
+				}
+			}
+			country_event = { id = USA_utah_war.97 days = 1}
 		}
 	}
 	option = {
@@ -990,12 +1057,12 @@ country_event = {#ongoing event which adds mormon unrest forcing the player to d
 			check_variable = {
 				var = USA_mormon_unrest
 				value = 10
-				compare = less_than_or_equals
+				compare = less_than
 			}
 			check_variable = {
 				var = USA_mormon_unrest
 				value = 5
-				compare = greater_than
+				compare = greater_than_or_equals
 			}
 		}
 		add_to_variable = {
@@ -1003,24 +1070,26 @@ country_event = {#ongoing event which adds mormon unrest forcing the player to d
 			value = 2
 		}
 		hidden_effect = {
+			
 			country_event = { id = USA_utah_war.98 days = 35 }
 		}
 	}
 	option = {
 		name = USA_utah_war.98.c
 		trigger = {
-			USA = {
-				has_country_flag = utahWarOngoing
-			}
-			check_variable = {
-				var = USA_mormon_unrest
-				value = 15
-				compare = less_than_or_equals
-			}
-			check_variable = {
-				var = USA_mormon_unrest
-				value = 10
-				compare = greater_than
+			AND = {
+				USA = {
+					has_country_flag = utahWarOngoing
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value < 18
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value = 10
+					compare = greater_than_or_equals
+				}
 			}
 		}
 		add_to_variable = {
@@ -1034,12 +1103,14 @@ country_event = {#ongoing event which adds mormon unrest forcing the player to d
 	option = {
 		name = USA_utah_war.98.d
 		trigger = {
-			USA = {
-				has_country_flag = utahWarOngoing
-			}
-			check_variable = {
-				var = USA_mormon_unrest
-				value < 0 
+			AND = {
+				USA = {
+					has_country_flag = utahWarOngoing
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value < 0 
+				}
 			}
 		}
 		set_variable = {
@@ -1075,20 +1146,35 @@ country_event = {#Utah War Conclusion
 		trigger = {
 			check_variable = {
 				variable = USA_mormon_unrest
-				value = 15
+				value = 18
 				compare = greater_than_or_equals
 			}
 		}
 		name = USA_utah_war.99.a
+		USA = {
+			declare_war_on = {
+				target = UTA
+				type = annex_everything
+			}
+			activate_mission = utahWar90
+		}
+		#transfer state 1291
 	}
 	option = {
 		trigger = {
 			check_variable = {
 				variable = USA_mormon_unrest
-				value < 15
+				value < 18
 			}
 		}
 		name = USA_utah_war.99.b
+		USA = {#annex UT
+			annex_country = {
+				target = UTA
+				transfer_troops = no
+			}
+		}
+		unlock_national_focus = USA_utah_peace
 	}
 }
 ######################################################
