@@ -3582,7 +3582,7 @@ news_event = {
 		ACW_Weapons_Count_Get = yes
 		set_temp_variable = { acw_draft_count_change = 8 }
 		ACW_Draft_Count_Get = yes
-		add_ideas = USA_Spirit_American_Civil_War_Army_Competency1
+		add_ideas = USA_Spirit_American_Civil_War_Army_Incompetency1
 	}
 	option = {
 		name = acw_generic.2.b
@@ -3757,30 +3757,35 @@ news_event = {
 			if = {
 				limit = {	OR = { tag = USA tag = CAL tag = NEG tag = CSA } }
 				add_ideas = USA_Spirit_American_Civil_War_Player_Nerf
-				add_ideas = USA_entrenched_civil_war
-				add_ideas = USA_civil_war_surrender_threshold
 			}
 
 			if = {
 				limit = { tag = USA }
 				add_stability = 0.15
 				add_war_support = 0.10
+
 				country_event = { id = acw_first_nations_trigger.1 days = 10 }
 				country_event = { id = acw_generic.15 days = 30 random_days = 45 }
 				country_event = { id = LIB_american_civil_war_outbreak.1 days = 17 } #End support for the ACS in Liberia?
+				
 				clr_global_flag = ACW_American_Civil_War_Start
 				set_global_flag = ACW_American_Civil_War
-				set_global_flag = ACW_American_Civil_War_Happened
+
+				add_ideas = USA_Spirit_American_Civil_War_Historical_Buff
+
 				set_temp_variable = { acw_weapons_count_change = 30 }
 				ACW_Weapons_Count_Get = yes
 				set_temp_variable = { acw_draft_count_change = 22 }
 				ACW_Draft_Count_Get = yes
+
 				load_oob = USA_Standard_ACW
 				activate_mission = eoanb_decision_acw_csa_surrender_to_usa_union
+				activate_mission = eoanb_decision_acw_usa_surrender_to_csa_union
 				
 				CSA = { 
 					load_oob = CSA_Standard_ACW
 					activate_mission = eoanb_decision_acw_csa_surrender_to_usa_dixie
+					activate_mission = eoanb_decision_acw_usa_surrender_to_csa_dixie
 				}
 			}
 			if = {
@@ -3930,12 +3935,12 @@ country_event = {
 
     if = {
       limit = { tag = USA }
-			hidden_effect = {
-	      if = {
-	        limit = { is_historical_focus_on = yes }
-          add_ideas = USA_Spirit_American_Civil_War_Historical_Buff
-	      }
-	    }
+			# hidden_effect = {
+	    #   if = {
+	    #     limit = { is_historical_focus_on = yes }
+      #     add_ideas = USA_Spirit_American_Civil_War_Historical_Buff
+	    #   }
+	    # }
     }
     if = {
       limit = { tag = CSA }
