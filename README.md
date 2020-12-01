@@ -29,6 +29,11 @@ Rules for Developers
 - If procedural pushing (including incomplete content) is crucial to development, request a new branch.
 - Merging any branch into the master branch (the distributed branch) will require a pull request which can only be initialised by a *Centurion*, and requires the approval of at least another Centurion. Errors are to be checked and minimalised by the Centurion who does the request.
 
+### Installation
+
+Here's a useful installation Video one of our lead developers created: 
+- https://youtu.be/Qr6l2DEneNY
+
 ### Usage
 
 End of a New Beginning is a `free to play, open source mod`.

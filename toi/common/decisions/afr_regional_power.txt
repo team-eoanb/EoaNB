@@ -258,6 +258,77 @@ afr_regional_power_empire_politics_category = {
 		}
 	}
 	
+	afr_empire_politics_independence_struggle = {
+		
+		icon = generic_independence
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = afr_empire_politics_independence_struggle_trigger_tooltip
+				check_variable = { ROOT.afr_empire_subject_loyalty_var < 0 }
+			}
+			#OR = {
+			#	has_stability > 0.5
+			#	has_war_support > 0.25
+			#	ROOT = {
+			#		OVERLORD = {
+			#			has_stability < 0.35
+			#		}
+			#	}
+			#}
+		}
+		
+		visible = {
+			is_subject = yes
+			OR = {
+				has_autonomy_state = autonomy_afr_empire_level_1
+				has_autonomy_state = autonomy_afr_empire_level_2
+				has_autonomy_state = autonomy_afr_empire_level_3
+				has_autonomy_state = autonomy_afr_empire_level_4
+			}
+		}
+		
+		fire_only_once = no
+		
+		days_re_enable = 500 
+		
+		days_remove = 14
+		
+		cost = 100
+		custom_cost_trigger = {
+
+			command_power > 99.9
+
+		}
+		custom_cost_text = afr_empire_politics_independence_struggle_command_power_cost
+		
+		complete_effect = {
+			add_timed_idea = {
+				idea = eoanb_idea_independence_struggle
+				days = 90
+			}
+			hidden_effect = {
+				add_command_power = -100
+				ROOT = {
+					OVERLORD = { country_event = { id = independence.1 } }
+				}
+			}
+		}
+		
+		modifier = {
+			political_power_gain = -0.25
+		}
+		
+		remove_effect = {
+			country_event = { id = independence.2 }
+		}
+		
+		#AI can be incited to do this, will add later
+		ai_will_do = {
+			base = 0
+		}
+	}
+	
 	afr_empire_politics_subject_send_tribute_to_overlord_decision = {
 
 		icon = generic_political_discourse
@@ -467,6 +538,96 @@ afr_regional_power_empire_politics_category = {
 				}
 				NOT = { compare_autonomy_progress_ratio < 0.10 }
 			}
+		}
+	}
+	
+	afr_empire_politics_increase_own_autonomy = {
+		
+		icon = generic_break_treaty
+		
+		available = {
+			if = {
+				limit = {
+					OR = {
+						has_dlc = "Together for Victory"
+						has_dlc = "Waking the Tiger"
+						has_dlc = "Death or Dishonor"
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_empire_politics_is_a_vassal_trigger_tooltip
+					OR = {
+						has_autonomy_state = autonomy_afr_empire_level_1
+						has_autonomy_state = autonomy_afr_empire_level_2
+					}
+				}
+			}
+			else = {
+				compare_autonomy_progress_ratio < 0.50
+			}
+			custom_trigger_tooltip = {
+				tooltip = afr_empire_politics_atleast_org_tribe_trigger_tooltip
+				NOT = {
+					has_idea = AF_T_unorganized_tribal_nation
+					has_idea = AF_T_unorganized_tribal_nation_2
+					has_idea = AF_T_unorganized_tribal_nation_3
+					has_idea = AF_T_unorganized_tribal_nation_4
+					has_idea = AF_T_unorganized_tribal_nation_5
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = afr_empire_politics_increase_own_autonomy_trigger_tooltip
+				check_variable = { ROOT.afr_empire_subject_loyalty_var > 5 }
+			}
+		}
+		
+		visible = {
+			is_subject = yes
+			OR = {
+				has_autonomy_state = autonomy_afr_empire_level_1
+				has_autonomy_state = autonomy_afr_empire_level_2
+				has_autonomy_state = autonomy_afr_empire_level_3
+				has_autonomy_state = autonomy_afr_empire_level_4
+			}
+			compare_autonomy_progress_ratio < 0.99
+			compare_autonomy_progress_ratio > 0.01
+		}
+		
+		fire_only_once = no
+		
+		days_re_enable = 180  
+		
+		days_remove = 90
+		
+		cost = 0
+		
+		complete_effect = {
+			custom_effect_tooltip = afr_tt_decision_increase_autonomy
+			hidden_effect = {
+				random_list = {
+					40 = {
+						#Overlord discovers it, not done yet
+						add_political_power = 1
+					}
+					60 = {
+						#Successfully stay "hidden"
+						add_political_power = 1
+					}
+				}
+			}
+		}
+		
+		modifier = {
+			political_power_gain = -1
+			autonomy_gain = 1
+		}
+		
+		remove_effect = {
+			add_stability = -0.02
+		}
+		
+		ai_will_do = {
+			base = 0
 		}
 	}
 
