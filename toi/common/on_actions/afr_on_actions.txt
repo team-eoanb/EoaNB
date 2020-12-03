@@ -87,6 +87,107 @@ on_actions = {
                 limit = {
                     has_start_date < 1858.1.1
                 }
+				every_state = {
+					limit = { OWNER = { afr_is_tribal = yes } }
+					if = {
+						limit = { THIS = { is_capital = yes } }
+						add_to_variable = { var = THIS.afr_empire_state_loyalty_var value = 10 }
+					}
+					else_if = {
+						limit = { OWNER = { PREV = { is_core_of = PREV } } }
+						add_to_variable = { var = THIS.afr_empire_state_loyalty_var value = 9 }
+					}
+					else_if = {
+						limit = { OWNER = { PREV = { is_claimed_by = PREV } } }
+						add_to_variable = { var = THIS.afr_empire_state_loyalty_var value = 6 }
+						add_to_variable = { var = THIS.afr_empire_state_autonomy_var value = 10 }
+					}
+					else = {
+						add_to_variable = { var = THIS.afr_empire_state_loyalty_var value = 4 }
+						add_to_variable = { var = THIS.afr_empire_state_autonomy_var value = 20 }
+					}
+					if = {
+						limit = {
+							afr_state_has_multiple_cores = yes
+						}
+						add_to_variable = { var = THIS.afr_empire_state_loyalty_var value = -3 }
+						add_to_variable = { var = THIS.afr_empire_state_autonomy_var value = 10 }
+					}
+					if = {
+						limit = { 
+							is_capital = no
+							OWNER = {
+								OR = {
+									has_idea = AF_T_unorganized_tribal_nation
+									has_idea = AF_T_unorganized_tribal_nation_2
+									has_idea = AF_T_unorganized_tribal_nation_3
+									has_idea = AF_T_unorganized_tribal_nation_4
+									has_idea = AF_T_unorganized_tribal_nation_5
+								}
+							}
+						}
+						add_to_variable = { var = THIS.afr_empire_state_autonomy_var value = 60 }
+					}
+					else_if = {
+						limit = { 
+							is_capital = no
+							OWNER = {
+								OR = {
+									has_idea = AF_T_organized_tribal_nation
+									has_idea = AF_T_organized_tribal_nation_2
+									has_idea = AF_T_organized_tribal_nation_3
+								}
+							}
+						}
+						add_to_variable = { var = THIS.afr_empire_state_autonomy_var value = 40 }
+					}
+					else_if = {
+						limit = { 
+							is_capital = no
+							OWNER = {
+								has_idea = AF_T_small_kingdom
+							}
+						}
+						add_to_variable = { var = THIS.afr_empire_state_autonomy_var value = 20 }
+					}
+					else_if = {
+						limit = { 
+							is_capital = no
+							OWNER = {
+								OR = {
+									has_idea = afr_large_kingdom
+									has_idea = afr_reforming_kingdom
+								}
+							}
+						}
+						add_to_variable = { var = THIS.afr_empire_state_autonomy_var value = 10 }
+					}
+					if = {
+						limit = { has_variable = THIS.afr_empire_state_loyalty_var }
+						clamp_variable = {
+							var = THIS.afr_empire_state_loyalty_var
+							min = -1
+							max = 10
+						}
+					}
+					if = {
+						limit = { has_variable = THIS.afr_empire_state_autonomy_var }
+						clamp_variable = {
+							var = THIS.afr_empire_state_autonomy_var
+							min = 0
+							max = 100
+						}
+					}
+				}
+				UCT = {
+					random_list = {
+						10 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 260 } }
+						20 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 240 } }
+						40 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 220 } }
+						20 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 200 } }
+						10 = { country_event = { id = afr_empire_politics_subject_levy_mission_event_global.1 days = 180 } }
+					}
+				}
 				every_country = {
 					limit = { 
 						 OR = {
@@ -100,7 +201,7 @@ on_actions = {
 				}
 				every_country = {
 					limit = { 
-						 OR = {
+						OR = {
 							has_idea = AF_T_unorganized_tribal_nation
 							has_idea = AF_T_unorganized_tribal_nation_2
 							has_idea = AF_T_unorganized_tribal_nation_3
@@ -109,6 +210,65 @@ on_actions = {
 						}
 					}
 					afr_tribal_cosmetic_tag_switch_1_scripted_effect = yes
+				}
+				every_country = {
+					limit = { 
+						 OR = {
+							has_idea = AF_T_unorganized_tribal_nation
+							has_idea = AF_T_unorganized_tribal_nation_2
+							has_idea = AF_T_unorganized_tribal_nation_3
+							has_idea = AF_T_unorganized_tribal_nation_4
+							has_idea = AF_T_unorganized_tribal_nation_5
+							has_idea = AF_T_small_kingdom
+							has_idea = afr_large_kingdom
+							has_idea = afr_reforming_kingdom
+							has_idea = Oceania_large_kingdom
+							has_idea = Oceania_small_kingdom
+						}
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_society } }
+						set_technology = { tribal_society = 1 popup = no }
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_crop_planting } }
+						set_technology = { tribal_crop_planting = 1 popup = no }
+					}
+				}
+				every_country = {
+					limit = { 
+						 OR = {
+							has_idea = AF_T_small_kingdom
+							has_idea = afr_large_kingdom
+							has_idea = afr_reforming_kingdom
+							has_idea = Oceania_large_kingdom
+							has_idea = Oceania_small_kingdom
+						}
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_weapons } }
+						set_technology = { tribal_weapons = 1 popup = no }
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_tatics } }
+						set_technology = { tribal_tatics = 1 popup = no }
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_natral_economics } }
+						set_technology = { tribal_natral_economics = 1 popup = no }
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_roads } }
+						set_technology = { tribal_roads = 1 popup = no }
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_riding } }
+						set_technology = { tribal_riding = 1 popup = no }
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_irrigation } }
+						set_technology = { tribal_irrigation = 1 popup = no }
+					}
 				}
 				SKT = {
 					country_event = { id = skt_jihad_repair_ribats.1 days = 3}

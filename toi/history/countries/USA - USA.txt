@@ -5,44 +5,78 @@
   oob = "USA_1857"
 
 	USA = {
-  	### System Settings
+		### System Settings
 		set_country_flag = American_System_Eligible
-		# Political Variables
-		set_variable = { usa_state_count = 31 }
-		set_variable = { var = ROOT.NA_B_chauvinist_populism_senate_seats@ROOT value = 2 }
-		set_variable = { var = ROOT.NA_B_traditional_conservatism_senate_seats@ROOT value = 40 }
-		set_variable = { var = ROOT.NA_B_centrism_senate_seats@ROOT value = 19 }
-		set_variable = { var = ROOT.NA_B_social_egalitarianism_senate_seats@ROOT value = 1 }
-		set_variable = { var = ROOT.NA_B_chauvinist_populism_house_seats@ROOT value = 14 }
-		set_variable = { var = ROOT.NA_B_radical_democracy_house_seats@ROOT value = 100 }
-		set_variable = { var = ROOT.NA_B_traditional_conservatism_house_seats@ROOT value = 27 }
-		set_variable = { var = ROOT.NA_B_centrism_house_seats@ROOT value = 92 }
-		set_variable = { var = ROOT.NA_B_radical_democracy_supreme_court_seats@ROOT value = 7 }
-		set_variable = { var = ROOT.NA_B_traditional_conservatism_supreme_court_seats@ROOT value = 2 }
-
-
-		# Utah War
-		set_variable = { USA_mormon_unrest = 3 }
-		set_country_flag = utahWarOngoing
-		activate_mission = utahWar0
 
 		# Military / Equipment
 		set_country_flag = mhc_ai_war_by_startup
 		army_experience = 20
 		navy_experience = 5
 		
-		add_equipment_to_stockpile = {
-			type = infantry_equipment_rifle_1
-			amount = 1000
-			producer = USA
-		}
-		add_equipment_to_stockpile = {
-			type = uniform_equipment_2
-			amount = 1000
-			producer = USA
-		}
-	}	
-	
+		if = {
+			limit = { date < 1860.1.1 }
+				# System
+				add_to_variable = { prestige_score = 15 }
+				
+				# Political Variables
+				set_variable = { usa_state_count = 31 }
+				set_variable = { var = ROOT.NA_B_chauvinist_populism_senate_seats@ROOT value = 2 }
+				set_variable = { var = ROOT.NA_B_traditional_conservatism_senate_seats@ROOT value = 40 }
+				set_variable = { var = ROOT.NA_B_centrism_senate_seats@ROOT value = 19 }
+				set_variable = { var = ROOT.NA_B_social_egalitarianism_senate_seats@ROOT value = 1 }
+				set_variable = { var = ROOT.NA_B_chauvinist_populism_house_seats@ROOT value = 14 }
+				set_variable = { var = ROOT.NA_B_radical_democracy_house_seats@ROOT value = 100 }
+				set_variable = { var = ROOT.NA_B_traditional_conservatism_house_seats@ROOT value = 27 }
+				set_variable = { var = ROOT.NA_B_centrism_house_seats@ROOT value = 92 }
+				set_variable = { var = ROOT.NA_B_radical_democracy_supreme_court_seats@ROOT value = 7 }
+				set_variable = { var = ROOT.NA_B_traditional_conservatism_supreme_court_seats@ROOT value = 2 }
+
+				# Working Class Exploitation
+				add_to_variable = { var = USA.NA_B_idea_working_class_exploitation_score_var@USA value = 16 }
+				add_to_variable = { var = USA.NA_B_idea_working_class_organization_score_var@USA value = 38 }
+				country_event = { id = NA_B_idea_working_class_exploitation_calculator.1 }
+
+				# Native Raids
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@SHO value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@NEZ value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@BFT value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@CRW value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@SIX value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@CHY value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@COM value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@APA value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@NAV value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@SEM value = 12 }
+				add_to_variable = { var = USA.FNT_raid_likelihood_var@OKL value = 12 }
+
+				# Utah War
+				country_event = { id = USA_utah_war.98 days = 35 } #Starts the ball rolling with mormon unrest
+				set_variable = { USA_mormon_unrest = 3 }
+				set_country_flag = utahWarOngoing
+				activate_mission = utahWar0
+
+				# Slavery Debate
+				USA_Slavery_Debate_setup = yes
+				activate_mission = USA_Slavery_Debate_Rising_Tensions
+				activate_mission = USA_Election_of_1860_Mission
+				activate_mission = USA_Slavery_Debate_Minnesota_Statehood_Mission
+				country_event = { id = usa_slavery_debate.1 days = 14 random_days = 3 }
+
+				# Foreign Policy
+				activate_mission = eoanb_decision_USA_harris_treaty
+
+				# Spirits
+				add_ideas = { 
+					USA_Spirit_Seminole_War 
+					NA_B_medium_scale_railways 
+					USA_Spirit_Anti_Irish 
+					NA_B_Spirit_New_World_Democracies
+					USA_Spirit_Memories_of_Confederation
+					USA_Spirit_West_Point_Napoleonic_Thought1
+					USA_UtahWar
+				}
+		}	
+	}
 	# Laws
 	add_ideas = {
 		#POLITICS
@@ -84,7 +118,6 @@
 		USA_judicial_branch_idea
     		
 		#Military/War
-		USA_UtahWar
 		
 		#Industry
 	}
@@ -141,7 +174,7 @@
 			ideology = marxism
 		}
 		create_country_leader = {
-			name = "Norton I"
+			name = "Joseph Norton"
 			desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
 			picture = "Portrait_USA_Norton_I.dds"
 			expire = "1947.1.1"
@@ -375,7 +408,19 @@
 		early_alternators = 1
 		tech_humanities_mercantilism = 1
 		tech_humanities_capitalism = 1
-  }
+	}
+	USA = {
+		add_equipment_to_stockpile = {
+			type = infantry_equipment_rifle_1
+			amount = 1000
+			producer = USA
+		}
+		add_equipment_to_stockpile = {
+			type = uniform_equipment_2
+			amount = 1000
+			producer = USA
+		}
+	}
   
 	# GENERALS
 	USA = {

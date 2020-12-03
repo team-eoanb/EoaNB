@@ -1580,8 +1580,7 @@ d_check_culture = {
 	set_temp_variable = { amount = 0 }
 	every_state = {
 		limit = {
-			find_highest_in_array = { array = state_culture_array_num }
-			check_variable = { v > 0 }
+			check_variable = { state_culture_array^num > 0 }
 		}
 		set_temp_variable = { cult_total = 0 }
 		set_temp_variable = { previous = 1.0 }
@@ -1630,7 +1629,16 @@ d_check_culture = {
 				check_variable = { check2 = 1 }
 			}
 			add_to_temp_variable = { amount = 1 }
-			log = "Culture error found at state [THIS.GetID]. Unknown culture found. If it's an existing culture, please update the console command."
+			log = "Culture error found at state [THIS.GetID]. Unknown culture(s) found. If it's an existing culture, please update the console command."
+		}
+		if = {
+			limit = {
+				NOT = {
+					check_variable = { state_culture_array^num = state_culture_array_num^num }
+				}
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Culture error found at state [THIS.GetID]. Amount of cultures does not correspond to the numbers of cultures."
 		}
 	}
 	log = "Culture error checking finished. Total amount of errors within states: [?amount]" 
@@ -1639,8 +1647,7 @@ d_check_religion = {
 	set_temp_variable = { amount = 0 }
 	every_state = {
 		limit = {
-			find_highest_in_array = { array = state_religion_array_num }
-			check_variable = { v > 0 }
+			check_variable = { state_religion_array^num > 0 }
 		}
 		set_temp_variable = { rel_total = 0 }
 		set_temp_variable = { previous = 1.0 }
@@ -1689,7 +1696,16 @@ d_check_religion = {
 				check_variable = { check2 = 1 }
 			}
 			add_to_temp_variable = { amount = 1 }
-			log = "Culture error found at state [THIS.GetID]. Unknown religion found. If it's an existing religion, please update the console command."
+			log = "Religion error found at state [THIS.GetID]. Unknown religion found. If it's an existing religion, please update the console command."
+		}
+		if = {
+			limit = {
+				NOT = {
+					check_variable = { state_religion_array^num = state_religion_array_num^num }
+				}
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Religion error found at state [THIS.GetID]. Amount of cultures does not correspond to the numbers of cultures."
 		}
 	}
 	log = "Religion error checking finished. Total amount of errors within states: [?amount]" 

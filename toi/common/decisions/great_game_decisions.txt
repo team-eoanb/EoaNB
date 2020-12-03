@@ -1,0 +1,650 @@
+great_game_category={
+	great_game_invest_points = {
+		available = {
+			#date > 1864.1.1
+			#x great game points
+		}
+		visible = {
+			check_variable = { global.great_game_stage > 0}
+		}
+		allowed = {
+			OR={
+				tag = ENG
+				tag = RUS
+			}
+		}
+		cost = 100
+		days_remove = 30
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			add_to_variable = {great_game_points = 5}
+			custom_effect_tooltip = GetGreatGamePoints
+		}
+	}
+	great_game_kazakh_plains_treaty = {
+		available = {
+			date > 1864.1.1
+			#x great game points
+		}
+		highlight_states = {
+			state = 943
+		}
+		visible = {
+			RUS = {
+				exists = yes
+			}
+			NOT={owns_state = 943}
+			check_variable = { global.great_game_stage > 0}
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		ai_will_do ={
+			base = 1
+		}
+		complete_effect = {
+			CHI={country_event = {id = GreatGame.3}}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_take_taraz = {
+		icon = border_war
+		available = {
+			date > 1864.1.1
+			has_war = no
+			#x great game points
+		}
+		visible = {
+			KOK = {
+				exists = yes
+			}
+			NOT={
+				controls_state = 586
+			}
+			check_variable = { global.great_game_stage > 0}
+		}
+		highlight_states = {
+			state = 586
+		}
+		war_with_on_remove = KOK
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		# cost = 5
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		# custom_cost_trigger = {
+			# great_game_points > 4
+		# }
+		days_remove = 20
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			start_border_war = {
+				change_state_after_war = yes
+				attacker = {
+					state = 1370
+					num_provinces = 3
+					on_win = tashkentwar.5
+					on_lose = tashkentwar.6
+					on_cancel = tashkentwar.7
+				}
+							
+				defender = {
+					state = 586
+					num_provinces = 3
+					on_win = tashkentwar.6
+					on_lose = tashkentwar.5
+					on_cancel = tashkentwar.7
+				}
+			}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_seige_tashkent = {
+		icon = generic_prepare_civil_war
+		available = {
+			date > 1865.1.1
+			has_war = no
+			#x great game points
+		}
+		visible = {
+			KOK = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 0}
+		}
+		highlight_states = {
+			state = 1363
+		}
+		war_with_on_remove = KOK
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		days_remove = 20
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			country_event = {id = russiacentralasia.2}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_invasion_kokand = {
+		icon = generic_prepare_civil_war
+		available = {
+			date > 1866.1.1
+			has_war = no
+			controls_state = 1363
+			#x great game points
+		}
+		visible = {
+			KOK = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 0}
+		}
+		war_with_on_remove = KOK
+		highlight_states = {
+			state = 732
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+			set_variable = { global.great_game_kokand = 1}
+			country_event = {id=russiacentralasia.1}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_invasion_bukara = {
+		icon = generic_prepare_civil_war
+		available = {
+			date > 1866.1.1
+			has_war = no
+			controls_state = 1363
+			#x great game points
+		}
+		visible = {
+			BUK = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 0}
+		}
+		war_with_on_remove = BUK
+		highlight_states = {
+			state = 405
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+			declare_war_on = {
+				target = BUK 
+				type = annex_everything
+			}
+			BUK = {	add_ideas = KOK_defender_central_asia}
+			set_variable = { global.great_game_bukara = 1}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_attack_samarkand = {
+		icon = generic_prepare_civil_war
+		available = {
+			date > 1867.1.1
+			#x great game points
+		}
+		visible = {
+			SMK = {
+				exists = yes
+				if={
+					limit={has_dlc = "Together for Victory"}
+					is_subject = no
+				}
+				else={
+					is_puppet = no
+				}
+			}
+			check_variable = { global.great_game_stage > 0}
+		}
+		war_with_on_remove = SMK
+		highlight_states = {
+			state = 1369
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+			declare_war_on = {
+				target = SMK 
+				type = annex_everything
+			}
+			SMK = {	add_ideas = KOK_defender_central_asia}
+			set_variable = { global.great_game_samarkand = 1}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_propose_1873_agreement = {
+		available = {
+			date > 1873.1.1
+			#x great game points
+		}
+		visible={
+			NOT={
+				has_global_flag = great_game_1873_agreement_offered
+			}
+			check_variable = { global.great_game_stage < 2}
+		}
+		allowed = {
+			OR={
+				tag = RUS
+				tag = ENG
+			}
+		}
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+			set_global_flag = great_game_1873_agreement_offered
+			if={
+				limit={
+					tag = RUS
+				}
+				ENG={country_event = {id = GreatGame.6}}
+			}
+			else={
+				RUS={country_event = {id = GreatGame.6}}
+			}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_invasion_khiva = {
+		icon = generic_prepare_civil_war
+		available = {
+			has_war = no
+			#x great game points
+		}
+		visible = {
+			KHI = {
+				exists = yes
+				is_puppet = no
+			}
+			check_variable = { global.great_game_stage > 1}
+		}
+		highlight_states = {
+			state = 1319
+		}
+		war_with_on_remove = KHI
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+			country_event = {id= russiacentralasia.3}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_invasion_geok_tepe = {
+		icon = generic_prepare_civil_war
+		available = {
+			date > 1879.1.1
+			has_war = no
+			#x great game points
+		}
+		visible = {
+			TMS = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 1}
+		}
+		war_with_on_remove = TMS
+		highlight_states = {
+			state = 584
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+			set_variable = { global.great_game_n_turkmen = 1}
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_invasion_merv = {
+		icon = generic_prepare_civil_war
+		available = {
+			date > 1884.1.1
+			has_war = no
+			OR={
+				controls_state = 584
+				controls_state = 585
+			}
+			#x great game points
+		}
+		visible = {
+			TMS = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 1}
+		}
+		highlight_states = {
+			state = 1361
+		}
+		war_with_on_remove = TMS
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 5}
+		}
+		custom_cost_text = great_game_points_greater_5
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_influence_dungan = {
+		available = {
+			#x great game points
+		}
+		visible = {
+			SIK = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 1}
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		cost = 25
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+		
+		}
+	}
+	great_game_give_dungan_arms = {
+		available = {
+			#x great game points
+		}
+		visible = {
+			SIK = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 1}
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		cost = 25
+		ai_will_do = {
+			base = 1
+		}
+		complete_effect = {
+		
+		}
+	}
+	great_game_influence_afghanistan = {
+		available = {
+			date > 1878.1.1
+			#x great game points
+		}
+		visible = {
+			AFG = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 1}
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		cost = 25
+		ai_will_do = {
+			base = 1
+		}
+		highlight_states = {
+			state = 267
+		}
+		complete_effect = {
+		
+		}
+	}
+	great_game_invade_afghanistan = {
+		icon = generic_prepare_civil_war
+		available = {
+			OR={
+				date > 1880.1.1
+				AFG={has_country_flag = RUS_influence}
+			}
+			#x great game points
+		}
+		war_with_on_remove = AFG
+		visible = {
+			AFG = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 1}
+		}
+		highlight_states = {
+			state = 267
+		}
+		allowed = { tag = ENG }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 24}
+		}
+		custom_cost_text = great_game_points_greater_25
+		days_remove = 10
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			set_variable = { global.great_game_afghan = 4}
+			subtract_from_variable = {great_game_points = 25}
+		}
+	}
+	great_game_invasion_afghanistan_mission = {
+		available = {
+			controls_state = 442
+			controls_state = 445
+			#x great game points
+		}
+		visible = {
+			AFG = {
+				has_war_with = ENG
+			}
+			check_variable = { global.great_game_stage > 1}
+		}
+		allowed = { tag = ENG }
+		fire_only_once = yes
+		cost = 25
+		days_mission_timeout = 360
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {#war loss
+		
+		}
+		complete_effect = {#war won
+			set_variable = { global.great_game_peshawar = 5}
+		}
+	}
+	great_game_take_panjdeh = {
+		icon = border_war
+		available = {
+			date > 1882.1.1
+			owns_state = 1361
+			#x great game points
+		}
+		visible = {
+			AFG = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 2}
+		}
+		war_with_on_remove = AFG
+		highlight_states = {
+			state = 1360
+		}
+		allowed = { tag = RUS }
+		fire_only_once = yes
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 4}
+		}
+		custom_cost_text = great_game_points_greater_5
+		days_remove = 10
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			subtract_from_variable = {great_game_points = 5}
+		}
+	}
+	great_game_influence_tibet = {
+		available = {
+			date > 1882.1.1
+			#x great game points
+		}
+		visible = {
+			TIB = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 3}
+		}
+		highlight_states = {
+			state = 322
+		}
+		#allowed = { tag = RUS }
+		fire_only_once = yes
+		cost = 5
+		days_remove = 10
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+		
+		}
+	}
+	great_game_influence_persia = {
+		available = {
+			date > 1882.1.1
+			#x great game points
+		}
+		visible = {
+			PER = {
+				exists = yes
+			}
+			check_variable = { global.great_game_stage > 3}
+		}
+		highlight_states = {
+			state = 266
+		}
+		#allowed = { tag = RUS }
+		fire_only_once = yes
+		cost = 5
+		days_remove = 10
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+		
+		}
+	}
+	great_game_persian_rebellion_mission = {
+		icon = generic_civil_support
+		available = {
+			always = no
+			#x great game points
+		}
+		visible = {
+			PER = {
+				has_country_flag = PER_constitutional_revolution
+			}
+			check_variable = { global.great_game_stage > 3}
+		}
+		activation ={
+			always = no #start with persian event
+		}
+		allowed = { 
+			OR={
+				tag = ENG 
+				tag = RUS 
+			}
+		}
+		fire_only_once = yes
+		#cost = 25
+		days_mission_timeout = 360
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {#persia sides with GER
+		
+		}
+	}
+	great_game_sign_the_entente = {
+		available = {
+			date > 1905.1.1
+			PER={has_country_flag = PER_constitutional_revolution}
+			#x great game points
+		}
+		visible = {
+			check_variable = { global.great_game_stage > 3}
+		}
+		highlight_states = {
+			state = 266
+		}
+		#allowed = { tag = RUS }
+		fire_only_once = yes
+		cost = 5
+		days_remove = 10
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			set_variable = { global.great_game_persian_coast = 5}
+			set_variable = { global.great_game_persian_highlands = 1}
+		}
+	}
+}
