@@ -1,4 +1,5 @@
 ﻿add_namespace = russia
+add_namespace = russiabook
 add_namespace = russiapolitical
 add_namespace = russiamisc
 add_namespace = russiaforeign
@@ -4307,26 +4308,26 @@ country_event = {	# The sale of alaska, USA responds
 		    }
 	    }
 	}
-
+	
 	country_event = {
-		id = russiacommander.43
+	    id = russiacommander.43
 		title = russiacommander.43.t
 		desc = russiacommander.43.d
-		picture = GFX_report_event_krenholm_manufacture	
+		picture = GFX_report_event_krenholm_manufacture
 		
-		fire_only_once = yes 
+		fire_only_once = yes
 	    is_triggered_only = yes
 		
 		trigger = {
-		#date > 1883.10.16 
-        tag = RUS    
+		#date > 1883.10.16
+		tag = RUS    
 		}
 		
 		option = {
 			name = russiacommander.43.a
 			ai_chance = { factor = 40 }
             remove_unit_leader	 = 101042
-	    }
+			}
         option = {
 	    name = russiacommander.43.b
 	    ai_chance = { factor = 60 }
@@ -4335,5 +4336,75 @@ country_event = {	# The sale of alaska, USA responds
 			    idea = idea_national_funeral
 			    days = 8
 		    }
+		}
+	}
+
+	country_event = { #Publishing of Fathers and Sons
+		id = russiabook.1
+		title = russiabook.1.t
+		desc = russiabook.1.d
+		picture = GFX_report_event_krenholm_manufacture	
+		
+		fire_only_once = yes 
+	    is_triggered_only = yes
+		
+		trigger = {
+		#date > 1862.03.05 
+			tag = RUS    
+		}
+		
+		option = { #Mild censoring - cosmetic things
+			name = russiabook.1.a
+			ai_chance = { factor = 90 }
+			add_popularity = {
+				ideology = anarchism
+				popularity = 0.01
+			}
+			add_timed_idea = {
+			    idea = RUS_idea_successful_book
+				days = 120
+			}
+	    }
+        option = { #Harsh censoring - nihilism banned
+	        name = russiabook.1.b
+	        ai_chance = { factor = 10 }
+		    add_popularity = {
+				ideology = autocracy 
+				popularity = -0.03
+			}
+			add_political_power = 20
+			set_country_flag = harsh_censoring
+		}
+	}
+
+	country_event = {
+		id = russiabook.2
+		title = russiabook.2.t
+		desc = russiabook.2.d
+		picture = GFX_report_event_krenholm_manufacture	
+		
+		fire_only_once = yes 
+	    is_triggered_only = yes
+		
+		trigger = {
+			has_country_flag = harsh_censoring
+			NOT { 
+				has_idea = state_controlled_press 
+				has_idea = censored_press 
+			}
+			tag = RUS
+		}
+		
+		option = { #Censorship broke and the real book was revealed
+			name = russiabook.2.a
+			add_popularity = {
+				ideology = anarchism
+				popularity = 0.02
+				}
+			add_political_power = -20
+			add_timed_idea = {
+			    idea = RUS_idea_censor_broke_FaS
+				days = 60
+			}
 	    }
 	}

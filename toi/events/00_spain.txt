@@ -1,4 +1,19 @@
 ﻿add_namespace = spain
+add_namespace = calc_spain_debt
+
+country_event = {
+	id = calc_spain_debt.1
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			ROOT = {
+				SPR_calculate_debt_time = yes
+			}
+		}
+	}
+}
 
 country_event = {
 	id = spain.1
@@ -184,5 +199,24 @@ country_event = {
 		name = spain.7.a
 		ai_chance = { factor = 100 }
 		complete_national_focus = SPR_mexico_expedition
+	}
+}
+
+country_event = {
+	id = spain.8
+	title = spain.8.t
+	desc = spain.8.d
+	
+	is_triggered_only = yes
+	
+	immediate = { hidden_effect = { ROOT = { set_country_flag = has_debt } } }
+
+	option = {
+		name = spain.8.a
+		ai_chance = { factor = 100 }
+		hidden_effect = { 
+			activate_mission = SPR_paying_debt_decision 
+			country_event = { id = calc_spain_debt.1 days = 1 }
+		}
 	}
 }

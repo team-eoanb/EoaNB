@@ -12,6 +12,161 @@ add_namespace = afr_empire_politics_subject_levy_mission_event
 add_namespace = afr_empire_politics_subject_levy_mission_event_global
 add_namespace = afr_empire_politics_subject_send_tribute_to_overlord_event
 add_namespace = afr_empire_politics_state_manager_event
+add_namespace = afr_empire_politics_successful_raid_event
+add_namespace = afr_empire_politics_regional_development_boom_event
+add_namespace = afr_empire_politics_bountiful_harvest_boom_event
+add_namespace = afr_empire_politics_minor_economic_boom_event
+
+
+	state_event = {
+		id = afr_empire_politics_successful_raid_event.1
+		title = afr_empire_politics_successful_raid_event.1.t
+		desc = afr_empire_politics_successful_raid_event.1.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		option = {
+			name = afr_empire_politics_successful_raid_event.1.a
+			hidden_effect = {
+				state_event = { id = afr_empire_politics_successful_raid_event.2 days = 120 trigger_for = controller }
+				ROOT = { 
+					afr_empire_politics_state_gain_emigration = yes
+					afr_empire_politics_state_gain_raided = yes
+
+					clr_state_flag = afr_empire_politics_has_regional_development_boom_flag
+					clr_state_flag = afr_empire_politics_bountiful_harvest_boom_flag
+					clr_state_flag = afr_empire_politics_minor_economic_boom_event_flag
+				}
+			}
+		}
+		option = {
+			name = afr_empire_politics_successful_raid_event.1.b
+			trigger = { 
+				ROOT = { OWNER = { check_variable = { afr_prosperity_mechanic_value > 4 } } }
+			}
+			hidden_effect = {
+				state_event = { id = afr_empire_politics_successful_raid_event.2 days = 60 trigger_for = controller }
+				ROOT = { 
+					afr_empire_politics_state_gain_emigration = yes
+					afr_empire_politics_state_gain_recovery = yes
+					clr_state_flag = afr_empire_politics_state_economy_status_investment_flag
+
+					clr_state_flag = afr_empire_politics_has_regional_development_boom_flag
+					clr_state_flag = afr_empire_politics_bountiful_harvest_boom_flag
+					clr_state_flag = afr_empire_politics_minor_economic_boom_event_flag
+				}
+			}
+		}
+		option = {
+			name = afr_empire_politics_successful_raid_event.1.c
+			trigger = { 
+				ROOT = { OWNER = { check_variable = { afr_prosperity_mechanic_value > 9 } } }
+				ROOT = { has_state_flag = afr_empire_politics_state_economy_status_investment_flag } 
+			}
+			hidden_effect = {
+				state_event = { id = afr_empire_politics_successful_raid_event.2 days = 60 trigger_for = controller }
+				ROOT = { 
+					afr_empire_politics_state_gain_emigration = yes
+					afr_empire_politics_state_gain_recovery = yes		
+
+					clr_state_flag = afr_empire_politics_has_regional_development_boom_flag
+					clr_state_flag = afr_empire_politics_bountiful_harvest_boom_flag
+					clr_state_flag = afr_empire_politics_minor_economic_boom_event_flag
+				}
+			}
+		}
+	}
+	
+	state_event = {
+		id = afr_empire_politics_successful_raid_event.2
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			ROOT= {
+				afr_empire_politics_state_gain_stagnant = yes
+				afr_empire_politics_state_gain_none = yes
+			}
+		}
+	}
+	
+	state_event = {
+		id = afr_empire_politics_regional_development_boom_event.1
+		hidden = yes
+		is_triggered_only = yes
+		
+		trigger = { ROOT = { has_state_flag = afr_empire_politics_has_regional_development_boom_flag } }
+		
+		immediate = {
+			ROOT= {
+				clr_state_flag = afr_empire_politics_has_regional_development_boom_flag
+				if = {
+					limit = {
+						NOT = {
+							has_state_flag = afr_empire_politics_minor_economic_boom_event_flag
+							has_state_flag = afr_empire_politics_bountiful_harvest_boom_flag
+							has_state_flag = afr_empire_politics_has_regional_development_boom_flag
+						}
+					}
+					afr_empire_politics_state_gain_none = yes
+					afr_empire_politics_state_gain_stagnant = yes
+					
+				}
+			}
+		}
+	}
+
+	state_event = {
+		id = afr_empire_politics_bountiful_harvest_boom_event.1
+		hidden = yes
+		is_triggered_only = yes
+		
+		trigger = { ROOT = { has_state_flag = afr_empire_politics_bountiful_harvest_boom_flag } }
+		
+		immediate = {
+			ROOT= {
+				clr_state_flag = afr_empire_politics_bountiful_harvest_boom_flag
+				if = {
+					limit = {
+						NOT = {
+							has_state_flag = afr_empire_politics_minor_economic_boom_event_flag
+							has_state_flag = afr_empire_politics_bountiful_harvest_boom_flag
+							has_state_flag = afr_empire_politics_has_regional_development_boom_flag
+						}
+					}
+					afr_empire_politics_state_gain_none = yes
+					afr_empire_politics_state_gain_stagnant = yes
+					
+				}
+			}
+		}
+	}
+	
+	state_event = {
+		id = afr_empire_politics_minor_economic_boom_event.1
+		hidden = yes
+		is_triggered_only = yes
+		
+		trigger = { ROOT = { has_state_flag = afr_empire_politics_minor_economic_boom_event_flag } }
+		
+		immediate = {
+			ROOT= {
+				clr_state_flag = afr_empire_politics_minor_economic_boom_event_flag
+				if = {
+					limit = {
+						NOT = {
+							has_state_flag = afr_empire_politics_minor_economic_boom_event_flag
+							has_state_flag = afr_empire_politics_bountiful_harvest_boom_flag
+							has_state_flag = afr_empire_politics_has_regional_development_boom_flag
+						}
+					}
+					afr_empire_politics_state_gain_none = yes
+					afr_empire_politics_state_gain_stagnant = yes
+					
+				}
+			}
+		}
+	}
 
 	state_event = {
 		id = afr_empire_politics_state_manager_event.1

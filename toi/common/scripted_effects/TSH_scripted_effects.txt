@@ -18,6 +18,29 @@ TSH_Meiji_Influence_Modify = {
 	subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH.Meiji_Emperor_Influence@THIS }
 
 	set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+	TSH_Meiji_Influence_Map_Varset = yes
+}
+TSH_Meiji_Influence_Map_Varset = {
+	if = {
+		check_variable = { TSH.Meiji_Shogun_Influence@THIS < 26 }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 1 }
+	}
+	else_if = {
+		check_variable = { TSH.Meiji_Shogun_Influence@THIS < 50 }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 2 }
+	}
+	else_if = {
+		check_variable = { TSH.Meiji_Shogun_Influence@THIS = 50 }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 3 }
+	}
+	else_if = {
+		check_variable = { TSH.Meiji_Shogun_Influence@THIS > 74 }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 5 }
+	}
+	else_if = {
+		check_variable = { TSH.Meiji_Shogun_Influence@THIS > 50 }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 4 }
+	}
 }
 TSH_Domains_Spread_Influence_Modify = {
 	if = {
@@ -55,6 +78,8 @@ TSH_Meiji_Influence_Setup = {
 		
 		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
 		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH_Boshin_War_Control_Array = THIS.id }
 	}
 	1266 = {
 		set_temp_variable = { TSH_Meiji_Influence_Change = 11 }
@@ -63,6 +88,8 @@ TSH_Meiji_Influence_Setup = {
 		
 		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
 		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH_Boshin_War_Control_Array = THIS.id }
 	}
 	1106 = {
 		set_temp_variable = { TSH_Meiji_Influence_Change = 81 }
@@ -71,6 +98,8 @@ TSH_Meiji_Influence_Setup = {
 		
 		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
 		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH_Boshin_War_Control_Array = THIS.id }
 	}
 	CHO = {
 		set_temp_variable = { TSH_Meiji_Influence_Change = 73 }
@@ -79,6 +108,8 @@ TSH_Meiji_Influence_Setup = {
 		
 		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
 		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH_Boshin_War_Control_Array = THIS.id }
 	}
 	DTE = {
 		set_temp_variable = { TSH_Meiji_Influence_Change = 18 }
@@ -87,6 +118,8 @@ TSH_Meiji_Influence_Setup = {
 		
 		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
 		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH_Boshin_War_Control_Array = THIS.id }
 	}
 	SAG = {
 		set_temp_variable = { TSH_Meiji_Influence_Change = 55 }
@@ -95,6 +128,8 @@ TSH_Meiji_Influence_Setup = {
 		
 		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
 		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH_Boshin_War_Control_Array = THIS.id }
 	}
 	SAT = {
 		set_temp_variable = { TSH_Meiji_Influence_Change = 43 }
@@ -103,6 +138,8 @@ TSH_Meiji_Influence_Setup = {
 		
 		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
 		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH_Boshin_War_Control_Array = THIS.id }
 	}
 	TOS = {
 		set_temp_variable = { TSH_Meiji_Influence_Change = 58 }
@@ -111,12 +148,17 @@ TSH_Meiji_Influence_Setup = {
 		
 		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
 		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH_Boshin_War_Control_Array = THIS.id }
 	}
 }
 TSH_Shogun_Spread_Influence_Modify = {
 	custom_effect_tooltip = TSH_Shogun_Spread_Influence_Modify_tt
 	every_owned_state = {
-		limit = { check_variable = { TSH.Meiji_Emperor_Influence@THIS > 15 } }
+		limit = {
+			NOT = { state = 1266 state = 1106 }
+			check_variable = { TSH.Meiji_Emperor_Influence@THIS > 15 }
+		}
 		
 		randomize_temp_variable = {
 			var = TSH_Meiji_Influence_Change
@@ -131,7 +173,10 @@ TSH_Shogun_Spread_Influence_Modify = {
 TSH_Emperor_Spread_Influence_Modify = {
 	custom_effect_tooltip = TSH_Emperor_Spread_Influence_Modify_tt
 	every_owned_state = {
-		limit = { check_variable = { TSH.Meiji_Emperor_Influence@THIS < 85 } }
+		limit = { 
+			NOT = { state = 1266 state = 1106 }
+			check_variable = { TSH.Meiji_Emperor_Influence@THIS < 85 }
+		}
 		
 		randomize_temp_variable = {
 			var = TSH_Meiji_Influence_Change

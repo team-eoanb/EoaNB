@@ -2163,26 +2163,24 @@ political_actions = {
 			has_idea = egy_vic_debt
 			check_variable = {ROOT.debt_level > 0}
 			NOT = { TAG = LIB }
-		}
-
-		modifier = {
-			#war_support_weekly = 0.01
-			consumer_goods_factor = 0.15
-			industrial_capacity_factory = -0.05
+			NOT = { has_country_flag = paying_debt }
 		}
 		
 		#fire_only_once = yes
 
 		cost = 25
-
-		remove_effect = {
+		complete_effect = {
 			custom_effect_tooltip = EGY_afr_decrease_debt_1
 			hidden_effect = {
-				subtract_from_variable = {var = debt_level value = 1}
+				if = {
+					limit = { NOT = { has_country_flag = paying_debt } }
+					set_country_flag = paying_debt
+					activate_mission = SPR_paying_debt_decision
+					country_event = { id = calc_spain_debt.1 days = 1 }
+					add_ideas = egy_vic_debt_payments
+				}
 			}
 		}
-		days_remove = 200
-		days_re_enable = 360
 
 		ai_will_do = {
 			base = 1
@@ -2191,6 +2189,19 @@ political_actions = {
 			#	NOT = { check_variable = {ROOT.debt_level > 8} }
 			#	num_of_civilian_factories < 2
 			#}
+		}
+	}
+	
+	eoanb_decision_debt_repayments_done = {
+		icon = generic_political_discourse
+		visible = { always = no }
+		complete_effect = {
+			hidden_effect = {
+				if = {
+					limit = { has_idea = egy_vic_debt_payments }
+					remove_ideas = egy_vic_debt_payments
+				}
+			}
 		}
 	}
 	
