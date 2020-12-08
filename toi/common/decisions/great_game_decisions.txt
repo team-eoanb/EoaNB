@@ -542,56 +542,6 @@ great_game_category={
 			subtract_from_variable = {great_game_points = 5}
 		}
 	}
-	great_game_influence_tibet = {
-		available = {
-			date > 1882.1.1
-			#x great game points
-		}
-		visible = {
-			TIB = {
-				exists = yes
-			}
-			check_variable = { global.great_game_stage > 3}
-		}
-		highlight_states = {
-			state = 322
-		}
-		#allowed = { tag = RUS }
-		fire_only_once = yes
-		cost = 5
-		days_remove = 10
-		ai_will_do = {
-			base = 1
-		}
-		remove_effect = {
-		
-		}
-	}
-	great_game_influence_persia = {
-		available = {
-			date > 1882.1.1
-			#x great game points
-		}
-		visible = {
-			PER = {
-				exists = yes
-			}
-			check_variable = { global.great_game_stage > 3}
-		}
-		highlight_states = {
-			state = 266
-		}
-		#allowed = { tag = RUS }
-		fire_only_once = yes
-		cost = 5
-		days_remove = 10
-		ai_will_do = {
-			base = 1
-		}
-		remove_effect = {
-		
-		}
-	}
 	great_game_persian_rebellion_mission = {
 		icon = generic_civil_support
 		available = {
@@ -637,12 +587,16 @@ great_game_category={
 		}
 		#allowed = { tag = RUS }
 		fire_only_once = yes
-		cost = 5
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 4}
+		}
+		custom_cost_text = great_game_points_greater_5
 		days_remove = 10
 		ai_will_do = {
 			base = 1
 		}
 		remove_effect = {
+			subtract_from_variable = {great_game_points = 5}
 			set_variable = { global.great_game_persian_coast = 5}
 			set_variable = { global.great_game_persian_highlands = 1}
 		}
@@ -695,7 +649,6 @@ great_game_category={
 				tag = RUS 
 			}
 		}
-		fire_only_once = yes
 		#cost = 25
 		days_mission_timeout = 100
 		ai_will_do = {
@@ -783,7 +736,6 @@ great_game_category={
 				tag = RUS 
 			}
 		}
-		fire_only_once = yes
 		#cost = 25
 		days_mission_timeout = 100
 		ai_will_do = {
@@ -867,7 +819,6 @@ great_game_category={
 				tag = RUS 
 			}
 		}
-		fire_only_once = yes
 		#cost = 25
 		days_mission_timeout = 100
 		ai_will_do = {
@@ -951,7 +902,6 @@ great_game_category={
 				tag = RUS 
 			}
 		}
-		fire_only_once = yes
 		#cost = 25
 		days_mission_timeout = 100
 		ai_will_do = {
@@ -985,6 +935,306 @@ great_game_category={
 					clr_country_flag = ENG_becoming_dominate
 				}
 			}
+		}
+	}
+	
+	great_game_influence_tibet = {
+		available = {
+			date > 1882.1.1
+			#x great game points
+		}
+		visible = {
+			TIB = {
+				exists = yes
+				NOT={
+					has_country_flag=RUS_sphere
+					has_country_flag=ENG_sphere
+				}
+			}
+			#is_ai = yes
+			check_variable = { global.great_game_stage > 3}
+		}
+		highlight_states = {
+			state = 322
+		}
+		#allowed = { tag = RUS }
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 9}
+		}
+		custom_cost_text = great_game_points_greater_5
+		days_remove = 10
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			if={#add a influence point
+				limit={tag=RUS}
+				add_to_variable ={TIB.RUS_gg_influence = 1}
+			}
+			else={
+				add_to_variable ={TIB.ENG_gg_influence = 1}
+			}
+			#check if anyone is 5+ points ahead
+			set_temp_var = {temp_influence_difference = 4}
+			add_to_temp_variable = {temp_influence_difference = TIB.RUS_gg_influence}
+			if={
+				limit={
+					check_variable = {TIB.ENG_gg_influence>temp_influence_difference}
+				}
+				TIB={set_country_flag = ENG_becoming_dominate}
+			}
+			set_temp_var = {temp_influence_difference = 4}
+			add_to_temp_variable = {temp_influence_difference = TIB.ENG_gg_influence}
+			if={
+				limit={
+					check_variable = {TIB.RUS_gg_influence>temp_influence_difference}
+				}
+				TIB={set_country_flag = RUS_becoming_dominate}
+			}
+			set_temp_var = {temp_influence_difference = 5}
+			add_to_temp_variable = {temp_influence_difference = TIB.RUS_gg_influence}
+			if={
+				limit={
+					TIB={has_country_flag = RUS_becoming_dominate}
+					check_variable = {TIB.ENG_gg_influence<temp_influence_difference}
+				}
+				TIB={clr_country_flag = RUS_becoming_dominate}
+			}
+			set_temp_var = {temp_influence_difference = 5}
+			add_to_temp_variable = {temp_influence_difference = TIB.ENG_gg_influence}
+			if={
+				limit={
+					TIB={has_country_flag = ENG_becoming_dominate}
+					check_variable = {TIB.RUS_gg_influence<temp_influence_difference}
+				}
+				TIB={clr_country_flag = ENG_becoming_dominate}
+			}
+			subtract_from_variable = {great_game_points = 10}
+		}
+	}
+	great_game_influence_persia = {
+		available = {
+			date > 1882.1.1
+			#x great game points
+		}
+		visible = {
+			PER = {
+				exists = yes
+				NOT={
+					has_country_flag=RUS_sphere
+					has_country_flag=ENG_sphere
+				}
+			}
+			#is_ai = yes
+			check_variable = { global.great_game_stage > 3}
+		}
+		highlight_states = {
+			state = 266
+		}
+		#allowed = { tag = RUS }
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 9}
+		}
+		custom_cost_text = great_game_points_greater_5
+		days_remove = 10
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			if={#add a influence point
+					limit={tag=RUS}
+					add_to_variable ={PER.RUS_gg_influence = 1}
+				}
+				else={
+					add_to_variable ={PER.ENG_gg_influence = 1}
+				}
+				#check if anyone is 5+ points ahead
+				set_temp_var = {temp_influence_difference = 4}
+				add_to_temp_variable = {temp_influence_difference = PER.RUS_gg_influence}
+				if={
+					limit={
+						check_variable = {PER.ENG_gg_influence>temp_influence_difference}
+					}
+					PER={set_country_flag = ENG_becoming_dominate}
+				}
+				set_temp_var = {temp_influence_difference = 4}
+				add_to_temp_variable = {temp_influence_difference = PER.ENG_gg_influence}
+				if={
+					limit={
+						check_variable = {PER.RUS_gg_influence>temp_influence_difference}
+					}
+					PER={set_country_flag = RUS_becoming_dominate}
+				}
+				
+				set_temp_var = {temp_influence_difference = 5}
+				add_to_temp_variable = {temp_influence_difference = PER.RUS_gg_influence}
+				if={
+					limit={
+						PER={has_country_flag = RUS_becoming_dominate}
+						check_variable = {PER.ENG_gg_influence<temp_influence_difference}
+					}
+					PER={clr_country_flag = RUS_becoming_dominate}
+				}
+				set_temp_var = {temp_influence_difference = 5}
+				add_to_temp_variable = {temp_influence_difference = PER.ENG_gg_influence}
+				if={
+					limit={
+						PER={has_country_flag = ENG_becoming_dominate}
+						check_variable = {PER.RUS_gg_influence<temp_influence_difference}
+					}
+					PER={clr_country_flag = ENG_becoming_dominate}
+				}
+				subtract_from_variable = {great_game_points = 10}
+		}
+	}
+	great_game_influence_afghan = {
+		available = {
+			date > 1882.1.1
+			#x great game points
+		}
+		visible = {
+			AFG = {
+				exists = yes
+				NOT={
+					has_country_flag=RUS_sphere
+					has_country_flag=ENG_sphere
+				}
+			}
+			#is_ai = yes
+			check_variable = { global.great_game_stage > 3}
+		}
+		highlight_states = {
+			state = 267
+		}
+		#allowed = { tag = RUS }
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 9}
+		}
+		custom_cost_text = great_game_points_greater_5
+		days_remove = 1
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			if={#add a influence point
+					limit={tag=RUS}
+					add_to_variable ={AFG.RUS_gg_influence = 1}
+				}
+				else={
+					add_to_variable ={AFG.ENG_gg_influence = 1}
+				}
+				#check if anyone is 5+ points ahead
+				set_temp_var = {temp_influence_difference = 4}
+				add_to_temp_variable = {temp_influence_difference = AFG.RUS_gg_influence}
+				if={
+					limit={
+						check_variable = {AFG.ENG_gg_influence>temp_influence_difference}
+					}
+					AFG={set_country_flag = ENG_becoming_dominate}
+				}
+				set_temp_var = {temp_influence_difference = 4}
+				add_to_temp_variable = {temp_influence_difference = AFG.ENG_gg_influence}
+				if={
+					limit={
+						check_variable = {AFG.RUS_gg_influence>temp_influence_difference}
+					}
+					AFG={set_country_flag = RUS_becoming_dominate}
+				}
+				
+				set_temp_var = {temp_influence_difference = 5}
+				add_to_temp_variable = {temp_influence_difference = AFG.RUS_gg_influence}
+				if={
+					limit={
+						AFG={has_country_flag = RUS_becoming_dominate}
+						check_variable = {AFG.ENG_gg_influence<temp_influence_difference}
+					}
+					AFG={clr_country_flag = RUS_becoming_dominate}
+				}
+				set_temp_var = {temp_influence_difference = 5}
+				add_to_temp_variable = {temp_influence_difference = AFG.ENG_gg_influence}
+				if={
+					limit={
+						AFG={has_country_flag = ENG_becoming_dominate}
+						check_variable = {AFG.RUS_gg_influence<temp_influence_difference}
+					}
+					AFG={clr_country_flag = ENG_becoming_dominate}
+				}
+				subtract_from_variable = {great_game_points = 10}
+		}
+	}
+	great_game_influence_sikang = {
+		available = {
+			date > 1882.1.1
+			#x great game points
+		}
+		visible = {
+			SIK = {
+				exists = yes
+				NOT={
+					has_country_flag=RUS_sphere
+					has_country_flag=ENG_sphere
+				}
+			}
+			#is_ai = yes
+			check_variable = { global.great_game_stage > 3}
+		}
+		highlight_states = {
+			state = 617
+		}
+		#allowed = { tag = RUS }
+		custom_cost_trigger = {
+			check_variable = {great_game_points > 9}
+		}
+		custom_cost_text = great_game_points_greater_10
+		days_remove = 10
+		ai_will_do = {
+			base = 1
+		}
+		remove_effect = {
+			if={#add a influence point
+					limit={tag=RUS}
+					add_to_variable ={SIK.RUS_gg_influence = 1}
+				}
+				else={
+					add_to_variable ={SIK.ENG_gg_influence = 1}
+				}
+				#check if anyone is 5+ points ahead
+				set_temp_var = {temp_influence_difference = 4}
+				add_to_temp_variable = {temp_influence_difference = SIK.RUS_gg_influence}
+				if={
+					limit={
+						check_variable = {SIK.ENG_gg_influence>temp_influence_difference}
+					}
+					SIK={set_country_flag = ENG_becoming_dominate}
+				}
+				set_temp_var = {temp_influence_difference = 4}
+				add_to_temp_variable = {temp_influence_difference = SIK.ENG_gg_influence}
+				if={
+					limit={
+						check_variable = {SIK.RUS_gg_influence>temp_influence_difference}
+					}
+					SIK={set_country_flag = RUS_becoming_dominate}
+				}
+				
+				set_temp_var = {temp_influence_difference = 5}
+				add_to_temp_variable = {temp_influence_difference = SIK.RUS_gg_influence}
+				if={
+					limit={
+						SIK={has_country_flag = RUS_becoming_dominate}
+						check_variable = {SIK.ENG_gg_influence<temp_influence_difference}
+					}
+					SIK={clr_country_flag = RUS_becoming_dominate}
+				}
+				set_temp_var = {temp_influence_difference = 5}
+				add_to_temp_variable = {temp_influence_difference = SIK.ENG_gg_influence}
+				if={
+					limit={
+						SIK={has_country_flag = ENG_becoming_dominate}
+						check_variable = {SIK.RUS_gg_influence<temp_influence_difference}
+					}
+					SIK={clr_country_flag = ENG_becoming_dominate}
+				}
+				subtract_from_variable = {great_game_points = 10}
 		}
 	}
 }

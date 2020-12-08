@@ -3591,178 +3591,127 @@
 ######################################################################################
 	
 	shared_focus = {
+		id = USA_buchanan_presidency
+		icon = GFX_goal_focus_elections
+		cost = 21
+
+		x = 8
+		y = 0
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
+		}
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+	shared_focus = {
+		id = USA_buchanan_deny_scott
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 21
+
+		relative_position_id = USA_buchanan_presidency
+		x = -3
+		y = 1
+
+		prerequisite = { focus = USA_buchanan_presidency }
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
+		}
+
+		completion_reward = {
+			add_political_power = -50
+			add_stability = 0.035
+			set_temp_variable = { USA_Slavery_Debate_Tension_Change = -2 }
+			USA_Slavery_Debate_Tension_Modify = yes
+			set_temp_variable = { USA_Slavery_Debate_Leaning_Change = 5 }
+			USA_Slavery_Debate_Leaning_Modify = yes
+		}
+	}
+	shared_focus = {
+		id = USA_buchanan_address_debate
+		icon = GFX_goal_SWE_failure
+		cost = 56
+
+		relative_position_id = USA_buchanan_presidency
+		x = -3
+		y = 2
+
+		prerequisite = { focus = USA_buchanan_presidency }
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
+		}
+
+		completion_reward = {
+			add_political_power = 50
+			set_temp_variable = { USA_Slavery_Debate_Tension_Change = -5 }
+			USA_Slavery_Debate_Tension_Modify = yes
+		}
+	}
+	shared_focus = {
 		id = USA_doughface_cabinet
 		icon = GFX_goal_generic_demand_territory
 		cost = 70
-		x = 8
-		y = 0
+		relative_position_id = USA_buchanan_address_debate
+		x = -1
+		y = 1
+
+		prerequisite = { focus = USA_buchanan_address_debate }
 		mutually_exclusive = {
 			focus = USA_inclusive_cabinet
 		}
 		completion_reward = {
 			add_ideas = USA_doughface_1_lvl1
+			set_temp_variable = { USA_Slavery_Debate_Leaning_Change = 3 }
+			USA_Slavery_Debate_Leaning_Modify = yes
 		}
 	}
 	shared_focus = {
 		id = USA_inclusive_cabinet
 		icon = GFX_focus_generic_self_management
 		cost = 70
+
 		relative_position_id = USA_doughface_cabinet
 		x = 2
 		y = 0
+
+		prerequisite = { focus = USA_buchanan_address_debate }
 		mutually_exclusive = {
 			focus = USA_doughface_cabinet
 		}
 		completion_reward = {
 			add_ideas = USA_inclusive_1_lvl1
-		}
-	}
-	shared_focus = {
-		id = USA_under_panic
-		icon = GFX_focus_generic_concessions
-		cost = 70
-		prerequisite = {
-			focus = USA_inclusive_cabinet
-			focus = USA_doughface_cabinet
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = -6
-		y = 1
-		available = {
-			has_country_flag = USAPanic_Of_1857
-		}
-		# bypass = {
-		# 	has_country_flag = USAPanic_Of_1857
-		# }
-		completion_reward = {
-			add_ideas = USA_1857Panic0
-			country_event = {
-				id = usa_panic.1
-				days = 20
-				random = 1440
-			}
-		}
-	}
-	shared_focus = {
-		id = USA_reform_not_relief
-		icon = GFX_goal_focus_the_elite
-		cost = 70
-		prerequisite = {
-			focus = USA_under_panic 
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = -6
-		y = 2
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = USA_1857Panic0
-				add_idea = USA_1857Panic1
-			}
-			country_event = {
-				id = usa_panic.2
-				days = 20
-				random = 1440
-			}
-		}
-	}
-	shared_focus = {
-		id = USA_reduced_public_works
-		icon = GFX_goal_generic_construct_civilian
-		cost = 70
-		prerequisite = {
-			focus = USA_reform_not_relief
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = -6
-		y = 3
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = USA_1857Panic1
-				add_idea = USA_1857Panic2
-			}
-			country_event = {
-				id = usa_panic.3
-				days = 20
-				random = 1440
-			}
-		}
-	}
-	shared_focus = {
-		id = USA_paper_money_war
-		icon = GFX_goal_focus_banks
-		cost = 70
-		prerequisite = {
-			focus = USA_reduced_public_works
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = -6
-		y = 4
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = USA_1857Panic2
-				add_idea = USA_1857Panic3
-			}
-			country_event = {
-				id = usa_panic.4
-				days = 20
-				random = 1440
-			}
-		}
-	}
-	shared_focus = {
-		id = USA_specie_payments
-		icon = GFX_goal_focus_increase_wages
-		cost = 70
-		prerequisite = {
-			focus = USA_paper_money_war
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = -6
-		y = 5
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = USA_1857Panic3
-				add_idea = USA_1857Panic4
-			}
-			country_event = {
-				id = usa_panic.5
-				days = 20
-				random = 1440
-			}
-		}
-	}
-	shared_focus = {
-		id = USA_panic_recovery
-		icon = GFX_focus_generic_the_giant_wakes
-		cost = 70
-		prerequisite = {
-			focus = USA_specie_payments
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = -6
-		y = 6
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = USA_1857Panic4
-				add_idea = USA_1857Panic5
-			}
-			country_event = {
-				id = usa_panic.3
-				days = 20
-				random = 1440
-			}
+			set_temp_variable = { USA_Slavery_Debate_Tension_Change = -5 }
+			USA_Slavery_Debate_Tension_Modify = yes
+			set_temp_variable = { USA_Slavery_Debate_Leaning_Change = -1 }
+			USA_Slavery_Debate_Leaning_Modify = yes
 		}
 	}
 	shared_focus = {
 		id = USA_utah_war
 		icon = GFX_goal_focus_utah_sword
 		cost = 70
-		prerequisite = {
-			focus = USA_inclusive_cabinet
-			focus = USA_doughface_cabinet
+		available = {
+			OR = {
+				has_completed_focus = USA_inclusive_cabinet
+				has_completed_focus = USA_doughface_cabinet
+			}
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -3
+		prerequisite = { focus = USA_buchanan_presidency }
+		relative_position_id = USA_buchanan_presidency
+		x = 1
 		y = 1
 		completion_reward = {
 			country_event = {
@@ -3780,9 +3729,9 @@
 		mutually_exclusive = {
 			focus = USA_real_utah_war
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -4
-		y = 2
+		relative_position_id = USA_utah_war
+		x = -1
+		y = 1
 		completion_reward = {
 			
 		}
@@ -3794,9 +3743,9 @@
 		prerequisite = {
 			focus = USA_utah_peace
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -4
-		y = 3
+		relative_position_id = USA_utah_war
+		x = -1
+		y = 2
 		completion_reward = {
 			379 = { 
 				add_state_modifier = {
@@ -3827,9 +3776,9 @@
 		prerequisite = {
 			focus = USA_mormon_power_transition
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -4
-		y = 4
+		relative_position_id = USA_utah_war
+		x = -1
+		y = 3
 		completion_reward = {
 			379 = { 
 				add_state_modifier = {
@@ -3862,9 +3811,9 @@
 		prerequisite = {
 			focus = USA_mormon_religious_tolerance
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -4
-		y = 5
+		relative_position_id = USA_utah_war
+		x = -1
+		y = 4
 		completion_reward = {
 			add_political_power = 50
 		}
@@ -3879,9 +3828,9 @@
 		mutually_exclusive = {
 			focus = USA_utah_peace
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -2
-		y = 2
+		relative_position_id = USA_utah_war
+		x = 1
+		y = 1
 		completion_reward = {
 			379 = { 
 				add_state_modifier = {
@@ -3912,9 +3861,9 @@
 		prerequisite = {
 			focus = USA_real_utah_war
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -2
-		y = 3
+		relative_position_id = USA_utah_war
+		x = 1
+		y = 2
 		completion_reward = {
 			379 = { 
 				add_state_modifier = {
@@ -3945,9 +3894,9 @@
 		prerequisite = {
 			focus = USA_oppressed_mormons
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -2
-		y = 4
+		relative_position_id = USA_utah_war
+		x = 1
+		y = 3
 		completion_reward = {
 			379 = {
 				custom_effect_tooltip = AFR_Racial_Tension_plus_4
@@ -3974,9 +3923,9 @@
 		prerequisite = {
 			focus = USA_mormon_political_purge
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = -2
-		y = 5
+		relative_position_id = USA_utah_war
+		x = 1
+		y = 4
 		completion_reward = {
 			379 = { 
 				add_state_modifier = {
@@ -4155,117 +4104,206 @@
 		}
 	}
 	shared_focus = {
-		id = USA_FN_aggressive1
-		icon = GFX_goal_continuous_suppression
+		id = USA_missouri_railroad
+		icon = GFX_goal_generic_construct_civilian
 		cost = 70
-		prerequisite = {
-			focus = USA_doughface_cabinet
-			focus = USA_inclusive_cabinet
-		}
-		mutually_exclusive = {
-			focus = USA_FN_appeasing1
-		}
-		mutually_exclusive = {
-			focus = USA_FN_passive1
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = 4
+
+		prerequisite = { focus = USA_buchanan_presidency }
+
+		relative_position_id = USA_buchanan_presidency
+		x = -7
 		y = 1
+
+		available = { controls_state = 373 }
+
 		completion_reward = {
-			
+			add_political_power = -35
+			373 = {
+				add_extra_state_shared_building_slots = 2
+				remove_building = {
+					type = cotton_farm
+					level = 1
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	shared_focus = {
-		id = USA_FN_aggressive2
-		icon = GFX_goal_generic_secret_weapon
+		id = USA_pennsylvanian_oil
+		icon = placeholder
 		cost = 70
-		prerequisite = {
-			focus = USA_FN_aggressive1
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = 4
-		y = 2
-		completion_reward = {
-			
-		}
-	}
-	shared_focus = {
-		id = USA_FN_passive1
-		icon = GFX_goal_continuous_def_against_influence
-		cost = 70
-		prerequisite = {
-			focus = USA_doughface_cabinet
-			focus = USA_inclusive_cabinet
-		}
-		mutually_exclusive = {
-			focus = USA_FN_aggressive1
-			focus = USA_FN_appeasing1
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = 6
-		y = 1
-		completion_reward = {
-			
-		}
-	}
-	shared_focus = {
-		id = USA_FN_passive2
-		icon = GFX_goal_generic_neutrality_focus
-		cost = 70
-		prerequisite = {
-			focus = USA_FN_passive1
-		}
+
+		relative_position_id = USA_missouri_railroad
+		x = 2
 		
-		relative_position_id = USA_doughface_cabinet
-		x = 6
-		y = 2
+		available = {
+			controls_state = 360
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
+		}
+		prerequisite = { focus = USA_buchanan_presidency }
+
 		completion_reward = {
-			
+			360 = {
+				add_manpower = 12500
+			}
 		}
 	}
 	shared_focus = {
-		id = USA_FN_appeasing1
-		icon = GFX_goal_continuous_increase_nu
+		id = USA_under_panic
+		icon = GFX_focus_generic_concessions
 		cost = 70
 		prerequisite = {
-			focus = USA_doughface_cabinet
-			focus = USA_inclusive_cabinet
+			focus = USA_missouri_railroad
+			focus = USA_pennsylvanian_oil
 		}
-		mutually_exclusive = {
-			focus = USA_FN_aggressive1
-			focus = USA_FN_passive1
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = 8
+		relative_position_id = USA_missouri_railroad
+		x = 1
 		y = 1
+		available = {
+			has_country_flag = USAPanic_Of_1857
+		}
+		# bypass = {
+		# 	has_country_flag = USAPanic_Of_1857
+		# }
 		completion_reward = {
-			
+			add_ideas = USA_1857Panic0
+			country_event = {
+				id = usa_panic.1
+				days = 20
+				random = 1440
+			}
 		}
 	}
 	shared_focus = {
-		id = USA_FN_appeasing2
-		icon = GFX_goal_focus_enact_law
+		id = USA_reform_not_relief
+		icon = GFX_goal_focus_the_elite
 		cost = 70
 		prerequisite = {
-			focus = USA_FN_appeasing1
+			focus = USA_under_panic 
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = 8
+		relative_position_id = USA_missouri_railroad
+		x = 1
 		y = 2
 		completion_reward = {
-			
+			swap_ideas = {
+				remove_idea = USA_1857Panic0
+				add_idea = USA_1857Panic1
+			}
+			country_event = {
+				id = usa_panic.2
+				days = 20
+				random = 1440
+			}
+		}
+	}
+	shared_focus = {
+		id = USA_reduced_public_works
+		icon = GFX_goal_generic_construct_civilian
+		cost = 70
+		prerequisite = {
+			focus = USA_reform_not_relief
+		}
+		relative_position_id = USA_missouri_railroad
+		x = 1
+		y = 3
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = USA_1857Panic1
+				add_idea = USA_1857Panic2
+			}
+			country_event = {
+				id = usa_panic.3
+				days = 20
+				random = 1440
+			}
+		}
+	}
+	shared_focus = {
+		id = USA_paper_money_war
+		icon = GFX_goal_focus_banks
+		cost = 70
+		prerequisite = {
+			focus = USA_reduced_public_works
+		}
+		relative_position_id = USA_missouri_railroad
+		x = 1
+		y = 4
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = USA_1857Panic2
+				add_idea = USA_1857Panic3
+			}
+			country_event = {
+				id = usa_panic.4
+				days = 20
+				random = 1440
+			}
+		}
+	}
+	shared_focus = {
+		id = USA_specie_payments
+		icon = GFX_goal_focus_increase_wages
+		cost = 70
+		prerequisite = {
+			focus = USA_paper_money_war
+		}
+		relative_position_id = USA_missouri_railroad
+		x = 1
+		y = 5
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = USA_1857Panic3
+				add_idea = USA_1857Panic4
+			}
+			country_event = {
+				id = usa_panic.5
+				days = 20
+				random = 1440
+			}
+		}
+	}
+	shared_focus = {
+		id = USA_panic_recovery
+		icon = GFX_focus_generic_the_giant_wakes
+		cost = 70
+		prerequisite = {
+			focus = USA_specie_payments
+		}
+		relative_position_id = USA_missouri_railroad
+		x = 1
+		y = 6
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = USA_1857Panic4
+				add_idea = USA_1857Panic5
+			}
+			country_event = {
+				id = usa_panic.3
+				days = 20
+				random = 1440
+			}
 		}
 	}
 	shared_focus = {
 		id = USA_buchanan_diplomacy
 		icon = GFX_goal_focus_imperialism
 		cost = 70
-		prerequisite = {
-			focus = USA_doughface_cabinet
-			focus = USA_inclusive_cabinet
+		prerequisite = { focus = USA_buchanan_presidency }
+		relative_position_id = USA_buchanan_presidency
+		available = {
+			OR = {
+				has_completed_focus = USA_doughface_cabinet
+				has_completed_focus = USA_inclusive_cabinet
+			}
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = 12
+		x = 7
 		y = 1
 		completion_reward = {
 			
@@ -4278,8 +4316,8 @@
 		prerequisite = {
 			focus = USA_buchanan_diplomacy
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = 10
+		relative_position_id = USA_buchanan_diplomacy
+		x = -3
 		y = 2
 		completion_reward = {
 			
@@ -4292,23 +4330,9 @@
 		prerequisite = {
 			focus = USA_buchanan_diplomacy
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = 11
-		y = 3
-		completion_reward = {
-			
-		}
-	}
-	shared_focus = {
-		id = USA_mexican_protectorate
-		icon = GFX_goal_focus_mexican_intervention
-		cost = 70
-		prerequisite = {
-			focus = USA_buchanan_diplomacy
-		}
-		relative_position_id = USA_doughface_cabinet
-		x = 12
-		y = 2
+		relative_position_id = USA_buchanan_diplomacy
+		x = -2
+		y = 1
 		completion_reward = {
 			
 		}
@@ -4320,9 +4344,39 @@
 		prerequisite = {
 			focus = USA_buchanan_diplomacy
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = 13
-		y = 3
+		relative_position_id = USA_buchanan_diplomacy
+		x = 0
+		y = 1
+		completion_reward = {
+			
+		}
+	}
+	shared_focus = {
+		id = USA_support_mexican_liberals
+		icon = GFX_goal_focus_mexican_intervention
+		cost = 14
+		prerequisite = {
+			focus = USA_buchanan_diplomacy
+		}
+mutually_exclusive = { focus = USA_mexican_protectorate } 
+		relative_position_id = USA_buchanan_diplomacy
+		x = -1
+		y = 2
+		completion_reward = {
+			
+		}
+	}
+	shared_focus = {
+		id = USA_mexican_protectorate
+		icon = GFX_goal_focus_mexican_intervention
+		cost = 70
+mutually_exclusive = { focus = USA_support_mexican_liberals }
+		prerequisite = {
+			focus = USA_buchanan_diplomacy
+		}
+		relative_position_id = USA_buchanan_diplomacy
+		x = 1
+		y = 2
 		completion_reward = {
 			
 		}
@@ -4334,8 +4388,199 @@
 		prerequisite = {
 			focus = USA_buchanan_diplomacy
 		}
-		relative_position_id = USA_doughface_cabinet
-		x = 14
+		relative_position_id = USA_buchanan_diplomacy
+		x = 2
+		y = 1
+		completion_reward = {
+			
+		}
+	}
+	shared_focus = {
+		id = USA_buchanan_end_first_sioux_war
+		icon = placeholder
+		cost = 35
+		
+		relative_position_id = USA_buchanan_presidency
+		x = 11
+		y = 1
+
+		prerequisite = { focus = USA_buchanan_presidency }
+
+		available = {
+			OR = {
+				country_exists = SEM
+				country_exists = SIX
+			}
+		}
+	}
+	shared_focus = {
+		id = USA_buchanan_scout_south_florida
+		icon = placeholder
+		cost = 56
+		
+		relative_position_id = USA_buchanan_end_first_sioux_war
+		y = 1
+
+		prerequisite = { focus = USA_buchanan_end_first_sioux_war }
+
+		available = {
+			OR = {
+				country_exists = SEM
+				country_exists = SIX
+			}
+		}
+	}
+	shared_focus = {
+		id = USA_buchanan_reservations
+		icon = placeholder
+		cost = 21
+		
+		relative_position_id = USA_buchanan_scout_south_florida
+		x = 1
+		y = 1
+
+		prerequisite = { focus = USA_buchanan_scout_south_florida }
+		mutually_exclusive = { focus = USA_buchanan_five_nation_approach }
+
+		available = {
+			OR = {
+				country_exists = SEM
+				country_exists = SIX
+			}
+		}
+	}
+	shared_focus = {
+		id = USA_buchanan_five_nation_approach
+		icon = placeholder
+		cost = 21
+		
+		relative_position_id = USA_buchanan_scout_south_florida
+		x = -1
+		y = 1
+
+		prerequisite = { focus = USA_buchanan_scout_south_florida }
+		mutually_exclusive = { focus = USA_buchanan_reservations }
+
+		available = {
+			OR = {
+				country_exists = SEM
+				country_exists = SIX
+			}
+		}
+	}
+	shared_focus = {
+		id = USA_FN_aggressive1
+		icon = GFX_goal_continuous_suppression
+		cost = 56
+		prerequisite = {
+			focus = USA_buchanan_five_nation_approach
+		}
+		available = {
+			OR = {
+				has_completed_focus = USA_doughface_cabinet
+				has_completed_focus = USA_inclusive_cabinet
+			}
+		}
+		mutually_exclusive = {
+			focus = USA_FN_appeasing1
+		}
+		mutually_exclusive = {
+			focus = USA_FN_passive1
+		}
+		relative_position_id = USA_buchanan_five_nation_approach
+		x = -1
+		y = 1
+		completion_reward = {
+			
+		}
+	}
+	shared_focus = {
+		id = USA_FN_aggressive2
+		icon = GFX_goal_generic_secret_weapon
+		cost = 105
+		prerequisite = {
+			focus = USA_FN_aggressive1
+		}
+		relative_position_id = USA_buchanan_five_nation_approach
+		x = -1
+		y = 2
+		completion_reward = {
+			
+		}
+	}
+	shared_focus = {
+		id = USA_FN_passive1
+		icon = GFX_goal_continuous_def_against_influence
+		cost = 56
+		prerequisite = {
+			focus = USA_buchanan_five_nation_approach
+			focus = USA_buchanan_reservations
+		}
+		available = {
+			OR = {
+				has_completed_focus = USA_doughface_cabinet
+				has_completed_focus = USA_inclusive_cabinet
+			}
+		}
+		mutually_exclusive = {
+			focus = USA_FN_aggressive1
+			focus = USA_FN_appeasing1
+		}
+		relative_position_id = USA_buchanan_five_nation_approach
+		x = 1
+		y = 1
+		completion_reward = {
+			
+		}
+	}
+	shared_focus = {
+		id = USA_FN_passive2
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 105
+		prerequisite = {
+			focus = USA_FN_passive1
+		}
+		
+		relative_position_id = USA_buchanan_five_nation_approach
+		x = 1
+		y = 2
+		completion_reward = {
+			
+		}
+	}
+	shared_focus = {
+		id = USA_FN_appeasing1
+		icon = GFX_goal_continuous_increase_nu
+		cost = 56
+		prerequisite = {
+			focus = USA_buchanan_reservations
+		}
+		available = {
+			OR = {
+				has_completed_focus = USA_doughface_cabinet
+				has_completed_focus = USA_inclusive_cabinet
+			}
+		}
+		mutually_exclusive = {
+			focus = USA_FN_aggressive1
+			focus = USA_FN_passive1
+		}
+		relative_position_id = USA_buchanan_five_nation_approach
+		x = 3
+		y = 1
+		completion_reward = {
+			
+		}
+	}
+	shared_focus = {
+		id = USA_FN_appeasing2
+		icon = GFX_goal_focus_enact_law
+		cost = 105
+		prerequisite = {
+			focus = USA_FN_appeasing1
+		}
+		relative_position_id = USA_buchanan_five_nation_approach
+		x = 3
 		y = 2
 		completion_reward = {
 			
