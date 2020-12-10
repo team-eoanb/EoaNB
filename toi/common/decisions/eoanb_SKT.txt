@@ -2160,7 +2160,7 @@ afr_islamic_renaissance = {
 					if = {
 						limit = { OWNER = { afr_is_tribal = yes } }
 						hidden_effect = { 
-							state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 trigger_for = controller }
+							state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 }
 							set_state_flag = afr_empire_politics_has_regional_development_boom_flag
 							afr_empire_politics_state_gain_immigration = yes
 							afr_empire_politics_state_gain_boom = yes
@@ -2754,7 +2754,7 @@ afr_islamic_renaissance = {
 					if = {
 						limit = { OWNER = { afr_is_tribal = yes } }
 						hidden_effect = { 
-							state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 trigger_for = controller }
+							state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 }
 							set_state_flag = afr_empire_politics_has_regional_development_boom_flag
 							afr_empire_politics_state_gain_immigration = yes
 							afr_empire_politics_state_gain_boom = yes
@@ -3150,7 +3150,7 @@ afr_islamic_renaissance = {
 					if = {
 						limit = { OWNER = { afr_is_tribal = yes } }
 						hidden_effect = { 
-							state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 trigger_for = controller }
+							state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 }
 							set_state_flag = afr_empire_politics_has_regional_development_boom_flag
 							afr_empire_politics_state_gain_immigration = yes
 							afr_empire_politics_state_gain_boom = yes
@@ -3557,7 +3557,7 @@ afr_islamic_renaissance = {
 					if = {
 						limit = { OWNER = { afr_is_tribal = yes } }
 						hidden_effect = { 
-							state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 trigger_for = controller }
+							state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 }
 							set_state_flag = afr_empire_politics_has_regional_development_boom_flag
 							afr_empire_politics_state_gain_immigration = yes
 							afr_empire_politics_state_gain_boom = yes
@@ -4938,7 +4938,7 @@ afr_islamic_renaissance = {
 				custom_effect_tooltip = afr_peacetime_economy_base_prosperity_growth
 				custom_effect_tooltip = afr_peacetime_economy_base_prosperity_unorganized
 			}
-			if = {
+			else_if = {
 				limit = {
 					check_variable = { afr_war_exhaustion_value = 0 }
 					OR = {
@@ -4954,7 +4954,7 @@ afr_islamic_renaissance = {
 					value = 1
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					check_variable = { afr_war_exhaustion_value = 0 }
 					has_idea = AF_T_small_kingdom
@@ -4966,7 +4966,7 @@ afr_islamic_renaissance = {
 					value = 2
 				}
 			}
-			if = {
+			else_if = {
 				limit = {
 					check_variable = { afr_war_exhaustion_value = 0 }
 					OR = {
@@ -4979,6 +4979,37 @@ afr_islamic_renaissance = {
 				add_to_variable = {
 					var = afr_prosperity_mechanic_value
 					value = 3
+				}
+			}
+			#State Income Here
+			if = {
+				limit = {
+					check_variable = { afr_war_exhaustion_value = 0 }
+					any_owned_state = {
+						check_variable = { var = afr_empire_politics_state_prosperity_var value = 0 compare = greater_than } 
+						NOT = { 
+							has_state_flag = afr_empire_politics_state_economy_status_war_torn_flag
+							has_state_flag = afr_empire_politics_state_economy_status_raided_flag 
+							has_state_flag = afr_empire_politics_state_economy_status_recovery_flag
+							has_state_flag = afr_empire_politics_state_economy_status_bust_flag 
+							has_state_flag = afr_empire_politics_state_economy_status_famine_flag
+							has_state_flag = afr_empire_politics_state_economy_status_investment_flag
+						}
+					}
+				}
+				custom_effect_tooltip = afr_peacetime_state_prosperity_growth
+				hidden_effect = {
+					every_owned_state = { 
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_prosperity_var value = 0 compare = greater_than } 
+							NOT = { 
+								has_state_flag = afr_empire_politics_state_economy_status_bust_flag 
+								has_state_flag = afr_empire_politics_state_economy_status_famine_flag
+								has_state_flag = afr_empire_politics_state_economy_status_investment_flag
+							}
+						}
+						state_event = { id = afr_peacetime_state_prosperity_growth_event.1 }
+					}
 				}
 			}
 			#Place Extra Income Here

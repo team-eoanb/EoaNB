@@ -16,20 +16,69 @@ add_namespace = afr_empire_politics_successful_raid_event
 add_namespace = afr_empire_politics_regional_development_boom_event
 add_namespace = afr_empire_politics_bountiful_harvest_boom_event
 add_namespace = afr_empire_politics_minor_economic_boom_event
-
+add_namespace = afr_peacetime_state_prosperity_growth_event
+add_namespace = afr_empire_politics_successful_remove_war_torn_event
 
 	state_event = {
+		id = afr_peacetime_state_prosperity_growth_event.1
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			OWNER = {
+				add_to_variable = {
+					var = THIS.afr_prosperity_mechanic_value
+					value = ROOT.afr_empire_politics_state_prosperity_var
+				}
+			}
+		}
+	}
+	
+	state_event = {
+		id = afr_empire_politics_successful_remove_war_torn_event.1
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			OWNER = { country_event = { id = afr_empire_politics_successful_remove_war_torn_event.2 } }
+		}
+	}
+	
+	country_event = {
+		id = afr_empire_politics_successful_remove_war_torn_event.2
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			FROM= {
+				afr_empire_politics_state_gain_stagnant = yes
+				afr_empire_politics_state_remove_war_torn = yes
+			}
+		}
+	}
+	
+	state_event = {
 		id = afr_empire_politics_successful_raid_event.1
-		title = afr_empire_politics_successful_raid_event.1.t
-		desc = afr_empire_politics_successful_raid_event.1.d
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			OWNER = { country_event = { id = afr_empire_politics_successful_raid_event.2 } }
+		}
+	}
+
+	country_event = {
+		id = afr_empire_politics_successful_raid_event.2
+		title = afr_empire_politics_successful_raid_event.2.t
+		desc = afr_empire_politics_successful_raid_event.2.d
 		picture = GFX_report_event_chinese_army_training
 		is_triggered_only = yes
 		
 		option = {
-			name = afr_empire_politics_successful_raid_event.1.a
+			name = afr_empire_politics_successful_raid_event.2.a
 			hidden_effect = {
-				state_event = { id = afr_empire_politics_successful_raid_event.2 days = 120 trigger_for = controller }
-				ROOT = { 
+				FROM = { state_event = { id = afr_empire_politics_successful_raid_event.3 days = 120 trigger_for = controller } }
+				FROM = {
 					afr_empire_politics_state_gain_emigration = yes
 					afr_empire_politics_state_gain_raided = yes
 
@@ -40,13 +89,13 @@ add_namespace = afr_empire_politics_minor_economic_boom_event
 			}
 		}
 		option = {
-			name = afr_empire_politics_successful_raid_event.1.b
+			name = afr_empire_politics_successful_raid_event.2.b
 			trigger = { 
-				ROOT = { OWNER = { check_variable = { afr_prosperity_mechanic_value > 4 } } }
+				FROM = { OWNER = { check_variable = { afr_prosperity_mechanic_value > 4 } } }
 			}
 			hidden_effect = {
-				state_event = { id = afr_empire_politics_successful_raid_event.2 days = 60 trigger_for = controller }
-				ROOT = { 
+				FROM = { state_event = { id = afr_empire_politics_successful_raid_event.3 days = 60 trigger_for = controller } }
+				FROM = { 
 					afr_empire_politics_state_gain_emigration = yes
 					afr_empire_politics_state_gain_recovery = yes
 					clr_state_flag = afr_empire_politics_state_economy_status_investment_flag
@@ -58,14 +107,14 @@ add_namespace = afr_empire_politics_minor_economic_boom_event
 			}
 		}
 		option = {
-			name = afr_empire_politics_successful_raid_event.1.c
+			name = afr_empire_politics_successful_raid_event.2.c
 			trigger = { 
-				ROOT = { OWNER = { check_variable = { afr_prosperity_mechanic_value > 9 } } }
-				ROOT = { has_state_flag = afr_empire_politics_state_economy_status_investment_flag } 
+				FROM = { OWNER = { check_variable = { afr_prosperity_mechanic_value > 9 } } }
+				FROM = { has_state_flag = afr_empire_politics_state_economy_status_investment_flag } 
 			}
 			hidden_effect = {
-				state_event = { id = afr_empire_politics_successful_raid_event.2 days = 60 trigger_for = controller }
-				ROOT = { 
+				FROM = { state_event = { id = afr_empire_politics_successful_raid_event.3 days = 60 trigger_for = controller } }
+				FROM = { 
 					afr_empire_politics_state_gain_emigration = yes
 					afr_empire_politics_state_gain_recovery = yes		
 
@@ -78,7 +127,7 @@ add_namespace = afr_empire_politics_minor_economic_boom_event
 	}
 	
 	state_event = {
-		id = afr_empire_politics_successful_raid_event.2
+		id = afr_empire_politics_successful_raid_event.3
 		hidden = yes
 		is_triggered_only = yes
 		

@@ -1135,6 +1135,114 @@ internal_politics_eoanb = {
 			base = 0
 		}
 	}
+
+	eoanb_decision_gather_legitimacy_victorian = {
+		icon = generic_form_nation
+
+		available = {
+			has_idea = victorian_era
+			has_political_power > 50
+			check_variable = { political_legitimacy < 1 }
+		}
+		visible = {
+			has_idea = victorian_era
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				has_war = yes
+				has_political_power > 250
+				check_variable = { political_legitimacy < 0.6 }
+				add = 10
+			}
+			modifier = {
+				has_war = no
+				has_political_power > 200
+				check_variable = { political_legitimacy < 0.45 }
+				add = 10
+			}
+		}
+		
+		fire_only_once = no
+		cost = 50
+		days_re_enable = 90
+
+		complete_effect = {
+			set_temp_variable = { political_legitimacy_change = 0.05 }
+			eoanb_political_legitimacy_change = yes
+		}
+	}
+	eoanb_decision_legitimize_military_austerity_victorian = {
+		icon = generic_form_nation
+
+		available = {
+			has_idea = victorian_era
+			command_power > 50
+			has_army_experience > 75
+			check_variable = { political_legitimacy < 1 }
+			OR = {
+				has_government = radical_democracy
+				has_government = vanguard_communism
+				has_government = chauvinist_populism
+				has_government = collectivist_socialism
+				has_government = fundamentalism
+				has_idea = sharia_constitution
+				AND = {
+					has_government = autocracy
+					has_idea = absolute_monarchy
+				}
+			}
+		}
+		visible = {
+			OR = {
+				has_government = radical_democracy
+				has_government = vanguard_communism
+				has_government = chauvinist_populism
+				has_government = collectivist_socialism
+				has_government = fundamentalism
+				has_idea = sharia_constitution
+				AND = {
+					has_government = autocracy
+					has_idea = absolute_monarchy
+				}
+			}
+			has_idea = victorian_era
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				has_army_experience > 250
+				check_variable = { political_legitimacy < 0.6 }
+				add = 10
+			}
+			modifier = {
+				has_war = no
+				has_army_experience > 200
+				check_variable = { political_legitimacy < 0.45 }
+				add = 10
+			}
+		}
+		
+		fire_only_once = no
+		cost = 75
+		custom_cost_text = command_power_more_than_50_army_experience_more_than_75
+		custom_cost_trigger = {
+			has_army_experience > 74.9
+			command_power > 49.9
+		}
+		days_re_enable = 90
+
+		complete_effect = {
+			if = {
+				limit = { has_war_support < 0.8 }
+				add_war_support = 0.015
+			}
+			set_temp_variable = { political_legitimacy_change = 0.1 }
+			eoanb_political_legitimacy_change = yes
+		}
+	}
 	
 }
 

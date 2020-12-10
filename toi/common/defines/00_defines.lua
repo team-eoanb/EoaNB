@@ -863,7 +863,7 @@ NMilitary = {
 		0.0, -- operative	
 	}, 
 	
-	HOURS_REQ_REJOIN_BORDER_WAR_FOR_INJURED_UNITS = 336, -- minimum hours required for units to rejoin border wars
+	HOURS_REQ_REJOIN_BORDER_WAR_FOR_INJURED_UNITS = 36, -- minimum hours required for units to rejoin border wars
 	
 	NEW_COMMANDER_RANDOM_PERSONALITY_TRAIT_CHANCES = {  -- chances to gain a personality trait for new generals
 		0.5, -- 50% for first trait
