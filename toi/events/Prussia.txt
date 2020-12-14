@@ -1,6 +1,9 @@
 ﻿add_namespace = prussia
 add_namespace = prussiagenerals
 add_namespace = prussiaconscrisis
+add_namespace = prussiaforeign
+
+### GENERAL EVENTS ###
 
 #Marriage of Prince Friedrich Wilhelm and Princess Victoria 
 country_event = {
@@ -912,6 +915,8 @@ country_event = {
 		}
 	}
 	
+### PRUSSIAN GENERALS ###	
+
 country_event = {
 	id = prussiagenerals.1 ###Konstantin Bernhard von Voigts-Rhetz Appointed
 	title = prussiagenerals.1.t
@@ -1066,6 +1071,8 @@ country_event = {
         }
     }
 }
+
+### CONSTITUTIONAL CRISIS ###
 
 #Von Roon's Reform Plan 
 country_event = {
@@ -1429,4 +1436,141 @@ country_event = {
 		complete_national_focus = PRS_focus_prussian_republic
     }
 }
+
+### FOREIGN POLITICS ###	
+
+#Eulenburg Expedition: Japan is reached, one ship lost in typhoon
+country_event = {
+	id = prussiaforeign.1
+	title = prussiaforeign.1.t
+	desc = prussiaforeign.1.d
 	
+	is_triggered_only = yes
+	
+	option = { 
+		name = prussiaforeign.1.a
+		ai_chance = { factor = 100 }
+		add_opinion_modifier = { target = TSH modifier = eoanb_om_PRS_eulenburg_expedition }
+		reverse_add_opinion_modifier = { target = TSH modifier = eoanb_om_PRS_eulenburg_expedition }
+		hidden_effect = {
+			every_country = {
+				limit = {
+					OR = {
+						TAG = PRS
+						TAG = FRA
+						TAG = ENG
+						TAG = HOL
+						TAG = USA
+					}
+				}
+				country_event = { id = prussiaforeign.2 days = 120 }
+			}
+			PRS = { country_event = { id = prussiaforeign.3 days = 240 } }
+		}
+	}
+
+}
+
+#Eulenburg Expedition: Henry Heuksen Assassination
+country_event = {
+	id = prussiaforeign.2
+	title = prussiaforeign.2.t
+	desc = prussiaforeign.2.d
+	
+	is_triggered_only = yes
+	
+	option = { 
+		name = prussiaforeign.2.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				TAG = PRS
+			}
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_PRS_henry_heuksen_lite }
+		}
+		if = {
+			limit = {
+				TAG = FRA
+			}
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_PRS_henry_heuksen_lite }
+		}
+		if = {
+			limit = {
+				TAG = ENG
+			}
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_PRS_henry_heuksen_lite }
+		}
+		if = {
+			limit = {
+				TAG = HOL
+			}
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_PRS_henry_heuksen_heavy }
+		}
+		if = {
+			limit = {
+				TAG = USA
+			}
+			add_opinion_modifier = { target = TSH modifier = eoanb_om_PRS_henry_heuksen_heavy }
+		}
+	}
+
+}
+
+#Eulenburg Expedition: China is reached
+country_event = {
+	id = prussiaforeign.3
+	title = prussiaforeign.3.t
+	desc = prussiaforeign.3.d
+	
+	is_triggered_only = yes
+	
+	option = { 
+		name = prussiaforeign.3.a
+		ai_chance = { factor = 100 }
+		add_opinion_modifier = { target = QNG modifier = eoanb_om_PRS_eulenburg_expedition }
+		reverse_add_opinion_modifier = { target = QNG modifier = eoanb_om_PRS_eulenburg_expedition }
+		hidden_effect = {
+			PRS = { country_event = { id = prussiaforeign.4 days = 60 } }
+		}
+	}
+
+}
+
+#Eulenburg Expedition: Siam is reached
+country_event = {
+	id = prussiaforeign.4
+	title = prussiaforeign.4.t
+	desc = prussiaforeign.4.d
+	
+	is_triggered_only = yes
+	
+	option = { 
+		name = prussiaforeign.4.a
+		ai_chance = { factor = 100 }
+		add_opinion_modifier = { target = SIA modifier = eoanb_om_PRS_eulenburg_expedition }
+		reverse_add_opinion_modifier = { target = SIA modifier = eoanb_om_PRS_eulenburg_expedition }
+		hidden_effect = {
+			PRS = { country_event = { id = prussiaforeign.5 days = 120 } }
+		}
+	}
+
+}
+
+#Eulenburg Expedition: Ships return
+country_event = {
+	id = prussiaforeign.5
+	title = prussiaforeign.5.t
+	desc = prussiaforeign.5.d
+	
+	is_triggered_only = yes
+	
+	option = { 
+		name = prussiaforeign.5.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = eoanb_tt_event_PRS_eulenberg_expedition_return
+		hidden_effect = {
+			load_oob = "PRS_eulenburg"
+		}
+	}
+
+}
