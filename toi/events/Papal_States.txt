@@ -315,7 +315,15 @@ country_event = {
 			name = papal.9.a
 			ai_chance = { factor = 30 }
 			PAP = {
-				annex_country = {target = TUS}
+				puppet = ROOT
+			}
+			every_country={
+				limit={
+					is_puppet_of = ROOT
+				}
+				PAP = {
+					puppet = PREV
+				}
 			}
 		}
 
@@ -324,14 +332,18 @@ country_event = {
 			ai_chance = { factor = 70 }
 			PAP = {
 				declare_war_on = { 
-					target = TUS
+					target = ROOT
 					type = annex_everything 
+				}
+				ROOT={
+					all_owned_state = {
+						add_core_of = PAP
+					}
 				}
 			}
 		}
 	}
-
-country_event = {
+	country_event = {
 		id = papal.10
 		title = papal.10.t
 		desc = papal.10.d
@@ -343,23 +355,16 @@ country_event = {
 			name = papal.10.a
 			ai_chance = { factor = 30 }
 			PAP = {
-				annex_country = {target = MOD}
+				puppet = ROOT
 			}
 		}
 
 		option = {
 			name = papal.10.b
 			ai_chance = { factor = 70 }
-			PAP = {
-				declare_war_on = { 
-					target = MOD
-					type = annex_everything 
-				}
-			}
 		}
 	}
-
-country_event = {
+	country_event = {
 		id = papal.11
 		title = papal.11.t
 		desc = papal.11.d
@@ -367,51 +372,10 @@ country_event = {
 		
 		is_triggered_only = yes
 		
-		option = {
-			name = papal.11.a
+		option = {#Ave
+			name = papal.10.a
 			ai_chance = { factor = 30 }
-			PAP = {
-				annex_country = {target = PRM}
-			}
-		}
-
-		option = {
-			name = papal.11.b
-			ai_chance = { factor = 70 }
-			PAP = {
-				declare_war_on = { 
-					target = PRM
-					type = annex_everything 
-				}
-			}
-		}
-	}
-
-country_event = {
-		id = papal.12
-		title = papal.12.t
-		desc = papal.12.d
-		picture = GFX_report_event_generic_sign_treaty1
-		
-		is_triggered_only = yes
-		
-		option = {
-			name = papal.12.a
-			ai_chance = { factor = 30 }
-			PAP = {
-				annex_country = {target = NSC}
-			}
-		}
-
-		option = {
-			name = papal.12.b
-			ai_chance = { factor = 70 }
-			PAP = {
-				declare_war_on = { 
-					target = NSC
-					type = annex_everything 
-				}
-			}
+			eoanb_add_2_prestige_score = yes
 		}
 	}
 
@@ -504,3 +468,120 @@ country_event = {
 			ITA = { add_opinion_modifier = {target = ENG modifier = PAP_denounce_protestant_nations}}
 		}
 	}
+	
+	
+	
+country_event = {#mortara case
+	id = papal.17
+	title = papal.17.t
+	desc = papal.17.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = papal.17.a
+		ai_chance = { factor = 90 }
+		set_country_flag = PAP_kept_mortara
+		add_stability = 0.05
+		#bypass_national_focus = PAP_mortara_case
+	}
+
+	option = {
+		name = papal.17.b
+		ai_chance = { factor = 10 }
+		add_stability = -0.05
+		set_country_flag = PAP_returned_mortara
+		#unlock_national_focus = PAP_mortara_case
+	}
+}
+
+country_event = {#Republicans flock to the cause
+	id = papal.18
+	title = papal.18.t
+	desc = papal.18.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	
+	immediate={
+		load_oob = PAP_RRP_start
+	}
+		
+	option = {
+		name = papal.18.a
+		ai_chance = { factor = 90 }
+		
+	}
+}
+
+news_event = {#Restoration of rome
+	id = papal.19
+	title = papal.19.t
+	desc = papal.19.d
+	picture = GFX_report_event_generic_sign_treaty1
+	
+	is_triggered_only = yes
+	major = yes
+		
+	option = {
+		name = papal.19.a#ok
+		trigger = {NOT={tag= PAP}}
+		if = {
+			limit = { is_ai = no }
+			set_variable = { super_event_displayed = 22 }
+		}
+	}
+	option = {
+		name = papal.19.b#ok
+		trigger = {tag= PAP}
+		if = {
+			limit = { is_ai = no }
+			set_variable = { super_event_displayed = 22 }
+		}
+	}
+}
+news_event = {#Catholic Italy
+	id = papal.20
+	title = papal.20.t
+	desc = papal.20.d
+	picture = GFX_report_event_generic_sign_treaty1
+	major=yes
+	
+	is_triggered_only = yes
+		
+	option = {
+		name = papal.20.a#ok
+		ai_chance = { factor = 90 }
+		if = {
+			limit = { is_ai = no }
+			set_variable = { super_event_displayed = 24 }
+		}
+		
+	}
+}
+country_event = {#choosing a nation to back
+	id = papal.21
+	title = papal.21.t
+	desc = papal.21.d
+	picture = GFX_report_event_generic_sign_treaty1
+	major=yes
+	
+	is_triggered_only = yes
+		
+	option = {#NSC
+		name = papal.21.a
+		ai_chance = { factor = 90 }
+		
+	}
+	option = {#TUS
+		name = papal.21.b
+		ai_chance = { factor = 50 }
+		
+	}
+	option = {#PIE
+		name = papal.21.c
+		ai_chance = { factor = 10 }
+		
+	}
+}

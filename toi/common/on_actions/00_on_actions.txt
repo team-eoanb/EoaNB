@@ -1,3 +1,4 @@
+#Documentation: "https://hoi4.paradoxwikis.com/On_actions"
 on_actions = {
 
 	#DESIGNED FOR 1857 START DATE - EFFECTS APPLY TO ALL START DATES, REMOVE EVERYTHING BUT GENERIC CONTENT WHEN SECOND START DATE IS ADDED
@@ -28,6 +29,8 @@ on_actions = {
 				every_country = {
 					country_event = { id = pssystem.16 days = 365 }
 				}
+				set_global_flag = eoanb_flag_ps_no_commies_until_allowed
+				729 = { add_dynamic_modifier = { modifier = dynmod_POR_macau_slaves } }
 				##Add game rule here
 				# if = {
 					# limit = {
@@ -45,7 +48,6 @@ on_actions = {
 				# else = {
 					set_global_flag = use_english_state_city_names
 				# }
-				set_global_flag = eoanb_flag_ps_no_commies_until_allowed
 			}
 		}
 	}
@@ -117,6 +119,90 @@ on_actions = {
 	#
 	#	}
 	#}
+	
+	#on_daily = {
+	#	effect = {
+	#	
+	#	}
+	#}
+	
+	#on_weekly = {
+	#	effect = {
+	#	
+	#	}
+	#}
+	
+	#Can also be used with TAG, for example "on_monthly_TAG"
+	#on_monthly = {
+	#	effect = {
+	#	
+	#	}
+	#}
+
+	on_yearly = {
+		effect = {
+			if = {
+				limit = {
+					TAG = PRU
+					729 = { has_dynamic_modifier = { modifier = dynmod_POR_macau_slaves } }
+					NOT = { has_idea = full_equality }
+				}
+				country_event = { id = asiageneraldiplomatic.17 days = 1 random_days = 60 }
+			}
+			if = {
+				limit = {
+					TAG = DOM
+					729 = { has_dynamic_modifier = { modifier = dynmod_POR_macau_slaves } }
+					NOT = { has_idea = full_equality }
+				}
+				country_event = { id = asiageneraldiplomatic.18 days = 1 random_days = 60 }
+			}
+			if = {
+				limit = {
+					TAG = SPR
+					owns_state = 315
+					owns_state = 686
+					owns_state = 1350
+					729 = { has_dynamic_modifier = { modifier = dynmod_POR_macau_slaves } }
+					NOT = { has_idea = full_equality }
+				}
+				country_event = { id = asiageneraldiplomatic.18 days = 1 random_days = 60 }
+			}
+			if = {
+				limit = {
+					TAG = RUS
+					has_country_flag = eoanb_flag_RUS_colonizing_siberia
+					NOT = { has_country_flag = eoanb_flag_RUS_colonizing_siberia_intensely }
+				}
+				country_event = { id = russiasiberiancolonization.1 days = 1 random_days = 60 }
+			}
+			if = {
+				limit = {
+					TAG = RUS
+					has_country_flag = eoanb_flag_RUS_colonizing_siberia
+					has_country_flag = eoanb_flag_RUS_colonizing_siberia_intensely
+				}
+				country_event = { id = russiasiberiancolonization.2 days = 1 random_days = 60 }
+			}
+			if = {
+				limit = {
+					TAG = RUS
+					has_country_flag = eoanb_flag_RUS_colonizing_siberia
+					is_historical_focus_on = no
+					#Siberia keeps the cores after the uprising, so this check makes it only able to happen once
+					NOT = { 580 = { is_core_of = SIB } }
+				}
+				random_list = {
+					92 = {
+						add_political_power = 0
+					}
+					8 = {
+						country_event = { id = russiasiberiancolonization.3 days = 1 random_days = 300 }
+					}
+				}
+			}
+		}
+	}
 
 	# country random events
 	#on_bi_yearly_pulse = {

@@ -31,7 +31,7 @@ Rules for Developers
 
 ### Installation
 
-Here's a useful installation Video one of our lead developers created: 
+Here's a useful installation Video by one of our lead developers: 
 - https://youtu.be/Qr6l2DEneNY
 
 ### Usage
@@ -47,6 +47,12 @@ We do not tolerate using content developed for EoaNB for other purposes. Any oth
 `Recalculating Naval Distances Crash`: The current build of our mod crashes during the game-booting process between the launcher window and the main menu for some users with incompatible graphics cards. A good fix for most users has been to enter the Steam Library and enter the option `-opengl` into Hearts of Iron 4's launch settings.
 
 `Multiplayer Chat Crash`: The current build of our mod crashes during Multiplayer games when any individual tries to open the *multiplayer chat function* located at the bottom-left of the screen. We are working to fix this, for now please regulate all communication in MP games to voice-calls or other chat platforms.
+
+`Railgun Crash`: There is a railgun tech in our mod that crashes the user when they hover over the tech icon. We are still unsure what is causing this crash and are looking for a fix.
+
+### Other notable issues
+
+`Save Game Load Times`: It is a notable issue of how long save games take to load. Our average develop notices it takes them 5-10 minutes to load a save; longer as the game progresses past 1880. After the Pax Orientalis update, we will work to improving on this issue.
 
 ## Meet the Team; Join the Discussion
 
@@ -76,11 +82,17 @@ Have more questions, comments or feedback? You can contact us by joining our dis
 </td>
 <td align="center">
   <a href = "https://github.com/Polskastronkkurwa"><strong>Kuba</strong></a>
-  <img src="https://cdn.discordapp.com/avatars/320588200026308608/6109e4fcecf4e966d92545d72efdc332.png?size=256" width="120px;" alt="Kraken"/>
+  <img src="https://cdn.discordapp.com/avatars/320588200026308608/6109e4fcecf4e966d92545d72efdc332.png?size=256" width="120px;" alt="Kuba"/>
+</td>
+</tr>
+<tr>  
+<td align="center">
+  <a href = "https://github.com/condor93"><strong>Lancer2201</strong></a>
+  <img src="https://cdn.discordapp.com/avatars/318886512869507072/652309426aa905288b6824d83f3a4715.png?size=256" width="120px;" alt="Lancer"/>
 </td>
 <td align="center">
   <a href = "https://github.com/L0ndinium"><strong>Londinium</strong></a>
-  <img src="https://cdn.discordapp.com/avatars/246957288881913857/09f0493f82af5544031208bf01afe898.png?size=256" width="120px;" alt="Kuba"/>
+  <img src="https://cdn.discordapp.com/avatars/246957288881913857/09f0493f82af5544031208bf01afe898.png?size=256" width="120px;" alt="Londinium"/>
 </td>
 <td align="center">
   <a href = "https://github.com/TPS-Geronam"><strong>TPS-Geronam</strong></a>

@@ -18,6 +18,14 @@ focus_tree = {
 				tag = HAW
 				tag = TAH
 				tag = SUL
+				tag = BRM
+				tag = LAO
+				tag = PHU
+				tag = LUA
+				tag = SVN
+				tag = VNM
+				tag = CSK
+				tag = JAI
 			}
 		}
 	}
@@ -230,7 +238,10 @@ focus_tree = {
 				add_ideas = AF_T_idea_trading_nation_2
 				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			}
-			add_ideas = export_focus
+			if = {
+				limit = { NOT = { has_idea = free_trade } }
+				add_ideas = export_focus
+			}
 			custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
 			custom_effect_tooltip = EDC_afr.5.t
 			hidden_effect = {
@@ -5586,7 +5597,7 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-
+			always = yes
 		}
 	}
 
@@ -5642,7 +5653,7 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-
+			always = yes
 		}
 	}
 
@@ -5671,7 +5682,7 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-
+			always = yes
 		}
 	}
 
@@ -5708,6 +5719,10 @@ focus_tree = {
 				}
 			}
 		}
+
+		allow_branch = {
+			NOT = { tag = JAI }
+		}
 		completion_reward = {
 			if = {
 				limit = { has_idea = law_army_tribal_basic }
@@ -5732,9 +5747,6 @@ focus_tree = {
 				army_experience = 20
 			}
 
-		}
-		allow_branch = {
-			always = yes
 		}
 	}
 
@@ -5766,7 +5778,7 @@ focus_tree = {
 
 		}
 		allow_branch = {
-			always = yes
+			NOT = { tag = JAI }
 		}
 	}
 
@@ -5801,7 +5813,7 @@ focus_tree = {
 
 		}
 		allow_branch = {
-			always = yes
+			NOT = { tag = JAI }
 		}
 	}
 
@@ -5867,7 +5879,7 @@ focus_tree = {
 
 		}
 		allow_branch = {
-			always = yes
+			NOT = { tag = JAI }
 		}
 	}
 
@@ -5891,7 +5903,7 @@ focus_tree = {
 			add_tech_bonus = { bonus = 0.50 uses = 1 category = infantry_tech }
 		}
 		allow_branch = {
-			always = yes
+			NOT = { tag = JAI }
 		}
 	}
 
@@ -5922,7 +5934,7 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			always = yes
+			NOT = { tag = JAI }
 		}
 	}
 
@@ -5953,7 +5965,7 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			always = yes
+			NOT = { tag = JAI }
 		}
 	}
 
@@ -5984,7 +5996,7 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
-			always = yes
+			NOT = { tag = JAI }
 		}
 	}
 
@@ -6004,7 +6016,7 @@ focus_tree = {
 			add_manpower = 5000
 		}
 		allow_branch = {
-			always = yes
+			NOT = { tag = JAI }
 		}
 	}
 
@@ -6020,6 +6032,8 @@ focus_tree = {
 		prerequisite = {
 			focus = Oceania_generic_specialized_army_doctrine
 			focus = Oceania_generic_massive_army_doctrine
+			focus = Oceania_generic_reorganize_military_JAI3
+			focus = Oceania_generic_reorganize_military_JAI4
 		}
 		completion_reward = {
 			add_manpower = 1500
@@ -6056,10 +6070,315 @@ focus_tree = {
 					add_idea = law_victorian_army
 				}
 			}
+			if = {
+				limit = { has_idea = JAI_Mountain_Resistance }
+				remove_ideas = JAI_Mountain_Resistance
+			}
 		}
 		allow_branch = {
 			always = yes
 		}
 	}
 
+	focus = {
+		id = Oceania_generic_reorganize_military_JAI
+		icon = GFX_focus_generic_military_academy
+		cost = 75
+		x = 16
+		y = 10
+		available = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_15
+					check_variable = {ROOT.industrisation_progress > 14}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_10
+					check_variable = {ROOT.industrisation_progress > 9}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_05
+					check_variable = {ROOT.industrisation_progress > 4}
+				}
+			}
+		}
+
+		allow_branch = {
+			tag = JAI
+		}
+		completion_reward = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				army_experience = 5
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				army_experience = 10
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				army_experience = 15
+			}
+			if = {
+				limit = {
+					AND = {
+						NOT = { has_idea = law_army_tribal_advanced }
+						NOT = { has_idea = law_army_tribal_improved }
+						NOT = { has_idea = law_army_tribal_basic }
+					}
+				}
+				army_experience = 20
+			}
+
+		}
+	}
+	focus = {
+		id = Oceania_generic_reorganize_military_JAI1
+		icon = GFX_focus_generic_military_academy
+		cost = 75
+		x = 16
+		y = 11
+		prerequisite = { focus = Oceania_generic_reorganize_military_JAI }
+		available = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_15
+					check_variable = {ROOT.industrisation_progress > 14}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_10
+					check_variable = {ROOT.industrisation_progress > 9}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_05
+					check_variable = {ROOT.industrisation_progress > 4}
+				}
+			}
+		}
+
+		allow_branch = {
+			tag = JAI
+		}
+		completion_reward = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				army_experience = 5
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				army_experience = 10
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				army_experience = 15
+			}
+			if = {
+				limit = {
+					AND = {
+						NOT = { has_idea = law_army_tribal_advanced }
+						NOT = { has_idea = law_army_tribal_improved }
+						NOT = { has_idea = law_army_tribal_basic }
+					}
+				}
+				army_experience = 20
+			}
+
+		}
+	}
+	focus = {
+		id = Oceania_generic_reorganize_military_JAI2
+		icon = GFX_focus_generic_military_academy
+		cost = 75
+		x = 16
+		y = 12
+		prerequisite = { focus = Oceania_generic_reorganize_military_JAI1 }
+		available = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_15
+					check_variable = {ROOT.industrisation_progress > 14}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_10
+					check_variable = {ROOT.industrisation_progress > 9}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_05
+					check_variable = {ROOT.industrisation_progress > 4}
+				}
+			}
+		}
+
+		allow_branch = {
+			tag = JAI
+		}
+		completion_reward = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				army_experience = 5
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				army_experience = 10
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				army_experience = 15
+			}
+			if = {
+				limit = {
+					AND = {
+						NOT = { has_idea = law_army_tribal_advanced }
+						NOT = { has_idea = law_army_tribal_improved }
+						NOT = { has_idea = law_army_tribal_basic }
+					}
+				}
+				army_experience = 20
+			}
+
+		}
+	}
+	focus = {
+		id = Oceania_generic_reorganize_military_JAI3
+		icon = GFX_focus_generic_military_academy
+		cost = 75
+		x = 15
+		y = 13
+		prerequisite = { focus = Oceania_generic_reorganize_military_JAI2 }
+		mutually_exclusive = { focus = Oceania_generic_reorganize_military_JAI4 }
+		available = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_15
+					check_variable = {ROOT.industrisation_progress > 14}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_10
+					check_variable = {ROOT.industrisation_progress > 9}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_05
+					check_variable = {ROOT.industrisation_progress > 4}
+				}
+			}
+		}
+
+		allow_branch = {
+			tag = JAI
+		}
+		completion_reward = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				army_experience = 5
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				army_experience = 10
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				army_experience = 15
+			}
+			if = {
+				limit = {
+					AND = {
+						NOT = { has_idea = law_army_tribal_advanced }
+						NOT = { has_idea = law_army_tribal_improved }
+						NOT = { has_idea = law_army_tribal_basic }
+					}
+				}
+				army_experience = 20
+			}
+
+		}
+	}
+	focus = {
+		id = Oceania_generic_reorganize_military_JAI4
+		icon = GFX_focus_generic_military_academy
+		cost = 75
+		x = 17
+		y = 13
+		prerequisite = { focus = Oceania_generic_reorganize_military_JAI2 }
+		mutually_exclusive = { focus = Oceania_generic_reorganize_military_JAI3 }
+		available = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_15
+					check_variable = {ROOT.industrisation_progress > 14}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_10
+					check_variable = {ROOT.industrisation_progress > 9}
+				}
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				custom_trigger_tooltip = {
+					tooltip = Oceania_industrisation_progress_greater_than_05
+					check_variable = {ROOT.industrisation_progress > 4}
+				}
+			}
+		}
+
+		allow_branch = {
+			tag = JAI
+		}
+		completion_reward = {
+			if = {
+				limit = { has_idea = law_army_tribal_basic }
+				army_experience = 5
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_improved }
+				army_experience = 10
+			}
+			if = {
+				limit = { has_idea = law_army_tribal_advanced }
+				army_experience = 15
+			}
+			if = {
+				limit = {
+					AND = {
+						NOT = { has_idea = law_army_tribal_advanced }
+						NOT = { has_idea = law_army_tribal_improved }
+						NOT = { has_idea = law_army_tribal_basic }
+					}
+				}
+				army_experience = 20
+			}
+
+		}
+	}
 }

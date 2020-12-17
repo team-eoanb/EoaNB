@@ -1,0 +1,62 @@
+political_actions = {
+	
+	#Treaty with Japan (1866)
+	eoanb_decision_BEL_JAP_treaty = {
+
+		icon = generic_decision
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = eoanb_tt_no_war_with_japan		
+			}
+			hidden_trigger = {
+				NOT = { has_war_with = TSH }
+				NOT = { has_war_with = JAP }
+			}
+		}
+		
+		allowed = { TAG = BEL }
+
+		visible = {
+			TAG = BEL
+			OR = {
+				AND = {
+					country_exists = TSH
+					NOT = { TSH = { has_idea = closed_economy } }
+				}
+				AND = {
+					country_exists = JAP
+					NOT = { JAP = { has_idea = closed_economy } }
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		
+		complete_effect = {
+			if = {
+				limit = {
+					country_exists = TSH
+				}
+				TSH = { country_event = { id = asiageneraldiplomatic.7 days = 1 } }
+			}
+			else_if = {
+				limit = {
+					country_exists = JAP
+				}
+				JAP = { country_event = { id = asiageneraldiplomatic.7 days = 1 } }
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+			modifier = {
+				factor = 0
+				date < 1866.8.1
+			}
+		}
+	}
+	
+}

@@ -9,6 +9,66 @@
       add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 1000 producer = SIA }
   add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 producer = SIA }
 
+  set_truce = {
+    target = BRM
+    days = 750
+  }
+
+  SIA = {
+    if = {
+      limit = {
+        OR = {
+          has_dlc = "Together for Victory"
+          has_dlc = "Waking the Tiger"
+          has_dlc = "Death or Dishonor"
+        }
+      }
+      set_autonomy = {
+        target = CAM
+        autonomous_state = autonomy_afr_empire_level_3
+        freedom_level = 0.1
+      }
+      set_autonomy = {
+        target = LUA
+        autonomous_state = autonomy_afr_empire_level_4
+        freedom_level = 0.1
+      }
+      set_autonomy = {
+        target = CSK
+        autonomous_state = autonomy_afr_empire_level_1
+        freedom_level = 0.1
+      }
+    }
+    if = {
+      limit = {
+        NOT = {
+          OR = {
+            has_dlc = "Together for Victory"
+            has_dlc = "Waking the Tiger"
+            has_dlc = "Death or Dishonor"
+          }
+        }
+      }
+      puppet = CAM
+      puppet = LUA
+      puppet = CSK
+    }
+	CAM = { 
+		set_variable = { var = afr_empire_subject_overlord value = SIA.id }
+		set_variable = { var = CAM.afr_empire_subject_loyalty_var value = 8 }
+		clamp_variable = { var = CAM.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	  }
+	LUA = { 
+		set_variable = { var = afr_empire_subject_overlord value = SIA.id }
+		set_variable = { var = LUA.afr_empire_subject_loyalty_var value = 8 }
+		clamp_variable = { var = LUA.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
+	CSK = { 
+		set_variable = { var = afr_empire_subject_overlord value = SIA.id }
+		set_variable = { var = CSK.afr_empire_subject_loyalty_var value = 8 }
+		clamp_variable = { var = CSK.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
+  }
   add_ideas = { 
     #POLITICS 
 		  
@@ -22,11 +82,11 @@
     limited_exports
     two_percent
     normal_taxes
-	cl_legal
+	  cl_legal
 
     stagnation_growth
     border_control
-	limited_conscription
+	  manpower_tribal_warriors
     slavery
     absolutism
 
@@ -35,21 +95,24 @@
 
     privileged_education
     state_religion
-	religion_theravada
+	  religion_theravada
 
-   hc_no_healthcare
+    hc_no_healthcare
     law_police_force
     inframain_no_subsidies_infrastructure
     navinfra_no_naval_infrastructure
     sfund_private_ventures_only
 
          #NATIONAL SPIRITS
-			Oceania_large_kingdom
+			Oceania_eastern_oriented_regional_power
 			SIA_bowring_treaty
 			SIA_slow_industry_1
 	
   }
-	SIA = { set_country_flag = Oceania_industrializing }
+	SIA = { 
+		set_country_flag = Oceania_industrializing 
+		add_ideas={AF_T_Tribal_Army}
+	}
     #Rivals 
     set_variable = { rival_country = BRM.id }
 	#Most Favoured Country  

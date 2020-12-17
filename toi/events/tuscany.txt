@@ -33,7 +33,7 @@ country_event = {
 	option = {
 		name = tuscany.1.b  #socialists win
 		ai_chance = { factor = 40 }
-
+        
         hidden_effect = {
             complete_national_focus = TUS_vic_Elections_Of_1860
             TUS = { set_country_flag = TUS_vic_socialist_win_1860 }
@@ -54,6 +54,13 @@ country_event = {
     trigger = {
         tag = TUS
         has_idea = absolute_monarchy
+        NOT = {
+            OR = {
+                has_government = centrism
+                has_government = social_egalitarianism
+            }
+ 
+        }
         #date > 1860.03.05
         #date < 1860.04.06
     }
@@ -63,6 +70,9 @@ country_event = {
         ai_chance = { factor = 100 }
         hidden_effect = {
             complete_national_focus = TUS_vic_Farmers_Rebellion
+        }
+        country_event = {
+            id = tuscany.3
         }
         add_ideas = {
             TUS_farmer_strikes
@@ -80,15 +90,17 @@ country_event = {
     fire_only_once = yes
     is_triggered_only = yes
 
-    trigger = {
-        tag = TUS
-        #date > 1859.07.01
-        #date < 1859.07.31
-    }
+
     
     option = {
         name = tuscany.3.a  #republic
         ai_chance = { factor = 90 }
+        trigger = {
+            NOT = {
+                has_government = autocracy
+            }
+           
+        }
         TUS = {
             set_politics = {
                 ruling_party = centrism
@@ -101,6 +113,15 @@ country_event = {
                 ideology = autocracy
                 popularity = -0.40
             }
+            create_country_leader = {
+                name = "Eugene Emmanuel de Savoie-Carignan"
+                expire = "1900.1.1"
+                picutre = "Portrait_TUS_Eugen_di_Savoy.dds"
+                ideology = conserv_liberal
+                traits = {
+            
+                }
+              }
             swap_ideas = { 
                 remove_idea = absolute_monarchy
                 add_idea = parliamentary_republic
@@ -126,6 +147,9 @@ country_event = {
     option = {
         name = tuscany.3.b  #keep the king
         ai_chance = { factor = 10 }
+        trigger = {
+            has_government = autocracy
+        }
         TUS = {
             set_country_flag = TUS_vic_Keep_Monarchy
         }
@@ -378,5 +402,62 @@ country_event = {
         name = tuscany.8.a  #Yes
         ai_chance = { factor = 100 }
         TUS = { complete_national_focus = TUS_vic_Diplomatic_Failure }
+    }
+}
+####Elections or Democratic Revolution
+country_event = {
+    id = tuscany.9
+    title = tuscany.9.t
+    desc = tuscany.9.d
+    picture = GFX_ITA_Negociate
+    
+    fire_only_once = yes
+    is_triggered_only = yes
+
+  
+    option = {
+        name = tuscany.9.a  #Yes
+        ai_chance = { factor = 50 }
+        country_event = {
+            id = tuscany.3
+        }
+    }
+    option = {
+        name = tuscany.9.a  #Yes
+        ai_chance = { factor = 50 }
+        custom_effect_tooltip = TUS_vic_Elections_Ocurring
+    }
+}
+
+##Papal Territory
+country_event = {
+    id = tuscany.10
+    title = tuscany.10.t
+    desc = tuscany.10.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
+
+  
+    option = {
+        name = tuscany.10.a  #Yes
+        ai_chance = { factor = 90 }
+        remove_state_core = 157
+        remove_state_core = 161
+        TUS = {
+            transfer_state = 157
+            transfer_state = 161
+        }
+        
+    }
+    option = {
+        name = tuscany.10.a  #no
+        ai_chance = { factor = 10 }
+        declare_war_on = {
+            target = TUS
+            type = annex_everything
+        }
+        add_state_core = 162
     }
 }

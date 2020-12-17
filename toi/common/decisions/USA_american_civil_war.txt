@@ -280,11 +280,9 @@ ACW_American_Civil_War_Decisions = {
 		days_mission_timeout = 96
 		timeout_effect = {
 			custom_effect_tooltip = eoanb_decision_acw_brewing_tt
-			hidden_effect = {
-				if = {
-					limit = { tag = USA }
-					news_event = acw_generic.9
-				}
+			if = {
+				limit = { tag = USA }
+				news_event = acw_generic.9
 			}
 		}
 	}
@@ -306,9 +304,19 @@ ACW_American_Civil_War_Decisions = {
 			army_experience = -300
 		}
 		remove_effect = {
-			swap_ideas = {
-				remove_idea = USA_Spirit_West_Point_Napoleonic_Thought1
-				add_idea = USA_Spirit_West_Point_Napoleonic_Thought2
+			if = {
+				limit = { has_idea = USA_Spirit_West_Point_Napoleonic_Thought1 }
+				swap_ideas = {
+					remove_idea = USA_Spirit_West_Point_Napoleonic_Thought1
+					add_idea = USA_Spirit_West_Point_Napoleonic_Thought2
+				}
+				activate_decision = eoanb_decision_acw_reform_west_point2
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = USA_Spirit_West_Point_Napoleonic_Thought2
+					add_idea = USA_Spirit_West_Point_Napoleonic_Thought3
+				}
 			}
 		}
 	}
@@ -343,14 +351,21 @@ ACW_American_Civil_War_Decisions = {
 		activation = { always = no }
 		available = {
 			count_triggers = {
-				amount = 16
+				amount = 17
+				date > 1862.7.1
 				date > 1863.7.1
 				date > 1864.7.1
+				date > 1865.1.1
 				date > 1865.7.1
+				date > 1866.1.1
 				date > 1866.7.1
+				date > 1867.1.1
 				date > 1867.7.1
+				date > 1868.1.1
 				date > 1868.7.1
+				date > 1869.1.1
 				date > 1869.7.1
+				CSA = { has_country_flag = ACW_Union_Freeing_Slaves }
 				custom_trigger_tooltip = {
 					tooltip = eoanb_decision_acw_csa_surrender_to_usa_tx_tt
 					375 = { #Texas
@@ -548,13 +563,20 @@ ACW_American_Civil_War_Decisions = {
 		available = {
 			count_triggers = {
 				amount = 16
+				date > 1862.7.1
 				date > 1863.7.1
 				date > 1864.7.1
+				date > 1865.1.1
 				date > 1865.7.1
+				date > 1866.1.1
 				date > 1866.7.1
+				date > 1867.1.1
 				date > 1867.7.1
+				date > 1868.1.1
 				date > 1868.7.1
+				date > 1869.1.1
 				date > 1869.7.1
+				CSA = { has_country_flag = ACW_Union_Freeing_Slaves }
 				custom_trigger_tooltip = {
 					tooltip = eoanb_decision_acw_csa_surrender_to_usa_tx_tt
 					375 = { #Texas
@@ -760,12 +782,20 @@ ACW_American_Civil_War_Decisions = {
 				hidden_trigger = {
 					USA = { has_government = traditional_conservatism	}
 				}
+				date > 1862.1.1
+				date < 1863.1.1
 				date > 1864.1.1
+				date > 1864.7.1
 				date > 1865.1.1
+				date > 1865.7.1
 				date > 1866.1.1
+				date > 1866.7.1
 				date > 1867.1.1
+				date > 1867.7.1
 				date > 1868.1.1
-				date > 1869.1.1
+				date > 1868.7.1
+				CSA = { has_war_together_with = ENG }
+				CSA = { has_war_together_with = FRA }
 				custom_trigger_tooltip = {
 					tooltip = eoanb_decision_acw_usa_surrender_to_csa_or_tt
 					385 = { #Oregon
@@ -1059,12 +1089,20 @@ ACW_American_Civil_War_Decisions = {
 				hidden_trigger = {
 					USA = { has_government = traditional_conservatism	}
 				}
+				date > 1862.1.1
+				date < 1863.1.1
 				date > 1864.1.1
+				date > 1864.7.1
 				date > 1865.1.1
+				date > 1865.7.1
 				date > 1866.1.1
+				date > 1866.7.1
 				date > 1867.1.1
+				date > 1867.7.1
 				date > 1868.1.1
-				date > 1869.1.1
+				date > 1868.7.1
+				CSA = { has_war_together_with = ENG }
+				CSA = { has_war_together_with = FRA }
 				custom_trigger_tooltip = {
 					tooltip = eoanb_decision_acw_usa_surrender_to_csa_or_tt
 					385 = { #Oregon
@@ -1566,6 +1604,77 @@ ACW_American_Civil_War_Decisions = {
 					}
 					create_unit = {
 						division = "name = \"Nortonist Infantry Battalion\" division_template = \"Nortonist Infantry Battalion\" start_experience_factor = 0.1" owner = ROOT
+					}
+				}
+			}
+		}
+	}
+	eoanb_decision_acw_free_blacks = {
+		icon = generic_political_discourse
+
+		allowed = { always = no }
+		available = {
+			has_global_flag = ACW_American_Civil_War
+			has_war_with = CSA
+			CSA = {
+				any_owned_state = { 
+					is_controlled_by = ROOT
+					NOT = { has_state_flag = ACW_Slavery_Forcefully_Freed_Slaves }
+				}
+			}
+		}
+		visible = {
+			hidden_trigger = {
+				has_global_flag = ACW_American_Civil_War
+				has_war_with = CSA
+				CSA = {
+					any_owned_state = { is_controlled_by = ROOT }
+				}
+			}
+		}
+
+		ai_will_do = { base = 10 }
+
+		cost = 10
+		custom_cost_trigger = { command_power > 9.9 }
+		custom_cost_text = command_power_more_than_9
+
+		days_re_enable = 21
+
+		complete_effect = {
+			randomize_temp_variable = {
+				var = acw_freed_slaves_temp
+				min = 10000
+				max = 20000
+				distribution = uniform
+			}
+			set_temp_variable = { acw_freed_slaves_temp_subtract = 0 }
+			subtract_from_temp_variable = { acw_freed_slaves_temp_subtract = acw_freed_slaves_temp }
+			CSA = {
+				random_owned_state = {
+					limit = { 
+						is_controlled_by = ROOT 
+						NOT = { has_state_flag = ACW_Slavery_Forcefully_Freed_Slaves }
+					}
+					add_manpower = var:acw_freed_slaves_temp_subtract
+					set_state_flag = ACW_Slavery_Forcefully_Freed_Slaves
+				}
+			}
+			ROOT = {
+				random_owned_controlled_state = {
+					limit = { is_core_of = ROOT }
+					add_manpower = acw_freed_slaves_temp
+				}
+				hidden_effect = {
+					add_manpower = var:acw_freed_slaves_temp
+					random_list = {
+						75 = {
+							# Nah
+						}
+						25 = {
+							set_temp_variable = { acw_draft_count_change = 1 }
+							ACW_Draft_Count_Get = yes
+						}
 					}
 				}
 			}

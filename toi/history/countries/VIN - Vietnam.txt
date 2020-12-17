@@ -5,14 +5,49 @@
 	set_convoys = 20
 	set_research_slots = 2
 	add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 6000 producer = VIN }
-	add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 3000 producer = VIN }
+  add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 3000 producer = VIN }
+  VIN = {
+    if = {
+      limit = {
+        OR = {
+          has_dlc = "Together for Victory"
+          has_dlc = "Waking the Tiger"
+          has_dlc = "Death or Dishonor"
+        }
+      }
+      set_autonomy = {
+        target = PHU
+        autonomous_state = autonomy_afr_empire_level_3
+        freedom_level = 0.1
+      }
+      set_autonomy = {
+        target = JAI
+        autonomous_state = autonomy_afr_empire_level_4
+        freedom_level = 0.1
+      }
+    }
+    else = {
+      puppet = PHU
+      puppet = JAI
+    }
+	PHU = { 
+		set_variable = { var = afr_empire_subject_overlord value = VIN.id }
+		set_variable = { var = PHU.afr_empire_subject_loyalty_var value = 8 }
+		clamp_variable = { var = PHU.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	  }
+	JAI = { 
+		set_variable = { var = afr_empire_subject_overlord value = VIN.id }
+		set_variable = { var = JAI.afr_empire_subject_loyalty_var value = 10 }
+		clamp_variable = { var = JAI.afr_empire_subject_loyalty_var min = -1 max = 10 }
+	}
+  }
 
 	add_ideas = { 
 		#POLITICS
 		hos_is_leader
 		pre_industrial_era
 		agrarian
-		weak_heir
+		no_heir
 		absolute_monarchy
 
 		civilian_economy
@@ -23,7 +58,7 @@
 
 		stagnation_growth
 		border_control
-		volunteer_only
+		manpower_tribal_warriors
 		tribal_slavery
 		absolutism
 
@@ -33,7 +68,7 @@
 
 		privileged_education
 		state_religion
-		religion_mahayana
+		religion_confucian
 
 		hc_no_healthcare
 		law_police_force
@@ -42,11 +77,11 @@
 		sfund_private_ventures_only
 
 		#NATIONAL SPIRITS
-		Oceania_large_kingdom
+		Oceania_eastern_oriented_regional_power
   }
 
   #Rivals 
-  set_variable = { rival_country = FRA.id }
+  set_variable = { rival_country = SIA.id }
   #Most Favoured Country  
   set_variable = { most_favoured_country = QNG.id }  
 
@@ -54,7 +89,10 @@
     ruling_party = autocracy
   }
 
-VIN = { set_country_flag = Oceania_industrializing }
+  VIN = { 
+	set_country_flag = Oceania_industrializing 
+	add_ideas={AF_T_Tribal_Army}
+  }
 
   set_popularities = {
     anarchism = 0
@@ -99,7 +137,7 @@ VIN = { set_country_flag = Oceania_industrializing }
     picture = "Portrait_VIN_Tu_Duc.dds"
     expire = 1892.1.1
     ideology = despotism
-    traits = { unpopular_monarch }
+    traits = { unpopular_monarch eoanb_infertile_ruler}
   }
 
   # create_country_leader = {
@@ -131,4 +169,5 @@ VIN = { set_country_flag = Oceania_industrializing }
     planning_skill = 2
     logistics_skill = 4
   }
+  #13001 claimed by Jarai
 }

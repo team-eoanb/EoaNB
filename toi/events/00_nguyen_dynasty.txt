@@ -7,9 +7,12 @@ add_namespace = nguyen_dynasty_cantonize
 add_namespace = nguyen_dynasty_westernize
 
 add_namespace = nguyen_dynasty_tribute
-add_namespace = nguyen_dynasty_cochinchina
-add_namespace = nguyen_dynasty_tonkin
-add_namespace = nguyen_dynasty_black_flag
+add_namespace = nguyen_dynasty_expeditions
+
+add_namespace = jarai
+add_namespace = jarai_tribal_politics
+
+add_namespace = nguyen_test
 
 ########## Nguyen Dynasty ##########
 	# 1857 Start Date
@@ -18,13 +21,13 @@ add_namespace = nguyen_dynasty_black_flag
 		title = nguyen_dynasty.1.t
 		desc = nguyen_dynasty.1.d
 		picture = GFX_report_event_king_speech
-	
+	 
 		is_triggered_only = yes
 		fire_only_once = yes
 
 		immediate = {
 			hidden_effect = {
-				country_event = { id = nguyen_dynasty_tribute.1 days = 3 }
+				# country_event = { id = nguyen_dynasty_tribute.1 days = 3 }
 				country_event = { id = nguyen_dynasty_siam_conflicts.1 days = 24 }
 				country_event = { id = nguyen_dynasty_succession.1 days = 11 }
 				country_event = { id = nguyen_dynasty_catholic_missions.1 days = 35 }
@@ -38,11 +41,12 @@ add_namespace = nguyen_dynasty_black_flag
 			hidden_effect = {
 				add_ideas = {
 					VIN_Spirit_Cambodian_Rout
-					VIN_Spirit_Hong_Bao_Opposition1
+					VIN_Spirit_Dinh_Dao_Opposition1
 				}
 			}
 		}
 	}
+	
 	
 ########## Siam Conflicts ##########
 	country_event = {
@@ -59,8 +63,29 @@ add_namespace = nguyen_dynasty_black_flag
 
 		option = {
 			name = nguyen_dynasty_siam_conflicts.1.a
+			trigger = { tag = VIN }
+			hidden_effect = {
+				every_neighbor_country = { country_event = nguyen_dynasty_siam_conflicts.1 }
+			}
+		}
+		option = {
+			name = nguyen_dynasty_siam_conflicts.1.b
+			trigger = { tag = SIA }
+		}
+		option = {
+			name = nguyen_dynasty_siam_conflicts.1.c
+			trigger = { is_subject_of = SIA }
+		}
+		option = {
+			name = nguyen_dynasty_siam_conflicts.1.e
+			trigger = { is_subject_of = VIN }
+		}
+		option = {
+			name = nguyen_dynasty_siam_conflicts.1.f
+			trigger = { tag = QNG }
 		}
 	}
+	
 ########## Qing Tribute ##########
 	country_event = {
 		id = nguyen_dynasty_tribute.1
@@ -99,6 +124,7 @@ add_namespace = nguyen_dynasty_black_flag
 		}
 	}
 ########## Nguyen Sucession ##########
+	# LETS LOOK FOR AN HEIR
 	country_event = {
 		id = nguyen_dynasty_succession.1
 		title = nguyen_dynasty_succession.1.t
@@ -111,7 +137,185 @@ add_namespace = nguyen_dynasty_black_flag
 			has_government = autocracy
 		}
 
+		immediate = {
+			set_variable = { VIN_tuc_duc_bonked_concubines = 10 }
+		}
 		option = {
 			name = nguyen_dynasty_succession.1.a
+			country_event = { id = nguyen_dynasty_sucession.2 days = 55 }
 		}
 	}
+	# Bonk
+	country_event = {
+		id = nguyen_dynasty_succession.2
+		title = nguyen_dynasty_succession.2.t
+		desc = nguyen_dynasty_succession.2.d
+		
+		is_triggered_only = yes
+		fire_only_once = yes
+
+		trigger = {
+			has_government = autocracy
+		}
+
+		immediate = {
+			randomize_temp_variable = {
+				var = VIN_tuc_duc_bonked_concubines_now
+				min = 3
+				max = 5
+			}
+			round_temp_variable = VIN_tuc_duc_bonked_concubines_now
+			add_to_variable = { VIN_tuc_duc_bonked_concubines = VIN_tuc_duc_bonked_concubines_now }
+		}			
+
+		option = {
+			name = nguyen_dynasty_succession.2.a
+			if = {
+				limit = {
+					check_variable = { VIN_tuc_duc_bonked_concubines < 100 }
+				}
+				country_event = { id = nguyen_dynasty_sucession.2 days = 45 random_days = 10 }
+			}
+			else = {
+				country_event = { id = nguyen_dynasty_sucession.3 }
+			}
+		}
+	}
+	# Tuc Duc Gives Up on Heir. Adopts Orphan Nephews
+	country_event = {
+		id = nguyen_dynasty_succession.3
+		title = nguyen_dynasty_succession.3.t
+		desc = nguyen_dynasty_succession.3.d
+		
+		is_triggered_only = yes
+		fire_only_once = yes
+
+		trigger = {
+			has_government = autocracy
+		}
+
+		option = {
+			name = nguyen_dynasty_succession.3.a
+		}
+	}
+
+############ test
+	country_event = {
+		id = nguyen_test.1
+		title = nguyen_test.1.t
+		desc = nguyen_test.1.t
+
+		is_triggered_only = yes
+
+		option = {
+			name = nguyen_test.1
+			VNM = {
+				transfer_state = 671
+				transfer_state = 993
+				transfer_state = 1337
+				transfer_state = 992
+				set_cosmetic_tag = FRA_tonkin_protect
+				FRA = { puppet = PREV }
+			}
+			VIN = {
+				transfer_state = 1353
+				transfer_state = 1336
+				transfer_state = 286
+				transfer_state = 1395
+				transfer_state = 286
+				# transfer_state = 1395
+				set_cosmetic_tag = FRA_annam_protect
+				FRA = { puppet = PREV }
+			}
+			SVN = {
+				transfer_state = 1386
+				transfer_state = 998
+				set_cosmetic_tag = SPR_cochin_protect
+				SPR = { puppet = PREV }
+			}
+			CAM = {
+				transfer_state = 741
+				transfer_state = 991
+				transfer_state = 994
+				transfer_state = 995
+				set_cosmetic_tag = SPR_khmer_protect
+				SPR = { puppet = PREV }
+			}
+			LAO = {
+				transfer_state = 1351
+				transfer_state = 670
+				transfer_state = 1352
+				transfer_state = 988
+				set_cosmetic_tag = FRA_laos_protect
+				FRA = { puppet = PREV }
+			}
+			SIA = { transfer_state = 990 }
+		}
+	}
+	country_event = {
+		id = nguyen_test.2
+		title = nguyen_test.1.t
+		desc = nguyen_test.1.t
+
+		is_triggered_only = yes
+
+		option = {
+			name = nguyen_test.1
+			VNM = {
+				transfer_state = 671
+				transfer_state = 993
+				transfer_state = 1337
+				transfer_state = 992
+				set_cosmetic_tag = FRA_tonkin_protect
+				FRA = { puppet = PREV }
+			}
+			VIN = {
+				transfer_state = 1353
+				transfer_state = 1336
+				transfer_state = 286
+				transfer_state = 1395
+				transfer_state = 286
+				transfer_state = 1395
+				set_cosmetic_tag = FRA_annam_protect
+				FRA = { puppet = PREV }
+			}
+			SVN = {
+				transfer_state = 1386
+				transfer_state = 998
+				set_cosmetic_tag = FRA_cochin_protect
+				FRA = { puppet = PREV }
+			}
+			CAM = {
+				transfer_state = 741
+				transfer_state = 991
+				transfer_state = 994
+				transfer_state = 995
+				set_cosmetic_tag = FRA_khmer_protect
+				FRA = { puppet = PREV }
+			}
+			LAO = {
+				transfer_state = 1351
+				transfer_state = 670
+				transfer_state = 1352
+				transfer_state = 988
+				set_cosmetic_tag = FRA_laos_protect
+				FRA = { puppet = PREV }
+			}
+			SIA = { transfer_state = 990 }
+		}
+	}
+
+	################ Jarai
+
+country_event = {
+	id = jarai_tribal_politics.1
+	title = jarai_tribal_politics.1.t
+	desc = jarai_tribal_politics.1.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jarai_tribal_politics.1.a
+		JAI_Faction_Setup = yes
+	}
+}

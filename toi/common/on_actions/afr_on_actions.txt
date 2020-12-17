@@ -20,8 +20,20 @@ on_actions = {
 		effect = {
 			if = { 
 				limit = { 
-					FROM = { afr_is_tribal = yes } #OVERLORD
-					ROOT = { afr_is_tribal = yes } #SUBJECT
+					#OVERLORD
+					FROM = { 
+						OR = {
+							afr_is_tribal = yes
+							oceania_is_tribal = yes
+						}
+					} 
+					#SUBJECT
+					ROOT = { 
+						OR = {
+							afr_is_tribal = yes
+							oceania_is_tribal = yes
+						}
+					} 
 				}
 				ROOT = { 
 					set_variable = { var = afr_empire_subject_overlord value = FROM.id }
@@ -39,8 +51,20 @@ on_actions = {
 		effect = {
 			if = { 
 				limit = { 
-					FROM = { afr_is_tribal = yes } #OVERLORD
-					ROOT = { afr_is_tribal = yes } #SUBJECT
+					#OVERLORD
+					FROM = { 
+						OR = {
+							afr_is_tribal = yes
+							oceania_is_tribal = yes
+						}
+					} 
+					#SUBJECT
+					ROOT = { 
+						OR = {
+							afr_is_tribal = yes
+							oceania_is_tribal = yes
+						}
+					}
 				}
 				ROOT = { 
 					set_variable = { var = afr_empire_subject_overlord value = FROM.id }
@@ -85,7 +109,12 @@ on_actions = {
 		effect = {
 			if = {
 				limit = { 
-					ROOT = { afr_is_tribal = yes } 
+					ROOT = { 
+						OR = {
+							afr_is_tribal = yes
+							oceania_is_tribal = yes
+						}
+					}
 					FROM.FROM = { OWNER = { ROOT = { TAG = PREV } } }
 					FROM.FROM = { OWNER = { NOT = { has_variable = PREV.afr_empire_state_loyalty_var@THIS } } }
 					FROM.FROM = { OWNER = { NOT = { has_variable = PREV.afr_empire_state_autonomy_var@THIS } } }
@@ -143,7 +172,10 @@ on_actions = {
 					else_if = {
 						limit = { 
 							OWNER = {
-								has_idea = AF_T_small_kingdom
+								OR = {
+									has_idea = Oceania_small_kingdom
+									has_idea = AF_T_small_kingdom
+								}
 							}
 						}
 						OWNER = { add_to_variable = { var = PREV.afr_empire_state_autonomy_var@THIS value = 20 } }
@@ -152,6 +184,9 @@ on_actions = {
 						limit = { 
 							OWNER = {
 								OR = {
+									has_idea = Oceania_large_kingdom
+									has_idea = Oceania_eastern_oriented_regional_power
+									has_idea = Oceania_western_oriented_regional_power
 									has_idea = afr_large_kingdom
 									has_idea = afr_reforming_kingdom
 								}
@@ -219,7 +254,14 @@ on_actions = {
 				
 				#African Empire Mechanic
 				every_state = {
-					limit = { OWNER = { afr_is_tribal = yes } }
+					limit = { 
+						OWNER = { 
+							OR = {
+								afr_is_tribal = yes
+								oceania_is_tribal = yes
+							}
+						} 
+					}
 					if = {
 						limit = { THIS = { is_capital = yes } }
 						OWNER = { add_to_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 10 } }
@@ -276,7 +318,10 @@ on_actions = {
 						limit = { 
 							is_capital = no
 							OWNER = {
-								has_idea = AF_T_small_kingdom
+								OR = {
+									has_idea = Oceania_small_kingdom
+									has_idea = AF_T_small_kingdom
+								}
 							}
 						}
 						OWNER = { add_to_variable = { var = PREV.afr_empire_state_autonomy_var@THIS value = 20 } }
@@ -286,6 +331,9 @@ on_actions = {
 							is_capital = no
 							OWNER = {
 								OR = {
+									has_idea = Oceania_large_kingdom
+									has_idea = Oceania_eastern_oriented_regional_power
+									has_idea = Oceania_western_oriented_regional_power
 									has_idea = afr_large_kingdom
 									has_idea = afr_reforming_kingdom
 								}
@@ -311,6 +359,51 @@ on_actions = {
 								min = 0
 								max = 100
 							}
+						}
+					}
+					#State Industrialization
+					if = {
+						limit = {  
+							OR = {
+								arms_factory > 0
+								industrial_complex > 0
+								dockyard > 0
+							}
+						}
+						add_to_variable = { var = afr_empire_state_industrisation_progress value = 50 }
+					}
+					if = {
+						limit = {  
+							any_province_building_level = {
+								province = { limit_to_coastal = yes }
+								building = naval_base
+								level > 4
+							}
+						}
+						add_to_variable = { var = afr_empire_state_industrisation_progress value = 10 }
+					}
+					else_if = {
+						limit = {  
+							any_province_building_level = {
+								province = { limit_to_coastal = yes }
+								building = naval_base
+								level > 0
+							}
+						}
+						add_to_variable = { var = afr_empire_state_industrisation_progress value = 5 }
+					}
+					if = {
+						limit = {  
+							infrastructure > 5
+						}
+						add_to_variable = { var = afr_empire_state_industrisation_progress value = 20 }
+					}
+					if = {
+						limit = { has_variable = afr_empire_state_industrisation_progress }
+						clamp_variable = {
+								var = afr_empire_state_industrisation_progress
+								min = 0
+								max = 100
 						}
 					}
 					#Default Prosperity From Luxury Goods
@@ -406,6 +499,8 @@ on_actions = {
 							has_idea = afr_reforming_kingdom
 							has_idea = Oceania_large_kingdom
 							has_idea = Oceania_small_kingdom
+							has_idea = Oceania_eastern_oriented_regional_power
+							has_idea = Oceania_western_oriented_regional_power
 						}
 					}
 					if = {
@@ -425,6 +520,8 @@ on_actions = {
 							has_idea = afr_reforming_kingdom
 							has_idea = Oceania_large_kingdom
 							has_idea = Oceania_small_kingdom
+							has_idea = Oceania_eastern_oriented_regional_power
+							has_idea = Oceania_western_oriented_regional_power
 						}
 					}
 					if = {
@@ -591,6 +688,20 @@ on_actions = {
 						set_state_flag = afr_empire_politics_bountiful_harvest_boom_flag
 						afr_empire_politics_state_gain_immigration = yes
 						afr_empire_politics_state_gain_boom = yes
+					}
+				}
+				MOR = {
+					699 = {
+						#OWNER = { add_to_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = -1 } }
+						OWNER = { add_to_variable = { var = PREV.afr_empire_state_autonomy_var@THIS value = 80 } }
+					}
+					836 = {
+						#OWNER = { add_to_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = -1 } }
+						OWNER = { add_to_variable = { var = PREV.afr_empire_state_autonomy_var@THIS value = 80 } }
+					}
+					837 = {
+						#OWNER = { add_to_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = -1 } }
+						OWNER = { add_to_variable = { var = PREV.afr_empire_state_autonomy_var@THIS value = 80 } }
 					}
 				}
 			}

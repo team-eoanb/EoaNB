@@ -34,7 +34,11 @@ SPR_debt_management_category = {
 					if = {
 						limit = { has_country_flag = paying_debt }
 						clr_country_flag = paying_debt
-						activate_decision = eoanb_decision_debt_repayments_done
+						if = {
+							limit = { has_idea = egy_vic_debt_payments }
+							remove_ideas = egy_vic_debt_payments
+						}
+						#activate_decision = eoanb_decision_debt_repayments_done
 					}
 					else = { activate_mission = SPR_paying_debt_decision }
 					SPR = { country_event = { id = calc_spain_debt.1 days = 1 } }
@@ -46,6 +50,78 @@ SPR_debt_management_category = {
 }
 
 SPR_colonial_affairs_category = {
+
+	SPR_unclaimed_territory_menu_on = {
+		available = {
+			always = yes
+		}
+		allowed = { TAG = SPR }
+		cost = 0
+		fire_only_once = no
+		visible = { 
+			has_country_flag = SPR_unclaimed_territory_colonize_decisions
+			NOT = { has_country_flag = SPR_unclaimed_territory_menu_on_flag } 
+		}
+		complete_effect = {
+			custom_effect_tooltip = afr_empire_politics_state_autonomy_menu_on_effect
+			set_country_flag = SPR_unclaimed_territory_menu_on_flag
+		}
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	SPR_unclaimed_territory_menu_off = {
+		available = {
+			always = yes
+		}
+		allowed = { TAG = SPR }
+		cost = 0
+		fire_only_once = no
+		visible = { 
+			has_country_flag = SPR_unclaimed_territory_menu_on_flag 
+			is_ai = no
+		}
+		complete_effect = {
+			custom_effect_tooltip = afr_empire_politics_state_autonomy_menu_off_effect
+			clr_country_flag = SPR_unclaimed_territory_menu_on_flag
+		}
+	}
+	
+	SPR_unclaimed_territory_decision = {
+		available = {
+			#always = no
+		}
+		state_target = yes
+		allowed = { TAG = SPR }
+		visible = { has_country_flag = SPR_unclaimed_territory_menu_on_flag }
+		target_trigger = {
+			FROM = {
+				OR = {
+					STATE = 633
+					STATE = 639
+					STATE = 725
+					STATE = 645
+					STATE = 648
+					STATE = 632
+					STATE = 631
+					STATE = 630
+					STATE = 727
+					STATE = 642
+					STATE = 643
+				}
+			}
+		}
+		cost = 0
+		fire_only_once = yes
+		complete_effect = {
+			FROM = { state_event = { id = spain_unclaimed_territory_claim.1 } }
+		}
+		ai_will_do = {
+			base = 0
+		}
+	}
+
 	SPR_develop_puerto_rico_infrastructure_decision = {
 		available = {
 			owns_state = 686

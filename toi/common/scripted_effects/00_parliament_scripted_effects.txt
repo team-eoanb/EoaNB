@@ -1356,12 +1356,41 @@ eoanb_political_legitimacy_drift = {
 	
 	# Equilibrium Modifiers
 	if = {
-		limit = { has_offensive_war = yes }
+		limit = { is_subject = no }
+		if = {
+			limit = { has_offensive_war = yes }
+			add_to_variable = { political_legitimacy_equilibrium = -0.05 }
+		}
+		if = {
+			limit = { has_defensive_war = yes }
+			add_to_variable = { political_legitimacy_equilibrium = 0.03 }
+		}
+	}
+	else = {
 		add_to_variable = { political_legitimacy_equilibrium = -0.05 }
 	}
 	if = {
-		limit = { has_defensive_war = yes }
-		add_to_variable = { political_legitimacy_equilibrium = 0.03 }
+		limit = { 
+			OR = {
+				AND = {
+					tag = PAP
+					has_idea = religion_catholic
+				}
+				AND = {
+					OR = {
+						has_idea = religion_sunni
+						has_idea = religion_shiite
+						has_idea = religion_ibadi
+					}
+					controls_state = 679
+				}
+				AND = {
+					has_idea = religion_jewish
+					controls_state = 1332
+				}
+			}
+		}
+		add_to_variable = { political_legitimacy_equilibrium = 0.10 }
 	}
 	if = {
 		limit = {
@@ -1482,6 +1511,17 @@ eoanb_political_legitimacy_drift = {
 		limit = { check_variable = { pol_stability = 3 } }
 		add_to_variable = { political_legitimacy_equilibrium = 0.09 }
 	}
+	if = {
+		limit = {
+			OR = {
+				has_idea = VIN_Spirit_Dinh_Dao_Opposition1
+				has_idea = VIN_Spirit_Dinh_Dao_Opposition2
+				has_idea = VIN_Spirit_Dinh_Dao_Opposition3
+				has_idea = VIN_Spirit_Dinh_Dao_Opposition4
+			}
+		}
+		add_to_variable = { political_legitimacy_equilibrium = -0.15 }
+	}		
 	if = {
 		limit = { has_idea = edc_bankrupt }
 		add_to_variable = { political_legitimacy_equilibrium = -0.30 }

@@ -1,1 +1,2560 @@
-#PURGED - SHOULD YOU EVER NEED TO RESTORE THIS, GET IT FROM A GITHUB VERSION PRIOR TO OCTOBER 22, 2018
+#RESTORED - SHOULD YOU EVER NEED TO CHECK THIS, GET IT FROM A GITHUB VERSION PRIOR TO OCTOBER 22, 2018
+focus_tree = {
+	id = papal_focus
+	country = {
+		factor = 0
+		modifier = {
+			add = 20
+			tag = PAP
+		}
+	}
+	default = no
+
+	##Starting Focuses
+	focus = {
+		id = PAP_Roma_Caput_Mundi
+		icon = GFX_goal_focus_christianity_state_religion
+		cost = 35.00
+		x = 6
+		y = 0
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_political_power = 150
+		}
+
+	}
+
+	focus = {
+		id = PAP_Habemus_Papum
+		icon = GFX_goal_focus_religious_prayers
+		cost = 35.00
+		x = 6
+		y = 1
+
+		prerequisite = {
+			focus = PAP_Roma_Caput_Mundi
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = PAP_Piedmont_Agression
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		cost = 35.00
+		x = 6
+		y = 2
+
+		prerequisite = {
+			focus = PAP_Habemus_Papum
+		}
+		
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			PAP = {
+				add_opinion_modifier = { target = PIE modifier = PAP_piedmont_aggression} 
+			}
+		}
+	}
+	focus = {
+		id = PAP_mortara_case
+		icon = GFX_focus_papal_bull
+		cost = 70.00
+		x = 6
+		y = 3
+
+		prerequisite = {
+			focus = PAP_Piedmont_Agression
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
+		}
+		bypass = {
+			OR={
+				has_country_flag = PAP_kept_mortara
+				has_country_flag = PAP_returned_mortara
+			}
+		}
+		
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			
+		}
+	}
+
+	##Industrial Focuses
+	focus = {
+		id = PAP_Papal_Industry
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 35.00
+		x = 2
+		y = 0
+		
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			161 = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Open_Museums
+		icon = GFX_focus_generic_treaty
+		cost = 35.00
+		x = 0
+		y = 1
+
+		prerequisite = {
+			focus = PAP_Papal_Industry
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = PAP_Rome_Universities
+		icon = GFX_focus_research2
+		cost = 35.00
+		x = 0
+		y = 2
+
+		prerequisite = {
+			focus = PAP_Open_Museums
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = PAP_Better_Pharm
+		icon = GFX_focus_research
+		cost = 35.00
+		x = 2
+		y = 1
+
+		prerequisite = {
+			focus = PAP_Papal_Industry
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_tech_bonus = {
+				name = biochemistry_bonus
+				bonus = 0.5
+				uses = 1
+				category = biochemistry_tech 
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Develop_Industry
+		icon = GFX_focus_generic_industry_3
+		cost = 35.00
+		x = 2
+		y = 2
+
+		prerequisite = {
+			focus = PAP_Better_Pharm
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Roman_Marine_Investment
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 35.00
+		x = 4
+		y = 1
+
+		prerequisite = {
+			focus = PAP_Papal_Industry
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			751 = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Increase_Mediterranean_Trade
+		icon = GFX_goal_generic_trade
+		cost = 35.00
+		x = 4
+		y = 2
+
+		prerequisite = {
+			focus = PAP_Roman_Marine_Investment
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			add_ideas = PAP_Med_Trade
+		}
+	}
+	
+	focus = {
+		id = PAP_Holy_Industry
+		icon = GFX_goal_focus_fund_factory
+		cost = 35.00
+		x = 2
+		y = 3
+
+		prerequisite = {
+			focus = PAP_Rome_Universities
+		}
+		prerequisite = {
+			focus = PAP_Develop_Industry
+		}
+		prerequisite = {
+			focus = PAP_Increase_Mediterranean_Trade
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_timed_idea={
+				days = 3650
+				idea = PAP_God_in_Machine
+			}
+		}
+	}
+
+	##Immediate Action Branch
+	
+	
+	focus = {
+		id = PAP_mantle_once_discarded
+		icon = GFX_goal_focus_liberty
+		cost = 35.00
+		x = 10
+		y = 4
+
+		prerequisite = {
+			focus = PAP_mortara_case
+		}
+		available={
+			has_country_flag = PAP_returned_mortara
+		}
+
+		mutually_exclusive = {
+			focus = PAP_staying_course
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			add_popularity = { 
+				ideology = centrism
+				popularity = 0.10
+			}
+		}
+	}
+	focus = {
+		id = PAP_Immediate_Action
+		icon = GFX_focus_generic_little_entente
+		cost = 35.00
+		x = 10
+		y = 5
+
+		prerequisite = {
+			focus = PAP_mantle_once_discarded
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			add_stability = -0.15
+		}
+	}
+
+	focus = {
+		id = PAP_Bolognese_Rebels
+		icon = GFX_goal_generic_small_arms
+		cost = 35.00
+		x = 8
+		y = 6
+
+		prerequisite = {
+			focus = PAP_Immediate_Action
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+		available={
+			has_equipment = {
+				infantry_equipment_rifle_0 > 499
+			}
+		}
+
+		completion_reward =	{
+			add_stability = -0.05
+			add_political_power = 100
+			add_equipment_to_stockpile = { 
+				type = infantry_equipment_rifle_0
+				amount = -500
+			}
+			161={
+				set_state_flag = PAP_enforced_loyalty
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Fortify_Tuscan_Border
+		icon = GFX_goal_generic_defence
+		cost = 35.00
+		x = 12
+		y = 6
+
+		prerequisite = {
+			focus = PAP_Immediate_Action
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			157 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 11861
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_re_embracing_liberals
+		icon = GFX_goal_focus_democracy
+		cost = 35.00
+		x = 10
+		y = 6
+
+		prerequisite = {
+			focus = PAP_Immediate_Action
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			
+		}
+	}
+	
+
+	focus = {
+		id = PAP_Italianism
+		icon = GFX_goal_generic_political_pressure
+		cost = 35.00
+		x = 10
+		y = 7
+
+		prerequisite = {
+			focus = PAP_re_embracing_liberals
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+
+
+	##We Can't Do Anything Branch
+	focus = {
+		id = PAP_staying_course
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 35.00
+		x = 2
+		y = 4
+
+		prerequisite = {
+			focus = PAP_mortara_case
+		}
+		available={
+			has_country_flag = PAP_kept_mortara
+		}
+
+		mutually_exclusive = {
+			focus = PAP_mantle_once_discarded
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = PAP_Cant_Stop_Savoy
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 35.00
+		x = 2
+		y = 5
+
+		prerequisite = {
+			focus = PAP_staying_course
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = PAP_More_Clergy_Power
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 70.00
+		x = 0
+		y = 6
+
+		prerequisite = {
+			focus = PAP_Cant_Stop_Savoy
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = PAP_The_Church_Against_Reds
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		cost = 70.00
+		x = 0
+		y = 7
+
+		prerequisite = {
+			focus = PAP_More_Clergy_Power
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_popularity = { 
+				ideology = anarchism
+				popularity = -0.03 
+			}
+
+			add_popularity = { 
+				ideology = vanguard_communism
+				popularity = -0.03 
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Denounce_War
+		icon = GFX_goal_generic_improve_relations
+		cost = 70.00
+		x = 4
+		y = 6
+
+		prerequisite = {
+			focus = PAP_Cant_Stop_Savoy
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+			add_war_support = -0.05
+		}
+	}
+
+	focus = {
+		id = PAP_Hire_Swiss_Guards
+		icon = GFX_goal_generic_demand_territory
+		cost = 70.00
+		x = 4
+		y = 7
+
+		prerequisite = {
+			focus = PAP_Denounce_War
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			add_manpower = 100
+		}
+	}
+
+	focus = {
+		id = PAP_Fortify_Porta_Pia
+		icon = GFX_goal_generic_construct_military
+		cost = 70.00
+		x = 2
+		y = 6
+
+		prerequisite = {
+			focus = PAP_Cant_Stop_Savoy
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			751 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 9904
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Improve_Iron_Mines
+		icon = GFX_goal_generic_production
+		cost = 70.00
+		x = 2
+		y = 7
+
+		prerequisite = {
+			focus = PAP_Fortify_Porta_Pia
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_resource = { 
+				type = iron
+				amount = 8 
+				state = 2
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Focus_On_Latium
+		icon = GFX_goal_generic_political_pressure
+		cost = 70.00
+		x = 2
+		y = 8
+
+		prerequisite = {
+			focus = PAP_Improve_Iron_Mines
+		}
+
+		prerequisite = {
+			focus = PAP_The_Church_Against_Reds
+		}
+
+		prerequisite = {
+			focus = PAP_Hire_Swiss_Guards
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+			remove_state_core = 157
+			remove_state_core = 161
+		}
+	}
+
+	focus = {
+		id = PAP_React_Italian_Unification
+		icon = GFX_goal_focus_italian_identity
+		cost = 1.00
+		x = 22
+		y = 0
+
+		available = {
+			any_country={
+				limit={
+					OR={
+						tag = CBI
+						tag = NSC
+						tag = TUS
+						tag = PIE
+					}
+				}
+				has_country_flag = is_literally_italy
+			}
+		}
+
+		# prerequisite = {
+			# focus = PAP_Focus_On_Latium
+		# }
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_political_power = 150
+		}
+	}
+
+	##Papal - Italian Youtube Colab Part 1
+	focus = {
+		id = PAP_Colab_Italy
+		icon = GFX_goal_tripartite_pact
+		cost = 70.00
+		x = 18
+		y = 1
+
+		mutually_exclusive = {
+			focus = PAP_Avoid_Italy_Affairs
+		}
+
+		prerequisite = {
+			focus = PAP_React_Italian_Unification
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			add_opinion_modifier = {
+				target = ITA
+				modifier = PAP_italian_colab
+			}
+			ITA = {
+				add_opinion_modifier = {
+					target = PAP
+					modifier = PAP_italian_colab
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Italian_Language
+		icon = GFX_goal_generic_propaganda
+		cost = 70.00
+		x = 16
+		y = 2
+
+		prerequisite = {
+			focus = PAP_Colab_Italy
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = PAP_No_French_Troops
+		icon = GFX_goal_generic_axis_build_infantry
+		cost = 70.00
+		x = 18
+		y = 2
+
+		prerequisite = {
+			focus = PAP_Colab_Italy
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			FRA = {
+				diplomatic_relation = {
+					country = PAP
+					relation = guarantee 
+					active = no
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Denounce_Austria_In_Venice
+		icon = GFX_focus_generic_strike_at_democracy2
+		cost = 70.00
+		x = 20
+		y = 2
+
+		prerequisite = {
+			focus = PAP_Colab_Italy
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			add_opinion_modifier = {
+				target = AUS
+				modifier = PAP_austrian_venice
+			}
+			AUS = {
+				add_opinion_modifier = {
+					target = PAP
+					modifier = PAP_austrian_venice
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Connecting_Railway
+		icon = GFX_goal_generic_construct_infrastructure 
+		cost = 70.00
+		x = 18
+		y = 3
+
+		prerequisite = {
+			focus = PAP_No_French_Troops
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+##The neoguelphism project
+	focus = {
+		id = PAP_Neoguelphism
+		icon = GFX_goal_focus_ally_pope
+		cost = 35.00
+		x = 5
+		y = 8
+
+
+		mutually_exclusive = {
+			focus = PAP_crowning_liberal_italy
+		}
+
+		prerequisite = {
+			focus = PAP_Italianism
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = PAP_Collaborate_With_Democrats
+		icon = GFX_focus_generic_self_management
+		cost = 35.00
+		x = 5
+		y = 9
+
+		prerequisite = {
+			focus = PAP_Neoguelphism
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.1
+			}
+			add_popularity = {
+				ideology = collectivist_socialism
+				popularity = 0.1
+			}
+		}
+	}
+	focus = {
+		id = PAP_Get_French_Support
+		icon = GFX_focus_generic_little_entente
+		cost = 35.00
+		x = 5
+		y = 10
+
+		prerequisite = {
+			focus = PAP_Collaborate_With_Democrats
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			PAP = {
+				add_opinion_modifier = { target = FRA modifier = PAP_french_support} 
+			}
+			FRA = {
+				add_opinion_modifier = { target = PAP modifier = PAP_french_support} 
+			}
+		}
+	}
+	focus = {
+		id = PAP_Cardinals_Savoy
+		icon = GFX_focus_generic_concessions
+		cost = 70.00
+		x = 3
+		y = 10
+
+		available = {
+			country_exists = PIE
+		}
+
+		prerequisite = {
+			focus = PAP_Neoguelphism
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			PIE = {
+				add_popularity = { 
+					ideology = fundamentalism
+					popularity = 0.15 
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Cardinals_Italy_States
+		icon = GFX_goal_generic_improve_relations
+		cost = 70.00
+		x = 7
+		y = 10
+
+		prerequisite = {
+			focus = PAP_Neoguelphism
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			if={
+				limit={
+					MOD = {exists = yes}
+				}
+				MOD = {
+					add_popularity = { 
+						ideology = fundamentalism
+						popularity = 0.15 
+					}
+				}
+			}
+			if={
+				limit={
+					TUS = {exists = yes}
+				}
+				TUS = {
+					add_popularity = { 
+						ideology = fundamentalism
+						popularity = 0.15 
+					}
+				}
+			}
+			if={
+				limit={
+					NSC = {exists = yes}
+				}
+				NSC = {
+					add_popularity = { 
+						ideology = fundamentalism
+						popularity = 0.15 
+					}
+				}
+			}
+			if={
+				limit={
+					PRM = {exists = yes}
+				}
+				PRM = {
+					add_popularity = { 
+						ideology = fundamentalism
+						popularity = 0.15 
+					}
+				}
+			}
+			if={
+				limit={
+					LVN = {exists = yes}
+				}
+				LVN = {
+					add_popularity = { 
+						ideology = fundamentalism
+						popularity = 0.15 
+					}
+				}
+			}
+		}
+	}
+
+##No savoy
+	focus = {
+		id = PAP_Eliminate_Savoy
+		icon = GFX_goal_generic_demand_territory
+		cost = 70.00
+		x = 2
+		y = 11
+
+		prerequisite = {
+			focus = PAP_Cardinals_Savoy
+		}
+
+		prerequisite = {
+			focus = PAP_Get_French_Support
+		}
+
+		mutually_exclusive = {
+			focus = PAP_Step_Towards_Confederations
+		}
+		
+		available={
+			count_triggers = {
+				amount = 2
+				TUS={exists = no}
+				NSC={exists = no}
+				AND={
+					NOT={owns_state = 157}
+					NOT={owns_state = 161}
+				}
+				PIE={owns_state = 159}
+			}
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			PAP = {
+				add_opinion_modifier = { target = PIE modifier = PAP_no_savoy} 
+			}
+		}
+	}
+	focus = {
+		id = PAP_Gain_Support_South
+		icon = GFX_goal_molotov_ribbentrop_pact
+		cost = 70.00
+		x = 3
+		y = 12
+
+		prerequisite = {
+			focus = PAP_Eliminate_Savoy
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			117={
+				owner = {
+					add_popularity = { 
+						ideology = fundamentalism
+						popularity = 0.10
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Influence_Lost_Regions
+		icon = GFX_goal_generic_propaganda
+		cost = 70.00
+		x = 1
+		y = 12
+
+		prerequisite = {
+			focus = PAP_Eliminate_Savoy
+		}
+		bypass={
+			owns_state = 157
+			owns_state = 161
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			157={
+				if={
+					limit={owner={NOT={tag=PAP}}}
+					owner = {
+						add_popularity = { 
+							ideology = fundamentalism
+							popularity = 0.10
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Start_Civil_War
+		icon = GFX_goal_generic_military_sphere
+		cost = 70.00
+		x = 2
+		y = 13
+
+		prerequisite = {
+			focus = PAP_Influence_Lost_Regions
+		}
+
+		prerequisite = {
+			focus = PAP_Gain_Support_South
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			PAP = { 
+				transfer_state = 2 
+			 	transfer_state = 751 
+			    transfer_state = 785 
+			    transfer_state = 161 
+			    transfer_state = 157 
+			}
+			if={
+				limit={
+					NSC = {exists = no}
+				}
+				NSC = { 
+					transfer_state = 812 
+					transfer_state = 117 
+					transfer_state = 997
+					transfer_state = 156
+					transfer_state = 115
+				}
+			}
+
+			PAP = {
+				puppet = NSC
+			}
+
+			PAP = {
+				declare_war_on = { 
+					target = PIE 
+					type = annex_everything 
+				}
+			}
+
+			NSC = {
+				declare_war_on = { 
+					target = PIE 
+					type = annex_everything 
+				}
+			}
+		}
+	}
+
+##Confederations
+	focus = {
+		id = PAP_Step_Towards_Confederations
+		icon = GFX_focus_generic_treaty
+		cost = 70.00
+		x = 8
+		y = 11
+
+		prerequisite = {
+			focus = PAP_Cardinals_Italy_States
+		}
+
+		prerequisite = {
+			focus = PAP_Get_French_Support
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			PIE = {
+				add_popularity = { 
+					ideology = fundamentalism
+					popularity = 0.10 
+				}
+			}
+
+			MOD = {
+				add_popularity = { 
+					ideology = fundamentalism
+					popularity = 0.10 
+				}
+			}
+
+			TUS = {
+				add_popularity = { 
+					ideology = fundamentalism
+					popularity = 0.10 
+				}
+			}
+
+			NSC = {
+				add_popularity = { 
+					ideology = fundamentalism
+					popularity = 0.10
+				}
+			}
+
+			PRM = {
+				add_popularity = { 
+					ideology = fundamentalism
+					popularity = 0.10
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Convert_North
+		icon = GFX_goal_generic_political_pressure_green
+		cost = 70.00
+		x = 6
+		y = 12
+
+		prerequisite = {
+			focus = PAP_Step_Towards_Confederations
+		}
+
+		available={
+			NOT={has_country_flag = PAP_nneoguelphism_failed}
+		}
+		ai_will_do = {
+			factor = 4 
+		}
+
+		completion_reward =	{
+			PIE = {
+				country_event = {
+					days = 1
+					id = papal.9
+				}
+			}
+			LVN = {
+				country_event = {
+					days = 1
+					id = papal.10
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Convert_South
+		icon = GFX_goal_generic_political_pressure_blue
+		cost = 70.00
+		x = 10
+		y = 12
+
+		prerequisite = {
+			focus = PAP_Step_Towards_Confederations
+		}
+		available={
+			NOT={has_country_flag = PAP_nneoguelphism_failed}
+		}
+
+		ai_will_do = {
+			factor = 2 
+		}
+		bypass={
+			NSC={exists = no}
+			CBI={exists = no}
+		}
+
+		completion_reward =	{
+			if={
+				limit={NSC={exists = yes}}
+				NSC = {
+					country_event = {
+						days = 1
+						id = papal.9
+					}
+				}
+			}
+			else_if={
+				limit={CBI={exists = yes}}
+				CBI = {
+					country_event = {
+						days = 1
+						id = papal.9
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Convert_central
+		icon = GFX_goal_generic_political_pressure
+		cost = 70.00
+		x = 8
+		y = 12
+
+		prerequisite = {
+			focus = PAP_Step_Towards_Confederations
+		}
+		available={
+			NOT={has_country_flag = PAP_nneoguelphism_failed}
+		}
+		
+
+		ai_will_do = {
+			factor = 2 
+		}
+		bypass={
+			TUS = {exists = no}
+			MOD = {exists = no}
+			PRM = {exists = no}
+		}
+
+		completion_reward =	{
+			TUS = {
+				country_event = {
+					days = 1
+					id = papal.9
+				}
+			}
+
+			MOD = {
+				country_event = {
+					days = 1
+					id = papal.9
+				}
+			}
+
+			PRM = {
+				country_event = {
+					days = 1
+					id = papal.9
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_binding_states_together
+		icon = GFX_goal_focus_one_people_one_nation
+		cost = 70.00
+		x = 8
+		y = 13
+
+		prerequisite = {
+			focus = PAP_Convert_central
+		}
+		prerequisite = {
+			focus = PAP_Convert_North
+		}
+		prerequisite = {
+			focus = PAP_Convert_South
+		}
+		available={
+			has_war = no
+			NOT={has_country_flag = PAP_nneoguelphism_failed}
+		}
+
+		ai_will_do = {
+			factor = 2 
+		}
+
+		completion_reward =	{
+			
+		}
+	}
+	focus = {
+		id = PAP_ICC
+		icon = GFX_focus_PAP_catholic_states
+		cost = 70.00
+		x = 5
+		y = 14
+
+		available = {
+			has_completed_focus = PAP_Holy_Industry
+			OR={
+				AND={
+					owns_state = 812
+					owns_state = 117
+					owns_state = 997
+					owns_state = 156
+					owns_state = 115
+				}
+				NSC={is_puppet_of = ROOT}
+			}
+			OR={
+				AND={
+					owns_state = 981
+					owns_state = 158
+					owns_state = 114
+				}
+				PIE={is_puppet_of = ROOT}
+			}
+			OR={
+				AND={
+					owns_state = 982
+					owns_state = 159
+				}
+				LVN={is_puppet_of = ROOT}
+			}
+			OR={
+				owns_state = 162
+				TUS={is_puppet_of = ROOT}
+			}
+			OR={
+				owns_state = 813
+				MOD={is_puppet_of = ROOT}
+			}
+			OR={
+				owns_state = 808
+				PRM={is_puppet_of = ROOT}
+			}
+			
+		}
+		prerequisite = {
+			focus = PAP_binding_states_together
+			focus = PAP_Start_Civil_War
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			custom_effect_tooltip = PAP_gain_cores_on_italy
+			hidden_effect={
+			    add_state_core = 812 
+			 	add_state_core = 117 
+			    add_state_core = 997
+			    add_state_core = 156
+			    add_state_core = 115
+			    add_state_core = 981
+				add_state_core = 158
+				add_state_core = 114
+				add_state_core = 982
+				add_state_core = 159
+				add_state_core = 162
+				add_state_core = 813
+				add_state_core = 808
+				add_state_core = 160
+			}
+				
+				if={
+					limit={
+						PIE={
+							is_puppet_of = PAP
+						}
+					}
+					annex_country = { 
+						target = PIE 
+						transfer_troops = yes
+					}
+				}
+				if={
+					limit={
+						TUS={
+							is_puppet_of = PAP
+						}
+					}
+					annex_country = { target = TUS transfer_troops = yes}
+				}
+				if={
+					limit={
+						NSC={
+							is_puppet_of = PAP
+						}
+					}
+					annex_country = { target = NSC transfer_troops = yes}
+				}
+				if={
+					limit={
+						PRM={
+							is_puppet_of = PAP
+						}
+					}
+					annex_country = { target = PRM transfer_troops = yes}
+				}
+				if={
+					limit={
+						MOD={
+							is_puppet_of = PAP
+						}
+					}
+					annex_country = { target = MOD transfer_troops = yes}
+				}
+				if={
+					limit={
+						LVN={
+							is_puppet_of = PAP
+						}
+					}
+					annex_country = { target = LVN transfer_troops = yes}
+				}
+			set_cosmetic_tag = ITA_Catholic
+			set_country_flag = is_literally_italy
+			news_event = {id=ita.8}
+			hidden_effect={
+				load_focus_tree = italy_focus
+				add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
+			}
+		}
+	}
+##Mazzini's Path
+	focus = {
+		id = PAP_crowning_liberal_italy
+		icon = GFX_goal_focus_support_conservatism
+		cost = 35.00
+		x = 14
+		y = 8
+
+
+		mutually_exclusive = {
+			focus = PAP_Neoguelphism
+		}
+
+		prerequisite = {
+			focus = PAP_Italianism
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = PAP_finding_suitable_candidate
+		icon = GFX_focus_generic_military_academy
+		cost = 35.00
+		x = 16
+		y = 9
+
+		prerequisite = {
+			focus = PAP_crowning_liberal_italy
+		}
+		mutually_exclusive = {
+			focus = PAP_Mazzinis_Path
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			country_event={
+				id = papal.21
+			}
+		}
+	}
+	focus = {
+		id = PAP_backing_throne
+		icon = GFX_focus_generic_military_academy
+		cost = 70.00
+		x = 16
+		y = 10
+
+		prerequisite = {
+			focus = PAP_finding_suitable_candidate
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = PAP_bless_our_cadidates_right_to_italy
+		icon = GFX_focus_generic_military_academy
+		cost = 70.00
+		x = 16
+		y = 11
+
+		prerequisite = {
+			focus = PAP_backing_throne
+		}
+		prerequisite = {
+			focus = PAP_Stronger_Italian_Ties
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = PAP_Mazzinis_Path
+		icon = GFX_focus_generic_military_academy
+		cost = 35.00
+		x = 12
+		y = 9
+
+		prerequisite = {
+			focus = PAP_crowning_liberal_italy
+		}
+		mutually_exclusive={
+			focus = PAP_finding_suitable_candidate
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = PAP_Rally_Against_Church
+		icon = GFX_goal_generic_demand_territory
+		cost = 35.00
+		x = 10
+		y = 10
+
+		prerequisite = {
+			focus = PAP_Mazzinis_Path
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			add_stability = -0.05
+			add_popularity = { 
+				ideology = fundamentalism
+				popularity = -0.10 
+			}
+		}
+	}
+	focus = {
+		id = PAP_Stronger_Italian_Ties
+		icon = GFX_goal_generic_improve_relations
+		cost = 35.00
+		x = 14
+		y = 10
+
+		prerequisite = {
+			focus = PAP_Mazzinis_Path
+			focus = PAP_finding_suitable_candidate
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			set_temp_variable = { political_legitimacy_change = 0.1 }
+			eoanb_political_legitimacy_change = yes
+		}
+	}
+	focus = {
+		id = PAP_Get_Republican_Support
+		icon = GFX_goal_focus_republican_spirit
+		cost = 35.00
+		x = 12
+		y = 10
+
+		prerequisite = {
+			focus = PAP_Mazzinis_Path
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			add_popularity = { 
+				ideology = centrism
+				popularity = 0.10
+			}
+			add_popularity = { 
+				ideology = radical_democracy
+				popularity = 0.10
+			}
+			add_popularity = { 
+				ideology = social_egalitarianism
+				popularity = 0.10
+			}
+		}
+	}
+    focus = {
+		id = PAP_Coup_Against_Clergy
+		icon = GFX_focus_violent_revolution
+		cost = 70.00
+		x = 12
+		y = 11
+
+		prerequisite = {
+			focus = PAP_Get_Republican_Support
+		}
+
+		prerequisite = {
+			focus = PAP_Rally_Against_Church
+		}
+
+		prerequisite = {
+			focus = PAP_Stronger_Italian_Ties
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_popularity = { 
+				ideology = radical_democracy
+				popularity = 0.20
+			}
+			add_popularity = { 
+				ideology = fundamentalism
+				popularity = -0.40
+			}
+			set_politics = { 
+				ruling_party = radical_democracy
+				elections_allowed = no
+			}
+			swap_ideas={
+				add_idea=parliamentary_republic
+				remove_idea=absolute_monarchy
+			}
+			set_cosmetic_tag = PAP_RRP
+			country_event = {id = papal.11}
+		}
+	}
+	focus = {
+		id = PAP_Second_Roman_Republic
+		icon = GFX_goal_focus_ita_republic_celebration
+		cost = 35.00
+		x = 12
+		y = 12
+
+		prerequisite = {
+			focus = PAP_Coup_Against_Clergy
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_political_power = 150
+			add_stability = 0.10
+			#country_event = {}
+		}
+	}
+	focus = {
+		id = PAP_rally_peninsula
+		icon = GFX_goal_focus_fund_partisans
+		cost = 70.00
+		x = 12
+		y = 13
+
+		prerequisite = {
+			focus = PAP_Second_Roman_Republic
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			set_country_flag = PAP_rally_republicans_decisions
+			country_event = {id=papal.18}
+		}
+	}
+	focus = {
+		id = PAP_Unify_With_Italy
+		icon = GFX_focus_generic_treaty
+		cost = 70.00
+		x = 12
+		y = 14
+
+		prerequisite = {
+			focus = PAP_rally_peninsula
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			hidden_effect={
+				add_state_core = 2 
+				add_state_core = 751 
+				add_state_core = 785 
+				add_state_core = 161 
+				add_state_core = 157 
+				add_state_core = 812 
+				add_state_core = 117 
+				add_state_core = 997
+				add_state_core = 156
+				add_state_core = 115
+				add_state_core = 981
+				add_state_core = 158
+				add_state_core = 114
+				add_state_core = 982
+				add_state_core = 159
+				add_state_core = 162
+				add_state_core = 813
+				add_state_core = 808
+				add_state_core = 159
+				add_state_core = 982
+				add_state_core = 160
+				add_state_claim = 1234
+			}
+			custom_effect_tooltip = PAP_gain_cores_on_italy
+		}
+	}
+	focus = {
+		id = PAP_ave_roma
+		icon = GFX_goal_focus_form_italy
+		cost = 70.00
+		x = 12
+		y = 15
+
+		prerequisite = {
+			focus = PAP_Unify_With_Italy
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+		available={
+			PIE={exists = no}
+			CBI={exists = no}
+			TUS={exists = no}
+			MOD={exists = no}
+			PRM={exists = no}
+			NSC={exists = no}
+		}
+
+		completion_reward =	{
+			news_event = {id=ita.8}
+			set_country_flag = is_literally_italy
+			hidden_effect={
+				load_focus_tree = italy_focus
+				add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
+			}
+		}
+	}
+    ##No Colab for you Italy
+	focus = {
+		id = PAP_Avoid_Italy_Affairs
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 70.00
+		x = 26
+		y = 1
+
+		mutually_exclusive = {
+			focus = PAP_Colab_Italy
+		}
+
+		prerequisite = {
+			focus = PAP_React_Italian_Unification
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = PAP_Reaffirm_French_Ties
+		icon = GFX_goal_focus_ally_FRA
+		cost = 70.00
+		x = 26
+		y = 2
+
+		prerequisite = {
+			focus = PAP_Avoid_Italy_Affairs
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_opinion_modifier = { target = FRA modifier = PAP_reaffirm_french_ties}
+			FRA = {
+				add_opinion_modifier = { target = PAP  modifier = PAP_reaffirm_french_ties}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Catholic_Missions_Iberia
+		icon = GFX_goal_generic_national_unity
+		cost = 70.00
+		x = 22
+		y = 3
+
+		prerequisite = {
+			focus = PAP_Reaffirm_French_Ties
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_opinion_modifier = { 
+				target = POR
+			 	modifier = PAP_catholic_missions_iberia 
+			 }
+			POR = {
+				add_opinion_modifier = { target = PAP modifier = PAP_catholic_missions_iberia}
+			}
+			add_opinion_modifier = { target = SPR modifier = PAP_catholic_missions_iberia}
+			SPR = {
+				add_opinion_modifier = { target = PAP  modifier = PAP_catholic_missions_iberia}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Catholic_Missions_Austria
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 70.00
+		x = 24
+		y = 3
+
+		prerequisite = {
+			focus = PAP_Reaffirm_French_Ties
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_opinion_modifier = { target = AUS modifier = PAP_catholic_missions_austria}
+			AUS = {
+				add_opinion_modifier = { target = PAP modifier = PAP_catholic_missions_austria}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Missionaries_Africa
+		icon = GFX_focus_generic_self_management
+		cost = 70.00
+		x = 26
+		y = 3
+
+		prerequisite = {
+			focus = PAP_Reaffirm_French_Ties
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = PAP_Fund_European_Expeditions
+		icon = GFX_focus_generic_military_academy
+		cost = 70.00
+		x = 26
+		y = 4
+
+		prerequisite = {
+			focus = PAP_Missionaries_Africa
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			PRS = {
+				add_equipment_to_stockpile = { 
+					type = infantry_equipment_rifle_0
+					amount = 300
+				}
+			}
+			BEL = {
+				add_equipment_to_stockpile = { 
+					type = infantry_equipment_rifle_0
+					amount = 300
+				}
+			}
+			FRA = {
+				add_equipment_to_stockpile = { 
+					type = infantry_equipment_rifle_0
+					amount = 300
+				}
+			}
+			SPR = {
+				add_equipment_to_stockpile = { 
+					type = infantry_equipment_rifle_0
+					amount = 300
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Influence_Catholic_Germany
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 70.00
+		x = 24
+		y = 4
+
+		prerequisite = {
+			focus = PAP_Catholic_Missions_Austria
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			OLD = {add_opinion_modifier = {target = PAP modifier = PAP_influence_catholic_germany}
+			}
+			BAV = {add_opinion_modifier = {target = PAP modifier = PAP_influence_catholic_germany}
+			}
+			WUR = {add_opinion_modifier = {target = PAP modifier = PAP_influence_catholic_germany}
+			}
+			BAD = {add_opinion_modifier = {target = PAP modifier = PAP_influence_catholic_germany}
+			}
+			HSD = {add_opinion_modifier = {target = PAP modifier = PAP_influence_catholic_germany}
+			}
+			FRK = {add_opinion_modifier = {target = PAP modifier = PAP_influence_catholic_germany}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Cathedrals_In_America
+		icon = GFX_goal_generic_construct_civilian
+		cost = 70.00
+		x = 22
+		y = 4
+
+		prerequisite = {
+			focus = PAP_Catholic_Missions_Iberia
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			every_country={
+				limit={
+					OR ={
+					capital_scope = {
+						is_on_continent = south_america
+					}
+						tag = MEX
+						tag = MXE
+					}
+					exists = yes
+				}
+				add_opinion_modifier = { target = PAP modifier = PAP_cathedrals_in_america}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Influence_Italian_Politics
+		icon = GFX_goal_tripartite_pact
+		cost = 70.00
+		x = 24
+		y = 5
+
+		prerequisite = {
+			focus = PAP_Influence_Catholic_Germany
+		}
+
+		prerequisite = {
+			focus = PAP_Cathedrals_In_America
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			if={
+				limit={
+					any_country ={
+						has_country_flag = is_literally_italy
+					}
+				}
+				ITA = {
+					add_popularity = { 
+						ideology = fundamentalism
+						popularity = 0.03
+					}
+					add_popularity = { 
+						ideology = autocracy
+						popularity = 0.03
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Churches_In_Australia
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 70.00
+		x = 26
+		y = 5
+
+		prerequisite = {
+			focus = PAP_Fund_European_Expeditions
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			NSW = {
+				add_opinion_modifier = {target = PAP modifier = PAP_churches_in_australia}
+			}
+			TSM = {
+				add_opinion_modifier = {target = PAP modifier = PAP_churches_in_australia}
+			}
+			VIC = {
+				add_opinion_modifier = {target = PAP modifier = PAP_churches_in_australia}
+			}
+			SAS = {
+				add_opinion_modifier = {target = PAP modifier = PAP_churches_in_australia}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Mediterranean_Merchants
+		icon = GFX_goal_generic_consumer_goods
+		cost = 70.00
+		x = 28
+		y = 3
+
+		prerequisite = {
+			focus = PAP_Reaffirm_French_Ties
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_ideas = PAP_Med_Merch
+		}
+	}
+	focus = {
+		id = PAP_Develop_Roman_Navy
+		icon = GFX_goal_generic_navy_battleship
+		cost = 70.00
+		x = 28
+		y = 4
+
+		prerequisite = {
+			focus = PAP_Mediterranean_Merchants
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Roman_Roads
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 70.00
+		x = 30
+		y = 3
+
+		prerequisite = {
+			focus = PAP_Reaffirm_French_Ties
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Roman_Industry
+		icon = GFX_goal_generic_construct_civilian
+		cost = 70.00
+		x = 30
+		y = 4
+
+		prerequisite = {
+			focus = PAP_Roman_Roads
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Bellum_Preparations
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 70.00
+		x = 28
+		y = 5
+
+		prerequisite = {
+			focus = PAP_Roman_Industry
+		}
+
+		prerequisite = {
+			focus = PAP_Develop_Roman_Navy
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Pacific_Positions
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 70.00
+		x = 28
+		y = 6
+
+		prerequisite = {
+			focus = PAP_Churches_In_Australia
+		}
+
+		mutually_exclusive = {
+			focus = PAP_Strong_Church
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		completion_reward =	{
+			add_war_support = -0.05
+		}
+	}
+
+	focus = {
+		id = PAP_Peace_Doctrine
+		icon = GFX_focus_generic_concessions
+		cost = 70.00
+		x = 28
+		y = 7
+
+		prerequisite = {
+			focus = PAP_Pacific_Positions
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+			add_political_power = 30
+		}
+	}
+	focus = {
+		id = PAP_Pacem_Mundi
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 70.00
+		x = 28
+		y = 8
+
+		prerequisite = {
+			focus = PAP_Peace_Doctrine
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_stability = 0.10
+			add_war_support = -0.25
+		}
+	}
+
+	focus = {
+		id = PAP_Strong_Church
+		icon = GFX_goal_generic_demand_territory
+		cost = 70.00
+		x = 24
+		y = 6
+
+		prerequisite = {
+			focus = PAP_Churches_In_Australia
+		}
+
+		mutually_exclusive = {
+			focus = PAP_Pacific_Positions
+		}
+		available={
+			always = no
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = PAP_Denounce_The_Turks
+		icon = GFX_goal_generic_political_pressure
+		cost = 70.00
+		x = 26
+		y = 7
+
+		prerequisite = {
+			focus = PAP_Strong_Church
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			add_opinion_modifier = {target = OTO modifier = PAP_denounce_turkey}
+		}
+	}
+
+	focus = {
+		id = PAP_Holy_Land_Ultimatum
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		cost = 70.00
+		x = 26
+		y = 8
+
+		prerequisite = {
+			focus = PAP_Denounce_The_Turks
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			OTO = {
+				country_event = {
+					days = 1
+					id = papal.14
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PAP_Stronger_Ties_Austria
+		icon = GFX_goal_generic_improve_relations
+		cost = 70.00
+		x = 24
+		y = 7
+
+		prerequisite = {
+			focus = PAP_Strong_Church
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			add_opinion_modifier = {target = AUS modifier = PAP_stronger_ties_austria}
+			AUS = {add_opinion_modifier = {target = PAP modifier = PAP_stronger_ties_austria}}
+		}
+	}
+
+	focus = {
+		id = PAP_The_Vienna_Alliance
+		icon = GFX_goal_generic_alliance
+		cost = 70.00
+		x = 24
+		y = 8
+
+		prerequisite = {
+			focus = PAP_Stronger_Ties_Austria
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		completion_reward =	{
+			create_faction = "Vienna Alliance"
+			AUS = {
+				country_event = {
+					days = 1
+					id = papal.15
+				}
+			}
+		}
+	}
+	focus = {
+		id = PAP_Denounce_Protestant_Nations
+		icon = GFX_goal_demand_sudetenland
+		cost = 70.00
+		x = 22
+		y = 7
+
+		prerequisite = {
+			focus = PAP_Strong_Church
+		}
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward =	{
+			add_opinion_modifier = {target = ENG modifier = PAP_denounce_protestant_nations}
+			add_opinion_modifier = {target = PRS modifier = PAP_denounce_protestant_nations}
+		}
+	}
+	focus = {
+		id = PAP_The_Irish_Proposal
+		icon = GFX_goal_generic_major_war
+		cost = 70.00
+		x = 22
+		y = 8
+
+		prerequisite = {
+			focus = PAP_Denounce_Protestant_Nations
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward =	{
+			ENG = {
+				country_event = {
+					days = 1
+					id = papal.16
+				}
+			}
+		}
+	}
+}

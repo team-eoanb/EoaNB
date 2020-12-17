@@ -56,6 +56,13 @@ focus_tree = {
 		cost = 35.00
 		x = 28
 		y = 0
+		availaible = {
+			OR = {
+				has_completed_focus = PIE_Risorgimento
+				has_completed_focus = PIE_go_with_Garibaldi_Focus
+			}
+			
+		}
 			completion_reward = {
 					random_owned_controlled_state = {
 							limit = {
@@ -102,6 +109,13 @@ focus_tree = {
 		cost = 35.00
 		x = 33
 		y = 0
+		availaible = {
+			OR = {
+				has_completed_focus = PIE_Risorgimento
+				has_completed_focus = PIE_go_with_Garibaldi_Focus
+			}
+			
+		}
 			completion_reward = {
 					add_war_support = 0.05
 					army_experience = 10
@@ -154,7 +168,11 @@ focus_tree = {
 		}
 		x = 8
 		y = 2
-
+		bypass = {
+			NOT = {
+				country_exists = TUS
+			}
+		}
 		completion_reward = {
 			custom_effect_tooltip = PIE_Decision_Unlock_Deal_with_Tuscany
 		}
@@ -203,7 +221,10 @@ focus_tree = {
 			focus = PIE_A_Deal_with_Napoleon
 		}
 		available = {
-			always = no
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
 		}
 		x = 1
 		y = 3
@@ -224,7 +245,10 @@ focus_tree = {
 			focus = PIE_The_Carboneria
 		}
 		available = {
-			always = no
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
 		}
 		x = 5
 		y = 3
@@ -246,7 +270,10 @@ focus_tree = {
 		y = 4
 
 		available = {
-			always = no
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
 		}
 
 		completion_reward = {
@@ -258,6 +285,9 @@ focus_tree = {
 								has_completed_focus = FRA_cut_ties_piedmont
 							}
 						
+					}
+					NOT = {
+						has_completed_focus = PIE_The_Carboneria
 					}
 				}
 				country_event = {
@@ -273,6 +303,9 @@ focus_tree = {
 								has_completed_focus = FRA_cut_ties_piedmont
 							}
 						
+					}
+					NOT = {
+						has_completed_focus = PIE_The_Carboneria
 					}
 				}
 				country_event = {
@@ -309,6 +342,7 @@ focus_tree = {
 		
 		x = 8
 		y = 1
+
 			completion_reward = {
 				custom_effect_tooltip = PIE_Handle_the_Central_States_Decisions_Unlock
 				hidden_effect = {
@@ -344,7 +378,11 @@ focus_tree = {
 		}
 		x = 8
 		y = 3
-
+		bypass = {
+			NOT = {
+				country_exists = TUS
+			}
+		}
 		completion_reward = {
 			custom_effect_tooltip = PIE_Decision_Unlock_Deal_with_Tuscany
 		}
@@ -360,7 +398,15 @@ focus_tree = {
 		}
 		x = 10
 		y = 3
-
+		bypass = {
+			NOT = {
+				OR = {
+					country_exists = PRM
+					country_exists = MOD
+				}
+				
+			}
+		}
 		completion_reward = {
 			custom_effect_tooltip = PIE_Decision_Unlock_Tuscany_Formation_Central_States
 		}
@@ -385,6 +431,7 @@ focus_tree = {
 		y = 4
 
 		completion_reward = {
+			
 			TUS = {
 				add_popularity = {
     				ideology = centrism
@@ -412,7 +459,11 @@ focus_tree = {
 		}
 		x = 9
 		y = 5
-
+		bypass = {
+			NOT = {
+				country_exists = TUS
+			}
+		}
 		completion_reward = {
 			annex_country = {
 				target = TUS
@@ -457,8 +508,8 @@ focus_tree = {
 
 		completion_reward = {
 			hidden_effect = {
-				load_oob = PIE_French_Army_Full
-				load_oob = PIE_FRANCEAID
+				load_oob = "PIE_French_Army_Full"
+				load_oob = "PIE_FRANCEAID"
 			}
 			custom_effect_tooltip = PIE_Ensure_French_Aid_Focus_reward
 			FRA = {
@@ -480,7 +531,7 @@ focus_tree = {
 		}
 		x = 8
 		y = 7
-
+		will_lead_to_war_with = AUS
 		completion_reward = {
 			effect_tooltip = {
 				country_event = {
@@ -507,14 +558,15 @@ focus_tree = {
 		}
 		x = 13
 		y = 6
-
+		will_lead_to_war_with = AUS
 		completion_reward = {
 			CBI = {
+				set_province_controller = 11584
+			#11584 - Veneto	
 				add_state_core = 160
-				transfer_state = 160
 				transfer_state = 157
 				transfer_state = 161
-				load_oob = PIE_Soldiers_Resistance_CBI
+				load_oob = "PIE_Soldiers_Resistance_CBI"
 				declare_war_on = {
 					target = LVN
 					type = annex_everything
@@ -525,7 +577,8 @@ focus_tree = {
 					target = LVN
 					type = annex_everything
 				}
-				load_oob = PIE_Nationalists
+				load_oob = "PIE_Nationalists"
+				load_oob = "PIE_Nationalists"
 			}
 		}
 
@@ -549,17 +602,30 @@ focus_tree = {
 		y = 8
 
 		completion_reward = {
-		if = {
-			limit = { 
-				has_completed_focus = PIE_Path_of_the_Carbonari
+			hidden_effect = {
+				set_cosmetic_tag = PIE_focus_ITA
+				set_country_flag = is_literally_italy
+				FRA = {
+					mark_focus_tree_layout_dirty = yes
+				} 
+				set_variable = { southern_revolt_risk = 10 }
+				add_ideas = ITA_Southern_Revolt_Risk_Idea
+				delete_unit_template_and_units = {
+					division_template = "French Infantry"
+				}
+				delete_unit_template_and_units = {
+					division_template = "French Howitzers"
+				}
+				delete_unit_template_and_units = {
+					division_template = "Italian Nationalists"
+				}
+				delete_unit_template_and_units = {
+					division_template = "Tuscan Infantry"
+				}
+				delete_unit_template_and_units = {
+					division_template = "Italian Infantry"
+				}
 			}
-			annex_country = {
-				target = CBI
-				transfer_troops = yes
-			}
-		}
-			set_cosmetic_tag = PIE_focus_ITA
-			set_country_flag = is_literally_italy
 			if={
 				limit={
 					NSC={
@@ -574,12 +640,12 @@ focus_tree = {
 			}
 			every_owned_state = {
 				if = {
-					   limit = {
-						 NOT = {
+					limit = {
+						NOT = {
 							is_core_of = PIE 
 						}
 					}
-				add_core_of	= PIE
+					add_core_of	= PIE
 				}
 				remove_core_of = NSC
 				remove_core_of = LVN 
@@ -589,33 +655,22 @@ focus_tree = {
 				remove_core_of = PAP
 				remove_core_of = CBI
 			}
-			country_event = {
-					id = ita.8
-					hours = 1
-				}
-			load_focus_tree = italy_focus
 			
-			hidden_effect = {
-				FRA = {
-					mark_focus_tree_layout_dirty = yes
-					} 
-				set_variable = { southern_revolt_risk = 10 }
-				add_ideas = ITA_Southern_Revolt_Risk_Idea
-				delete_unit_template_and_units = {
-					division_template = "French Infantry"
+			load_focus_tree = italy_focus
+			add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
+			remove_ideas = { PIE_National_Society ITA_Planning_For_Invasion }
+			LVN = {
+				remove_ideas = { LVN_National_Society }
+			}
+			if = {
+				limit = { 
+					has_completed_focus = PIE_Path_of_the_Carbonari
 				}
-			delete_unit_template_and_units = {
-					division_template = "French Howitzers"
+				annex_country = {
+					target = CBI
+					transfer_troops = yes
 				}
-			delete_unit_template_and_units = {
-					division_template = "Italian Nationalists"
-				}
-			delete_unit_template_and_units = {
-					division_template = "Tuscan Infantry"
-				}
-			delete_unit_template_and_units = {
-					division_template = "Italian Infantry"
-				}
+				hidden_effect = {
 					set_popularities = {
 						anarchism = 8
 						vanguard_communism = 1
@@ -629,116 +684,52 @@ focus_tree = {
 						fundamentalism = 0
 					}
 					set_politics = {
-							ruling_party = social_egalitarianism
-						}
-					add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
-					remove_ideas = { PIE_National_Society ITA_Planning_For_Invasion }
-					LVN = {
-							remove_ideas = { LVN_National_Society }
-						}
-				
-						
-
+						ruling_party = social_egalitarianism
+					}
+					country_event = {
+						id = ita.40
+						hours = 1
+					}
+				}
 			}
 			if = {
 				limit = {
 					has_completed_focus = PIE_Provoke_Austria
 				}
-				set_cosmetic_tag = PIE_focus_ITA
-				set_country_flag = is_literally_italy
-				if={
-					limit={
-						NSC={
-							exists = yes
-							is_subject_of = ROOT
-						}
-					}
-					annex_country = {
-						target = NSC
-						transfer_troops = yes
-					}
-				}
-				every_owned_state = {
-					if = {
-						   limit = {
-							 NOT = {
-								is_core_of = PIE 
-							}
-						}
-					add_core_of	= PIE
-					}
-					remove_core_of = NSC
-					remove_core_of = LVN 
-					remove_core_of = PRM
-					remove_core_of = MOD
-					remove_core_of = TUS
-					remove_core_of = PAP 
-				}
-				country_event = {
-						id = ita.8
-						hours = 1
-					}
-				load_focus_tree = italy_focus
-				
 				hidden_effect = {
-					FRA = {
-						mark_focus_tree_layout_dirty = yes
-						} 
-					set_variable = { southern_revolt_risk = 10 }
-					add_ideas = ITA_Southern_Revolt_Risk_Idea
+					set_politics = {
+						ruling_party = centrism
+					}						
+					set_popularities = {
+						anarchism = 8
+						vanguard_communism = 1
+						collectivist_socialism = 1
+						social_egalitarianism = 1
+						centrism = 52
+						traditional_conservatism = 25
+						radical_democracy = 2
+						chauvinist_populism = 0
+						autocracy = 10
+						fundamentalism = 0
+					}
 					create_country_leader = {
 						name = "Camillo Cavour"
 						desc = "POLITICS_LEOPOLDO_O_DONNELL_Y_JORRIS_DESC"
 						picture = "Portrait_PIE_Camillo_Cavour.dds"
 						expire = "1965.1.1"
-						ideology = despotism
+						ideology = conserv_liberal
 						traits = {
 						  #
 						}
 					}
-					delete_unit_template_and_units = {
-						division_template = "French Infantry"
+					country_event = {
+						id = ita.8
+						hours = 1
 					}
-				delete_unit_template_and_units = {
-						division_template = "French Howitzers"
-					}
-				delete_unit_template_and_units = {
-						division_template = "Italian Nationalists"
-					}
-				delete_unit_template_and_units = {
-						division_template = "Tuscan Infantry"
-					}
-				delete_unit_template_and_units = {
-						division_template = "Italian Infantry"
-					}
-						
-						set_popularities = {
-							anarchism = 8
-							vanguard_communism = 1
-							collectivist_socialism = 1
-							social_egalitarianism = 1
-							centrism = 20
-							traditional_conservatism = 15
-							radical_democracy = 2
-							chauvinist_populism = 0
-							autocracy = 52
-							fundamentalism = 0
-						}
-						set_politics = {
-								ruling_party = autocracy
-							}
-						add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
-						remove_ideas = { PIE_National_Society }
-						LVN = {
-								remove_ideas = { LVN_National_Society }
-							}
-					}
+				}
 			}
 		}
-
-	
-
-		}
+	}
 	focus = {
 		id = PIE_Napoleon3_Help
 		icon = GFX_goal_generic_improve_relations
@@ -778,9 +769,9 @@ focus_tree = {
 				}
 			available = {
 				custom_trigger_tooltip = {
-					tooltip = PIE_tooltip_focus_available		
-				always = no
-				     }
+					tooltip = GENERIC_Triggered_By_Event_tt
+					always = no 
+				}
 				}
 
 	}
@@ -795,9 +786,9 @@ focus_tree = {
 		y = 3
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = PIE_tooltip_focus_available		
-			always = no
-				 }
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
 			}
 
 	}
@@ -812,9 +803,9 @@ focus_tree = {
 		y = 3
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = PIE_tooltip_focus_available		
-			always = no
-				 }
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
 			}
 
 	}
@@ -879,9 +870,9 @@ focus_tree = {
 		y = 3
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = PIE_tooltip_focus_available		
-			always = no
-				 }
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
 			}
 
 	}
@@ -940,9 +931,9 @@ focus_tree = {
 		y = 5
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = PIE_tooltip_focus_available		
-			always = no
-				 }
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no 
+			}
 			}
 
 	}
@@ -1153,10 +1144,9 @@ completion_reward = {
 				}
 			completion_reward = {
 					custom_effect_tooltip = PIE_Annex_Central_Italian_States
-					annex_country = {
-							target = TUS
-							transfer_troops = yes
-						}
+					country_event = {
+						id = sardinia.49
+					}
 				}
 			bypass = {
 					NOT = {
@@ -1166,20 +1156,20 @@ completion_reward = {
 
 	}
 	focus = {
-	id = PIE_Sign_Turin_Treaty
-	icon = GFX_goal_focus_enact_law
-	cost = 70.00
-	prerequisite = {
-	focus = PIE_Annex_Central_Italian_States
-	}
-	x = 19
-	y = 9
-	available = {
-					date > 1860.1.1
-					has_global_flag = PIE_2IW_Victory
-				}
+		id = PIE_Sign_Turin_Treaty
+		icon = GFX_goal_focus_enact_law
+		cost = 70.00
+		prerequisite = {
+		focus = PIE_Annex_Central_Italian_States
+		}
+		x = 19
+		y = 9
+		available = {
+			date > 1860.1.1
+			has_global_flag = PIE_2IW_Victory
+		}
 		completion_reward = {
-		FRA = {
+			FRA = {
 				transfer_state = 735
 				transfer_state = 822
 			}
@@ -1199,33 +1189,33 @@ completion_reward = {
 		x = 19
 		y = 7
 			available = {
-					NOT = {
-							has_war = yes
-						}
+				NOT = {
+					has_war = yes
 				}
+			}
 			completion_reward = {
 					custom_effect_tooltip = pie_austrian_war_ends
 					hidden_effect = {
-							delete_unit_template_and_units = {
-									division_template = "French Infantry"
-								}
-							delete_unit_template_and_units = {
-									division_template = "French Howitzers"
-								}
-							delete_unit_template_and_units = {
-									division_template = "Italian Nationalists"
-								}
-							delete_unit_template_and_units = {
-									division_template = "Tuscan Infantry"
-								}
-							delete_unit_template_and_units = {
-									division_template = "Italian Infantry"
-								}
-							country_event = {
-									id = sardinia.30
-									days = 1
-								}
+						delete_unit_template_and_units = {
+							division_template = "French Infantry"
 						}
+						delete_unit_template_and_units = {
+							division_template = "French Howitzers"
+						}
+						delete_unit_template_and_units = {
+							division_template = "Italian Nationalists"
+						}
+						delete_unit_template_and_units = {
+							division_template = "Tuscan Infantry"
+						}
+						delete_unit_template_and_units = {
+							division_template = "Italian Infantry"
+						}
+						country_event = {
+							id = sardinia.30
+							days = 1
+						}
+					}
 				}
 
 	}
@@ -1244,7 +1234,7 @@ completion_reward = {
 			completion_reward = {
 					custom_effect_tooltip = PIE_French_Army_Arrives
 					hidden_effect = {
-							load_oob = PIE_French_Army_Full
+							load_oob = "PIE_French_Army_Full"
 						}
 				}
 
@@ -1345,7 +1335,7 @@ completion_reward = {
 							desc = "POLITICS_LEOPOLDO_O_DONNELL_Y_JORRIS_DESC"
 							picture = "Portrait_PIE_Camillo_Cavour.dds"
 							expire = "1965.1.1"
-							ideology = despotism
+							ideology = conserv_liberal
 							traits = {
 							  #
 							}
@@ -1357,15 +1347,15 @@ completion_reward = {
 								vanguard_communism = 1
 								collectivist_socialism = 1
 								social_egalitarianism = 1
-								centrism = 20
-								traditional_conservatism = 15
+								centrism = 52
+								traditional_conservatism = 25
 								radical_democracy = 2
 								chauvinist_populism = 0
-								autocracy = 52
+								autocracy = 10
 								fundamentalism = 0
 							}
 							set_politics = {
-									ruling_party = autocracy
+									ruling_party = centrism
 								}
 							add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
 							remove_ideas = { PIE_National_Society }

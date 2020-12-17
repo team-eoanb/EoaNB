@@ -1,0 +1,281 @@
+JAI_Element_Tribes_Setup = {
+	# Variables
+	set_country_flag = JAI_Elemental_Mages
+	set_variable = { JAI_Total_Variable = 1 }
+
+	set_variable = { JAI_Water_Tribe_Influence = 0.53 }
+	set_variable = { JAI_Fire_Tribe_Influence = 0.35 }
+	set_variable = { JAI_Wind_Tribe_Influence = 0.10 }
+	set_variable = { JAI_Earth_Tribe_Influence = 0.02 }
+
+	set_variable = { JAI_Water_Tribe_Support = 0.75 }
+	set_variable = { JAI_Fire_Tribe_Support = 0.55 }
+	set_variable = { JAI_Wind_Tribe_Support = 0.55 }
+	set_variable = { JAI_Earth_Tribe_Support = 0.55 }
+
+	add_ideas = JAI_elemental_tribes_support
+	JAI_Element_Tribes_Leader_Update = yes
+}
+
+JAI_Element_Tribes_Leader_Update = {
+	if = {
+		limit = {
+			check_variable = {
+				JAI_Water_Tribe_Influence > JAI_Fire_Tribe_Influence
+			}
+			check_variable = {
+				JAI_Water_Tribe_Influence > JAI_Wind_Tribe_Influence
+			}
+			check_variable = {
+				JAI_Water_Tribe_Influence > JAI_Earth_Tribe_Influence
+			}
+		}
+		JAI_Element_Tribes_Water_Tribe_Leadership = yes
+	}
+	else_if = {
+		limit = {
+			check_variable = {
+				JAI_Fire_Tribe_Influence > JAI_Water_Tribe_Influence
+			}
+			check_variable = {
+				JAI_Fire_Tribe_Influence > JAI_Wind_Tribe_Influence
+			}
+			check_variable = {
+				JAI_Fire_Tribe_Influence > JAI_Earth_Tribe_Influence
+			}
+		}
+		JAI_Element_Tribes_Fire_Tribe_Leadership = yes
+	}
+	else_if = {
+		limit = {
+			check_variable = {
+				JAI_Wind_Tribe_Influence > JAI_Fire_Tribe_Influence
+			}
+			check_variable = {
+				JAI_Wind_Tribe_Influence > JAI_Water_Tribe_Influence
+			}
+			check_variable = {
+				JAI_Wind_Tribe_Influence > JAI_Earth_Tribe_Influence
+			}
+		}
+		JAI_Element_Tribes_Wind_Tribe_Leadership = yes
+	}
+	else_if = {
+		limit = {
+			check_variable = {
+				JAI_Earth_Tribe_Influence > JAI_Fire_Tribe_Influence
+			}
+			check_variable = {
+				JAI_Earth_Tribe_Influence > JAI_Wind_Tribe_Influence
+			}
+			check_variable = {
+				JAI_Earth_Tribe_Influence > JAI_Water_Tribe_Influence
+			}
+		}
+		JAI_Element_Tribes_Earth_Tribe_Leadership = yes
+	}
+}
+
+JAI_Element_Tribes_Water_Tribe_Leadership = {
+	if = {
+		limit = {
+			NOT = { 
+				OR = {
+					has_idea = JAI_Water_Tribe_Majority
+					has_idea = JAI_Water_Tribe_Majority1
+				}
+			}
+		}
+		remove_ideas = JAI_Fire_Tribe_Majority
+			remove_ideas = JAI_Wind_Tribe_Majority
+			remove_ideas = JAI_Earth_Tribe_Majority
+			if = {
+				limit = { check_variable = { JAI_Water_Tribe_Support > 0.39 } }
+				add_ideas = JAI_Water_Tribe_Majority
+			}
+			else = {
+				add_ideas = JAI_Water_Tribe_Majority1
+			}
+
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Potao Ia"
+				desc = "POLITICS_TEMP_DESC"
+				picture = ""
+				expire = 2050.1.1
+				ideology = shamanism
+			}
+			set_party_name = {
+				ideology = fundamentalism
+				name = JAI_water_tribe
+				long_name = JAI_water_tribe_long
+			}
+	}
+	else_if = {
+		limit = {
+			has_idea = JAI_Water_Tribe_Majority
+			check_variable = { JAI_Water_Tribe_Support < 0.40 }
+		}
+		add_ideas = JAI_Water_Tribe_Majority1
+	}
+	else_if = {
+		limit = {
+			has_idea = JAI_Water_Tribe_Majority1
+			check_variable = { JAI_Water_Tribe_Support > 0.39 }
+		}
+		add_ideas = JAI_Water_Tribe_Majority
+	}
+}
+
+JAI_Element_Tribes_Fire_Tribe_Leadership = {
+	if = {
+		limit = {
+			NOT = { 
+				OR = {
+					has_idea = JAI_Fire_Tribe_Majority
+					has_idea = JAI_Fire_Tribe_Majority1
+				}
+			}
+		}
+		remove_ideas = JAI_Water_Tribe_Majority
+		remove_ideas = JAI_Wind_Tribe_Majority
+		remove_ideas = JAI_Earth_Tribe_Majority
+		if = {
+			limit = { check_variable = { JAI_Fire_Tribe_Support > 0.39 } }
+			add_ideas = JAI_Fire_Tribe_Majority
+		}
+		else = {
+			add_ideas = JAI_Fire_Tribe_Majority1
+		}
+
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Potao Apui"
+			desc = "POLITICS_TEMP_DESC"
+			picture = "JAI_Potao_Apui.dds"
+			expire = 2050.1.1
+			ideology = shamanism
+		}
+		set_party_name = {
+			ideology = fundamentalism
+			name = JAI_fire_tribe
+			long_name = JAI_fire_tribe_long
+		}
+}
+	else_if = {
+		limit = {
+			has_idea = JAI_Fire_Tribe_Majority
+			check_variable = { JAI_Fire_Tribe_Support < 0.40 }
+		}
+		add_ideas = JAI_Fire_Tribe_Majority1
+	}
+	else_if = {
+		limit = {
+			has_idea = JAI_Fire_Tribe_Majority1
+			check_variable = { JAI_Fire_Tribe_Support > 0.39 }
+		}
+		add_ideas = JAI_Fire_Tribe_Majority
+	}
+}
+
+JAI_Element_Tribes_Wind_Tribe_Leadership = {
+	if = {
+		limit = {
+			NOT = { 
+				OR = {
+					has_idea = JAI_Wind_Tribe_Majority
+					has_idea = JAI_Wind_Tribe_Majority1
+				}
+			}
+		}
+		remove_ideas = JAI_Fire_Tribe_Majority
+		remove_ideas = JAI_Water_Tribe_Majority
+		remove_ideas = JAI_Earth_Tribe_Majority
+		if = {
+			limit = { check_variable = { JAI_Wind_Tribe_Support > 0.39 } }
+			add_ideas = JAI_Wind_Tribe_Majority
+		}
+		else = {
+			add_ideas = JAI_Wind_Tribe_Majority1
+		}
+
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Potao Angin"
+			desc = "POLITICS_TEMP_DESC"
+			picture = ""
+			expire = 2050.1.1
+			ideology = shamanism
+		}
+		set_party_name = {
+			ideology = fundamentalism
+			name = JAI_wind_tribe
+			long_name = JAI_wind_tribe_long
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = JAI_Wind_Tribe_Majority
+			check_variable = { JAI_Wind_Tribe_Support < 0.40 }
+		}
+		add_ideas = JAI_Wind_Tribe_Majority1
+	}
+	else_if = {
+		limit = {
+			has_idea = JAI_Wind_Tribe_Majority1
+			check_variable = { JAI_Wind_Tribe_Support > 0.39 }
+		}
+		add_ideas = JAI_Wind_Tribe_Majority
+	}
+}
+
+JAI_Element_Tribes_Earth_Tribe_Leadership = {
+	if = {
+		limit = {
+			NOT = { 
+				OR = {
+					has_idea = JAI_Earth_Tribe_Majority
+					has_idea = JAI_Earth_Tribe_Majority1
+				}
+			}
+		}
+		remove_ideas = JAI_Fire_Tribe_Majority
+			remove_ideas = JAI_Wind_Tribe_Majority
+			remove_ideas = JAI_Water_Tribe_Majority
+			if = {
+				limit = { check_variable = { JAI_Earth_Tribe_Support > 0.39 } }
+				add_ideas = JAI_Earth_Tribe_Majority
+			}
+			else = {
+				add_ideas = JAI_Earth_Tribe_Majority1
+			}
+
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Potao Ion"
+				desc = "POLITICS_TEMP_DESC"
+				picture = ""
+				expire = 2050.1.1
+				ideology = shamanism
+			}
+			set_party_name = {
+				ideology = fundamentalism
+				name = JAI_earth_tribe
+				long_name = JAI_earth_tribe_long
+			}
+	}
+	else_if = {
+		limit = {
+			has_idea = JAI_Earth_Tribe_Majority
+			check_variable = { JAI_Earth_Tribe_Support < 0.40 }
+		}
+		add_ideas = JAI_Earth_Tribe_Majority1
+	}
+	else_if = {
+		limit = {
+			has_idea = JAI_Earth_Tribe_Majority1
+			check_variable = { JAI_Earth_Tribe_Support > 0.39 }
+		}
+		add_ideas = JAI_Earth_Tribe_Majority
+	}
+}

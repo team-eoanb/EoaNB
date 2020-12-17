@@ -6,11 +6,22 @@ ins_indonesia_wars_category = {
 			if = {
 				limit = {
 					TAG = INS
+					INS = { has_country_flag = INS_respect_dutch_british_treaty_flag }
 				}
-				custom_trigger_tooltip = { 
-					tooltip = afr_senegal_war_phase_one_available_trigger 
-					ACE = { exists = no }
+				controls_state = 1184
+				controls_state = 1185
+				controls_state = 918
+			}
+			if = {
+				limit = {
+					TAG = INS
+					INS = { has_country_flag = INS_ignore_dutch_british_treaty_flag }
 				}
+				controls_state = 925
+				controls_state = 926
+				controls_state = 1184
+				controls_state = 1185
+				controls_state = 918
 			}
 			if = {
 				limit = {
@@ -25,10 +36,7 @@ ins_indonesia_wars_category = {
 		}
 		
 		allowed = {
-			OR = {
-				TAG = ACE 
-				TAG = INS
-			}
+			always = yes
 		}
 		activation = { 
 			has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
@@ -37,7 +45,7 @@ ins_indonesia_wars_category = {
 		is_good = no
 		cancel_trigger = {
 			custom_trigger_tooltip = { 
-				tooltip = afr_senegal_war_phase_one_cancel_trigger 
+				tooltip = afr_indonesia_war_phase_one_cancel_trigger 
 				INS = { exists = no }
 			}
 		}
@@ -65,7 +73,7 @@ ins_indonesia_wars_category = {
 				limit = {
 					TAG = INS
 				}
-				custom_effect_tooltip = afr_senegal_war_phase_one_complete_sng_tooltip
+				custom_effect_tooltip = afr_indonesia_war_phase_one_complete_ins_tooltip
 				if = {
 					limit = {
 						INS = { controls_state = 1184 }
@@ -101,19 +109,78 @@ ins_indonesia_wars_category = {
 				}
 				if = {
 					limit = {
+						INS = { controls_state = 925 }
+						INS = { has_country_flag = INS_ignore_dutch_british_treaty_flag }
+					}
+					INS = { transfer_state = 925 }
+					925 = {
+						custom_effect_tooltip = afr_colonial_effect_tooltip
+						custom_effect_tooltip = AFR_Racial_Tension_plus_1
+						hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+					}
+				}
+				if = {
+					limit = {
+						INS = { controls_state = 926 }
+						INS = { has_country_flag = INS_ignore_dutch_british_treaty_flag }
+					}
+					INS = { transfer_state = 926 }
+					926 = {
+						custom_effect_tooltip = afr_colonial_effect_tooltip
+						custom_effect_tooltip = AFR_Racial_Tension_plus_1
+						hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+					}
+				}
+				if = {
+					limit = {
 						TAG = INS
 						OR = {
-							INS = { owns_state = 1184 }
-							INS = { owns_state = 1185 }
-							INS = { owns_state = 918 }
+							INS = { controls_state = 1184 }
+							INS = { controls_state = 1185 }
+							INS = { controls_state = 918 }
 						}
 						INS = { is_subject_of = HOL }
 					}
 					#hidden_effect = { HOL = { country_event = { id = INS_ACE_indonesia_colonial_expansion_war_won.1 } } }
 				}
+				hidden_effect = { INS = { add_timed_idea = { idea = INS_indonesia_colonial_expansion_war_exhaustion_idea days = 180 } } }
+				#hidden_effect = { 
+				#	every_other_country = {
+				#		limit = { has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag }
+				#		activate_mission = INS_ACE_indonesia_colonial_expansion_war
+				#	}
+				#}
+				hidden_effect = {
+					every_country = {
+						limit = {
+							has_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
+							NOT = { TAG = INS }
+						}
+						set_temp_variable = { INS_ACE_temp_country_id = THIS.id }
+					}
+					every_country = {
+						limit = {
+							has_war_with = var:INS_ACE_temp_country_id
+						}
+						white_peace = var:INS_ACE_temp_country_id 
+					}
+				}
 			}
+			#else = {
+			#	hidden_effect = { 
+			#		every_country = {
+			#			limit = { 
+			#				has_offensive_war_with = ROOT 
+			#				OR = {
+			#					has_war_together_with = INS
+			#					TAG = INS
+			#				}
+			#			}
+			#			white_peace = ROOT
+			#		}
+			#	}
+			#}
 			clr_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag
-			hidden_effect = { INS = { add_timed_idea = { idea = INS_indonesia_colonial_expansion_war_exhaustion_idea days = 180 } } }
 		}
 		remove_effect = {
 				hidden_effect = {
@@ -161,6 +228,30 @@ ins_indonesia_wars_category = {
 					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 				}
 			}
+			if = {
+				limit = {
+					INS = { controls_state = 925 }
+					INS = { has_country_flag = INS_ignore_dutch_british_treaty_flag }
+				}
+				INS = { transfer_state = 925 }
+				925 = {
+					custom_effect_tooltip = afr_colonial_effect_tooltip
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+			}
+			if = {
+				limit = {
+					INS = { controls_state = 926 }
+					INS = { has_country_flag = INS_ignore_dutch_british_treaty_flag }
+				}
+				INS = { transfer_state = 926 }
+				926 = {
+					custom_effect_tooltip = afr_colonial_effect_tooltip
+					custom_effect_tooltip = AFR_Racial_Tension_plus_1
+					hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+				}
+			}
 			hidden_effect = {
 				every_country = {
 					limit = {
@@ -181,9 +272,9 @@ ins_indonesia_wars_category = {
 				limit = {
 					TAG = INS
 					OR = {
-						INS = { owns_state = 1184 }
-						INS = { owns_state = 1185 }
-						INS = { owns_state = 918 }
+						INS = { controls_state = 1184 }
+						INS = { controls_state = 1185 }
+						INS = { controls_state = 918 }
 					}
 					INS = { is_subject_of = HOL }
 				}
@@ -193,14 +284,14 @@ ins_indonesia_wars_category = {
 				limit = {
 					TAG = INS
 				}
-				custom_effect_tooltip = afr_senegal_war_phase_one_holdout_sng_tooltip
+				custom_effect_tooltip = afr_indonesia_war_phase_one_holdout_ins_tooltip
 				set_country_flag = afr_senegal_war_phase_one_failure_sng
 			}
 			if = {
 				limit = {
 					TAG = var:INS_ACE_temp_country_id
 				}
-				custom_effect_tooltip = afr_senegal_war_phase_one_holdout_ftt_tooltip
+				custom_effect_tooltip = afr_indonesia_war_phase_one_holdout_other_tooltip
 				set_country_flag = afr_senegal_war_phase_one_success_ftt
 			}
 			clr_country_flag = INS_ACE_indonesia_colonial_expansion_war_flag

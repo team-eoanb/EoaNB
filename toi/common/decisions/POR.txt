@@ -893,4 +893,114 @@ POR_decision_category_colonies = {
 			base = 1000
 		}
     }
+	
+	#Expand the Macau Slave Trade
+	eoanb_decision_POR_macau_slaves_expand = {
+
+		icon = generic_decision
+
+		available = {
+			controls_state = 729
+		}
+
+		visible = {
+			TAG = POR
+			controls_state = 729
+			729 = { has_dynamic_modifier = { modifier = dynmod_POR_macau_slaves } }
+		}
+		allowed = { TAG = POR }
+		
+
+		fire_only_once = yes
+
+		cost = 50
+
+		complete_effect = {
+			729 = { remove_dynamic_modifier = { modifier = dynmod_POR_macau_slaves }  }
+			729 = { add_dynamic_modifier = { modifier = dynmod_POR_macau_slaves_expanded } }
+		}
+
+		ai_will_do = {
+			base = 0
+		}
+	}
+	
+	#End the Macau Slave Trade
+	eoanb_decision_POR_macau_slaves_end = {
+
+		icon = generic_decision
+
+		available = {
+			controls_state = 729
+		}
+
+		visible = {
+			TAG = POR
+			controls_state = 729
+			729 = { has_dynamic_modifier = { modifier = dynmod_POR_macau_slaves } }
+		}
+		allowed = { TAG = POR }
+		
+
+		fire_only_once = yes
+
+		cost = 50
+
+		complete_effect = {
+			729 = { remove_dynamic_modifier = { modifier = dynmod_POR_macau_slaves }  }
+		}
+
+		ai_will_do = {
+			base = 1000
+			modifier = {
+				factor = 0
+				date < 1874.2.15
+			}
+		}
+	}
+	
+	#Try to sell Macau to China
+	eoanb_decision_POR_sell_macau_china = {
+
+		icon = generic_decision
+
+		available = {
+			controls_state = 729
+		}
+
+		visible = {
+			TAG = POR
+			has_full_control_of_state = 729
+			OR = {
+				country_exists = QNG
+				country_exists = CHI
+			}
+		}
+		allowed = { TAG = POR }
+		
+
+		fire_only_once = yes
+
+		cost = 0
+
+		complete_effect = {
+			if = {
+				limit = {
+					country_exists = QNG
+				}
+				QNG = { country_event = { id = asiageneraldiplomatic.10 days = 1 } }
+			}
+			else_if = {
+				limit = {
+					country_exists = CHI
+				}
+				CHI = { country_event = { id = asiageneraldiplomatic.10 days = 1 } }
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+		}
+	}
+	
 }
