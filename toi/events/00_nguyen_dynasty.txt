@@ -29,7 +29,7 @@ add_namespace = nguyen_test
 			hidden_effect = {
 				# country_event = { id = nguyen_dynasty_tribute.1 days = 3 }
 				country_event = { id = nguyen_dynasty_siam_conflicts.1 days = 24 }
-				country_event = { id = nguyen_dynasty_succession.1 days = 11 }
+				country_event = { id = nguyen_dynasty_succession.1 days = 1 }
 				country_event = { id = nguyen_dynasty_catholic_missions.1 days = 35 }
 			}
 		}
@@ -39,8 +39,8 @@ add_namespace = nguyen_test
 			add_political_power = -5
 			eoanb_add_1_prestige_score = yes
 			hidden_effect = {
+				set_country_flag = VIN_Nguyen_Dynasty_Contendors_Dinh_Dao_Flag
 				add_ideas = {
-					VIN_Spirit_Cambodian_Rout
 					VIN_Spirit_Dinh_Dao_Opposition1
 				}
 			}
@@ -123,6 +123,7 @@ add_namespace = nguyen_test
 			name = nguyen_dynasty_catholic_missions.1.a
 		}
 	}
+
 ########## Nguyen Sucession ##########
 	# LETS LOOK FOR AN HEIR
 	country_event = {
@@ -134,54 +135,52 @@ add_namespace = nguyen_test
 		fire_only_once = yes
 
 		trigger = {
+			tag = VIN
 			has_government = autocracy
+			has_idea = no_heir
 		}
 
 		immediate = {
-			set_variable = { VIN_tuc_duc_bonked_concubines = 10 }
+			VIN_Nguyen_Dynasty_No_Heir_Setup = yes
 		}
 		option = {
 			name = nguyen_dynasty_succession.1.a
-			country_event = { id = nguyen_dynasty_sucession.2 days = 55 }
+			VIN_Nguyen_Dynasty_No_Heir_Update = yes
+			hidden_effect = {
+				country_event = { id = nguyen_dynasty_sucession.2 }
+			}
 		}
 	}
-	# Bonk
+
+	# Hidden Bonking
 	country_event = {
 		id = nguyen_dynasty_succession.2
-		title = nguyen_dynasty_succession.2.t
-		desc = nguyen_dynasty_succession.2.d
+		hidden = yes
 		
 		is_triggered_only = yes
-		fire_only_once = yes
 
 		trigger = {
+			tag = VIN
 			has_government = autocracy
 		}
 
 		immediate = {
-			randomize_temp_variable = {
-				var = VIN_tuc_duc_bonked_concubines_now
-				min = 3
-				max = 5
-			}
-			round_temp_variable = VIN_tuc_duc_bonked_concubines_now
-			add_to_variable = { VIN_tuc_duc_bonked_concubines = VIN_tuc_duc_bonked_concubines_now }
-		}			
-
-		option = {
-			name = nguyen_dynasty_succession.2.a
 			if = {
+				limit = { has_idea = no_heir }
+				country_event = { id = nguyen_dynasty_sucession.3 days = 25 random_days = 10 }
+			}
+			else_if = {
 				limit = {
-					check_variable = { VIN_tuc_duc_bonked_concubines < 100 }
+					OR = {
+						has_idea = weak_heir
+						has_idea = has_heir
+					}
 				}
-				country_event = { id = nguyen_dynasty_sucession.2 days = 45 random_days = 10 }
+				country_event = { id = nguyen_dynasty_succession.10 }
 			}
-			else = {
-				country_event = { id = nguyen_dynasty_sucession.3 }
-			}
-		}
+		}	
 	}
-	# Tuc Duc Gives Up on Heir. Adopts Orphan Nephews
+
 	country_event = {
 		id = nguyen_dynasty_succession.3
 		title = nguyen_dynasty_succession.3.t
@@ -191,7 +190,14 @@ add_namespace = nguyen_test
 		fire_only_once = yes
 
 		trigger = {
+			tag = VIN
 			has_government = autocracy
+		}
+
+		immediate = {
+			hidden_effect = {
+				country_event = { id = nguyen_dynasty.2 }
+			}
 		}
 
 		option = {
@@ -316,6 +322,6 @@ country_event = {
 
 	option = {
 		name = jarai_tribal_politics.1.a
-		JAI_Faction_Setup = yes
+		JAI_Element_Tribes_Setup = yes
 	}
 }

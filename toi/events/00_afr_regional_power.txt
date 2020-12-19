@@ -218,7 +218,9 @@ add_namespace = afr_empire_politics_successful_remove_war_torn_event
 			}
 		}
 	}
-
+######################
+#####Visit Town Event#
+######################
 	state_event = {
 		id = afr_empire_politics_state_manager_event.1
 		title = afr_empire_politics_state_manager_event.1.t
@@ -242,7 +244,9 @@ add_namespace = afr_empire_politics_successful_remove_war_torn_event
 			name = afr_empire_politics_state_manager_event.1.e
 		}
 	}
-	
+###################
+#####Market Events#
+###################
 	state_event = {
 		id = afr_empire_politics_state_manager_market_event.1
 		hidden = yes
@@ -252,7 +256,6 @@ add_namespace = afr_empire_politics_successful_remove_war_torn_event
 			OWNER = { country_event = { id = afr_empire_politics_state_manager_market_event.2 } }
 		}
 	}
-	
 	country_event = {
 		id = afr_empire_politics_state_manager_market_event.2
 		title = afr_empire_politics_state_manager_market_event.2.t
@@ -276,7 +279,9 @@ add_namespace = afr_empire_politics_successful_remove_war_torn_event
 			name = afr_empire_politics_state_manager_market_event.2.e
 		}
 	}
-	
+##################
+#####Luxury Goods#
+##################
 	state_event = {
 		id = afr_empire_politics_state_manager_market_luxury_event.1
 		hidden = yes
@@ -286,7 +291,6 @@ add_namespace = afr_empire_politics_successful_remove_war_torn_event
 			OWNER = { country_event = { id = afr_empire_politics_state_manager_market_luxury_event.2 } }
 		}
 	}
-	
 	country_event = {
 		id = afr_empire_politics_state_manager_market_luxury_event.2
 		title = afr_empire_politics_state_manager_market_luxury_event.2.t
@@ -296,27 +300,386 @@ add_namespace = afr_empire_politics_successful_remove_war_torn_event
 		
 		option = {
 			name = afr_empire_politics_state_manager_market_luxury_event.2.a
-			trigger = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 0 compare = greater_than } } }
+			trigger = {
+				FROM = { 
+					NOT = { has_state_flag = afr_empire_politics_state_economy_status_investment_flag }
+					check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 0 compare = greater_than } 
+					if = {
+						limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+						OWNER = { check_variable = { var = afr_prosperity_mechanic_value value = 10 compare = greater_than_or_equals } }
+					}
+					else = { OWNER = { check_variable = { var = afr_prosperity_mechanic_value value = 20 compare = greater_than_or_equals } } }
+					if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 0 compare = greater_than } 
+							check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 25 compare = less_than }
+						}
+						OWNER = { has_tech = tribal_steel_tools }
+					}
+					else_if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 25 compare = greater_than_or_equals } 
+							check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 50 compare = less_than }
+						}
+						OWNER = { has_tech = refining }
+					}
+					else_if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 50 compare = greater_than_or_equals } 
+							check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 100 compare = less_than }
+						}
+						OWNER = { has_tech = mechanized_mining }
+					}
+				}
+			}
 			FROM = { custom_effect_tooltip = afr_empire_politics_state_manager_market_luxury_event_gold_stats }
-			custom_effect_tooltip = afr_empire_politics_state_manager_event_no_effect
+			if = {
+				limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_tooltip
+				custom_effect_tooltip = afr_prosperity_mechanic_boom_cost_tooltip
+			}
+			else = {
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_tooltip
+			}
+			hidden_effect = {
+				FROM = { 
+					state_event = { id = afr_empire_politics_state_manager_market_luxury_event.3 days = 180 } 
+					if = {
+						limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+						afr_empire_politics_state_gain_none = yes
+						OWNER = { add_to_variable = { var = afr_prosperity_mechanic_value value = -10 } }
+					}
+					else = {
+						OWNER = { add_to_variable = { var = afr_prosperity_mechanic_value value = -20 } }
+					}
+					set_state_flag = afr_empire_politics_state_economy_status_investment_flag
+					set_state_flag = afr_empire_politics_state_luxury_gold_investment_flag
+				}
+			}
 		}
 		option = {
 			name = afr_empire_politics_state_manager_market_luxury_event.2.b
-			trigger = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 0 compare = greater_than } } }
+			trigger = {
+				FROM = { 
+					NOT = { has_state_flag = afr_empire_politics_state_economy_status_investment_flag }
+					check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 0 compare = greater_than } 
+					if = {
+						limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+						OWNER = { check_variable = { var = afr_prosperity_mechanic_value value = 10 compare = greater_than_or_equals } }
+					}
+					else = { OWNER = { check_variable = { var = afr_prosperity_mechanic_value value = 20 compare = greater_than_or_equals } } }
+					if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 0 compare = greater_than } 
+							check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 25 compare = less_than }
+						}
+						OWNER = { has_tech = tribal_weapons }
+					}
+					else_if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 25 compare = greater_than_or_equals } 
+							check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 50 compare = less_than }
+						}
+						OWNER = { has_tech = traditional_mixed_arms }
+					}
+					else_if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 50 compare = greater_than_or_equals } 
+							check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 100 compare = less_than }
+						}
+						OWNER = { has_tech = infantry_weapons }
+					}
+				}
+			}
 			FROM = { custom_effect_tooltip = afr_empire_politics_state_manager_market_luxury_event_ivory_stats }
-			custom_effect_tooltip = afr_empire_politics_state_manager_event_no_effect
+			if = {
+				limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_tooltip
+				custom_effect_tooltip = afr_prosperity_mechanic_boom_cost_tooltip
+			}
+			else = {
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_tooltip
+			}
+			hidden_effect = {
+				FROM = { 
+					state_event = { id = afr_empire_politics_state_manager_market_luxury_event.3 days = 180 } 
+					if = {
+						limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+						afr_empire_politics_state_gain_none = yes
+						OWNER = { add_to_variable = { var = afr_prosperity_mechanic_value value = -10 } }
+					}
+					else = {
+						OWNER = { add_to_variable = { var = afr_prosperity_mechanic_value value = -20 } }
+					}
+					set_state_flag = afr_empire_politics_state_economy_status_investment_flag
+					set_state_flag = afr_empire_politics_state_luxury_ivory_investment_flag
+				}
+			}
 		}
 		option = {
 			name = afr_empire_politics_state_manager_market_luxury_event.2.c
-			trigger = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 0 compare = greater_than } } }
+			trigger = {
+				FROM = {
+					NOT = { has_state_flag = afr_empire_politics_state_economy_status_investment_flag }
+					check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 0 compare = greater_than } 
+					if = {
+						limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+						OWNER = { check_variable = { var = afr_prosperity_mechanic_value value = 10 compare = greater_than_or_equals } }
+					}
+					else = { OWNER = { check_variable = { var = afr_prosperity_mechanic_value value = 20 compare = greater_than_or_equals } } }
+					if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 0 compare = greater_than } 
+							check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 25 compare = less_than }
+						}
+						OWNER = { has_tech = tribal_crop_planting }
+					}
+					else_if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 25 compare = greater_than_or_equals } 
+							check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 50 compare = less_than }
+						}
+						OWNER = { has_tech = tribal_crop_rotation }
+					}
+					else_if = {
+						limit = { 
+							check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 50 compare = greater_than_or_equals } 
+							check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 100 compare = less_than }
+						}
+						OWNER = { has_tech = mechanized_farming }
+					}
+				}
+			}
 			FROM = { custom_effect_tooltip = afr_empire_politics_state_manager_market_luxury_event_spice_stats }
-			custom_effect_tooltip = afr_empire_politics_state_manager_event_no_effect
+			if = {
+				limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_tooltip
+				custom_effect_tooltip = afr_prosperity_mechanic_boom_cost_tooltip
+			}
+			else = {
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_tooltip
+			}
+			hidden_effect = {
+				FROM = { 
+					state_event = { id = afr_empire_politics_state_manager_market_luxury_event.3 days = 180 }
+					if = {
+						limit = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag }
+						afr_empire_politics_state_gain_none = yes
+						OWNER = { add_to_variable = { var = afr_prosperity_mechanic_value value = -10 } }
+					}
+					else = {
+						OWNER = { add_to_variable = { var = afr_prosperity_mechanic_value value = -20 } }
+					}
+					set_state_flag = afr_empire_politics_state_economy_status_investment_flag
+					set_state_flag = afr_empire_politics_state_luxury_spice_investment_flag
+				}
+			}
 		}
 		option = {
 			name = afr_empire_politics_state_manager_market_luxury_event.2.e
+			if = {
+				limit = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 0 compare = greater_than } } }
+				custom_effect_tooltip = afr_luxury_gold_requirements_has_tech_tooltip
+			}
+			if = {
+				limit = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 0 compare = greater_than } } }
+				custom_effect_tooltip = afr_luxury_ivory_requirements_has_tech_tooltip
+			}
+			if = {
+				limit = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 0 compare = greater_than } } }
+				custom_effect_tooltip = afr_luxury_spice_requirements_has_tech_tooltip
+			}
+			if = {
+				limit = { FROM = { has_state_flag = afr_empire_politics_state_economy_status_investment_flag } }
+				FROM = { custom_effect_tooltip = afr_empire_politics_state_manager_already_investing_tooltip }
+			}
+			else_if = {
+				limit = {
+					FROM = {
+						has_state_flag = afr_empire_politics_state_economy_status_boom_flag
+						OWNER = { NOT = { check_variable = { var = afr_prosperity_mechanic_value value = 10 compare = greater_than_or_equals } } } 
+					} 
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_greater_than_10_tooltip
+			}
+			else_if = {
+				limit = { FROM = { OWNER = { NOT = { check_variable = { var = afr_prosperity_mechanic_value value = 20 compare = greater_than_or_equals } } } } }
+				custom_effect_tooltip = afr_prosperity_mechanic_greater_than_20_tooltip
+			}
+			custom_effect_tooltip = afr_empire_politics_state_manager_space_tooltip
+			if = {
+				limit = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 0 compare = greater_than } } }
+				FROM = { custom_effect_tooltip = afr_empire_politics_state_manager_market_luxury_event_gold_stats }
+			}
+			if = {
+				limit = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 0 compare = greater_than } } }
+				FROM = { custom_effect_tooltip = afr_empire_politics_state_manager_market_luxury_event_ivory_stats }
+			}
+			if = {
+				limit = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 0 compare = greater_than } } }
+				FROM = { custom_effect_tooltip = afr_empire_politics_state_manager_market_luxury_event_spice_stats }
+			}
 		}
 	}
-
+	state_event = {
+		id = afr_empire_politics_state_manager_market_luxury_event.3
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			FROM = { OWNER = { country_event = { id = afr_empire_politics_state_manager_market_luxury_event.4 } }  }
+		}
+	}
+	country_event = {
+		id = afr_empire_politics_state_manager_market_luxury_event.4
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			FROM= {
+				if = {
+					limit = { has_state_flag = afr_empire_politics_state_economy_status_investment_flag }
+					clr_state_flag = afr_empire_politics_state_economy_status_investment_flag
+					if = {
+						limit = { has_state_flag = afr_empire_politics_state_luxury_gold_investment_flag }
+						clr_state_flag = afr_empire_politics_state_luxury_gold_investment_flag
+						add_to_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 15 }
+						clamp_variable = {
+							var = afr_empire_politics_state_luxury_gold_acquisition_var
+							min = 0
+							max = 100
+						}
+						if = {
+							limit = { check_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 1 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = -1 }
+						}
+						else_if = {
+							limit = { check_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 2 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = -2 }
+						}
+						else_if = {
+							limit = { check_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 3 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = -3 }
+						}
+						if = {
+							limit = {  
+								check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 100 compare = equals }
+							}
+							set_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 3 }
+						}
+						else_if = {
+							limit = {  
+								check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 100 compare = less_than }
+								check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 50 compare = greater_than_or_equals }
+							}
+							set_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 2 }
+						}
+						else_if = {
+							limit = {  
+								check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 50 compare = less_than }
+								check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 25 compare = greater_than_or_equals }
+							}
+							set_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 1 }
+						}
+						if = {
+							limit = { check_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 1 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = 1 }
+						}
+						else_if = {
+							limit = { check_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 2 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = 2 }
+						}
+						else_if = {
+							limit = { check_variable = { var = afr_empire_politics_state_gold_prosperity_income value = 3 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = 3 }
+						}
+						
+					}
+					else_if = {
+						limit = { has_state_flag = afr_empire_politics_state_luxury_ivory_investment_flag }
+						clr_state_flag = afr_empire_politics_state_luxury_ivory_investment_flag
+						add_to_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 15 }
+						clamp_variable = {
+							var = afr_empire_politics_state_luxury_ivory_acquisition_var
+							min = 0
+							max = 100
+						}
+						if = {
+							limit = { check_variable = { var = afr_empire_politics_state_ivory_prosperity_income value = 1 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = -1 }
+						}
+						else_if = {
+							limit = { check_variable = { var = afr_empire_politics_state_ivory_prosperity_income value = 2 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = -2 }
+						}
+						if = {
+							limit = {  
+								check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 100 compare = equals }
+							}
+							set_variable = { var = afr_empire_politics_state_ivory_prosperity_income value = 2 }
+						}
+						else_if = {
+							limit = {  
+								check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 100 compare = less_than }
+								check_variable = { var = afr_empire_politics_state_luxury_ivory_acquisition_var value = 25 compare = greater_than_or_equals }
+							}
+							set_variable = { var = afr_empire_politics_state_ivory_prosperity_income value = 1 }
+						}
+						if = {
+							limit = { check_variable = { var = afr_empire_politics_state_ivory_prosperity_income value = 1 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = 1 }
+						}
+						else_if = {
+							limit = { check_variable = { var = afr_empire_politics_state_ivory_prosperity_income value = 2 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = 2 }
+						}
+					}
+					else_if = {
+						limit = { has_state_flag = afr_empire_politics_state_luxury_spice_investment_flag }
+						clr_state_flag = afr_empire_politics_state_luxury_spice_investment_flag
+						add_to_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 15 }
+						clamp_variable = {
+							var = afr_empire_politics_state_luxury_spice_acquisition_var
+							min = 0
+							max = 100
+						}
+						if = {
+							limit = { check_variable = { var = afr_empire_politics_state_spice_prosperity_income value = 1 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = -1 }
+						}
+						else_if = {
+							limit = { check_variable = { var = afr_empire_politics_state_spice_prosperity_income value = 2 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = -2 }
+						}
+						if = {
+							limit = {  
+								check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 100 compare = equals }
+							}
+							set_variable = { var = afr_empire_politics_state_spice_prosperity_income value = 2 }
+						}
+						else_if = {
+							limit = {  
+								check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 100 compare = less_than }
+								check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 25 compare = greater_than_or_equals }
+							}
+							set_variable = { var = afr_empire_politics_state_spice_prosperity_income value = 1 }
+						}
+						if = {
+							limit = { check_variable = { var = afr_empire_politics_state_spice_prosperity_income value = 1 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = 1 }
+						}
+						else_if = {
+							limit = { check_variable = { var = afr_empire_politics_state_spice_prosperity_income value = 2 compare = equals } }
+							add_to_variable = { var = afr_empire_politics_state_prosperity_var value = 2 }
+						}
+					}
+				}
+			}
+		}
+	}
+#################
+#####Levy Events#
+#################
 	country_event = {
 		id = afr_empire_politics_subject_levy_mission_event_global.1
 		is_triggered_only = yes
@@ -335,7 +698,10 @@ add_namespace = afr_empire_politics_successful_remove_war_torn_event
 			}
 			every_country = {
 				limit = {
-					afr_is_tribal = yes
+					OR = {
+						afr_is_tribal = yes
+						oceania_is_tribal = yes
+					}
 					OR = {
 						has_autonomy_state = autonomy_afr_empire_level_1
 						has_autonomy_state = autonomy_afr_empire_level_2
