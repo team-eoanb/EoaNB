@@ -5,6 +5,7 @@ add_namespace = NA_B_mantle_of_the_states_calculator
 add_namespace = NA_B_mantle_of_the_states_calculator_check_1_state
 add_namespace = NA_B_diplomacy_maintenance
 add_namespace = NA_B_start
+add_namespace = NA_B_statehood
 add_namespace = NA_B_set_up_senate
 add_namespace = NA_B_congress_mechanic_election_calculator
 add_namespace = NA_B_idea_working_class_exploitation_calculator
@@ -852,6 +853,95 @@ country_event = {
 			}
 		}
 		country_event = { id = NA_B_unlock_units.1 hours = 12 }
+	}
+}
+state_event = {
+	id = NA_B_statehood.1
+	title = NA_B_statehood.1.t
+	desc = {
+		trigger = { 
+			ROOT = { has_country_flag = USA_Slavery_Debate_Ongoing }
+			NOT = { has_state_flag = NA_B_Resistant_Population }
+		}
+		text = NA_B_statehood.1.d_slavery_debate
+	}
+	desc = {
+		trigger = { always = yes }
+		text = NA_B_statehood.1.d
+	}
+	is_triggered_only = yes
+
+	option = {
+		name = NA_B_statehood.1.a
+		trigger = { 
+			OR = {
+				NOT = { ROOT = { has_country_flag = USA_Slavery_Debate_Ongoing } } 
+				has_state_flag = NA_B_Resistant_Population
+			}
+		}
+		NA_B_Add_State_Effect = yes
+		clr_state_flag = NA_B_Resistant_Population
+	}
+
+	option = {
+		name = NA_B_statehood.1.b
+		trigger = { 
+			ROOT = { has_country_flag = USA_Slavery_Debate_Ongoing }
+			NOT = { has_state_flag = NA_B_Resistant_Population }
+		}
+		ai_chance = { 
+			base = 100
+			modifier = {
+				ROOT = { has_government = social_egalitarianism }
+				add = 75
+			}
+			modifier = {
+				ROOT = { has_government = centrism }
+				add = 25
+			}
+			modifier = {
+				ROOT = { has_government = traditional_conservatism }
+				add = -25
+			}
+			modifier = {
+				ROOT = { has_government = radical_democracy }
+				add = -75
+			}
+		}
+		NA_B_Add_State_Effect = yes
+		OWNER = { 
+			USA_Slavery_Debate_StateF_Count_Modify = yes
+		}
+	}
+	option = {
+		name = NA_B_statehood.1.c
+		trigger = { 
+			ROOT = { has_country_flag = USA_Slavery_Debate_Ongoing }
+			NOT = { has_state_flag = NA_B_Resistant_Population }
+		}
+		ai_chance = { 
+			base = 100
+			modifier = {
+				ROOT = { has_government = social_egalitarianism }
+				add = -75
+			}
+			modifier = {
+				ROOT = { has_government = centrism }
+				add = -25
+			}
+			modifier = {
+				ROOT = { has_government = traditional_conservatism }
+				add = 25
+			}
+			modifier = {
+				ROOT = { has_government = radical_democracy }
+				add = 75
+			}
+		}
+		NA_B_Add_State_Effect = yes
+		OWNER = { 
+			USA_Slavery_Debate_StateS_Count_Modify = yes
+		}
 	}
 }
 

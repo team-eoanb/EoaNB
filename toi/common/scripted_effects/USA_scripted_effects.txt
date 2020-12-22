@@ -335,6 +335,40 @@ NA_B_set_pop_points_effect = {
 			}
 }
 
+NA_B_Add_State_Effect = {
+	if = {
+		limit = { ROOT = { NA_B_is_american_allowed = yes } }
+		add_core_of = ROOT
+		every_neighbor_state = {
+			limit = {
+				has_state_flag = NA_B_Disregardable_State
+				NOT = { is_core_of = ROOT }
+				OR = {
+					is_owned_by = ROOT
+					OWNER = { is_subject_of = ROOT }
+					OWNER = { is_first_nations_tribe = yes }
+				}
+			}
+		}
+		if = {
+			limit = { is_owned_by = ROOT }
+			FROM = { state_event = { id = NA_B_statehood.1 } }
+			add_to_variable = {
+				var = usa_congress_senate_total_seats
+				value = 2
+			}
+			add_to_variable = {
+				var = usa_congress_house_total_seats
+				value = 1
+			}
+			OWNER = { 
+				USA_admit_state_add_stars = yes
+				eoanb_add_1_prestige_score = yes
+			}
+		}
+	}
+}
+
 # Energy's Buchanan Cabinet
 
 USA_Buchanan_Cabinet_Modify = {
@@ -1956,7 +1990,7 @@ USAROD_reconstruction_zones_setup = {
 
 USAROD_reconstruction_progress_setup = {
 	if = {
-		limit = { NOT = { has_state_flag = NA_B_minor_state } }
+		limit = { NOT = { has_state_flag = NA_B_Disregardable_State } }
 		randomize_temp_variable = {
 			var = starting_progress
 			distribution = uniform

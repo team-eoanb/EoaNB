@@ -169,3 +169,103 @@ balkanized_state_border_skirmish_category = {
 		}
 	}
 }
+balkanized_american_states_core_states = {
+	balkanized_american_states_core_states_decision_switch = {
+		icon = generic_political_discourse
+		allowed = {	NA_B_is_american_allowed = yes }
+		available = { always = yes }
+
+		cost = 0
+		fire_only_once = no
+		ai_will_do = { base = 0 }
+
+		complete_effect = {
+			if = {
+				limit = { has_country_flag = balkanized_american_states_core_states_decision_flag }
+				custom_effect_tooltip = balkanized_american_states_core_states_decision_switch_on
+				clr_country_flag = balkanized_american_states_core_states_decision_flag
+			}
+			else = {
+				custom_effect_tooltip = balkanized_american_states_core_states_decision_switch_off
+				set_country_flag = balkanized_american_states_core_states_decision_flag
+			}
+		}
+	}
+	balkanized_american_states_core_states_decision = {
+		icon = generic_political_discourse 
+		allowed = { NA_B_is_american_allowed = yes }
+		available = {
+			has_capitulated = no
+			has_political_power > 150
+			FROM = {
+				NOT = { 
+					has_state_flag = NA_B_Disregardable_State
+					has_state_flag = NA_B_Resistant_Population
+					is_core_of = ROOT
+				}
+				is_owned_by = ROOT
+				is_in_home_area = yes
+				state_population > 40000
+				is_fully_controlled_by = ROOT
+			}
+		}
+		state_target = yes
+		visible = {
+			hidden_trigger = {
+				NOT = { has_country_flag = balkanized_american_states_core_states_decision_flag } 
+				FROM = {
+					NOT = { 
+						has_state_flag = NA_B_Disregardable_State
+						is_core_of = ROOT
+					}
+					is_owned_by = ROOT
+					is_in_home_area = yes
+				}
+			}
+		}
+		cost = 150
+		fire_only_once = no
+
+		ai_will_do = {
+			base = 5
+			modifier = {
+				FROM = { state_population > 100000 }
+				add = 5
+			}
+			modifier = {
+				FROM = { state_population > 200000 }
+				add = 15
+			}
+			modifier = {
+				FROM = { state_population > 500000 }
+				add = 25
+			}
+			modifier = {
+				FROM = { state_population > 1000000 }
+				add = 50
+			}
+			modifier = {
+				FROM = { has_war = yes }
+				factor = 0.30
+			}
+		}
+
+		days_remove = 90
+		complete_effect = {
+			add_political_power = -20
+			custom_effect_tooltip = AFR_Racial_Tension_minus_1
+			custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+			hidden_effect = {
+				state_event = { id = afr_rrp_racial_tension_increase.1 }
+				create_unit = {
+					division = "name = \"State Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+					owner = OWNER
+				}
+			}
+		}
+		remove_effect = {
+			add_political_power = 20
+			FROM = { state_event = { id = NA_B_statehood.1 } }
+		}
+	}
+}

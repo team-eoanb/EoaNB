@@ -92,7 +92,7 @@ state_event = {
 		OWNER = {
 			if = {
 				limit = { tag = USA }
-				complete_national_focus = USA_pennsylvania_oil
+				complete_national_focus = USA_pennsylvanian_oil
 			}
 		}
 		360 = { 
@@ -146,6 +146,10 @@ country_event = {
 			complete_national_focus = USA_under_panic
 			set_global_flag = Panic_of_1857
 			news_event = usa_panic_of_1857.2
+			country_event = {
+				id = use.73
+				days = 40
+			}
 		}
 	}
 }
@@ -857,7 +861,51 @@ country_event = {#March on defended pass
 		name = USA_utah_war.18.a
 		add_to_variable = {
 			var = USA_mormon_unrest
-    		value = 2
+    		value = 3
+		}
+		#transfer state 1291
+		USA = {
+			transfer_state = 1291
+		}
+		start_border_war = {
+			change_state_after_war = no
+			attacker = {
+				state = 1291
+				num_provinces = 1
+				on_win = USA_utah_war.93
+				on_lose = USA_utah_war.94
+				#on_cancel = eventID
+			}
+			defender = {
+				state = 380
+				num_provinces = 1
+				#on_win = eventID
+				#on_lose = eventID
+				#on_cancel = eventID
+			}
+		}
+		set_border_war_data = {
+			attacker = 1291
+			defender = 380
+			defender_modifier = 0.5
+			combat_width = 20
+		}
+	}
+}
+
+country_event = {
+	id = USA_utah_war.19
+	title = USA_utah_war.19.t
+	desc = USA_utah_war.19.d
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = USA_utah_war.19.a
+		add_to_variable = {
+			var = USA_mormon_unrest
+			value = 2
 		}
 	}
 }
@@ -947,6 +995,48 @@ country_event = {#Promise to expedite statehood
 	}
 }
 
+country_event = {#US wins border war
+	id = USA_utah_war.93
+	title = USA_utah_war.93.t
+	desc = USA_utah_war.93.d
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = USA_utah_war.93.a
+		USA = {
+			declare_war_on = {
+				target = UTA
+				type = annex_everything
+			}
+			activate_mission = utahWar90
+			clr_country_flag = utahWarOngoing
+			remove_mission = utahWar0
+		}
+	}
+}
+
+country_event = {#US loses border war
+	id = USA_utah_war.94
+	title = USA_utah_war.94.t
+	desc = USA_utah_war.94.d
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = USA_utah_war.94.a
+		add_to_variable = {
+			var = USA_mormon_unrest
+			value = -5
+		}
+		SHO = {
+			transfer_state = 1291
+		}
+	}
+}
+
 country_event = {#war goes hot, US wins
 	id = USA_utah_war.95
 	title = USA_utah_war.95.t
@@ -957,13 +1047,15 @@ country_event = {#war goes hot, US wins
 
 	option = {
 		name = USA_utah_war.95.a
-		USA = {#annex UT
-			annex_country = {
-				target = UTA
-				transfer_troops = no
+		complete_national_focus = USA_real_utah_war
+		hidden_effect = {
+			UTA = {
+				every_owned_state = {
+					limit = { is_in_home_area = yes }
+					set_state_flag = NA_B_Resistant_Population
+				}
 			}
 		}
-		complete_national_focus = USA_real_utah_war
 	}
 }
 
@@ -1007,18 +1099,20 @@ country_event = {#ongoing event which adds mormon unrest forcing the player to d
 	option = {
 		name = USA_utah_war.98.a
 		trigger = {
-			USA = {
-				has_country_flag = utahWarOngoing
-			}
-			check_variable = {
-				var = USA_mormon_unrest
-				value = 5
-				compare = less_than
-			}
-			check_variable = {
-				var = USA_mormon_unrest
-				value = 0
-				compare = greater_than_or_equals
+			AND = {
+				USA = {
+					has_country_flag = utahWarOngoing
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value = 5
+					compare = less_than
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value = 0
+					compare = greater_than_or_equals
+				}
 			}
 		}
 		add_to_variable = {
@@ -1050,18 +1144,20 @@ country_event = {#ongoing event which adds mormon unrest forcing the player to d
 	option = {
 		name = USA_utah_war.98.b
 		trigger = {
-			USA = {
-				has_country_flag = utahWarOngoing
-			}
-			check_variable = {
-				var = USA_mormon_unrest
-				value = 10
-				compare = less_than
-			}
-			check_variable = {
-				var = USA_mormon_unrest
-				value = 5
-				compare = greater_than_or_equals
+			AND = {
+				USA = {
+					has_country_flag = utahWarOngoing
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value = 10
+					compare = less_than
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value = 5
+					compare = greater_than_or_equals
+				}
 			}
 		}
 		add_to_variable = {
@@ -1127,6 +1223,13 @@ country_event = {#ongoing event which adds mormon unrest forcing the player to d
 	}
 }
 
+swap_ideas = {
+	remove_idea = energy_monopoly_good
+	add_idea = daddy_loved_me
+}
+
+
+
 country_event = {#Utah War Conclusion
 	id = USA_utah_war.99
 	title = USA_utah_war.99.t                      
@@ -1151,6 +1254,7 @@ country_event = {#Utah War Conclusion
 			}
 			activate_mission = utahWar90
 			clr_country_flag = utahWarOngoing
+			remove_mission = utahWar0
 		}
 		#transfer state 1291
 	}
@@ -1159,6 +1263,17 @@ country_event = {#Utah War Conclusion
 			check_variable = { USA_mormon_unrest < 18 }
 		}
 		name = USA_utah_war.99.b
+		if = {
+			limit = {
+				USA = {
+					has_border_war_with = UTA
+				}
+			}
+			cancel_border_war = {
+				attacker = 1291
+				defender = 380
+			}
+		}
 		USA = {#annex UT
 			annex_country = {
 				target = UTA
@@ -1928,6 +2043,14 @@ country_event = {
 		annex_country = {
 			target = UTA
 		}
+		hidden_effect = {
+			UTA = {
+				every_owned_state = {
+					limit = { is_in_home_area = yes }
+					set_state_flag = NA_B_Resistant_Population
+				}
+			}
+		}
 		swap_ideas = {
 			remove_idea = state_religion
 			add_idea = secular_state
@@ -1955,6 +2078,14 @@ country_event = {
 		declare_war_on = {
 			target = UTA
 			type = annex_everything
+		}
+		hidden_effect = {
+			UTA = {
+				every_owned_state = {
+					limit = { is_in_home_area = yes }
+					set_state_flag = NA_B_Resistant_Population
+				}
+			}
 		}
 		set_country_flag = USA_UtahWar_Escalated
 	}
