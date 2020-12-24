@@ -37,9 +37,9 @@ on_actions = {
 				}
 				ROOT = { 
 					set_variable = { var = afr_empire_subject_overlord value = FROM.id }
-					set_variable = { var = ROOT.afr_empire_subject_loyalty_var value = 3 } 
+					set_variable = { var = ROOT.afr_empire_subject_loyalty_var@FROM value = 3 } 
 					clamp_variable = {
-						var = ROOT.afr_empire_subject_loyalty_var
+						var = ROOT.afr_empire_subject_loyalty_var@FROM
 						min = -1
 						max = 10
 					}
@@ -68,40 +68,13 @@ on_actions = {
 				}
 				ROOT = { 
 					set_variable = { var = afr_empire_subject_overlord value = FROM.id }
-					set_variable = { var = ROOT.afr_empire_subject_loyalty_var value = 3 } 
+					set_variable = { var = ROOT.afr_empire_subject_loyalty_var@FROM value = 3 } 
 					clamp_variable = {
-						var = ROOT.afr_empire_subject_loyalty_var
+						var = ROOT.afr_empire_subject_loyalty_var@FROM
 						min = -1
 						max = 10
 					}
 				}
-			}
-		}
-	}
-	on_liberate = {
-		effect = {
-			if = {
-				limit = { ROOT = { has_variable = afr_empire_subject_loyalty_var } }
-				clear_variable = afr_empire_subject_loyalty_var
-				clear_variable = afr_empire_subject_overlord
-			}
-		}
-	}
-	on_subject_free = {
-		effect = {
-			if = {
-				limit = { ROOT = { has_variable = afr_empire_subject_loyalty_var } }
-				clear_variable = afr_empire_subject_loyalty_var
-				clear_variable = afr_empire_subject_overlord
-			}
-		}
-	}
-	on_subject_annexed = {
-		effect = {
-			if = {
-				limit = { ROOT = { has_variable = afr_empire_subject_loyalty_var } }
-				clear_variable = afr_empire_subject_loyalty_var
-				clear_variable = afr_empire_subject_overlord
 			}
 		}
 	}
@@ -251,6 +224,9 @@ on_actions = {
 				834 = { set_variable = { afr_empire_politics_state_luxury_ivory_acquisition_var = 32 } }
 				832 = { set_variable = { afr_empire_politics_state_luxury_ivory_acquisition_var = 32 } }
 				556 = { set_variable = { afr_empire_politics_state_luxury_ivory_acquisition_var = 17 } }
+				987 = { set_variable = { afr_empire_politics_state_luxury_ivory_acquisition_var = 30 } }
+				1387 = { set_variable = { afr_empire_politics_state_luxury_ivory_acquisition_var = 45 } }
+				289 = { set_variable = { afr_empire_politics_state_luxury_ivory_acquisition_var = 20 } }
 				
 				724 = { set_variable = { afr_empire_politics_state_luxury_spice_acquisition_var = 54 } }
 				998 = { set_variable = { afr_empire_politics_state_luxury_spice_acquisition_var = 58 } }
@@ -382,26 +358,34 @@ on_actions = {
 						}
 						add_to_variable = { var = afr_empire_state_industrisation_progress value = 50 }
 					}
-					if = {
-						limit = {  
-							any_province_building_level = {
-								province = { limit_to_coastal = yes }
-								building = naval_base
-								level > 4
-							}
-						}
-						add_to_variable = { var = afr_empire_state_industrisation_progress value = 10 }
-					}
-					else_if = {
-						limit = {  
-							any_province_building_level = {
-								province = { limit_to_coastal = yes }
-								building = naval_base
-								level > 0
-							}
-						}
-						add_to_variable = { var = afr_empire_state_industrisation_progress value = 5 }
-					}
+					#if = {
+					#	limit = {
+					#		THIS = {
+					#			any_province_building_level = {
+					#				province = {
+					#					all_provinces = yes
+					#				}
+					#				building = naval_base
+					#				level > 4
+					#			}
+					#		}
+					#	}
+					#	add_to_variable = { var = afr_empire_state_industrisation_progress value = 10 }
+					#}
+					#else_if = {
+					#	limit = {
+					#		THIS = {
+					#			any_province_building_level = {
+					#				province = {
+					#					all_provinces = yes
+					#				}
+					#				building = naval_base
+					#				level > 0
+					#			}
+					#		}
+					#	}
+					#	add_to_variable = { var = afr_empire_state_industrisation_progress value = 5 }
+					#}
 					if = {
 						limit = {  
 							infrastructure > 5

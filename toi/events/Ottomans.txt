@@ -877,6 +877,7 @@ country_event = {#OTO - debt_increases
 	trigger = {
 		tag = OTO
 		has_variable = debt_level
+		check_variable={ debt_level > 0}
 		NOT={has_country_flag = OTO_spending_managed}
 	}
 	mean_time_to_happen = {
@@ -1424,7 +1425,7 @@ country_event = {#RUS - Serbia collapses
 			has_country_flag = OTO_SER_war_1876
 		}
 		SER={
-			surrender_progress > 0.19
+			surrender_progress > 0.05
 		}
 	}
 	mean_time_to_happen = {
@@ -1868,6 +1869,7 @@ country_event = {#RUS - ottoman weakness
 			}
 		}
 		date > 1877.04.01
+		date < 1882.01.01
 	}
 	mean_time_to_happen = {
 		days = 15
@@ -2012,11 +2014,19 @@ news_event = {#Global - Russio-Turkish War
 	option = {#The balkans are on fire once again
 		name = OTO_russio_turkish_war.7.a
 		ai_chance = { factor = 100}
+		if={
+			limit={is_ai = no}
+			set_variable = {super_event_displayed = 27}
+		}
 	}
 	option = {#we must aid the turks
 		name = OTO_russio_turkish_war.7.b
 		trigger = {tag=ENG}
 		ai_chance = { factor = 0}
+		if={
+			limit={is_ai = no}
+			set_variable = {super_event_displayed = 27}
+		}
 	}
 }
 country_event = {#RUS - VICTORY(historical)
@@ -2334,7 +2344,6 @@ country_event = {#OTO - results of the Treaty of San Stefano (victory)
 	option = {#give them what they want
 		name = OTO_russio_turkish_war.16.a
 		ai_chance = { factor = 95}
-		OTO_sicker_man_of_europe = yes
 		##romina
 		ROM={
 			store_current_ideologies = yes

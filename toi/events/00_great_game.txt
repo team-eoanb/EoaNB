@@ -655,6 +655,56 @@ country_event = { #1873 agreement
 	}
 }
 	
+	
+country_event = { #world on fire
+  id = GreatGame.10 # Rebellion
+  title = GreatGame.10.t
+  desc = GreatGame.10.d
+  picture = GFX_report_event_nap_france_lgoc
+
+  is_triggered_only = yes
+
+  option = {#
+    name = GreatGame.10.a
+		every_country={
+			limit={
+				exists = yes
+			}
+			load_oob = Africa_tribal_army_1857
+			every_owned_state = {
+				add_core_of = owner
+			}
+			every_state={
+				PREV={
+					delete_unit = { 
+						state = PREV
+						disband = yes #will refund equipment and manpower
+					}
+				}
+			}
+			if={
+				limit={
+					is_subject = yes
+				}
+				OVERLORD={
+					set_autonomy = {
+						target = PREV
+						autonomy_state = autonomy_free
+					}
+				}
+			}
+			if={
+				limit={
+					has_war = yes
+				}
+				every_enemy_country={
+					white_peace = PREV
+				}
+			}
+		}
+		
+  }
+}
 
 	
 country_event = {	#Expedition to Shymkent first event
@@ -1005,6 +1055,6 @@ country_event = {
 		
 		option = {	#repeat process
 			name = tashkentwar.9.a
-	
+			activate_decision = great_game_seige_tashkent
 		}
 	}
