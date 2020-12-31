@@ -1347,6 +1347,13 @@ tribal_decisions_eoanb = {
 			}
 		}
 	}
+
+	edc_raise_army_debug = {
+		complete_effect={
+			afr_dismiss_warriors=yes
+		}
+	}
+
 }
 unidustrialized_warfare = {
 	eoanb_decision_Tribal_raid_neighbor = {
@@ -2166,156 +2173,6 @@ political_actions = {
 
 		ai_will_do = {
 			base = 1
-		}
-	}
-	
-	eoanb_decision_debt_repayments = {
-
-		icon = generic_political_discourse
-
-		available = {
-			has_idea = egy_vic_debt
-		}
-
-		visible = {
-			has_idea = egy_vic_debt
-			check_variable = {ROOT.debt_level > 0}
-			NOT = { TAG = LIB }
-			NOT = { has_country_flag = paying_debt }
-		}
-		
-		#fire_only_once = yes
-
-		cost = 25
-		complete_effect = {
-			custom_effect_tooltip = EGY_afr_decrease_debt_1
-			hidden_effect = {
-				if = {
-					limit = { NOT = { has_country_flag = paying_debt } }
-					set_country_flag = paying_debt
-					activate_mission = SPR_paying_debt_decision
-					country_event = { id = calc_spain_debt.1 days = 1 }
-					add_ideas = egy_vic_debt_payments
-				}
-			}
-		}
-
-		ai_will_do = {
-			base = 1
-			#modifier = {
-			#	factor = 0
-			#	NOT = { check_variable = {ROOT.debt_level > 8} }
-			#	num_of_civilian_factories < 2
-			#}
-		}
-	}
-	
-	eoanb_decision_debt_repayments_done = {
-		icon = generic_political_discourse
-		visible = { always = no }
-		complete_effect = {
-			hidden_effect = {
-				if = {
-					limit = { has_idea = egy_vic_debt_payments }
-					remove_ideas = egy_vic_debt_payments
-				}
-			}
-		}
-	}
-	
-	LIB_US_invests_to_pay_debt_decision = {
-
-		icon = generic_political_discourse
-		
-		allowed = { tag = LIB }  
-		available = {
-			custom_trigger_tooltip = {
-				tooltip = LIB_US_invests_to_pay_debt_decision_trigger
-				has_country_flag = USA_LIB_investment_flag
-				always = no
-			}
-		}
-
-		activation = {
-			has_idea = egy_vic_debt
-			check_variable = {ROOT.debt_level > 0}
-			hidden_trigger = {
-				has_country_flag = USA_LIB_investment_flag
-			}
-		}
-		
-		is_good = yes 
-		selectable_mission = no
-		days_mission_timeout = 200
-
-		timeout_effect = {
-			if = {
-				limit = { has_country_flag = USA_assist_lib_debt }
-				custom_effect_tooltip = EGY_afr_decrease_debt_2
-				hidden_effect = {
-					subtract_from_variable = {var = debt_level value = 2}
-				}
-			}
-			else = {
-				custom_effect_tooltip = EGY_afr_decrease_debt_1
-				hidden_effect = {
-					subtract_from_variable = {var = debt_level value = 1}
-				}
-			}
-		}
-
-		ai_will_do = {
-			base = 1
-		}
-	}
-	
-	LIB_decision_debt_repayments = {
-
-		icon = generic_political_discourse
-
-		available = {
-			has_idea = egy_vic_debt
-			num_of_civilian_factories_available_for_projects > 0
-		}
-		
-		allowed = { tag = LIB }
-		visible = {
-			has_idea = egy_vic_debt
-			check_variable = {ROOT.debt_level > 0}
-			TAG = LIB
-			#NOT = { has_country_flag = USA_LIB_investment_flag }
-		}
-
-		modifier = {
-			civilian_factory_use = 1
-		}
-
-		cost = 1
-		fire_only_once = no
-		
-		custom_cost_trigger = {
-
-			num_of_civilian_factories_available_for_projects > 0
-
-		}
-		custom_cost_text = LIB_debt_num_of_civilian_factories_available_for_projects_more_than_1
-
-		remove_effect = {
-			custom_effect_tooltip = EGY_afr_decrease_debt_1
-			hidden_effect = {
-				subtract_from_variable = {var = debt_level value = 1}
-			}
-		}
-		days_remove = 200
-		days_re_enable = 360
-
-		ai_will_do = {
-			base = 10
-			modifier = {
-				factor = 0
-				NOT = { check_variable = {ROOT.debt_level > 8} }
-				num_of_civilian_factories < 2
-			}
 		}
 	}
 }

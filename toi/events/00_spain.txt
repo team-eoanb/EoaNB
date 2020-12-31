@@ -1,51 +1,5 @@
 ﻿add_namespace = spain
 add_namespace = calc_spain_debt
-add_namespace = spain_unclaimed_territory_claim
-
-
-state_event = {
-	id = spain_unclaimed_territory_claim.1
-	hidden = yes
-	is_triggered_only = yes
-		
-	immediate = {
-		SPR = { country_event = { id = spain_unclaimed_territory_claim.2 } }
-	}
-}
-
-country_event = {
-	id = spain_unclaimed_territory_claim.2
-	title = spain_unclaimed_territory_claim.2.t
-	desc = spain_unclaimed_territory_claim.2.d
-	is_triggered_only = yes
-
-	option = {
-		name = spain_unclaimed_territory_claim.2.a
-		ai_chance = { 
-			factor = 100 
-			modifier = {
-				factor = 0
-				check_variable = { debt_level > 30 }
-			}
-		}
-		add_state_claim = SPR
-	}
-	option = {
-		name = spain_unclaimed_territory_claim.2.b
-		ai_chance = { 
-			factor = 100 
-			modifier = {
-				factor = 0
-				check_variable = { debt_level < 30 }
-			}
-		}
-		custom_effect_tooltip = SPR_unclaimed_territory_abandon_claim
-	}
-}
-
-
-
-
 
 
 
@@ -257,15 +211,13 @@ country_event = {
 	desc = spain.8.d
 	
 	is_triggered_only = yes
-	
-	immediate = { hidden_effect = { ROOT = { set_country_flag = has_debt } } }
 
 	option = {
 		name = spain.8.a
 		ai_chance = { factor = 100 }
-		hidden_effect = { 
-			activate_mission = SPR_paying_debt_decision 
-			country_event = { id = calc_spain_debt.1 days = 1 }
+		if = {
+			limit = { NOT = { has_country_flag = paying_debt } }
+			activate_decision = eoanb_decision_debt_repayments 
 		}
 	}
 }

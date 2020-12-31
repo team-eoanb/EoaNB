@@ -1,6 +1,117 @@
 #Category only allowed for SPR
 SPR_debt_management_category = {
 
+	eoanb_decision_debt_repayments = {
+
+		icon = generic_political_discourse
+
+		available = {
+			has_idea = egy_vic_debt
+		}
+
+		visible = {
+			has_idea = egy_vic_debt
+			check_variable = {ROOT.debt_level > 0}
+			NOT = { has_country_flag = paying_debt }
+		}
+		
+		fire_only_once = no
+
+		#cost = 25
+		complete_effect = {
+			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			hidden_effect = {
+				if = {
+					limit = { NOT = { has_country_flag = paying_debt } }
+					set_country_flag = paying_debt
+					activate_mission = SPR_paying_debt_decision
+					country_event = { id = calc_spain_debt.1 days = 1 }
+					add_ideas = egy_vic_debt_payments
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			#modifier = {
+			#	factor = 0
+			#	NOT = { check_variable = {ROOT.debt_level > 8} }
+			#	num_of_civilian_factories < 2
+			#}
+		}
+	}
+	
+	eoanb_decision_debt_repayments_done = {
+		icon = generic_political_discourse
+		visible = { always = no }
+		complete_effect = {
+			hidden_effect = {
+				if = {
+					limit = { has_idea = egy_vic_debt_payments }
+					remove_ideas = egy_vic_debt_payments
+				}
+			}
+			if = {
+				limit = { check_variable = { debt_level < 1 } }
+				if = {
+					limit = { has_idea = egy_vic_debt }
+					remove_ideas = egy_vic_debt
+				}
+			}
+		}
+	}
+	
+	LIB_US_invests_to_pay_debt_decision = {
+
+		icon = generic_political_discourse
+		
+		allowed = { tag = LIB }  
+		available = {
+			hidden_trigger = { always = no } 
+		}
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = LIB_US_invests_to_pay_debt_decision_trigger
+				NOT = { has_country_flag = USA_LIB_investment_flag }
+			}
+		}
+
+		activation = {
+			has_idea = egy_vic_debt
+			check_variable = {ROOT.debt_level > 0}
+			hidden_trigger = {
+				has_country_flag = USA_LIB_investment_flag
+			}
+		}
+		
+		is_good = yes 
+		selectable_mission = yes
+		custom_cost_trigger = { always = yes }
+		custom_cost_text = LIB_US_invests_to_pay_debt_decision_custom_cost
+		days_mission_timeout = 180
+
+		timeout_effect = {
+			if = {
+				limit = { has_country_flag = USA_assist_lib_debt }
+				#custom_effect_tooltip = EGY_afr_decrease_debt_2
+				hidden_effect = {
+					subtract_from_variable = {var = debt_level value = 2}
+				}
+			}
+			else = {
+				#custom_effect_tooltip = EGY_afr_decrease_debt_1
+				hidden_effect = {
+					subtract_from_variable = {var = debt_level value = 1}
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+		}
+	}
+
 	SPR_paying_debt_decision = {
 		allowed = { always = no }
 		available = {
@@ -8,15 +119,15 @@ SPR_debt_management_category = {
 		}
 		days_mission_timeout = 3
 		activation = {
-			OR = {
-				has_country_flag = has_debt
-				has_country_flag = paying_debt
-			}
+			has_country_flag = paying_debt
 		}
 		#cancel_if_not_visible = yes
+		selectable_mission = yes
+		custom_cost_trigger = { always = yes }
+		custom_cost_text = SPR_paying_debt_decision_custom_cost
 		is_good = yes
 		timeout_effect = {
-			custom_effect_tooltip = EGY_afr_decrease_debt_1
+			#custom_effect_tooltip = EGY_afr_decrease_debt_1
 			hidden_effect = {
 				add_to_variable = {var = debt_level value = -1}
 				if = {
@@ -25,26 +136,19 @@ SPR_debt_management_category = {
 						check_variable = { debt_level > 0 }
 					}
 					if = {
-						limit = { 
-							TAG = SPR
-							NOT = { has_country_flag = has_debt } 
-						}
-						set_country_flag = has_debt
-					}
-					if = {
 						limit = { has_country_flag = paying_debt }
 						clr_country_flag = paying_debt
 						if = {
 							limit = { has_idea = egy_vic_debt_payments }
 							remove_ideas = egy_vic_debt_payments
 						}
-						#activate_decision = eoanb_decision_debt_repayments_done
+						activate_decision = eoanb_decision_debt_repayments_done
 					}
-					else = { activate_mission = SPR_paying_debt_decision }
-					SPR = { country_event = { id = calc_spain_debt.1 days = 1 } }
 				}
-				else = { clr_country_flag = has_debt }
 			}
+		}
+		ai_will_do = {
+			base = 0
 		}
 	}
 }
@@ -63,7 +167,7 @@ SPR_colonial_affairs_category = {
 			NOT = { has_country_flag = SPR_unclaimed_territory_menu_on_flag } 
 		}
 		complete_effect = {
-			custom_effect_tooltip = afr_empire_politics_state_autonomy_menu_on_effect
+			custom_effect_tooltip = SPR_unclaimed_territory_menu_on_tooltip
 			set_country_flag = SPR_unclaimed_territory_menu_on_flag
 		}
 		ai_will_do = {
@@ -83,7 +187,7 @@ SPR_colonial_affairs_category = {
 			is_ai = no
 		}
 		complete_effect = {
-			custom_effect_tooltip = afr_empire_politics_state_autonomy_menu_off_effect
+			custom_effect_tooltip = SPR_unclaimed_territory_menu_off_tooltip
 			clr_country_flag = SPR_unclaimed_territory_menu_on_flag
 		}
 	}
@@ -94,7 +198,10 @@ SPR_colonial_affairs_category = {
 		}
 		state_target = yes
 		allowed = { TAG = SPR }
-		visible = { has_country_flag = SPR_unclaimed_territory_menu_on_flag }
+		visible = { 
+			has_country_flag = SPR_unclaimed_territory_menu_on_flag 
+			FROM = { NOT = { has_state_flag = SPR_unclaimed_territory_abandon_claim_flag } }
+		}
 		target_trigger = {
 			FROM = {
 				OR = {
@@ -110,12 +217,20 @@ SPR_colonial_affairs_category = {
 					STATE = 642
 					STATE = 643
 				}
+				NOT = { has_state_flag = SPR_unclaimed_territory_abandon_claim_flag }
 			}
 		}
 		cost = 0
-		fire_only_once = yes
+		fire_only_once = no
 		complete_effect = {
-			FROM = { state_event = { id = spain_unclaimed_territory_claim.1 } }
+			if = {
+				limit = { NOT = { FROM = { is_claimed_by = ROOT } } }
+				hidden_effect = { FROM = { state_event = { id = UCT_territory_management_establish_first_claim.1 } } }
+				custom_effect_tooltip = UCT_territory_management_establish_first_claim_tooltip
+			}
+			else = {
+				custom_effect_tooltip = UCT_territory_management_no_option_tooltip
+			}
 		}
 		ai_will_do = {
 			base = 0
@@ -138,6 +253,8 @@ SPR_colonial_affairs_category = {
 		}
 		allowed = { tag = SPR }
 		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_2_debt_loc
 		days_remove = 180
 		fire_only_once = yes
 		
@@ -156,37 +273,11 @@ SPR_colonial_affairs_category = {
 		
 		complete_effect = {
 			#initial debt
-			custom_effect_tooltip = EGY_afr_increase_debt_1
-			hidden_effect = {
-				add_to_variable = {var = debt_level value = 1}
-				if = {
-					limit = {
-						has_country_flag = has_debt
-					}
-				}
-				else = {
-					set_country_flag = has_debt
-					activate_mission = SPR_paying_debt_decision
-					SPR = { country_event = { id = calc_spain_debt.1 days = 1 } }
-				}
-			}
+			debt_level_increase_by_1 = yes
 		}
 		remove_effect = {
 			#finishing debt
-			custom_effect_tooltip = EGY_afr_increase_debt_1
-			hidden_effect = {
-				add_to_variable = {var = debt_level value = 1}
-				if = {
-					limit = {
-						has_country_flag = has_debt
-					}
-				}
-				else = {
-					set_country_flag = has_debt
-					activate_mission = SPR_paying_debt_decision
-					SPR = { country_event = { id = calc_spain_debt.1 days = 1 } }
-				}
-			}
+			debt_level_increase_by_1 = yes
 			686 = {
 				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
 				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 1440 }
@@ -217,6 +308,8 @@ SPR_colonial_affairs_category = {
 		}
 		allowed = { tag = SPR }
 		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_5_debt_loc
 		days_remove = 180
 		fire_only_once = yes
 		
@@ -240,17 +333,11 @@ SPR_colonial_affairs_category = {
 		
 		complete_effect = {
 			#initial debt
-			custom_effect_tooltip = EGY_afr_increase_debt_1
-			hidden_effect = {
-				add_to_variable = {var = debt_level value = 1}
-			}
+			debt_level_increase_by_1 = yes
 		}
 		remove_effect = {
 			#finishing debt
-			custom_effect_tooltip = EGY_afr_increase_debt_4
-			hidden_effect = {
-				add_to_variable = {var = debt_level value = 4}
-			}
+			debt_level_increase_by_4 = yes
 			1022 = {
 				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
 			}
@@ -291,6 +378,8 @@ SPR_colonial_affairs_category = {
 		}
 		allowed = { tag = SPR }
 		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_3_debt_loc
 		days_remove = 180
 		fire_only_once = yes
 		
@@ -314,16 +403,12 @@ SPR_colonial_affairs_category = {
 		
 		complete_effect = {
 			#initial debt
-			custom_effect_tooltip = EGY_afr_increase_debt_1
-			hidden_effect = {
-				add_to_variable = {var = debt_level value = 1}
-			}
+			debt_level_increase_by_1 = yes
 		}
 		remove_effect = {
 			#finishing debt
-			custom_effect_tooltip = EGY_afr_increase_debt_2
+			debt_level_increase_by_2 = yes
 			hidden_effect = {
-				add_to_variable = {var = debt_level value = 2}
 				set_country_flag = SPR_cuba_has_sugar_trade_investments_flag
 			}
 			add_ideas = SPR_cuban_trading_boom
@@ -355,6 +440,8 @@ SPR_colonial_affairs_category = {
 		}
 		allowed = { tag = SPR }
 		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_2_debt_loc
 		days_remove = 180
 		fire_only_once = yes
 		
@@ -378,16 +465,12 @@ SPR_colonial_affairs_category = {
 		
 		complete_effect = {
 			#initial debt
-			custom_effect_tooltip = EGY_afr_increase_debt_1
-			hidden_effect = {
-				add_to_variable = {var = debt_level value = 1}
-			}
+			debt_level_increase_by_1 = yes
 		}
 		remove_effect = {
 			#finishing debt
-			custom_effect_tooltip = EGY_afr_increase_debt_1
+			debt_level_increase_by_1 = yes
 			hidden_effect = {
-				add_to_variable = {var = debt_level value = 1}
 				set_country_flag = SPR_cuba_has_tobacco_plantation_investments_flag
 			}
 			315 = {
@@ -421,6 +504,8 @@ SPR_colonial_affairs_category = {
 		}
 		allowed = { tag = SPR }
 		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_1_debt_loc
 		days_remove = 180
 		fire_only_once = yes
 		
@@ -439,10 +524,7 @@ SPR_colonial_affairs_category = {
 		
 		complete_effect = {
 			#initial debt
-			custom_effect_tooltip = EGY_afr_increase_debt_1
-			hidden_effect = {
-				add_to_variable = {var = debt_level value = 1}
-			}
+			debt_level_increase_by_1 = yes
 		}
 		remove_effect = {
 			686 = {
@@ -482,6 +564,8 @@ SPR_colonial_affairs_category = {
 		}
 		allowed = { tag = SPR }
 		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_3_debt_loc
 		days_remove = 180
 		fire_only_once = yes
 		
@@ -505,16 +589,12 @@ SPR_colonial_affairs_category = {
 		
 		complete_effect = {
 			#initial debt
-			custom_effect_tooltip = EGY_afr_increase_debt_1
-			hidden_effect = {
-				add_to_variable = {var = debt_level value = 1}
-			}
+			debt_level_increase_by_1 = yes
 		}
 		remove_effect = {
 			#finishing debt
-			custom_effect_tooltip = EGY_afr_increase_debt_2
+			debt_level_increase_by_2 = yes
 			hidden_effect = {
-				add_to_variable = {var = debt_level value = 2}
 				set_country_flag = SPR_cuba_has_cattle_ranch_investments_flag
 			}
 			315 = {

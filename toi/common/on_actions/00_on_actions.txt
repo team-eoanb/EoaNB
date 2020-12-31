@@ -592,6 +592,18 @@ on_actions = {
 					set_global_flag = MEX_reform_war_end
 				}
 			}
+			if = {
+				limit = {
+					tag = USA
+					FROM = { event_target:TEX_CIVWAR_CSA_target }
+				}
+				event_target:TEX_CIVWAR_CSA_target = {
+					every_owned_state = {
+						remove_core_of = event_target:TEX_CIVWAR_CSA_target
+						add_core_of = TEX
+					}
+				}
+			}
 		}
 	}
 
@@ -875,6 +887,13 @@ on_actions = {
 				TEX = { drop_cosmetic_tag = yes }
 				TEX = { remove_ideas = houston_revolt }
 				ROOT = { country_event = { id = acw.62 } }
+				every_owned_state = {
+					remove_core_of = TEX
+				}
+				add_popularity = {
+					ideology = centrism
+					popularity = 0.17
+				}
 			}
 			if = {
 				limit = {
@@ -884,15 +903,20 @@ on_actions = {
 				}
 				TEX = { clr_country_flag = TEX_civil_war }
 				ROOT = { drop_cosmetic_tag = yes }
-				random_other_country = {
-	                limit = {
-	                    original_tag = TEX
-	                    has_government = traditional_conservatism
-	                }
-	                drop_cosmetic_tag = yes
-	            }
-	            TEX = { remove_ideas = houston_revolt }
+				event_target:TEX_CIVWAR_CSA_target = { drop_cosmetic_tag = yes }
+				TEX = { remove_ideas = houston_revolt }
 				ROOT = { country_event = { id = acw.61 } }
+				every_owned_state = {
+					remove_core_of = event_target:TEX_CIVWAR_CSA_target
+				}
+				add_popularity = {
+					ideology = traditional_conservatism
+					popularity = 0.12
+				}
+				add_popularity = {
+					ideology = radical_democracy
+					popularity = 0.12
+				}
 			}
 		}
 	}

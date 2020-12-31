@@ -25,13 +25,13 @@ focus_tree = {
 	}
 
 	default = no
-	continuous_focus_position = { x = 220 y = 300 }
+	continuous_focus_position = { x = 220 y = 450 }
 
 	focus = {
 		id = USAROD_suppress_dissent_focus
 		icon = GFX_goal_continuous_suppression
 		x = 1
-		y = 0
+		y = 1
 
 		ai_will_do = { factor = 5 }
 		cost = 70
@@ -45,13 +45,21 @@ focus_tree = {
 				idea = USAROD_suppress_dissent
 				days = 100
 			}
+			random_owned_state = {
+				limit = { has_variable = reconstruction_integration_progress }
+				random_list = {
+					80 = { USAROD_reconstruction_progress_plus_1 = yes }
+					15 = { USAROD_reconstruction_progress_plus_2 = yes }
+					5 = { USAROD_reconstruction_progress_minus_1 = yes }
+				}
+			}
 		}
-  	}
+	}
 	focus = {
 		id = USAROD_gather_support_focus
 		icon = GFX_focus_generic_concessions
 		x = 5
-		y = 0
+		y = 1
 
 		ai_will_do = { factor = 5 }
 		cost = 70
@@ -69,6 +77,14 @@ focus_tree = {
 				ideology = centrism
 				popularity = 0.01
 			}
+			random_owned_state = {
+				limit = { has_variable = reconstruction_integration_progress }
+				random_list = {
+					80 = { USAROD_reconstruction_progress_plus_1 = yes }
+					15 = { USAROD_reconstruction_progress_plus_2 = yes }
+					5 = { USAROD_reconstruction_progress_minus_1 = yes }
+				}
+			}
 		}
 	}
 
@@ -76,7 +92,7 @@ focus_tree = {
 		id = USAROD_conscript_troops_focus
 		icon = GFX_focus_generic_military_mission
 		x = 9
-		y = 0
+		y = 1
 
 		ai_will_do = { factor = 5 }
 		cost = 70
@@ -91,6 +107,14 @@ focus_tree = {
 				days = 100
 			}
 			add_manpower = 1500
+			random_owned_state = {
+				limit = { has_variable = reconstruction_integration_progress }
+				random_list = {
+					80 = { USAROD_reconstruction_progress_plus_1 = yes }
+					15 = { USAROD_reconstruction_progress_plus_2 = yes }
+					5 = { USAROD_reconstruction_progress_minus_1 = yes }
+				}
+			}
 			hidden_effect = {
 				add_manpower = 3000 #Hidden on purpose
 				add_equipment_to_stockpile = {
@@ -111,7 +135,7 @@ focus_tree = {
 		id = USAROD_protect_blacks_focus
 		icon = GFX_goal_generic_demand_territory
 		x = 3
-		y = 1
+		y = 2
 
     		ai_will_do = { factor = 5 }
 		cost = 70
@@ -124,8 +148,13 @@ focus_tree = {
 				idea = USAROD_protect_blacks
 				days = 100
 			}
-		        random_owned_state = {
-				limit = { state_population > 50000 }
+			random_owned_state = {
+				limit = { has_variable = reconstruction_integration_progress }
+				random_list = {
+					80 = { USAROD_reconstruction_progress_plus_1 = yes }
+					15 = { USAROD_reconstruction_progress_plus_2 = yes }
+					5 = { USAROD_reconstruction_progress_minus_1 = yes }
+				}
 				add_manpower = -3000
 			}
 			OVERLORD = {
@@ -141,7 +170,7 @@ focus_tree = {
 		id = USAROD_freedom
 		icon = GFX_goal_continuous_restrict_freedom
 		x = 7
-		y = 1
+		y = 2
 
 		ai_will_do = { factor = 500 }
 		cost = 35
@@ -149,7 +178,24 @@ focus_tree = {
 		available = { is_subject = no }
 		completion_reward = {
 			drop_cosmetic_tag = yes
-			load_focus_tree = generic
+			if = {
+				limit = {
+					OR = {
+						is_ai = yes
+						NOT = { country_exists = CSA }
+					}
+					any_owned_state = { is_core_of = CSA }
+				}
+				custom_effect_tooltip = USAROD_freedom_csa
+				hidden_effect = {
+					every_owned_state = {
+						CSA = { transfer_state = PREV }
+					}
+				}
+			}
+			else = {
+				load_focus_tree = generic
+			}
 		}
 	}
 }

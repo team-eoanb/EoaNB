@@ -243,9 +243,10 @@ country_event = { #the national debt hits unpayable high, we are forced to decla
 		set_variable = {debt_level = 0}
 		custom_effect_tooltip = remove_debt_effects
 		#BROKEN
-		#hidden_effect = {
-		#	remove_ideas = {
-		#		egy_vic_debt
+		hidden_effect = {
+			remove_ideas = {
+				egy_vic_debt
+			}
 		#		egy_public_consered_debt_1`
 		#		egy_public_consered_debt_2
 		#		egy_public_consered_debt_3
@@ -253,7 +254,7 @@ country_event = { #the national debt hits unpayable high, we are forced to decla
 		#		egy_public_consered_debt_5
 		#		egy_industry_cuts
 		#	}
-		#}
+		}
 	}
 	mean_time_to_happen = {
 		days = 100
@@ -274,6 +275,33 @@ country_event = { #country has debt but no idea, give idea
 		add_ideas = {
 			egy_vic_debt
 		}
+	}
+	mean_time_to_happen = {
+		days = 7
+	}
+}
+
+country_event = { #national debt is payed off
+	id = egy_debt_system.9
+	title = egy_debt_system.9.t
+	desc = egy_debt_system.9.d
+	
+	trigger = {
+		has_idea = egy_vic_debt
+		check_variable = {ROOT.debt_level < 1}
+	}
+	hidden = yes
+	immediate={
+		remove_debt_effects = yes
+	}
+		
+	option = {#great
+		name = egy_debt_system.9.a
+		ai_chance = { factor = 100 }
+		remove_ideas = {
+			egy_vic_debt
+		}
+		clear_variable = ROOT.debt_level
 	}
 	mean_time_to_happen = {
 		days = 7

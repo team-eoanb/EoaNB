@@ -9,6 +9,64 @@
 # that'll be used if trigger passes
 
 defined_text = {
+	name = idea_category_political_scripted
+	text = {
+		trigger = {
+			ROOT = {
+				OR = {
+					afr_is_tribal = yes 
+					oceania_is_tribal = yes
+				}
+			}
+		}
+		localization_key = idea_category_afr_political
+	}
+	text = {
+		trigger = { always = yes }
+		localization_key = idea_category_non_afr_political
+	}
+}
+defined_text = {
+	name = idea_category_political_desc_scripted
+	text = {
+		trigger = {
+			ROOT = {
+				OR = {
+					afr_is_tribal = yes 
+					oceania_is_tribal = yes
+				}
+			}
+		}
+		localization_key = idea_category_afr_political_desc
+	}
+	text = {
+		trigger = { always = yes }
+		localization_key = idea_category_non_afr_political_desc
+	}
+}
+
+defined_text = {
+	name = eoanb_legitimacy_tooltip_scripted
+	text = {
+		trigger = {
+			ROOT = { 
+				num_subjects > 0 
+				OR = {
+					afr_is_tribal = yes 
+					oceania_is_tribal = yes
+				}
+			}
+		}
+		localization_key = afr_empire_politics_legitimacy_tooltip
+	}
+	text = {
+		trigger = { always = yes }
+		localization_key = non_afr_empire_politics_legitimacy_tooltip
+	}
+}
+
+
+defined_text = {
 	name = GetParliamentDesc
 	text = { # No vote
 		trigger = {
@@ -544,6 +602,65 @@ defined_text = {
 	text = {
 		trigger = { check_variable = { political_legitimacy_change > 0 } }
 		localization_key = eoanb_political_legitimacy_change_script_pos_tt
+	}
+}
+
+defined_text = {
+	name = political_legitimacy_subjects_loyal
+	text = {
+		trigger = { 
+			if = {
+				limit = {
+					any_country = {
+						is_subject_of = ROOT
+						check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 6 compare = greater_than_or_equals }
+						check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 10 compare = less_than_or_equals }
+					}
+				}
+				always = no
+			}
+			any_country = {
+				is_subject_of = ROOT
+				check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 0 compare = greater_than_or_equals }
+				check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 5 compare = less_than_or_equals }
+			}
+		}
+		localization_key = political_legitimacy_subjects_loyal_neg2_tt
+	}
+	text = {
+		trigger = {
+			if = {
+				limit = {
+					any_country = {
+						is_subject_of = ROOT
+						check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 0 compare = greater_than_or_equals }
+						check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 5 compare = less_than_or_equals }
+					}
+				}
+				always = no
+			}
+			any_country = {
+				is_subject_of = ROOT
+				check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 6 compare = greater_than_or_equals }
+				check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 10 compare = less_than_or_equals }
+			}
+		}
+		localization_key = political_legitimacy_subjects_loyal_pos2_tt
+	}
+	text = {
+		trigger = { 
+			any_country = {
+				is_subject_of = ROOT
+				check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 0 compare = greater_than_or_equals }
+				check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 5 compare = less_than_or_equals }
+			}
+			any_country = {
+				is_subject_of = ROOT
+				check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 6 compare = greater_than_or_equals }
+				check_variable = { var = THIS.afr_empire_subject_loyalty_var@ROOT value = 10 compare = less_than_or_equals }
+			}
+		}
+		localization_key = political_legitimacy_subjects_loyal_0_tt
 	}
 }
 

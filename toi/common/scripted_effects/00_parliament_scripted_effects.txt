@@ -1333,24 +1333,7 @@ eoanb_political_legitimacy_reset = {
 	eoanb_political_legitimacy_change = yes
 }
 
-# Monthly Legitimacy Drift
-eoanb_political_legitimacy_drift = {
-
-	# Initialize Legitimacy
-	if = {
-		limit = { NOT = { has_variable = political_legitimacy } }
-		randomize_variable = {
-			var = political_legitimacy
-			distribution = uniform
-			min = 0.6
-			max = 0.8
-		}
-	}
-	if = {
-		limit = { NOT = { has_dynamic_modifier = { modifier = legitimacy_dynamic_modifier } } }
-		add_dynamic_modifier = { modifier = legitimacy_dynamic_modifier }
-	}
-
+eoanb_political_legitimacy_drift_calc = {
 	# Equilibrium Base
 	set_variable = { political_legitimacy_equilibrium = 0.68 }
 	
@@ -1597,6 +1580,7 @@ eoanb_political_legitimacy_drift = {
 		limit = { is_minor_power = yes }
 		add_to_variable = { political_legitimacy_equilibrium = 0.01 }
 	}
+	add_to_variable = { political_legitimacy_equilibrium = political_legitimacy_equilibrium_custom }
 
 	# Drift Calculation
 	clamp_variable = {
@@ -1643,6 +1627,27 @@ eoanb_political_legitimacy_drift = {
 		limit = { check_variable = { political_legitimacy_equilibrium_difference = 0 } }
 		set_variable = { political_legitimacy_drift = 0.0 }
 	}
+}
+
+# Monthly Legitimacy Drift
+eoanb_political_legitimacy_drift = {
+
+	# Initialize Legitimacy
+	if = {
+		limit = { NOT = { has_variable = political_legitimacy } }
+		randomize_variable = {
+			var = political_legitimacy
+			distribution = uniform
+			min = 0.6
+			max = 0.8
+		}
+	}
+	if = {
+		limit = { NOT = { has_dynamic_modifier = { modifier = legitimacy_dynamic_modifier } } }
+		add_dynamic_modifier = { modifier = legitimacy_dynamic_modifier }
+	}
+
+	eoanb_political_legitimacy_drift_calc = yes
 	
 	# Apply Drift
 	set_temp_variable = { political_legitimacy_change = political_legitimacy_drift }

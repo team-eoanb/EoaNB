@@ -4,12 +4,11 @@ focus_tree = {
 		factor = 0
 		modifier = {#
 			add = 10
-			OR = {
-				tag = TRV
-			}
+			original_tag = TRV
 		}
 	}
 	default = no
+	reset_on_civilwar = no
 	focus = {
 		id = trv_vic_political_reforms
 		icon = GFX_goal_focus_reform_administration
@@ -43,7 +42,7 @@ focus_tree = {
 	}
 	focus = {
 		id = trv_vic_accept_other_churches
-		icon = GFX_goal_focus_reform_administration
+		icon = GFX_focus_generic_convert_to_catholicism
 		cost = 70
 		x = 2
 		y = 2
@@ -57,6 +56,9 @@ focus_tree = {
 		available = {
 			has_country_flag = trv_settled_church_question
 			has_idea = secular_state
+		}
+		mutually_exclusive={
+			focus = trv_vic_only_one_church
 		}
 		available_if_capitulated = no
 		ai_will_do = {
@@ -91,6 +93,9 @@ focus_tree = {
 		y = 2
 		completion_reward = {
 			add_stability = 0.1
+		}
+		mutually_exclusive={
+			focus = trv_vic_accept_other_churches
 		}
 		prerequisite = {
 			focus = trv_vic_question_of_church_state
@@ -210,7 +215,7 @@ focus_tree = {
 	}
 	focus = {
 		id = trv_vic_army_of_the_burghers
-		icon = GFX_goal_focus_reform_administration
+		icon = GFX_focus_militia_effort
 		cost = 70
 		x = 6
 		y = 3
@@ -297,6 +302,9 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 75
 		}
+		available={
+			has_completed_focus = trv_vic_establish_constiution
+		}
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
@@ -338,6 +346,9 @@ focus_tree = {
 		y = 2
 		completion_reward = {
 			
+		}
+		mutually_exclusive={
+			focus = trv_vic_ignore_OFS
 		}
 		available={
 			OFS = {
@@ -386,6 +397,9 @@ focus_tree = {
 		y = 2
 		completion_reward = {
 			
+		}
+		mutually_exclusive={
+			focus = trv_vic_reattempt_diplomatic_ties
 		}
 		prerequisite = {
 			focus = trv_vic_question_of_the_OFS
@@ -504,6 +518,12 @@ focus_tree = {
 				}
 				add_state_core = 776
 			}
+			every_owned_state={
+				limit={
+					has_core_of = OFS
+				}
+				remove_core_of = OFS
+			}
 		}
 		prerequisite = {
 			focus = trv_vic_central_OFS_integration
@@ -598,7 +618,6 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = trv_vic_british_policy
-			
 		}
 		available ={
 			has_war = no
@@ -650,6 +669,9 @@ focus_tree = {
 		}
 		available ={
 			has_war = no
+		}
+		allow_branch={
+			has_country_flag = able_to_expand
 		}
 		available_if_capitulated = no
 		ai_will_do = {
@@ -722,8 +744,28 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = trv_vic_portugese_sea_access
+		icon = GFX_goal_focus_reform_administration
+		cost = 70
+		x = 17
+		y = 4
+		completion_reward = {
+			
+		}
+		prerequisite = {
+			focus = trv_vic_portugese_diplomacy
+		}
+		available ={
+			has_war = no
+		}
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
 		id = trv_vic_army_focus
-		icon = GFX_goal_generic_allies_build_infantry
+		icon = GFX_goal_focus_conscription
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -853,7 +895,7 @@ focus_tree = {
 	}
 	focus = {
 		id = trv_vic_research_artillery
-		icon = GFX_goal_generic_allies_build_infantry
+		icon = GFX_goal_military_procurement_focus
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -893,6 +935,7 @@ focus_tree = {
 		x = 21
 		y = 3
 		completion_reward = {
+			set_technology = {camo_uniform = 1}
 		}
 	}
 	focus = {
@@ -904,6 +947,7 @@ focus_tree = {
 			factor = 1
 		}
 		available = {
+			has_completed_focus = trv_vic_establish_constiution
 		}
 		x = 32
 		y = 0
@@ -946,7 +990,11 @@ focus_tree = {
 		x = 26
 		y = 2
 		completion_reward = {
-			
+			add_tech_bonus = {
+				bonus = 0.33
+				uses = 4
+				category = mechanical_engineering_tech
+			}
 		}
 	}
 	focus = {
@@ -965,13 +1013,17 @@ focus_tree = {
 		x = 28
 		y = 2
 		completion_reward = {
-			
+			add_tech_bonus = {
+				bonus = 0.33
+				uses = 4
+				category = process_engineering_tech
+			}
 		}
 	}
 	focus = {
 		id = trv_vic_industrial_dev
 		icon = GFX_goal_focus_reform_administration
-		cost = 70
+		cost = 140
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
@@ -983,11 +1035,48 @@ focus_tree = {
 			focus = trv_vic_mechanical_engineering
 		}
 		available = {
+			NOT={has_idea = ofs_recovering_economy}
 		}
 		x = 27
 		y = 3
 		completion_reward = {
-			
+			add_timed_idea = {
+				days = 270
+				idea = ofs_recovering_economy
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT ={
+						state = 1149
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = {
@@ -1006,13 +1095,13 @@ focus_tree = {
 		x = 27
 		y = 4
 		completion_reward = {
-			
+			275={add_extra_state_shared_building_slots = 1}
 		}
 	}
 	focus = {
 		id = trv_vic_expand_military_production
 		icon = GFX_goal_focus_reform_administration
-		cost = 70
+		cost = 140
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
@@ -1021,11 +1110,48 @@ focus_tree = {
 			focus = trv_vic_expand_pretoria
 		}
 		available = {
+			NOT={has_idea = ofs_recovering_economy}
 		}
 		x = 27
 		y = 5
 		completion_reward = {
-			
+			add_timed_idea = {
+				days = 270
+				idea = ofs_recovering_economy
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT ={
+						state = 1149
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = {
@@ -1041,10 +1167,16 @@ focus_tree = {
 		}
 		available = {
 		}
+		bypass={
+			NOT={has_idea = agrarian}
+		}
 		x = 27
 		y = 6
 		completion_reward = {
-			
+			swap_ideas={
+				add_idea = industrializing
+				remove_idea = agrarian
+			}
 		}
 	}
 	focus = {
@@ -1063,7 +1195,13 @@ focus_tree = {
 		x = 32
 		y = 1
 		completion_reward = {
-			
+			275={
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = {
@@ -1082,7 +1220,20 @@ focus_tree = {
 		x = 31
 		y = 2
 		completion_reward = {
-			
+			1142={
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			1140={
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = {
@@ -1101,7 +1252,20 @@ focus_tree = {
 		x = 33
 		y = 2
 		completion_reward = {
-			
+			1143={
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			1144={
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = {

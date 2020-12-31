@@ -5,7 +5,7 @@ great_game_category={
 			#x great game points
 		}
 		visible = {
-			check_variable = { global.great_game_stage > 0}
+			check_variable = { global.great_game_stage > 2}
 		}
 		allowed = {
 			OR={
@@ -36,12 +36,12 @@ great_game_category={
 				exists = yes
 			}
 			NOT={owns_state = 943}
-			check_variable = { global.great_game_stage > 0}
+			check_variable = { global.great_game_stage > 2}
 		}
 		allowed = { tag = RUS }
 		fire_only_once = yes
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		ai_will_do ={
@@ -66,7 +66,7 @@ great_game_category={
 			NOT={
 				controls_state = 586
 			}
-			check_variable = { global.great_game_stage > 0}
+			check_variable = { global.great_game_stage > 2}
 		}
 		highlight_states = {
 			state = 586
@@ -76,7 +76,7 @@ great_game_category={
 		fire_only_once = yes
 		# cost = 5
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		# custom_cost_trigger = {
@@ -119,16 +119,16 @@ great_game_category={
 			KOK = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 0}
+			check_variable = { global.great_game_stage > 2}
 		}
 		highlight_states = {
 			state = 1363
 		}
 		war_with_on_remove = KOK
 		allowed = { tag = RUS }
-		fire_only_once = yes
+		fire_only_once = no
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		days_remove = 20
@@ -152,7 +152,7 @@ great_game_category={
 			KOK = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 0}
+			check_variable = { global.great_game_stage > 2}
 		}
 		war_with_on_remove = KOK
 		highlight_states = {
@@ -161,7 +161,7 @@ great_game_category={
 		allowed = { tag = RUS }
 		fire_only_once = yes
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		ai_will_do = {
@@ -185,7 +185,7 @@ great_game_category={
 			BUK = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 0}
+			check_variable = { global.great_game_stage > 2}
 		}
 		war_with_on_remove = BUK
 		highlight_states = {
@@ -194,7 +194,7 @@ great_game_category={
 		allowed = { tag = RUS }
 		fire_only_once = yes
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		ai_will_do = {
@@ -205,9 +205,27 @@ great_game_category={
 				target = BUK 
 				type = annex_everything
 			}
-			BUK = {	add_ideas = KOK_defender_central_asia}
-			set_variable = { global.great_game_bukara = 1}
-			subtract_from_variable = {great_game_points = 5}
+			hidden_effect={
+				BUK = {	
+					add_ideas = KOK_defender_central_asia
+					every_owned_state = {add_claim_by = RUS}
+				}
+				if={
+					limit={
+						SMK = {OVERLORD={tag=BUK}}
+					}
+					declare_war_on = {
+						target = SMK 
+						type = annex_everything
+					}
+					set_variable = { global.great_game_samarkand = 1}
+					SMK={
+						every_owned_state = {add_claim_by = RUS}
+					}
+				}
+				set_variable = { global.great_game_bukara = 1}
+				subtract_from_variable = {great_game_points = 5}
+			}
 		}
 	}
 	great_game_attack_samarkand = {
@@ -227,7 +245,7 @@ great_game_category={
 					is_puppet = no
 				}
 			}
-			check_variable = { global.great_game_stage > 0}
+			check_variable = { global.great_game_stage > 2}
 		}
 		war_with_on_remove = SMK
 		highlight_states = {
@@ -236,7 +254,7 @@ great_game_category={
 		allowed = { tag = RUS }
 		fire_only_once = yes
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		ai_will_do = {
@@ -261,7 +279,7 @@ great_game_category={
 			NOT={
 				has_global_flag = great_game_1873_agreement_offered
 			}
-			check_variable = { global.great_game_stage < 2}
+			check_variable = { global.great_game_stage < 4}
 		}
 		allowed = {
 			OR={
@@ -271,7 +289,7 @@ great_game_category={
 		}
 		fire_only_once = yes
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		ai_will_do = {
@@ -302,7 +320,7 @@ great_game_category={
 				exists = yes
 				is_puppet = no
 			}
-			check_variable = { global.great_game_stage > 1}
+			check_variable = { global.great_game_stage > 3}
 		}
 		highlight_states = {
 			state = 1319
@@ -311,7 +329,7 @@ great_game_category={
 		allowed = { tag = RUS }
 		fire_only_once = yes
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		ai_will_do = {
@@ -333,7 +351,7 @@ great_game_category={
 			TMS = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 1}
+			check_variable = { global.great_game_stage > 3}
 		}
 		war_with_on_remove = TMS
 		highlight_states = {
@@ -342,7 +360,7 @@ great_game_category={
 		allowed = { tag = RUS }
 		fire_only_once = yes
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		ai_will_do = {
@@ -368,7 +386,7 @@ great_game_category={
 			TMS = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 1}
+			check_variable = { global.great_game_stage > 3}
 		}
 		highlight_states = {
 			state = 1361
@@ -377,7 +395,7 @@ great_game_category={
 		allowed = { tag = RUS }
 		fire_only_once = yes
 		custom_cost_trigger = {
-			check_variable = {great_game_points > 5}
+			check_variable = {great_game_points > 4}
 		}
 		custom_cost_text = great_game_points_greater_5
 		ai_will_do = {
@@ -395,7 +413,7 @@ great_game_category={
 			SIK = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 1}
+			check_variable = { global.great_game_stage > 3}
 		}
 		allowed = { tag = RUS }
 		fire_only_once = yes
@@ -415,7 +433,7 @@ great_game_category={
 			SIK = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 1}
+			check_variable = { global.great_game_stage > 3}
 		}
 		allowed = { tag = RUS }
 		fire_only_once = yes
@@ -436,7 +454,7 @@ great_game_category={
 			AFG = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 1}
+			check_variable = { global.great_game_stage > 3}
 		}
 		allowed = { tag = RUS }
 		fire_only_once = yes
@@ -448,7 +466,7 @@ great_game_category={
 			state = 267
 		}
 		complete_effect = {
-		
+			AFG={country_event={id=anglo_afghan_war.1}}
 		}
 	}
 	great_game_invade_afghanistan = {
@@ -465,7 +483,7 @@ great_game_category={
 			AFG = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 1}
+			check_variable = { global.great_game_stage > 3}
 		}
 		highlight_states = {
 			state = 267
@@ -485,32 +503,6 @@ great_game_category={
 			subtract_from_variable = {great_game_points = 25}
 		}
 	}
-	great_game_invasion_afghanistan_mission = {
-		available = {
-			controls_state = 442
-			controls_state = 445
-			#x great game points
-		}
-		activation = {
-			AFG = {
-				has_war_with = ENG
-			}
-			check_variable = { global.great_game_stage > 1}
-		}
-		allowed = { tag = ENG }
-		fire_only_once = yes
-		cost = 25
-		days_mission_timeout = 360
-		ai_will_do = {
-			base = 1
-		}
-		remove_effect = {#war loss
-		
-		}
-		complete_effect = {#war won
-			set_variable = { global.great_game_peshawar = 5}
-		}
-	}
 	great_game_take_panjdeh = {
 		icon = border_war
 		available = {
@@ -522,7 +514,7 @@ great_game_category={
 			AFG = {
 				exists = yes
 			}
-			check_variable = { global.great_game_stage > 2}
+			check_variable = { global.great_game_stage > 4}
 		}
 		war_with_on_remove = AFG
 		highlight_states = {
@@ -552,7 +544,7 @@ great_game_category={
 			PER = {
 				has_country_flag = PER_constitutional_revolution
 			}
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		activation ={
 			always = no #start with persian event
@@ -580,7 +572,7 @@ great_game_category={
 			#x great game points
 		}
 		visible = {
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		highlight_states = {
 			state = 266
@@ -627,7 +619,7 @@ great_game_category={
 			# PER = {
 				# has_country_flag = PER_constitutional_revolution
 			# }
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		activation ={
 			if={
@@ -714,7 +706,7 @@ great_game_category={
 			# PER = {
 				# has_country_flag = PER_constitutional_revolution
 			# }
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		activation ={
 			if={
@@ -797,7 +789,7 @@ great_game_category={
 			# PER = {
 				# has_country_flag = PER_constitutional_revolution
 			# }
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		activation ={
 			if={
@@ -880,7 +872,7 @@ great_game_category={
 			# PER = {
 				# has_country_flag = PER_constitutional_revolution
 			# }
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		activation ={
 			if={
@@ -952,7 +944,7 @@ great_game_category={
 				}
 			}
 			#is_ai = yes
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		highlight_states = {
 			state = 322
@@ -1026,7 +1018,7 @@ great_game_category={
 				}
 			}
 			#is_ai = yes
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		highlight_states = {
 			state = 266
@@ -1101,7 +1093,7 @@ great_game_category={
 				}
 			}
 			#is_ai = yes
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		highlight_states = {
 			state = 267
@@ -1176,7 +1168,7 @@ great_game_category={
 				}
 			}
 			#is_ai = yes
-			check_variable = { global.great_game_stage > 3}
+			check_variable = { global.great_game_stage > 5}
 		}
 		highlight_states = {
 			state = 617
@@ -1235,6 +1227,45 @@ great_game_category={
 					SIK={clr_country_flag = ENG_becoming_dominate}
 				}
 				subtract_from_variable = {great_game_points = 10}
+		}
+	}
+}
+eoanb_category_diplomatic_actions={
+	great_game_invasion_afghanistan_mission = {
+		available = {
+			controls_state = 442
+			controls_state = 445
+			#x great game points
+		}
+		activation = {
+			AFG = {
+				has_war_with = RAJ
+			}
+			check_variable = { global.great_game_stage > 3}
+		}
+		allowed = { tag = RAJ }
+		fire_only_once = yes
+		is_good = no
+		days_mission_timeout = 360
+		ai_will_do = {
+			base = 1
+		}
+		timeout_effect = {#war loss
+			white_peace = AFG
+			set_variable = { global.great_game_peshawar = 3}
+			set_variable = { global.great_game_afghanistan = 3}
+			remove_state_core = 442
+			remove_state_core = 445
+		}
+		complete_effect = {#war won
+			white_peace = AFG
+			set_variable = { global.great_game_peshawar = 5}
+			set_variable = { global.great_game_afghanistan = 5}
+			transfer_state = 445
+			transfer_state = 442
+			AFG={
+				ROOT={puppet = PREV}
+			}
 		}
 	}
 }

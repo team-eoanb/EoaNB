@@ -23,10 +23,199 @@ add_namespace = afr_empire_politics_bountiful_harvest_boom_event
 add_namespace = afr_empire_politics_minor_economic_boom_event
 add_namespace = afr_peacetime_state_prosperity_growth_event
 add_namespace = afr_empire_politics_successful_remove_war_torn_event
+add_namespace = afr_empire_politics_subject_promotion_demand
 add_namespace = afr_empire_politics_subject_demotion_demand
 
+######################################
+#####Subject/Overlord Autonomy Events#
+######################################
+#####Demand Promotion
+	country_event = {
+		id = afr_empire_politics_subject_promotion_demand.1
+		title = afr_empire_politics_subject_promotion_demand.1.t
+		desc = afr_empire_politics_subject_promotion_demand.1.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		#Accept Promotion
+		option = {
+			name = afr_empire_politics_subject_promotion_demand.1.a
+			ai_chance = {
+				base = 25
+				modifier = {
+					add = 50
+					check_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = 6 compare = greater_than_or_equals }
+				}
+				modifier = {
+					add = -50
+					check_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = 9 compare = greater_than_or_equals }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+				}
+				modifier = {
+					add = 50
+					FROM = { check_variable = { var = Tribal_army_num value > 4999 } }
+				}
+				modifier = {
+					add = 50
+					FROM = { check_variable = { var = Tribal_horse_army_num value > 4999 } }
+				}
+				modifier = {
+					add = 50
+					FROM = { check_variable = { var = Tribal_camel_army_num value > 4999 } }
+				}
+			}
+			#gain loyalty
+			FROM = { custom_effect_tooltip = afr_empire_subject_loyalty_add_2 }
+			hidden_effect = {
+				add_to_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = 2 }
+				clamp_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT min = -1 max = 10 }
+			}
+			FROM = { country_event = { id = afr_empire_politics_subject_promotion_demand.2 days = 3 } }
+			#Subject Promoted
+			if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+				}
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_free
+				}
+			}
+			else_if = {
+				limit = {
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
+				}
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_afr_empire_level_4
+				}
+				hidden_effect = {
+					FROM = {
+						add_autonomy_score = {
+							value = 350
+							localization = afr_empire_politics_overlord_permitted_promotion_demand
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
+				}
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_afr_empire_level_3
+				}
+				hidden_effect = {
+					FROM = {
+						add_autonomy_score = {
+							value = 350
+							localization = afr_empire_politics_overlord_permitted_promotion_demand
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
+				}
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_afr_empire_level_2
+				}
+				hidden_effect = {
+					FROM = {
+						add_autonomy_score = {
+							value = 350
+							localization = afr_empire_politics_overlord_permitted_promotion_demand
+						}
+					}
+				}
+			}
+			else = {
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_free
+				}
+			}
+		}
+		
+		#Reject Promotion
+		option = {
+			name = afr_empire_politics_subject_promotion_demand.1.b
+			ai_chance = {
+				base = 50
+				modifier = {
+					add = 25
+					check_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = 5 compare = less_than_or_equals }
+					check_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = 3 compare = greater_than_or_equals }
+				}
+				modifier = {
+					add = -25
+					check_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = 3 compare = less_than_or_equals }
+				}
+				modifier = {
+					add = 25
+					if = {
+						limit = { 
+							OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						}
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+					}
+					else = {
+						always = yes
+					}
+				}
+			}
+			#lose loyalty
+			FROM = { custom_effect_tooltip = afr_empire_subject_loyalty_minus_3 }
+			hidden_effect = {
+				add_to_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = -3 }
+				clamp_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT min = -1 max = 10 }
+			}
+			FROM = {
+				add_autonomy_score = {
+					value = 400
+					localization = afr_empire_politics_overlord_rejected_promotion_demand
+				}
+			}
+			FROM = { country_event = { id = afr_empire_politics_subject_promotion_demand.3 days = 3 } }
+		}
+	}
+	
+	#Overlord Accepts Promotion
+	country_event = {
+		id = afr_empire_politics_subject_promotion_demand.2
+		title = afr_empire_politics_subject_promotion_demand.2.t
+		desc = afr_empire_politics_subject_promotion_demand.2.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		option = {
+			name = afr_empire_politics_subject_promotion_demand.2.a
+			
+		}
+		
+	}
+	
+	#Overlord Rejects Promotion
+	country_event = {
+		id = afr_empire_politics_subject_promotion_demand.3
+		title = afr_empire_politics_subject_promotion_demand.3.t
+		desc = afr_empire_politics_subject_promotion_demand.3.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		option = {
+			name = afr_empire_politics_subject_promotion_demand.3.b
+		}
+	}
 
-	#Announce Demotion
+#####Demand Demotion
 	country_event = {
 		id = afr_empire_politics_subject_demotion_demand.1
 		title = afr_empire_politics_subject_demotion_demand.1.t
@@ -48,7 +237,7 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 					check_variable = { var = ROOT.afr_empire_subject_loyalty_var@FROM value = 9 compare = greater_than_or_equals }
 				}
 			}
-			FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.2 days = 3 } }
+			hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.2 days = 3 } } }
 			#gain loyalty
 			custom_effect_tooltip = afr_empire_subject_loyalty_add_1
 			hidden_effect = {
@@ -59,7 +248,7 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 			if = {
 				limit = { 
 					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+					has_autonomy_state = autonomy_afr_empire_level_4
 				}
 				FROM = {
 					set_autonomy = {
@@ -67,11 +256,17 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 						autonomy_state = autonomy_afr_empire_level_3
 					}
 				}
+				hidden_effect = {
+					add_autonomy_score = {
+						value = -300
+						localization = afr_empire_politics_overlord_demotion_demand
+					}
+				}
 			}
 			else_if = {
 				limit = {
 					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
+					has_autonomy_state = autonomy_afr_empire_level_3
 				}
 				FROM = {
 					set_autonomy = {
@@ -79,11 +274,17 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 						autonomy_state = autonomy_afr_empire_level_2
 					}
 				}
+				hidden_effect = {
+					add_autonomy_score = {
+						value = -300
+						localization = afr_empire_politics_overlord_demotion_demand
+					}
+				}
 			}
 			else_if = {
 				limit = { 
 					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
+					has_autonomy_state = autonomy_afr_empire_level_2
 				}
 				FROM = {
 					set_autonomy = {
@@ -91,11 +292,17 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 						autonomy_state = autonomy_afr_empire_level_1
 					}
 				}
+				hidden_effect = {
+					add_autonomy_score = {
+						value = -300
+						localization = afr_empire_politics_overlord_demotion_demand
+					}
+				}
 			}
 			else_if = {
 				limit = { 
 					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
+					has_autonomy_state = autonomy_afr_empire_level_1
 				}
 				hidden_effect = {
 					if = {
@@ -159,7 +366,7 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 					check_variable = { var = ROOT.afr_empire_subject_loyalty_var@FROM value = 2 compare = less_than_or_equals }
 				}
 			}
-			FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.3 days = 3 } }
+			hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.3 days = 3 } } }
 		}
 	}
 	
@@ -189,7 +396,34 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 		#Conceded Demotion Demand
 		option = {
 			name = afr_empire_politics_subject_demotion_demand.3.a
-			FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.4 days = 3 } }
+			ai_chance = {
+				base = 25
+				modifier = {
+					add = 25
+					check_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = 9 compare = greater_than_or_equals }
+				}
+				modifier = {
+					add = 45
+					FROM = { check_variable = { var = Tribal_army_num value > 4999 } }
+				}
+				modifier = {
+					add = 45
+					FROM = { check_variable = { var = Tribal_horse_army_num value > 4999 } }
+				}
+				modifier = {
+					add = 45
+					FROM = { check_variable = { var = Tribal_camel_army_num value > 4999 } }
+				}
+			}
+			hidden_effect = {
+				FROM = {
+					add_autonomy_score = {
+						value = 500
+						localization = afr_empire_politics_overlord_conceded_demotion_demand
+					}
+				}
+			}
+			hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.4 days = 3 } } }
 			#subject gains autonomy
 			custom_effect_tooltip = afr_empire_politics_subject_demotion_demand_3_tooltip
 		}
@@ -197,7 +431,22 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 		#Enforce Demotion Demand
 		option = {
 			name = afr_empire_politics_subject_demotion_demand.3.b
-			FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.5 days = 3 } }
+			ai_chance = {
+				base = 50
+				modifier = {
+					add = 25
+					check_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = 2 compare = less_than_or_equals }
+				}
+				modifier = {
+					add = 25
+					AND = {
+						FROM = { check_variable = { var = Tribal_army_num value < 5000 } }
+						FROM = { check_variable = { var = Tribal_horse_army_num value < 5000 } }
+						FROM = { check_variable = { var = Tribal_camel_army_num value < 5000 } }
+					}
+				}
+			}
+			hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.5 days = 3 } } }
 			FROM = { custom_effect_tooltip = afr_empire_subject_loyalty_minus_2 }
 			hidden_effect = {
 				add_to_variable = { var = FROM.afr_empire_subject_loyalty_var@ROOT value = -2 }
@@ -216,10 +465,7 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 		
 		option = {
 			name = afr_empire_politics_subject_demotion_demand.4.a
-			add_autonomy_score = {
-				value = 500
-				localization = afr_empire_politics_overlord_conceded_demotion_demand
-			}
+			
 		}
 		
 	}
@@ -235,11 +481,20 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 		#Accept Demotion
 		option = {
 			name = afr_empire_politics_subject_demotion_demand.5.a
+			ai_chance = {
+				base = 50
+				modifier = {
+					add = 25
+					check_variable = { var = Tribal_army_num value < 10000 }
+					check_variable = { var = Tribal_horse_army_num value < 10000 }
+					check_variable = { var = Tribal_camel_army_num value < 10000 }
+				}
+			}
 			#Subject demoted
 			if = {
 				limit = { 
 					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+					has_autonomy_state = autonomy_afr_empire_level_4
 				}
 				FROM = {
 					set_autonomy = {
@@ -247,11 +502,17 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 						autonomy_state = autonomy_afr_empire_level_3
 					}
 				}
+				hidden_effect = {
+					add_autonomy_score = {
+						value = -600
+						localization = afr_empire_politics_overlord_enforces_demotion_demand
+					}
+				}
 			}
 			else_if = {
 				limit = {
 					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
+					has_autonomy_state = autonomy_afr_empire_level_3
 				}
 				FROM = {
 					set_autonomy = {
@@ -259,11 +520,17 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 						autonomy_state = autonomy_afr_empire_level_2
 					}
 				}
+				hidden_effect = {
+					add_autonomy_score = {
+						value = -600
+						localization = afr_empire_politics_overlord_enforces_demotion_demand
+					}
+				}
 			}
 			else_if = {
 				limit = { 
 					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
+					has_autonomy_state = autonomy_afr_empire_level_2
 				}
 				FROM = {
 					set_autonomy = {
@@ -271,11 +538,17 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 						autonomy_state = autonomy_afr_empire_level_1
 					}
 				}
+				hidden_effect = {
+					add_autonomy_score = {
+						value = -600
+						localization = afr_empire_politics_overlord_enforces_demotion_demand
+					}
+				}
 			}
 			else_if = {
 				limit = { 
 					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
-					FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
+					has_autonomy_state = autonomy_afr_empire_level_1
 				}
 				hidden_effect = {
 					if = {
@@ -327,12 +600,24 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 		
 		#Resist through war
 		option = {
-			name = afr_empire_politics_subject_demotion_demand.5.a
+			name = afr_empire_politics_subject_demotion_demand.5.b
 			trigger = { 
 				check_variable = { var = ROOT.afr_empire_subject_loyalty_var@FROM value = 2 compare = less_than_or_equals }
 			}
+			ai_chance = {
+				base = 50
+				modifier = {
+					add = -25
+					AND = {
+						check_variable = { var = Tribal_army_num value < 10000 }
+						check_variable = { var = Tribal_horse_army_num value < 10000 }
+						check_variable = { var = Tribal_camel_army_num value < 10000 }
+					}
+				}
+			}
 			#Start Resistance War
-			FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.6 } }
+			custom_effect_tooltip = afr_empire_politics_subject_demotion_demand_5_revolt_tooltip
+			hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.6 days = 3 } } }
 		}
 		
 	}
@@ -346,7 +631,361 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 		
 		option = {
 			name = afr_empire_politics_subject_demotion_demand.6.a
-			
+			ai_chance = {
+				base = 75
+				modifier = {
+					add = 25
+					AND = {
+						FROM = { check_variable = { var = Tribal_army_num value < 10000 } }
+						FROM = { check_variable = { var = Tribal_horse_army_num value < 10000 } }
+						FROM = { check_variable = { var = Tribal_camel_army_num value < 10000 } }
+					}
+				}
+			}
+			custom_effect_tooltip = afr_empire_politics_subject_demotion_demand_6_revolt_tooltip
+			hidden_effect = {
+				#Overlord
+				set_variable = { ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id = ROOT.id }
+				set_variable = { ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = FROM.id }
+				if = {
+					limit = {
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
+					}
+					set_variable = { ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@FROM = 1 }
+				}
+				else_if = {
+					limit = {
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
+					}
+					set_variable = { ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@FROM = 2 }
+				}
+				else_if = {
+					limit = {
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
+					}
+					set_variable = { ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@FROM = 3 }
+				}
+				else_if = {
+					limit = {
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+					}
+					set_variable = { ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@FROM = 4 }
+				}
+				else = {
+					set_variable = { ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@FROM = 5 }
+				}
+				
+				
+				#Subject
+				set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = ROOT.id }
+				set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_temp_subject_id = FROM.id }
+				if = {
+					limit = {
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
+					}
+					set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@ROOT = 1 }
+				}
+				else_if = {
+					limit = {
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
+					}
+					set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@ROOT = 2 }
+				}
+				else_if = {
+					limit = {
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
+					}
+					set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@ROOT = 3 }
+				}
+				else_if = {
+					limit = {
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+					}
+					set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@ROOT = 4 }
+				}
+				else = {
+					set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@ROOT = 5 }
+				}
+				
+				#Overlord Mission
+				#set_country_flag = afr_empire_politics_autonomy_revolt_overlord_perspective_flag
+				
+				#Subject Mission
+				FROM = { set_country_flag = afr_empire_politics_autonomy_revolt_subject_perspective_flag }
+				set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_perspective_var@ROOT = 1 }
+				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.8 days = 90 } }
+				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.8 days = 180 } }
+				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.8 days = 270 } }
+				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.8 days = 360 } }
+				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.8 days = 450 } }
+				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.8 days = 540 } }
+				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.8 days = 630 } }
+				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.8 days = 720 } }
+				every_country = {
+					limit = { is_subject_of = ROOT }
+					FROM = {
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.6.b
+			ai_chance = {
+				base = 25
+			}
+			#Subject Promoted
+			if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_4 }
+				}
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_free
+				}
+			}
+			else_if = {
+				limit = {
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_3 }
+				}
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_afr_empire_level_4
+				}
+				hidden_effect = {
+					FROM = {
+						add_autonomy_score = {
+							value = 800
+							localization = afr_empire_politics_overlord_revolted_for_promotion
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_2 }
+				}
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_afr_empire_level_3
+				}
+				hidden_effect = {
+					FROM = {
+						add_autonomy_score = {
+							value = 800
+							localization = afr_empire_politics_overlord_revolted_for_promotion
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					FROM = { has_autonomy_state = autonomy_afr_empire_level_1 }
+				}
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_afr_empire_level_2
+				}
+				hidden_effect = {
+					FROM = {
+						add_autonomy_score = {
+							value = 800
+							localization = afr_empire_politics_overlord_revolted_for_promotion
+						}
+					}
+				}
+			}
+			else = {
+				set_autonomy = {
+					target = FROM
+					autonomy_state = autonomy_free
+				}
+			}
+			hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.7 } } }
+		}
+		
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_demotion_demand.7
+		title = afr_empire_politics_subject_demotion_demand.7.t
+		desc = afr_empire_politics_subject_demotion_demand.7.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.7.a
+		}
+		
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_demotion_demand.8
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.9 } }
+		}
+		
+	}
+	country_event = {
+		id = afr_empire_politics_subject_demotion_demand.9
+		title = afr_empire_politics_subject_demotion_demand.9.t
+		desc = afr_empire_politics_subject_demotion_demand.9.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		trigger = {
+			check_variable = { var = FROM.afr_empire_politics_autonomy_revolt_subject_perspective_var@ROOT value = 1 compare = equals }
+		}
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.9.a
+			ai_chance = {
+				base = 0
+			}
+			FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.10 } }
+			hidden_effect = {
+				set_variable = { FROM.afr_empire_politics_autonomy_revolt_subject_war_overlord_concedes@ROOT = 1 }
+			}
+		}
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.9.b
+			ai_chance = {
+				base = 25
+				modifier = {
+					add = 75
+					FROM = {
+						any_neighbor_country = {
+							OR = {
+								TAG = ROOT
+								AND = {
+									is_neighbor_of = ROOT
+									OR = {
+										is_subject_of = ROOT
+										is_in_faction_with = ROOT
+									}
+								}
+							}
+						}
+					}
+				}
+				modifier = {
+					add = -25
+					check_variable = {
+						afr_war_exhaustion_value > 10
+					}
+				}
+				modifier = {
+					add = -25
+					check_variable = {
+						afr_war_exhaustion_value > 20
+					}
+				}
+				modifier = {
+					add = -25
+					check_variable = {
+						afr_war_exhaustion_value > 30
+					}
+				}
+				modifier = {
+					add = -25
+					check_variable = {
+						afr_war_exhaustion_value > 39
+					}
+				}
+			}
+		}
+		
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_demotion_demand.10
+		title = afr_empire_politics_subject_demotion_demand.10.t
+		desc = afr_empire_politics_subject_demotion_demand.10.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.10.a
+		}
+		
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_demotion_demand.11
+		title = afr_empire_politics_subject_demotion_demand.11.t
+		desc = afr_empire_politics_subject_demotion_demand.11.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		immediate = {
+			hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.12 } } }
+		}
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.11.a
+		}
+		
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_demotion_demand.12
+		title = afr_empire_politics_subject_demotion_demand.12.t
+		desc = afr_empire_politics_subject_demotion_demand.12.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.12.a
+		}
+		
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_demotion_demand.13
+		title = afr_empire_politics_subject_demotion_demand.13.t
+		desc = afr_empire_politics_subject_demotion_demand.13.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		immediate = {
+			hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.14 } } }
+		}
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.13.a
+		}
+		
+	}
+	
+	country_event = {
+		id = afr_empire_politics_subject_demotion_demand.14
+		title = afr_empire_politics_subject_demotion_demand.14.t
+		desc = afr_empire_politics_subject_demotion_demand.14.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		option = {
+			name = afr_empire_politics_subject_demotion_demand.14.a
 		}
 		
 	}

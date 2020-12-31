@@ -131,14 +131,26 @@ afr_scourge_of_malaria_category = {
 					debt_level < 20
 				}
 			}
+			modifier = {
+				factor = 0
+				check_variable = { debt_level > 40 }
+			}
 		}
 
-		cost = 0
+		#cost = 0
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_2_debt_loc
 		
 		days_remove = 45
 		
 		modifier = {
 			
+		}
+		
+		complete_effect = { 
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 2}
+			}
 		}
 		
 		remove_effect = {
@@ -168,17 +180,39 @@ afr_scourge_of_malaria_category = {
 		fire_only_once = yes
 		
 		ai_will_do = {
-			factor = 10
+			base = 1
+			modifier = {
+				factor = 2
+				check_variable = {
+					debt_level < 40
+				}
+			}
+			modifier = {
+				factor = 5
+				check_variable = {
+					debt_level < 20
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { debt_level > 40 }
+			}
 		}
 
-		cost = 0
+		#cost = 0
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_1_debt_loc
 		
 		days_remove = 360
 		
 		modifier = {
-			political_power_gain = -0.25
+			political_power_gain = -0.1
 		}
-		
+		complete_effect = { 
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
+		}
 		remove_effect = {
 			add_tech_bonus = {
 				bonus = 0.25
@@ -218,21 +252,21 @@ afr_scourge_of_malaria_category = {
 		
 		fire_only_once = yes
 
-		cost = 0
+		#cost = 0
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_3_debt_loc
 		
 		ai_will_do = {
 			base = 1
 			modifier = {
-				factor = 2
+				factor = 5
 				check_variable = {
-					debt_level < 40
+					debt_level < 10
 				}
 			}
 			modifier = {
-				factor = 5
-				check_variable = {
-					debt_level < 20
-				}
+				factor = 0
+				check_variable = { debt_level > 40 }
 			}
 		}
 		
@@ -243,16 +277,42 @@ afr_scourge_of_malaria_category = {
 		}
 		complete_effect = {
 			set_country_flag = afr_mandatory_vaccines_everyone_done
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 3}
+			}
 		}
 		
-		remove_effect = {
-			complete_national_focus = afr_colony_generic_focus_reform_distribute_vaccines
-			custom_effect_tooltip = afr_colony_generic_focus_reform_distribute_vaccines_tooltip
+		remove_effect = {	
+			custom_effect_tooltip = afr_colony_distribute_vaccines_tooltip
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			custom_effect_tooltip = AFR_Racial_Tension_minus_1
+			every_owned_state = {
+				limit = { check_variable = { var = detrimental_colonial_impact_value value = 1 compare = greater_than_or_equals } }
+				hidden_effect = { state_event = {id = afr_rrp_racial_tension_decrease.1} }
+				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+			}
 			hidden_effect = {
-				ROOT = {
-					country_event = {id = afr_rrp_racial_tension_decrease.1}
+				if = {
+					limit = { has_idea = afr_colonial_malaria_scourge_3 }
+					remove_ideas = afr_colonial_malaria_scourge_3
+				}
+				else_if = {
+					limit = { has_idea = afr_colonial_malaria_scourge_2 }
+					remove_ideas = afr_colonial_malaria_scourge_2
+				}
+				else_if = {
+					limit = { has_idea = afr_colonial_malaria_scourge_1 }
+					remove_ideas = afr_colonial_malaria_scourge_1
+				}
+				else_if = {
+					limit = { has_idea = afr_colonial_malaria_scourge }
+					remove_ideas = afr_colonial_malaria_scourge
+				}
+				if = {
+					limit = { TAG = LIB } 
+					complete_national_focus = LIB_colony_generic_focus_reform_distribute_vaccines
+				}
+				else = {
+					complete_national_focus = afr_colony_generic_focus_reform_distribute_vaccines
 				}
 			}
 		}
@@ -280,15 +340,21 @@ afr_scourge_of_malaria_category = {
 		
 		fire_only_once = yes
 
-		cost = 0
+		#cost = 0
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_1_debt_loc
 		
 		ai_will_do = {
 			base = 1
 			modifier = {
-				factor = 6
+				factor = 5
 				check_variable = {
-					debt_level > 20
+					debt_level > 10
 				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { debt_level > 40 }
 			}
 		}
 		
@@ -299,17 +365,37 @@ afr_scourge_of_malaria_category = {
 		}
 		complete_effect = {
 			set_country_flag = afr_mandatory_vaccines_colonists_done
-			
+			hidden_effect = {
+				add_to_variable = {var = debt_level value = 1}
+			}
 		}
 		
 		remove_effect = {
-			complete_national_focus = afr_colony_generic_focus_reform_distribute_vaccines
-			custom_effect_tooltip = afr_colony_generic_focus_reform_distribute_vaccines_tooltip
+			custom_effect_tooltip = afr_colony_distribute_vaccines_tooltip
 			hidden_effect = {
-				remove_ideas = afr_colonial_malaria_scourge
-				remove_ideas = afr_colonial_malaria_scourge_1
-				remove_ideas = afr_colonial_malaria_scourge_2
-				remove_ideas = afr_colonial_malaria_scourge_3
+				if = {
+					limit = { has_idea = afr_colonial_malaria_scourge_3 }
+					remove_ideas = afr_colonial_malaria_scourge_3
+				}
+				else_if = {
+					limit = { has_idea = afr_colonial_malaria_scourge_2 }
+					remove_ideas = afr_colonial_malaria_scourge_2
+				}
+				else_if = {
+					limit = { has_idea = afr_colonial_malaria_scourge_1 }
+					remove_ideas = afr_colonial_malaria_scourge_1
+				}
+				else_if = {
+					limit = { has_idea = afr_colonial_malaria_scourge }
+					remove_ideas = afr_colonial_malaria_scourge
+				}
+				if = {
+					limit = { TAG = LIB } 
+					complete_national_focus = LIB_colony_generic_focus_reform_distribute_vaccines
+				}
+				else = {
+					complete_national_focus = afr_colony_generic_focus_reform_distribute_vaccines
+				}
 			}
 		}
 	}

@@ -2459,16 +2459,31 @@ country_event = { #Meeting Starts
 	
 	is_triggered_only = yes
 
-	option = { #Issue of Politicy
+	option = { #Issue of Policy
 		name = asa_meeting_with_protestors.1.a
+		trigger = {
+			NOT = {
+				has_country_flag = asa_meeting_with_protestors_policy_discussed
+			}
+		}
 		country_event = asa_meeting_with_protestors.2
 	}
 	option = { #Issue of Economic Downturn
 		name = asa_meeting_with_protestors.1.b
+		trigger = {
+			NOT = {
+				has_country_flag = asa_meeting_with_protestors_economy_discussed
+			}
+		}
 		country_event = asa_meeting_with_protestors.3
 	}
 	option = { #Issue of National Security
 		name = asa_meeting_with_protestors.1.c
+		trigger = {
+			NOT = {
+				has_country_flag = asa_meeting_with_protestors_national_security_discussed
+			}
+		}
 		country_event = asa_meeting_with_protestors.4
 	}
 }
@@ -2507,6 +2522,7 @@ country_event = { #Issues of Policy
 			}
 			remove_ideas = ASA_Widespread_Protests_level_1
 		}
+		set_country_flag = asa_meeting_with_protestors_policy_discussed
 	}
 	option = { #Work With Them To Develop A Plan
 		name = asa_meeting_with_protestors.2.b
@@ -2536,6 +2552,8 @@ country_event = { #Issues of Policy
 			}
 			remove_ideas = ASA_Widespread_Protests_level_1
 		}
+		set_country_flag = asa_meeting_with_protestors_policy_discussed
+		set_country_flag = asa_meeting_with_protestors_policy_planning
 	}
 	option = { #Give Them Speaking Time In Congress
 		name = asa_meeting_with_protestors.2.c
@@ -2565,6 +2583,7 @@ country_event = { #Issues of Policy
 			}
 			remove_ideas = ASA_Widespread_Protests_level_1
 		}
+		set_country_flag = asa_meeting_with_protestors_policy_discussed
 	}
 }
 
@@ -2602,6 +2621,7 @@ country_event = { #Issues of Economic Downturn
 			}
 			remove_ideas = ASA_Widespread_Protests_level_1
 		}
+		set_country_flag = asa_meeting_with_protestors_economy_discussed
 	}
 	option = { #Work With Them To Develop A Plan
 		name = asa_meeting_with_protestors.3.b
@@ -2631,6 +2651,8 @@ country_event = { #Issues of Economic Downturn
 			}
 			remove_ideas = ASA_Widespread_Protests_level_1
 		}
+		set_country_flag = asa_meeting_with_protestors_economy_discussed
+		set_country_flag = asa_meeting_with_protestors_economy_planning
 	}
 	option = { #Give Them Speaking Time In Congress
 		name = asa_meeting_with_protestors.3.c
@@ -2660,7 +2682,99 @@ country_event = { #Issues of Economic Downturn
 			}
 			remove_ideas = ASA_Widespread_Protests_level_1
 		}
+		set_country_flag = asa_meeting_with_protestors_economy_discussed
 	}
+}
+
+country_event = { # Issues of National Security
+	id = asa_meeting_with_protestors.4
+	title = asa_meeting_with_protestors.4.t
+	desc = asa_meeting_with_protestors.4.desc
+	picture = placeholder
+	is_triggered_only = yes
+	hidden = yes
+	option = { # Give them our word
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_3
+			}
+			swap_ideas = {
+				remove_idea = ASA_Widespread_Protests_level_3
+				add_idea = ASA_Widespread_Protests_level_2
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_2
+			}
+			swap_ideas = {
+				remove_idea = ASA_Widespread_Protests_level_2
+				add_idea = ASA_Widespread_Protests_level_1
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_1
+			}
+			remove_ideas = ASA_Widespread_Protests_level_1
+		}
+		set_country_flag = asa_meeting_with_protestors_national_security_discussed
+	}
+	option = { # Work with them to develop a plan
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_3
+			}
+			swap_ideas = {
+				remove_idea = ASA_Widespread_Protests_level_3
+				add_idea = ASA_Widespread_Protests_level_2
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_2
+			}
+			swap_ideas = {
+				remove_idea = ASA_Widespread_Protests_level_2
+				add_idea = ASA_Widespread_Protests_level_1
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_1
+			}
+			remove_ideas = ASA_Widespread_Protests_level_1
+		}
+		set_country_flag = asa_meeting_with_protestors_national_security_discussed
+		set_country_flag = asa_meeting_with_protestors_national_security_planning
+	}
+	option = { # Give them speaking time in Congress
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_3
+			}
+			swap_ideas = {
+				remove_idea = ASA_Widespread_Protests_level_3
+				add_idea = ASA_Widespread_Protests_level_2
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_2
+			}
+			swap_ideas = {
+				remove_idea = ASA_Widespread_Protests_level_2
+				add_idea = ASA_Widespread_Protests_level_1
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_1
+			}
+			remove_ideas = ASA_Widespread_Protests_level_1
+		}
+	}
+	set_country_flag = asa_meeting_with_protestors_national_security_discussed
 }
 
 country_event = { # Rumors of Revolt

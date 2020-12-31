@@ -479,19 +479,603 @@ afr_regional_power_empire_politics_category = {
 			}
 		}
 		fire_only_once = no
-		days_re_enable = 360
+		days_re_enable = 30
 		cost = 0
 		
 		complete_effect = {
 			#country_event sent to subject about annexation
 			if = {
 				limit = { FROM = { is_subject_of = ROOT } }
-				FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.1 } }
+				hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_demotion_demand.1 days = 3 } } }
+				custom_effect_tooltip = afr_empire_politics_annex_subject_decision_demote_tooltip
+			}
+			if = {
+				limit = { ROOT = { is_subject_of = FROM } }
+				hidden_effect = { FROM = { country_event = { id = afr_empire_politics_subject_promotion_demand.1 days = 3 } } }
+				custom_effect_tooltip = afr_empire_politics_annex_subject_decision_promote_tooltip
 			}
 		}
 
 		ai_will_do = {
 			base = 100
+		}
+	}
+	
+	afr_empire_politics_autonomy_revolt_overlord_perspective = {
+		ai_will_do = { factor = 1 }
+		available = {
+			NOT = { country_exists = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id }
+		}
+		
+		allowed = {
+			always = no
+		}
+		activation = { 
+			has_country_flag = afr_empire_politics_autonomy_revolt_overlord_perspective_flag
+		}
+		selectable_mission = no
+		is_good = no
+		cancel_trigger = {
+			custom_trigger_tooltip = { 
+				tooltip = afr_empire_politics_autonomy_revolt_overlord_perspective_trigger 
+				any_state = {
+					is_owned_by = var:afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id
+					is_core_of = var:afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id
+					is_fully_controlled_by = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id
+				}
+			}
+		}
+
+		visible = {
+			TAG = var:afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id
+		}
+		
+		fire_only_once = no
+
+		#cost = 0
+		
+		days_mission_timeout = 180
+		
+		complete_effect = {
+			custom_effect_tooltip = afr_indonesia_war_phase_one_complete_ins_tooltip
+			hidden_effect = {
+				every_country = {
+					limit = {
+						has_war_with = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id
+						is_subject_of = var:afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id
+					}
+					white_peace = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id 
+				}
+			}
+			if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { 
+						check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@THIS value = 4 compare = equals }
+					}
+				}
+				var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+					var:ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id = {
+						set_autonomy = {
+							target = PREV
+							autonomy_state = autonomy_afr_empire_level_3
+						}
+					}
+				}
+				hidden_effect = {
+					if = {
+						limit = {
+							var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { 
+								is_subject = yes
+							}
+						}
+						var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+							add_autonomy_score = {
+								value = -800
+								localization = afr_empire_politics_overlord_revolted_for_promotion
+							}
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+						check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@THIS value = 3 compare = equals }
+					}
+				}
+				var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+					var:ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id = {
+						set_autonomy = {
+							target = PREV
+							autonomy_state = autonomy_afr_empire_level_2
+						}
+					}
+				}
+				hidden_effect = {
+					if = {
+						limit = {
+							var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { 
+								is_subject = yes
+							}
+						}
+						var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+							add_autonomy_score = {
+								value = -800
+								localization = afr_empire_politics_overlord_revolted_for_promotion
+							}
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+						check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@THIS value = 2 compare = equals }
+					}
+				}
+				var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+					var:ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id = {
+						set_autonomy = {
+							target = PREV
+							autonomy_state = autonomy_afr_empire_level_1
+						}
+					}
+				}
+				hidden_effect = {
+					if = {
+						limit = {
+							var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { 
+								is_subject = yes
+							}
+						}
+						var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+							add_autonomy_score = {
+								value = -800
+								localization = afr_empire_politics_overlord_revolted_for_promotion
+							}
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+					var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+						check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@THIS value = 1 compare = equals }
+					}
+				}
+				hidden_effect = {
+					if = {
+						limit = { var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { has_variable = Tribal_army_num } }
+						add_to_variable = { var = ROOT.Tribal_army_num value = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id.Tribal_army_num }
+					}
+					if = {
+						limit = { var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { has_variable = Tribal_horse_army_num } }
+						add_to_variable = { var = ROOT.Tribal_horse_army_num value = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id.Tribal_horse_army_num }
+					}
+					if = {
+						limit = { var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { has_variable = Tribal_camel_army_num } }
+						add_to_variable = { var = ROOT.Tribal_camel_army_num value = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id.Tribal_camel_army_num }
+					}
+				}
+				var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+					var:ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id = {
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+					}
+				}
+			}
+			else = {
+				hidden_effect = {
+					if = {
+						limit = { var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { has_variable = Tribal_army_num } }
+						add_to_variable = { var = var:afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id.Tribal_army_num value = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id.Tribal_army_num }
+					}
+					if = {
+						limit = { var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { has_variable = Tribal_horse_army_num } }
+						add_to_variable = { var = var:afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id.Tribal_horse_army_num value = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id.Tribal_horse_army_num }
+					}
+					if = {
+						limit = { var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = { has_variable = Tribal_camel_army_num } }
+						add_to_variable = { var = var:afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id.Tribal_camel_army_num value = var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id.Tribal_camel_army_num }
+					}
+				}
+				var:afr_empire_politics_autonomy_revolt_overlord_temp_subject_id = {
+					var:ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id = {
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	afr_empire_politics_autonomy_revolt_subject_perspective = {
+		ai_will_do = { factor = 1 }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = afr_empire_politics_autonomy_revolt_subject_perspective_trigger 
+				OR = {
+					any_state = {
+						is_owned_by = var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id
+						is_core_of = var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id
+						is_fully_controlled_by = var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = { 
+						check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_subject_war_overlord_concedes@THIS value = 1 compare = equals }
+					}
+				}
+			}
+		}
+		
+		allowed = {
+			always = yes
+		}
+		activation = { 
+			has_country_flag = afr_empire_politics_autonomy_revolt_subject_perspective_flag
+		}
+		selectable_mission = no
+		is_good = no
+		#cancel_trigger = {
+		#	hidden_trigger = { NOT = { country_exists = var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id } }
+		#}
+
+		visible = {
+			TAG = var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id
+		}
+		
+		fire_only_once = no
+
+		#cost = 0
+		
+		days_mission_timeout = 360
+		
+		complete_effect = {
+			hidden_effect = {
+				every_country = {
+					limit = {
+						has_war_with = var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id
+						is_subject_of = var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id
+					}
+					white_peace = var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id 
+				}
+				if = {
+					limit = { 
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = { 
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@THIS value = 4 compare = equals }
+						}
+					}
+					#var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+					#	var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+					#		set_autonomy = {
+					#			target = PREV
+					#			autonomy_state = autonomy_free
+					#		}
+					#	}
+					#}
+				}
+				else_if = {
+					limit = { 
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = { 
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@THIS value = 3 compare = equals }
+						}
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+						var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+							set_autonomy = {
+								target = PREV
+								autonomy_state = autonomy_afr_empire_level_4
+							}
+						}
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { 
+									is_subject = yes
+								}
+							}
+							var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+								add_autonomy_score = {
+									value = 800
+									localization = afr_empire_politics_overlord_revolted_for_promotion
+								}
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = { 
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = { 
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@THIS value = 2 compare = equals }
+						}
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+						var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+							set_autonomy = {
+								target = PREV
+								autonomy_state = autonomy_afr_empire_level_3
+							}
+						}
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { 
+									is_subject = yes
+								}
+							}
+							var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+								add_autonomy_score = {
+									value = 800
+									localization = afr_empire_politics_overlord_revolted_for_promotion
+								}
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = { 
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = { 
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@THIS value = 1 compare = equals }
+						}
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+						var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+							set_autonomy = {
+								target = PREV
+								autonomy_state = autonomy_afr_empire_level_2
+							}
+						}
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { 
+									is_subject = yes
+								}
+							}
+							var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+								add_autonomy_score = {
+									value = 800
+									localization = afr_empire_politics_overlord_revolted_for_promotion
+								}
+							}
+						}
+					}
+				}
+				else = {
+					#var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+					#	var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+					#		set_autonomy = {
+					#			target = PREV
+					#			autonomy_state = autonomy_free
+					#		}
+					#	}
+					#}
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = { 
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_subject_war_overlord_concedes@THIS value = 1 compare = equals }
+						}
+					}
+				}
+				else = {
+					var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+						country_event = { id = afr_empire_politics_subject_demotion_demand.11 }
+					}
+				}
+			}
+			hidden_effect = {
+				var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+					clear_variable = afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id
+					clear_variable = afr_empire_politics_autonomy_revolt_overlord_temp_subject_id
+					clear_variable = ROOT.afr_empire_politics_autonomy_revolt_subject_war_overlord_concedes@THIS
+					clear_variable = ROOT.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@THIS
+					clear_variable = THIS.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@ROOT
+				}
+				var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+					clear_variable = afr_empire_politics_autonomy_revolt_subject_temp_overlord_id
+					clear_variable = afr_empire_politics_autonomy_revolt_subject_temp_subject_id
+				}
+				clr_country_flag = afr_empire_politics_autonomy_revolt_subject_perspective_flag
+			}
+		}
+		
+		timeout_effect = {
+			custom_effect_tooltip = afr_empire_politics_autonomy_revolt_subject_timeout_effect_tooltip
+			hidden_effect = {
+				every_country = {
+					limit = {
+						has_war_with = var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id
+						is_subject_of = var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id
+					}
+					white_peace = var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id 
+				}
+				if = {
+					limit = { 
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { 
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@THIS value = 4 compare = equals }
+						}
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+						var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+							set_autonomy = {
+								target = PREV
+								autonomy_state = autonomy_afr_empire_level_3
+							}
+						}
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { 
+									is_subject = yes
+								}
+							}
+							var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+								add_autonomy_score = {
+									value = -800
+									localization = afr_empire_politics_overlord_revolted_for_promotion
+								}
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = { 
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@THIS value = 3 compare = equals }
+						}
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+						var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+							set_autonomy = {
+								target = PREV
+								autonomy_state = autonomy_afr_empire_level_2
+							}
+						}
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { 
+									is_subject = yes
+								}
+							}
+							var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+								add_autonomy_score = {
+									value = -800
+									localization = afr_empire_politics_overlord_revolted_for_promotion
+								}
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = { 
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@THIS value = 2 compare = equals }
+						}
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+						var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+							set_autonomy = {
+								target = PREV
+								autonomy_state = autonomy_afr_empire_level_1
+							}
+						}
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { 
+									is_subject = yes
+								}
+							}
+							var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+								add_autonomy_score = {
+									value = -800
+									localization = afr_empire_politics_overlord_revolted_for_promotion
+								}
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = { 
+						OR = { has_dlc = "Together for Victory" has_dlc = "Waking the Tiger" has_dlc = "Death or Dishonor" }
+						var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+							check_variable = { var = ROOT.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@THIS value = 1 compare = equals }
+						}
+					}
+					hidden_effect = {
+						if = {
+							limit = { var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { has_variable = Tribal_army_num } }
+							add_to_variable = { var = ROOT.Tribal_army_num value = ROOT.Tribal_army_num }
+						}
+						if = {
+							limit = { var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { has_variable = Tribal_horse_army_num } }
+							add_to_variable = { var = ROOT.Tribal_horse_army_num value = ROOT.Tribal_horse_army_num }
+						}
+						if = {
+							limit = { var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { has_variable = Tribal_camel_army_num } }
+							add_to_variable = { var = ROOT.Tribal_camel_army_num value = ROOT.Tribal_camel_army_num }
+						}
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+						var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+							annex_country = {
+								target = PREV
+								transfer_troops = yes
+							}
+						}
+					}
+				}
+				else = {
+					hidden_effect = {
+						if = {
+							limit = { var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { has_variable = Tribal_army_num } }
+							add_to_variable = { var = var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id.Tribal_army_num value = ROOT.Tribal_army_num }
+						}
+						if = {
+							limit = { var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { has_variable = Tribal_horse_army_num } }
+							add_to_variable = { var = var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id.Tribal_horse_army_num value = ROOT.Tribal_horse_army_num }
+						}
+						if = {
+							limit = { var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = { has_variable = Tribal_camel_army_num } }
+							add_to_variable = { var = var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id.Tribal_camel_army_num value = ROOT.Tribal_camel_army_num }
+						}
+					}
+					var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+						var:ROOT.afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+							annex_country = {
+								target = PREV
+								transfer_troops = yes
+							}
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = afr_empire_politics_autonomy_revolt_subject_complete_effect_tooltip
+			hidden_effect = {
+				var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+					country_event = { id = afr_empire_politics_subject_demotion_demand.13 }
+				}
+			}
+			hidden_effect = {
+				var:afr_empire_politics_autonomy_revolt_subject_temp_overlord_id = {
+					clear_variable = afr_empire_politics_autonomy_revolt_overlord_temp_overlord_id
+					clear_variable = afr_empire_politics_autonomy_revolt_overlord_temp_subject_id
+					clear_variable = ROOT.afr_empire_politics_autonomy_revolt_subject_war_overlord_concedes@THIS
+					clear_variable = ROOT.afr_empire_politics_autonomy_revolt_subject_temp_subject_level@THIS
+					clear_variable = THIS.afr_empire_politics_autonomy_revolt_overlord_temp_subject_level@ROOT
+					clear_variable = ROOT.afr_empire_politics_autonomy_revolt_subject_perspective_var@THIS
+				}
+				var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id = {
+					clear_variable = afr_empire_politics_autonomy_revolt_subject_temp_overlord_id
+					clear_variable = afr_empire_politics_autonomy_revolt_subject_temp_subject_id
+				}
+				clr_country_flag = afr_empire_politics_autonomy_revolt_subject_perspective_flag
+				
+			}
 		}
 	}
 	

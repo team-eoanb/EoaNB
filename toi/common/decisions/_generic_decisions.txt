@@ -590,10 +590,27 @@ economic_decisions = {
 		
 		days_remove = 90
 		
-		cost = 100
+		#cost = 100
+		custom_cost_trigger = {
+
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				check_variable = { debt_level < 50 }
+			}
+			else = { has_political_power > 100 }
+
+		}
+		custom_cost_text = eoanb_decision_building_slot_victorian_cost
 		
 		modifier = {
 			civilian_factory_use = 1
+		}
+		
+		complete_effect = {
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				debt_level_increase_by_1 = yes
+			}
 		}
 		
 		remove_effect = {
@@ -607,6 +624,11 @@ economic_decisions = {
 		
 		ai_will_do = {
 			base = 1
+			modifier = {
+				factor = 0 
+				has_idea = egy_vic_debt
+				check_variable = { debt_level < 10 }
+			}
 		}
 	}
 	
@@ -639,10 +661,25 @@ economic_decisions = {
 		
 		days_re_enable = 1800
 		
-		cost = 200
+		#cost = 200
+		
+		custom_cost_trigger = {
+
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				check_variable = { debt_level < 50 }
+			}
+			else = { has_political_power > 200 }
+
+		}
+		custom_cost_text = eoanb_decision_promote_shipbuilding_cost
 		
 		complete_effect = {
 			navy_experience = -10
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				debt_level_increase_by_1 = yes
+			}
 		}
 		
 		modifier = {
@@ -651,6 +688,11 @@ economic_decisions = {
 		
 		ai_will_do = {
 			base = 1
+			modifier = {
+				factor = 0 
+				has_idea = egy_vic_debt
+				check_variable = { debt_level < 10 }
+			}
 		}
 	}
 	
@@ -680,13 +722,34 @@ economic_decisions = {
 				has_country_flag = afr_colony_industrializing
 				has_country_flag = afr_an_african_industrializing
 			}
+			if = {
+				limit = { 
+					TAG = SPR
+				}
+				date > 1920.1.1
+			}
 		}
 		
-		fire_only_once = no
+		fire_only_once = yes
 		
-		cost = 250
+		#cost = 250
+		
+		custom_cost_trigger = {
+
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				check_variable = { debt_level < 50 }
+			}
+			else = { has_political_power > 250 }
+
+		}
+		custom_cost_text = eoanb_decision_generic_start_industrializing_cost
 		
 		complete_effect = {
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				debt_level_increase_by_10 = yes
+			}
 			custom_effect_tooltip = eoanb_tt_decision_industrializing
 			hidden_effect = {
 				swap_ideas = { remove_idea = agrarian add_idea = industrializing }
@@ -702,6 +765,11 @@ economic_decisions = {
 			modifier = {
 				factor = 200
 				date > 1880.1.1
+			}
+			modifier = {
+				factor = 0 
+				has_idea = egy_vic_debt
+				check_variable = { debt_level < 10 }
 			}
 		}
 	}
@@ -728,11 +796,25 @@ economic_decisions = {
 			NOT = { has_idea = industrialized }
 		}
 		
-		fire_only_once = no
+		fire_only_once = yes
 		
-		cost = 250
+		#cost = 250
+		custom_cost_trigger = {
+
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				check_variable = { debt_level < 50 }
+			}
+			else = { has_political_power > 250 }
+
+		}
+		custom_cost_text = eoanb_decision_generic_industrialiation_cost
 		
 		complete_effect = {
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				debt_level_increase_by_20 = yes
+			}
 			custom_effect_tooltip = eoanb_tt_decision_industrializing
 			hidden_effect = {
 				swap_ideas = { remove_idea = industrializing add_idea = industrialized }
@@ -748,6 +830,11 @@ economic_decisions = {
 			modifier = {
 				factor = 200
 				date > 1880.1.1
+			}
+			modifier = {
+				factor = 0 
+				has_idea = egy_vic_debt
+				check_variable = { debt_level < 20 }
 			}
 		}
 	}
@@ -848,7 +935,7 @@ internal_politics_eoanb = {
 			NOT={has_country_flag = no_possible_heir}
 			has_idea = no_heir
 			hidden_trigger = {
-				NOT = { has_decision = eoanb_VIN_tuc_duc_heir_crisis_mission }
+				NOT = { has_active_mission = eoanb_VIN_tuc_duc_heir_crisis_mission }
 			}
 		}
 		
@@ -862,7 +949,10 @@ internal_politics_eoanb = {
 			NOT={has_country_flag = no_possible_heir}
 			has_idea = no_heir
 			hidden_trigger = {
-				NOT = { has_decision = eoanb_VIN_tuc_duc_heir_crisis_mission }
+				NOT = { has_active_mission = eoanb_VIN_tuc_duc_heir_crisis_mission }
+			}
+			NOT = {
+				TAG = SPR
 			}
 		}
 		
@@ -897,6 +987,9 @@ internal_politics_eoanb = {
 				has_idea = oil_era
 			}
 			has_idea = weak_heir
+			NOT = {
+				TAG = SPR
+			}
 		}
 		
 		fire_only_once = no
@@ -932,6 +1025,9 @@ internal_politics_eoanb = {
 					has_idea = constitutional_monarchy
 					has_idea = parliamentary_monarchy
 				}
+			}
+			NOT = {
+				TAG = SPR
 			}
 		}
 		
@@ -984,6 +1080,9 @@ internal_politics_eoanb = {
 				is_first_nations_country = yes 
 				has_idea = chiefdom
 			}
+			NOT = {
+				TAG = SPR
+			}
 		}
 		
 		fire_only_once = no
@@ -1022,6 +1121,9 @@ internal_politics_eoanb = {
 					has_idea = non_monarchical_system
 					has_idea = no_heir
 				}
+			}
+			NOT = {
+				TAG = SPR
 			}
 		}
 		
@@ -1070,6 +1172,12 @@ internal_politics_eoanb = {
 		visible = {
 			has_idea = victorian_era
 			has_stability < 0.75
+			if = {
+				limit = { 
+					TAG = SPR
+				}
+				date > 1920.1.1
+			}
 		}
 		
 		fire_only_once = no
@@ -1119,6 +1227,12 @@ internal_politics_eoanb = {
 			has_idea = victorian_era
 			has_war_support < 0.75
 			has_war = no
+			if = {
+				limit = { 
+					TAG = SPR
+				}
+				date > 1920.1.1
+			}
 		}
 		
 		fire_only_once = no
@@ -1158,6 +1272,12 @@ internal_politics_eoanb = {
 		}
 		visible = {
 			has_idea = victorian_era
+			if = {
+				limit = { 
+					TAG = SPR
+				}
+				date > 1920.1.1
+			}
 		}
 
 		ai_will_do = {
@@ -1283,6 +1403,7 @@ eoanb_religious_affairs = {
 				has_idea = machine_era
 			}
 			has_idea = religion_catholic
+			NOT = { TAG = SPR }
 		}
 		
 		fire_only_once = no
@@ -1426,7 +1547,10 @@ eoanb_religious_affairs = {
 		}
 		
 		visible = {
-			has_idea = religion_animist
+			OR = {
+				has_idea = religion_animist
+				has_idea = religion_shamanism
+			}
 			has_idea = pre_industrial_era
 		}
 		
@@ -1922,11 +2046,11 @@ tribal_decisions_eoanb = {
 			command_power > 24.9
 
 		}
-		custom_cost_text = command_power_more_than_24
+		custom_cost_text = command_power_more_than_99
 		
 		complete_effect = {
-			add_manpower = 100
-			hidden_effect = { add_command_power = -25 }
+			add_manpower = 500
+			hidden_effect = { add_command_power = -99 }
 		}
 		
 		ai_will_do = {
@@ -2048,12 +2172,12 @@ eoanb_category_military = {
 			}
 		}
 		
-		fire_only_once = no
+		fire_only_once = yes
 		
 		cost = 50
 		
 		#Can only be taken once
-		days_re_enable = 1000000
+		#days_re_enable = 1000000
 		
 		days_remove = 30
 		
@@ -2193,12 +2317,12 @@ eoanb_category_military = {
 			}
 		}
 		
-		fire_only_once = no
+		fire_only_once = yes
 		
 		cost = 50
 		
 		#Can only be taken once
-		days_re_enable = 1000000
+		#days_re_enable = 1000000
 		
 		days_remove = 30
 		
@@ -2338,12 +2462,12 @@ eoanb_category_military = {
 			}
 		}
 		
-		fire_only_once = no
+		fire_only_once = yes
 		
 		cost = 50
 		
 		#Can only be taken once
-		days_re_enable = 1000000
+		#days_re_enable = 1000000
 		
 		days_remove = 30
 		
