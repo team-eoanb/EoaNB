@@ -961,6 +961,16 @@ country_event = {
 			}
 			custom_effect_tooltip = afr_empire_politics_minor_economic_boom_effect
 		}
+		else_if = {
+			limit = {
+				any_state = {
+					is_claimed_by = ROOT
+					check_variable = { var = UCT_territory_management_colonization_progress_var value = 0 compare = greater_than }
+					check_variable = { var = UCT_territory_management_colonization_progress_var value = 100 compare = less_than }
+				}
+			}
+			custom_effect_tooltip = UCT_territory_management_minor_economic_boom_effect
+		}
 		add_timed_idea = { idea = eoanb_random_event_22_idea days = 90 }
 		hidden_effect = {
 			if = {
@@ -977,7 +987,26 @@ country_event = {
 					afr_empire_politics_state_gain_boom = yes
 				}
 			}
-			
+			else_if = {
+				limit = {
+					any_state = {
+						is_claimed_by = ROOT
+						check_variable = { var = UCT_territory_management_colonization_progress_var value = 0 compare = greater_than }
+						check_variable = { var = UCT_territory_management_colonization_progress_var value = 100 compare = less_than }
+					}
+				}
+				every_state = {
+					limit = { 
+						is_claimed_by = ROOT
+						check_variable = { var = UCT_territory_management_colonization_progress_var value = 0 compare = greater_than }
+						check_variable = { var = UCT_territory_management_colonization_progress_var value = 100 compare = less_than }
+					}
+					state_event = { id = afr_empire_politics_minor_economic_boom_event.1 days = 90 }
+					set_state_flag = afr_empire_politics_minor_economic_boom_event_flag
+					afr_empire_politics_state_gain_immigration = yes
+					afr_empire_politics_state_gain_boom = yes
+				}
+			}
 		}
 	}
 

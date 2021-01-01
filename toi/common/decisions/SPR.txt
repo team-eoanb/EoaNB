@@ -194,13 +194,40 @@ SPR_colonial_affairs_category = {
 	
 	SPR_unclaimed_territory_decision = {
 		available = {
-			#always = no
+			hidden_trigger = { check_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 0 } }
+			if = {
+				limit = { NOT = { FROM = { is_claimed_by = ROOT } } }
+				custom_trigger_tooltip = {
+					tooltip = UCT_territory_management_establish_first_claim_cost_tooltip
+				}
+			}
+			if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag } }
+				custom_trigger_tooltip = {
+					tooltip = UCT_territory_management_claim_progress_convoy_3_cost_tooltip
+					has_equipment = { convoy_1 > 2 }
+				}
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } }
+				custom_trigger_tooltip = {
+					tooltip = UCT_territory_management_claim_progress_convoy_2_cost_tooltip
+					has_equipment = { convoy_1 > 1 }
+				}
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } }
+				custom_trigger_tooltip = {
+					tooltip = UCT_territory_management_claim_progress_convoy_1_cost_tooltip
+					has_equipment = { convoy_1 > 0 }
+				}
+			}
 		}
 		state_target = yes
 		allowed = { TAG = SPR }
 		visible = { 
 			has_country_flag = SPR_unclaimed_territory_menu_on_flag 
-			FROM = { NOT = { has_state_flag = SPR_unclaimed_territory_abandon_claim_flag } }
+			check_variable = { var = FROM.SPR_unclaimed_territory_abandon_claim_var@ROOT value = 0 compare = equals }
 		}
 		target_trigger = {
 			FROM = {
@@ -217,7 +244,7 @@ SPR_colonial_affairs_category = {
 					STATE = 642
 					STATE = 643
 				}
-				NOT = { has_state_flag = SPR_unclaimed_territory_abandon_claim_flag }
+				check_variable = { var = FROM.SPR_unclaimed_territory_abandon_claim_var@ROOT value = 0 compare = equals }
 			}
 		}
 		cost = 0
@@ -227,6 +254,33 @@ SPR_colonial_affairs_category = {
 				limit = { NOT = { FROM = { is_claimed_by = ROOT } } }
 				hidden_effect = { FROM = { state_event = { id = UCT_territory_management_establish_first_claim.1 } } }
 				custom_effect_tooltip = UCT_territory_management_establish_first_claim_tooltip
+			}
+			else_if = {
+				limit = {
+					FROM ={
+						OR = {
+							has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag 
+							has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag
+							has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag
+						}
+					}
+				}
+				hidden_effect = {
+					if = {
+						limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag } }
+						FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_3_flag }
+					}
+					else_if = {
+						limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } }
+						FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_2_flag }
+					}
+					else_if = {
+						limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } }
+						FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_1_flag }
+					}
+				}
+				hidden_effect = { FROM = { state_event = { id = UCT_territory_management_establish_first_claim.3 } } }
+				custom_effect_tooltip = UCT_territory_management_claim_progress_convoy_event_tooltip
 			}
 			else = {
 				custom_effect_tooltip = UCT_territory_management_no_option_tooltip

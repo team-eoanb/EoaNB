@@ -16,27 +16,41 @@ country_event = {
 	title = UCT_territory_management_establish_first_claim.2.t
 	desc = UCT_territory_management_establish_first_claim.2.d
 	is_triggered_only = yes
+	
+	immediate = { hidden_effect = { set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 1 } } }
 
 	option = {
 		name = UCT_territory_management_establish_first_claim.2.a
-		trigger = { check_variable = { debt_level < 50 } }
+		trigger = { 
+			check_variable = { debt_level < 50 } 
+			command_power > 100
+		}
 		ai_chance = { 
 			factor = 100 
 			modifier = {
 				factor = 0
-				check_variable = { debt_level < 30 }
+				check_variable = { debt_level > 30 }
 			}
 		}
-		ROOT = { 
-			debt_level_increase_by_1 = yes
-			FROM = { UCT_add_state_claim_to_THIS_for_PREV = yes } 
+		
+		ROOT = { FROM = { UCT_add_state_claim_to_THIS_for_PREV = yes } }
+		if = {
+			limit = {
+				FROM = { state_population > 999 } 
+				NOT = { has_state_flag = UCT_territory_no_native_popultion }
+			}
 			custom_effect_tooltip = afr_colonial_effect_tooltip
-			FROM = { custom_effect_tooltip = AFR_Racial_Tension_plus_1 }
-			
+			custom_effect_tooltip = AFR_Racial_Tension_plus_1
+			hidden_effect = { FROM = { state_event = { id = afr_rrp_racial_tension_increase.1 } } }
+		}
+		else = {
+			hidden_effect = { set_state_flag = UCT_territory_no_native_popultion }
 		}
 		hidden_effect = {
+			ROOT = { add_command_power = -100 }
+			FROM = { state_event = { id = UCT_territory_management_establish_first_claim.3 } }
 			FROM = { UCT_add_claim_progress_01 = yes }
-			FROM = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 0 }
 		}
 	}
 	option = {
@@ -45,16 +59,311 @@ country_event = {
 			factor = 100 
 			modifier = {
 				factor = 0
-				check_variable = { debt_level > 30 }
+				check_variable = { debt_level < 30 } 
 			}
 		}
-		FROM = { custom_effect_tooltip = SPR_unclaimed_territory_abandon_claim }
-		hidden_effect = { FROM = { set_state_flag = SPR_unclaimed_territory_abandon_claim_flag } }
+		if = {
+			limit = { command_power < 100 }
+			custom_effect_tooltip = UCT_territory_management_establish_first_claim_cost_tooltip
+		}
+		hidden_effect = { set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 0 } }
 	}
 	option = {
 		name = UCT_territory_management_establish_first_claim.2.c
 		ai_chance = { 
-			factor = 0 
+			factor = 100 
+			modifier = {
+				factor = 0
+				check_variable = { debt_level < 40 }
+			}
+		}
+		FROM = { custom_effect_tooltip = SPR_unclaimed_territory_abandon_claim }
+		hidden_effect = { set_variable = { var = FROM.SPR_unclaimed_territory_abandon_claim_var@ROOT value = 1 } }
+		hidden_effect = { set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 0 } }
+	}
+}
+
+state_event = {
+	id = UCT_territory_management_establish_first_claim.3
+	title = UCT_territory_management_establish_first_claim.3.t
+	hidden = yes
+	is_triggered_only = yes
+		
+	immediate = {
+		random_list = {
+			10 = {
+				FROM = { country_event = { id = UCT_territory_management_establish_first_claim.4 days = 280 } }
+			}
+			100 = {
+				FROM = { country_event = { id = UCT_territory_management_establish_first_claim.4 days = 360 } }
+			}
+			40 = {
+				FROM = { country_event = { id = UCT_territory_management_establish_first_claim.4 days = 320 } }
+			}
+			10 = {
+				FROM = { country_event = { id = UCT_territory_management_establish_first_claim.4 days = 400 } }
+			}
 		}
 	}
 }
+
+
+country_event = {
+	id = UCT_territory_management_establish_first_claim.4
+	title = UCT_territory_management_establish_first_claim.4.t
+	desc = UCT_territory_management_establish_first_claim.4.d
+	picture = GFX_report_event_merchant_ship_01
+	is_triggered_only = yes
+	
+	trigger = { 
+		ROOT = { TAG = var:FROM.UCT_territory_management_claimed_by_var }
+	}
+	
+	immediate = {
+		hidden_effect = {
+			random_list = {
+				33 = { 
+					FROM ={ set_state_flag = UCT_territory_management_claim_progress_convoy_3_flag }
+					modifier = {
+						factor = 0
+						OR = {
+							has_state_category = tiny_island
+							has_state_category = wasteland
+						}
+					}
+				}
+				34 = { 
+					FROM ={ set_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } 
+					modifier = {
+						factor = 0
+						has_state_category = wasteland
+					}
+				}
+				33 = { 
+					FROM ={ set_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } 
+					modifier = {
+						factor = 2
+						has_state_category = tiny_island
+					}
+				}
+			}
+		}
+		hidden_effect = { set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 1 } }
+	}
+
+	option = {
+		name = UCT_territory_management_establish_first_claim.4.a
+		trigger = { 
+			check_variable = { debt_level < 50 } 
+			FROM = { check_variable = { var = UCT_territory_management_claim_progress_var value = 100 compare = less_than } }
+			if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag } }
+				has_equipment = { convoy_1 > 2 }
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } }
+				has_equipment = { convoy_1 > 1 }
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } }
+				has_equipment = { convoy_1 > 0 }
+			}
+		}
+		ai_chance = { 
+			factor = 100 
+		}
+			hidden_effect = { FROM = { state_event = { id = UCT_territory_management_establish_first_claim.3 } } }
+			custom_effect_tooltip = UCT_territory_management_claim_progress_yearly_supply_tooltip
+			if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag } }
+					FROM = { UCT_add_claim_progress_25 = yes }
+					hidden_effect = { 
+						add_equipment_to_stockpile = { type = convoy_1 amount = -3 producer = ROOT }
+						FROM = { add_manpower = 600 }
+						FROM ={ clr_state_flag = UCT_territory_management_claim_progress_convoy_3_flag }
+					}
+					random_owned_controlled_state = {
+						limit = {
+							is_in_home_area = yes
+							is_core_of = ROOT
+						}
+						hidden_effect = { add_manpower = -200 }
+						custom_effect_tooltip = UCT_territory_management_claim_progress_convoy_1_tooltip
+						custom_effect_tooltip = UCT_territory_management_convoy_300_colonists_tooltip
+					}
+					random_owned_controlled_state = {
+						limit = {
+							is_in_home_area = yes
+							is_core_of = ROOT
+						}
+						hidden_effect = { add_manpower = -200 }
+						custom_effect_tooltip = UCT_territory_management_claim_progress_convoy_2_tooltip
+						custom_effect_tooltip = UCT_territory_management_convoy_300_colonists_tooltip
+					}
+					random_owned_controlled_state = {
+						limit = {
+							is_in_home_area = yes
+							is_core_of = ROOT
+						}
+						hidden_effect = { add_manpower = -200 }
+						custom_effect_tooltip = UCT_territory_management_claim_progress_convoy_3_tooltip
+						custom_effect_tooltip = UCT_territory_management_convoy_300_colonists_tooltip
+					}
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } }
+					FROM = { UCT_add_claim_progress_20 = yes }
+					hidden_effect = { 
+						add_equipment_to_stockpile = { type = convoy_1 amount = -2 producer = ROOT }
+						FROM = { add_manpower = 600 }
+						FROM ={ clr_state_flag = UCT_territory_management_claim_progress_convoy_2_flag }
+					}
+					random_owned_controlled_state = {
+						limit = {
+							is_in_home_area = yes
+							is_core_of = ROOT
+						}
+						hidden_effect = { add_manpower = -200 }
+						custom_effect_tooltip = UCT_territory_management_claim_progress_convoy_1_tooltip
+						custom_effect_tooltip = UCT_territory_management_convoy_300_colonists_tooltip
+					}
+					random_owned_controlled_state = {
+						limit = {
+							is_in_home_area = yes
+							is_core_of = ROOT
+						}
+						hidden_effect = { add_manpower = -200 }
+						custom_effect_tooltip = UCT_territory_management_claim_progress_convoy_2_tooltip
+						custom_effect_tooltip = UCT_territory_management_convoy_300_colonists_tooltip
+					}
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } }
+					FROM = { UCT_add_claim_progress_15 = yes }
+					hidden_effect = { 
+						add_equipment_to_stockpile = { type = convoy_1 amount = -1 producer = ROOT }
+						FROM = { add_manpower = 200 }
+						FROM ={ clr_state_flag = UCT_territory_management_claim_progress_convoy_1_flag }
+					}
+					random_owned_controlled_state = {
+						limit = {
+							is_in_home_area = yes
+							is_core_of = ROOT
+						}
+						hidden_effect = { add_manpower = -200 }
+						custom_effect_tooltip = UCT_territory_management_claim_progress_convoy_1_tooltip
+						custom_effect_tooltip = UCT_territory_management_convoy_300_colonists_tooltip
+					}
+			}
+		hidden_effect = { set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 0 } }
+	}
+	option = {
+		name = UCT_territory_management_establish_first_claim.4.b
+		trigger = { 
+			check_variable = { debt_level < 50 } 
+			FROM = { check_variable = { var = UCT_territory_management_claim_progress_var value = 100 compare = equals } }
+		}
+		ai_chance = { 
+			factor = 100 
+		}
+		FROM = { UCT_add_colonization_progress_01 = yes }
+		if = {
+			limit = { FROM = { NOT = { has_state_flag = UCT_territory_no_native_popultion } } }
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			custom_effect_tooltip = AFR_Racial_Tension_plus_1
+			hidden_effect = { FROM = { state_event = { id = afr_rrp_racial_tension_increase.1 } } }
+		}
+		hidden_effect = {
+			FROM = { afr_add_one_building_naval_base_scripted_effect = yes }
+			if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag } }
+				FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_3_flag }
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } }
+				FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_2_flag }
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } }
+				FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_1_flag }
+			}
+		}
+		hidden_effect = { set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 0 } }
+	}
+	option = {
+		name = UCT_territory_management_establish_first_claim.4.c
+		trigger = { 
+			check_variable = { debt_level < 50 } 
+			if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag } }
+				has_equipment = { convoy_1 < 3 }
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } }
+				has_equipment = { convoy_1 < 3 }
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } }
+				has_equipment = { convoy_1 < 1 }
+			}
+		}
+		ai_chance = { 
+			factor = 100 
+		}
+		if = {
+			limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag } }
+			custom_effect_tooltip = UCT_territory_management_establish_first_claim_3_tooltip
+		}
+		else_if = {
+			limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } }
+			custom_effect_tooltip = UCT_territory_management_establish_first_claim_2_tooltip
+		}
+		else_if = {
+			limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } }
+			custom_effect_tooltip = UCT_territory_management_establish_first_claim_1_tooltip
+		}
+		hidden_effect = { set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 0 } }
+	}
+	option = {
+		name = UCT_territory_management_establish_first_claim.4.e
+		ai_chance = { 
+			factor = 100 
+			modifier = {
+				factor = 0
+				check_variable = { debt_level < 40 }
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_3_flag } }
+				FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_3_flag }
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_2_flag } }
+				FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_2_flag }
+			}
+			else_if = {
+				limit = { FROM ={ has_state_flag = UCT_territory_management_claim_progress_convoy_1_flag } }
+				FROM = { clr_state_flag = UCT_territory_management_claim_progress_convoy_1_flag }
+			}
+		}
+		FROM = { custom_effect_tooltip = SPR_unclaimed_territory_abandon_claim }
+		if = {
+			limit = { FROM = { NOT = { has_state_flag = UCT_territory_no_native_popultion } } }
+			custom_effect_tooltip = afr_colonial_effect_tooltip
+			custom_effect_tooltip = AFR_Racial_Tension_minus_1
+			hidden_effect = { FROM = { state_event = { id = afr_rrp_racial_tension_decrease.1 } } }
+		}
+		hidden_effect = { set_variable = { var = FROM.SPR_unclaimed_territory_abandon_claim_var@ROOT value = 1 } }
+		hidden_effect = { set_variable = { FROM.UCT_territory_management_state_menu_open@ROOT = 0 } }
+	}
+}
+
+
+
+
+
+
+
+
+
