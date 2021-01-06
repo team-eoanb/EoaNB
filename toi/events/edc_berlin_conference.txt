@@ -417,6 +417,12 @@ news_event = {# THE "BERLIN" CONFERENCE
 			has_country_flag = berlin_conferance_voter 
 			NOT = {has_country_flag = berlin_conferance_host }
 		}
+		if={
+			limit={
+				is_ai = no
+			}
+			set_variable = {super_event_displayed = 1}
+		}
 	}
 	option = {##what will they desice
 		name = EDC_berlin_con.9.c
@@ -425,6 +431,12 @@ news_event = {# THE "BERLIN" CONFERENCE
 				has_country_flag = berlin_conferance_host
 				has_country_flag = berlin_conferance_voter 
 			}
+		}
+		if={
+			limit={
+				is_ai = no
+			}
+			set_variable = {super_event_displayed = 1}
 		}
 	}
 }
@@ -438,7 +450,7 @@ country_event = {# the desison on slavery
 
 	option = {##yes
 		name = EDC_berlin_con.10.a
-		GER = {set_variable = {vote_on_slavery = 1}}
+		UCT = {set_variable = {vote_on_slavery = 1}}
 		ai_chance = {
 			factor = 85
 			modifier = {
@@ -466,7 +478,7 @@ country_event = {# the desison on slavery
 	immediate = {
 		if = {
 			limit = {
-				GER = { check_variable = {value = var:afr_total_bc_attendance/2 var = vote_on_slavery compare = greater_than_or_equals}}
+				UCT = { check_variable = {value = var:afr_total_bc_attendance/2 var = vote_on_slavery compare = greater_than_or_equals}}
 			}
 			news_event = { id = EDC_berlin_con.13 } #inform the world
 			every_country = {
@@ -533,7 +545,7 @@ country_event = {# start of the colony voting- first ping event
 				limit={
 					afr_ber_check_if_already_colonised = yes
 				}
-				country_event = { id = EDC_berlin_con.15 hours = 1 }#if the region has already been taken. go to the next one
+				country_event = { id = EDC_berlin_con.15 }#if the region has already been taken. go to the next one
 			}
 			else = {
 				every_country = {
@@ -587,27 +599,30 @@ country_event = {# assign cores - last ping event
 					save_event_target_as = afr_colonial_nation
 				#}
 			}		
-			event_target:afr_colonial_nation = {#give the colonial nation cores
-				if={
-					limit={
-						OVERLORD={tag = event_target:afr_ber_reigion_winner}
+			if={
+				limit={event_target:afr_colonial_nation = {exists = yes}}
+				event_target:afr_colonial_nation = {#give the colonial nation cores
+					if={
+						limit={
+							OVERLORD={tag = event_target:afr_ber_reigion_winner}
+						}
+						afr_ber_assign_cores_to_winner = yes
 					}
-				afr_ber_assign_cores_to_winner = yes
 				}
 			}
 			clear_global_event_target = afr_colonial_nation
 			event_target:afr_ber_reigion_winner = {#give the colonial power claims
-				if = {
-					limit = {
-						NOT = {
-							any_country = {
-								is_subject_of = event_target:afr_ber_reigion_winner
-								afr_ber_check_if_owns_colonial_state = yes
-							}
-						}
-					}
+				# if = {
+					# limit = {
+						# NOT = {
+							# any_country = {
+								# is_subject_of = event_target:afr_ber_reigion_winner
+								# afr_ber_check_if_owns_colonial_state = yes
+							# }
+						# }
+					# }
 					afr_ber_assign_claims_to_winner = yes 
-				}
+				# }
 				country_event = { id = EDC_berlin_con.20 hours = 1 }#tell the winner they won
 			}
 			UCT = {set_variable ={afr_number_of_votes_in_the_conference=0}}#reset votes
@@ -686,5 +701,71 @@ country_event = {# testing mandate decisions
 	}
 	option = {##ok
 		name = EDC_berlin_con.21.a
+	}
+}
+country_event = {# feck off UCT parlement
+	id = EDC_berlin_con.22
+	title = EDC_berlin_con.22.t#fuck off atomic
+	desc = EDC_berlin_con.22.desc ### 
+	picture = GFX_news_event_berlin_conference
+	
+	is_triggered_only = yes ##never triggered
+	immediate = {##ok
+		clear_array = seats_array
+		clear_array = seats_count_array
+		clear_array = parl_seats_gfx
+		clear_array = parl_weights
+		clear_array = parl_weights_normalized
+		clear_array = parl_coalitions
+		clear_variable = seat_1
+		clear_variable = seat_2
+		clear_variable = seat_3
+		clear_variable = seat_4
+		clear_variable = seat_5
+		clear_variable = seat_6
+		clear_variable = seat_7
+		clear_variable = seat_8
+		clear_variable = seat_9
+		clear_variable = seat_10
+		clear_variable = seat_11
+		clear_variable = seat_12
+		clear_variable = seat_13
+		clear_variable = seat_14
+		clear_variable = seat_15
+		clear_variable = seat_16
+		clear_variable = seat_17
+		clear_variable = seat_18
+		clear_variable = seat_19
+		clear_variable = seat_20
+		clear_variable = seat_21
+		clear_variable = seat_22
+		clear_variable = seat_23
+		clear_variable = seat_24
+		clear_variable = seat_25
+		clear_variable = seat_26
+		clear_variable = seat_27
+		clear_variable = seat_28
+		clear_variable = seat_29
+		clear_variable = seat_30
+		clear_variable = seat_31
+		clear_variable = seat_32
+		
+	}
+	option = {##ok
+		name = EDC_berlin_con.22.a
+	}
+}
+country_event = {# testing mandate decisions
+	id = EDC_berlin_con.23
+	title = EDC_berlin_con.23.t
+	desc = EDC_berlin_con.23.desc ### 
+	picture = GFX_news_event_berlin_conference
+	
+	is_triggered_only = yes ##never triggered
+	immediate = {##ok
+		afr_ber_prepare_vote_vars = yes
+	}
+	option = {##ok
+		name = EDC_berlin_con.23.a
 	}
 }

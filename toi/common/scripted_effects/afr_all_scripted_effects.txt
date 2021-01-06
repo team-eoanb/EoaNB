@@ -401,24 +401,16 @@ afr_send_event_to_voting_nations = {
 			country_event = { id = EDC_berlin_con.6 hours = 20 }
 		}
 	}
-	ITA = {
-		if={
-			limit = {
-				NOT = {has_country_flag = berlin_conferance_voter}
-				NOT = {PIE = {has_cosmetic_tag = PIE_focus_ITA}}
-				exists = yes
+	if={
+		limit={any_country={Country_formed_ITA = yes}}
+		ITA = {
+			if={
+				limit = {
+					NOT = {has_country_flag = berlin_conferance_voter}
+					exists = yes
+				}
+				country_event = { id = EDC_berlin_con.6 hours = 20 }
 			}
-			country_event = { id = EDC_berlin_con.6 hours = 20 }
-		}
-	}
-	PIE = {
-		if={
-			limit = {
-				NOT = {has_country_flag = berlin_conferance_voter}
-				exists = yes
-				Country_formed_ITA = yes
-			}
-			country_event = { id = EDC_berlin_con.6 hours = 20 }
 		}
 	}
 	
@@ -432,31 +424,40 @@ afr_ber_vote_on_slavery = {
 	}
 }
 afr_ber_check_votes = {
-	UCT = { set_variable = {highest_conferance_vote = 0}
-	for_each_scope_loop = {
-		array = berlin_conferance_voters
-		if ={
-			limit ={
-				check_variable = {conferance_vote_@PREV > highest_conferance_vote}
+	UCT = {
+		set_variable = {highest_conferance_vote = 0}
+		for_each_scope_loop = {
+			array = berlin_conferance_voters
+			if ={
+				limit ={
+					check_variable = {UCT.conferance_vote_@PREV > highest_conferance_vote}
+				}
+				set_variable = {highest_conferance_vote = UCT.conferance_vote_@PREV}
+				PREV = {save_global_event_target_as=afr_ber_reigion_winner}
 			}
-			set_variable = {highest_conferance_vote = conferance_vote_@PREV}
-			PREV = {save_global_event_target_as=afr_ber_reigion_winner}
 		}
-	} }
+	}
 }
 afr_ber_prepare_vote_vars = {
-	UCT = { for_each_scope_loop = {
-		array = berlin_conferance_voters
-		set_variable = {conferance_vote_@PREV = 0}
-	} }
+	UCT = { 
+		for_each_scope_loop = {
+			array = berlin_conferance_voters
+			set_variable = {UCT.conferance_vote_@THIS = 0}
+		} 
+	}
 }
 afr_ber_clr_vote_vars={
-	UCT = { for_each_scope_loop = {
-		array = berlin_conferance_voters
-		clear_variable = conferance_vote_@PREV
+	UCT = {
+		for_each_scope_loop = {
+			array = berlin_conferance_voters
+			clear_variable = UCT.conferance_vote_@THIS
+		}
+		clear_array= berlin_conferance_voters
+		clear_variable = afr_number_of_votes_in_the_conference
+		clear_variable = current_region_conferance_vote 
+		clear_variable = highest_conferance_vote 
+		clear_variable = vote_on_slavery 
 	}
-	clear_array=berlin_conferance_voters
-	clear_variable = afr_number_of_votes_in_the_conference }
 }
 afr_ber_assign_extra_votes_for_owned_states={
 		if={
@@ -640,7 +641,7 @@ afr_ber_assign_extra_votes_for_owned_states={
 }
 afr_assign_extra_vote_to_country={
 	UCT = {
-		add_to_variable = {conferance_vote_@PREV.PREV = 1}
+		add_to_variable = {conferance_vote_@PREV = 1}
 	}
 }
 afr_ber_assign_claims_to_winner={
@@ -650,7 +651,10 @@ afr_ber_assign_claims_to_winner={
 				UCT = { check_variable = { current_region_conferance_vote = 1} }
 			}
 			add_claim_by = PREV
-			PREV={set_country_flag = BC_Granted_Manuritania}
+			# if={
+				# limit={PREV={NOT={has_country_flag = BC_Granted_Manuritania}}}
+				PREV={set_country_flag = BC_Granted_Manuritania}
+			# }
 		}
 		every_state = {
 			limit ={

@@ -3299,7 +3299,7 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 				}
 			}
 			custom_effect_tooltip = SKT_sunni_integration_tooltip
-			FROM = { country_event = { id = afr_caliphate_integration_tribe.2 days = 45 } }
+			FROM = { country_event = { id = afr_caliphate_integration_tribe.2 days = 3 } }
 		}
 
 		option = {
@@ -3388,7 +3388,7 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 				}
 			}
 			custom_effect_tooltip = SKT_sunni_integration_tooltip
-			FROM = { country_event = { id = afr_caliphate_integration_tribe.2 days = 45 } }
+			FROM = { country_event = { id = afr_caliphate_integration_tribe.2 days = 3 } }
 		}
 
 	}
@@ -3404,23 +3404,9 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 		option = {
 			name = afr_caliphate_integration_tribe.2.a
 			ai_chance = { factor = 90 }
-			ROOT = {
-				declare_war_on = {
-					target = FROM
-					type = puppet_wargoal_focus
-				}
-				clr_country_flag = afr_jihadist_preparing_caliphate_war_flag
-			}
-			FROM = { every_owned_state = { add_claim_by = ROOT } }
+			hidden_effect = { FROM = { country_event = { days = 42 id = afr_caliphate_integration_tribe.4 } } }
+			hidden_effect = { FROM = { country_event = { days = 5 id = afr_integration_tribe_warning.1 } } }
 			custom_effect_tooltip = afr_war_exhaustion_value_add_10
-			add_to_variable = {
-				var = afr_war_exhaustion_value
-				value = 10
-			}
-			hidden_effect = {
-				set_variable = { ROOT.afr_regional_power_expansion_attacker@FROM = 1 }
-				set_variable = { FROM.afr_regional_power_expansion_defender@ROOT = 1 }
-			}
 		}
 
 		option = {
@@ -3459,6 +3445,50 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 			name = SKT_sunni_integration.3.a
 			ai_chance = { factor = 100 }
 			clr_country_flag = afr_jihadist_preparing_caliphate_war_flag
+		}
+
+	}
+	
+	country_event = {
+		id = afr_caliphate_integration_tribe.4
+		hidden = yes
+		is_triggered_only = yes
+
+		immediate = {
+			hidden_effect = { FROM = { country_event = { id = afr_caliphate_integration_tribe.5 } } }
+		}
+
+	}
+	
+	country_event = {
+		id = afr_caliphate_integration_tribe.5
+		title = SKT_sunni_integration.5.t
+		desc = SKT_sunni_integration.5.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+		
+		trigger = { has_country_flag = afr_jihadist_preparing_caliphate_war_flag }
+
+		option = {
+			name = SKT_sunni_integration.5.a
+			ROOT = {
+				declare_war_on = {
+					target = FROM
+					type = puppet_wargoal_focus
+				}
+				clr_country_flag = afr_jihadist_preparing_caliphate_war_flag
+			}
+			FROM = { every_owned_state = { add_claim_by = ROOT } }
+			#custom_effect_tooltip = afr_war_exhaustion_value_add_10
+			add_to_variable = {
+				var = afr_war_exhaustion_value
+				value = 10
+			}
+			hidden_effect = {
+				set_variable = { ROOT.afr_regional_power_expansion_attacker@FROM = 1 }
+				set_variable = { FROM.afr_regional_power_expansion_defender@ROOT = 1 }
+			}
 		}
 
 	}
@@ -3881,7 +3911,7 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 				FROM = { puppet = ROOT }
 				hidden_effect = { ROOT = { load_prevous_ideologies = yes } }
 			}
-			FROM = { country_event = { id = afr_caliphate_integration_tribe.3 } }
+			FROM = { country_event = { id = afr_inward_integration_tribe.3 } }
 			if = {
 				limit = { 
 					FROM = { afr_is_tribal = yes } #OVERLORD
@@ -3909,7 +3939,8 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 				}
 			}
 			custom_effect_tooltip = SKT_sunni_integration_tooltip
-			FROM = { country_event = { id = afr_caliphate_integration_tribe.2 days = 45 } }
+			FROM = { country_event = { id = afr_inward_integration_tribe.2 days = 3 } }
+			
 		}
 
 	}
@@ -3925,23 +3956,9 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 		option = {
 			name = afr_inward_integration_tribe.2.a
 			ai_chance = { factor = 90 }
-			ROOT = {
-				declare_war_on = {
-					target = FROM
-					type = puppet_wargoal_focus
-				}
-				clr_country_flag = afr_inward_preparing_expansion_war_flag
-			}
-			FROM = { every_owned_state = { add_claim_by = ROOT } }
+			hidden_effect = { FROM = { country_event = { days = 42 id = afr_inward_integration_tribe.4 } } }
+			hidden_effect = { FROM = { country_event = { days = 5 id = afr_integration_tribe_warning.1 } } }
 			custom_effect_tooltip = afr_war_exhaustion_value_add_10
-			add_to_variable = {
-				var = afr_war_exhaustion_value
-				value = 10
-			}
-			hidden_effect = {
-				set_variable = { ROOT.afr_regional_power_expansion_attacker@FROM = 1 }
-				set_variable = { FROM.afr_regional_power_expansion_defender@ROOT = 1 }
-			}
 		}
 
 		option = {
@@ -3980,6 +3997,51 @@ add_namespace = afr_empire_politics_subject_demotion_demand
 			name = afr_inward_integration_tribe.3.a
 			ai_chance = { factor = 100 }
 			clr_country_flag = afr_inward_preparing_expansion_war_flag
+		}
+
+	}
+	
+	country_event = {
+		id = afr_inward_integration_tribe.4
+		hidden = yes
+		is_triggered_only = yes
+
+		immediate = {
+			hidden_effect = { FROM = { country_event = { id = afr_inward_integration_tribe.5 } } }
+		}
+
+	}
+	
+	country_event = {
+		id = afr_inward_integration_tribe.5
+		title = afr_inward_integration_tribe.5.t
+		desc = afr_inward_integration_tribe.5.d
+		picture = GFX_report_event_chinese_army_training
+
+		is_triggered_only = yes
+		
+		trigger = { has_country_flag = afr_inward_preparing_expansion_war_flag }
+
+		option = {
+			name = afr_inward_integration_tribe.5.a
+			ai_chance = { factor = 100 }
+			ROOT = {
+				declare_war_on = {
+					target = FROM
+					type = puppet_wargoal_focus
+				}
+				clr_country_flag = afr_inward_preparing_expansion_war_flag
+			}
+			FROM = { every_owned_state = { add_claim_by = ROOT } }
+			#custom_effect_tooltip = afr_war_exhaustion_value_add_10
+			add_to_variable = {
+				var = afr_war_exhaustion_value
+				value = 10
+			}
+			hidden_effect = {
+				set_variable = { ROOT.afr_regional_power_expansion_attacker@FROM = 1 }
+				set_variable = { FROM.afr_regional_power_expansion_defender@ROOT = 1 }
+			}
 		}
 
 	}
