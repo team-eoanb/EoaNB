@@ -375,13 +375,15 @@ on_actions = {
 								dockyard > 0
 							}
 						}
-						if = {
-							limit = { NOT = { has_tech = tribal_society } }
-							set_technology = { tribal_society = 1 popup = no }
-						}
-						if = {
-							limit = { NOT = { has_tech = tribal_electrical_theory } }
-							set_technology = { tribal_electrical_theory = 1 popup = no }
+						OWNER = {
+							if = {
+								limit = { NOT = { has_tech = tribal_society } }
+								set_technology = { tribal_society = 1 popup = no }
+							}
+							if = {
+								limit = { NOT = { has_tech = tribal_electrical_theory } }
+								set_technology = { tribal_electrical_theory = 1 popup = no }
+							}
 						}
 						add_to_variable = { var = afr_empire_state_industrisation_progress value = 100 }
 						afr_empire_politics_state_modifier_scripted_effect = yes
@@ -584,11 +586,9 @@ on_actions = {
 				every_country = {
 					limit = { 
 						 OR = {
-							has_idea = AF_T_unorganized_tribal_nation
-							has_idea = AF_T_unorganized_tribal_nation_2
-							has_idea = AF_T_unorganized_tribal_nation_3
-							has_idea = AF_T_unorganized_tribal_nation_4
-							has_idea = AF_T_unorganized_tribal_nation_5
+							has_idea = AF_T_organized_tribal_nation
+							has_idea = AF_T_organized_tribal_nation_2
+							has_idea = AF_T_organized_tribal_nation_3
 							has_idea = AF_T_small_kingdom
 							has_idea = afr_large_kingdom
 							has_idea = afr_reforming_kingdom
@@ -645,6 +645,29 @@ on_actions = {
 					}
 				}
 				every_country = {
+					limit = { 
+						 OR = {
+							has_idea = afr_large_kingdom
+							has_idea = afr_reforming_kingdom
+							has_idea = Oceania_large_kingdom
+							has_idea = Oceania_eastern_oriented_regional_power
+							has_idea = Oceania_western_oriented_regional_power
+						}
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_roads } }
+						set_technology = { tribal_roads = 1 popup = no }
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_riding } }
+						set_technology = { tribal_riding = 1 popup = no }
+					}
+					if = {
+						limit = { NOT = { has_tech = tribal_horse_and_cart } }
+						set_technology = { tribal_horse_and_cart = 1 popup = no }
+					}
+				}
+				every_country = {
 					limit = { check_variable = { Tribal_army_num > 0 } }
 					if = {
 						limit = { NOT = { has_tech = tribal_weapons } }
@@ -681,8 +704,9 @@ on_actions = {
 						set_technology = { tech_camel_cavalry = 1 popup = no }
 					}
 				}
-				SKT = {
-					country_event = { id = skt_jihad_repair_ribats.1 days = 3}
+				every_country = {
+					limit = { any_owned_state = { has_state_flag = SKT_islamic_frontier_ribat } }
+					country_event = { id = skt_jihad_repair_ribats.1 days = 5 }
 				}
 			
 				FTT = {
@@ -699,10 +723,6 @@ on_actions = {
 				
 				MSN = {
 					country_event = { id = afr_jihad_repair_ribats.1 days = 100 }
-				}
-				
-				ADM = {
-					#country_event = { id = afr_jihad_repair_ribats.1 days = 100 }
 				}
 				
 				SHO = {
@@ -826,8 +846,14 @@ on_actions = {
 					
 				}
 			}
-			
-		} 
+			######################
+			#State Setup Mechanic#
+			######################
+			every_state = {
+				limit = { has_state_flag = afr_state_setup_1857 }
+				state_event = { id = afr_state_setup_event.1 }
+			}
+		}
 		
 	}
 	
