@@ -20,7 +20,7 @@ This repository is for sharing and cooperating in the development process of the
 
 ### Development
 
-If you wish to support the development of the mod, join the team, join our Discord Server and create an application in `#faq`. Applicants will be given the `Curia` Team Member Role and the `Disciplio` Trial Role. After passing the Trial Period, members will be fully accepted into the team and be given GitHub write access if applicable.
+If you wish to contribute to the development of the mod, supprt us on Patreon or join the team. The links to support/apply can be found in our `#faq` channel on Discord. Donators will be given the special Auxillaires role on Discord which gives backdoor access to most of our development process/work and given special personalized easter eggs in our mod. Applicant Developers will be given the `Curia` Team Member Role and the `Disciplio` Trial Role. After passing the Trial Period, members will be fully accepted into the team and be given GitHub write access if applicable.
 
 Rules for Developers
 - Current General Development for EoaNB shall be pushed onto the `experimental` branch.
@@ -31,7 +31,7 @@ Rules for Developers
 
 ### Installation
 
-Here's a useful installation Video by one of our lead developers: 
+Here's a useful installation video by one of our lead developers: 
 - https://youtu.be/Qr6l2DEneNY
 
 ### Usage
@@ -70,7 +70,7 @@ Have more questions, comments or feedback? You can contact us by joining our dis
 </td>
 <td align="center">
   <a href = "https://github.com/Coggernaut"><strong>Coggernaut</strong></a>
-  <img src="https://cdn.discordapp.com/avatars/201845856553533440/7711758951cf45569d84d3f648c56aae.png?size=256" width="120px;" alt="Coggernaut"/>
+  <img src="https://media.discordapp.net/attachments/729456479651758220/796211077573640253/Battlemaster_Profile_Pic.jpg" width="120px;" alt="Coggernaut"/>
 </td>
 <td align="center">
   <a href = "https://github.com/Garion132"><strong>Garion132</strong></a>

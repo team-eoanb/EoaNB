@@ -5439,7 +5439,6 @@ country_event = { # Esthablishment of the Provisional Government
 
   option = {
     name = third_rep_france.002.a
-    drop_cosmetic_tag = yes
     retire_country_leader = yes
     add_popularity = { ideology = traditional_conservatism popularity = 0.05 }
     create_country_leader = {
@@ -5523,18 +5522,19 @@ country_event = { # The Siege of Paris
   fire_only_once = yes
 
   trigger = {
-    tag = FRA
-    16 = {
-      is_controlled_by = PRS
-    }
+    PRS = {
+      has_full_control_of_state	= 16
+        }
     has_cosmetic_tag = FRA_TRANSITION_EMPIRE
   }
 
   option = {
     name = third_rep_france.006.a
     hidden_effect = {
+      set_country_flag = FRA_paris_besieged
       country_event = { days = 12 id = third_rep_france.007 }
       country_event = { days = 55 id = third_rep_france.009 }
+      country_event = { days = 1 id = third_rep_france.0081 }
     }
   }
 }
@@ -5551,7 +5551,7 @@ country_event = { # Entrevue de Ferrières
   option = {
     name = third_rep_france.007.a
     hidden_effect = {
-      PRS = { country_event = { days = 1 id = third_rep_france.4 } }
+      PRS = { country_event = { days = 1 id = third_rep_france.0071 } }
     }
   }
 }
@@ -5568,7 +5568,7 @@ country_event = { # Entrevue de Ferrières - Bismarck reponse
   option = {
     name = third_rep_france.0071.a
     hidden_effect = {
-      FRA = { country_event = { days = 1 id = third_rep_france.5 } }
+      FRA = { country_event = { days = 1 id = third_rep_france.0072 } }
     }
   }
 }
@@ -5602,9 +5602,72 @@ country_event = { # Gambetta's balloon adventures
   fire_only_once = yes
   is_triggered_only = yes
 
+  trigger = {
+    AND = {
+      has_country_flag = FRA_paris_besieged
+      has_country_flag = FRA_military_baloon_tag
+    }
+  }
+
   option = {
     name = third_rep_france.008.a
     hidden_effect = {
+      set_country_flag = Gambetta_Trip
+    }
+  }
+}
+
+country_event = { # War delegation siege in Tours.
+  id = third_rep_france.0081
+  title = third_rep_france.0081.t
+  desc = third_rep_france.0081.d
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+  is_triggered_only = yes
+
+  option = {
+    name = third_rep_france.0081.a
+    hidden_effect = {
+      set_capital = 24
+    }
+  }
+}
+
+country_event = { # War delegation retreat to Bordeaux
+  id = third_rep_france.0082
+  title = third_rep_france.0082.t
+  desc = third_rep_france.0082.d
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+  is_triggered_only = yes
+
+  option = {
+    name = third_rep_france.0082.a
+    hidden_effect = {
+      set_capital = 19
+    }
+  }
+}
+
+country_event = { # War delegation captured in Bordeaux
+  id = third_rep_france.0083
+  title = third_rep_france.0083.t
+  desc = third_rep_france.0083.d
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+  is_triggered_only = yes
+
+  trigger = {
+    PRS = { controls_state = 19 }  
+  } 
+
+  option = {
+    name = third_rep_france.0083.a
+    hidden_effect = {
+      country_event = { days = 2 id = third_rep_france.011 }
     }
   }
 }
@@ -5618,17 +5681,18 @@ country_event = { # Insurrections in Paris
   fire_only_once = yes
   is_triggered_only = yes
 
-  option = { # Let them be
+  option = { # Put down this insurrection
     name = third_rep_france.009.a
     hidden_effect = {
-      
-    }
-  }
-
-  option = { # Put down this insurrection
-    name = third_rep_france.009.b
-    hidden_effect = {
-      
+      if = { 
+				limit = { 
+					surrender_progress < 0.8 
+				}
+				country_event = { id = third_rep_france.0101 days = 2 }
+			}
+			else = { 
+				country_event = { id = third_rep_france.0102 days = 2 } 
+			}
     }
   }
 }
@@ -5644,6 +5708,8 @@ country_event = { # Plebiscite Result in Paris : WIN
 
   option = {
     name = third_rep_france.0101.a
+    surrender_limit = 0.2
+    complete_national_focus = FRA_plebicite
   }
 }
 
@@ -5658,6 +5724,7 @@ country_event = { # Plebiscite Result in Paris : LOOSE
 
   option = {
     name = third_rep_france.0102.a
+    country_event = { days = 3 id = third_rep_france.0103 }
   }
 }
 
@@ -5692,20 +5759,29 @@ country_event = { # Armistice
   fire_only_once = yes
   is_triggered_only = yes
 
-  trigger {
-    PRS = { controls_state = 16 }
-  }
+  trigger = {
+    OR = {
+      PRS = { controls_state = 16 }  
+      surrender_progress > 0.9
+    }
+  } 
 
   option = {
     name = third_rep_france.011.a
     hidden_effect = {
-      FRA = { country_event = { days = 3 id = third_rep_france.012 } }
-      FRA = { country_event = { days = 4 id = third_rep_france.013 } }
-      FRA = { country_event = { days = 9 id = third_rep_france.014 } }
-      white_peace = GER
-      give_military_access = GER
-      set_demilitarized_zone = yes
-      28 = { set_demilitarized_zone = yes }
+      FRA = { country_event = { days = 2 id = third_rep_france.012 } }
+      FRA = { country_event = { days = 3 id = third_rep_france.013 } }
+      FRA = { country_event = { days = 5 id = third_rep_france.014 } }
+      FRA = { white_peace = PRS }
+      FRA = { give_military_access = PRS }
+      PRS = { transfer_state = 28 } 
+      PRS = { transfer_state = 17 } 
+      PRS = { transfer_state = 972 } 
+      PRS = { transfer_state = 18 } 
+      PRS = { transfer_state = 27 } 
+      PRS = { transfer_state = 176 } 
+      PRS = { transfer_state = 29 } 
+      PRS = { transfer_state = 1151 } 
     }
   }
 }
@@ -5747,17 +5823,38 @@ country_event = { # Henri Rochefort quits the government
 country_event = { # First Legislative Election of the Republic
   id = third_rep_france.014
   title = third_rep_france.014.t
-  desc = third_rep_france.014.d
+  desc = third_rep_france.014.d 
   picture = GFX_report_event_napoleon_iii_death
 
   fire_only_once = yes
   is_triggered_only = yes
 
   option = {
-    name = third_rep_france.013.a
+    name = third_rep_france.014.a
+    FRA = { country_event = { days = 2 id = third_rep_france.011 } }
+  }
+}
+
+country_event = { # Monarchist Won the Election
+  id = third_rep_france.0141
+  title = third_rep_france.0141.t
+  desc = third_rep_france.0141.d 
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+  is_triggered_only = yes
+
+  option = {
+    name = third_rep_france.0141.a
     set_country_flag = FRA_1871_Monarchist
     set_politics = { ruling_party = traditional_conservatism elections_allowed = yes }
     complete_national_focus = FRA_1871_Monarchist
+    set_party_name = {
+      ideology = traditional_conservatism
+      long_name = FRA_iii_traditional_conservatism_party
+      name = FRA_iii_traditional_conservatism_party
+    }
+    FRA = { country_event = { days = 2 id = third_rep_france.015 } }
   }
 }
 
@@ -5772,20 +5869,19 @@ country_event = { # Election of the First President
 
   option = { # Adolphe Theirs
     name = third_rep_france.015.a
-    complete_national_focus = FRA_monarchist_victory
     trigger = {
-      OR = {
         has_country_flag = FRA_1871_Monarchist
-      }
     }
+    complete_national_focus = FRA_monarchist_victory
+    retire_country_leader = yes
     set_politics = {
       ruling_party = traditional_conservatism
-      elections_allowed = no
+      elections_allowed = yes
     }
     create_country_leader = {
       name = "Adolphe Thiers"
       picture = "Portrait_FRA_Adolphe_Thiers.dds"
-      ideology = conserv_liberal
+      ideology = conserv
     }
     create_country_leader = {
       name = "Léon Gambetta"
@@ -5799,6 +5895,28 @@ country_event = { # Election of the First President
     }
   }
 }
+
+country_event = { # The Frankfurt Pact Signed Beetween France And The Prussian Alliance
+  id = third_rep_france.014
+  title = third_rep_france.014.t
+  desc = third_rep_france.014.d 
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+  is_triggered_only = yes
+
+  option = {
+    name = third_rep_france.014.a
+    
+  }
+}
+
+
+
+
+
+
+
 
 #----------------------------------------------------------------------------------------------
 # PARIS COMMUNE EVENTS

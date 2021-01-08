@@ -299,7 +299,7 @@ afr_regional_power_empire_politics_category = {
 	
 	afr_empire_politics_state_autonomy_menu_on = {
 		available = {
-			always = yes
+			hidden_trigger = { always = yes }
 		}
 		allowed = { 
 			OR = {
@@ -321,7 +321,7 @@ afr_regional_power_empire_politics_category = {
 	
 	afr_empire_politics_state_autonomy_menu_off = {
 		available = {
-			always = yes
+			hidden_trigger = { always = yes }
 		}
 		allowed = { 
 			OR = {
@@ -338,6 +338,45 @@ afr_regional_power_empire_politics_category = {
 		complete_effect = {
 			custom_effect_tooltip = afr_empire_politics_state_autonomy_menu_off_effect
 			clr_country_flag = afr_empire_politics_state_autonomy_menu_on_flag
+		}
+	}
+	
+	afr_empire_politics_state_advisor_rumors = {
+		available = {
+			hidden_trigger = { always = yes }
+		}
+		allowed = { 
+			OR = {
+				afr_is_tribal_allowed = yes
+				oceania_is_tribal_allowed = yes
+			}
+		}
+		cost = 0
+		fire_only_once = no
+		days_re_enable = 15
+		visible = { 
+			has_country_flag = afr_empire_politics_state_autonomy_menu_on_flag 
+			any_owned_state = {
+				NOT = { has_state_flag = afr_empire_politics_state_manager_local_rumor_searching_flag }
+				NOT = { has_state_flag = afr_empire_politics_state_manager_local_rumor_non_advisor_cooldown_flag } 
+				NOT = { has_state_flag = afr_empire_politics_state_manager_local_rumor_cooldown_flag }
+			}
+		}
+		complete_effect = {
+			custom_effect_tooltip = afr_empire_politics_state_advisor_rumors_tooltip
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {  
+						NOT = { has_state_flag = afr_empire_politics_state_manager_local_rumor_searching_flag }
+						NOT = { has_state_flag = afr_empire_politics_state_manager_local_rumor_non_advisor_cooldown_flag } 
+						NOT = { has_state_flag = afr_empire_politics_state_manager_local_rumor_cooldown_flag }
+					}
+					state_event = { id = afr_empire_politics_state_manager_local_rumors_event.1 }
+				}
+			}
+		}
+		ai_will_do = {
+			base = 10
 		}
 	}
 	
@@ -1272,11 +1311,11 @@ afr_regional_power_empire_politics_category = {
 			else_if = {
 				limit = { is_subject = yes }
 				OVERLORD = { country_event = { id = afr_empire_politics_subject_levy_mission_event.4 random_days = 5 } }
-			}
-			hidden_effect = {
-				clr_country_flag = afr_empire_politics_subject_levy_mission_large_flag
-				clr_country_flag = afr_empire_politics_subject_levy_mission_medium_flag
-				clr_country_flag = afr_empire_politics_subject_levy_mission_small_flag
+				hidden_effect = {
+					clr_country_flag = afr_empire_politics_subject_levy_mission_large_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_medium_flag
+					clr_country_flag = afr_empire_politics_subject_levy_mission_small_flag
+				}
 			}
 		}
 	}
