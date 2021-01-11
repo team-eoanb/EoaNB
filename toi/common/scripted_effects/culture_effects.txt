@@ -1640,8 +1640,61 @@ d_check_culture = {
 			add_to_temp_variable = { amount = 1 }
 			log = "Culture error found at state [THIS.GetID]. Amount of cultures does not correspond to the numbers of cultures."
 		}
+		add_to_temp_array = {
+			array = temp_state_array
+			value = THIS
+		}
 	}
-	log = "Culture error checking finished. Total amount of errors within states: [?amount]" 
+	log = "Culture error checking finished. Total amount of errors within states: [?amount]"
+	set_temp_variable = { amount = 0 }
+	for_each_scope_loop = {
+		array = temp_state_array
+		set_temp_variable = { check = 0 }
+		for_each_scope_loop = {
+			array = temp_state_array
+			break = temp_break
+			if = {
+				limit = {
+					NOT = {
+						state = PREV
+					}
+					OR = {
+						distance_to = {
+							value < 1000
+							target = PREV
+						}
+						any_neighbor_state = {
+							state = PREV.PREV
+						}
+					}
+				}
+				for_each_loop = {
+					array = PREV.state_culture_array
+					value = v
+					break = temp_break_2
+					if = {
+						limit = {
+							is_in_array = {
+								array = THIS.state_culture_array
+								value = v
+							}
+						}
+						set_temp_variable = { check = 1 }
+						set_temp_variable = { temp_break = 1 }
+						set_temp_variable = { temp_break_2 = 1 }
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				check_variable = { check = 0 }
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Culture warning found at state [THIS.GetID]: Isolated from any other states with the same culture."
+		}
+	}
+	log = "Culture warning checking finished. Total amount of warnings within states: [?amount]"
 }
 d_check_religion = {
 	set_temp_variable = { amount = 0 }
@@ -1705,10 +1758,63 @@ d_check_religion = {
 				}
 			}
 			add_to_temp_variable = { amount = 1 }
-			log = "Religion error found at state [THIS.GetID]. Amount of cultures does not correspond to the numbers of cultures."
+			log = "Religion error found at state [THIS.GetID]. Amount of religions does not correspond to the numbers of religions."
+		}
+		add_to_temp_array = {
+			array = temp_state_array
+			value = THIS
 		}
 	}
 	log = "Religion error checking finished. Total amount of errors within states: [?amount]" 
+	set_temp_variable = { amount = 0 }
+	for_each_scope_loop = {
+		array = temp_state_array
+		set_temp_variable = { check = 0 }
+		for_each_scope_loop = {
+			array = temp_state_array
+			break = temp_break
+			if = {
+				limit = {
+					NOT = {
+						state = PREV
+					}
+					OR = {
+						distance_to = {
+							value < 1000
+							target = PREV
+						}
+						any_neighbor_state = {
+							state = PREV.PREV
+						}
+					}
+				}
+				for_each_loop = {
+					array = PREV.state_religion_array
+					value = v
+					break = temp_break_2
+					if = {
+						limit = {
+							is_in_array = {
+								array = THIS.state_religion_array
+								value = v
+							}
+						}
+						set_temp_variable = { check = 1 }
+						set_temp_variable = { temp_break = 1 }
+						set_temp_variable = { temp_break_2 = 1 }
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				check_variable = { check = 0 }
+			}
+			add_to_temp_variable = { amount = 1 }
+			log = "Religion warning found at state [THIS.GetID]: Isolated from any other states with the same religion."
+		}
+	}
+	log = "Religion warning checking finished. Total amount of warnings within states: [?amount]"
 }
 
 ####Strats Sort####

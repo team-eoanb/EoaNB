@@ -5414,8 +5414,8 @@ country_event = { # Proclamation of the Republic
       }
       set_party_name = {
         ideology = anarchism
-        long_name = FRA_anarchism_party:0
-        name = FRA_anarchism_party:0
+        long_name = FRA_anarchism_party
+        name = FRA_anarchism_party
       }
       add_popularity = { ideology = anarchism popularity = 0.10 }
       add_popularity = { ideology = collectivist_socialism popularity = 0.05 }
@@ -5643,6 +5643,10 @@ country_event = { # War delegation retreat to Bordeaux
   fire_only_once = yes
   is_triggered_only = yes
 
+  trigger = {
+    PRS = { controls_state = 24 }  
+  } 
+
   option = {
     name = third_rep_france.0082.a
     hidden_effect = {
@@ -5762,7 +5766,7 @@ country_event = { # Armistice
   trigger = {
     OR = {
       PRS = { controls_state = 16 }  
-      surrender_progress > 0.9
+      surrender_progress > 0.85
     }
   } 
 
@@ -5775,14 +5779,46 @@ country_event = { # Armistice
       FRA = { white_peace = PRS }
       FRA = { give_military_access = PRS }
       PRS = { transfer_state = 28 } 
-      PRS = { transfer_state = 17 } 
       PRS = { transfer_state = 972 } 
       PRS = { transfer_state = 18 } 
-      PRS = { transfer_state = 27 } 
-      PRS = { transfer_state = 176 } 
+      PRS = { transfer_state = 976 } 
       PRS = { transfer_state = 29 } 
       PRS = { transfer_state = 1151 } 
+      clr_country_flag = Gambetta_Trip
+      clr_country_flag = FRA_paris_besieged
+      clr_global_flag = eoanb_flag_franco_prussian_war_ongoing
+      FRA = { country_event = { days = 1 id = third_rep_france.0111 } }
+      PRS = { country_event = { days = 1 id = third_rep_france.0112 } }
+      set_global_flag = GER_Winner_of_FPW
     }
+  }
+}
+
+country_event = { # German Army March in Paris (France)
+  id = third_rep_france.0111
+  title = third_rep_france.012.t
+  desc = third_rep_france.012.d
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+  is_triggered_only = yes
+
+  option = {
+    name = third_rep_france.012.a
+  }
+}
+
+country_event = { # German Army March in Paris (Germany)
+  id = third_rep_france.0112
+  title = third_rep_france.012.t
+  desc = third_rep_france.012.d
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+  is_triggered_only = yes
+
+  option = {
+    name = third_rep_france.012.a
   }
 }
 
@@ -5831,7 +5867,32 @@ country_event = { # First Legislative Election of the Republic
 
   option = {
     name = third_rep_france.014.a
-    FRA = { country_event = { days = 2 id = third_rep_france.011 } }
+    FRA = { country_event = { days = 2 id = third_rep_france.0141 } }
+    set_party_name = {
+      ideology = traditional_conservatism
+      long_name = FRA_iii_1871_traditional_conservatism_party
+      name = FRA_iii_1871_traditional_conservatism_party
+    }
+    set_party_name = {
+      ideology = traditional_conservatism
+      long_name = FRA_iii_1871_radical_democracy_party
+      name = FRA_iii_1871_radical_democracy_party
+    }
+    create_country_leader = {
+      name = "Jules Dufaure"
+      picture = ""
+      ideology = radical_democracy
+    }
+    create_country_leader = {
+      name = "Léon Gambetta"
+      picture = "Portrait_FRA_Leon_Gambetta.dds"
+      ideology = radical_democracy
+    }    
+    create_country_leader = {
+      name = "Henri Rochefort"
+      picture = "Portrait_FRA_Henri_Rochefort.dds"
+      ideology = collectivist_socialism
+    }
   }
 }
 
@@ -5847,18 +5908,15 @@ country_event = { # Monarchist Won the Election
   option = {
     name = third_rep_france.0141.a
     set_country_flag = FRA_1871_Monarchist
+    mark_focus_tree_layout_dirty = yes
     set_politics = { ruling_party = traditional_conservatism elections_allowed = yes }
     complete_national_focus = FRA_1871_Monarchist
-    set_party_name = {
-      ideology = traditional_conservatism
-      long_name = FRA_iii_traditional_conservatism_party
-      name = FRA_iii_traditional_conservatism_party
-    }
     FRA = { country_event = { days = 2 id = third_rep_france.015 } }
+
   }
 }
 
-country_event = { # Election of the First President
+country_event = { # Adolphe Tiers elected President
   id = third_rep_france.015
   title = third_rep_france.015.t
   desc = third_rep_france.015.d
@@ -5883,40 +5941,35 @@ country_event = { # Election of the First President
       picture = "Portrait_FRA_Adolphe_Thiers.dds"
       ideology = conserv
     }
-    create_country_leader = {
-      name = "Léon Gambetta"
-      picture = "Portrait_FRA_Leon_Gambetta.dds"
-      ideology = radical_democracy
-    }
-    create_country_leader = {
-      name = "Henri Rochefort"
-      picture = "Portrait_FRA_Henri_Rochefort.dds"
-      ideology = anti_revisionism
-    }
   }
 }
 
 country_event = { # The Frankfurt Pact Signed Beetween France And The Prussian Alliance
-  id = third_rep_france.014
-  title = third_rep_france.014.t
-  desc = third_rep_france.014.d 
+  id = third_rep_france.016
+  title = third_rep_france.016.t
+  desc = third_rep_france.016.d 
   picture = GFX_report_event_napoleon_iii_death
 
   fire_only_once = yes
   is_triggered_only = yes
 
   option = {
-    name = third_rep_france.014.a
+    name = third_rep_france.016.a
+    FRA = { transfer_state = 972 } 
+    FRA = { transfer_state = 18 } 
+    FRA = { transfer_state = 976 } 
+    FRA = { transfer_state = 29 } 
+    FRA = { transfer_state = 1151 } 
+    17 = { set_demilitarized_zone = yes }
+    972 = { set_demilitarized_zone = yes }
+    18 = { set_demilitarized_zone = yes }
+    976 = { set_demilitarized_zone = yes }
+    29 = { set_demilitarized_zone = yes }
+    1151 = { set_demilitarized_zone = yes }
+    FRA = { add_ideas = FRA_idea_loss_of_alsace	}
     
   }
 }
-
-
-
-
-
-
-
 
 #----------------------------------------------------------------------------------------------
 # PARIS COMMUNE EVENTS
