@@ -2683,7 +2683,7 @@ country_event = {###tribe - raid neighbour
 					#FROM.FROM = {
 					#	random_owned_state = {
 					#		limit = { any_neighbor_state = { is_owned_and_controlled_by = ROOT } }
-					#		state_event = { id = afr_empire_politics_successful_raid_event.1 }
+					#		OWNER = { PREV = { state_event = { id = afr_empire_politics_successful_raid_event.1 } } }
 					#	}
 					#}
 				}
@@ -2718,7 +2718,7 @@ country_event = {###tribe - raid neighbour
 					#FROM.FROM = {
 					#	random_owned_state = {
 					#		limit = { any_neighbor_state = { is_owned_and_controlled_by = ROOT } }
-					#		state_event = { id = afr_empire_politics_successful_raid_event.1 trigger_for = controller }
+					#		OWNER = { PREV = { state_event = { id = afr_empire_politics_successful_raid_event.1 } } }
 					#	}
 					#}
 				}
@@ -2754,7 +2754,7 @@ country_event = {###tribe - raid neighbour
 					FROM.FROM = {
 						random_owned_state = {
 							limit = { any_neighbor_state = { is_owned_and_controlled_by = ROOT } }
-							state_event = { id = afr_empire_politics_successful_raid_event.1 trigger_for = controller }
+							OWNER = { PREV = { state_event = { id = afr_empire_politics_successful_raid_event.1 } } }
 						}
 					}
 				}
@@ -3046,7 +3046,7 @@ country_event = {###tribe - raid neighbour
 					FROM.FROM = {
 						random_owned_state = {
 							limit = { any_neighbor_state = { is_owned_and_controlled_by = ROOT } }
-							state_event = { id = afr_empire_politics_successful_raid_event.1 trigger_for = controller }
+							OWNER = { PREV = { state_event = { id = afr_empire_politics_successful_raid_event.1 } } }
 						}
 					}
 				}
@@ -3838,50 +3838,61 @@ country_event = {###we are being raided
 				}
 			}
 		}
-		hidden_effect = { 
-			if = {
-				limit = {
-					FROM.FROM = {has_country_flag = sent_500_troops_on_a_raid}
-				}
+		if = {
+			limit = {
+				FROM.FROM = {has_country_flag = sent_500_troops_on_a_raid}
+			}
+			hidden_effect = {
 				ROOT = { 
 					subtract_from_variable = {Tribal_army_num = 600}
 					set_country_flag = Sent_600_troops_om_sortee
 				}
 			}
-			else_if = {
-				limit = {
-					FROM.FROM = {has_country_flag = sent_1000_troops_on_a_raid}
-				}
+			custom_effect_tooltip = Send_600_troops_om_sortee_tooltip
+		}
+		else_if = {
+			limit = {
+				FROM.FROM = {has_country_flag = sent_1000_troops_on_a_raid}
+			}
+			hidden_effect = {
 				ROOT = { 
 					subtract_from_variable = {Tribal_army_num = 1100}
 					set_country_flag = Sent_1100_troops_om_sortee
 				}
 			}
-			else_if = {
-				limit = {
-					FROM.FROM = {has_country_flag = sent_2500_troops_on_a_raid}
-				}
+			custom_effect_tooltip = Send_1100_troops_om_sortee_tooltip
+		}
+		else_if = {
+			limit = {
+				FROM.FROM = {has_country_flag = sent_2500_troops_on_a_raid}
+			}
+			hidden_effect = {
 				ROOT = { 
 					subtract_from_variable = {Tribal_army_num = 2600}
 					set_country_flag = Sent_2600_troops_om_sortee
 				}
 			}
+			custom_effect_tooltip = Send_2600_troops_om_sortee_tooltip
+		}
+		hidden_effect = {
 			random_list = {
 				60 = {
 					custom_effect_tooltip = EDC_SUCCESSFULL_SORTEE
 					FROM = { set_state_flag = EDC_successful_sortee_flag }
+					FROM = { clr_state_flag = EDC_afr_45_being_raided_flag }
 				}
 				40 = {
 					if = {
 						limit = { FROM.FROM = {has_country_flag = sent_2500_troops_on_a_raid} }
 						FROM.FROM = { country_event = { id = EDC_afr.466 days = 6 } }
+						
 					}
 				}
 			}
 			ROOT = { country_event = { id = EDC_afr.46 days = 3 } }
 		}
 		##10% chance to intercept
-		custom_effect_tooltip = EDC_afr_45_a_tooltip
+		#custom_effect_tooltip = EDC_afr_45_a_tooltip
 	}
 	option = {#we cannont afford to pursue every raider group
 		name = EDC_afr.45.b
@@ -3892,6 +3903,8 @@ country_event = {###we are being raided
 				10 = {
 					custom_effect_tooltip = EDC_SUCCESSFULL_SORTEE
 					FROM = { set_state_flag = EDC_successful_warlord_defence_flag }
+					FROM = { clr_state_flag = EDC_afr_45_being_raided_flag }
+					ROOT = { country_event = { id = EDC_afr.46 days = 3 } }
 				}
 				90 = {
 					if = {
@@ -4125,21 +4138,18 @@ country_event = {###we are being invaded
 		}
 	}
 }
+
 country_event = {###we are being invaded
 	id = EDC_afr.466
 	hidden = yes
 	is_triggered_only = yes
 	
 	immediate = {
-		hidden_effect = {
-			FROM = {
-				random_owned_state = {
-					limit = { 
-						has_state_flag = EDC_afr_45_being_raided_flag 
-					}
-					clr_state_flag = EDC_afr_45_being_raided_flag 
-					state_event = { id = afr_empire_politics_successful_raid_event.1 trigger_for = controller }
-				}
+		FROM = {
+			random_owned_state = {
+				limit = { has_state_flag = EDC_afr_45_being_raided_flag }
+				OWNER = { PREV = { state_event = { id = afr_empire_politics_successful_raid_event.1 } } }
+				clr_state_flag = EDC_afr_45_being_raided_flag
 			}
 		}
 	}

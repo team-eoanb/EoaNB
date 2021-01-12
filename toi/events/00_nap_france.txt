@@ -6,6 +6,7 @@ add_namespace = nap_france
 add_namespace = fraprswar_france
 add_namespace = third_rep_france
 add_namespace = latin_monetary_union
+add_namespace = paris_commune
 
 #----------------------------------------------------------------------------------------------
 # FOCUS TREE EVENTS - 1857 TO 1870
@@ -4199,45 +4200,51 @@ country_event = { #Imperial Triumph (called by on_peaceconference_ended on_actio
   fire_only_once = yes
 
   option = {
-	name = nap_france.3635.a
-	add_ideas = MXE_liberal_hates
-	add_ideas = MXE_no_internal_support
-	set_country_flag = MXE_empire_with_war
-	add_state_core = 474
-	add_state_core = 475
-	add_state_core = 476
-	add_state_core = 477
-	add_state_core = 478
-	add_state_core = 479
-	add_state_core = 480
-	add_state_core = 481
-	add_state_core = 482
-	add_state_core = 483
-	add_state_core = 484
-	add_state_core = 485
-	add_state_core = 1112
-	add_state_core = 1113
-	add_state_core = 1114
-	add_state_core = 1124
-	add_state_core = 1125
-	transfer_state = 474
-	transfer_state = 475
-	transfer_state = 476
-	transfer_state = 477
-	transfer_state = 478
-	transfer_state = 479
-	transfer_state = 480
-	transfer_state = 481
-	transfer_state = 482
-	transfer_state = 483
-	transfer_state = 484
-	transfer_state = 485
-	transfer_state = 1112
-	transfer_state = 1113
-	transfer_state = 1114
-	transfer_state = 1124
-	transfer_state = 1125
-	FRA = { complete_national_focus = FRA_mexico_victory }
+    name = nap_france.3635.a
+    add_ideas = MXE_liberal_hates
+    add_ideas = MXE_no_internal_support
+    set_country_flag = MXE_empire_with_war
+    MEX = {
+      every_owned_state = {
+        add_core_of = MXE
+        MXE = { transfer_state = PREV }
+      }
+    }
+    # add_state_core = 474
+    # add_state_core = 475
+    # add_state_core = 476
+    # add_state_core = 477
+    # add_state_core = 478
+    # add_state_core = 479
+    # add_state_core = 480
+    # add_state_core = 481
+    # add_state_core = 482
+    # add_state_core = 483
+    # add_state_core = 484
+    # add_state_core = 485
+    # add_state_core = 1112
+    # add_state_core = 1113
+    # add_state_core = 1114
+    # add_state_core = 1124
+    # add_state_core = 1125
+    # transfer_state = 474
+    # transfer_state = 475
+    # transfer_state = 476
+    # transfer_state = 477
+    # transfer_state = 478
+    # transfer_state = 479
+    # transfer_state = 480
+    # transfer_state = 481
+    # transfer_state = 482
+    # transfer_state = 483
+    # transfer_state = 484
+    # transfer_state = 485
+    # transfer_state = 1112
+    # transfer_state = 1113
+    # transfer_state = 1114
+    # transfer_state = 1124
+    # transfer_state = 1125
+	  FRA = { complete_national_focus = FRA_mexico_victory }
   }
 }
 
@@ -5300,15 +5307,15 @@ country_event = { # Napoleon III captured in Sedan
 
   trigger = {
     tag = FRA
-    NOT = {
-      has_country_flag = fra_nap_iii_captured
-    }
-    PRS = {
-      controls_state = 18
-    }
-  }
+    NOT = { has_country_flag = fra_nap_iii_captured }
+    OR = {
+      PRS = { controls_state = 18 }
+      BAV = { controls_state = 18 }
+      WUR = { controls_state = 18 }
+      BAD = { controls_state = 18 }
+      }
     mean_time_to_happen = {
-    days = 5
+    days = 1
     }
 
   option = { # Napoleon III captured
@@ -5339,7 +5346,7 @@ country_event = { # Empire is collapsing
       ideology = absolutism
     }
     hidden_effect = {
-      country_event = { days = 3 id = third_rep_france.001 }
+      country_event = { days = 2 id = third_rep_france.001 }
     }
   }
 }
@@ -5478,7 +5485,7 @@ country_event = { # Buy Canons for Parisians
   option = { name = third_rep_france.004.a
     add_equipment_to_stockpile = { type = cannon_equipment amount = 200 producer = FRA }
     add_popularity = { ideology = anarchism popularity = 0.05 }
-    }
+  }
 }
 
 country_event = { # Call the National Guard
@@ -5687,10 +5694,11 @@ country_event = { # Insurrections in Paris
 
   option = { # Put down this insurrection
     name = third_rep_france.009.a
+    add_political_power = -20
     hidden_effect = {
       if = { 
 				limit = { 
-					surrender_progress < 0.8 
+					surrender_progress < 0.65 
 				}
 				country_event = { id = third_rep_france.0101 days = 2 }
 			}
@@ -5766,8 +5774,8 @@ country_event = { # Armistice
   trigger = {
     OR = {
       PRS = { controls_state = 16 }  
-      surrender_progress > 0.85
     }
+  surrender_progress > 0.85  
   } 
 
   option = {
@@ -5796,29 +5804,29 @@ country_event = { # Armistice
 
 country_event = { # German Army March in Paris (France)
   id = third_rep_france.0111
-  title = third_rep_france.012.t
-  desc = third_rep_france.012.d
+  title = third_rep_france.0111.t
+  desc = third_rep_france.0111.d
   picture = GFX_report_event_napoleon_iii_death
 
   fire_only_once = yes
   is_triggered_only = yes
 
   option = {
-    name = third_rep_france.012.a
+    name = third_rep_france.0111.a
   }
 }
 
 country_event = { # German Army March in Paris (Germany)
   id = third_rep_france.0112
-  title = third_rep_france.012.t
-  desc = third_rep_france.012.d
+  title = third_rep_france.0112.t
+  desc = third_rep_france.0112.d
   picture = GFX_report_event_napoleon_iii_death
 
   fire_only_once = yes
   is_triggered_only = yes
 
   option = {
-    name = third_rep_france.012.a
+    name = third_rep_france.0112.a
   }
 }
 
@@ -5867,31 +5875,34 @@ country_event = { # First Legislative Election of the Republic
 
   option = {
     name = third_rep_france.014.a
-    FRA = { country_event = { days = 2 id = third_rep_france.0141 } }
-    set_party_name = {
-      ideology = traditional_conservatism
-      long_name = FRA_iii_1871_traditional_conservatism_party
-      name = FRA_iii_1871_traditional_conservatism_party
-    }
-    set_party_name = {
-      ideology = traditional_conservatism
-      long_name = FRA_iii_1871_radical_democracy_party
-      name = FRA_iii_1871_radical_democracy_party
-    }
-    create_country_leader = {
-      name = "Jules Dufaure"
-      picture = ""
-      ideology = radical_democracy
-    }
-    create_country_leader = {
-      name = "Léon Gambetta"
-      picture = "Portrait_FRA_Leon_Gambetta.dds"
-      ideology = radical_democracy
-    }    
-    create_country_leader = {
-      name = "Henri Rochefort"
-      picture = "Portrait_FRA_Henri_Rochefort.dds"
-      ideology = collectivist_socialism
+
+    hidden_effect = {
+      FRA = { country_event = { days = 2 id = third_rep_france.0141 } }
+      set_party_name = {
+        ideology = traditional_conservatism
+        long_name = FRA_iii_1871_traditional_conservatism_party
+        name = FRA_iii_1871_traditional_conservatism_party
+      }
+      set_party_name = {
+        ideology = traditional_conservatism
+        long_name = FRA_iii_1871_radical_democracy_party
+        name = FRA_iii_1871_radical_democracy_party
+      }
+      create_country_leader = {
+        name = "Jules Dufaure"
+        picture = ""
+        ideology = radical_democracy
+      }
+      create_country_leader = {
+        name = "Léon Gambetta"
+        picture = "Portrait_FRA_Leon_Gambetta.dds"
+        ideology = radical_democracy
+      }    
+      create_country_leader = {
+        name = "Henri Rochefort"
+        picture = "Portrait_FRA_Henri_Rochefort.dds"
+        ideology = collectivist_socialism
+      }
     }
   }
 }
@@ -5910,9 +5921,8 @@ country_event = { # Monarchist Won the Election
     set_country_flag = FRA_1871_Monarchist
     mark_focus_tree_layout_dirty = yes
     set_politics = { ruling_party = traditional_conservatism elections_allowed = yes }
-    complete_national_focus = FRA_1871_Monarchist
+    complete_national_focus = FRA_monarchist_victory
     FRA = { country_event = { days = 2 id = third_rep_france.015 } }
-
   }
 }
 
@@ -5929,8 +5939,7 @@ country_event = { # Adolphe Tiers elected President
     name = third_rep_france.015.a
     trigger = {
         has_country_flag = FRA_1871_Monarchist
-    }
-    complete_national_focus = FRA_monarchist_victory
+    } 
     retire_country_leader = yes
     set_politics = {
       ruling_party = traditional_conservatism
@@ -5967,13 +5976,227 @@ country_event = { # The Frankfurt Pact Signed Beetween France And The Prussian A
     29 = { set_demilitarized_zone = yes }
     1151 = { set_demilitarized_zone = yes }
     FRA = { add_ideas = FRA_idea_loss_of_alsace	}
-    
   }
+}
+
+country_event = { #German Troops withdraw from France 
+	id = third_rep_france.017
+	title = third_rep_france.017.t
+	desc = third_rep_france.017.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = third_rep_france.017.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+      17 = { set_demilitarized_zone = no }
+      972 = { set_demilitarized_zone = no }
+      18 = { set_demilitarized_zone = no }
+      976 = { set_demilitarized_zone = no }
+      29 = { set_demilitarized_zone = no }
+      1151 = { set_demilitarized_zone = no }
+		}
+	}
 }
 
 #----------------------------------------------------------------------------------------------
 # PARIS COMMUNE EVENTS
 #----------------------------------------------------------------------------------------------
+
+country_event = { #Thiers return in Paris to pacifiate the capital
+	id = third_rep_france.018
+	title = third_rep_france.018.t
+	desc = third_rep_france.018.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = third_rep_france.017.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+      set_capital = 19
+		}
+	}
+}
+
+
+
+################### LECOMPTE AND CLEMENT-THOMAS CAPTURED ##########################
+
+country_event = { #National Guard oppose the canons seize. 
+	id = third_rep_france.0200
+	title = third_rep_france.0200.t
+	desc = third_rep_france.0200.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { #Send the Troop
+		name = third_rep_france.0200.a
+    ai_chance = { factor = 75 }
+  }
+
+	option = { #Abandon the canons
+		name = third_rep_france.0200.b
+    ai_chance = { factor = 15 }
+  }
+}
+
+country_event = { #General Lecomte captured by the Parisian
+	id = third_rep_france.0201
+	title = third_rep_france.0201.t
+	desc = third_rep_france.0201.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { #Send Clément-Thomas in disguise to find him
+		name = third_rep_france.0201.a
+    ai_chance = { factor = 75 }
+		hidden_effect = {
+		}
+  }
+
+	option = { #Send the Troop to liberate him
+		name = third_rep_france.0201.b
+    ai_chance = { factor = 15 }
+		hidden_effect = {
+		}
+  }
+
+  option = { #Do Nothing
+		name = third_rep_france.0201.c
+		ai_chance = { factor = 10 }
+		hidden_effect = {
+		}
+  }
+}
+
+country_event = { #General Lecomte Executed !
+	id = third_rep_france.0202
+	title = third_rep_france.0202.t
+	desc = third_rep_france.0202.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { #Send Clément-Thomas in disguise to find him
+		name = third_rep_france.0202.a
+    ai_chance = { factor = 75 }
+		hidden_effect = {
+		}
+  }
+}
+
+country_event = { #General Lecomte captured by the Parisian
+	id = third_rep_france.0203
+	title = third_rep_france.0203.t
+	desc = third_rep_france.0203.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { #Send Clément-Thomas in disguise to find him
+		name = third_rep_france.0203.a
+    ai_chance = { factor = 75 }
+		hidden_effect = {
+		}
+  }
+
+	option = { #Send the Troop to liberate him
+		name = third_rep_france.0203.b
+    ai_chance = { factor = 15 }
+		hidden_effect = {
+		}
+  }
+
+  option = { #Do Nothing
+		name = third_rep_france.0203.c
+		ai_chance = { factor = 10 }
+		hidden_effect = {
+		}
+  }
+}
+
+country_event = { #Clément Thomas discovered and executed ! 
+	id = third_rep_france.0204
+	title = third_rep_france.0204.t
+	desc = third_rep_france.0204.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { 
+		name = third_rep_france.020.a
+    ai_chance = { factor = 75 }
+		hidden_effect = {
+		}
+  }
+}
+
+country_event = { #Clément Thomas discovered and captured ! 
+	id = third_rep_france.0205
+	title = third_rep_france.0205.t
+	desc = third_rep_france.0205.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { 
+		name = third_rep_france.020.a
+    ai_chance = { factor = 75 }
+		hidden_effect = {
+		}
+  }
+}
+
+country_event = { #Prisonners liberated ! 
+	id = third_rep_france.0206
+	title = third_rep_france.0206.t
+	desc = third_rep_france.0206.d
+	picture = GFX_report_event_romania_parliament
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { 
+		name = third_rep_france.020.a
+    ai_chance = { factor = 75 }
+		hidden_effect = {
+		}
+  }
+}
+
+
+
+
+
+
+
+
+# Seize the Parisian Canons events (Clichy, Rochechouart, Houdon, Lepic, Germain-Pilon, Martyrs, Pigalle)
+
+
+
+
+
+
+
+
+
+
+
 
 country_event = { # Paris Commune proclaimed
   id = third_rep_france.11000
@@ -5993,9 +6216,11 @@ country_event = { # Paris Commune proclaimed
     }
     set_global_flag = paris_commune
     set_cosmetic_tag = FRA_commune_uprising
-    hidden_effect = { news_event = { id = nap_france_flavor.11 } }
-    FRA = {
-      set_capital = 1329
+    hidden_effect = { 
+      news_event = { id = nap_france_flavor.11 } 
+      FRA = {
+        set_capital = 1329
+      }
     }
   }
 }

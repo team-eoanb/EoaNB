@@ -15,6 +15,8 @@ add_namespace = afr_empire_politics_subject_send_tribute_to_overlord_event
 add_namespace = afr_empire_politics_state_manager_event
 add_namespace = afr_empire_politics_state_manager_officials_event
 add_namespace = afr_empire_politics_state_manager_local_rumors_event
+add_namespace = afr_empire_politics_state_manager_local_politics_event
+add_namespace = afr_empire_politics_state_manager_sent_loyalty_gift_event
 add_namespace = afr_empire_politics_state_manager_market_event
 add_namespace = afr_empire_politics_state_manager_market_luxury_event
 add_namespace = afr_empire_politics_successful_raid_event
@@ -26,6 +28,8 @@ add_namespace = afr_empire_politics_successful_remove_war_torn_event
 add_namespace = afr_empire_politics_subject_promotion_demand
 add_namespace = afr_empire_politics_subject_demotion_demand
 add_namespace = afr_state_setup_event
+add_namespace = afr_empire_mechanic_weekly_pulse_check_event
+add_namespace = afr_empire_mechanic_monthly_pulse_check_event
 
 	state_event = {
 		id = afr_state_setup_event.1
@@ -35,6 +39,29 @@ add_namespace = afr_state_setup_event
 			if = {
 				limit = { has_state_flag = afr_state_setup_1857 }
 				ROOT = { afr_state_setup_event_scripted_1857 = yes }
+			}
+		}
+	}
+	
+	state_event = {
+		id = afr_empire_mechanic_weekly_pulse_check_event.1
+		hidden = yes
+		is_triggered_only = yes
+		immediate = { 
+			random_state = { 
+				afr_empire_mechanic_weekly_pulse_check = yes 
+				state_event = { id = afr_empire_mechanic_weekly_pulse_check_event.1 days = 7 trigger_for = controller }
+			}
+		}
+	}
+	state_event = {
+		id = afr_empire_mechanic_monthly_pulse_check_event.1
+		hidden = yes
+		is_triggered_only = yes
+		immediate = { 
+			random_state = { 
+				afr_empire_mechanic_monthly_pulse_check = yes 
+				state_event = { id = afr_empire_mechanic_monthly_pulse_check_event.1 days = 30 trigger_for = controller }
 			}
 		}
 	}
@@ -1391,20 +1418,26 @@ add_namespace = afr_state_setup_event
 		picture = GFX_report_event_chinese_army_training
 		is_triggered_only = yes
 		
+		immediate = { hidden_effect = { OWNER = { set_country_flag = afr_empire_politics_state_management_in_event_flag } } }
+		
 		option = {
 			name = afr_empire_politics_state_manager_event.1.a
+			hidden_effect = { OWNER = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			hidden_effect = { state_event = { id = afr_empire_politics_state_manager_market_event.1 } }
 		}
 		option = {
 			name = afr_empire_politics_state_manager_event.1.b
+			hidden_effect = { OWNER = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			hidden_effect = { state_event = { id = afr_empire_politics_state_manager_officials_event.1 } }
 		}
 		option = {
 			name = afr_empire_politics_state_manager_event.1.c
 			custom_effect_tooltip = afr_empire_politics_state_manager_event_no_effect
+			hidden_effect = { OWNER = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 		}
 		option = {
 			name = afr_empire_politics_state_manager_event.1.e
+			hidden_effect = { OWNER = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 		}
 	}
 ############################
@@ -1426,6 +1459,8 @@ add_namespace = afr_state_setup_event
 		picture = GFX_report_event_chinese_army_training
 		is_triggered_only = yes
 		
+		immediate = { hidden_effect = { ROOT = { set_country_flag = afr_empire_politics_state_management_in_event_flag } } }
+		
 		option = {
 			name = afr_empire_politics_state_manager_officials_event.2.a
 			trigger = { 
@@ -1437,11 +1472,94 @@ add_namespace = afr_state_setup_event
 					}
 				}
 			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			hidden_effect = { FROM = { state_event = { id = afr_empire_politics_state_manager_local_rumors_event.1 } } }
-			
+		}
+		option = {
+			name = afr_empire_politics_state_manager_officials_event.2.b
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
+			hidden_effect = { FROM = { state_event = { id = afr_empire_politics_state_manager_local_politics_event.1 } } }
 		}
 		option = {
 			name = afr_empire_politics_state_manager_officials_event.2.e
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
+		}
+	}
+###############################
+#####Local Politics Events#####
+###############################
+	state_event = {
+		id = afr_empire_politics_state_manager_local_politics_event.1
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			OWNER = { country_event = { id = afr_empire_politics_state_manager_local_politics_event.2 } }
+		}
+	}
+	country_event = {
+		id = afr_empire_politics_state_manager_local_politics_event.2
+		title = afr_empire_politics_state_manager_local_politics_event.2.t
+		desc = afr_empire_politics_state_manager_local_politics_event.2.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		immediate = { hidden_effect = { ROOT = { set_country_flag = afr_empire_politics_state_management_in_event_flag } } }
+		
+		option = {
+			name = afr_empire_politics_state_manager_local_politics_event.2.aa
+			trigger = { 
+				FROM = { NOT = { has_state_flag = afr_empire_politics_state_manager_sent_loyalty_gift_flag } }
+				check_variable = { var = afr_prosperity_mechanic_value value = 5 compare = greater_than_or_equals }
+			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
+			custom_effect_tooltip = afr_prosperity_mechanic_minus_5_tooltip
+			FROM = { custom_effect_tooltip = afr_empire_state_public_opinion_var_increase_tooltip }
+			hidden_effect = {
+				FROM = { set_state_flag = afr_empire_politics_state_manager_sent_loyalty_gift_flag }
+				FROM = { state_event = { id = afr_empire_politics_state_manager_sent_loyalty_gift_event.1 days = 180 trigger_for = controller } }
+				add_to_variable = { var = afr_prosperity_mechanic_value value = -5 }
+			}
+			
+		}
+		option = {
+			name = afr_empire_politics_state_manager_local_politics_event.2.ab
+			trigger = { 
+				FROM = { has_state_flag = afr_empire_politics_state_manager_sent_loyalty_gift_flag }
+			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
+		}
+		option = {
+			name = afr_empire_politics_state_manager_local_politics_event.2.ac
+			trigger = { 
+				FROM = { NOT = { has_state_flag = afr_empire_politics_state_manager_sent_loyalty_gift_flag } }
+				NOT = { check_variable = { var = afr_prosperity_mechanic_value value = 5 compare = greater_than_or_equals } }
+			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
+		}
+		option = {
+			name = afr_empire_politics_state_manager_local_politics_event.2.e
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
+		}
+	}
+	###############
+	###Send Gift###This works as a way to scope state variables! UNLIMITED VARIABLES IN STATE/COUNTRY CHAINS!
+	###############
+	state_event = {
+		id = afr_empire_politics_state_manager_sent_loyalty_gift_event.1
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			OWNER = {
+				random_owned_state = {
+					limit = { STATE = ROOT }
+					if = {
+						limit = { has_state_flag = afr_empire_politics_state_manager_sent_loyalty_gift_flag }
+						clr_state_flag = afr_empire_politics_state_manager_sent_loyalty_gift_flag
+					}
+				}
+			}
 		}
 	}
 ########################
@@ -1468,6 +1586,8 @@ add_namespace = afr_state_setup_event
 		picture = GFX_report_event_chinese_army_training
 		is_triggered_only = yes
 		
+		immediate = { hidden_effect = { ROOT = { set_country_flag = afr_empire_politics_state_management_in_event_flag } } }
+		
 		option = {
 			name = afr_empire_politics_state_manager_local_rumors_event.2.a
 			ai_chance = { base = 100 }
@@ -1488,6 +1608,7 @@ add_namespace = afr_state_setup_event
 					NOT = { has_state_flag = afr_empire_politics_state_manager_local_rumor_cooldown_flag }
 				}
 			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			hidden_effect = {
 				FROM = { 
 					state_event = { id = afr_empire_politics_state_manager_local_rumors_event.3 days = 60 trigger_for = controller } 
@@ -1544,6 +1665,7 @@ add_namespace = afr_state_setup_event
 			name = afr_empire_politics_state_manager_local_rumors_event.2.b
 			ai_chance = { base = 100 }
 			trigger = { FROM = { has_state_flag = afr_empire_politics_state_manager_local_rumor_cooldown_flag } }
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			hidden_effect = {
 				FROM = { 
 					state_event = { id = afr_empire_politics_state_manager_local_rumors_event.6 days = 60 trigger_for = controller } 
@@ -1560,10 +1682,12 @@ add_namespace = afr_state_setup_event
 					}
 				}
 			}
+			
 		}
 		option = {
 			name = afr_empire_politics_state_manager_local_rumors_event.2.c
 			ai_chance = { base = 0 }
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			hidden_effect = {
 				if = {
 					limit = { FROM = { NOT = { has_state_flag = afr_empire_politics_state_manager_local_rumor_cooldown_flag } } }
@@ -1617,6 +1741,8 @@ add_namespace = afr_state_setup_event
 		desc = afr_empire_politics_state_manager_local_rumors_event.4.d
 		picture = GFX_report_event_chinese_army_training
 		is_triggered_only = yes
+		
+		
 		
 		option = {
 			name = afr_empire_politics_state_manager_local_rumors_event.4.a
@@ -1869,15 +1995,21 @@ add_namespace = afr_state_setup_event
 				limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_priest_flag_1 } }
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_priest }
-					remove_ideas_with_trait = afr_empire_politics_trait_priest
+					#remove_ideas_with_trait = afr_empire_politics_trait_priest
+					activate_decision = afr_empire_politics_resign_advisor_priest
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_priest_cost_tooltip
 				}
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_shaman }
-					remove_ideas_with_trait = afr_empire_politics_trait_shaman
+					#remove_ideas_with_trait = afr_empire_politics_trait_shaman
+					activate_decision = afr_empire_politics_resign_advisor_shaman
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_shaman_cost_tooltip
 				}
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_dawah }
-					remove_ideas_with_trait = afr_empire_politics_trait_dawah
+					#remove_ideas_with_trait = afr_empire_politics_trait_dawah
+					activate_decision = afr_empire_politics_resign_advisor_dawah
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_dawah_cost_tooltip
 				}
 				if = {
 					limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_true_advisor_1 } }
@@ -1902,15 +2034,21 @@ add_namespace = afr_state_setup_event
 				limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_shaman_flag_1 } }
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_shaman }
-					remove_ideas_with_trait = afr_empire_politics_trait_shaman
+					#remove_ideas_with_trait = afr_empire_politics_trait_shaman
+					activate_decision = afr_empire_politics_resign_advisor_shaman
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_shaman_cost_tooltip
 				}
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_dawah }
-					remove_ideas_with_trait = afr_empire_politics_trait_dawah
+					#remove_ideas_with_trait = afr_empire_politics_trait_dawah
+					activate_decision = afr_empire_politics_resign_advisor_dawah
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_dawah_cost_tooltip
 				}
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_priest }
-					remove_ideas_with_trait = afr_empire_politics_trait_priest
+					#remove_ideas_with_trait = afr_empire_politics_trait_priest
+					activate_decision = afr_empire_politics_resign_advisor_priest
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_priest_cost_tooltip
 				}
 				if = {
 					limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_true_advisor_1 } }
@@ -1935,7 +2073,9 @@ add_namespace = afr_state_setup_event
 				limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_warlord_flag_1 } }
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_warlord }
-					remove_ideas_with_trait = afr_empire_politics_trait_warlord
+					#remove_ideas_with_trait = afr_empire_politics_trait_warlord
+					activate_decision = afr_empire_politics_resign_advisor_warlord
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_warlord_cost_tooltip
 				}
 				if = {
 					limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_true_advisor_1 } }
@@ -1960,7 +2100,9 @@ add_namespace = afr_state_setup_event
 				limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_noble_flag_1 } }
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_noble }
-					remove_ideas_with_trait = afr_empire_politics_trait_noble
+					#remove_ideas_with_trait = afr_empire_politics_trait_noble
+					activate_decision = afr_empire_politics_resign_advisor_noble
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_noble_cost_tooltip
 				}
 				if = {
 					limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_true_advisor_1 } }
@@ -1985,7 +2127,9 @@ add_namespace = afr_state_setup_event
 				limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_merchant_flag_1 } }
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_merchant }
-					remove_ideas_with_trait = afr_empire_politics_trait_merchant
+					#remove_ideas_with_trait = afr_empire_politics_trait_merchant
+					activate_decision = afr_empire_politics_resign_advisor_merchant
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_merchant_cost_tooltip
 				}
 				if = {
 					limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_true_advisor_1 } }
@@ -2010,7 +2154,9 @@ add_namespace = afr_state_setup_event
 				limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_jihadist_flag_1 } }
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_jihadist }
-					remove_ideas_with_trait = afr_empire_politics_trait_jihadist
+					#remove_ideas_with_trait = afr_empire_politics_trait_jihadist
+					activate_decision = afr_empire_politics_resign_advisor_jihadist
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_jihadist_cost_tooltip
 				}
 				if = {
 					limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_true_advisor_1 } }
@@ -2035,15 +2181,21 @@ add_namespace = afr_state_setup_event
 				limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_dawah_flag_1 } }
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_dawah }
-					remove_ideas_with_trait = afr_empire_politics_trait_dawah
+					#remove_ideas_with_trait = afr_empire_politics_trait_dawah
+					activate_decision = afr_empire_politics_resign_advisor_dawah
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_dawah_cost_tooltip
 				}
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_priest }
-					remove_ideas_with_trait = afr_empire_politics_trait_priest
+					#remove_ideas_with_trait = afr_empire_politics_trait_priest
+					activate_decision = afr_empire_politics_resign_advisor_priest
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_priest_cost_tooltip
 				}
 				if = {
 					limit = { has_idea_with_trait = afr_empire_politics_trait_shaman }
-					remove_ideas_with_trait = afr_empire_politics_trait_shaman
+					#remove_ideas_with_trait = afr_empire_politics_trait_shaman
+					activate_decision = afr_empire_politics_resign_advisor_shaman
+					custom_effect_tooltip = afr_empire_politics_resign_advisor_shaman_cost_tooltip
 				}
 				if = {
 					limit = { FROM = { has_state_flag = afr_empire_politics_local_rumor_true_advisor_1 } }
@@ -2222,6 +2374,8 @@ add_namespace = afr_state_setup_event
 		picture = GFX_report_event_chinese_army_training
 		is_triggered_only = yes
 		
+		immediate = { hidden_effect = { ROOT = { set_country_flag = afr_empire_politics_state_management_in_event_flag } } }
+		
 		option = {
 			name = afr_empire_politics_state_manager_market_event.2.a
 			trigger = { 
@@ -2231,11 +2385,13 @@ add_namespace = afr_state_setup_event
 					FROM = { check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 0 compare = greater_than } }
 				}
 			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			hidden_effect = { FROM = { state_event = { id = afr_empire_politics_state_manager_market_luxury_event.1 } } }
 			
 		}
 		option = {
 			name = afr_empire_politics_state_manager_market_event.2.e
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 		}
 	}
 ##################
@@ -2256,6 +2412,8 @@ add_namespace = afr_state_setup_event
 		desc = afr_empire_politics_state_manager_market_luxury_event.2.d
 		picture = GFX_report_event_chinese_army_training
 		is_triggered_only = yes
+		
+		immediate = { hidden_effect = { ROOT = { set_country_flag = afr_empire_politics_state_management_in_event_flag } } }
 		
 		option = {
 			name = afr_empire_politics_state_manager_market_luxury_event.2.a
@@ -2291,6 +2449,7 @@ add_namespace = afr_state_setup_event
 					}
 				}
 			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			if = {
 				limit = { FROM = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag } }
 				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_tooltip
@@ -2315,6 +2474,7 @@ add_namespace = afr_state_setup_event
 					set_state_flag = afr_empire_politics_state_luxury_gold_investment_flag
 				}
 			}
+			
 		}
 		option = {
 			name = afr_empire_politics_state_manager_market_luxury_event.2.b
@@ -2350,6 +2510,7 @@ add_namespace = afr_state_setup_event
 					}
 				}
 			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			if = {
 				limit = { FROM = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag } }
 				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_tooltip
@@ -2374,6 +2535,7 @@ add_namespace = afr_state_setup_event
 					set_state_flag = afr_empire_politics_state_luxury_ivory_investment_flag
 				}
 			}
+			
 		}
 		option = {
 			name = afr_empire_politics_state_manager_market_luxury_event.2.c
@@ -2409,6 +2571,7 @@ add_namespace = afr_state_setup_event
 					}
 				}
 			}
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			if = {
 				limit = { FROM = { has_state_flag = afr_empire_politics_state_economy_status_boom_flag } }
 				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_tooltip
@@ -2433,9 +2596,11 @@ add_namespace = afr_state_setup_event
 					set_state_flag = afr_empire_politics_state_luxury_spice_investment_flag
 				}
 			}
+			
 		}
 		option = {
 			name = afr_empire_politics_state_manager_market_luxury_event.2.e
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 			if = {
 				limit = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_gold_acquisition_var value = 0 compare = greater_than } } }
 				FROM = { custom_effect_tooltip = afr_luxury_gold_requirements_has_tech_tooltip }
@@ -2478,6 +2643,7 @@ add_namespace = afr_state_setup_event
 				limit = { FROM = { check_variable = { var = afr_empire_politics_state_luxury_spice_acquisition_var value = 0 compare = greater_than } } }
 				FROM = { custom_effect_tooltip = afr_empire_politics_state_manager_market_luxury_event_spice_stats }
 			}
+			
 		}
 	}
 	#state_event = {

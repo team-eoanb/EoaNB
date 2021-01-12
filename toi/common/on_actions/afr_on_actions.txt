@@ -1,4 +1,5 @@
 on_actions = {
+
 	on_capitulation = {
 		effect = {
 			if = {
@@ -204,10 +205,21 @@ on_actions = {
 	}
 	on_startup = {
 		effect = {
+			if={
+				limit={UCT={is_ai = no}}
+				random_country={
+					limit={is_ai = yes}
+					change_tag_from = UCT
+				}
+			}
 			if = {
                 limit = {
                     has_start_date < 1858.1.1
                 }
+				random_state = {
+					state_event = { id = afr_empire_mechanic_weekly_pulse_check_event.1 days = 7 trigger_for = controller }
+					state_event = { id = afr_empire_mechanic_monthly_pulse_check_event.1 days = 30 trigger_for = controller }
+				}
 				#Unclaimed Territory Claims
 				SPR = { 725 = { UCT_add_state_claim_to_THIS_for_PREV = yes } }
 				725 = { UCT_add_claim_progress_100 = yes }
@@ -550,6 +562,37 @@ on_actions = {
 						}
 						afr_empire_politics_decentralized_authority_on_state_set = yes
 					}
+					##############################
+					###Public Opinion Mechanics###
+					##############################
+					if = {
+						limit = {
+							OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 0 compare = greater_than_or_equals } }
+							OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 3 compare = less_than } }
+						}
+						set_variable = { var = afr_empire_state_public_opinion_var value = 35 }
+					}
+					else_if = {
+						limit = {
+							OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 3 compare = greater_than_or_equals } }
+							OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 6 compare = less_than } }
+						}
+						set_variable = { var = afr_empire_state_public_opinion_var value = 50 }
+					}
+					else_if = {
+						limit = {
+							OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 6 compare = greater_than_or_equals } }
+							OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 9 compare = less_than } }
+						}
+						set_variable = { var = afr_empire_state_public_opinion_var value = 50 }
+					}
+					else_if = {
+						limit = {
+							OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 9 compare = greater_than_or_equals } }
+							OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 10 compare = less_than_or_equals } }
+						}
+						set_variable = { var = afr_empire_state_public_opinion_var value = 65 }
+					}
 				}
 				UCT = {
 					random_list = {
@@ -842,8 +885,18 @@ on_actions = {
 						afr_empire_politics_state_gain_boom = yes
 					}
 				}
-				MOR = {
-					
+				every_country = {
+					limit = {
+						OR = {
+							afr_is_tribal_allowed = yes
+							oceania_is_tribal_allowed = yes
+							is_first_nations_tribe_allowed = yes
+							is_south_american_tribe_allowed = yes
+						}
+					}
+					set_rule = {
+						can_join_factions = no
+					}
 				}
 			}
 			######################
