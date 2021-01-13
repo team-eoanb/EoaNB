@@ -796,13 +796,19 @@ country_event = {
     				target = MOD
     				transfer_troops = yes
 				}
-				if={
-					limit={
-						161={NOT={has_state_flag = PAP_enforced_loyalty}}
+				if = {
+					limit = {
+						NOT = {
+							161 = {
+								has_state_flag = PAP_enforced_loyalty
+							}
+						}
 					}
 					transfer_state = 161
 					transfer_state = 157
-					
+					else = {
+						set_country_flag = PIE_PAP_fortified_states
+					}
 				}
 			}
 		}
@@ -1366,9 +1372,11 @@ country_event = {
 						remove_state_claim = 114
 					
 				}
+				inherit_technology = SAR
 					SAR = {
 						add_state_core = 114
 						transfer_state = 114
+						
 					}
 
 				
@@ -1386,8 +1394,21 @@ country_event = {
 	option = {
 		name = sardinia.49.a
 		trigger = {
-			has_government = centrism
+			NOT = {
+				ruling_party = autocracy
+			}
 		}
+		ai_chance = {
+			factor = 0
+			  modifier = {
+				factor = 40
+				OR = {
+					has_completed_focus = TUS_vic_Power_To_The_Workers
+					has_completed_focus = TUS_vic_Tuscanian_Traditions
+					has_country_flag = TUS_vic_No_Monarchy
+				}
+			  }
+		  }
 		declare_war_on = {
 			target = PIE
 			type = annex_everything
@@ -1395,6 +1416,9 @@ country_event = {
 	}
 	option = {
 			name = sardinia.49.b
+			ai_chance = {
+				factor = 0
+			}
 			trigger = {
 				has_government = autocracy
 			}
@@ -1405,13 +1429,22 @@ country_event = {
 	}
 	option = {
 			name = sardinia.49.c
+			ai_chance = {
+				factor = 60
+			  }
 			PIE = { 
 				change_tag_from = ROOT
 				annex_country = {
 					target = TUS
 					transfer_troops = yes
 				}
+				country_event = {
+					id = sardinia.52
+					days = 5
+				}
+				
 			}
+
 	}
 }
 country_event = {
@@ -1458,6 +1491,58 @@ country_event = {
 			}
 	}
 }
+country_event = {
+    id = sardinia.51
+    title = sardinia.51.t
+    desc = sardinia.51.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
+
+  
+    option = {
+        name = sardinia.51.a  #Yes
+        ai_chance = { factor = 90 }
+        remove_state_core = 157
+        remove_state_core = 161
+        FROM = {
+            transfer_state = 157
+            transfer_state = 161
+        }
+        
+	}
+	###add peace deal
+    option = {
+        name = sardinia.51.a  #no
+        ai_chance = { factor = 10 }
+        declare_war_on = {
+            target = FROM
+            type = annex_everything
+        }
+    }
+}
+country_event = {
+    id = sardinia.52
+    title = sardinia.52.t
+    desc = sardinia.52.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
+
+  
+    option = {
+        name = sardinia.52.a  #Yes
+		PAP = {
+			country_event = {
+				id = sardinia.51
+				days = 5
+			}
+		}
+	}
+}
+
 news_event = {
 	id = sardinia_news.5
 	title = sardinia_news.5.t
