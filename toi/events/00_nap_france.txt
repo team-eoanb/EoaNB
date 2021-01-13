@@ -127,48 +127,42 @@ country_event = { # Orsini Letter
 }
 
 country_event = { # French supporting anti-Sardinian revolutionaries
-  id = nap_france.5
-  title = nap_france.5.t
-  desc = nap_france.5.d
-  picture = GFX_report_event_nap_france_carbonari
+	id = nap_france.5
+	title = nap_france.5.t
+	desc = nap_france.5.d
+	picture = GFX_report_event_nap_france_carbonari
 
-  is_triggered_only = yes
+	is_triggered_only = yes
 
-  option = { # This is a serious offense !
-    name = nap_france.5.a
-    FRA = {
-      set_country_flag = fra_carbonari_supported
-    }
-    add_opinion_modifier = {
-      target = FRA
-      modifier = fra_carbonari_revolutionary_ita
-    }
-    add_political_power = -50
-  }
+	option = { # This is a serious offense !
+		name = nap_france.5.a
+		hidden_effect = {
+			FRA = {
+				country_event = { id = nap_france.6 days = 30 random_days = 30 }
+			}
+		}
+		add_opinion_modifier = {
+			target = FRA
+			modifier = fra_carbonari_revolutionary_ita
+		}
+		add_political_power = -50
+	}
 }
 
 country_event = { # Carbonari are ready
-  id = nap_france.6
-  title = nap_france.6.t
-  desc = nap_france.6.d
-  picture = GFX_report_event_nap_france_carbonari
+	id = nap_france.6
+	title = nap_france.6.t
+	desc = nap_france.6.d
+	picture = GFX_report_event_nap_france_carbonari
 
-  trigger = {
-    tag = FRA
-    has_country_flag = fra_carbonari_supported
-  }
+	is_triggered_only = yes
 
-  fire_only_once = yes
+	fire_only_once = yes
 
-  mean_time_to_happen = {
-      days = 45
-  }
-
-  option = { # They are waiting for our signal
-    name = nap_france.6.a
-    clr_country_flag = fra_carbonari_supported
-    set_country_flag = fra_carbonari_ready
-  }
+	option = { # They are waiting for our signal
+		name = nap_france.6.a
+		set_country_flag = fra_carbonari_ready
+	}
 }
 
 country_event = { # The Carbonari Revolt
@@ -383,19 +377,20 @@ country_event = { # Savoy Rebellion
 
   fire_only_once = yes
 
-  immediate = {
-    SAV = {
-      transfer_state = 735
-      add_state_core = 735
-      load_oob = SAV_REVOLT
-    }
-    declare_war_on= {
-      target = SAV
-      type = annex_everything
-    }
-    set_country_flag = FRA_savoy_revolt
-    hidden_effect = { news_event = { id = nap_france_flavor.12 } }
-  }
+	immediate = {
+		SAV = {
+			transfer_state = 735
+			add_state_core = 735
+			load_oob = SAV_REVOLT
+		}
+		declare_war_on= {
+			target = SAV
+			type = annex_everything
+		}
+		set_country_flag = FRA_savoy_revolt
+		hidden_effect = { news_event = { id = nap_france_flavor.12 } }
+		hidden_effect = { country_event = { id = nap_france.14 days = 60 random_days = 120 } }
+	}
 
   option = { # They are gonna be crushed in a second
     name = nap_france.13.a
@@ -411,28 +406,25 @@ country_event = { # Savoy Rebellion
 }
 
 country_event = { # Savoy Independance
-  id = nap_france.14
-  title = nap_france.14.t
-  desc = nap_france.14.d
-  picture = GFX_report_event_paris_commune
+	id = nap_france.14
+	title = nap_france.14.t
+	desc = nap_france.14.d
+	picture = GFX_report_event_paris_commune
+	
+	fire_only_once = yes
 
-  fire_only_once = yes
+	trigger = {
+		country_exists = SAV
+	}
 
-  trigger = {
-    tag = FRA
-    country_exists = SAV
-  }
-
-  mean_time_to_happen = {
-      days = 120
-  }
-
-  option = { # We cannot fight anymore
-    name = nap_france.14.a
-    white_peace = {
-      tag = SAV
-    }
-  }
+	is_triggered_only = yes
+	
+	option = { # We cannot fight anymore
+		name = nap_france.14.a
+		white_peace = {
+			tag = SAV
+		}
+	}
 }
 
 country_event = { # Franco-Monegasque Treaty
@@ -5250,42 +5242,45 @@ country_event = { # Orsini Affair
 }
 
 country_event = { # Death of Napoleon III
-  id = nap_france.399
-  title = nap_france.399.t
-  desc = nap_france.399.d
-  picture = GFX_report_event_napoleon_iii_death
+	id = nap_france.399
+	title = nap_france.399.t
+	desc = nap_france.399.d
+	picture = GFX_report_event_napoleon_iii_death
 
-  fire_only_once = yes
+	fire_only_once = yes
 
-  trigger = {
-    tag = FRA
-    date > 1873.1.1
-    NOT = {
-      OR = {
-        has_country_flag = fra_orsini_success
-        has_country_flag = fra_orsini_tragedy_flag
-      }
-    }
-    date < 1875.1.1
-  }
+	trigger = {
+		NOT = {
+			OR = {
+				has_country_flag = fra_orsini_success
+				has_country_flag = fra_orsini_tragedy_flag
+			}
+		}
+	}
 
-  mean_time_to_happen = {
-    days = 60
-  }
+	is_triggered_only = yes
 
-  option = {
-      name = nap_france.399.a
-      kill_country_leader = yes
-      create_country_leader = {
-        name = "Napoleon IV"
-        picture = "Portrait_FRA_Napoleon_IV.dds"
-        ideology = despotism
-      }
-      hidden_effect = {
-          news_event = { days = 10 id = nap_france.399 }
-      }
-      set_country_flag = fra_nap_iv
-      remove_ideas = FRA_napoleon_illness_3
+	option = {
+		name = nap_france.399.a
+		if = {
+			limit = {
+				has_country_leader = {
+					id = 00505
+					ruling_only = no
+				}
+			}
+			kill_ideology_leader = autocracy
+			create_country_leader = {
+				name = "Napoleon IV"
+				picture = "Portrait_FRA_Napoleon_IV.dds"
+				ideology = despotism
+			}
+		}
+		hidden_effect = {
+			news_event = { days = 10 id = nap_france.399 }
+		}
+		set_country_flag = fra_nap_iv
+		remove_ideas = FRA_napoleon_illness_3
     }
 }
 
@@ -5298,35 +5293,28 @@ country_event = { # Death of Napoleon III
 
 
 country_event = { # Napoleon III captured in Sedan
-  id = nap_france.397
-  title = nap_france.397.t
-  desc = nap_france.397.d
-  picture = GFX_report_event_nap_france_exile_napoleon_iii
+	id = nap_france.397
+	title = nap_france.397.t
+	desc = nap_france.397.d
+	picture = GFX_report_event_nap_france_exile_napoleon_iii
 
-  fire_only_once = yes
+	fire_only_once = yes
 
-  trigger = {
-    tag = FRA
+	trigger = {
     NOT = { has_country_flag = fra_nap_iii_captured }
-    OR = {
-      PRS = { controls_state = 18 }
-      BAV = { controls_state = 18 }
-      WUR = { controls_state = 18 }
-      BAD = { controls_state = 18 }
-      }
-    mean_time_to_happen = {
-    days = 1
+    PRS = { controls_state = 18 } 
     }
 
-  option = { # Napoleon III captured
-      name = nap_france.397.a
-      add_political_power = -100
-      set_country_flag = fra_nap_iii_captured
-      hidden_effect = {
-        country_event = { days = 2 id = nap_france.3971 }
-      }
+
+	option = { # Napoleon III captured
+		name = nap_france.397.a
+		add_political_power = -100
+		set_country_flag = fra_nap_iii_captured
+		hidden_effect = {
+			country_event = { days = 3 id = nap_france.3971 }
+		}
     }
-  }
+}
 
 country_event = { # Empire is collapsing
   id = nap_france.3971
@@ -5346,7 +5334,7 @@ country_event = { # Empire is collapsing
       ideology = absolutism
     }
     hidden_effect = {
-      country_event = { days = 2 id = third_rep_france.001 }
+      country_event = { days = 3 id = third_rep_france.001 }
     }
   }
 }
@@ -5468,7 +5456,7 @@ country_event = { # Prepare the défence of Paris.
   option = {
     name = third_rep_france.003.a
     hidden_effect = {
-      country_event = { days = 12 id = third_rep_france.004 }
+      country_event = { days = 6 id = third_rep_france.004 }
     }
   }
 }
@@ -5529,9 +5517,7 @@ country_event = { # The Siege of Paris
   fire_only_once = yes
 
   trigger = {
-    PRS = {
-      has_full_control_of_state	= 16
-        }
+    PRS = { controls_state = 16 }
     has_cosmetic_tag = FRA_TRANSITION_EMPIRE
   }
 
@@ -5710,19 +5696,19 @@ country_event = { # Insurrections in Paris
 }
 
 country_event = { # Plebiscite Result in Paris : WIN
-  id = third_rep_france.0101
-  title = third_rep_france.0101.t
-  desc = third_rep_france.0101.d
-  picture = GFX_report_event_napoleon_iii_death
+	id = third_rep_france.0101
+	title = third_rep_france.0101.t
+	desc = third_rep_france.0101.d
+	picture = GFX_report_event_napoleon_iii_death
 
-  fire_only_once = yes
-  is_triggered_only = yes
+	fire_only_once = yes
+	is_triggered_only = yes
 
-  option = {
-    name = third_rep_france.0101.a
-    surrender_limit = 0.2
-    complete_national_focus = FRA_plebicite
-  }
+	option = {
+		name = third_rep_france.0101.a
+		#surrender_limit = 0.2
+		complete_national_focus = FRA_plebicite
+	}
 }
 
 country_event = { # Plebiscite Result in Paris : LOOSE
@@ -5762,6 +5748,29 @@ country_event = { # Trochu steps down
   }
 }
 
+country_event = { # French Army Defeated
+  id = third_rep_france.0104
+  title = third_rep_france.0104.t
+  desc = third_rep_france.0104.d
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+
+  trigger = {
+    AND = {
+    has_cosmetic_tag = FRA_TRANSITION_EMPIRE
+    FRA = { surrender_progress > 0.8 }
+    }
+  }
+
+  option = {
+    name = third_rep_france.0104.a
+    hidden_effect = {
+      country_event = { days = 2 id = third_rep_france.011 }
+    }
+  }
+}
+
 country_event = { # Armistice
   id = third_rep_france.011
   title = third_rep_france.011.t
@@ -5771,35 +5780,31 @@ country_event = { # Armistice
   fire_only_once = yes
   is_triggered_only = yes
 
-  trigger = {
-    OR = {
-      PRS = { controls_state = 16 }  
-    }
-  surrender_progress > 0.85  
-  } 
-
-  option = {
-    name = third_rep_france.011.a
-    hidden_effect = {
-      FRA = { country_event = { days = 2 id = third_rep_france.012 } }
-      FRA = { country_event = { days = 3 id = third_rep_france.013 } }
-      FRA = { country_event = { days = 5 id = third_rep_france.014 } }
-      FRA = { white_peace = PRS }
-      FRA = { give_military_access = PRS }
-      PRS = { transfer_state = 28 } 
-      PRS = { transfer_state = 972 } 
-      PRS = { transfer_state = 18 } 
-      PRS = { transfer_state = 976 } 
-      PRS = { transfer_state = 29 } 
-      PRS = { transfer_state = 1151 } 
-      clr_country_flag = Gambetta_Trip
-      clr_country_flag = FRA_paris_besieged
-      clr_global_flag = eoanb_flag_franco_prussian_war_ongoing
-      FRA = { country_event = { days = 1 id = third_rep_france.0111 } }
-      PRS = { country_event = { days = 1 id = third_rep_france.0112 } }
-      set_global_flag = GER_Winner_of_FPW
-    }
-  }
+	option = {
+		name = third_rep_france.011.a
+		hidden_effect = {
+			FRA = { country_event = { days = 2 id = third_rep_france.012 } }
+			FRA = { country_event = { days = 3 id = third_rep_france.013 } }
+			FRA = { country_event = { days = 5 id = third_rep_france.014 } }
+			FRA = { white_peace = PRS }
+			FRA = { give_military_access = PRS }
+			PRS = { 
+				transfer_state = 28 
+				transfer_state = 972
+				transfer_state = 18 
+				transfer_state = 976 
+				transfer_state = 29 
+				transfer_state = 1151 
+				country_event = { id = fraprswar.13 days = 10 }
+				country_event = { days = 1 id = third_rep_france.0112 }
+			} 
+			clr_country_flag = Gambetta_Trip
+			clr_country_flag = FRA_paris_besieged
+			clr_global_flag = eoanb_flag_franco_prussian_war_ongoing
+			FRA = { country_event = { days = 1 id = third_rep_france.0111 } }
+			set_global_flag = GER_Winner_of_FPW
+		}
+	}
 }
 
 country_event = { # German Army March in Paris (France)
@@ -5865,46 +5870,45 @@ country_event = { # Henri Rochefort quits the government
 #----------------------------------------------------------------------------------------------
 
 country_event = { # First Legislative Election of the Republic
-  id = third_rep_france.014
-  title = third_rep_france.014.t
-  desc = third_rep_france.014.d 
-  picture = GFX_report_event_napoleon_iii_death
+	id = third_rep_france.014
+	title = third_rep_france.014.t
+	desc = third_rep_france.014.d 
+	picture = GFX_report_event_napoleon_iii_death
 
-  fire_only_once = yes
-  is_triggered_only = yes
+	fire_only_once = yes
+	is_triggered_only = yes
 
-  option = {
-    name = third_rep_france.014.a
-
-    hidden_effect = {
-      FRA = { country_event = { days = 2 id = third_rep_france.0141 } }
-      set_party_name = {
-        ideology = traditional_conservatism
-        long_name = FRA_iii_1871_traditional_conservatism_party
-        name = FRA_iii_1871_traditional_conservatism_party
-      }
-      set_party_name = {
-        ideology = traditional_conservatism
-        long_name = FRA_iii_1871_radical_democracy_party
-        name = FRA_iii_1871_radical_democracy_party
-      }
-      create_country_leader = {
-        name = "Jules Dufaure"
-        picture = ""
-        ideology = radical_democracy
-      }
-      create_country_leader = {
-        name = "Léon Gambetta"
-        picture = "Portrait_FRA_Leon_Gambetta.dds"
-        ideology = radical_democracy
-      }    
-      create_country_leader = {
-        name = "Henri Rochefort"
-        picture = "Portrait_FRA_Henri_Rochefort.dds"
-        ideology = collectivist_socialism
-      }
-    }
-  }
+	option = {
+		name = third_rep_france.014.a
+		hidden_effect = {
+			FRA = { country_event = { days = 2 id = third_rep_france.0141 } }
+			set_party_name = {
+				ideology = traditional_conservatism
+				long_name = FRA_iii_1871_traditional_conservatism_party
+				name = FRA_iii_1871_traditional_conservatism_party
+			}
+			set_party_name = {
+				ideology = traditional_conservatism
+				long_name = FRA_iii_1871_radical_democracy_party
+				name = FRA_iii_1871_radical_democracy_party
+			}
+			create_country_leader = {
+				name = "Jules Dufaure"
+				picture = ""
+				ideology = centrism
+			}
+			create_country_leader = {
+				name = "Léon Gambetta"
+				picture = "Portrait_FRA_Leon_Gambetta.dds"
+				ideology = social_egalitarianism
+			}    
+			create_country_leader = {
+				name = "Henri Rochefort"
+				picture = "Portrait_FRA_Henri_Rochefort.dds"
+				ideology = collectivist_socialism
+			}
+		}
+	}
 }
 
 country_event = { # Monarchist Won the Election
@@ -5972,9 +5976,7 @@ country_event = { # The Frankfurt Pact Signed Beetween France And The Prussian A
     17 = { set_demilitarized_zone = yes }
     972 = { set_demilitarized_zone = yes }
     18 = { set_demilitarized_zone = yes }
-    976 = { set_demilitarized_zone = yes }
     29 = { set_demilitarized_zone = yes }
-    1151 = { set_demilitarized_zone = yes }
     FRA = { add_ideas = FRA_idea_loss_of_alsace	}
   }
 }
@@ -5995,7 +5997,6 @@ country_event = { #German Troops withdraw from France
       17 = { set_demilitarized_zone = no }
       972 = { set_demilitarized_zone = no }
       18 = { set_demilitarized_zone = no }
-      976 = { set_demilitarized_zone = no }
       29 = { set_demilitarized_zone = no }
       1151 = { set_demilitarized_zone = no }
 		}
