@@ -2338,7 +2338,7 @@ focus_tree = {
 		x = 33
 		y = 11
 		ai_will_do = {
-			factor = 100
+			factor = 35
 		}
 		available = {
 			PIE = {
@@ -2471,7 +2471,16 @@ focus_tree = {
 			NOT = { has_country_flag = fra_meeting_cavour_flag }
 		}
 		ai_will_do = {
-			factor = 100
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 100
+			}
+			modifier = {
+				NOT = {
+					is_historical_focus_on = yes
+				}
+				factor = 50	
+			}
 		}
 		completion_reward = {
 	
@@ -2663,33 +2672,60 @@ focus_tree = {
 	focus = {
 		id = FRA_cut_ties_piedmont
 		icon = GFX_goal_tfv_sever_ties_with_uk
-		cost = 70
-		prerequisite = {
-			focus = FRA_secure_regency_empress
-			focus = FRA_the_orsini_letter
-		}
+		cost = 75
 		mutually_exclusive = { 
 			focus = FRA_meeting_cavour
 			focus = FRA_arm_revolutionaries
 	 }
+	 bypass = {
+		has_country_flag = ITA_FRA_Divide_Italy_Yes
+	}
+	available = {
+		
+	}
 		x = 28
 		y = 11
 		ai_will_do = {
-			factor = 100
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 0
+			}
+			modifier = {
+				NOT = {
+					is_historical_focus_on = yes
+				}
+				factor = 10	
+			}
 		}
 		completion_reward = {
+			hidden_effect = {
+				set_country_flag = ITA_FRA_Divide_Italy_Yes
+			}
 			FRA = {
 				add_opinion_modifier = {
 					target = PIE
 					modifier = fra_cut_relations_piedmont
 				}
 			}
+			if = {
+				limit = {
+					PIE = {
+						has_completed_focus = PIE_Risorgimento
+					}
+				}
+					PIE = {
+						country_event = {
+							id = ita_confederation.3
+						}
+					}
+				
+			}
 		}
 	}
 	focus = {
 		id = FRA_send_militias_pope
 		icon = GFX_goal_focus_ally_pope
-		cost = 70
+		cost = 80
 		prerequisite = {
 			focus = FRA_cut_ties_piedmont
 		}
@@ -2705,7 +2741,12 @@ focus_tree = {
 			    relation = guarantee
 			    active = yes
 			}
-	    }
+		}
+		PAP = {
+			country_event = {
+				id = ita_confederation.2
+			}
+		}
 	}
 }
 	focus = {
@@ -2743,9 +2784,12 @@ focus_tree = {
 	focus = {
 		id = FRA_close_relations_austria
 		icon = GFX_goal_focus_ally_AUS
-		cost = 70
+		cost = 85
 		prerequisite = {
 			focus = FRA_cut_ties_piedmont
+		}
+		bypass = {
+			has_country_flag = ITA_FRA_Divide_Italy_Yes
 		}
 		x = 29
 		y = 12
@@ -2762,28 +2806,171 @@ focus_tree = {
 	focus = {
 		id = FRA_invite_franz_joseph
 		icon = GFX_goal_focus_invite_franz_joseph
-		cost = 70
+		cost = 85
 		prerequisite = {
 			focus = FRA_close_relations_austria
 		}
 		prerequisite = {
 			focus = FRA_send_militias_pope
 		}
+		bypass = {
+			has_country_flag = ITA_FRA_Divide_Italy_Yes
+		}
 		x = 28
 		y = 13
-		ai_will_do = {
-			factor = 100
+		#ai_will_do = {
+			#factor = 100
+		#}
+		completion_reward = {
+			AUS = {
+				country_event = {
+					id = ita_confederation.1
+				}
+			}			
 		}
 	}
 	focus = {
 		id = FRA_Division_of_Italy
 		icon = GFX_goal_focus_fra_divide_italy
-		cost = 60
+		cost = 100
 		prerequisite = {
 			focus = FRA_invite_franz_joseph
 		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Division_of_italy_tt
+				AUS = {
+					has_country_flag = ITA_AUS_Divide_Italy_Yes
+				} 
+			}
+			
+		}
 		x = 28
 		y = 14
+
+		completion_reward = {
+			FRA = {
+				give_military_access = AUS
+				give_military_access = LVN
+			}
+			AUS = {
+				give_military_access = FRA
+			}
+			LVN = {
+				give_military_access = FRA
+			}
+			if = {
+				limit = {
+					PAP = {
+						has_country_flag = ITA_PAP_Divide_Italy_Yes
+					}	
+				}
+				give_military_access = PAP
+					PAP = {
+						give_military_access = FRA
+					}
+				else_if = {
+					limit = {
+						NOT = {
+							country_exists = PAP
+						}
+					}
+					add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+				}
+			}
+			if = {
+				limit = {
+					country_exists = MOD
+				}
+				MOD = {
+					country_event = {
+						id = ita_confederation.4
+					}
+				}
+			}
+			if = {
+				limit = {
+					country_exists = PRM
+				}
+				PRM = {
+					country_event = {
+						id = ita_confederation.4
+					}
+				}
+			}
+			if = {
+				limit = {
+					country_exists = TUS
+				}
+				TUS = {
+					country_event = {
+						id = ita_confederation.4
+					}
+				}
+			}
+			if = {
+				limit = {
+					country_exists = PIE
+				}
+				PIE = {
+					country_event = {
+						id = ita_confederation.4
+					}
+				}
+			}
+			if = {
+				limit = {
+					country_exists = NSC
+				}
+				NSC = {
+					country_event = {
+						id = ita_confederation.4
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						country_exists = NSC
+					}
+				}
+				add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						country_exists = MOD
+					}
+				}
+				add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						country_exists = PRM
+					}
+				}
+				add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						country_exists = TUS
+					}
+				}
+				add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						country_exists = PIE
+					}
+				}
+				add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+			}
+			
+
+		}
 
 	}
 

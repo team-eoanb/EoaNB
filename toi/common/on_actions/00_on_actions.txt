@@ -599,6 +599,85 @@ on_actions = {
 	on_capitulation = {
 		effect = {
 			if = {
+				limit = {
+					FRA = {
+						has_country_flag = ITA_FRA_Divide_Italy_Yes
+					}
+					FROM = {
+						OR = {
+							tag = FRA
+							tag = AUS
+							tag = LVN
+							tag = PAP
+						}
+					}
+					ROOT = {
+						OR = {
+							tag = PIE
+							tag = TUS
+							tag = MOD
+							tag = PRM
+							tag = NSC
+							tag = PAP
+						}
+					}
+				}
+					add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+						if = {
+							limit = {
+								ROOT = {
+									OR = {
+										tag = PIE
+										tag = TUS
+										tag = MOD
+										tag = PRM
+									}
+								}
+							}
+							LVN = {
+								annex_country = {
+									target = ROOT
+								}
+							}
+
+						}
+						if = {
+							limit = {
+								NOT = {
+									PAP = {
+										has_country_flag = ITA_PAP_Divide_Italy_Yes
+									}
+								}
+								ROOT = {
+									OR = {
+										tag = NSC
+										tag = PAP
+									}
+								}
+							}
+							FRA = {
+								annex_country = {
+									target = ROOT
+								}
+							}
+						}
+					if = {
+						limit = {
+							PAP = {
+								has_country_flag = ITA_PAP_Divide_Italy_Yes
+							}
+							ROOT = {
+								tag = NSC
+							}
+						}
+						PAP = {
+							annex_country = {
+								target = NSC
+							}
+						}
+					}
+				}
+			if = {
                 limit = {
 					FROM = { tag = PIE }
 					ROOT = { tag = NSC }
@@ -618,7 +697,19 @@ on_actions = {
 						target = NSC
 					}
 				}
-            }
+			}
+			if = {
+				limit = {
+					ROOT = { tag = PAP }
+					PAP = {
+						has_government = fundamentalism
+					}
+				}
+				ROOT = {
+					transfer_state = 785
+				}
+
+			}
 	        if = {
                 limit = {
 					FROM = { tag = RUS }

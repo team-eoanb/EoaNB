@@ -1,6 +1,377 @@
 ﻿add_namespace = ita
+add_namespace = ita_confederation
 add_namespace = ita_news
 #template
+
+
+country_event = {
+	id = ita_confederation.1
+	title = ita_confederation.1.t
+	desc = ita_confederation.1.d
+	picture = GFX_ITA_Negociate
+
+	is_triggered_only = yes
+
+
+	option = {
+		name = ita_confederation.1.a
+		ai_chance = {
+			base = 9
+		}
+		hidden_effect = {
+			set_country_flag = ITA_AUS_Divide_Italy_Yes
+		}
+		
+		
+	}
+	option = {
+		name = ita_confederation.1.b
+		ai_chance = {
+			base = 1
+		}
+		}
+	}	
+country_event = {
+		id = ita_confederation.2
+		title = ita_confederation.2.t
+		desc = ita_confederation.2.d
+		picture = GFX_ITA_Negociate
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = ita_confederation.2.a
+			ai_chance = {
+				base = 9
+			}
+			hidden_effect = {
+				set_country_flag = ITA_PAP_Divide_Italy_Yes
+			} 
+			
+		}
+		option = {
+			name = ita_confederation.2.b
+			ai_chance = {
+				base = 1
+			}
+		}
+	}
+country_event = {
+		id = ita_confederation.3
+		title = ita_confederation.3.t
+		desc = ita_confederation.3.d
+		picture = GFX_ITA_Negociate
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = ita_confederation.3.a
+			country_event = {
+				id = sardinia.37
+			}
+			complete_national_focus = PIE_The_Carboneria
+			complete_national_focus = PIE_Plan_for_an_Invasion
+			complete_national_focus = PIE_Work_with_Crispi
+			complete_national_focus = PIE_Aftermath_of_Orsini
+			hidden_effect = {
+				load_oob = "PIE_Nationalists"
+			}
+		custom_effect_tooltip = italy_nationalists
+			
+		}
+		
+	}
+	country_event = {
+		id = ita_confederation.4
+		title = ita_confederation.4.t
+		desc = ita_confederation.4.d
+		picture = GFX_event_ITA_Corazzieri
+	
+		is_triggered_only = yes
+	
+		option = {
+			name = ita_confederation.4.a
+			ai_chance = {
+				base = 9
+			}
+			hidden_effect = {
+				add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+
+			}
+			trigger = {
+				NOT = {
+					tag = NSC
+				}
+			}
+			LVN = {
+				annex_country = {
+					target = ROOT 
+					transfer_troops = yes
+				}
+			}
+			
+		}
+		option = {
+			name = ita_confederation.4.b
+			ai_chance = {
+				base = 2
+			}
+			hidden_effect = {
+				set_country_flag = ITA_FRA_Declined_Divisions_Italy
+			}
+			trigger = {
+				NOT = {
+					tag = NSC
+				}
+			}
+			declare_war_on = {
+				target = FRA
+				type = independence_wargoal
+			}
+			declare_war_on = {
+				target = AUS
+				type = independence_wargoal
+			}
+			declare_war_on = {
+				target = LVN
+				type = independence_wargoal
+			}
+			if = {
+				limit = {
+					country_exists = PAP
+					PAP = {
+						has_country_flag = ITA_PAP_Divide_Italy_Yes
+					}
+				}
+				declare_war_on = {
+					target = PAP
+					type = independence_wargoal
+				}
+			}
+		}
+		option = {
+			name = ita_confederation.4.c
+			ai_chance = {
+				base = 2
+			}
+			hidden_effect = {
+				set_country_flag = ITA_FRA_Declined_Divisions_Italy
+			}
+			trigger = {
+				tag = NSC
+			}
+			declare_war_on = {
+				target = FRA
+				type = independence_wargoal
+			}
+			declare_war_on = {
+				target = AUS
+				type = independence_wargoal
+			}
+			declare_war_on = {
+				target = LVN
+				type = independence_wargoal
+			}
+			if = {
+				limit = {
+					country_exists = PAP
+					PAP = {
+						has_country_flag = ITA_PAP_Divide_Italy_Yes
+					}
+				}
+				declare_war_on = {
+					target = PAP
+					type = independence_wargoal
+				}
+			}
+		}
+		option = {
+			name = ita_confederation.4.e
+			hidden_effect = {
+				add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+
+			}
+			ai_chance = {
+				base = 9
+			}
+			trigger = {
+				tag = NSC
+			}
+			 if = {
+				 limit = {
+					 PAP = {
+						 has_country_flag = ITA_PAP_Divide_Italy_Yes
+					 } 
+				 }
+				 PAP = {
+					annex_country = {
+						target = NSC
+						transfer_troops = yes
+					}
+						
+				}
+			 }
+			 else = {
+				FRA = {
+					annex_country = {
+						target = NSC
+						transfer_troops = yes
+						}
+					}
+				}
+			}
+
+		}
+		country_event = {
+			id = ita_confederation.5
+			title = ita_confederation.5.t
+			desc = ita_confederation.5.d
+			picture = GFX_ITA_Negociate
+		
+			fire_only_once = yes
+
+			trigger = {
+				check_variable = { UCT.ITA_FRA_Divide_Italy_Variable = 6 }
+			}
+		
+		
+			option = {
+				name = ita_confederation.5.a
+				if = {
+					limit = {
+						PAP = {
+							has_country_flag = ITA_PAP_Divide_Italy_Yes
+						}
+					}
+					PAP = {
+						transfer_state = 812
+						transfer_state = 117
+						transfer_state = 997
+						transfer_state = 156
+						transfer_state = 115
+						transfer_state = 157
+						every_owned_state = {
+							if = {
+								limit = {
+									AND = {
+										state = 812
+										state = 117
+										state = 997 
+										state = 156
+										state = 115
+										state = 157
+									}
+								}
+								add_core_of = PAP 
+							}
+						}
+						set_cosmetic_tag = PAP_Southern_Italy_Catholic
+						create_country_leader = {
+							name = "Cardinal Lucien Bonaparte"
+							#desc = "POLITICS_Emmanuel_DESC"
+							picture = "Portrait_PAP_Lucien_Bonaparte.dds"
+							expire = "1870.11.7"
+							ideology = despotism
+							traits = {
+						  
+							}
+						  }
+						}
+					}
+					if = {
+						limit = {
+							NOT = {
+								PAP = {
+									has_country_flag = ITA_PAP_Divide_Italy_Yes
+								}
+							}	
+						}
+						PAP = {
+							transfer_state = 812
+							transfer_state = 117
+							transfer_state = 997
+							transfer_state = 156
+							transfer_state = 115
+							transfer_state = 157
+							every_owned_state = {
+								if = {
+									limit = {
+										AND = {
+											state = 812
+											state = 117
+											state = 997 
+											state = 156
+											state = 115
+											state = 157
+										}
+									}
+									add_core_of = PAP 
+								}
+							}
+							set_cosmetic_tag = PAP_Southern_Italy_France
+							create_country_leader = {
+								name = "Napoleon Jerome Bonaparte"
+								#desc = "POLITICS_Emmanuel_DESC"
+								picture = "Portrait_PAP_Napoleon_Jerome_Bonaparte.dds"
+								expire = "1870.11.7"
+								ideology = despotism
+								traits = {
+							  
+								}
+							  }
+						}
+					}
+						FRA = {
+							puppet = PAP
+							transfer_state = 822
+							transfer_state = 735
+							transfer_state = 114
+							transfer_state = 1153
+							every_owned_state = {
+								if = {
+									limit = {
+										AND = {
+											state = 822
+											state = 735
+											state = 114
+											state = 1153
+										}
+									}
+									add_core_of = FRA 
+								}
+							}
+						}
+						
+						LVN = {
+							set_cosmetic_tag = LVN_Northern_Confederation
+							transfer_state = 159
+							transfer_state = 982
+							transfer_state = 808
+							transfer_state = 813
+							transfer_state = 158
+							transfer_state = 981
+							transfer_state = 162
+							transfer_state = 161
+							every_owned_state = {
+								if = {
+									limit = {
+										AND = {
+											state = 159
+											state = 982
+											state = 808 
+											state = 813
+											state = 158
+											state = 981
+											state = 162
+											state = 161
+										}
+									}
+									add_core_of = LVN 
+								}
+							}
+						}
+					}
+			}	
 
 country_event = {
 	id = ita.1
