@@ -5354,6 +5354,7 @@ country_event = { # Empire is collapsing
     }
     hidden_effect = {
       country_event = { days = 3 id = third_rep_france.001 }
+      drop_cosmetic_tag = yes
     }
   }
 }
@@ -5379,7 +5380,6 @@ country_event = { # Proclamation of the Republic
 
   option = {
     name = third_rep_france.001.a
-    drop_cosmetic_tag = yes
     load_focus_tree = france_republic
     set_cosmetic_tag = FRA_TRANSITION_EMPIRE
     set_politics = { ruling_party = traditional_conservatism elections_allowed = no }
@@ -5617,6 +5617,7 @@ country_event = { # Entrevue de Ferrières - Peace conditions
     }
   }
   option = {
+    ai_chance = { factor = 100 } 
     name = third_rep_france.0072.b
   }
 }
@@ -5757,7 +5758,7 @@ country_event = { # Plebiscite Result in Paris : LOOSE
 
   option = {
     name = third_rep_france.0102.a
-    country_event = { days = 3 id = third_rep_france.0103 }
+    country_event = { days = 1 id = third_rep_france.0103 }
   }
 }
 
@@ -5773,7 +5774,7 @@ country_event = { # Trochu steps down
   option = {
     name = third_rep_france.0103.a
     hidden_effect = {
-      country_event = { days = 4 id = third_rep_france.011 }
+      country_event = { days = 1 id = third_rep_france.011 }
     }
     create_country_leader = {
       name = "Gouvernement Provisoire"
@@ -5793,8 +5794,32 @@ country_event = { # French Army Defeated
 
   trigger = {
     AND = {
-    has_cosmetic_tag = FRA_TRANSITION_EMPIRE
-    FRA = { surrender_progress > 0.8 }
+      FRA = { 
+        surrender_progress > 0.75
+        has_global_flag = eoanb_flag_franco_prussian_war_ongoing
+      }
+    }
+  }
+
+  option = {
+    name = third_rep_france.0104.a
+    hidden_effect = {
+      country_event = { id = third_rep_france.011 }
+    }
+  }
+}
+
+country_event = { # Paris Captured by Prussians 
+  id = third_rep_france.0105
+  title = third_rep_france.0105.t
+  desc = third_rep_france.0105.d
+  picture = GFX_report_event_napoleon_iii_death
+
+  fire_only_once = yes
+
+  trigger = {
+    PRS = { 
+      controls_state = 814
     }
   }
 
@@ -5818,11 +5843,14 @@ country_event = { # Armistice
 	option = {
 		name = third_rep_france.011.a
 		hidden_effect = {
-			FRA = { country_event = { days = 2 id = third_rep_france.012 } }
-			FRA = { country_event = { days = 3 id = third_rep_france.013 } }
-			FRA = { country_event = { days = 5 id = third_rep_france.014 } }
-			FRA = { white_peace = PRS }
-			FRA = { give_military_access = PRS }
+			FRA = { 
+        country_event = { days = 2 id = third_rep_france.012 } 
+			  country_event = { days = 3 id = third_rep_france.013 } 
+        country_event = { days = 5 id = third_rep_france.014 }
+        country_event = { days = 1 id = third_rep_france.0111 }
+        give_military_access = PRS
+        white_peace = PRS
+      }
 			PRS = { 
 				transfer_state = 28 
 				transfer_state = 972
@@ -5836,7 +5864,6 @@ country_event = { # Armistice
 			clr_country_flag = Gambetta_Trip
 			clr_country_flag = FRA_paris_besieged
 			clr_global_flag = eoanb_flag_franco_prussian_war_ongoing
-			FRA = { country_event = { days = 1 id = third_rep_france.0111 } }
 			set_global_flag = GER_Winner_of_FPW
 		}
 	}
