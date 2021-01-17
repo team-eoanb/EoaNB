@@ -2464,7 +2464,6 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_the_orsini_letter
 		}
-		mutually_exclusive = { focus = FRA_cut_ties_piedmont }
 		x = 22
 		y = 10
 		available = {
@@ -2493,8 +2492,23 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_arm_revolutionaries
 		}
+		mutually_exclusive = {
+			focus = FRA_cut_ties_piedmont
+		}
 		x = 22
 		y = 11
+		ai_will_do = {
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 100
+			}
+			modifier = {
+				NOT = {
+					is_historical_focus_on = yes
+				}
+				factor = 50	
+			}
+		}
 		completion_reward = {
 			
 		}
@@ -2509,7 +2523,16 @@ focus_tree = {
 		x = 22
 		y = 12
 		ai_will_do = {
-			factor = 100
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 100
+			}
+			modifier = {
+				NOT = {
+					is_historical_focus_on = yes
+				}
+				factor = 50	
+			}
 		}
 		completion_reward = {
 			add_political_power = 100
@@ -2570,46 +2593,16 @@ focus_tree = {
 		completion_reward = {
 			create_faction = FRA_faction_continental_system
 
-			if = {
-				limit = {
-					EPD = {
-						is_puppet_of = FRA
+				any_country = {
+					if = {
+						limit = {
+							is_puppet_of = FRA
+						}
+						FRA = {
+							add_to_faction = PREV
+						}
 					}
 				}
-				EPD = {
-					add_to_faction = FRA_faction_continental_system
-				}
-			}
-			if = {
-				limit = {
-					SNG = {
-						is_puppet_of = FRA
-					}
-				}
-				SNG = {
-					add_to_faction = FRA_faction_continental_system
-				}
-			}
-			if = {
-				limit = {
-					GBS = {
-						is_puppet_of = FRA
-					}
-				}
-				GBS = {
-					add_to_faction = FRA_faction_continental_system
-				}
-			}
-			if = {
-				limit = {
-					MEX = {
-						is_puppet_of = FRA
-					}
-				}
-				MEX = {
-					add_to_faction = FRA_faction_continental_system
-				}
-			}
 		}
 	}
 
@@ -2672,16 +2665,20 @@ focus_tree = {
 	focus = {
 		id = FRA_cut_ties_piedmont
 		icon = GFX_goal_tfv_sever_ties_with_uk
-		cost = 75
+		cost = 70
 		mutually_exclusive = { 
 			focus = FRA_meeting_cavour
-			focus = FRA_arm_revolutionaries
+			focus = FRA_invade_southern_italy
 	 }
 	 bypass = {
 		has_country_flag = ITA_FRA_Divide_Italy_Yes
 	}
 	available = {
 		
+	}
+	prerequisite = {
+		focus = FRA_the_orsini_letter
+		focus = FRA_orsini_tragedy
 	}
 		x = 28
 		y = 11
@@ -2694,7 +2691,7 @@ focus_tree = {
 				NOT = {
 					is_historical_focus_on = yes
 				}
-				factor = 30	
+				factor = 50	
 			}
 		}
 		completion_reward = {
@@ -2725,7 +2722,7 @@ focus_tree = {
 	focus = {
 		id = FRA_send_militias_pope
 		icon = GFX_goal_focus_ally_pope
-		cost = 80
+		cost = 35
 		prerequisite = {
 			focus = FRA_cut_ties_piedmont
 		}
@@ -2784,7 +2781,7 @@ focus_tree = {
 	focus = {
 		id = FRA_close_relations_austria
 		icon = GFX_goal_focus_ally_AUS
-		cost = 85
+		cost = 35
 		prerequisite = {
 			focus = FRA_cut_ties_piedmont
 		}
@@ -2808,7 +2805,7 @@ focus_tree = {
 	focus = {
 		id = FRA_invite_franz_joseph
 		icon = GFX_goal_focus_invite_franz_joseph
-		cost = 85
+		cost = 35
 		prerequisite = {
 			focus = FRA_close_relations_austria
 		}
@@ -2836,7 +2833,7 @@ focus_tree = {
 	focus = {
 		id = FRA_Division_of_Italy
 		icon = GFX_goal_focus_fra_divide_italy
-		cost = 100
+		cost = 50
 		prerequisite = {
 			focus = FRA_invite_franz_joseph
 		}
@@ -2881,6 +2878,22 @@ focus_tree = {
 						}
 					}
 					add_to_variable = { var = UCT.ITA_FRA_Divide_Italy_Variable value = 1 }
+				}
+				else = {
+				PAP = {
+					declare_war_on = {
+						target = FRA
+						type = annex_everything
+					}
+					declare_war_on = {
+						target = AUS
+						type = annex_everything
+					}
+					declare_war_on = {
+						target = LVN
+						type = annex_everything
+					}
+				}
 				}
 			}
 			if = {
