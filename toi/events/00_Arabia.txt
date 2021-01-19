@@ -591,7 +591,7 @@ country_event = {##OMA - enforce will on GLD
 			821={is_capital = no}
 		}
 		821={
-			owner = {country_event ={id = arab_events.19}}
+			owner = {country_event ={id = arab_events.22}}
 		}
 	}
 	option = { ##vassalise them
@@ -613,6 +613,41 @@ country_event = {##OMA - enforce will on GLD
 				owner = {country_event ={id = arab_events.20}}
 			}
 		}
+		1400={
+			if={
+				limit={
+					owner = {is_ai = yes}
+				}
+				owner={ROOT={puppet = PREV}}
+			}
+			else={
+				owner = {country_event ={id = arab_events.20}}
+			}
+		}
+	}
+}
+
+country_event = {##OMA demands transfer of 821(somalia)
+	id = arab_events.22
+	title = arab_events.22.t
+	desc = arab_events.22.d
+	#picture = GFX_report_event_chinese_army_training
+
+	is_triggered_only = yes
+
+	option = { ##Accept
+		name = arab_events.22.a
+		ai_chance = {
+            factor = 80
+        }
+		PREV={transfer_state = 821 transfer_state = 1400}
+	}
+	option = { ##Decline
+		name = arab_events.20.b
+		ai_chance = {
+            factor = 20
+        }
+
 	}
 }
 
@@ -712,6 +747,7 @@ country_event = {##OMA - Founding of somalia
 			OR={
 				owns_state = 821
 				owns_state = 559
+				owns_state = 1400
 			}
 		}
 		add_stability = -0.05
@@ -726,6 +762,10 @@ country_event = {##OMA - Founding of somalia
 			}
 			transfer_state = 559
 			559={
+				add_core_of = PREV
+			}
+			transfer_state = 1400
+			1400={
 				add_core_of = PREV
 			}
 			create_country_leader = {
@@ -825,6 +865,35 @@ country_event = {##OMA - Founding of somalia
 				}
 				transfer_state = 821
 				add_state_core = 821
+			}
+			if={
+				limit = {
+					NOT={
+						owns_state = 1400
+					}
+					OR={
+						GLD={
+							OVERLORD = {tag = ROOT}
+							owns_state = 1400
+						}
+						OMA={
+							owns_state = 1400
+						}
+					}
+				}
+				if={
+					limit={
+						GLD={
+							OVERLORD = {tag = ROOT}
+						}
+					}
+					add_to_variable = {
+						var = MAJ.Tribal_army_num
+						value = GLD.Tribal_army_num
+					}
+				}
+				transfer_state = 1400
+				add_state_core = 1400
 			}
 		}
 

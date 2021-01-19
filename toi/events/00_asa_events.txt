@@ -43,6 +43,7 @@ add_namespace = asa_alliance_with_new_england
 add_namespace = asa_meeting_with_protestors
 add_namespace = asa_expedition_into_countryside_event
 add_namespace = asa_anarchist_revolt
+add_namespace = asa_arrest_protest_leaders
 ### ELECTION NAMESPACES ###
 add_namespace = asa_election_start_hidden
 add_namespace = asa_emergency_election
@@ -351,7 +352,7 @@ country_event = { # WVG Reunion Denial (ASA perspective)
 	option = {
 		name = asa_reunion_with_west_virginia.3.a
 		create_wargoal = {
-			type = annex_country
+			type = annex_everything
 			target = WVG
 		}
 	}
@@ -2390,40 +2391,58 @@ country_event = {
 	}
 }
 
-country_event = {
-	id = asa_expedition_into_countryside_event.1
-	title = asa_expedition_into_countryside_event.1.t
-	desc = asa_expedition_into_countryside_event.1.desc
+country_event = { # Arrest Protest Leaders Hidden Event
+	id = asa_arrest_protest_leaders.1
+	title = asa_arrest_protest_leaders.1.t
+	desc = asa_arrest_protest_leaders.1.desc
 	picture = placeholder
 
 	hidden = yes
 
 	is_triggered_only = yes
 
-	option = {
-		name = asa_expedition_into_countryside_event.1.a
+	option = { # Success!
+		name = asa_arrest_protest_leaders.1.a
 		ai_chance = {
-			factor = 10
+			factor = 3
+		}
+		country_event = {
+			id = asa_arrest_protest_leaders.2
+			days = 7
 		}
 	}
-	option = {
-		name = asa_expedition_into_countryside_event.1.b
+	option = { # Failure, but not caught
+		name = asa_arrest_protest_leaders.1.b
 		ai_chance = {
-			factor = 0
+			factor = 6
+		}
+		country_event = {
+			id = asa_arrest_protest_leaders.3
+			days = 7
+		}
+	}
+	option = { # Failure and caught
+		name = asa_arrest_protest_leaders.1.c
+		ai_chance = {
+			factor = 1
+		}
+		country_event = {
+			id = asa_arrest_protest_leaders.4
+			days = 7
 		}
 	}
 }
 
-country_event = { #Expedition is a success
-	id = asa_expedition_into_countryside_event.2
-	title = asa_expedition_into_countryside_event.2.t
-	desc = asa_expedition_into_countryside_event.2.desc
+country_event = { # Protest Leader Arrest Successful!
+	id = asa_arrest_protest_leaders.2
+	title = asa_arrest_protest_leaders.2.t
+	desc = asa_arrest_protest_leaders.2.desc
 	picture = placeholder
 
 	is_triggered_only = yes
 
 	option = {
-		name = asa_expedition_into_countryside_event.2.a
+		name = asa_arrest_protest_leaders.2.a
 		if = {
 			limit = {
 				has_idea = ASA_Widespread_Protests_level_3
@@ -2451,7 +2470,590 @@ country_event = { #Expedition is a success
 	}
 }
 
-country_event = { #Meeting Starts
+country_event = { # Fail but not caught
+	id = asa_arrest_protest_leaders.3
+	title = asa_arrest_protest_leaders.3.t
+	desc = asa_arrest_protest_leaders.3.desc
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_arrest_protest_leaders.3.a
+	}
+}
+
+country_event = { # Caught
+	id = asa_arrest_protest_leaders.4
+	title = asa_arrest_protest_leaders.4.t
+	desc = asa_arrest_protest_leaders.4.desc
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_arrest_protest_leaders.4.a
+		hidden_effect = {
+			country_event = {
+				id = asa_arrest_protest_leaders.5
+				days = 7
+			}
+		}
+	}
+}
+
+country_event = { # Impeached!
+	id = asa_arrest_protest_leaders.5
+	title = asa_arrest_protest_leaders.5.t
+	desc = asa_arrest_protest_leaders.5.desc
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	option = { # Step Down
+		name = asa_arrest_protest_leaders.5.a
+		IF = {
+			limit = {
+				AND = {
+					has_country_leader = {
+						name = "George B. McClellan"
+						ruling_only = yes
+					}
+					has_government = traditional_conservatism
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1888.3.21
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				AND = {
+					has_country_leader = {
+						name = "George B. McClellan"
+						ruling_only = yes
+					}
+					has_government = radical_democracy
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1888.3.21
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+			set_politics = {
+				ruling_party = traditional_conservatism
+				elections_allowed = yes
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "Thaddeus Stevens"
+					ruling_only = yes
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "John A. J. Creswell"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1891.12.23
+				ideology = social_liberal
+				traits = {
+					social_egalitarian
+				}
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "William H. Seward"
+					ruling_only = yes
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Thurlow Weed"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1882.11.22
+				ideology = conserv_liberal
+				traits = {
+					centrism_alignment
+				}
+			}
+		}
+	}
+	option = { # Don't Step Down
+		name = asa_arrest_protest_leaders.5.b
+		custom_effect_tooltip = asa_arrest_protest_leaders_5_tt
+		hidden_effect = {
+			country_event = {
+				id = asa_arrest_protest_leaders.6
+				days = 7
+			}
+		}
+	}
+}
+
+country_event = { # Congress Passes Bill To Eject The President
+	id = asa_arrest_protest_leaders.6
+	title = asa_arrest_protest_leaders.6.t
+	desc = asa_arrest_protest_leaders.6.desc
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	option = { # Congress Has Spoken
+		name = asa_arrest_protest_leaders.6.a
+		IF = {
+			limit = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+				has_government = traditional_conservatism
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1888.3.21
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+				has_government = radical_democracy
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1888.3.21
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+			set_politics = {
+				ruling_party = traditional_conservatism
+				elections_allowed = yes
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "Thaddeus Stevens"
+					ruling_only = yes
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "John A. J. Creswell"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1891.12.23
+				ideology = social_liberal
+				traits = {
+					social_egalitarian
+				}
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "William H. Seward"
+					ruling_only = yes
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Thurlow Weed"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1882.11.22
+				ideology = conserv_liberal
+				traits = {
+					centrism_alignment
+				}
+			}
+		}
+	}
+	option = { # Challenge The Bill In Court
+		name = asa_arrest_protest_leaders.6.b
+		custom_effect_tooltip = asa_arrest_protest_leaders_6_tt
+		hidden_effect = {
+			country_event = {
+				id = asa_arrest_protest_leaders.7
+				days = 7
+			}
+		}
+	}
+}
+
+country_event = { # Supreme Court Decision Hidden Event
+	id = asa_arrest_protest_leaders.7
+	title = asa_arrest_protest_leaders.7.t
+	desc = asa_arrest_protest_leaders.7.desc
+	picture = placeholder
+
+	hidden = yes
+
+	is_triggered_only = yes
+
+	option = { # Supreme Court sides with Congress
+		name = asa_arrest_protest_leaders.7.a
+		country_event = {
+			id = asa_arrest_protest_leaders.8
+			days = 7
+		}
+		set_country_flag = asa_congress_empowered
+	}
+	option = { # Supreme Court sides with President
+		name = asa_arrest_protest_leaders.7.b
+		country_event = {
+			id = asa_arrest_protest_leaders.9
+			days = 7
+		}
+		set_country_flag = asa_presidency_empowered
+	}
+}
+
+country_event = { # Supreme Court Sides With Congress
+	id = asa_arrest_protest_leaders.8
+	title = asa_arrest_protest_leaders.8.t
+	desc = asa_arrest_protest_leaders.8.desc
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	option = { # Nothing We Can Do Now...
+		name = asa_arrest_protest_leaders.8.a
+		IF = {
+			limit = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+				has_government = traditional_conservatism
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1888.3.21
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+				has_government = radical_democracy
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1888.3.21
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+			set_politics = {
+				ruling_party = traditional_conservatism
+				elections_allowed = yes
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "Thaddeus Stevens"
+					ruling_only = yes
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "John A. J. Creswell"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1891.12.23
+				ideology = social_liberal
+				traits = {
+					social_egalitarian
+				}
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "William H. Seward"
+					ruling_only = yes
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Thurlow Weed"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1882.11.22
+				ideology = conserv_liberal
+				traits = {
+					centrism_alignment
+				}
+			}
+		}
+	}
+	option = { # Order the military to seize control
+		name = asa_arrest_protest_leaders
+		trigger = {
+			AND = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+				has_government = radical_democracy
+			}
+		}
+		custom_effect_tooltip = asa_arrest_protest_leaders_8_tt
+		hidden_effect = {
+			country_event = {
+				id = asa_arrest_protest_leaders.10
+			}
+		}
+	}
+}
+
+country_event = {
+	id = asa_arrest_protest_leaders.10
+	title = asa_arrest_protest_leaders.10.t
+	desc = asa_arrest_protest_leaders.10.desc
+	picture = placeholder
+
+	hidden = yes
+
+	is_triggered_only = yes
+
+	option = { # Military agrees
+		name = asa_arrest_protest_leaders.10.a
+		ai_chance = {
+			factor = 4
+		}
+		country_event = {
+			id = asa_arrest_protest_leaders.11
+			days = 1
+		}
+	}
+	option = { # Military revolts
+		name = asa_arrest_protest_leaders.10.b
+		ai_chance = {
+			factor = 6
+		}
+		country_event = {
+			id = asa_arrest_protest_leaders.12
+			days = 1
+		}
+	}
+}
+
+country_event = { # Military Takes Control
+	id = asa_arrest_protest_leaders.11
+	title = asa_arrest_protest_leaders.11.t
+	desc = asa_arrest_protest_leaders.11.desc
+	picture = placeholder
+
+	hidden = yes
+
+	is_triggered_only = yes
+
+	option = { 
+		name = asa_arrest_protest_leaders.11.a
+		add_political_power = 100
+		IF = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_3
+			}
+			remove_ideas = ASA_Widespread_Protests_level_3
+		}
+		ELSE_IF = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_2
+			}
+			remove_ideas = ASA_Widespread_Protests_level_2
+		}
+		ELSE_IF = {
+			limit = {
+				has_idea = ASA_Widespread_Protests_level_1
+			}
+			remove_ideas = ASA_Widespread_Protests_level_1
+		}
+		add_ideas = ASA_Martial_Law
+		hidden_effect = {
+			country_event = {
+				id = asa_arrest_protest_leaders.13
+				days = 7
+			}
+		}
+	}
+}
+
+country_event = { # Military defies orders
+	id = asa_arrest_protest_leaders.12
+	title = asa_arrest_protest_leaders.12.t
+	desc = asa_arrest_protest_leaders.12.desc
+	picture = placeholder
+
+	is_triggered_only = Yes
+
+	option = {
+		IF = {
+			limit = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+				has_government = traditional_conservatism
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1888.3.21
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+				has_government = radical_democracy
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1888.3.21
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+			set_politics = {
+				ruling_party = traditional_conservatism
+				elections_allowed = yes
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "Thaddeus Stevens"
+					ruling_only = yes
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "John A. J. Creswell"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1891.12.23
+				ideology = social_liberal
+				traits = {
+					social_egalitarian
+				}
+			}
+		}
+		ELSE_IF = {
+			limit = {
+				has_country_leader = {
+					name = "William H. Seward"
+					ruling_only = yes
+				}
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Thurlow Weed"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = placeholder
+				expire = 1882.11.22
+				ideology = conserv_liberal
+				traits = {
+					centrism_alignment
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Democratic revolt
+	id = asa_arrest_protest_leaders.13
+	title = asa_arrest_protest_leaders.13.t
+	desc = asa_arrest_protest_leaders.13.desc
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		start_civil_war = {
+			ideology = social_egalitarianism
+			size = 0.5
+			capital = 358
+			states = { 358 1385 }
+		}
+	}
+	option = { # Down with the traitors
+		name = asa_arrest_protest_leaders.13.a
+	}
+	option = { # Up with the stars! (Play as revolt)
+		name = asa_arrest_protest_leaders.13.b
+		358 = {
+			OWNER = {
+				change_tag_from = ASA
+			}
+		}
+	}
+}
+
+country_event = { # Meeting Starts
 	id = asa_meeting_with_protestors.1
 	title = asa_meeting_with_protestors.1.t
 	desc = asa_meeting_with_protestors.1.desc
@@ -2486,6 +3088,17 @@ country_event = { #Meeting Starts
 		}
 		country_event = asa_meeting_with_protestors.4
 	}
+	option = {
+		name = asa_meeting_with_protestors.1.d
+		trigger = {
+			NOT = {
+				has_idea = ASA_Widespread_Protests_level_3
+				has_idea = ASA_Widespread_Protests_level_2
+				has_idea = ASA_Widespread_Protests_level_1
+			}
+		}
+		country_event = asa_meeting_with_protestors.5
+	}
 }
 
 country_event = { #Issues of Policy
@@ -2495,37 +3108,8 @@ country_event = { #Issues of Policy
 	picture = placeholder
 
 	is_triggered_only = yes
-
-	option = { #Give Them Our Word
-		name = asa_meeting_with_protestors.2.a
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_3
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_3
-				add_idea = ASA_Widespread_Protests_level_2
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_2
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_2
-				add_idea = ASA_Widespread_Protests_level_1
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_1
-			}
-			remove_ideas = ASA_Widespread_Protests_level_1
-		}
-		set_country_flag = asa_meeting_with_protestors_policy_discussed
-	}
 	option = { #Work With Them To Develop A Plan
-		name = asa_meeting_with_protestors.2.b
+		name = asa_meeting_with_protestors.2.a
 		add_political_power = -25
 		add_stability = 0.025
 		if = {
@@ -2554,36 +3138,10 @@ country_event = { #Issues of Policy
 		}
 		set_country_flag = asa_meeting_with_protestors_policy_discussed
 		set_country_flag = asa_meeting_with_protestors_policy_planning
-	}
-	option = { #Give Them Speaking Time In Congress
-		name = asa_meeting_with_protestors.2.c
-		add_political_power = -50
-		add_stability = 0.05
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_3
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_3
-				add_idea = ASA_Widespread_Protests_level_2
-			}
+		country_event = {
+			id = asa_meeting_with_protestors.1
+			days = 7
 		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_2
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_2
-				add_idea = ASA_Widespread_Protests_level_1
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_1
-			}
-			remove_ideas = ASA_Widespread_Protests_level_1
-		}
-		set_country_flag = asa_meeting_with_protestors_policy_discussed
 	}
 }
 
@@ -2594,37 +3152,8 @@ country_event = { #Issues of Economic Downturn
 	picture = placeholder
 
 	is_triggered_only = yes
-
-	option = { #Give Them Our Word
-		name = asa_meeting_with_protestors.3.a
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_3
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_3
-				add_idea = ASA_Widespread_Protests_level_2
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_2
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_2
-				add_idea = ASA_Widespread_Protests_level_1
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_1
-			}
-			remove_ideas = ASA_Widespread_Protests_level_1
-		}
-		set_country_flag = asa_meeting_with_protestors_economy_discussed
-	}
 	option = { #Work With Them To Develop A Plan
-		name = asa_meeting_with_protestors.3.b
+		name = asa_meeting_with_protestors.3.a
 		add_political_power = -25
 		add_stability = 0.025
 		if = {
@@ -2653,36 +3182,10 @@ country_event = { #Issues of Economic Downturn
 		}
 		set_country_flag = asa_meeting_with_protestors_economy_discussed
 		set_country_flag = asa_meeting_with_protestors_economy_planning
-	}
-	option = { #Give Them Speaking Time In Congress
-		name = asa_meeting_with_protestors.3.c
-		add_political_power = -50
-		add_stability = 0.05
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_3
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_3
-				add_idea = ASA_Widespread_Protests_level_2
-			}
+		country_event = {
+			id = asa_meeting_with_protestors.1
+			days = 7
 		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_2
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_2
-				add_idea = ASA_Widespread_Protests_level_1
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_1
-			}
-			remove_ideas = ASA_Widespread_Protests_level_1
-		}
-		set_country_flag = asa_meeting_with_protestors_economy_discussed
 	}
 }
 
@@ -2693,33 +3196,6 @@ country_event = { # Issues of National Security
 	picture = placeholder
 	is_triggered_only = yes
 	hidden = yes
-	option = { # Give them our word
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_3
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_3
-				add_idea = ASA_Widespread_Protests_level_2
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_2
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_2
-				add_idea = ASA_Widespread_Protests_level_1
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_1
-			}
-			remove_ideas = ASA_Widespread_Protests_level_1
-		}
-		set_country_flag = asa_meeting_with_protestors_national_security_discussed
-	}
 	option = { # Work with them to develop a plan
 		if = {
 			limit = {
@@ -2747,34 +3223,23 @@ country_event = { # Issues of National Security
 		}
 		set_country_flag = asa_meeting_with_protestors_national_security_discussed
 		set_country_flag = asa_meeting_with_protestors_national_security_planning
-	}
-	option = { # Give them speaking time in Congress
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_3
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_3
-				add_idea = ASA_Widespread_Protests_level_2
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_2
-			}
-			swap_ideas = {
-				remove_idea = ASA_Widespread_Protests_level_2
-				add_idea = ASA_Widespread_Protests_level_1
-			}
-		}
-		if = {
-			limit = {
-				has_idea = ASA_Widespread_Protests_level_1
-			}
-			remove_ideas = ASA_Widespread_Protests_level_1
+		country_event = {
+			id = asa_meeting_with_protestors.1
+			days = 7
 		}
 	}
-	set_country_flag = asa_meeting_with_protestors_national_security_discussed
+}
+
+country_event = { # End of Policy Discussion w/ Protestors
+	id = asa_meeting_with_protestors.5
+	title = asa_meeting_with_protestors.5.t
+	desc = asa_meeting_with_protestors.5.desc
+	picture = placeholder
+	is_triggered_only = yes
+	option = {
+		name = asa_meeting_with_protestors.5.a
+		activate_mission = asa_make_good_on_promises
+	}
 }
 
 country_event = { # Rumors of Revolt
@@ -3090,12 +3555,24 @@ country_event = { ### EMERGENCY ELECTION ###
 			ruling_party = social_egalitarianism
 			elections_allowed = no
 		}
+		hidden_effect = {
+			country_event = {
+				id = asa_anarchist_revolt.1
+				days = 180
+			}
+		}
 	}
-	option = { #Reuben Fenton
+	option = { # William Seward
 		name = asa_emergency_election.2.b
 		set_politics = { 
 			ruling_party = centrism
 			elections_allowed = no
+		}
+		hidden_effect = {
+			country_event = {
+				id = asa_anarchist_revolt.1
+				days = 180
+			}
 		}
 	}
 	option = { #George B. McClellan
@@ -3103,6 +3580,12 @@ country_event = { ### EMERGENCY ELECTION ###
 		set_politics = { #George B. McClellan
 			ruling_party = traditional_conservatism
 			elections_allowed = no
+		}
+		hidden_effect = {
+			country_event = {
+				id = asa_anarchist_revolt.1
+				days = 180
+			}
 		}
 	}
 }

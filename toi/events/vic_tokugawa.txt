@@ -1,0 +1,140 @@
+add_namespace = vic_tokugawa_shogunate
+add_namespace = vic_tokugawa_shogunate_flavor
+add_namespace = vic_tokugawa_shogunate_reforms
+add_namespace = vic_tokugawa_shogunate_foreign
+add_namespace = vic_tokugawa_shogunate_influence
+add_namespace = vic_tokugawa_shogunate_ansei
+add_namespace = vic_tokugawa_shogunate_boshin
+add_namespace = vic_tokugawa_shogunate_ezo
+
+add_namespace = vic_tokugawa_daimyos
+add_namespace = vic_tokugawa_daimyos_influence
+add_namespace = vic_tokugawa_daimyos_loyal
+add_namespace = vic_tokugawa_daimyos_rebel
+
+###### Victorian Tokugawa
+
+# 1857 Japan Start Event
+country_event = {
+	id = vic_tokugawa_shogunate.1
+	title = vic_tokugawa_shogunate.1.t
+	desc = vic_tokugawa_shogunate.1.d
+	# picture = placeholder
+
+	is_triggered_only = yes
+
+	trigger = {
+		is_japanese_country = yes
+		date > 1868.1.1
+	}
+
+	immediate = {
+		if = { 
+			limit = { tag = TSH }
+			country_event = vic_tokugawa_shogunate_flavor.1
+		}
+	}
+
+	option = {
+		name = vic_tokugawa_shogunate.1.a
+		trigger = { tag = TSH }
+		add_political_power = -25
+		eoanb_add_1_prestige_score = yes
+	}
+	option = {
+		name = vic_tokugawa_shogunate.1.b
+		trigger = { OR = { tag = SAT tag = DTE } }
+		add_political_power = -35
+	}
+	option = {
+		name = vic_tokugawa_shogunate.1.c
+		trigger = { OR = { tag = CHO tag = SAG tag = TOS } }
+		add_political_power = -35
+	}
+	option = {
+		name = vic_tokugawa_shogunate.1.d
+		trigger = { tag = RYU }
+	}
+}
+
+
+##### Victorian Tokugawa Flavor
+
+# 1857 Japan Flavor Distributor
+country_event = {
+	id = vic_tokugawa_shogunate_flavor.1
+	hidden = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		tag = TSH
+	}
+
+	immediate = {
+		UCT = {
+			country_event { id = vic_tokugawa_shogunate_flavor.2 days = 300 random_days = 100 }
+		}
+	}
+}
+
+# Hietsu Earthquake Trigger
+country_event = {
+	id = vic_tokugawa_shogunate_flavor.2
+	hidden = yes
+
+	is_triggered_only = yes
+	
+	immediate = {
+		every_country = {
+			limit = { any_owned_state = { is_in_japan = yes } }
+			news_event = vic_tokugawa_shogunate_flavor.3
+		}
+	}
+}
+
+# Hietsu Earthquake of 1858
+news_event = {
+	id = vic_tokugawa_shogunate_flavor.3
+	title = vic_tokugawa_shogunate_flavor.3.t
+	desc = vic_tokugawa_shogunate_flavor.3.d
+	# picture = earthquakepls
+	
+	is_triggered_only = yes
+
+	immediate = {
+		random_owned_state = {
+			limit = { is_in_japan = yes }
+			damage_building = {
+				type = infrastructure
+				damage = 1
+			}
+		}
+	}
+
+	option = {
+		name = vic_tokugawa_shogunate_flavor.3.a
+		add_command_power = -75
+		add_timed_idea = {
+			idea = Generic_Idea_Earthquake_Damage_3
+			days = 100
+		}
+		every_owned_state = {
+			limit = {
+				OR = { state = 1 }
+			}
+			damage_building = {
+				type = infrastructure
+				damage = 2
+			}
+			randomize_temp_variable = {
+				var = earthquake_deaths
+				distribution = uniform
+				min = -95
+				max = -35
+			}
+			add_manpower = earthquake_deaths
+		}
+	}
+}
+
