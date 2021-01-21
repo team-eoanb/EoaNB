@@ -36,7 +36,7 @@ focus_tree = {
 
 	focus = {
 		id = NOR_focus_hamar_grundsetbanen_railway_line
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = NOR_focus_railway_investments
 		cost = 70
@@ -53,12 +53,12 @@ focus_tree = {
 
 	focus = {
 		id = NOR_focus_kongsvinger_line
-		x = 2
-		y = 0
+		x = 0
+		y = 1
 		relative_position_id = NOR_focus_hamar_grundsetbanen_railway_line
 		cost = 70
 		icon = GFX_goal_generic_construct_infrastructure
-		prerequisite = { focus = NOR_focus_railway_investments }
+		prerequisite = { focus = NOR_focus_hamar_grundsetbanen_railway_line }
 		ai_will_do = {
 			factor = 1
 		}
@@ -70,12 +70,11 @@ focus_tree = {
 
 	focus = {
 		id = NOR_focus_industrialize_norway
-		x = 1
+		x = 0
 		y = 1
-		relative_position_id = NOR_focus_hamar_grundsetbanen_railway_line
+		relative_position_id = NOR_focus_kongsvinger_line
 		cost = 140
 		icon = GFX_focus_generic_industry_3
-		prerequisite = { focus = NOR_focus_hamar_grundsetbanen_railway_line }
 		prerequisite = { focus = NOR_focus_kongsvinger_line }
 		ai_will_do = {
 			factor = 1
@@ -278,17 +277,61 @@ focus_tree = {
 	###Political tree###
 
 	focus = {
-		id = NOR_focus_vogt_stay_in_power
-		x = 10
+		id = NOR_focus_vogt
+		x = 11
 		y = 0
 		cost = 14
-		icon = GFX_focus_generic_the_giant_wakes
+		icon = GFX_goal_SWE_we_need_a_leader
 		mutually_exclusive = { focus = NOR_focus_vogt_resign }
 
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = "Vogt has been pressured by the king to resign"
-				has_country_flag = NOR_flag_vogt_start
+				tooltip = "Completed by event"
+			}
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = {}
+	}
+
+	focus = {
+		id = NOR_focus_vogt_call_a_vote
+		x = -2
+		y = 1
+		relative_position_id = NOR_focus_vogt
+		cost = 14
+		icon = GFX_focus_generic_the_giant_wakes
+		mutually_exclusive = { focus = NOR_focus_vogt_resign }
+		prerequisite = { focus = NOR_focus_vogt }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "Vogt resisted the King"
+				has_country_flag = NOR_flag_vogt_stay
+			}
+			hidden_trigger = {
+				has_country_flag = NOR_flag_vogt_stay
+			}
+		}
+		completion_reward = {
+			country_event = { id = norwegian_votes.0 days = 1 }
+		}
+	}
+
+	focus = {
+		id = NOR_focus_vogt_vote_success
+		x = -1
+		y = 1
+		relative_position_id = NOR_focus_vogt_call_a_vote
+		cost = 0
+		icon = GFX_focus_generic_the_giant_wakes
+		mutually_exclusive = { focus = NOR_focus_vogt_vote_fail }
+		prerequisite = { focus = NOR_focus_vogt_call_a_vote }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "Completed by event"
 			}
 			hidden_trigger = {
 				always = no
@@ -300,21 +343,59 @@ focus_tree = {
 	}
 
 	focus = {
-		id = NOR_focus_vogt_resign
+		id = NOR_focus_vogt_vote_fail
 		x = 2
 		y = 0
-		relative_position_id = NOR_focus_vogt_stay_in_power
-		cost = 14
-		icon = GFX_goal_generic_forceful_treaty
-		mutually_exclusive = { focus = NOR_focus_vogt_stay_in_power }
+		relative_position_id = NOR_focus_vogt_vote_success
+		cost = 0
+		icon = GFX_focus_generic_the_giant_wakes
+		mutually_exclusive = { focus = NOR_focus_vogt_vote_success }
+		prerequisite = { focus = NOR_focus_vogt_call_a_vote }
 
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = "Vogt has been pressured by the king to resign"
-				has_country_flag = NOR_flag_vogt_start
+				tooltip = "Completed by event"
 			}
 			hidden_trigger = {
 				always = no
+			}
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = NOR_focus_vogt_vote_conclusion
+		x = 1
+		y = 1
+		relative_position_id = NOR_focus_vogt_vote_success
+		cost = 7
+		icon = GFX_focus_generic_the_giant_wakes
+		prerequisite = { focus = NOR_focus_vogt_vote_success focus = NOR_focus_vogt_vote_fail }
+
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = NOR_focus_vogt_resign
+		x = 3
+		y = 0
+		relative_position_id = NOR_focus_vogt_call_a_vote
+		cost = 14
+		icon = GFX_goal_generic_forceful_treaty
+		mutually_exclusive = { focus = NOR_focus_vogt_call_a_vote }
+		prerequisite = { focus = NOR_focus_vogt }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "Vogt has resigned"
+				has_country_flag = NOR_flag_vogt_resign
+			}
+			hidden_trigger = {
+				has_country_flag = NOR_flag_vogt_resign
 			}
 		}
 		completion_reward = {
@@ -334,7 +415,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = NOR_focus_vogt_resign
-		cost = 28
+		cost = 30
 		icon = GFX_goal_generic_neutrality_focus
 		prerequisite = { focus = NOR_focus_vogt_resign }
 
@@ -342,7 +423,7 @@ focus_tree = {
 			factor = 160
 		}
 		completion_reward = {
-			country_event = { id = eoanb_norway.8 days = 1 random_days = 4 }
+			country_event = { id = eoanb_norway.8 days = 1 }
 		}
 	}
 
@@ -376,13 +457,19 @@ focus_tree = {
 		relative_position_id = NOR_focus_vogt_replacement_found
 		cost = 28
 		icon = GFX_goal_generic_major_alliance
-		prerequisite = { focus = NOR_focus_vogt_replacement_found focus = NOR_focus_vogt_stay_in_power}
+		prerequisite = { focus = NOR_focus_vogt_replacement_found focus = NOR_focus_vogt_vote_conclusion }
 
 		ai_will_do = {
 			base = 160
 		}
 		completion_reward = {
 			add_political_power = 50
+			hidden_trigger = {
+				set_politics = {
+					election_frequency = 36
+					elections_allowed = yes
+				}
+			}
 		}
 	}
 

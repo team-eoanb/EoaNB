@@ -1,0 +1,98 @@
+add_namespace = norwegian_votes
+add_namespace = norwegian_votes_results
+
+country_event = { # Vogt: Overturn the king
+	id = norwegian_votes.0
+	title = norwegian_votes.0.t
+	desc = norwegian_votes.0.d
+	picture = GFX_report_event_generic_parliament
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_variable = {
+			var = current_reform_id
+			value = -1								# This allows the system to detect a custom vote in progress
+		}
+
+		reset_approval_arrays = yes					# Resets all of the approvals
+		set_1_approval_highly_disagree = yes 		# For those ideologies who have a 1 for this type of legislation will highly disagree with this bill
+		set_2_approval_disagree = yes				# For those ideologies who have a 2 for this type of legislation will disagree with this bill
+		set_3_approval_neutral = yes				# For those ideolgoies who have a 3 for this type of legislation will be neutral about this bill
+		set_4_approval_highly_agree = yes			# For those ideologies who have 4 for this type of legislation will highly agree with this bill
+
+		set_vote_cul = yes							# Determines what type of legislation this is, and what values of the ideologies' wishlist will be considered (cul, eco, dem, war, bud)
+		compute_voting_approval = yes				# Calculates the approvals
+
+		compute_number_seats_tot = yes				# Calculates the total number of seats in the current Parliament
+		compute_number_seats_approve_est = yes		# Estimates the number of seats that will vote yes for the vote
+	}
+
+	option = { # Let's vote in a month
+		name = norwegian_votes.0.a
+		country_event = {
+			id = norwegian_votes_results.0			# Sets the custom result event for your custom law
+			days = 1 								# Usually, a vote takes 30 days. You can go lower, but the timed mission won't be able to show the right amount of time. It's not a big deal because this fires the event by itself, and because the decision does nothing in the case of a custom vote.
+		}
+	}
+}
+
+country_event = { # Vogt: Overturn the king - results
+	id = norwegian_votes_results.0
+	title = norwegian_votes_results.0.t
+	desc = norwegian_votes_results.0.d
+	picture = GFX_report_event_generic_parliament
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			hold_vote = yes ############################## Do all the calcultations for the vote, and outputs a flag (eoanb_reform_vote_success, eoanb_reform_vote_failure, eoanb_reform_vote_tie)
+		}
+	}
+
+	option = { # It's a success!
+		name = norwegian_votes_results.0.a
+		trigger = {
+			has_country_flag = eoanb_reform_vote_success
+		}
+		clr_country_flag = eoanb_reform_vote_success
+
+		######## Put here the result of a victory
+
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+
+	option = { # It's a failure...
+		name = norwegian_votes_results.0.b
+		trigger = {
+			has_country_flag = eoanb_reform_vote_failure
+		}
+		clr_country_flag = eoanb_reform_vote_failure
+
+		######## Put here the result of a failure
+
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+
+	option = { # It's a tie.
+		name = norwegian_votes_results.0.c
+		trigger = {
+			has_country_flag = eoanb_reform_vote_tie
+		}
+		clr_country_flag = eoanb_reform_vote_tie
+
+		######## Put here the result of a tie
+
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+}

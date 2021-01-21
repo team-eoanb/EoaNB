@@ -1,3 +1,12 @@
+afr_call_all_warrior_types = {
+	afr_call_warriors = yes
+	afr_call_tribal_horse_cavalry = yes
+	delete_unit_template_and_units = { division_template = "Levies" }
+	every_owned_state = { afr_call_state_militia_units = yes }
+	#afr_call_tribal_horse_pistoleer_cavalry = yes
+	afr_call_tribal_camel_cavalry = yes
+}
+
 SPR_debt_calculation_scripted_effect_for_debt_increase = {
 	if = {
 		limit = { 
@@ -1892,18 +1901,18 @@ afr_company_port_effect = {
 #################
 
 afr_call_warriors={
-	if={
-		limit={NOT={has_country_flag = AFR_raised_tribal_warriors}}
-		set_temp_variable = {temp_tribal_division = Tribal_army_num}
-		divide_temp_variable = {temp_tribal_division = 1000}
-		round_variable = temp_tribal_division
-		set_country_flag = AFR_raised_tribal_warriors
-		add_to_temp_array={
-			array = num_of_divisions_to_raise
-			value = 1
-			index = 0
-		}
-		resize_temp_array = {num_of_divisions_to_raise = temp_tribal_division}
+	set_temp_variable = {temp_tribal_division = Tribal_army_num}
+	divide_temp_variable = {temp_tribal_division = 1000}
+	round_variable = temp_tribal_division
+	add_to_temp_array={
+		array = num_of_divisions_to_raise
+		value = 1
+		index = 0
+	}
+	resize_temp_array = {num_of_divisions_to_raise = temp_tribal_division}
+	delete_unit_template_and_units = { division_template = "Tribal Warriors" disband = no }
+	if = {
+		limit = { NOT = { has_template = "Tribal Warriors" } }
 		ROOT = {
 			division_template = {
 				name = "Tribal Warriors"
@@ -1915,16 +1924,16 @@ afr_call_warriors={
 				is_locked = yes
 			}
 		}
-		for_each_loop={
-			array = num_of_divisions_to_raise
-			random_owned_state ={
-				create_unit = {
-					division = "name = \"Tribal Warriors\" division_template = \"Tribal Warriors\" start_experience_factor = 0.7 start_equipment_factor = 1" 
-					owner = ROOT
-				}
+	}
+	for_each_loop={
+		array = num_of_divisions_to_raise
+		random_owned_state ={
+			create_unit = {
+				division = "name = \"Tribal Warriors\" division_template = \"Tribal Warriors\" start_experience_factor = 0.7 start_equipment_factor = 1" 
+				owner = ROOT
 			}
-			#subtract_from_variable = { Tribal_army_num = 1000 }
 		}
+		#subtract_from_variable = { Tribal_army_num = 1000 }
 	}
 }
 
@@ -1939,7 +1948,20 @@ afr_dismiss_warriors={
 	# }
 	#add_to_variable = {Tribal_army_num = temp_tribal_division}
 	delete_unit_template_and_units = { division_template = "Tribal Warriors" disband = no }
-	clr_country_flag = AFR_raised_tribal_warriors
+	if = {
+		limit = { NOT = { has_template = "Tribal Warriors" } }
+		ROOT = {
+			division_template = {
+				name = "Tribal Warriors"
+				priority = 2
+				division_names_group = KRU_TRIBAL_INFANTRY_01
+				regiments = {
+					tribal_infantry = { x = 0 y = 0 }
+				}
+				is_locked = yes
+			}
+		}
+	}
 }
 
 ######################
@@ -1956,15 +1978,19 @@ afr_call_tribal_horse_cavalry={
 		index = 0
 	}
 	resize_temp_array = {num_of_horse_cavalry_divisions_to_raise = temp_tribal_horse_army}
-	ROOT = {
-		division_template = {
-			name = "Tribal Cavalry"
-			priority = 2
-			division_names_group = NATIVE_AMERICAN_TRIBAL_CAVALRY_01
-			regiments = {
-				tribal_cavalry = { x = 0 y = 0 }
+	delete_unit_template_and_units = { division_template = "Tribal Cavalry" disband = no }
+	if = {
+		limit = { NOT = { has_template = "Tribal Cavalry" } }
+		ROOT = {
+			division_template = {
+				name = "Tribal Cavalry"
+				priority = 2
+				division_names_group = NATIVE_AMERICAN_TRIBAL_CAVALRY_01
+				regiments = {
+					tribal_cavalry = { x = 0 y = 0 }
+				}
+				is_locked = yes
 			}
-			is_locked = yes
 		}
 	}
 	for_each_loop={
@@ -1985,6 +2011,20 @@ afr_dismiss_tribal_horse_cavalry={
 	round_variable = temp_tribal_horse_army
 	add_to_variable = {Tribal_horse_army_num = temp_tribal_horse_army}
 	delete_unit_template_and_units = { division_template = "Tribal Cavalry" disband = no }
+	if = {
+		limit = { NOT = { has_template = "Tribal Cavalry" } }
+		ROOT = {
+			division_template = {
+				name = "Tribal Cavalry"
+				priority = 2
+				division_names_group = NATIVE_AMERICAN_TRIBAL_CAVALRY_01
+				regiments = {
+					tribal_cavalry = { x = 0 y = 0 }
+				}
+				is_locked = yes
+			}
+		}
+	}
 }
 
 ##########################
@@ -2011,15 +2051,19 @@ afr_call_tribal_camel_cavalry={
 		index = 0
 	}
 	resize_temp_array = {num_of_camel_cavalry_divisions_to_raise = temp_tribal_camel_army}
-	ROOT = {
-		division_template = {
-			name = "Tribal Camel Cavalry"
-			priority = 2
-			division_names_group = AFR_TRIBAL_CAMEL_CAVALRY_01
-			regiments = {
-				tribal_camel_cavalry = { x = 0 y = 0 }
+	delete_unit_template_and_units = { division_template = "Tribal Camel Cavalry" disband = no }
+	if = {
+		limit = { NOT = { has_template = "Tribal Camel Cavalry" } }
+		ROOT = {
+			division_template = {
+				name = "Tribal Camel Cavalry"
+				priority = 2
+				division_names_group = AFR_TRIBAL_CAMEL_CAVALRY_01
+				regiments = {
+					tribal_camel_cavalry = { x = 0 y = 0 }
+				}
+				is_locked = yes
 			}
-			is_locked = yes
 		}
 	}
 	for_each_loop={
@@ -2040,6 +2084,20 @@ afr_dismiss_tribal_camel_cavalry={
 	round_variable = temp_tribal_camel_army
 	add_to_variable = {Tribal_camel_army_num = temp_tribal_camel_army}
 	delete_unit_template_and_units = { division_template = "Tribal Camel Cavalry" disband = no }
+	if = {
+		limit = { NOT = { has_template = "Tribal Camel Cavalry" } }
+		ROOT = {
+			division_template = {
+				name = "Tribal Camel Cavalry"
+				priority = 2
+				division_names_group = AFR_TRIBAL_CAMEL_CAVALRY_01
+				regiments = {
+					tribal_camel_cavalry = { x = 0 y = 0 }
+				}
+				is_locked = yes
+			}
+		}
+	}
 }
 
 OTO_lessen_grain_crisis={

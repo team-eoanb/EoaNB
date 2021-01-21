@@ -91,7 +91,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			hidden_effect = { add_ideas = closed_economy }
-			hidden_effect = { add_ideas = high_taxes }
+			country_event = { id = afr_empire_politics_taxes_regional_power.1 }
 			custom_effect_tooltip = afr_jihad_close_our_economy_tooltip
 		}
 		relative_position_id = afr_jihadist_regional_power_adressing_scramble_for_africa
@@ -617,96 +617,7 @@ focus = {
 			factor = 1 
 		}
 		completion_reward = {
-			if = {
-				limit = { 
-					OR = { 
-						has_idea = very_low_taxes
-						has_idea = low_taxes
-					}
-				}
-				
-				add_stability = -0.03
-				hidden_effect = { add_ideas = normal_taxes }
-				custom_effect_tooltip = afr_jihadist_regional_power_addressing_economic_policies_tooltip
-				if = {
-					limit = {
-						OR = {
-							AND = {
-								has_tech = tribal_guilds_trade
-								NOT = { has_tech = tribal_salted_smoked_goods }
-							}
-							AND = {
-								NOT = { has_tech = tribal_guilds_trade }
-								has_tech = tribal_salted_smoked_goods
-							}
-						}
-					}
-					add_political_power = -125
-				}
-				else_if = {
-					limit = {
-						NOT = { has_tech = tribal_guilds_trade }
-						NOT = { has_tech = tribal_salted_smoked_goods }
-					}
-					add_political_power = -150
-				}
-				else_if = {
-					limit = {
-						has_tech = tribal_guilds_trade
-						has_tech = tribal_salted_smoked_goods
-					}
-					add_political_power = -100
-				}
-			}
-			if = {
-				limit = { 
-					NOT = { 
-						has_idea = very_low_taxes
-						has_idea = low_taxes
-					}
-				}
-				if = {
-					limit = {
-						OR = {
-							AND = {
-								has_tech = tribal_guilds_trade
-								NOT = { has_tech = tribal_salted_smoked_goods }
-							}
-							AND = {
-								NOT = { has_tech = tribal_guilds_trade }
-								has_tech = tribal_salted_smoked_goods
-							}
-						}
-					}
-					add_political_power = -25
-				}
-				else_if = {
-					limit = {
-						NOT = { has_tech = tribal_guilds_trade }
-						NOT = { has_tech = tribal_salted_smoked_goods }
-					}
-					add_political_power = -50
-				}
-				else_if = {
-					limit = {
-						has_tech = tribal_guilds_trade
-						has_tech = tribal_salted_smoked_goods
-					}
-					add_political_power = 25
-				}
-			}
-			if = {
-				limit = { NOT = { has_tech = tribal_natral_economics } }
-				add_tech_bonus = { bonus = 0.75 uses = 1 technology = tribal_natral_economics }
-			}
-			if = {
-				limit = { NOT = { has_tech = tribal_guilds_trade } }
-				add_tech_bonus = { bonus = 0.75 uses = 1 technology = tribal_guilds_trade }
-			}
-			if = {
-				limit = { NOT = { has_tech = tribal_salted_smoked_goods } }
-				add_tech_bonus = { bonus = 0.35 uses = 1 technology = tribal_salted_smoked_goods }
-			}
+			country_event = { id = afr_empire_politics_taxes_regional_power.1 }
 		}
 		relative_position_id = afr_jihadist_regional_power_adressing_empire_sprawl
 		x = 2
@@ -1809,7 +1720,10 @@ focus = {
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = skt_expand_slave_markets
-				any_owned_state = { NOT = { is_core_of = ROOT } }
+				OR = {
+					any_owned_state = { NOT = { is_core_of = ROOT } }
+					num_subjects > 0
+				}
 			}
 			custom_trigger_tooltip = {
 				tooltip = AFR_has_slavery_tooltip
@@ -1833,7 +1747,7 @@ focus = {
 		}
 		ai_will_do = { factor = 1000 }
 		relative_position_id = afr_jihadist_regional_power_expanding_our_regional_power
-		x = 0
+		x = 1
 		y = 2
 		bypass = {
 			AND = {
@@ -1850,7 +1764,10 @@ focus = {
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = skt_expand_slave_markets
-				any_owned_state = { NOT = { is_core_of = ROOT } }
+				OR = {
+					any_owned_state = { NOT = { is_core_of = ROOT } }
+					num_subjects > 0
+				}
 			}
 		}
 		ai_will_do = { factor = 1000 }
@@ -1862,7 +1779,7 @@ focus = {
 			set_country_flag = Jihad_develop_frontier_ribats
 		}
 		relative_position_id = afr_jihadist_regional_power_expanding_our_regional_power
-		x = 0
+		x = 1
 		y = 3
 
 	}
@@ -1873,7 +1790,10 @@ focus = {
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = skt_expand_slave_markets
-				any_owned_state = { NOT = { is_core_of = ROOT } }
+				OR = {
+					any_owned_state = { NOT = { is_core_of = ROOT } }
+					num_subjects > 0
+				}
 			}
 		}
 		prerequisite = {
@@ -1886,7 +1806,7 @@ focus = {
 			custom_effect_tooltip = afr_jihadist_regional_power_send_dawahs_to_conquered_lands_tooltip
 		}
 		relative_position_id = afr_jihadist_regional_power_expanding_our_regional_power
-		x = 0
+		x = 1
 		y = 4
 	}
 	focus = {
@@ -1897,7 +1817,7 @@ focus = {
 			
 		}
 		prerequisite = {
-			focus = afr_jihadist_regional_power_send_dawahs_to_conquered_lands
+			focus = afr_jihadist_regional_power_consolidate_tribes
 		}
 		completion_reward = {
 			custom_effect_tooltip = afr_jihadist_regional_power_consolidate_kingdoms_tooltip
@@ -1906,8 +1826,8 @@ focus = {
 		}
 		ai_will_do = { factor = 10 }
 		relative_position_id = afr_jihadist_regional_power_expanding_our_regional_power
-		x = 0
-		y = 5
+		x = -1
+		y = 2
 	}
 	
 	

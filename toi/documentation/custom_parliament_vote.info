@@ -1,123 +1,124 @@
 # HOW TO IMPLEMENT CUSTOM VOTES FOR EOANB USING THE PARLIAMENT SYSTEM
 # By AtomicSoviet
 #
-#   This reference document will show two exemple event, the first one being the setup for the vote
+# This reference document will show two example events, the first one being the setup for the vote
 # and the second one being the results of the votes.
-#   Using the Parliament system rather than a more direct vote system allow the use of the Parliament
-# interactions and to make your votes more dynamic. Thus I recommand using this system.
+# Using the Parliament system rather than a more direct vote system allow the use of the Parliament
+# interactions and to make your votes more dynamic. Thus, I recommend using this system.
 #
-# Note : If you have any questions, about the structure or even about everything related to the Party
-# Issues and all of that, contact me directly.
+# Note: If you have any questions, about the structure or even about everything related to the party
+# issues and all of that, contact me directly.
 
-add_namespace = parliament_vote_example
+add_namespace = country_votes
+add_namespace = country_votes_results
 
-country_event = { # EXEMPLE : CUSTOM VOTE
-  id = parliament_vote_example.999
-  title = parliament_vote_example.999.t
-  desc = parliament_vote_example.999.d
-  picture = GFX_report_event_generic_parliament
+country_event = { # EXAMPLE: CUSTOM VOTE
+	id = country_votes.999
+	title = country_votes.999.t
+	desc = country_votes.999.d
+	picture = GFX_report_event_generic_parliament
 
-  is_triggered_only = yes
+	is_triggered_only = yes
 
-  immediate = {
-    set_variable = { # Don't change, perfectly ok the way it is
-      var = current_reform_id
-      value = -1    ############################## This allows the system to detect a custom vote in progress
-    }
+	immediate = {
+		set_variable = { # Don't change
+			var = current_reform_id
+			value = -1									# This allows the system to detect a custom vote in progress
+		}
 
-    reset_approval_arrays = yes ################## Resets all of the approvals
-    set_1_approval_highly_disagree = yes #########|==> For those ideologies who have a 1 for this type of legislation will highly disagree with this bill
-    set_2_approval_disagree = yes ################|    For those ideologies who have a 2 for this type of legislation will disagree with this bill
-    set_3_approval_neutral = yes #################|    For those ideolgoies who have a 3 for this type of legislation will be neutral about this bill
-    set_4_approval_highly_agree = yes ############|    For those ideologies who have 4 for this type of legislation will highly agree with this bill
+		reset_approval_arrays = yes						# Resets all of the approvals
+		set_1_approval_highly_disagree = yes			# For those ideologies who have a 1 for this type of legislation will highly disagree with this bill
+		set_2_approval_disagree = yes					# For those ideologies who have a 2 for this type of legislation will disagree with this bill
+		set_3_approval_neutral = yes					# For those ideolgoies who have a 3 for this type of legislation will be neutral about this bill
+		set_4_approval_highly_agree = yes				# For those ideologies who have 4 for this type of legislation will highly agree with this bill
 
-    set_vote_eco = yes ########################### Determines what type of legislation this is, and what values of the ideologies' wishlist will be considered (cul, eco, dem, war, bud)
-    compute_voting_approval = yes ################ Calculates the approvals
+		set_vote_eco = yes								# Determines what type of legislation this is, and what values of the ideologies' wishlist will be considered (cul, eco, dem, war, bud)
+		compute_voting_approval = yes					# Calculates the approvals
 
-    compute_number_seats_tot = yes ############### Calculates the total number of seats in the current Parliament
-    compute_number_seats_approve_est = yes ####### Estimates the number of seats that will vote yes for the vote
-  }
+		compute_number_seats_tot = yes					# Calculates the total number of seats in the current Parliament
+		compute_number_seats_approve_est = yes			# Estimates the number of seats that will vote yes for the vote
+	}
 
-  option = { # Let's vote in a month
-    name = parliament_vote_example.999.a
-    country_event = {
-      id = parliament_vote_example.9991 ########## Sets the custom result event for your custom law
-      days = 31 ################################## Usually, a vote takes 30 days. You can go lower, but the timed mission won't be able to show the right amount of time. It's not a big deal because this fires the event by itself, and because the decision does nothing in the case of a custom vote.
-    }
-  }
+	option = { # Let's vote in a month
+		name = country_votes.999.a
+		country_event = {
+			id = country_votes_results.9991				# Sets the custom result event for your custom law
+			days = 31									# Usually, a vote takes 30 days. You can go lower, but the timed mission won't be able to show the right amount of time. It's not a big deal because this fires the event by itself, and because the decision does nothing in the case of a custom vote.
+		}
+	}
 
-  option = { # Abandon the idea
-    name = parliament_vote_example.999.b
+	option = { # Abandon the idea
+		name = country_votes.999.b
 
-    set_variable = { 
-      var = current_reform_id
-      value = 0
-    }
-  }
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
 }
 
-country_event = { # EXEMPLE : CUSTOM VOTE, RESULTS
-  id = parliament_vote_example.9991
-  title = parliament_vote_example.9991.t
-  desc = parliament_vote_example.9991.d
-  picture = GFX_report_event_generic_parliament
+country_event = { # EXAMPLE: CUSTOM VOTE, RESULTS
+	id = country_votes_results.9991
+	title = country_votes_results.9991.t
+	desc = country_votes_results.9991.d
+	picture = GFX_report_event_generic_parliament
 
-  is_triggered_only = yes
+	is_triggered_only = yes
 
-  immediate = {
-    hidden_effect = {
-      hold_vote = yes ############################## Do all the calcultations for the vote, and outputs a flag (eoanb_reform_vote_success, eoanb_reform_vote_failure, eoanb_reform_vote_tie)
-    }
-  }
+	immediate = {
+		hidden_effect = {
+			hold_vote = yes								# Do all the calculations for the vote, and outputs a country flag (eoanb_reform_vote_success, eoanb_reform_vote_failure, eoanb_reform_vote_tie)
+		}
+	}
 
-  option = { # It's a success !
-    name = parliament_vote_example.9991.a
-    trigger = {
-      has_country_flag = eoanb_reform_vote_success
-    }
-    clr_country_flag = eoanb_reform_vote_success
+	option = { # It's a success!
+		name = country_votes_results.9991.a
+		trigger = {
+			has_country_flag = eoanb_reform_vote_success
+		}
+		clr_country_flag = eoanb_reform_vote_success
 
-    ######## Put here the result of a victory
+			# Put here if the result is a victory
 
-    set_variable = { 
-      var = current_reform_id
-      value = 0
-    }
-  }
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
 
-  option = { # It's a failure...
-    name = parliament_vote_example.9991.b
-    trigger = {
-      has_country_flag = eoanb_reform_vote_failure
-    }
-    clr_country_flag = eoanb_reform_vote_failure
+	option = { # It's a failure...
+		name = country_votes_results.9991.b
+		trigger = {
+			has_country_flag = eoanb_reform_vote_failure
+		}
+		clr_country_flag = eoanb_reform_vote_failure
 
-    ######## Put here the result of a failure
+			# Put here if the result is a failure
 
-    set_variable = { 
-      var = current_reform_id
-      value = 0
-    }
-  }
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
 
-  option = { # This is a tie.
-    name = parliament_vote_example.9991.c
-    trigger = {
-      has_country_flag = eoanb_reform_vote_tie
-    }
-    clr_country_flag = eoanb_reform_vote_tie
+	option = { # It's a tie.
+		name = country_votes_results.9991.c
+		trigger = {
+			has_country_flag = eoanb_reform_vote_tie
+		}
+		clr_country_flag = eoanb_reform_vote_tie
 
-    ######## Put here the result of a tie
+			# Put here if the result is a tie
 
-    set_variable = { 
-      var = current_reform_id
-      value = 0
-    }
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
 }
 
-######################################
-# ISSUES ID DOCUMENTATION
-######################################
+###########################
+# ISSUES ID DOCUMENTATION #
+###########################
 
 # CULTURAL ISSUES (cul) # In an array of [cul, eco, dem, war] the ideologies listed below will have a wishlist
 # 1 : Reactionary
@@ -149,76 +150,76 @@ country_event = { # EXEMPLE : CUSTOM VOTE, RESULTS
 # 3 : Progressive
 # 4 : Spendthrift
 
-######################################################################################
-#
-#     HOW TO SETUP CUSTOM ISSUES FOR THE PARTIES OF A SPECIFIC COUNTRY
-#
-######################################################################################
+#####################################################################################
+#																					#
+#		HOW TO SETUP CUSTOM ISSUES FOR THE PARTIES OF A SPECIFIC COUNTRY			#
+#																					#
+#####################################################################################
 
 # You only need to specify in a simple on_startup this following piece of code :
-# Note : The values here are coming straight from the generic setup, of course change the values.
+# Note: The values here are coming straight from the generic setup, of course change the values.
 
 ########################################
 
-  set_variable = { ideology_van_com_issues^0 = 4 } # [4,4,4,2,4]
-  set_variable = { ideology_van_com_issues^1 = 4 }
-  set_variable = { ideology_van_com_issues^2 = 4 }
-  set_variable = { ideology_van_com_issues^3 = 2 }
-  set_variable = { ideology_van_com_issues^4 = 4 }
+	set_variable = { ideology_van_com_issues^0 = 4 } # [4,4,4,2,4]
+	set_variable = { ideology_van_com_issues^1 = 4 }
+	set_variable = { ideology_van_com_issues^2 = 4 }
+	set_variable = { ideology_van_com_issues^3 = 2 }
+	set_variable = { ideology_van_com_issues^4 = 4 }
 
-  set_variable = { ideology_col_soc_issues^0 = 4 } # [4,4,4,3,4]
-  set_variable = { ideology_col_soc_issues^1 = 4 }
-  set_variable = { ideology_col_soc_issues^2 = 4 }
-  set_variable = { ideology_col_soc_issues^3 = 3 }
-  set_variable = { ideology_col_soc_issues^4 = 4 }
+	set_variable = { ideology_col_soc_issues^0 = 4 } # [4,4,4,3,4]
+	set_variable = { ideology_col_soc_issues^1 = 4 }
+	set_variable = { ideology_col_soc_issues^2 = 4 }
+	set_variable = { ideology_col_soc_issues^3 = 3 }
+	set_variable = { ideology_col_soc_issues^4 = 4 }
 
-  set_variable = { ideology_soc_ega_issues^0 = 4 } # [4,2,4,4,3]
-  set_variable = { ideology_soc_ega_issues^1 = 2 }
-  set_variable = { ideology_soc_ega_issues^2 = 4 }
-  set_variable = { ideology_soc_ega_issues^3 = 4 }
-  set_variable = { ideology_soc_ega_issues^4 = 3 }
+	set_variable = { ideology_soc_ega_issues^0 = 4 } # [4,2,4,4,3]
+	set_variable = { ideology_soc_ega_issues^1 = 2 }
+	set_variable = { ideology_soc_ega_issues^2 = 4 }
+	set_variable = { ideology_soc_ega_issues^3 = 4 }
+	set_variable = { ideology_soc_ega_issues^4 = 3 }
 
-  set_variable = { ideology_cen_issues^0 = 3 } # [3,1,3,3,3]
-  set_variable = { ideology_cen_issues^1 = 1 }
-  set_variable = { ideology_cen_issues^2 = 3 }
-  set_variable = { ideology_cen_issues^3 = 3 }
-  set_variable = { ideology_cen_issues^4 = 3 }
+	set_variable = { ideology_cen_issues^0 = 3 } # [3,1,3,3,3]
+	set_variable = { ideology_cen_issues^1 = 1 }
+	set_variable = { ideology_cen_issues^2 = 3 }
+	set_variable = { ideology_cen_issues^3 = 3 }
+	set_variable = { ideology_cen_issues^4 = 3 }
 
-  set_variable = { ideology_tra_con_issues^0 = 2 } # [2,2,3,2,2]
-  set_variable = { ideology_tra_con_issues^1 = 2 }
-  set_variable = { ideology_tra_con_issues^2 = 3 }
-  set_variable = { ideology_tra_con_issues^3 = 2 }
-  set_variable = { ideology_tra_con_issues^4 = 2 }
+	set_variable = { ideology_tra_con_issues^0 = 2 } # [2,2,3,2,2]
+	set_variable = { ideology_tra_con_issues^1 = 2 }
+	set_variable = { ideology_tra_con_issues^2 = 3 }
+	set_variable = { ideology_tra_con_issues^3 = 2 }
+	set_variable = { ideology_tra_con_issues^4 = 2 }
 
-  set_variable = { ideology_rad_dem_issues^0 = 2 } # [2,2,3,2,2]
-  set_variable = { ideology_rad_dem_issues^1 = 3 }
-  set_variable = { ideology_rad_dem_issues^2 = 2 }
-  set_variable = { ideology_rad_dem_issues^3 = 1 }
-  set_variable = { ideology_rad_dem_issues^4 = 2 }
+	set_variable = { ideology_rad_dem_issues^0 = 2 } # [2,2,3,2,2]
+	set_variable = { ideology_rad_dem_issues^1 = 3 }
+	set_variable = { ideology_rad_dem_issues^2 = 2 }
+	set_variable = { ideology_rad_dem_issues^3 = 1 }
+	set_variable = { ideology_rad_dem_issues^4 = 2 }
 
-  set_variable = { ideology_chauv_pop_issues^0 = 1 } # [1,3,2,1,2]
-  set_variable = { ideology_chauv_pop_issues^1 = 3 }
-  set_variable = { ideology_chauv_pop_issues^2 = 2 }
-  set_variable = { ideology_chauv_pop_issues^3 = 1 }
-  set_variable = { ideology_chauv_pop_issues^4 = 2 }
+	set_variable = { ideology_chauv_pop_issues^0 = 1 } # [1,3,2,1,2]
+	set_variable = { ideology_chauv_pop_issues^1 = 3 }
+	set_variable = { ideology_chauv_pop_issues^2 = 2 }
+	set_variable = { ideology_chauv_pop_issues^3 = 1 }
+	set_variable = { ideology_chauv_pop_issues^4 = 2 }
 
-  set_variable = { ideology_aut_issues^0 = 1 } # [1,3,1,2,2]
-  set_variable = { ideology_aut_issues^1 = 3 }
-  set_variable = { ideology_aut_issues^2 = 1 }
-  set_variable = { ideology_aut_issues^3 = 2 }
-  set_variable = { ideology_aut_issues^4 = 2 }
+	set_variable = { ideology_aut_issues^0 = 1 } # [1,3,1,2,2]
+	set_variable = { ideology_aut_issues^1 = 3 }
+	set_variable = { ideology_aut_issues^2 = 1 }
+	set_variable = { ideology_aut_issues^3 = 2 }
+	set_variable = { ideology_aut_issues^4 = 2 }
 
-  set_variable = { ideology_fun_issues^0 = 1 } # [1,3,1,2,2]
-  set_variable = { ideology_fun_issues^1 = 3 }
-  set_variable = { ideology_fun_issues^2 = 1 }
-  set_variable = { ideology_fun_issues^3 = 3 }
-  set_variable = { ideology_fun_issues^4 = 1 }
+	set_variable = { ideology_fun_issues^0 = 1 } # [1,3,1,2,2]
+	set_variable = { ideology_fun_issues^1 = 3 }
+	set_variable = { ideology_fun_issues^2 = 1 }
+	set_variable = { ideology_fun_issues^3 = 3 }
+	set_variable = { ideology_fun_issues^4 = 1 }
 
 ########################################
 
 # This very scary series of code lines are very easy to use
 # For each ideology, ^0 represents Cultural Issues, ^1 represents Economic Issues, ^2 represents Demographic Issues, ^3 represents War Issues and ^4 represents Monetary Policy (aka budget) Issues.
 # The value assigned to each of them is the ID already shown earlier in "ISSUES ID DOCUMENTATION".
-# You can individually change them in an event by just copy-pasting the correspoding line and assigning a new value to it
+# You can individually change them in an event by just copy-pasting the correspoding line and assigning a new value to it.
 #
-# Note : I haven't tested the load order of the files, so your on_startup setup might get overwritten by the generic one. If that happens, notify me and I'll try to find a solution
+# Note: I haven't tested the load order of the files, so your on_startup setup might get overwritten by the generic one. If that happens, notify me and I'll try to find a solution.
