@@ -1892,49 +1892,54 @@ afr_company_port_effect = {
 #################
 
 afr_call_warriors={
-	set_temp_variable = {temp_tribal_division = Tribal_army_num}
-	divide_temp_variable = {temp_tribal_division = 1000}
-	round_variable = temp_tribal_division
-	add_to_temp_array={
-		array = num_of_divisions_to_raise
-		value = 1
-		index = 0
-	}
-	resize_temp_array = {num_of_divisions_to_raise = temp_tribal_division}
-	ROOT = {
-		division_template = {
-			name = "Tribal Warriors"
-			priority = 2
-			division_names_group = KRU_TRIBAL_INFANTRY_01
-			regiments = {
-				tribal_infantry = { x = 0 y = 0 }
-			}
-			is_locked = yes
+	if={
+		limit={NOT={has_country_flag = AFR_raised_tribal_warriors}}
+		set_temp_variable = {temp_tribal_division = Tribal_army_num}
+		divide_temp_variable = {temp_tribal_division = 1000}
+		round_variable = temp_tribal_division
+		set_country_flag = AFR_raised_tribal_warriors
+		add_to_temp_array={
+			array = num_of_divisions_to_raise
+			value = 1
+			index = 0
 		}
-	}
-	for_each_loop={
-		array = num_of_divisions_to_raise
-		random_owned_state ={
-			create_unit = {
-				division = "name = \"Tribal Warriors\" division_template = \"Tribal Warriors\" start_experience_factor = 0.7 start_equipment_factor = 1" 
-				owner = ROOT
+		resize_temp_array = {num_of_divisions_to_raise = temp_tribal_division}
+		ROOT = {
+			division_template = {
+				name = "Tribal Warriors"
+				priority = 2
+				division_names_group = KRU_TRIBAL_INFANTRY_01
+				regiments = {
+					tribal_infantry = { x = 0 y = 0 }
+				}
+				is_locked = yes
 			}
 		}
-		subtract_from_variable = { Tribal_army_num = 1000 }
+		for_each_loop={
+			array = num_of_divisions_to_raise
+			random_owned_state ={
+				create_unit = {
+					division = "name = \"Tribal Warriors\" division_template = \"Tribal Warriors\" start_experience_factor = 0.7 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+			}
+			#subtract_from_variable = { Tribal_army_num = 1000 }
+		}
 	}
 }
 
 afr_dismiss_warriors={
-	set_temp_variable = {temp_tribal_division = num_battalions_with_type@tribal_infantry}
-	multiply_temp_variable = {temp_tribal_division = 1000}
-	round_variable = temp_tribal_division
-	clamp_temp_variable = {
-		var = temp_tribal_division
-		min = 0
-		max = max_available_manpower
-	}
-	add_to_variable = {Tribal_army_num = temp_tribal_division}
+	#set_temp_variable = {temp_tribal_division = num_battalions_with_type@tribal_infantry}
+	#multiply_temp_variable = {temp_tribal_division = 1000}
+	#round_variable = temp_tribal_division
+	#clamp_temp_variable = {
+		# var = temp_tribal_division
+		# min = 0
+		# max = max_available_manpower
+	# }
+	#add_to_variable = {Tribal_army_num = temp_tribal_division}
 	delete_unit_template_and_units = { division_template = "Tribal Warriors" disband = no }
+	clr_country_flag = AFR_raised_tribal_warriors
 }
 
 ######################
