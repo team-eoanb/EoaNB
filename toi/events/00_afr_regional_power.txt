@@ -32,6 +32,7 @@ add_namespace = afr_state_setup_event
 add_namespace = afr_empire_mechanic_weekly_pulse_check_event
 add_namespace = afr_empire_mechanic_monthly_pulse_check_event
 add_namespace = afr_empire_politics_state_manager_martial_law
+add_namespace = afr_empire_politics_state_manager_garrison_event
 
 add_namespace = afr_empire_state_autonomy_full_release_event
 
@@ -2334,12 +2335,38 @@ add_namespace = afr_empire_politics_taxes_regional_power
 		}
 		option = {
 			name = afr_empire_politics_state_manager_event.1.c
-			custom_effect_tooltip = afr_empire_politics_state_manager_event_no_effect
 			hidden_effect = { OWNER = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
+			hidden_effect = { state_event = { id = afr_empire_politics_state_manager_garrison_event.1 } }
 		}
 		option = {
 			name = afr_empire_politics_state_manager_event.1.e
 			hidden_effect = { OWNER = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
+		}
+	}
+############################
+#####Local Garrison Events#
+############################
+	state_event = {
+		id = afr_empire_politics_state_manager_garrison_event.1
+		hidden = yes
+		is_triggered_only = yes
+		
+		immediate = {
+			OWNER = { country_event = { id = afr_empire_politics_state_manager_garrison_event.2 } }
+		}
+	}
+	country_event = {
+		id = afr_empire_politics_state_manager_garrison_event.2
+		title = afr_empire_politics_state_manager_garrison_event.2.t
+		desc = afr_empire_politics_state_manager_garrison_event.2.d
+		picture = GFX_report_event_chinese_army_training
+		is_triggered_only = yes
+		
+		immediate = { hidden_effect = { ROOT = { set_country_flag = afr_empire_politics_state_management_in_event_flag } } }
+		
+		option = {
+			name = afr_empire_politics_state_manager_garrison_event.2.e
+			hidden_effect = { ROOT = { clr_country_flag = afr_empire_politics_state_management_in_event_flag } }
 		}
 	}
 ############################

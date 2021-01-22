@@ -1,9 +1,9 @@
 #####################
 # Africa State Levy #
 #####################
-afr_call_state_militia_units={
+afr_call_state_levy_units={
 	if = {
-		limit = { 
+		limit = {
 			OWNER = { 
 				OR = {
 					has_idea = afr_large_kingdom
@@ -53,7 +53,7 @@ afr_call_state_militia_units={
 			set_temp_variable = { Temp_State_farm_level = 1 }
 			add_to_temp_variable = { State_levy_army_num = 2000 }
 		}
-		else_if = {
+		if = {
 			limit = {
 				OWNER = { check_variable = { var = PREV.afr_empire_state_loyalty_var@THIS value = 9 compare = greater_than_or_equals } }
 				THIS = { state_population > 1000000 }
@@ -178,7 +178,7 @@ afr_call_state_militia_units={
 				OWNER = {
 					division_template = {
 						name = "Levies"
-						priority = 0
+						priority = 1
 						division_names_group = AFR_STATE_LEVY_01
 						regiments = {
 							state_levy_infantry = { x = 0 y = 0 }
@@ -189,11 +189,41 @@ afr_call_state_militia_units={
 					}
 				}
 			}
+			if = {
+				limit = { OWNER = { NOT = { has_template = "Levy Cavalry" } } }
+				OWNER = {
+					division_template = {
+						name = "Levy Cavalry"
+						priority = 1
+						division_names_group = AFR_STATE_LEVY_01
+						regiments = {
+							state_levy_cavalry = { x = 0 y = 0 }
+							state_levy_cavalry = { x = 0 y = 1 }
+							state_levy_cavalry = { x = 0 y = 2 }
+						}
+						is_locked = yes
+					}
+				}
+			}
 			for_each_loop={
 				array = num_of_state_levy_divisions_to_raise
-				create_unit = {
-					division = "name = \"Levies\" division_template = \"Levies\" start_experience_factor = 0.80 start_equipment_factor = 1" 
-					owner = PREV
+				random_list = {
+					25 = {
+						create_unit = {
+							division = "name = \"Levies\" division_template = \"Levies\" start_experience_factor = 0.60 start_equipment_factor = 1" 
+							owner = PREV
+						}
+					}
+					75 = {
+						create_unit = {
+							division = "name = \"Levy Cavalry\" division_template = \"Levy Cavalry\" start_experience_factor = 0.60 start_equipment_factor = 1" 
+							owner = PREV
+						}
+						modifier = {
+							factor = 0
+							PREV = { NOT = { has_country_flag = afr_should_call_state_levy_mixed_flag } }
+						}
+					}
 				}
 				subtract_from_temp_variable = { State_levy_army_num = 3000 }
 				clamp_variable = {
@@ -214,6 +244,7 @@ afr_call_state_militia_units={
 
 afr_dismiss_state_levy_units={
 	delete_unit_template_and_units = { division_template = "Levies" }
+	delete_unit_template_and_units = { division_template = "Levy Cavalry" }
 	every_owned_state = {
 		limit = {
 			check_variable = {
@@ -225,19 +256,31 @@ afr_dismiss_state_levy_units={
 		set_variable = { State_levy_army_used = 0 }
     }
 	if = {
-		limit = { OWNER = { NOT = { has_template = "Levies" } } }
-		OWNER = {
-			division_template = {
-				name = "Levies"
-				priority = 1
-				division_names_group = AFR_STATE_LEVY_01
-				regiments = {
-					state_levy_infantry = { x = 0 y = 0 }
-					state_levy_infantry = { x = 0 y = 1 }
-					state_levy_infantry = { x = 0 y = 2 }
-				}
-				is_locked = yes
+		limit = { NOT = { has_template = "Levies" } }
+		division_template = {
+			name = "Levies"
+			priority = 1
+			division_names_group = AFR_STATE_LEVY_01
+			regiments = {
+				state_levy_infantry = { x = 0 y = 0 }
+				state_levy_infantry = { x = 0 y = 1 }
+				state_levy_infantry = { x = 0 y = 2 }
 			}
+			is_locked = yes
+		}
+	}
+	if = {
+		limit = { NOT = { has_template = "Levy Cavalry" } }
+		division_template = {
+			name = "Levy Cavalry"
+			priority = 1
+			division_names_group = AFR_STATE_LEVY_01
+			regiments = {
+				state_levy_cavalry = { x = 0 y = 0 }
+				state_levy_cavalry = { x = 0 y = 1 }
+				state_levy_cavalry = { x = 0 y = 2 }
+			}
+			is_locked = yes
 		}
 	}
 }
