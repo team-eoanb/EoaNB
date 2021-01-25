@@ -1,4 +1,70 @@
-TSH_category_bakumatsu_modernization = {
+TSH_Category_Bakumatsu_Modernization = {
+
+	TSH_Mission_Bakumatsu_Modernization_Rising_Tensions = {
+		icon = generic_civil_support
+
+		allowed = { always = no }
+
+		activation = { always = no }
+
+		available = {
+			OR = {
+				# Boshin War Avoided
+				custom_trigger_tooltip = {
+					tooltip = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions_tt1
+					check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions < 1 }
+				}
+				# Bosthin War Trigger
+				custom_trigger_tooltip = {
+					tooltip = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions_tt2
+					check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions > 99 }
+				}
+			}
+		}
+
+		days_mission_timeout = 75
+
+		timeout_effect = {
+			if = {
+				limit = { has_global_flag = TSH_Bakumatsu_Debate_Ongoing }
+				if = {
+					limit = { is_subject_of = TSH }
+					set_temp_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare = TSH.TSH_Bakumatsu_Debate_Emperor_Influence }
+					subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare = TSH_Bakumatsu_Debate_Emperor_Influence }
+					if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare < -10 } }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -2 }
+					}
+					else_if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare < 0 } }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -1 }
+					}
+					else_if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare > 10 } }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 2 }
+					}
+					else_if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare > 0 } }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 1 }
+					}
+					TSH_Bakumatsu_Debate_Influence_Modify = yes
+					activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
+				}
+				else_if = { 
+					limit = { tag = TSH }
+					add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 1 }
+					TSH_Bakumatsu_Debate_Influence_Modify = yes
+					activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
+				}
+			}
+		}
+	}
+
+
+
+
+
+	
 	
 	TSH_decision_purchase_books = {
 
@@ -19,7 +85,7 @@ TSH_category_bakumatsu_modernization = {
 		cost = 50
 
 		complete_effect = {
-            TSH = {
+		TSH = {
 				country_event = { id = shogunate_japan.15 }
 			 }
        }

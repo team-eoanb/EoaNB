@@ -16,14 +16,12 @@ def rdc(s_y,s_m,s_d,d):
         d = months[m]
     print("The end date is ",e_y,".",m,".",d,sep="")
 while True:
-    vl = input("Enter the start date (YYYY MM DD, separated by spaces):").split()
+    vl = [int(x) for x in input("Enter the start date (YYYY MM DD, separated by spaces):").split()]
     if vl == []:
         y = 1857
         m = 5
-        d = 1
+        d = 11
     else:
-        for i in range(0,3):
-            vl[i]=int(vl[i])
         y = vl[0]
         m = vl[1]
         d = vl[2]

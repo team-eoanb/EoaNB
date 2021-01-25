@@ -1,0 +1,5503 @@
+
+eoanb_category_military = {
+	USA_second_fiji_expedition_mission = {
+		ai_will_do = { factor = 100 }
+		available = {
+			ships_in_area = { area = 178 size > 0 }
+		}
+		
+		allowed = { TAG = USA }
+		activation = { 
+			has_global_flag = usa_second_fiji_flag
+		}
+		selectable_mission = no
+		is_good = yes
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 3600
+		
+		#highlight_states = {
+		#	STATE = 
+		#}
+		
+		complete_effect = {
+			country_event = { id = secondfijiexpedition.2 }
+		}
+	}
+	
+}
+
+USA_annex_british_columbia = {
+
+	USA_operation_annex_british_columbia = {
+
+		ai_will_do = { factor = 1 }
+		available = {
+			if = {
+				limit = {
+					OR = {
+						is_in_faction_with = USA
+						is_subject_of = USA
+						TAG = USA
+					}
+				}
+				USA = { controls_state = 473 }
+			}
+			else = {
+				USA = { surrender_progress > 0.15 }
+			}
+		}
+		allowed = { 
+			OR = {
+				TAG = ENG 
+				TAG = USA
+				TAG = BCO
+			}
+		}
+		selectable_mission = no
+		is_good = no
+		fire_only_once = no
+		days_mission_timeout = 360
+		activation = {
+      hidden_trigger = { has_country_flag = USA_operation_annex_british_columbia_flag }
+    }
+		timeout_effect = {
+			hidden_effect = {
+				every_country = {
+					limit = {
+						OR = {
+							is_in_faction_with = USA
+							is_subject_of = USA
+							TAG = USA
+						}
+					}
+					every_country = {
+						limit = {
+							OR = {
+								is_in_faction_with = ENG
+								is_subject_of = ENG
+								TAG = ENG
+							}
+							has_war_with = PREV
+						}
+						white_peace = PREV
+					}
+				}
+				clr_country_flag = USA_operation_annex_british_columbia_flag
+			}
+			if = {
+				limit = {
+					OR = {
+						is_in_faction_with = USA
+						is_subject_of = USA
+						TAG = USA
+					}
+				}
+				custom_effect_tooltip = operation_annex_british_columbia_usa_loses_tooltip
+			}
+			else = {
+				custom_effect_tooltip = operation_annex_british_columbia_eng_wins_tooltip
+			}
+		}
+		complete_effect = {
+			hidden_effect = {
+				every_country = {
+					limit = {
+						OR = {
+							is_in_faction_with = USA
+							is_subject_of = USA
+							TAG = USA
+						}
+					}
+					every_country = {
+						limit = {
+							OR = {
+								is_in_faction_with = ENG
+								is_subject_of = ENG
+								TAG = ENG
+							}
+							has_war_with = PREV
+						}
+						white_peace = PREV
+					}
+				}
+				clr_country_flag = USA_operation_annex_british_columbia_flag
+			}
+			if = {
+				limit = {
+					OR = {
+						is_in_faction_with = USA
+						is_subject_of = USA
+						TAG = USA
+					}
+				}
+				custom_effect_tooltip = operation_annex_british_columbia_usa_wins_tooltip
+				USA = {
+					if = {
+						limit = { USA = { NOT = { owns_state = 473 } } }
+						transfer_state = 473
+					}
+				}
+			}
+			else = {
+				custom_effect_tooltip = operation_annex_british_columbia_eng_loses_tooltip
+			}
+		}
+	}
+
+}
+USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel or not rebel
+
+	utahWar0 = {#ongoing mission to complete
+
+		priority = 10
+
+		available = {
+			check_variable = { USA_mormon_unrest > 18 }
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		activation = {
+			always = no
+		}
+
+		is_good = no
+
+		days_mission_timeout = 455
+
+		timeout_effect = {
+			country_event = {
+				id = USA_utah_war.99
+			}
+		}
+
+		complete_effect = {
+			country_event = {
+				id = USA_utah_war.99
+			}
+		}
+	}
+	utahWar1 = {#Revoke New Governorship
+		
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -20
+			country_event = {
+				id = USA_utah_war.1
+			}
+		}
+	}
+	utahWar2 = {#Revoke Posse Comitatus
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				NOT = {
+					has_country_flag = USA_mormon_sME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_mME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_LME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_NME
+				}
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -20
+			country_event = {
+				id = USA_utah_war.2
+			}
+			USA = {
+				set_country_flag = USA_mormon_NME
+			}
+		}
+	}
+	utahWar3 = {#Send small military escort
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				NOT = {
+					has_country_flag = USA_mormon_sME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_mME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_LME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_NME
+				}
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.3
+			}
+			USA = {
+				set_country_flag = USA_mormon_sME
+			}
+		}
+	}
+	utahWar4 = {#Send medium military escort
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				NOT = {
+					has_country_flag = USA_mormon_sME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_mME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_LME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_NME
+				}
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -15
+			country_event = {
+				id = USA_utah_war.4
+			}
+			USA = {
+				set_country_flag = USA_mormon_mME
+			}
+		}
+	}
+	utahWar5 = {#Send large military escort
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				NOT = {
+					has_country_flag = USA_mormon_sME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_mME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_LME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_NME
+				}
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -20
+			country_event = {
+				id = USA_utah_war.5
+			}
+			USA = {
+				set_country_flag = USA_mormon_LME
+			}
+		}
+	}
+	utahWar6 = {#Equating Dissenters with Traitors
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.6
+			}
+		}
+	}
+	utahWar7 = {#Pardon Dissenters
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.7
+			}
+		}
+	}
+	utahWar8 = {#Send a special delegate to ease tensions#Captain Van Vliet
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.8
+			}
+		}
+	}
+	utahWar9 = {#Send a special delegate who is a complete fool#whoever
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.9
+			}
+		}
+	}
+	utahWar10 = {#Send a second special delegate who is competent#Thomas L Kane
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.10
+			}
+		}
+	}
+	utahWar11 = {#Re-route CO expedition#lieutenant Ives
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.11
+			}
+		}
+	}
+	utahWar12 = {#Offer Alaska as a Mormon Refuge
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				has_completed_focus = USA_mormon_alaska
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.12
+			}
+		}
+	}
+	utahWar13 = {#Guarantee an equal rights religious policy (in an era before the 14th amendment)
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.13
+			}
+		}
+	}
+	utahWar14 = {#Demand a closure of all ecclesiastic courts in the territory
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.14
+			}
+		}
+	}
+	utahWar15 = {#Officially close borders to the territory
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.15
+			}
+		}
+	}
+	utahWar16 = {#Demand the Nauvoo Legions and other militias be dissolved
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.16
+			}
+		}
+	}
+	utahWar17 = {#Pressure Natives against Mormons
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.17
+			}
+		}
+	}
+	utahWar18 = {#March on defended pass
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+
+		available = {
+			AND = {
+				check_variable = {
+					var = USA_mormon_unrest
+					value = 10
+					compare = greater_than_or_equals
+				}
+				NOT = {
+					has_country_flag = USA_mormon_NME
+				}
+			}
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.18
+			}
+		}
+	}
+	utahWar19 = {#March on Undefended Pass
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+
+		available = {
+			
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+		}
+	}
+
+	utahWar20 = {#Reinforce military escort by one step
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				NOT = {
+					has_country_flag = USA_mormon_sME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_mME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_NME
+				}
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.20
+			}
+		}
+	}
+	utahWar21 = {#Reinforce military escort by 2 steps
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				NOT = {
+					has_country_flag = USA_mormon_sME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_NME
+				}
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.21
+			}
+		}
+	}
+	utahWar22 = {#Decrease military escort by one step
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				NOT = {
+					has_country_flag = USA_mormon_sME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_mME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_LME
+				}
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.22
+			}
+		}
+	}
+	utahWar23 = {#Decrease military escort by 2 steps
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		available = {
+			AND = {
+				# has_completed_focus = USA_utah_war
+				# NOT = {
+				# 	OR = {
+				# 		has_completed_focus = USA_utah_peace
+				# 		has_completed_focus = USA_real_utah_war
+				# 	}
+				# }
+				NOT = {
+					has_country_flag = USA_mormon_mME
+				}
+				NOT = {
+					has_country_flag = USA_mormon_LME
+				}
+			}
+		}
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.23
+			}
+		}
+	}
+	
+	utahWar24 = {#Promise to exepdite statehood
+	
+		# visible = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		# available = {
+		# 	AND = {
+		# 		has_completed_focus = USA_utah_war
+		# 		NOT = {
+		# 			OR = {
+		# 				has_completed_focus = USA_utah_peace
+		# 				has_completed_focus = USA_real_utah_war
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -20
+			country_event = {
+				id = USA_utah_war.24
+			}
+		}
+	}
+
+	utahWar90 = {#potential war mission
+
+		visible = {
+			NOT = {
+				380 = { is_controlled_by = USA }
+			}
+		}
+
+		available = {
+			always = yes
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		activation = {
+			always = no
+		}
+
+		is_good = no
+
+		days_mission_timeout = 150
+
+		timeout_effect = {
+			country_event = {
+				id = USA_utah_war.96
+			}
+		}
+
+		complete_effect = {
+			country_event = {
+				id = USA_utah_war.95
+			}
+		}
+	}
+}
+
+
+# USA_grant_statehood = {
+
+# 	#Kansas
+# 	eoanb_descision_USA_state_kansas = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 383 }
+# 			383 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+#       		USA = { controls_state = 383 }
+#       		383 = {
+#         		state_population > 20000
+#         		NOT = { is_core_of = USA }
+#       		}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			383 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_kansas_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1052 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1296 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 383 }
+# 				383 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Kansas Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Kansas Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#New Mexico
+# 	eoanb_descision_USA_state_nmexico = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 376 }
+# 			376 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 376 }
+# 			376 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		fire_only_once = yes
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			376 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_nmexico_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1300 = { add_core_of = USA }
+# 			1279 = { add_core_of = USA }
+# 			1295 = { add_core_of = USA }
+# 			1301 = { add_core_of = USA }
+# 			1288 = { add_core_of = USA }
+# 			1302 = { add_core_of = USA }
+# 			1278 = { add_core_of = USA }
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 376 }
+# 				376 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"New Mexico Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"New Mexico Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Arizona
+# 	eoanb_descision_USA_state_arizona = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 377 }
+# 			377 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 377 }
+# 			377 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			377 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_arizona_granted_statehood_state_flag
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1294 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1297 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1286 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1287 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 377 }
+# 				377 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Arizona Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Arizona Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Nevada
+# 	eoanb_descision_USA_state_nevada = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 379 }
+# 			if = {
+# 				limit = {
+# 					date < 1861.3.4
+# 				}
+# 				has_political_power > -150 
+# 			}
+# 			else = {
+# 				has_political_power > 49
+# 			}
+# 			379 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 379 }
+# 			379 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		#cost = 50
+
+# 		complete_effect = {
+# 			379 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_nevada_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1093 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 			set_variable = {
+# 				id = PP_cost
+# 				value = 50
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						has_completed_focus = USA_loyal_mormons
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						AND = {
+# 							has_decision = utahWar24
+# 							NOT = { has_completed_focus = USA_oppressed_mormons }
+# 						}
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 0.3
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						has_completed_focus = USA_oppressed_mormons
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 2.0
+# 				}
+# 			}
+# 			multiply_variable = {
+# 				id = PP_cost
+# 				value = -1
+# 			}
+# 			add_political_power = PP_cost
+# 			clear_variable = PP_cost
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 379 }
+# 				379 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Nevada Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Nevada Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Utah
+# 	eoanb_descision_USA_state_utah = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { 
+# 				controls_state = 380			
+# 			}
+# 			if = {
+# 				limit = {
+# 					date < 1861.3.4
+# 				}
+# 				has_political_power > -150 
+# 			}
+# 			else = {
+# 				has_political_power > 49
+# 			}
+# 			380 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 380 }
+# 			380 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		#cost = 50
+
+# 		complete_effect = {
+# 			380 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				set_state_flag = USA_utah_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 			set_variable = {
+# 				id = PP_cost
+# 				value = 50
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						has_completed_focus = USA_loyal_mormons
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						AND = {
+# 							has_decision = utahWar24
+# 							NOT = { has_completed_focus = USA_oppressed_mormons }
+# 						}
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 0.3
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						has_completed_focus = USA_oppressed_mormons
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 2.0
+# 				}
+# 			}
+# 			multiply_variable = {
+# 				id = PP_cost
+# 				value = -1
+# 			}
+# 			add_political_power = PP_cost
+# 			clear_variable = PP_cost
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 380 }
+# 				380 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Utah Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Utah Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Wyoming
+# 	eoanb_descision_USA_state_wyoming = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 381 }
+# 			381 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 381 }
+# 			381 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			381 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_wyoming_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1049 = {
+# 				add_core_of = USA
+# 				remove_claim_by = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1047 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1291 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 381 }
+# 				381 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Wyoming Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Wyoming Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Colorado
+# 	eoanb_descision_USA_state_colorado = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			OR = {
+# 				AND = {
+# 					USA = { controls_state = 382 }
+# 					382 = {
+# 						state_population > 40000
+# 						NOT = { is_core_of = USA }
+# 					}
+
+# 				}
+# 				AND = {
+# 					USA = { controls_state = 1051 }
+# 					1051 = {
+# 						state_population > 40000
+# 						NOT = { is_core_of = USA }
+# 					}
+
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					date < 1861.3.4
+# 				}
+# 				has_political_power > -150 
+# 			}
+# 			else = {
+# 				has_political_power > 49
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			OR = {
+# 				AND = {
+# 					USA = { controls_state = 382 }
+# 					382 = { state_population > 20000 }
+# 				}
+# 				AND = {
+# 					USA = { controls_state = 1051 }
+# 					1051 = {
+# 						state_population > 20000
+# 						NOT = { is_core_of = USA }
+# 					}
+# 				}
+# 			}
+# 		}
+
+# 		fire_only_once = yes
+
+# 		#cost = 50
+
+# 		complete_effect = {
+# 			382 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_colorado_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1051 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 			}
+# 			1292 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 			set_variable = {
+# 				id = PP_cost
+# 				value = 50
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						has_completed_focus = USA_loyal_mormons
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						AND = {
+# 							has_decision = utahWar24
+# 							NOT = { has_completed_focus = USA_oppressed_mormons }
+# 						}
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 0.3
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					USA = {
+# 						has_completed_focus = USA_oppressed_mormons
+# 					}
+# 				}
+# 				multiply_variable = {
+# 					id = PP_cost
+# 					value = 2.0
+# 				}
+# 			}
+# 			multiply_variable = {
+# 				id = PP_cost
+# 				value = -1
+# 			}
+# 			add_political_power = PP_cost
+# 			clear_variable = PP_cost
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 382 }
+# 				382 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Colorado Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Colorado Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Nebraska
+# 	eoanb_descision_USA_state_nebraska = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 384 }
+# 			384 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 384 }
+# 			384 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			384 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_nebraska_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1046 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1050 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 384 }
+# 				384 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Nebraska Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Nebraska Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Oregon
+# 	eoanb_descision_USA_state_oregon = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 385 }
+# 			385 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 385 }
+# 			385 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			385 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_oregon_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1075 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1289 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 385 }
+# 				385 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Oregon Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Oregon Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Washington
+# 	eoanb_descision_USA_state_washington = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 386 }
+# 			386 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 386 }
+# 			386 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			386 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_washington_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1073 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 386 }
+# 				386 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Washington Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Washington Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Idaho
+# 	eoanb_descision_USA_state_idaho = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 387 }
+# 			387 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 387 }
+# 			387 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			387 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_idaho_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1074 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1076 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 387 }
+# 				387 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Idaho Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Idaho Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Montana
+# 	eoanb_descision_USA_state_montana = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 388 }
+# 			388 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 388 }
+# 			388 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			388 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_montana_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1048 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1282 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			1292 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 388 }
+# 				388 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Montana Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Montana Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#North Dakota
+# 	eoanb_descision_USA_state_ndakota = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 389 }
+# 			389 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 389 }
+# 			389 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			389 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_ndakota_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1290 = {
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 389 }
+# 				389 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"North Dakota Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"North Dakota Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#South Dakota
+# 	eoanb_descision_USA_state_sdakota = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 390 }
+# 			390 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 390 }
+# 			390 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			390 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_sdakota_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			1045 = {
+# 				remove_claim_by = USA
+# 				add_core_of = USA
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 390 }
+# 				390 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"South Dakota Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"South Dakota Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+
+# 	#Minnesota
+# 	eoanb_descision_USA_state_minnesota = {
+
+# 		icon = generic_political_discourse
+
+# 		available = {
+# 			USA = { controls_state = 391 }
+# 			391 = {
+# 				state_population > 40000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		allowed = {
+# 			tag = USA
+# 		}
+
+# 		visible = {
+# 			TAG = USA
+# 			USA = { controls_state = 391 }
+# 			391 = {
+# 				state_population > 20000
+# 				NOT = { is_core_of = USA }
+# 			}
+# 		}
+
+# 		cost = 50
+
+# 		complete_effect = {
+# 			391 = {
+# 				add_core_of = USA
+# 				set_state_flag = USA_minnesota_granted_statehood_state_flag
+# 				custom_effect_tooltip = AFR_Racial_Tension_minus_1
+# 				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+# 				custom_effect_tooltip = USA_core_provides_militia_divisions
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_senate_total_seats
+# 				value = 2
+# 			}
+# 			add_to_variable = {
+# 				var = usa_congress_house_total_seats
+# 				value = 1
+# 			}
+# 		}
+
+# 		days_remove = 90
+
+# 		remove_effect = {
+# 			if = {
+# 				limit = { owns_state = 391 }
+# 				391 = {
+# 					custom_effect_tooltip = USA_statehood_national_guard_established_here_tooltip
+# 					hidden_effect = {
+# 						create_unit = {
+# 							division = "name = \"Minnesota Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 							owner = USA
+# 						}
+# 					}
+# 				}
+# 			}
+# 			else = {
+# 				random_owned_state = {
+# 					create_unit = {
+# 						division = "name = \"Minnesota Militia\" division_template = \"National Guard\" start_experience_factor = 1.0 start_equipment_factor = 1"
+# 						owner = USA
+# 					}
+# 				}
+# 			}
+# 			USA_admit_state_add_stars = yes
+# 		}
+
+# 		ai_will_do = {
+# 			base = 10
+# 		}
+# 	}
+# }
+USA_foreign_policy = {
+
+    #Harris Treaty
+	eoanb_decision_USA_harris_treaty = {
+		icon = generic_political_discourse
+
+		allowed = { always = no }
+		activation = { always = no }
+		available = { always = no }
+
+		days_mission_timeout = 545
+		timeout_effect = {
+			USA = { add_political_power = -75 }
+			TSH = { country_event = { id = shogunate_japan.1 } }
+		}
+		complete_effect = {
+			USA = {
+				complete_national_focus = USA_harris_treaty_focus
+				add_political_power = -25
+			}
+			TSH = { 
+				country_event = { 
+					id = shogunate_japan.1 
+				} 
+			}
+		}
+	}
+	#Treaty of Tianjin
+    USA_tianjin_treaty = {
+
+        icon = generic_political_discourse
+
+        available = {
+            AND = {
+				NOT = {
+					has_global_flag = eoanb_flag_sow_ongoing
+				}
+				has_completed_focus = USA_trade_treaties
+			}
+        }
+
+        visible = {
+            TAG = USA
+        }
+
+        fire_only_once = yes
+
+        cost = 25
+		complete_effect = {
+			USA = {
+				set_country_flag = USA_tianjin_treay_flag
+			}
+		}
+        ai_will_do = {
+            base = 4000
+        }
+    }
+
+#######################################################################################
+#Energywelder's Content goes here until someone tells him a better organization scheme
+#######################################################################################
+
+	#Clayton-Bulwar Treaty
+	USA_clayton_bulwar_treaty_decision = {
+
+        icon = generic_political_discourse
+
+        available = {
+            NOT = {
+				has_global_flag = eoanb_flag_sow_ongoing
+			}
+        }
+		allowed = {
+			tag = USA
+		}
+
+        visible = {
+            #has_completed_focus = USA_clayton_bulwar_treaty_focus
+			# always = no
+			tag = USA
+        }
+
+        fire_only_once = yes
+
+        cost = 25
+
+        complete_effect = {
+             ENG = { country_event = { id = ENG_clayton_bulwar_treaty.1 } }
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+}
+
+############ American Civil War Decisions in their own file #################################
+
+USA_reconstruction_period = {
+	eoanb_descision_USA_enforcement_act = {
+		visible = {
+			has_country_flag = USA_first_kkk
+			NOT = {
+				has_country_flag = USA_enforcement_act
+			}
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		icon = GFX_decision_generic_independence
+
+		cost = 50
+
+		available = {
+			date > 1871.1.1
+			has_country_flag = USA_first_kkk
+		}
+
+		complete_effect = {
+			set_country_flag = USA_enforcement_act
+			country_event = { id = usa.93 }
+		}
+
+	}
+	eoanb_descision_USA_patrol_streets = {
+		visible = {
+			OR = {
+				has_country_flag = USA_enforcement_act
+				has_country_flag = USA_first_kkk
+			}
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		icon = GFX_decision_generic_prepare_civil_war
+
+		cost = 25
+
+		available = {
+			OR = {
+				has_country_flag = USA_enforcement_act
+				has_country_flag = USA_first_kkk
+			}
+		}
+
+		complete_effect = {
+			add_manpower = -500
+		}
+
+		days_remove = 100
+
+		remove_effect = {
+			add_manpower = 500
+			add_to_variable = {
+				var = reconstruction_points
+				value = 1
+			}
+			custom_effect_tooltip = USA_reconstruction_add_1
+		}
+
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = centrism
+					check_variable = { reconstruction_points < 60 }
+				}
+			}
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = social_egalitarianism
+					check_variable = { reconstruction_points < 100 }
+					is_historical_focus_on = no
+				}
+			}
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = social_egalitarianism
+					check_variable = { reconstruction_points < 70 }
+					is_historical_focus_on = yes
+				}
+			}
+		}
+
+		days_re_enable = 10
+
+	}
+	eoanb_descision_USA_anti_klan_legislation = {
+		visible = {
+			has_country_flag = USA_first_kkk
+			has_country_flag = USA_enforcement_act
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		icon = GFX_decision_generic_political_discourse
+
+		cost = 50
+
+		available = {
+			has_country_flag = USA_enforcement_act
+			has_country_flag = USA_first_kkk
+		}
+
+		days_remove = 100
+
+		remove_effect = {
+			add_to_variable = {
+				var = reconstruction_points
+				value = 2
+			}
+			custom_effect_tooltip = USA_reconstruction_add_2
+		}
+
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = centrism
+					check_variable = { reconstruction_points < 60 }
+				}
+			}
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = social_egalitarianism
+					check_variable = { reconstruction_points < 100 }
+					is_historical_focus_on = no
+				}
+			}
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = social_egalitarianism
+					check_variable = { reconstruction_points < 70 }
+					is_historical_focus_on = yes
+				}
+			}
+		}
+
+		days_re_enable = 10
+
+	}
+	eoanb_descision_USA_arrest_klan_leaders = {
+
+		visible = {
+			has_country_flag = USA_enforcement_act
+			has_country_flag = USA_first_kkk
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		icon = GFX_decision_generic_scorched_earth
+
+		cost = 100
+
+		available = {
+			has_country_flag = USA_enforcement_act
+			has_country_flag = USA_first_kkk
+					check_variable = { reconstruction_points > 50 }
+		}
+
+		fire_only_once = yes
+
+		days_remove = 100
+
+		remove_effect = {
+			add_to_variable = {
+				var = reconstruction_points
+				value = 5
+			}
+			custom_effect_tooltip = USA_reconstruction_add_5
+		}
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				has_government = traditional_conservatism
+			}
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = social_egalitarianism
+					check_variable = { reconstruction_points < 90 }
+					is_historical_focus_on = no
+				}
+			}
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = social_egalitarianism
+					check_variable = { reconstruction_points < 70 }
+					is_historical_focus_on = yes
+				}
+			}
+		}
+
+	}
+	eoanb_descision_USA_destroy_the_klan = {
+		visible = {
+			has_country_flag = USA_enforcement_act
+			has_country_flag = USA_first_kkk
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		icon = GFX_decision_oppression
+
+		cost = 100
+
+		available = {
+			has_country_flag = USA_enforcement_act
+			has_country_flag = USA_first_kkk
+			check_variable = { reconstruction_points > 64 }
+		}
+
+		fire_only_once = yes
+
+		days_remove = 300
+
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 100
+				has_government = centrism
+			}
+			modifier = {
+				factor = 100
+				AND = {
+					has_government = social_egalitarianism
+					check_variable = { reconstruction_points < 90 }
+					is_historical_focus_on = no
+				}
+			}
+			modifier = {
+				factor = 100
+				AND = {
+					check_variable = { reconstruction_points < 70 }
+					is_historical_focus_on = yes
+				}
+			}
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = reconstruction_points
+				value = 5
+			}
+			custom_effect_tooltip = USA_reconstruction_add_5
+			clr_country_flag = USA_first_kkk
+			custom_effect_tooltip = USA_destroy_the_klan_custom_tt
+		}
+
+	}
+}
+
+USA_gilded_age_captain_robber_influence = {
+
+	#Appease Standard Oil
+	eoanb_decision_USA_gilded_age_appease_oil = {
+
+		icon = GFX_decision_oil
+
+		cost = 50
+
+		visible = {
+			check_variable = {
+				var = USA_standard_oil_opinion
+				value = 95
+				compare = less_than_or_equals
+			}
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		available = {
+			has_political_power > 50
+		}
+
+		days_re_enable = 365
+
+		days_remove = 50
+
+		remove_effect = {
+			add_to_variable = {
+				var = USA_standard_oil_opinion
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_standard_oil_influence
+				value = 2
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_oil_2
+			custom_effect_tooltip = USA_increase_opinion_oil_4
+		}
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				date > 1894.1.1
+			}
+		}
+	}
+	#Appease Carnegie
+	eoanb_decision_USA_gilded_age_appease_steel = {
+
+		icon = GFX_decision_steel
+
+		cost = 50
+
+		visible = {
+			check_variable = {
+				var = USA_steel_opinion
+				value = 95
+				compare = less_than_or_equals
+			}
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		available = {
+			has_political_power > 50
+		}
+
+		days_re_enable = 365
+
+		days_remove = 50
+
+		remove_effect = {
+			add_to_variable = {
+				var = USA_steel_opinion
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_steel_influence
+				value = 2
+			}
+			clamp_variable = {
+			    var = USA_steel_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_steel_2
+			custom_effect_tooltip = USA_increase_opinion_steel_4
+		}
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				date > 1894.1.1
+			}
+		}
+	}
+	#Mission Standard Oil
+	eoanb_decision_USA_gilded_age_mission_oil = {
+
+		icon = GFX_decision_oil
+
+		visible = {
+			check_variable = {
+				var = USA_standard_oil_opinion
+				value = 99
+				compare = less_than_or_equals
+			}
+			check_variable = {
+				var = USA_standard_oil_influence
+				value = 99
+				compare = less_than_or_equals
+			}
+			NOT = {
+				has_country_flag = USA_gilded_age_completing_oil_mission_1
+				has_country_flag = USA_gilded_age_completing_oil_mission_2
+				has_country_flag = USA_gilded_age_completing_oil_mission_3
+				has_country_flag = USA_gilded_age_completing_oil_mission_4
+				has_country_flag = USA_gilded_age_completing_oil_mission_5
+				has_country_flag = USA_gilded_age_completing_oil_mission_6
+			}
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		available = {
+			check_variable = {
+				var = USA_standard_oil_opinion
+				value = 99
+				compare = less_than_or_equals
+			}
+			check_variable = {
+				var = USA_standard_oil_influence
+				value = 99
+				compare = less_than_or_equals
+			}
+		}
+
+		days_re_enable = 365
+
+		complete_effect = {
+			custom_effect_tooltip = USA_gilded_oil_mission_start
+			hidden_effect = {
+				random_list = {
+					18 = {
+						set_country_flag = USA_gilded_age_completing_oil_mission_1
+						activate_mission = eoanb_mission_USA_gilded_age_mission_oil_1
+					}
+					18 = {
+						set_country_flag = USA_gilded_age_completing_oil_mission_2
+						activate_mission = eoanb_mission_USA_gilded_age_mission_oil_2
+					}
+					16 = {
+						if = {
+							limit = {
+								has_idea_with_trait = oil_magnate
+							}
+							random_list = {
+								50 = {
+									set_country_flag = USA_gilded_age_completing_oil_mission_1
+									activate_mission = eoanb_mission_USA_gilded_age_mission_oil_1
+								}
+								50 = {
+									set_country_flag = USA_gilded_age_completing_oil_mission_2
+									activate_mission = eoanb_mission_USA_gilded_age_mission_oil_2
+								}
+							}
+						}
+						else = {
+							set_country_flag = USA_gilded_age_completing_oil_mission_3
+							activate_mission = eoanb_mission_USA_gilded_age_mission_oil_3
+						}
+					}
+					16 = {
+						if = {
+							limit = {
+								has_idea = USA_gilded_age_support_oil
+							}
+							random_list = {
+								50 = {
+									set_country_flag = USA_gilded_age_completing_oil_mission_1
+									activate_mission = eoanb_mission_USA_gilded_age_mission_oil_1
+								}
+								50 = {
+									set_country_flag = USA_gilded_age_completing_oil_mission_2
+									activate_mission = eoanb_mission_USA_gilded_age_mission_oil_2
+								}
+							}
+						}
+						else = {
+							set_country_flag = USA_gilded_age_completing_oil_mission_4
+							activate_mission = eoanb_mission_USA_gilded_age_mission_oil_4
+						}
+					}
+					16 = {
+						if = {
+							limit = {
+								has_idea = standard_oil
+							}
+							random_list = {
+								50 = {
+									set_country_flag = USA_gilded_age_completing_oil_mission_1
+									activate_mission = eoanb_mission_USA_gilded_age_mission_oil_1
+								}
+								50 = {
+									set_country_flag = USA_gilded_age_completing_oil_mission_2
+									activate_mission = eoanb_mission_USA_gilded_age_mission_oil_2
+								}
+							}
+						}
+						else = {
+							set_country_flag = USA_gilded_age_completing_oil_mission_5
+							activate_mission = eoanb_mission_USA_gilded_age_mission_oil_5
+						}
+					}
+					16 = {
+						if = {
+							limit = {
+								has_country_flag = USA_process_generic_closed
+								has_country_flag = USA_biochemist_generic_closed
+							}
+							random_list = {
+								50 = {
+									set_country_flag = USA_gilded_age_completing_oil_mission_1
+									activate_mission = eoanb_mission_USA_gilded_age_mission_oil_1
+								}
+								50 = {
+									set_country_flag = USA_gilded_age_completing_oil_mission_2
+									activate_mission = eoanb_mission_USA_gilded_age_mission_oil_2
+								}
+							}
+						}
+						else = {
+							set_country_flag = USA_gilded_age_completing_oil_mission_6
+							activate_mission = eoanb_mission_USA_gilded_age_mission_oil_6
+						}
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				date > 1894.1.1
+			}
+		}
+	}
+	#Mission Standard Oil - Political Power
+	eoanb_mission_USA_gilded_age_mission_oil_1 = {
+
+		icon = GFX_decision_oil
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			has_political_power > 150
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_oil_mission_1
+			add_political_power = -150
+			add_to_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_standard_oil_influence
+				value = 3
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_oil_3
+			custom_effect_tooltip = USA_increase_opinion_oil_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_standard_oil_opinion
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_oil_4
+			clr_country_flag = USA_gilded_age_completing_oil_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Standard Oil - Uniforms
+	eoanb_mission_USA_gilded_age_mission_oil_2 = {
+
+		icon = GFX_decision_oil
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			has_equipment = {
+				uniform_equipment > 2999
+			}
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_oil_mission_2
+			add_equipment_to_stockpile = {
+			    type = uniform_equipment
+			    amount = -3000
+			}
+			add_to_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_standard_oil_influence
+				value = 2
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_oil_2
+			custom_effect_tooltip = USA_increase_opinion_oil_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_standard_oil_opinion
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_oil_4
+			clr_country_flag = USA_gilded_age_completing_oil_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Standard Oil - Oil Magnate
+	eoanb_mission_USA_gilded_age_mission_oil_3 = {
+
+		icon = GFX_decision_oil
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			has_idea_with_trait = oil_magnate
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_oil_mission_3
+			add_political_power = 25
+			add_to_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_standard_oil_influence
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_oil_5
+			custom_effect_tooltip = USA_increase_opinion_oil_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_oil_5
+			clr_country_flag = USA_gilded_age_completing_oil_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Standard Oil - Support
+	eoanb_mission_USA_gilded_age_mission_oil_4 = {
+
+		icon = GFX_decision_oil
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			NOT = { has_idea = USA_gilded_age_support_oil }
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_oil_mission_4
+			add_timed_idea = {
+				idea = USA_gilded_age_support_oil
+				days = 300
+			}
+			add_to_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_standard_oil_influence
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_oil_4
+			custom_effect_tooltip = USA_increase_opinion_oil_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_standard_oil_opinion
+				value = 3
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_oil_23
+			clr_country_flag = USA_gilded_age_completing_oil_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Standard Oil - Company
+	eoanb_mission_USA_gilded_age_mission_oil_5 = {
+
+		icon = GFX_decision_oil
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			has_idea = standard_oil
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_oil_mission_5
+			add_political_power = 50
+			add_to_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_standard_oil_influence
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_oil_5
+			custom_effect_tooltip = USA_increase_opinion_oil_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_oil_5
+			clr_country_flag = USA_gilded_age_completing_oil_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Standard Oil - Competitor
+	eoanb_mission_USA_gilded_age_mission_oil_6 = {
+
+		icon = GFX_decision_oil
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			OR = {
+				NOT = { has_country_flag = USA_process_generic_closed }
+				NOT = { has_country_flag = USA_biochemist_generic_closed }
+			}
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_oil_mission_6
+			set_country_flag = USA_process_generic_closed
+			set_country_flag = USA_biochemist_generic_closed
+			add_to_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_standard_oil_influence
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_oil_5
+			custom_effect_tooltip = USA_increase_opinion_oil_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_standard_oil_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_oil_5
+			clr_country_flag = USA_gilded_age_completing_oil_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Carnegie Steel
+	eoanb_decision_USA_gilded_age_mission_steel = {
+
+		icon = GFX_decision_steel
+
+		visible = {
+			check_variable = {
+				var = USA_steel_opinion
+				value = 99
+				compare = less_than_or_equals
+			}
+			check_variable = {
+				var = USA_steel_influence
+				value = 99
+				compare = less_than_or_equals
+			}
+			NOT = {
+				has_country_flag = USA_gilded_age_completing_steel_mission_1
+				has_country_flag = USA_gilded_age_completing_steel_mission_2
+				has_country_flag = USA_gilded_age_completing_steel_mission_3
+				has_country_flag = USA_gilded_age_completing_steel_mission_4
+				has_country_flag = USA_gilded_age_completing_steel_mission_5
+				has_country_flag = USA_gilded_age_completing_steel_mission_6
+			}
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		available = {
+			check_variable = {
+				var = USA_steel_opinion
+				value = 99
+				compare = less_than_or_equals
+			}
+			check_variable = {
+				var = USA_steel_influence
+				value = 99
+				compare = less_than_or_equals
+			}
+		}
+
+		days_re_enable = 100
+
+		complete_effect = {
+			custom_effect_tooltip = USA_gilded_steel_mission_start
+			hidden_effect = {
+				random_list = {
+					18 = {
+						set_country_flag = USA_gilded_age_completing_steel_mission_1
+						activate_mission = eoanb_mission_USA_gilded_age_mission_steel_1
+					}
+					18 = {
+						set_country_flag = USA_gilded_age_completing_steel_mission_2
+						activate_mission = eoanb_mission_USA_gilded_age_mission_steel_2
+					}
+					16 = {
+						if = {
+							limit = {
+								has_idea_with_trait = clever_buisnessman
+							}
+							random_list = {
+								50 = {
+									set_country_flag = USA_gilded_age_completing_steel_mission_1
+									activate_mission = eoanb_mission_USA_gilded_age_mission_steel_1
+								}
+								50 = {
+									set_country_flag = USA_gilded_age_completing_steel_mission_2
+									activate_mission = eoanb_mission_USA_gilded_age_mission_steel_2
+								}
+							}
+						}
+						else = {
+							set_country_flag = USA_gilded_age_completing_steel_mission_3
+							activate_mission = eoanb_mission_USA_gilded_age_mission_steel_3
+						}
+					}
+					16 = {
+						if = {
+							limit = {
+								has_idea = USA_gilded_age_support_steel
+							}
+							random_list = {
+								50 = {
+									set_country_flag = USA_gilded_age_completing_steel_mission_1
+									activate_mission = eoanb_mission_USA_gilded_age_mission_steel_1
+								}
+								50 = {
+									set_country_flag = USA_gilded_age_completing_steel_mission_2
+									activate_mission = eoanb_mission_USA_gilded_age_mission_steel_2
+								}
+							}
+						}
+						else = {
+							set_country_flag = USA_gilded_age_completing_steel_mission_4
+							activate_mission = eoanb_mission_USA_gilded_age_mission_steel_4
+						}
+					}
+					16 = {
+						if = {
+							limit = {
+								has_idea = carnegie_steel
+							}
+							random_list = {
+								50 = {
+									set_country_flag = USA_gilded_age_completing_steel_mission_1
+									activate_mission = eoanb_mission_USA_gilded_age_mission_steel_1
+								}
+								50 = {
+									set_country_flag = USA_gilded_age_completing_steel_mission_2
+									activate_mission = eoanb_mission_USA_gilded_age_mission_steel_2
+								}
+							}
+						}
+						else = {
+							set_country_flag = USA_gilded_age_completing_steel_mission_5
+							activate_mission = eoanb_mission_USA_gilded_age_mission_steel_5
+						}
+					}
+					16 = {
+						if = {
+							limit = {
+								has_country_flag = USA_mechanical_generic_closed
+								has_country_flag = USA_electronic_generic_closed
+							}
+							random_list = {
+								50 = {
+									set_country_flag = USA_gilded_age_completing_steel_mission_1
+									activate_mission = eoanb_mission_USA_gilded_age_mission_steel_1
+								}
+								50 = {
+									set_country_flag = USA_gilded_age_completing_steel_mission_2
+									activate_mission = eoanb_mission_USA_gilded_age_mission_steel_2
+								}
+							}
+						}
+						else = {
+							set_country_flag = USA_gilded_age_completing_steel_mission_6
+							activate_mission = eoanb_mission_USA_gilded_age_mission_steel_6
+						}
+					}
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				date > 1894.1.1
+			}
+		}
+	}
+	#Mission Carnegie Steel - Political Power
+	eoanb_mission_USA_gilded_age_mission_steel_1 = {
+
+		icon = GFX_decision_steel
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			has_political_power > 150
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_steel_mission_1
+			add_political_power = -150
+			add_to_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_steel_influence
+				value = 3
+			}
+			clamp_variable = {
+			    var = USA_steel_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_steel_3
+			custom_effect_tooltip = USA_increase_opinion_steel_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_steel_opinion
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_steel_4
+			clr_country_flag = USA_gilded_age_completing_steel_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Carnegie Steel - Infantry
+	eoanb_mission_USA_gilded_age_mission_steel_2 = {
+
+		icon = GFX_decision_steel
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			has_equipment = {
+				infantry_equipment > 2999
+			}
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_steel_mission_2
+			add_equipment_to_stockpile = {
+			    type = infantry_equipment
+			    amount = -3000
+			}
+			add_to_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_steel_influence
+				value = 2
+			}
+			clamp_variable = {
+			    var = USA_steel_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_steel_2
+			custom_effect_tooltip = USA_increase_opinion_steel_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_steel_opinion
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_steel_4
+			clr_country_flag = USA_gilded_age_completing_steel_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Carnegie Steel - Clever Buisnessman
+	eoanb_mission_USA_gilded_age_mission_steel_3 = {
+
+		icon = GFX_decision_steel
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			has_idea_with_trait = clever_buisnessman
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_steel_mission_3
+			add_political_power = 25
+			add_to_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_steel_influence
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_steel_5
+			custom_effect_tooltip = USA_increase_opinion_steel_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_steel_5
+			clr_country_flag = USA_gilded_age_completing_steel_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Carnegie Steel - Support
+	eoanb_mission_USA_gilded_age_mission_steel_4 = {
+
+		icon = GFX_decision_steel
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			NOT = { has_idea = USA_gilded_age_support_steel }
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_steel_mission_4
+			add_timed_idea = {
+				idea = USA_gilded_age_support_steel
+				days = 300
+			}
+			add_to_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_steel_influence
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_steel_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_steel_4
+			custom_effect_tooltip = USA_increase_opinion_steel_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_steel_opinion
+				value = 3
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_steel_3
+			clr_country_flag = USA_gilded_age_completing_steel_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Carnegie Steel - Company
+	eoanb_mission_USA_gilded_age_mission_steel_5 = {
+
+		icon = GFX_decision_steel
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			has_idea = carnegie_steel
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_steel_mission_5
+			add_political_power = 50
+			add_to_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_steel_influence
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_steel_5
+			custom_effect_tooltip = USA_increase_opinion_steel_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_steel_5
+			clr_country_flag = USA_gilded_age_completing_steel_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+	#Mission Carnegie Steel - Competitor
+	eoanb_mission_USA_gilded_age_mission_steel_6 = {
+
+		icon = GFX_decision_steel
+
+		allowed = {
+			always = no
+		}
+
+		selectable_mission = yes
+
+		available = {
+			OR = {
+				NOT = { has_country_flag = USA_mechanical_generic_closed }
+				NOT = { has_country_flag = USA_electronic_generic_closed }
+			}
+		}
+
+		days_mission_timeout = 300
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = USA_gilded_age_completing_steel_mission_6
+			set_country_flag = USA_mechanical_generic_closed
+			set_country_flag = USA_electronic_generic_closed
+			add_to_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			add_to_variable = {
+				var = USA_steel_influence
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_increase_influence_steel_5
+			custom_effect_tooltip = USA_increase_opinion_steel_5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = {
+				var = USA_steel_opinion
+				value = 5
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_opinion_steel_5
+			clr_country_flag = USA_gilded_age_completing_steel_mission_1
+		}
+
+		ai_will_do = {
+			factor = 2000
+		}
+	}
+
+	#Provoke Standard Oil
+	eoanb_decision_USA_gilded_age_provoke_oil = {
+
+		icon = GFX_decision_oil
+
+		cost = 50
+
+		visible = {
+			check_variable = {
+				var = USA_standard_oil_opinion
+				value = 0
+				compare = greater_than
+			}
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		available = {
+			has_political_power > 50
+		}
+
+		days_re_enable = 365
+
+		days_remove = 50
+
+		remove_effect = {
+			subtract_from_variable = {
+				var = USA_standard_oil_opinion
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_opinion
+			    min = 0
+			    max = 100
+			}
+			subtract_from_variable = {
+				var = USA_standard_oil_influence
+				value = 2
+			}
+			clamp_variable = {
+			    var = USA_standard_oil_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_influence_oil_2
+			custom_effect_tooltip = USA_decrease_opinion_oil_4
+		}
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				date < 1894.1.1
+			}
+		}
+	}
+
+	#Provoke Carnegie
+	eoanb_decision_USA_gilded_age_provoke_steel = {
+
+		icon = GFX_decision_steel
+
+		cost = 50
+
+		visible = {
+			check_variable = {
+				var = USA_steel_opinion
+				value = 0
+				compare = greater_than
+			}
+		}
+
+		allowed = {
+			tag = USA
+		}
+
+		available = {
+			has_political_power > 50
+		}
+
+		days_re_enable = 365
+
+		days_remove = 50
+
+		remove_effect = {
+			subtract_from_variable = {
+				var = USA_steel_opinion
+				value = 4
+			}
+			clamp_variable = {
+			    var = USA_steel_opinion
+			    min = 0
+			    max = 100
+			}
+			subtract_from_variable = {
+				var = USA_steel_influence
+				value = 2
+			}
+			clamp_variable = {
+			    var = USA_steel_influence
+			    min = 0
+			    max = 100
+			}
+			custom_effect_tooltip = USA_decrease_influence_steel_2
+			custom_effect_tooltip = USA_decrease_opinion_steel_4
+		}
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				date < 1894.1.1
+			}
+		}
+	}
+}
+
+USA_return_from_ashes = {
+
+    #Reform the United States
+    eoanb_decision_USA_return_from_ashes_reform = {
+
+        icon = generic_political_discourse
+
+        available = {
+            owns_state = 1091
+            owns_state = 360
+            owns_state = 954
+            owns_state = 357
+            owns_state = 395
+            owns_state = 393
+            owns_state = 261
+            owns_state = 396
+            owns_state = 362
+            owns_state = 383
+            owns_state = 373
+            owns_state = 369
+            owns_state = 364
+            OR = {
+            	owns_state = 385
+            	owns_state = 378
+            }
+            OR = {
+            	owns_state = 375
+            	owns_state = 371
+            }
+            OR = {
+            	owns_state = 388
+            	owns_state = 1297
+            }
+        }
+
+        visible = {
+            USA = { exists = no }
+		}
+		
+		allowed = {
+			is_former_usa_state = yes
+		}
+
+        complete_effect = {
+        	custom_effect_tooltip = USA_return_from_ashes_custom_tt
+        	hidden_effect = {
+        		every_state = {
+        			limit = { is_core_of = ROOT }
+        			add_core_of = USA
+        		}
+        		if = {
+	            	limit = {
+	            		has_government = centrism
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = centrism
+		            		elections_allowed = yes
+		            		election_frequency = 48
+		            	}
+	            	}
+	            }
+	            if = {
+	            	limit = {
+	            		has_government = traditional_conservatism
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = traditional_conservatism
+		            		elections_allowed = yes
+		            		election_frequency = 48
+		            	}
+	            	}
+	            }
+	            if = {
+	            	limit = {
+	            		has_government = social_egalitarianism
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = social_egalitarianism
+		            		elections_allowed = yes
+		            		election_frequency = 48
+		            	}
+		            	create_country_leader = {
+		            		name = [ROOT.GetName]
+		            		desc = ""
+		            		picture = ""
+		            		expire = 2050.1.1
+		            		ideology = liberal_social
+		            		traits = {
+
+		            		}
+		            	}
+	            	}
+	            }
+	            if = {
+	            	limit = {
+	            		has_government = collectivist_socialism
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = collectivist_socialism
+		            		elections_allowed = yes
+		            		election_frequency = 48
+		            	}
+	            	}
+	            }
+	            if = {
+	            	limit = {
+	            		has_government = vanguard_communism
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = vanguard_communism
+		            		elections_allowed = no
+		            	}
+	            	}
+	            }
+	            if = {
+	            	limit = {
+	            		has_government = autocracy
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = autocracy
+		            		elections_allowed = no
+		            	}
+	            	}
+	            }
+	            if = {
+	            	limit = {
+	            		has_government = chauvinist_populism
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = chauvinist_populism
+		            		elections_allowed = no
+		            	}
+	            	}
+	            }
+	            if = {
+	            	limit = {
+	            		has_government = anarchism
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = anarchism
+		            		elections_allowed = yes
+		            		election_frequency = 48
+		            	}
+	            	}
+	            }
+	            if = {
+	            	limit = {
+	            		has_government = fundamentalism
+	            	}
+	            	USA = {
+	            		set_politics = {
+		            		ruling_party = fundamentalism
+		            		elections_allowed = yes
+		            		election_frequency = 48
+		            	}
+	            	}
+	            }
+        		USA = {
+	            	annex_country = {
+	            		target = ROOT
+	            		transfer_troops = yes
+	            	}
+	            	set_country_flag = USA_returned_from_ash
+	            }
+	            if = {
+	            	limit = {
+	            		is_ai = no
+	            	}
+	            	USA = { change_tag_from = ROOT }
+	            }
+	            load_focus_tree = generic
+	            USA = { inherit_technology = ROOT }
+	            every_state = {
+	            	limit = {
+	            		OR = {
+	            			region = 117
+	            			region = 197
+	            			region = 198
+	            			region = 119
+	            			region = 120
+	            			region = 199
+	            			region = 118
+	            		}
+	            		NOT = {
+	            			OR = {
+	            				state = 465
+	            				state = 464
+	            			}
+	            		}
+	            		NOT = { is_core_of = USA }
+	            	}
+	            	add_claim_by = USA
+	            }
+        	}
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+
+    #Reintegrate the East Coast
+    eoanb_decision_USA_return_reintegrate_east_coast = {
+
+        icon = generic_political_discourse
+
+        available = {
+        	OR = {
+        		owns_state = 367
+		    	owns_state = 365
+		   		owns_state = 366
+	       		owns_state = 1211
+		    	owns_state = 364
+				owns_state = 363
+		   		owns_state = 362
+	       		owns_state = 746
+	       		owns_state = 361
+		   		owns_state = 1091
+	    		owns_state = 360
+        		owns_state = 359
+        	}
+        }
+
+        visible = {
+            tag = USA
+            NOT = {
+        		OR = {
+        			367 = { is_core_of = USA }
+        			365 = { is_core_of = USA }
+        			366 = { is_core_of = USA }
+        			1211 = { is_core_of = USA }
+        			364 = { is_core_of = USA }
+        			363 = { is_core_of = USA }
+        			362 = { is_core_of = USA }
+        			746 = { is_core_of = USA }
+        			361 = { is_core_of = USA }
+        			1091 = { is_core_of = USA }
+        			360 = { is_core_of = USA }
+        			359 = { is_core_of = USA }
+        		}
+        	}
+		}
+		
+		allowed = {
+			tag = USA
+		}
+
+        cost = 75
+
+        complete_effect = {
+        	every_owned_state = {
+        		limit = {
+        			OR = {
+        				state = 367
+			        	state = 365
+			        	state = 366
+			        	state = 1211
+			        	state = 364
+			        	state = 363
+			        	state = 362
+			        	state = 746
+			        	state = 361
+			        	state = 1091
+			        	state = 360
+			        	state = 359
+        			}
+        		}
+        		add_core_of = USA
+        		if = {
+        			limit = {
+        				is_core_of = CSA
+        			}
+        			remove_core_of = CSA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ASA
+        			}
+        			remove_core_of = ASA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NEG
+        			}
+        			remove_core_of = NEG
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = GRL
+        			}
+        			remove_core_of = GRL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = DAK
+        			}
+        			remove_core_of = DAK
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KNS
+        			}
+        			remove_core_of = KNS
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ORE
+        			}
+        			remove_core_of = ORE
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NMX
+        			}
+        			remove_core_of = NMX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = TEX
+        			}
+        			remove_core_of = TEX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = CAL
+        			}
+        			remove_core_of = CAL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = OKL
+        			}
+        			remove_core_of = OKL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KTY
+        			}
+        			remove_core_of = KTY
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = MIO
+        			}
+        			remove_core_of = MIO
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = UTA
+        			}
+        			remove_core_of = UTA
+        		}
+        	}
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+
+    #Reintegrate New England
+    eoanb_decision_USA_return_reintegrate_new_england = {
+
+        icon = generic_political_discourse
+
+        available = {
+        	OR = {
+        		owns_state = 954
+	        	owns_state = 358
+	        	owns_state = 958
+	        	owns_state = 1031
+	        	owns_state = 357
+	        	owns_state = 959
+	        	owns_state = 960
+	        	owns_state = 961
+        	}
+        }
+
+        visible = {
+            tag = USA
+            NOT = {
+        		OR = {
+        			954 = { is_core_of = USA }
+        			358 = { is_core_of = USA }
+        			958 = { is_core_of = USA }
+        			1031 = { is_core_of = USA }
+        			357 = { is_core_of = USA }
+        			959 = { is_core_of = USA }
+        			960 = { is_core_of = USA }
+        			961 = { is_core_of = USA }
+        		}
+        	}
+        }
+		
+		allowed = {
+			tag = USA
+		}
+
+        cost = 50
+
+        complete_effect = {
+        	every_owned_state = {
+        		limit = {
+        			OR = {
+        				state = 954
+	        			state = 358
+	        			state = 958
+	        			state = 1031
+	        			state = 357
+	        			state = 959
+	        			state = 960
+	        			state = 961
+        			}
+        		}
+        		add_core_of = USA
+        		if = {
+        			limit = {
+        				is_core_of = CSA
+        			}
+        			remove_core_of = CSA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ASA
+        			}
+        			remove_core_of = ASA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NEG
+        			}
+        			remove_core_of = NEG
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = GRL
+        			}
+        			remove_core_of = GRL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = DAK
+        			}
+        			remove_core_of = DAK
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KNS
+        			}
+        			remove_core_of = KNS
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ORE
+        			}
+        			remove_core_of = ORE
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NMX
+        			}
+        			remove_core_of = NMX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = TEX
+        			}
+        			remove_core_of = TEX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = CAL
+        			}
+        			remove_core_of = CAL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = OKL
+        			}
+        			remove_core_of = OKL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KTY
+        			}
+        			remove_core_of = KTY
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = MIO
+        			}
+        			remove_core_of = MIO
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = UTA
+        			}
+        			remove_core_of = UTA
+        		}
+        	}
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+    #Reintegrate the Midwest
+    eoanb_decision_USA_return_reintegrate_midwest = {
+
+        icon = generic_political_discourse
+
+        available = {
+        	OR = {
+        		owns_state = 371
+	        	owns_state = 370
+	        	owns_state = 372
+	        	owns_state = 368
+	        	owns_state = 369
+	        	owns_state = 373
+	        	owns_state = 392
+	        	owns_state = 391
+	        	owns_state = 395
+	        	owns_state = 394
+	        	owns_state = 396
+	        	owns_state = 393
+	        	owns_state = 261
+        	}
+        }
+
+        visible = {
+            tag = USA
+            NOT = {
+        		OR = {
+        			371 = { is_core_of = USA }
+        			370 = { is_core_of = USA }
+        			372 = { is_core_of = USA }
+        			368 = { is_core_of = USA }
+        			369 = { is_core_of = USA }
+        			373 = { is_core_of = USA }
+        			392 = { is_core_of = USA }
+        			391 = { is_core_of = USA }
+        			395 = { is_core_of = USA }
+        			394 = { is_core_of = USA }
+        			396 = { is_core_of = USA }
+        			393 = { is_core_of = USA }
+        			261 = { is_core_of = USA }
+        		}
+        	}
+        }
+		
+		allowed = {
+			tag = USA
+		}
+
+        cost = 100
+
+        complete_effect = {
+        	every_owned_state = {
+        		limit = {
+        			OR = {
+        				state = 371
+			        	state = 370
+			        	state = 372
+			        	state = 368
+			        	state = 369
+			        	state = 373
+			        	state = 392
+			        	state = 391
+			        	state = 395
+			        	state = 394
+			        	state = 396
+			        	state = 393
+			        	state = 261
+        			}
+        		}
+        		add_core_of = USA
+        		if = {
+        			limit = {
+        				is_core_of = CSA
+        			}
+        			remove_core_of = CSA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ASA
+        			}
+        			remove_core_of = ASA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NEG
+        			}
+        			remove_core_of = NEG
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = GRL
+        			}
+        			remove_core_of = GRL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = DAK
+        			}
+        			remove_core_of = DAK
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KNS
+        			}
+        			remove_core_of = KNS
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ORE
+        			}
+        			remove_core_of = ORE
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NMX
+        			}
+        			remove_core_of = NMX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = TEX
+        			}
+        			remove_core_of = TEX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = CAL
+        			}
+        			remove_core_of = CAL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = OKL
+        			}
+        			remove_core_of = OKL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KTY
+        			}
+        			remove_core_of = KTY
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = MIO
+        			}
+        			remove_core_of = MIO
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = UTA
+        			}
+        			remove_core_of = UTA
+        		}
+        	}
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+    #Reintegrate the South West
+    eoanb_decision_USA_return_reintegrate_southwest = {
+
+        icon = generic_political_discourse
+
+        available = {
+        	OR = {
+        		owns_state = 375
+        		owns_state = 1305
+        		owns_state = 1306
+        		owns_state = 1304
+        		owns_state = 1303
+        		owns_state = 1281
+        		owns_state = 1280
+        		owns_state = 374
+        		owns_state = 1293
+        		owns_state = 375
+        		owns_state = 1285
+        		owns_state = 1300
+        		owns_state = 1301
+        		owns_state = 1295
+        		owns_state = 1279
+        		owns_state = 1278
+        		owns_state = 1288
+        		owns_state = 1302
+        		owns_state = 376
+        	}
+        }
+
+        visible = {
+            tag = USA
+            NOT = {
+        		OR = {
+        			371 = { is_core_of = USA }
+        			1305 = { is_core_of = USA }
+        			1306 = { is_core_of = USA }
+        			1304 = { is_core_of = USA }
+	        		1303 = { is_core_of = USA }
+	        		1281 = { is_core_of = USA }
+	        		1280 = { is_core_of = USA }
+	        		374 = { is_core_of = USA }
+	        		1293 = { is_core_of = USA }
+	        		375 = { is_core_of = USA }
+	        		1285 = { is_core_of = USA }
+	        		1300 = { is_core_of = USA }
+	        		1301 = { is_core_of = USA }
+	        		1295 = { is_core_of = USA }
+	        		1279 = { is_core_of = USA }
+	        		1278 = { is_core_of = USA }
+	        		1288 = { is_core_of = USA }
+	        		1302 = { is_core_of = USA }
+	        		376 = { is_core_of = USA }
+        		}
+        	}
+        }
+		
+		allowed = {
+			tag = USA
+		}
+
+        cost = 100
+
+        complete_effect = {
+        	every_owned_state = {
+        		limit = {
+        			OR = {
+        				state = 375
+		        		state = 1305
+		        		state = 1306
+		        		state = 1304
+		        		state = 1303
+		        		state = 1281
+		        		state = 1280
+		        		state = 374
+		        		state = 1293
+		        		state = 375
+		        		state = 1285
+		        		state = 1300
+		        		state = 1301
+		        		state = 1295
+		        		state = 1279
+		        		state = 1278
+		        		state = 1288
+		        		state = 1302
+		        		state = 376
+        			}
+        		}
+        		add_core_of = USA
+        		if = {
+        			limit = {
+        				is_core_of = CSA
+        			}
+        			remove_core_of = CSA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ASA
+        			}
+        			remove_core_of = ASA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NEG
+        			}
+        			remove_core_of = NEG
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = GRL
+        			}
+        			remove_core_of = GRL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = DAK
+        			}
+        			remove_core_of = DAK
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KNS
+        			}
+        			remove_core_of = KNS
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ORE
+        			}
+        			remove_core_of = ORE
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NMX
+        			}
+        			remove_core_of = NMX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = TEX
+        			}
+        			remove_core_of = TEX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = CAL
+        			}
+        			remove_core_of = CAL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = OKL
+        			}
+        			remove_core_of = OKL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KTY
+        			}
+        			remove_core_of = KTY
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = MIO
+        			}
+        			remove_core_of = MIO
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = UTA
+        			}
+        			remove_core_of = UTA
+        		}
+        	}
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+    #Reintegrate the West Coast
+    eoanb_decision_USA_return_reintegrate_west_coast = {
+
+        icon = generic_political_discourse
+
+        available = {
+        	OR = {
+        		owns_state = 378
+        		owns_state = 1296
+        		owns_state = 385
+        		owns_state = 1289
+        		owns_state = 1075
+        		owns_state = 386
+        		owns_state = 1073
+        	}
+        }
+
+        visible = {
+            tag = USA
+            NOT = {
+        		OR = {
+        			378 = { is_core_of = USA }
+        			1296 = { is_core_of = USA }
+        			385 = { is_core_of = USA }
+        			1289 = { is_core_of = USA }
+	        		1075 = { is_core_of = USA }
+	        		386 = { is_core_of = USA }
+	        		1073 = { is_core_of = USA }
+        		}
+        	}
+        }
+		
+		allowed = {
+			tag = USA
+		}
+
+        cost = 50
+
+        complete_effect = {
+        	every_owned_state = {
+        		limit = {
+        			OR = {
+        				state = 378
+		        		state = 1296
+		        		state = 385
+		        		state = 1289
+		        		state = 1075
+		        		state = 386
+		        		state = 1073
+        			}
+        		}
+        		add_core_of = USA
+        		if = {
+        			limit = {
+        				is_core_of = CSA
+        			}
+        			remove_core_of = CSA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ASA
+        			}
+        			remove_core_of = ASA
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NEG
+        			}
+        			remove_core_of = NEG
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = GRL
+        			}
+        			remove_core_of = GRL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = DAK
+        			}
+        			remove_core_of = DAK
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KNS
+        			}
+        			remove_core_of = KNS
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = ORE
+        			}
+        			remove_core_of = ORE
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = NMX
+        			}
+        			remove_core_of = NMX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = TEX
+        			}
+        			remove_core_of = TEX
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = CAL
+        			}
+        			remove_core_of = CAL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = OKL
+        			}
+        			remove_core_of = OKL
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = KTY
+        			}
+        			remove_core_of = KTY
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = MIO
+        			}
+        			remove_core_of = MIO
+        		}
+        		if = {
+        			limit = {
+        				is_core_of = UTA
+        			}
+        			remove_core_of = UTA
+        		}
+        	}
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+    #Establish Ourself
+    eoanb_decision_USA_return_reintegrate_establish_ourself = {
+
+        icon = generic_political_discourse
+
+        available = {
+        	owns_state = 1091
+        	1091 = { is_core_of = USA }
+            owns_state = 360
+            360 = { is_core_of = USA }
+            owns_state = 954
+            954 = { is_core_of = USA }
+            owns_state = 357
+            357 = { is_core_of = USA }
+            owns_state = 395
+            395 = { is_core_of = USA }
+            owns_state = 393
+            393 = { is_core_of = USA }
+            owns_state = 261
+            261 = { is_core_of = USA }
+            owns_state = 396
+            396 = { is_core_of = USA }
+            owns_state = 362
+            362 = { is_core_of = USA }
+            owns_state = 383
+            383 = { is_core_of = USA }
+            owns_state = 373
+            373 = { is_core_of = USA }
+            owns_state = 369
+            369 = { is_core_of = USA }
+            owns_state = 364
+            364 = { is_core_of = USA }
+        }
+
+        visible = {
+            tag = USA
+            has_country_flag = USA_returned_from_ash
+        }
+		
+		allowed = {
+			tag = USA
+		}
+
+        cost = 50
+
+        complete_effect = {
+        	clr_country_flag = USA_returned_from_ash
+        	add_political_power = 100
+        	add_stability = 0.05
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+
+    #Change Capital back to D.C.
+    eoanb_decision_USA_return_reintegrate_washington = {
+
+        icon = generic_political_discourse
+
+        available = {
+        	owns_state = 1091
+        	1091 = {
+        		is_capital = no
+        	}
+        }
+
+        visible = {
+            tag = USA
+            1091 = {
+        		is_capital = no
+        	}
+        }
+		
+		allowed = {
+			tag = USA
+		}
+
+        cost = 50
+
+        complete_effect = {
+        	set_capital = 1091
+        }
+        ai_will_do = {
+            base = 4000
+        }
+    }
+}
+internal_politics_eoanb = {
+	USA_Homestead_Act = {
+		icon = GFX_decision_generic_construction
+
+		allowed = { 
+			tag = USA
+			tag = KNS
+			tag = DAK 
+		}
+
+		available = { always = no }
+
+		cost = 25
+
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = { owns_state = 383 }
+				383 = { add_manpower = 7500 }
+			}
+			if = {
+				limit = { owns_state = 384 }
+				384 = { add_manpower = 5000 }
+			}
+		}
+	}
+}

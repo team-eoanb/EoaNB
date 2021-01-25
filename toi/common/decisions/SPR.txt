@@ -1,6 +1,52 @@
 #Category only allowed for SPR
 SPR_debt_management_category = {
 
+	DOM_declare_bankruptcy_mission = {
+
+		icon = generic_political_discourse
+		
+		allowed = { tag = DOM }  
+		available = {
+			hidden_trigger = {
+				check_variable = {ROOT.debt_level > 49}
+			}
+		}
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = { 
+				tooltip = egy_vic_debt_paid_tooltip
+				NOT = { has_idea = egy_vic_debt }
+			}
+		}
+
+		activation = {
+			check_variable = {ROOT.debt_level > 19}
+			hidden_trigger = {
+				TAG = DOM 
+				NOT = { has_country_flag = DOM_declared_bankruptcy_flag }
+			}
+		}
+		
+		is_good = no 
+		selectable_mission = no
+		days_mission_timeout = 360
+
+		timeout_effect = {
+			hidden_effect = { activate_mission = DOM_declare_bankruptcy_mission }
+			debt_level_increase_by_1 = yes
+			custom_effect_tooltip = DOM_declare_bankruptcy_mission_complete_effect
+		}
+		complete_effect = {
+			hidden_effect = { country_event = { id = hispaniola.1 } }
+			hidden_effect = { set_country_flag = DOM_declared_bankruptcy_flag }
+		}
+		
+		ai_will_do = {
+			base = 0
+		}
+	}
+
+
 	eoanb_decision_debt_repayments = {
 
 		icon = generic_political_discourse
@@ -44,6 +90,7 @@ SPR_debt_management_category = {
 	eoanb_decision_debt_repayments_done = {
 		icon = generic_political_discourse
 		visible = { always = no }
+		fire_only_once = no
 		complete_effect = {
 			hidden_effect = {
 				if = {
@@ -130,20 +177,39 @@ SPR_debt_management_category = {
 			#custom_effect_tooltip = EGY_afr_decrease_debt_1
 			hidden_effect = {
 				add_to_variable = {var = debt_level value = -1}
-				if = {
-					limit = {
-						check_variable = { debt_level < 50 }
-						check_variable = { debt_level > 0 }
-					}
-					if = {
-						limit = { has_country_flag = paying_debt }
-						clr_country_flag = paying_debt
-						if = {
-							limit = { has_idea = egy_vic_debt_payments }
-							remove_ideas = egy_vic_debt_payments
-						}
-						activate_decision = eoanb_decision_debt_repayments_done
-					}
+				activate_decision = eoanb_decision_debt_repayments_done
+			}
+		}
+		ai_will_do = {
+			base = 0
+		}
+	}
+	
+	debt_colonial_profits_decision = {
+		allowed = { always = no }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		days_mission_timeout = 360
+		activation = {
+			has_variable = total_colonial_profits
+		}
+		cancel_trigger = {
+			hidden_trigger = { NOT = { has_variable = total_colonial_profits } }
+			hidden_trigger = { NOT = { has_variable = debt_level } }
+		}
+		selectable_mission = yes
+		custom_cost_trigger = { always = yes }
+		custom_cost_text = debt_colonial_profits_decision_custom_cost
+		is_good = yes
+		timeout_effect = {
+			hidden_effect = {
+				subtract_from_variable = {var = debt_level value = total_colonial_profits }
+				activate_decision = debt_colonial_profits_decision
+				clamp_variable = {
+					var = debt_level
+					min = 0
+					max = 100
 				}
 			}
 		}
@@ -154,6 +220,7 @@ SPR_debt_management_category = {
 }
 
 SPR_colonial_affairs_category = {
+
 
 	SPR_unclaimed_territory_menu_on = {
 		available = {

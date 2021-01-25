@@ -59,6 +59,57 @@ on_actions = {
 	on_civil_war_end = {
 		effect = {
 			COL = { country_event = { id = colombia.4 } }
+			DOM = { 
+				if = { 
+					limit = {
+						has_global_flag = DOM_1857_tobacco_coup_flag
+					}
+					clr_global_flag = DOM_1857_tobacco_coup_flag
+					if = {
+						limit = { ROOT = { has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes } } }
+						ROOT = { country_event = { id = DOM_1857_tobacco_coup.7 days = 3 } }
+					}
+				}
+			}
+			
+			DOM = {
+				if = { 
+					limit = {
+						has_global_flag = DOM_1858_santana_coup_flag_2
+					}
+					clr_global_flag = DOM_1858_santana_coup_flag_2
+					if = {
+						limit = { ROOT = { has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes } } }
+						ROOT = { country_event = { id = DOM_1858_santana_coup.7 days = 6 } }
+					}
+				}
+			}
+		}
+	}
+	on_civil_war_end_before_annexation = {
+		effect = {
+			DOM = {
+				if = {
+					limit = { 
+						has_global_flag = DOM_1858_santana_coup_flag
+					}
+					clr_global_flag = DOM_1858_santana_coup_flag
+					if = {
+						limit = { ROOT = { has_country_leader = { name = "Pedro Santana" ruling_only = yes } }  }
+						ROOT = { white_peace = FROM }
+						FROM = {
+							country_event = { id = DOM_1858_santana_won_coup.1 hours = 2 }
+							annex_country = {
+								target = ROOT
+								transfer_troops = yes
+							}
+						}
+					}
+					else = {
+						set_global_flag = DOM_1858_santana_coup_flag_2
+					}
+				}
+			}
 		}
 	}
 	on_peaceconference_ended = {
@@ -78,8 +129,9 @@ on_actions = {
 				limit = {
 					has_start_date < 1858.1.1
 				}
+				DOM = { country_event = { id = DOM_1857_tobacco_coup.1 days = 10 } }
+				DOM = { country_event = { id = hispaniola_debt.1 days = 5 } }
 				PRU = { country_event = { id = peru.6 days = 2305 } }
-				DOM = { country_event = { id = hispaniola.1 days = 1437 } }
 				HAI = { country_event = { id = hispaniola.6 days = 734 } }
 				SPR = { country_event = { id = hispaniola.7 days = 2315 } }
 				DOM = { country_event = { id = hispaniola.8 days = 2880 } }

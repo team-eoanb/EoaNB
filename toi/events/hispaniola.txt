@@ -1,4 +1,825 @@
 ﻿add_namespace = hispaniola
+add_namespace = hispaniola_debt
+add_namespace = DOM_1857_tobacco_coup
+add_namespace = DOM_1858_santana_coup
+add_namespace = DOM_1858_santana_won_coup
+
+country_event = {
+	id = DOM_1857_tobacco_coup.1
+	title = DOM_1857_tobacco_coup.1.t
+	desc = DOM_1857_tobacco_coup.1.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = DOM_1857_tobacco_coup.1.a
+		add_political_power = 500
+		debt_level_decrease_by_1 = yes
+		hidden_effect = { country_event = { id = DOM_1857_tobacco_coup.2 days = 20 } }
+	}
+	
+	option = {
+		name = DOM_1857_tobacco_coup.1.b
+		
+	}
+}
+
+country_event = {
+	id = DOM_1857_tobacco_coup.2
+	title = DOM_1857_tobacco_coup.2.t
+	desc = DOM_1857_tobacco_coup.2.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = DOM_1857_tobacco_coup.2.a
+		debt_level_increase_by_5 = yes
+		hidden_effect = { country_event = { id = DOM_1857_tobacco_coup.3 days = 7 } }
+	}
+	
+}
+
+country_event = {
+	id = DOM_1857_tobacco_coup.3
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			DOM = {
+				if = {
+					limit = { 
+						DOM = { 
+							owns_state = 319
+							owns_state = 1318
+						}
+					}
+					set_global_flag = DOM_1857_tobacco_coup_flag
+					DOM = { 
+						set_politics = { ruling_party = radical_democracy }
+						hidden_effect = { country_event = { id = DOM_1857_tobacco_coup.4 hours = 1 } }
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = DOM_1857_tobacco_coup.4
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			DOM = {
+				set_capital = 319
+				start_civil_war = {
+					ruling_party = radical_democracy
+					ideology = traditional_conservatism
+					size = 0
+					capital = 1318
+					states = { 
+						1318
+					}
+					#keep_unit_leaders = {
+					#	
+					#}
+					keep_political_leader = yes
+				}
+				319 = { OWNER = { hidden_effect = { country_event = { id = DOM_1857_tobacco_coup.5 hours = 1 } } } }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = DOM_1857_tobacco_coup.5
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			319 = {
+				OWNER = {
+					#set_politics = { ruling_party = traditional_conservatism }
+					set_popularities = {
+						anarchism = 0
+						vanguard_communism = 0
+						collectivist_socialism = 0
+						social_egalitarianism = 0
+						centrism = 20 
+						traditional_conservatism = 25
+						radical_democracy = 40
+						chauvinist_populism = 0
+						autocracy = 15
+						fundamentalism = 0
+					}
+					set_stability = 0.6
+					set_war_support = 0
+					set_political_power = 0
+					add_ideas = no_constitution
+					swap_ideas = {
+						remove_idea = presidential_republic
+						add_idea = military_junta
+					}
+					hidden_effect = { country_event = { id = DOM_1857_tobacco_coup.6 hours = 1 } }
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = DOM_1857_tobacco_coup.6
+	title = DOM_1857_tobacco_coup.6.t
+	desc = DOM_1857_tobacco_coup.6.d
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			319 = { 
+				OWNER = { 
+					division_template = {
+						name = "Valverde's Militia"
+						priority = 1
+						regiments = {
+							line_infantry = { x = 0 y = 0 }
+							line_infantry = { x = 1 y = 0 }
+						}
+						is_locked = yes
+					}
+					319 = {
+						create_unit = {
+							division = "name = \"Valverde's Militia\" division_template = \"Valverde's Militia\" start_experience_factor = 0.6 start_equipment_factor = 1" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Valverde's Militia\" division_template = \"Valverde's Militia\" start_experience_factor = 0.6 start_equipment_factor = 1" 
+							owner = PREV
+						}
+					}
+				}
+			}
+			1318 = { 
+				OWNER = { 
+					add_ideas = limited_constitution
+					create_country_leader = {
+						name = "Buenaventura Báez"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_DOM_Pedro_Santana.dds"
+						expire = 1884.3.14
+						ideology = conserv
+					}
+					add_ideas = presidential_republic
+					division_template = {
+						name = "Buenaventura's Guards"
+						priority = 1
+						regiments = {
+							line_infantry = { x = 0 y = 0 }
+							line_infantry = { x = 1 y = 0 }
+						}
+						is_locked = yes
+					}
+					1318 = {
+						create_unit = {
+							division = "name = \"Buenaventura's Guards\" division_template = \"Buenaventura's Guards\" start_experience_factor = 0.3 start_equipment_factor = 0.8" 
+							owner = PREV
+							prioritize_location = 7660
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = DOM_1857_tobacco_coup.6.a
+		create_country_leader = {
+			name = "Jose Desiderio Valverde"
+			desc = "POLITICS_TEMP_DESC"
+			picture = "Portrait_DOM_Pedro_Santana.dds"
+			expire = 1903.12.22
+			ideology = military_junta
+		}
+		add_war_support = 0.55
+		add_command_power = 150
+		custom_effect_tooltip = DOM_1857_tobacco_coup_cibao_tobacco_planters
+		319 = { 
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = farm
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = DOM_1857_tobacco_coup.7
+	title = DOM_1857_tobacco_coup.7.t
+	desc = DOM_1857_tobacco_coup.7.d
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			DOM = { 
+				add_ideas = limited_constitution
+				delete_unit_template_and_units = { division_template = "Valverde's Militia" disband = no }
+			}
+		}
+	}
+	
+	option = {
+		name = DOM_1857_tobacco_coup.7.a
+		hidden_effect = { retire_country_leader = yes }
+		swap_ideas = {
+			remove_idea = military_junta
+			add_idea = presidential_republic
+		}
+		set_politics = { ruling_party = centrism }
+		hidden_effect = {
+			create_country_leader = {
+				name = "Jose Desiderio Valverde"
+				desc = "POLITICS_TEMP_DESC"
+				picture = "Portrait_DOM_Pedro_Santana.dds"
+				expire = 1903.12.22
+				ideology = social_liberal
+			}
+		}
+		swap_ideas = {
+			add_idea = constitution_adopted
+			remove_idea = limited_constitution
+		}
+		swap_ideas = {
+			remove_idea = foa_non_socialist
+			add_idea = foa_free_assembly
+		}
+		swap_ideas = {
+			add_idea = pp_open_politics
+			remove_idea = pp_ban_extremist_parties
+		}
+		debt_level_increase_by_2 = yes
+		hidden_effect = { country_event = { id = DOM_1858_santana_coup.1 days = 330 } }
+	}
+	
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.1
+	title = DOM_1858_santana_coup.1.t
+	desc = DOM_1858_santana_coup.1.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = DOM_1858_santana_coup.1.a
+		ai_chance = { factor = 50 }
+		hidden_effect = { country_event = { id = DOM_1858_santana_coup.2 days = 15 } }
+	}
+	
+	option = {
+		name = DOM_1858_santana_coup.1.b
+		ai_chance = { factor = 50 }
+		
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.2
+	title = DOM_1858_santana_coup.2.t
+	desc = DOM_1858_santana_coup.2.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = DOM_1858_santana_coup.2.a
+		ai_chance = { factor = 75 }
+		retire_country_leader = yes
+		set_politics = { ruling_party = traditional_conservatism }
+		set_capital = 1318
+		create_country_leader = {
+			name = "Pedro Santana"
+			desc = "POLITICS_TEMP_DESC"
+			picture = "Portrait_DOM_Pedro_Santana.dds"
+			expire = 1862.7.2
+			ideology = conserv
+		}
+		hidden_effect = { country_event = { id = DOM_1858_santana_coup.8 days = 15 } }
+	}
+	
+	option = {
+		name = DOM_1858_santana_coup.2.b
+		ai_chance = { factor = 25 }
+		set_capital = 319
+		start_civil_war = {
+			ruling_party = centrism
+			ideology = radical_democracy
+			size = 1
+			capital = 1318
+			states = { 
+				1318
+			}
+			#keep_unit_leaders = {
+			#	
+			#}
+			keep_political_leader = yes
+		}
+		hidden_effect = {
+			set_global_flag = DOM_1858_santana_coup_flag
+			USA = { country_event = { id = DOM_1858_santana_coup.3 } }
+		}
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.3
+	title = DOM_1858_santana_coup.3.t
+	desc = DOM_1858_santana_coup.3.d
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			319 = {
+				OWNER = { 
+					add_ideas = presidential_republic
+					division_template = {
+						name = "Valverde's Guards"
+						priority = 1
+						regiments = {
+							line_infantry = { x = 0 y = 0 }
+							line_infantry = { x = 1 y = 0 }
+						}
+						is_locked = yes
+					}
+					319 = {
+						create_unit = {
+							division = "name = \"Valverde's Guards\" division_template = \"Valverde's Guards\" start_experience_factor = 0.3 start_equipment_factor = 1" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Valverde's Guards\" division_template = \"Valverde's Guards\" start_experience_factor = 0.3 start_equipment_factor = 1" 
+							owner = PREV
+						}
+					}
+				}
+			}
+			1318 = {
+				OWNER = { 
+					add_ideas = limited_constitution
+					set_politics = { ruling_party = traditional_conservatism }
+					create_country_leader = {
+						name = "Pedro Santana"
+						desc = "POLITICS_TEMP_DESC"
+						picture = "Portrait_DOM_Pedro_Santana.dds"
+						expire = 1864.6.14
+						ideology = conserv
+					}
+					add_ideas = military_junta
+					division_template = {
+						name = "Santana's Army"
+						priority = 1
+						regiments = {
+							line_infantry = { x = 0 y = 0 }
+							line_infantry = { x = 1 y = 0 }
+						}
+						is_locked = yes
+					}
+					1318 = {
+						create_unit = {
+							division = "name = \"Santana's Army\" division_template = \"Santana's Army\" start_experience_factor = 0.6 start_equipment_factor = 1" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Santana's Army\" division_template = \"Santana's Army\" start_experience_factor = 0.6 start_equipment_factor = 1" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Santana's Army\" division_template = \"Santana's Army\" start_experience_factor = 0.6 start_equipment_factor = 1" 
+							owner = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = DOM_1858_santana_coup.3.a
+		ai_chance = { factor = 100 }
+		319 = { OWNER = { country_event = { id = DOM_1858_santana_coup.4 days = 1 } } }
+		add_political_power = 100
+	}
+	
+	option = {
+		name = DOM_1858_santana_coup.3.b
+		ai_chance = { factor = 0 }
+		
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.4
+	title = DOM_1858_santana_coup.4.t
+	desc = DOM_1858_santana_coup.4.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = DOM_1858_santana_coup.4.a
+		ai_chance = { factor = 100 }
+		debt_level_increase_by_1 = yes
+		add_equipment_to_stockpile = {
+			type = infantry_equipment_rifle_1
+			amount = 250
+			producer = USA
+		}
+		add_equipment_to_stockpile = {
+			type = uniform_equipment_2
+			amount = 250
+			producer = USA
+		}
+	}
+	
+	option = {
+		name = DOM_1858_santana_coup.4.b
+		ai_chance = { factor = 100 }
+		debt_level_increase_by_2 = yes
+		add_equipment_to_stockpile = {
+			type = infantry_equipment_rifle_1
+			amount = 250
+			producer = USA
+		}
+		add_equipment_to_stockpile = {
+			type = uniform_equipment_2
+			amount = 250
+			producer = USA
+		}
+		FROM = { country_event = { id = DOM_1858_santana_coup.5 } }
+	}
+	
+	option = {
+		name = DOM_1858_santana_coup.4.c
+		ai_chance = { factor = 0 }
+		
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.5
+	title = DOM_1858_santana_coup.5.t
+	desc = DOM_1858_santana_coup.5.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DOM_1858_santana_coup.5.a
+		ai_chance = { factor = 100 }
+		add_political_power = 200
+		FROM = { country_event = { id = DOM_1858_santana_coup.6 days = 3 } }
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.6
+	title = DOM_1858_santana_coup.6.t
+	desc = DOM_1858_santana_coup.6.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DOM_1858_santana_coup.6.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			division_template = {
+				name = "US Marines"
+				priority = 1
+				regiments = {
+					early_marine = { x = 0 y = 0 }
+					early_marine = { x = 0 y = 1 }
+					early_marine = { x = 1 y = 0 }
+					early_marine = { x = 1 y = 1 }
+				}
+				is_locked = yes
+			}
+		}
+		random_owned_state = {
+			create_unit = {
+				division = "name = \"US Marines\" division_template = \"US Marines\" start_experience_factor = 1 start_equipment_factor = 1" 
+				owner = ROOT
+			}
+		}
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_won_coup.1
+	hidden = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		ROOT = {
+			annex_country = {
+				target = FROM
+				transfer_troops = yes
+			}
+			retire_country_leader = yes
+			set_political_power = 0
+			set_politics = { ruling_party = radical_democracy }
+			add_ideas = military_junta
+			add_ideas = no_constitution
+			create_country_leader = {
+				name = "Pedro Santana"
+				desc = "POLITICS_TEMP_DESC"
+				picture = "Portrait_DOM_Pedro_Santana.dds"
+				expire = 1864.6.14
+				ideology = authoritarian_democracy
+			}
+			set_capital = 1318
+			country_event = { id = DOM_1858_santana_coup.8 days = 6 }
+		}
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.7
+	title = DOM_1858_santana_coup.7.t
+	desc = DOM_1858_santana_coup.7.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DOM_1858_santana_coup.7.a
+		ai_chance = { factor = 100 }
+		delete_unit_template_and_units = { division_template = "US Marines" disband = no }
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.8
+	title = DOM_1858_santana_coup.8.t
+	desc = DOM_1858_santana_coup.8.d
+	
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = DOM_1858_santana_coup.8.a
+		ai_chance = { factor = 100 }
+		swap_ideas = {
+			add_idea = limited_constitution
+			remove_idea = no_constitution
+		}
+		swap_ideas = {
+			add_idea = semi_presidential_republic
+			remove_idea = military_junta
+		}
+		swap_ideas = {
+			add_idea = one_party_elections
+			remove_idea = limited_elections
+		}
+		swap_ideas = {
+			add_idea = pp_limited_party_freedom
+			remove_idea = pp_open_politics
+		}
+		hidden_effect = { country_event = { id = DOM_1858_santana_coup.9 days = 9 } }
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.9
+	title = DOM_1858_santana_coup.9.t
+	desc = DOM_1858_santana_coup.9.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DOM_1858_santana_coup.9.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { NOT = { has_idea = law_military_police_force } }
+			swap_ideas = {
+				add_idea = law_military_police_force
+				remove_idea = law_police_force
+			}
+		}
+		if = {
+			limit = { has_idea = kangaroo_court }
+			swap_ideas = {
+				add_idea = biased_courtroom
+				remove_idea = kangaroo_court
+			}
+			add_political_power = -150
+		}
+		else_if = {
+			limit = { has_idea = high_judge_courtroom }
+			swap_ideas = {
+				add_idea = biased_courtroom
+				remove_idea = high_judge_courtroom
+			}
+			add_political_power = -150
+		}
+		else_if = {
+			limit = { has_idea = quasi_jury_court }
+			swap_ideas = {
+				add_idea = biased_courtroom
+				remove_idea = quasi_jury_court
+			}
+			add_political_power = -150
+		}
+		else_if = {
+			limit = { has_idea = jury_court }
+			swap_ideas = {
+				add_idea = biased_courtroom
+				remove_idea = jury_court
+			}
+			add_political_power = -150
+		}
+		hidden_effect = { country_event = { id = DOM_1858_santana_coup.10 days = 30 } }
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.10
+	title = DOM_1858_santana_coup.10.t
+	desc = DOM_1858_santana_coup.10.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DOM_1858_santana_coup.10.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { NOT = { has_idea = foa_banned } }
+			swap_ideas = {
+				add_idea = foa_banned
+				remove_idea = foa_free_assembly
+			}
+		}
+		if = {
+			limit = { has_idea = free_press }
+			swap_ideas = {
+				add_idea = state_controlled_press
+				remove_idea = free_press
+			}
+			add_political_power = 50
+		}
+		else_if = {
+			limit = { has_idea = censored_press }
+			swap_ideas = {
+				add_idea = state_controlled_press
+				remove_idea = censored_press
+			}
+			add_political_power = 50
+		}
+		if = {
+			limit = { NOT = { has_idea = tu_prohibited } }
+			swap_ideas = {
+				add_idea = tu_prohibited
+				remove_idea = tu_non_political
+			}
+			add_political_power = 50
+		}
+		hidden_effect = { country_event = { id = DOM_1858_santana_coup.11 days = 7 } }
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.11
+	title = DOM_1858_santana_coup.11.t
+	desc = DOM_1858_santana_coup.11.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DOM_1858_santana_coup.11.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { has_idea = three_percent }
+			swap_ideas = {
+				add_idea = five_percent
+				remove_idea = three_percent
+			}
+			debt_level_increase_by_2 = yes
+		}
+		else_if = {
+			limit = { has_idea = two_percent }
+			swap_ideas = {
+				add_idea = three_percent
+				remove_idea = two_percent
+			}
+			debt_level_increase_by_2 = yes
+		}
+		else_if = {
+			limit = { has_idea = one_percent }
+			swap_ideas = {
+				add_idea = two_percent
+				remove_idea = one_percent
+			}
+			debt_level_increase_by_2 = yes
+		}
+		hidden_effect = { country_event = { id = DOM_1858_santana_coup.12 days = 5 } }
+	}
+}
+
+country_event = {
+	id = DOM_1858_santana_coup.12
+	title = DOM_1858_santana_coup.12.t
+	desc = DOM_1858_santana_coup.12.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = DOM_1858_santana_coup.12.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { has_idea = disarmed_nation }
+			swap_ideas = {
+				add_idea = service_by_requirement
+				remove_idea = disarmed_nation
+			}
+			add_political_power = -250
+		}
+		else_if = {
+			limit = { has_idea = volunteer_only }
+			swap_ideas = {
+				add_idea = service_by_requirement
+				remove_idea = volunteer_only
+			}
+			add_political_power = -250
+		}
+		else_if = {
+			limit = { has_idea = limited_conscription }
+			swap_ideas = {
+				add_idea = service_by_requirement
+				remove_idea = limited_conscription
+			}
+			add_political_power = -250
+		}
+		else_if = {
+			limit = { has_idea = extensive_conscription }
+			swap_ideas = {
+				add_idea = service_by_requirement
+				remove_idea = extensive_conscription
+			}
+			add_political_power = -250
+		}
+		else_if = {
+			limit = { has_idea = all_adults_serve }
+			swap_ideas = {
+				add_idea = service_by_requirement
+				remove_idea = all_adults_serve
+			}
+			add_political_power = -250
+		}
+		else_if = {
+			limit = { has_idea = scraping_the_barrel }
+			swap_ideas = {
+				add_idea = service_by_requirement
+				remove_idea = scraping_the_barrel
+			}
+			add_political_power = -250
+		}
+		add_equipment_to_stockpile = {
+			type = infantry_equipment_rifle_1
+			amount = 250
+			producer = DOM
+		}
+		add_equipment_to_stockpile = {
+			type = uniform_equipment_2
+			amount = 250
+			producer = DOM
+		}
+		debt_level_increase_by_1 = yes
+	}
+}
+
+
+country_event = {
+	id = hispaniola_debt.1
+	title = hispaniola_debt.1.t
+	desc = hispaniola_debt.1.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = hispaniola_debt.1.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = { NOT = { has_country_flag = paying_debt } }
+			activate_decision = eoanb_decision_debt_repayments 
+		}
+	}
+}
+
 country_event = {
 	id = hispaniola.1
 	title = hispaniola.1.t
@@ -10,25 +831,23 @@ country_event = {
 	trigger = {
 		#TAG = DOM
 		#date > 1861.3.18
-		USA = {
-			has_war_with = CSA
-		}
+		#USA = {
+		#	has_war_with = CSA
+		#}
 	}
 	
 	option = {
 		name = hispaniola.1.a
 		ai_chance = { factor = 95 }
-		add_political_power = 50
-		add_stability = 0.035
-		SPR = { country_event = hispaniola.2 }
+		SPR = { country_event = hispaniola.2 days = 3 }
 	}
 	
-	option = {
-		name = hispaniola.1.b
-		ai_chance = { factor = 5 }
-		add_political_power = -30
-		add_stability = 0.01
-	}
+	#option = {
+	#	name = hispaniola.1.b
+	#	trigger = { has_country_leader = { name = "Buenaventura Báez" ruling_only = yes } }
+	#	ai_chance = { factor = 5 }
+	#	USA = { country_event = hispaniola.2 days = 3 }
+	#}
 }
 
 country_event = {
@@ -41,21 +860,54 @@ country_event = {
 	
 	option = {
 		name = hispaniola.2.a
-		ai_chance = { factor = 95 }
+		ai_chance = { factor = 100 }
 		add_political_power = -15
-		annex_country = {
-		target = DOM
-		transfer_troops = no
+		hidden_effect = { FROM = { clear_variable = debt_level } }
+		if = {
+			limit = { 
+				FROM = { 
+					is_ai = yes 
+					has_country_leader = { name = "Pedro Santana" ruling_only = yes }
+				} 
+			}
+			annex_country = {
+				target = DOM
+				transfer_troops = no
+			}
+			hidden_effect = { load_oob = "DOM_SPAIN_1861" }
 		}
-		hidden_effect = {
-		load_oob = "DOM_SPAIN_1861"
+		else = {
+			if = {
+				limit = { OR = {
+					has_dlc = "Together for Victory"
+					has_dlc = "Waking the Tiger"
+					has_dlc = "Death or Dishonor"
+				} }
+				ROOT = {
+					hidden_effect = { FROM = { store_current_ideologies = yes } }
+					hidden_effect = { FROM = { add_ideas = AFR_spanish_colony } }
+					set_autonomy = {
+						target = FROM
+						autonomy_state = autonomy_afr_colony
+						freedom_level = 0.5
+					}
+					hidden_effect = { FROM = { load_prevous_ideologies = yes } }
+				}
+			}
+			else = { 
+				hidden_effect = { FROM = { store_current_ideologies = yes } }
+				hidden_effect = { FROM = { add_ideas = AFR_spanish_colony } }
+				puppet = FROM 
+				hidden_effect = { FROM = { load_prevous_ideologies = yes } }
+			}
+			hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
 		}
-	    HAI = { country_event = hispaniola.3 }
+	    HAI = { country_event = hispaniola.3 days = 3}
 	}
 	
 	option = {
 		name = hispaniola.2.b
-		ai_chance = { factor = 5 }
+		ai_chance = { factor = 0 }
 		add_political_power = 40
 	}
 	

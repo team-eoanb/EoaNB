@@ -118,7 +118,7 @@ country_event = { #national debt hits majorly conserning levels, public confeden
 		}
 	}
 	mean_time_to_happen = {
-		days = 250
+		days = 300
 	}
 }
 country_event = { #national debt hits majorly conserning levels, public confedence really starts to drop
@@ -147,7 +147,7 @@ country_event = { #national debt hits majorly conserning levels, public confeden
 		}
 	}
 	mean_time_to_happen = {
-		days = 250
+		days = 300
 	}
 }
 country_event = { #a creditor demands payment
@@ -158,6 +158,12 @@ country_event = { #a creditor demands payment
 	trigger = {
 		has_idea = egy_vic_debt
 		check_variable = {ROOT.debt_level > 24}
+		NOT = { 
+			has_idea = one_percent
+			has_idea = egy_industry_cuts
+			has_idea = very_high_taxes
+			has_country_flag = paying_debt
+		}
 	}
 		
 	option = {#yes
@@ -169,27 +175,19 @@ country_event = { #a creditor demands payment
 			}
 		}
 		afr_increase_taxes = yes	
-		custom_effect_tooltip = EGY_afr_decrease_debt_1
-		hidden_effect = {
-			subtract_from_variable = {var = debt_level value = 1}
-		}
+		debt_level_decrease_by_1 = yes
 	}
 	option = {#we will make the industry pay
 		name = egy_debt_system.6.b
 		ai_chance = { factor = 100 }
 		trigger = {
-			NOT = {
-				has_idea = egy_industry_cuts
-			}
+			NOT = { has_idea = egy_industry_cuts }
 		}
 		add_timed_idea = {
 			idea = egy_industry_cuts
-			days = 360
+			days = 720
 		}	
-		custom_effect_tooltip = EGY_afr_decrease_debt_1
-		hidden_effect = {
-			subtract_from_variable = {var = debt_level value = 1}
-		}		
+		debt_level_decrease_by_1 = yes		
 	}
 	option = {#we will make the army pay
 		name = egy_debt_system.6.c
@@ -200,23 +198,21 @@ country_event = { #a creditor demands payment
 			}
 		}
 		afr_decrease_military_spending = yes	
-		custom_effect_tooltip = EGY_afr_decrease_debt_1
-		hidden_effect = {
-			subtract_from_variable = {var = debt_level value = 1}
-		}		
+		debt_level_decrease_by_1 = yes	
 	}
-	option = {#we can make no one pay
+	option = {#Default to payment mission
 		name = egy_debt_system.6.e
 		ai_chance = { factor = 100 }
 		trigger = {
 			has_idea = one_percent
 			has_idea = egy_industry_cuts
 			has_idea = very_high_taxes
+			NOT = { has_country_flag = paying_debt }
 		}
-		custom_effect_tooltip = EGY_afr_increase_debt_1
-		hidden_effect = {
-			add_to_variable = {var = debt_level value = 1}
-		}		
+		if = {
+			limit = { NOT = { has_country_flag = paying_debt } }
+			activate_decision = eoanb_decision_debt_repayments
+		}
 	}
 	mean_time_to_happen = {
 		days = 500
@@ -292,9 +288,9 @@ country_event = { #national debt is payed off
 		check_variable = {ROOT.debt_level < 1}
 	}
 	hidden = yes
-	immediate={
-		remove_debt_effects = yes
-	}
+	#immediate={
+	#	remove_debt_effects = yes
+	#}
 		
 	option = {#great
 		name = egy_debt_system.9.a
