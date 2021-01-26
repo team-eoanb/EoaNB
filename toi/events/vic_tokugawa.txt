@@ -1,68 +1,858 @@
-add_namespace = vic_tokugawa_shogunate
-add_namespace = vic_tokugawa_shogunate_flavor
-add_namespace = vic_tokugawa_shogunate_reforms
-add_namespace = vic_tokugawa_shogunate_foreign
-add_namespace = vic_tokugawa_shogunate_influence
-add_namespace = vic_tokugawa_shogunate_ansei
-add_namespace = vic_tokugawa_shogunate_boshin
-add_namespace = vic_tokugawa_shogunate_ezo
+add_namespace = feudal_tokugawa_shogunate
+add_namespace = feudal_tokugawa_shogunate_flavor
+add_namespace = feudal_tokugawa_shogunate_reforms
+add_namespace = feudal_tokugawa_shogunate_foreign
+add_namespace = feudal_tokugawa_shogunate_influence
+add_namespace = feudal_tokugawa_shogunate_ansei
+add_namespace = feudal_tokugawa_shogunate_boshin
+add_namespace = feudal_tokugawa_shogunate_ezo
 
-add_namespace = vic_tokugawa_daimyos
-add_namespace = vic_tokugawa_daimyos_influence
-add_namespace = vic_tokugawa_daimyos_loyal
-add_namespace = vic_tokugawa_daimyos_rebel
+add_namespace = feudal_tokugawa_daimyos
+add_namespace = feudal_tokugawa_daimyos_influence
+add_namespace = feudal_tokugawa_daimyos_loyal
+add_namespace = feudal_tokugawa_daimyos_rebel
 
 ###### Victorian Tokugawa
 
 # 1857 Japan Start Event
 country_event = {
-	id = vic_tokugawa_shogunate.1
-	title = vic_tokugawa_shogunate.1.t
-	desc = vic_tokugawa_shogunate.1.d
+	id = feudal_tokugawa_shogunate.1
+	title = feudal_tokugawa_shogunate.1.t
+	desc = feudal_tokugawa_shogunate.1.d
 	# picture = placeholder
 
 	is_triggered_only = yes
 
 	trigger = {
 		is_japanese_country = yes
-		date > 1868.1.1
+		date < 1868.1.1
 	}
-
+	
 	immediate = {
-		if = { 
-			limit = { tag = TSH }
-			country_event = vic_tokugawa_shogunate_flavor.1
+		hidden_effect = {
+			if = { 
+				limit = { tag = TSH }
+				country_event = feudal_tokugawa_shogunate_flavor.1
+			}
 		}
 	}
 
 	option = {
-		name = vic_tokugawa_shogunate.1.a
+		name = feudal_tokugawa_shogunate.1.a
 		trigger = { tag = TSH }
 		add_political_power = -25
+		activate_mission = TSH_Mission_Bakumatsu_Modernization_Kanrin_Mahru
 		eoanb_add_1_prestige_score = yes
 	}
 	option = {
-		name = vic_tokugawa_shogunate.1.b
+		name = feudal_tokugawa_shogunate.1.b
 		trigger = { OR = { tag = SAT tag = DTE } }
 		add_political_power = -35
 	}
 	option = {
-		name = vic_tokugawa_shogunate.1.c
+		name = feudal_tokugawa_shogunate.1.c
 		trigger = { OR = { tag = CHO tag = SAG tag = TOS } }
 		add_political_power = -35
 	}
 	option = {
-		name = vic_tokugawa_shogunate.1.d
+		name = feudal_tokugawa_shogunate.1.d
 		trigger = { tag = RYU }
 	}
 }
 
+country_event = {
+	id = feudal_tokugawa_shogunate.2
+	title = feudal_tokugawa_shogunate.2.t
+	desc = feudal_tokugawa_shogunate.2.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = feudal_tokugawa_shogunate.2.a
+	}
+}
+
+##### Ansei Purge Mechanic
+
+# Launch the Ansei Purge
+country_event = {
+	id = feudal_tokugawa_shogunate_ansei.1
+	title = feudal_tokugawa_shogunate_ansei.1.t
+	desc = feudal_tokugawa_shogunate_ansei.1.d
+
+	is_triggered_only = yes
+    fire_only_once = yes
+
+	option = {
+		name = feudal_tokugawa_shogunate_ansei.1.a
+        add_political_power = 15
+        eoanb_add_1_prestige_score = yes
+        hidden_effect = {
+            every_country = {
+                limit = {
+                    OR = {
+                        is_japanese_country = yes
+                        any_owned_state = { is_in_japan = yes }
+                        has_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_West
+                    }
+                }
+                news_event = feudal_tokugawa_shogunate_ansei.2
+            }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.3 days = 10 }
+        }
+	}
+}
+
+# Ansei Purge News Event
+news_event = {
+	id = feudal_tokugawa_shogunate_ansei.2
+	title = feudal_tokugawa_shogunate_ansei.2.t
+	desc = feudal_tokugawa_shogunate_ansei.2.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = feudal_tokugawa_shogunate_ansei.2.a
+        if = {
+            limit = {
+                OR = {
+                    tag = TSH
+                    AND = {
+                        is_subject_of = TSH
+                        any_owned_state = { is_in_japan = yes }
+                    }
+                }
+            }
+            add_ideas = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+        }
+	}
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.3
+    title = feudal_tokugawa_shogunate_ansei.3.t
+    desc = feudal_tokugawa_shogunate_ansei.3.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            # Precise Events for Major Leaders
+            country_event = { id = feudal_tokugawa_shogunate_ansei.10 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.11 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.12 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.13 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.14 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.15 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.16 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.17 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.18 days = 1 random_days = 999 }
+            country_event = { id = feudal_tokugawa_shogunate_ansei.19 days = 1 random_days = 999 }
+            # Randomized Generic Purges
+            country_event = { id = feudal_tokugawa_shogunate_ansei.20 days = 3 }
+            # Sakuradamon Incident
+            country_event = { id = feudal_tokugawa_shogunate_ansei.50 days = 1000 random_days = 14 }
+        }
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.3.a
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.3.b
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.3.c
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.10
+    title = feudal_tokugawa_shogunate_ansei.10.t
+    desc = feudal_tokugawa_shogunate_ansei.10.d
+
+    is_triggered_only = yes
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.10
+    title = feudal_tokugawa_shogunate_ansei.10.t
+    desc = feudal_tokugawa_shogunate_ansei.10.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.10 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.11
+    title = feudal_tokugawa_shogunate_ansei.11.t
+    desc = feudal_tokugawa_shogunate_ansei.11.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.11 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.12
+    title = feudal_tokugawa_shogunate_ansei.12.t
+    desc = feudal_tokugawa_shogunate_ansei.12.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.12 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.13
+    title = feudal_tokugawa_shogunate_ansei.13.t
+    desc = feudal_tokugawa_shogunate_ansei.13.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.13 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.14
+    title = feudal_tokugawa_shogunate_ansei.14.t
+    desc = feudal_tokugawa_shogunate_ansei.14.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.14 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.15
+    title = feudal_tokugawa_shogunate_ansei.15.t
+    desc = feudal_tokugawa_shogunate_ansei.15.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.15 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.16
+    title = feudal_tokugawa_shogunate_ansei.16.t
+    desc = feudal_tokugawa_shogunate_ansei.16.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.16 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.17
+    title = feudal_tokugawa_shogunate_ansei.17.t
+    desc = feudal_tokugawa_shogunate_ansei.17.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.17 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.18
+    title = feudal_tokugawa_shogunate_ansei.18.t
+    desc = feudal_tokugawa_shogunate_ansei.18.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.18 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.19
+    title = feudal_tokugawa_shogunate_ansei.19.t
+    desc = feudal_tokugawa_shogunate_ansei.19.d
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            if = {
+                limit = { tag = TSH }
+                every_other_country = {
+                    limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                    country_event =  { id = feudal_tokugawa_shogunate_ansei.19 days = 1 }
+                }
+            }
+        }
+    }
+
+    trigger = {
+        has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge
+    }
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.a
+        trigger = { tag = TSH }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.b
+        trigger = {
+            NOT = { tag = TSH }
+            check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 }
+        }
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.10.c
+        trigger = {
+            NOT = { tag = TSH }
+            NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        }
+    }
+}
+
+country_event = {
+    id = feudal_tokugawa_shogunate_ansei.20
+    hidden = yes
+
+    is_triggered_only = yes
+
+    trigger = { 
+        tag = TSH
+        has_global_flag = TSH_Bakumatsu_Debate_Ongoing
+    }
+
+    immediate = {
+        if = {
+            limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+            random_state = {
+                limit = {
+                    is_in_japan = yes
+                    OWNER = {
+                        OR = {
+                            tag = TSH
+                            is_subject_of = TSH
+                        }
+                    }
+                }
+                random_list = {
+                    1 = { state_event = { id = feudal_tokugawa_shogunate_ansei.21 days = 1 random_days = 7 trigger_for = controller } }
+                    1 = { state_event = { id = feudal_tokugawa_shogunate_ansei.23 days = 1 random_days = 7 trigger_for = controller } }
+                    1 = { state_event = { id = feudal_tokugawa_shogunate_ansei.25 days = 1 random_days = 7 trigger_for = controller } }
+                    1 = { state_event = { id = feudal_tokugawa_shogunate_ansei.27 days = 1 random_days = 7 trigger_for = controller } }
+                    1 = { state_event = { id = feudal_tokugawa_shogunate_ansei.29 days = 1 random_days = 7 trigger_for = controller } }
+                }
+            }
+        }
+    }
+}
+
+state_event = {
+    id = feudal_tokugawa_shogunate_ansei.21
+    title = feudal_tokugawa_shogunate_ansei.21.t
+    desc = feudal_tokugawa_shogunate_ansei.21.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.21.a
+        hidden_effect = {
+            every_country = {
+                limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                news_event = feudal_tokugawa_shogunate_ansei.22
+            }
+        }
+    }
+}
+
+news_event = {
+    id = feudal_tokugawa_shogunate_ansei.22
+    title = feudal_tokugawa_shogunate_ansei.22.t
+    desc = feudal_tokugawa_shogunate_ansei.22.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.a
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = -15
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.b
+        trigger = { NOT = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } } }
+        add_command_power = 15
+    }
+}
+
+state_event = {
+    id = feudal_tokugawa_shogunate_ansei.23
+    title = feudal_tokugawa_shogunate_ansei.23.t
+    desc = feudal_tokugawa_shogunate_ansei.23.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.21.a
+        hidden_effect = {
+            every_country = {
+                limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                news_event = feudal_tokugawa_shogunate_ansei.24
+            }
+        }
+    }
+}
+
+news_event = {
+    id = feudal_tokugawa_shogunate_ansei.24
+    title = feudal_tokugawa_shogunate_ansei.24.t
+    desc = feudal_tokugawa_shogunate_ansei.24.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.a
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = -15
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.b
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = 15
+    }
+}
+
+state_event = {
+    id = feudal_tokugawa_shogunate_ansei.25
+    title = feudal_tokugawa_shogunate_ansei.25.t
+    desc = feudal_tokugawa_shogunate_ansei.25.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.21.a
+        hidden_effect = {
+            every_country = {
+                limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                news_event = feudal_tokugawa_shogunate_ansei.26
+            }
+        }
+    }
+}
+
+news_event = {
+    id = feudal_tokugawa_shogunate_ansei.26
+    title = feudal_tokugawa_shogunate_ansei.26.t
+    desc = feudal_tokugawa_shogunate_ansei.26.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.a
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = -15
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.b
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = 15
+    }
+}
+
+state_event = {
+    id = feudal_tokugawa_shogunate_ansei.27
+    title = feudal_tokugawa_shogunate_ansei.27.t
+    desc = feudal_tokugawa_shogunate_ansei.27.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.21.a
+        hidden_effect = {
+            every_country = {
+                limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                news_event = feudal_tokugawa_shogunate_ansei.28
+            }
+        }
+    }
+}
+
+news_event = {
+    id = feudal_tokugawa_shogunate_ansei.28
+    title = feudal_tokugawa_shogunate_ansei.28.t
+    desc = feudal_tokugawa_shogunate_ansei.28.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.a
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = -15
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.b
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = 15
+    }
+}
+
+state_event = {
+    id = feudal_tokugawa_shogunate_ansei.29
+    title = feudal_tokugawa_shogunate_ansei.29.t
+    desc = feudal_tokugawa_shogunate_ansei.29.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.21.a
+        hidden_effect = {
+            every_country = {
+                limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Ansei_Purge }
+                news_event = feudal_tokugawa_shogunate_ansei.30
+            }
+        }
+    }
+}
+
+news_event = {
+    id = feudal_tokugawa_shogunate_ansei.30
+    title = feudal_tokugawa_shogunate_ansei.30.t
+    desc = feudal_tokugawa_shogunate_ansei.30.d
+
+    is_triggered_only = yes
+
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.a
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = -15
+    }
+    option = {
+        name = feudal_tokugawa_shogunate_ansei.22.b
+        trigger = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.05 } }
+        add_command_power = 15
+    }
+}
 
 ##### Victorian Tokugawa Flavor
 
 # 1857 Japan Flavor Distributor
 country_event = {
-	id = vic_tokugawa_shogunate_flavor.1
+	id = feudal_tokugawa_shogunate_flavor.1
 	hidden = yes
 
 	is_triggered_only = yes
@@ -73,14 +863,14 @@ country_event = {
 
 	immediate = {
 		UCT = {
-			country_event { id = vic_tokugawa_shogunate_flavor.2 days = 300 random_days = 100 }
+			country_event { id = feudal_tokugawa_shogunate_flavor.2 days = 300 random_days = 100 }
 		}
 	}
 }
 
 # Hietsu Earthquake Trigger
 country_event = {
-	id = vic_tokugawa_shogunate_flavor.2
+	id = feudal_tokugawa_shogunate_flavor.2
 	hidden = yes
 
 	is_triggered_only = yes
@@ -88,16 +878,16 @@ country_event = {
 	immediate = {
 		every_country = {
 			limit = { any_owned_state = { is_in_japan = yes } }
-			news_event = vic_tokugawa_shogunate_flavor.3
+			news_event = feudal_tokugawa_shogunate_flavor.3
 		}
 	}
 }
 
 # Hietsu Earthquake of 1858
 news_event = {
-	id = vic_tokugawa_shogunate_flavor.3
-	title = vic_tokugawa_shogunate_flavor.3.t
-	desc = vic_tokugawa_shogunate_flavor.3.d
+	id = feudal_tokugawa_shogunate_flavor.3
+	title = feudal_tokugawa_shogunate_flavor.3.t
+	desc = feudal_tokugawa_shogunate_flavor.3.d
 	# picture = earthquakepls
 	
 	is_triggered_only = yes
@@ -113,7 +903,7 @@ news_event = {
 	}
 
 	option = {
-		name = vic_tokugawa_shogunate_flavor.3.a
+		name = feudal_tokugawa_shogunate_flavor.3.a
 		add_command_power = -75
 		add_timed_idea = {
 			idea = Generic_Idea_Earthquake_Damage_3

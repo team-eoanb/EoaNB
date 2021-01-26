@@ -261,10 +261,10 @@ focus_tree = {
 		}
 		bypass = { NOT = { has_idea = industrializing } }
 		available = {
-		date > 1875.1.1
-					has_idea = industrializing
-					num_of_factories > 20
-			}
+			date > 1875.1.1
+			has_idea = industrializing
+			num_of_factories > 20
+		}
 		completion_reward = {
 			swap_ideas = {
 				remove_idea = industrializing
@@ -291,7 +291,9 @@ focus_tree = {
 				always = no
 			}
 		}
-		completion_reward = {}
+		completion_reward = {
+			custom_effect_tooltip = "Starts a political process where we can determine who should be our leader."
+		}
 	}
 
 	focus = {
@@ -315,7 +317,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 30
-			country_event = { id = norwegian_votes.0 days = 1 }
+			country_event = norwegian_votes.0
 		}
 	}
 
@@ -362,6 +364,12 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = -10
+			add_stability = -0.10
+			create_country_leader = {
+				name = "Vacant Seat"
+				desc = "POLITICS_TEMP_DESC"
+				ideology = conserv
+			}
 		}
 	}
 
@@ -375,6 +383,26 @@ focus_tree = {
 		prerequisite = { focus = NOR_focus_vogt_vote_success focus = NOR_focus_vogt_vote_fail }
 
 		completion_reward = {
+			if = {
+				limit = {
+					has_completed_focus = NOR_focus_vogt_vote_success
+				}
+
+				news_event = eoanb_norway.9
+
+				else_if = {
+					limit = {
+						has_completed_focus = NOR_focus_vogt_vote_fail
+					}
+
+					news_event = eoanb_norway.10
+					country_event = eoanb_norway.8
+
+					else = {
+						custom_effect_tooltip = "Will have an effect once the vote is completed."
+					}
+				}
+			}
 		}
 	}
 
@@ -400,6 +428,7 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 20
 			add_stability = -0.05
+			news_event = eoanb_norway.10
 
 			create_country_leader = {
 				name = "Vacant Seat"
@@ -458,17 +487,27 @@ focus_tree = {
 		icon = GFX_goal_generic_major_alliance
 		prerequisite = { focus = NOR_focus_vogt_replacement_found focus = NOR_focus_vogt_vote_conclusion }
 
+		available = {
+			if = {
+				limit = {
+					has_completed_focus = NOR_focus_vogt_vote_fail
+				}
+
+				custom_trigger_tooltip = {
+					tooltip = "Chosen Vogt's successor"
+					has_country_flag = NOR_flag_vogt_chosen_successor
+				}
+				hidden_trigger = {
+					has_country_flag = NOR_flag_vogt_chosen_successor
+				}
+			}
+		}
 		ai_will_do = {
 			base = 160
 		}
 		completion_reward = {
 			add_political_power = 50
-			hidden_effect = {
-				set_politics = {
-					election_frequency = 36
-					elections_allowed = yes
-				}
-			}
+			news_event = eoanb_norway.11
 		}
 	}
 

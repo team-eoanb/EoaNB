@@ -2,68 +2,386 @@ TSH_Bakumatsu_Debate_Setup = {
 	set_global_flag = TSH_Bakumatsu_Debate_Ongoing
 	
 	TSH = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 18 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.18 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	CHO = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 39 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.39 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	DTE = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 9 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.09 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	MIT = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 16 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.16 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	SAG = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 13 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.13 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	SAT = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 18 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.18 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	SHI = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 9 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.09 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	TOS = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 18 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.18 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	TSU = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 9 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.09 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 }
+
 TSH_Bakumatsu_Debate_Country_Setup = {
-	# Dynamic Modifier
+	# Boshin War Mission
 	activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
 	
-	if = {
-		limit = { tag = TSH }
-		add_dynamic_modifier = { modifier = TSH_Bakumatsu_Shogunate_Modifier }
-		every_owned_state = {
-			limit = { is_in_japan = yes }
-			set_variable = { TSH_Bakumatsu_Debate_Emperor_Influence = OWNER.TSH_Bakumatsu_Debate_Tensions }
-			set_variable = { TSH_Bakumatsu_Debate_Shogun_Influence = 100 }
-			subtract_from_variable = { TSH_Bakumatsu_Debate_Shogun_Influence = TSH_Bakumatsu_Debate_Emperor_Influence }
+	every_owned_state = {
+		# limit = { is_in_japan = yes }
+		set_variable = { TSH_Bakumatsu_Debate_Emperor_Influence = 0 }
+		set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = PREV.TSH_Bakumatsu_Debate_Tensions }
+		TSH_Bakumatsu_Debate_Influence_State_Modify = yes
+		if = {
+			limit = { OWNER = { tag = TSH } }
+			add_dynamic_modifier = { modifier = TSH_Bakumatsu_Shogunate_Modifier }
 		}
-	}
-	else = {
-		add_dynamic_modifier = { modifier = TSH_Bakumatsu_Daimyo_Modifier }
-		every_owned_state = {
-			limit = { is_in_japan = yes }
-			set_variable = { TSH_Bakumatsu_Debate_Emperor_Influence = OWNER.TSH_Bakumatsu_Debate_Tensions }
-			set_variable = { TSH_Bakumatsu_Debate_Shogun_Influence = 100 }
-			subtract_from_variable = { TSH_Bakumatsu_Debate_Shogun_Influence = TSH_Bakumatsu_Debate_Emperor_Influence }
+		else_if = {
+			limit = { OWNER = { is_japanese_country = yes } }
+			add_dynamic_modifier = { modifier = TSH_Bakumatsu_Daimyo_Modifier }
 		}
 	}
 }
-TSH_Bakumatsu_Debate_Influence_Modify = {
 
+TSH_Bakumatsu_Debate_Influence_Country_Modify = {
+	if = {
+		limit = {
+			OR = {
+				has_global_flag = TSH_Bakumatsu_Debate_Ongoing
+				has_global_flag = TSH_Boshin_War_Ongoing
+			}
+			is_japanese_country = yes
+		}
+		
+		# Modify Popularities
+		custom_effect_tooltip = TSH_Bakumatsu_Debate_Influence_Modify_tt
+		add_to_variable = { TSH_Bakumatsu_Debate_Emperor_Influence = TSH_Bakumatsu_Debate_Influence_Change }
+		# clamp_variable = {
+		# 	var = TSH_Bakumatsu_Debate_Emperor_Influence
+		# 	min = 0
+		# 	max = 1
+		# }
+		set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Total = 1.00 }
+		subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Influence_Total = TSH_Bakumatsu_Debate_Emperor_Influence }
+		set_variable = { TSH_Bakumatsu_Debate_Shogun_Influence = TSH_Bakumatsu_Debate_Influence_Total }
+
+		hidden_effect = {
+			capital_scope = {
+				set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = OWNER.TSH_Bakumatsu_Debate_Influence_Change }
+				TSH_Bakumatsu_Debate_Influence_State_Modify = yes
+			}
+		}
+	}
+}
+TSH_Bakumatsu_Debate_Influence_State_Modify = {
+	if = {
+		limit = {
+			OR = {
+				has_global_flag = TSH_Bakumatsu_Debate_Ongoing
+				has_global_flag = TSH_Boshin_War_Ongoing
+			}
+			is_in_japan = yes
+		}
+
+		# Modify Popularities
+		custom_effect_tooltip = TSH_Bakumatsu_Debate_Influence_Modify_tt
+		add_to_variable = { TSH_Bakumatsu_Debate_Emperor_Influence = TSH_Bakumatsu_Debate_Influence_Change }
+		clamp_variable = {
+			var = TSH_Bakumatsu_Debate_Emperor_Influence
+			min = 0
+			max = 1
+		}
+		set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Total = 1.00 }
+		subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Influence_Total = TSH_Bakumatsu_Debate_Emperor_Influence }
+		set_variable = { TSH_Bakumatsu_Debate_Shogun_Influence = TSH_Bakumatsu_Debate_Influence_Total }
+
+		if = {
+			limit = { OWNER = { tag = TSH } }
+			set_temp_variable = { TSH_Bakumatsu_Shogunate_Modifier_Temp = 0.2 }
+			subtract_from_temp_variable = { TSH_Bakumatsu_Shogunate_Modifier_Temp = TSH_Bakumatsu_Debate_Emperor_Influence }
+			set_variable = { TSH_Bakumatsu_Shogunate_Modifier_lm = TSH_Bakumatsu_Shogunate_Modifier_Temp }
+			multiply_temp_variable = { TSH_Bakumatsu_Shogunate_Modifier_Temp = -1 }
+			set_variable = { TSH_Bakumatsu_Shogunate_Modifier_cg = TSH_Bakumatsu_Shogunate_Modifier_Temp }
+		}
+		else_if = {
+			limit = { OWNER = { is_japanese_country = yes } }
+			set_temp_variable = { TSH_Bakumatsu_Shogunate_Modifier_Temp = -0.2 }
+			add_to_temp_variable = { TSH_Bakumatsu_Shogunate_Modifier_Temp = TSH_Bakumatsu_Debate_Emperor_Influence }
+			divide_temp_variable = { TSH_Bakumatsu_Shogunate_Modifier_Temp = 2 }
+			set_variable = { TSH_Bakumatsu_Shogunate_Modifier_lm = TSH_Bakumatsu_Shogunate_Modifier_Temp }
+			multiply_temp_variable = { TSH_Bakumatsu_Shogunate_Modifier_Temp = -1 }
+			set_variable = { TSH_Bakumatsu_Shogunate_Modifier_cg = TSH_Bakumatsu_Shogunate_Modifier_Temp }
+		}
+	}
+}
+TSH_Bakumatsu_Modernization_Amity_Treaty_Sign = {
+	if = {
+		limit = { has_global_flag = TSH_Bakumatsu_Debate_Ongoing }
+		add_ideas = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_West
+
+		every_state = {
+			limit = {
+				is_in_japan = yes
+				is_demilitarized_zone = yes
+			}
+			PREV = { STATE_TAG_DCI_increase_by_1 = yes }
+		}
+
+		TSH = {
+			if = {
+				limit = { has_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_6 }
+				swap_ideas = {
+					remove_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_6
+					add_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_7
+				}
+			}
+			else_if = {
+				limit = { has_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_5 }
+				swap_ideas = {
+					remove_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_5
+					add_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_6
+				}
+			}
+			else_if = {
+				limit = { has_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_4 }
+				swap_ideas = {
+					remove_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_4
+					add_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_5
+				}
+			}
+			else_if = {
+				limit = { has_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_3 }
+				swap_ideas = {
+					remove_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_3
+					add_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_4
+				}
+			}
+			else_if = {
+				limit = { has_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_2 }
+				swap_ideas = {
+					remove_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_2
+					add_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_3
+				}
+			}
+			else_if = {
+				limit = { has_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_1 }
+				swap_ideas = {
+					remove_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_1
+					add_idea = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_2
+				}
+			}
+			else = {
+				add_ideas = TSH_Idea_Bakumatsu_Modernization_Amity_Treaty_Japan_1
+			}
+		}
+	}
+}
+
+TSH_Meiji_Influence_Modify = {		
+	if = {
+		limit = { check_variable = { TSH_Meiji_Influence_Change > 0 } }
+		custom_effect_tooltip = TSH_Meiji_Emperor_Influence_Increase_tt
+	}
+	else_if = {
+		limit = { check_variable = { TSH_Meiji_Influence_Change < 0 } }
+		set_temp_variable = { TSH_Meiji_Influence_Change1 = 0 }
+		subtract_from_temp_variable = { TSH_Meiji_Influence_Change1 = TSH_Meiji_Influence_Change }
+		custom_effect_tooltip = TSH_Meiji_Shogun_Influence_Increase_tt
+	}
+
+	add_to_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+	
+	clamp_variable = { var = TSH.Meiji_Emperor_Influence@THIS min = 0 max = 100 }
+
+	set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+	subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH.Meiji_Emperor_Influence@THIS }
+
+	set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+	TSH_Meiji_Influence_Map_Varset = yes
+}
+TSH_Meiji_Influence_Map_Varset = {
+	if = {
+		limit = { check_variable = { TSH.Meiji_Shogun_Influence@THIS < 26 } }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 1 }
+	}
+	else_if = {
+		limit = { check_variable = { TSH.Meiji_Shogun_Influence@THIS < 50 } }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 2 }
+	}
+	else_if = {
+		limit = { check_variable = { TSH.Meiji_Shogun_Influence@THIS = 50 } }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 3 }
+	}
+	else_if = {
+		limit = { check_variable = { TSH.Meiji_Shogun_Influence@THIS > 74 } }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 5 }
+	}
+	else_if = {
+		limit = { check_variable = { TSH.Meiji_Shogun_Influence@THIS > 50 } }
+		set_variable = { TSH.Meiji_Shogun_Influence_Map@THIS = 4 }
+	}
+}
+TSH_Domains_Spread_Influence_Modify = {
+	if = {
+		limit = { ROOT = { check_variable = { TSH.Meiji_Emperor_Influence@ROOT > 49 } } }
+		if = {
+			limit = { ROOT = { has_country_flag = TSH_Improved_Meiji_Influencing } }
+			set_temp_variable = { TSH_Meiji_Influence_Change = -3 }
+		}
+		else = {
+			set_temp_variable = { TSH_Meiji_Influence_Change = -2 }
+		}
+	}
+	else = {
+		if = {
+			limit = { ROOT = { has_country_flag = TSH_Improved_Meiji_Influencing } }
+			set_temp_variable = { TSH_Meiji_Influence_Change = 3 }
+		}
+		else = {
+			set_temp_variable = { TSH_Meiji_Influence_Change = 2 }
+		}
+	}
+	TSH_Meiji_Influence_Modify = yes
+}
+TSH_Meiji_Influence_Setup = {
+	every_owned_state = {
+		limit = { NOT = { state = 1266 state = 1106 } }
+		randomize_temp_variable = {
+			var = TSH_Meiji_Influence_Change
+			min = 10
+			max = 32
+		}
+		round_temp_variable = TSH_Meiji_Influence_Change
+		set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+		subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH_Meiji_Influence_Change }
+		
+		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH.TSH_Boshin_War_Control_Array = THIS.id }
+	}
+	1266 = {
+		set_temp_variable = { TSH_Meiji_Influence_Change = 11 }
+		set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+		subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH_Meiji_Influence_Change }
+		
+		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH.TSH_Boshin_War_Control_Array = THIS.id }
+	}
+	1106 = {
+		set_temp_variable = { TSH_Meiji_Influence_Change = 81 }
+		set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+		subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH_Meiji_Influence_Change }
+		
+		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH.TSH_Boshin_War_Control_Array = THIS.id }
+	}
+	CHO = {
+		set_temp_variable = { TSH_Meiji_Influence_Change = 73 }
+		set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+		subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH_Meiji_Influence_Change }
+		
+		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH.TSH_Boshin_War_Control_Array = THIS.id }
+	}
+	DTE = {
+		set_temp_variable = { TSH_Meiji_Influence_Change = 18 }
+		set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+		subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH_Meiji_Influence_Change }
+		
+		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH.TSH_Boshin_War_Control_Array = THIS.id }
+	}
+	SAG = {
+		set_temp_variable = { TSH_Meiji_Influence_Change = 55 }
+		set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+		subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH_Meiji_Influence_Change }
+		
+		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH.TSH_Boshin_War_Control_Array = THIS.id }
+	}
+	SAT = {
+		set_temp_variable = { TSH_Meiji_Influence_Change = 43 }
+		set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+		subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH_Meiji_Influence_Change }
+		
+		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH.TSH_Boshin_War_Control_Array = THIS.id }
+	}
+	TOS = {
+		set_temp_variable = { TSH_Meiji_Influence_Change = 58 }
+		set_temp_variable = { Meiji_Entire_Loyalty = 100 }
+		subtract_from_temp_variable = { Meiji_Entire_Loyalty = TSH_Meiji_Influence_Change }
+		
+		set_variable = { TSH.Meiji_Emperor_Influence@THIS = TSH_Meiji_Influence_Change }
+		set_variable = { TSH.Meiji_Shogun_Influence@THIS = Meiji_Entire_Loyalty }
+		TSH_Meiji_Influence_Map_Varset = yes
+		add_to_array = { TSH.TSH_Boshin_War_Control_Array = THIS.id }
+	}
+}
+TSH_Shogun_Spread_Influence_Modify = {
+	custom_effect_tooltip = TSH_Shogun_Spread_Influence_Modify_tt
+	every_owned_state = {
+		limit = {
+			NOT = { state = 1266 state = 1106 }
+			check_variable = { TSH.Meiji_Emperor_Influence@THIS > 15 }
+		}
+		
+		randomize_temp_variable = {
+			var = TSH_Meiji_Influence_Change
+			distribution = uniform
+			min = -8
+			max = -4
+		}
+		round_temp_variable = TSH_Meiji_Influence_Change
+		TSH_Meiji_Influence_Modify = yes
+	}
+}
+TSH_Emperor_Spread_Influence_Modify = {
+	custom_effect_tooltip = TSH_Emperor_Spread_Influence_Modify_tt
+	every_owned_state = {
+		limit = { 
+			NOT = { state = 1266 state = 1106 }
+			check_variable = { TSH.Meiji_Emperor_Influence@THIS < 85 }
+		}
+		
+		randomize_temp_variable = {
+			var = TSH_Meiji_Influence_Change
+			distribution = uniform
+			min = 1
+			max = 5
+		}
+		round_temp_variable = TSH_Meiji_Influence_Change
+		TSH_Meiji_Influence_Modify = yes
+	}
 }
 
 

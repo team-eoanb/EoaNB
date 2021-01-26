@@ -12,17 +12,26 @@ TSH_Category_Bakumatsu_Modernization = {
 				# Boshin War Avoided
 				custom_trigger_tooltip = {
 					tooltip = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions_tt1
-					check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions < 1 }
+					OR = {
+						check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions < 0.01 }
+						AND = {
+							NOT = { tag = TSH }
+							NOT = { is_subject_of = TSH }
+						}
+					}
 				}
 				# Bosthin War Trigger
 				custom_trigger_tooltip = {
 					tooltip = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions_tt2
-					check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions > 99 }
+					check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions > 0.99 }
 				}
 			}
 		}
 
 		days_mission_timeout = 75
+
+		complete_effect = {
+		}
 
 		timeout_effect = {
 			if = {
@@ -32,7 +41,7 @@ TSH_Category_Bakumatsu_Modernization = {
 					set_temp_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare = TSH.TSH_Bakumatsu_Debate_Emperor_Influence }
 					subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare = TSH_Bakumatsu_Debate_Emperor_Influence }
 					if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare < -10 } }
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare < -0.10 } }
 						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -2 }
 					}
 					else_if = {
@@ -40,37 +49,107 @@ TSH_Category_Bakumatsu_Modernization = {
 						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -1 }
 					}
 					else_if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare > 10 } }
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare > 0.10 } }
 						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 2 }
 					}
 					else_if = {
 						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare > 0 } }
 						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 1 }
 					}
-					TSH_Bakumatsu_Debate_Influence_Modify = yes
+					TSH_Bakumatsu_Debate_Influence_Country_Modify = yes
 					activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
 				}
 				else_if = { 
 					limit = { tag = TSH }
-					add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 1 }
-					TSH_Bakumatsu_Debate_Influence_Modify = yes
+					add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
+					TSH_Bakumatsu_Debate_Influence_Country_Modify = yes
 					activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
 				}
 			}
 		}
 	}
 
+	TSH_Mission_Bakumatsu_Modernization_Kanrin_Mahru = {
+		icon = GFX_decision_generic_construction
 
+		allowed = { always = no }
 
+		activation = { always = no }
 
+		available = { always = no }
 
+		is_good = yes
+		fire_only_once = yes
+
+		days_mission_timeout = 120
+		days_remove = 120
+
+		modifier = {
+			experience_gain_navy = 0.05
+			command_power_gain = -0.15
+		}
+
+		timeout_effect = {
+			load_oob = JAP_NAVAL_1858
+		}
+	}
 	
-	
+	TSH_Decision_Bakumatsu_Modernization_Amity_Treaty = {
+		icon = generic_political_discourse
+
+		allowed = { always = no }
+
+		available = {
+			is_great_power = yes
+			has_navy_size = {
+				size > 3
+				type = capital_ship
+			}
+			has_navy_size = {
+				size > 10
+			}
+			TSH = {
+				is_subject = no
+				has_idea = pre_industrial_era
+			}
+		}
+
+		visible = {
+			TSH = {
+				is_subject = no
+				has_idea = pre_industrial_era
+			}
+		}
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				has_war = no
+				add = 15
+			}
+		}
+
+		custom_cost_trigger = {
+			trigger = {
+				has_political_power > 49.9
+				has_command_power > 24.9
+			}
+		}
+		custom_cost_text = TSH_Mission_Bakumatsu_Modernization_Amity_Treaty_Cost_tt
+
+		complete_effect = {
+			TSH_Bakumatsu_Modernization_Amity_Treaty_Sign = yes
+		
+		}
+	}
+
 	TSH_decision_purchase_books = {
 
 		icon = generic_political_discourse
 
-		allowed {
+		allowed = {
 			TAG = TSH
 		} 
 		
