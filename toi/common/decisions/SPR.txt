@@ -8,14 +8,17 @@ SPR_debt_management_category = {
 		allowed = { tag = DOM }  
 		available = {
 			hidden_trigger = {
-				check_variable = {ROOT.debt_level > 49}
+				OR = { 
+					check_variable = {ROOT.debt_level > 49}
+					has_country_flag = debt_declared_bankruptcy_flag
+				}
 			}
 		}
 		
 		cancel_trigger = {
 			custom_trigger_tooltip = { 
 				tooltip = egy_vic_debt_paid_tooltip
-				NOT = { has_idea = egy_vic_debt }
+				always = no
 			}
 		}
 
@@ -23,7 +26,8 @@ SPR_debt_management_category = {
 			check_variable = {ROOT.debt_level > 19}
 			hidden_trigger = {
 				TAG = DOM 
-				NOT = { has_country_flag = DOM_declared_bankruptcy_flag }
+				NOT = { has_country_flag = debt_declared_bankruptcy_flag }
+				NOT = { has_country_flag = DOM_declared_bankruptcy_1861 }
 			}
 		}
 		
@@ -37,8 +41,11 @@ SPR_debt_management_category = {
 			custom_effect_tooltip = DOM_declare_bankruptcy_mission_complete_effect
 		}
 		complete_effect = {
-			hidden_effect = { country_event = { id = hispaniola.1 } }
-			hidden_effect = { set_country_flag = DOM_declared_bankruptcy_flag }
+			hidden_effect = { 
+				country_event = { id = hispaniola.1 days = 16 } 
+				set_country_flag = debt_declared_bankruptcy_flag
+				set_country_flag = DOM_declared_bankruptcy_1861
+			}
 		}
 		
 		ai_will_do = {
@@ -59,6 +66,7 @@ SPR_debt_management_category = {
 			has_idea = egy_vic_debt
 			check_variable = {ROOT.debt_level > 0}
 			NOT = { has_country_flag = paying_debt }
+			NOT = { has_country_flag = debt_declared_bankruptcy_flag }
 		}
 		
 		fire_only_once = no
@@ -93,6 +101,10 @@ SPR_debt_management_category = {
 		fire_only_once = no
 		complete_effect = {
 			hidden_effect = {
+				if = {
+					limit = { has_country_flag = paying_debt }
+					clr_country_flag = paying_debt
+				}
 				if = {
 					limit = { has_idea = egy_vic_debt_payments }
 					remove_ideas = egy_vic_debt_payments
@@ -129,6 +141,7 @@ SPR_debt_management_category = {
 			check_variable = {ROOT.debt_level > 0}
 			hidden_trigger = {
 				has_country_flag = USA_LIB_investment_flag
+				NOT = { has_country_flag = debt_declared_bankruptcy_flag }
 			}
 		}
 		
@@ -167,6 +180,10 @@ SPR_debt_management_category = {
 		days_mission_timeout = 3
 		activation = {
 			has_country_flag = paying_debt
+			NOT = { has_country_flag = debt_declared_bankruptcy_flag }
+		}
+		cancel_trigger = {
+			hidden_trigger = { has_country_flag = debt_declared_bankruptcy_flag }
 		}
 		#cancel_if_not_visible = yes
 		selectable_mission = yes
@@ -197,6 +214,7 @@ SPR_debt_management_category = {
 		cancel_trigger = {
 			hidden_trigger = { NOT = { has_variable = total_colonial_profits } }
 			hidden_trigger = { NOT = { has_variable = debt_level } }
+			hidden_trigger = { has_country_flag = debt_declared_bankruptcy_flag }
 		}
 		selectable_mission = yes
 		custom_cost_trigger = { always = yes }
@@ -361,15 +379,10 @@ SPR_colonial_affairs_category = {
 	SPR_develop_puerto_rico_infrastructure_decision = {
 		available = {
 			owns_state = 686
-			custom_trigger_tooltip = {
-				tooltip = SPR_not_declared_bankruptcy_tooltip
-				date < 1868.9.19
-				check_variable = { debt_level < 50 }
-			}
+			debt_not_bankrupt_trigger = yes
 		}
 		visible = {
-			date < 1868.9.19
-			check_variable = { debt_level < 50 }
+			debt_not_bankrupt_trigger = yes
 			has_country_flag = SPR_develop_cuba_and_puerto_rico_flag
 		}
 		allowed = { tag = SPR }
@@ -385,10 +398,7 @@ SPR_colonial_affairs_category = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_has_declared_bankruptcy_tooltip
-				NOT = {
-					date < 1868.9.19
-					check_variable = { debt_level < 50 }
-				}
+				always = no
 			}
 		}
 		
@@ -416,15 +426,10 @@ SPR_colonial_affairs_category = {
 				owns_state = 1022
 				owns_state = 1350
 			}
-			custom_trigger_tooltip = {
-				tooltip = SPR_not_declared_bankruptcy_tooltip
-				date < 1868.9.19
-				check_variable = { debt_level < 50 }
-			}
+			debt_not_bankrupt_trigger = yes
 		}
 		visible = {
-			date < 1868.9.19
-			check_variable = { debt_level < 50 }
+			debt_not_bankrupt_trigger = yes
 			has_country_flag = SPR_develop_cuba_and_puerto_rico_flag
 		}
 		allowed = { tag = SPR }
@@ -445,10 +450,7 @@ SPR_colonial_affairs_category = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_has_declared_bankruptcy_tooltip
-				NOT = {
-					date < 1868.9.19
-					check_variable = { debt_level < 50 }
-				}
+				always = no
 			}
 		}
 		
@@ -486,15 +488,10 @@ SPR_colonial_affairs_category = {
 				tooltip = SPR_cuba_has_infrastructure_investments_trigger
 				has_country_flag = SPR_cuba_has_infrastructure_investments_flag
 			}
-			custom_trigger_tooltip = {
-				tooltip = SPR_not_declared_bankruptcy_tooltip
-				date < 1868.9.19
-				check_variable = { debt_level < 50 }
-			}
+			debt_not_bankrupt_trigger = yes
 		}
 		visible = {
-			date < 1868.9.19
-			check_variable = { debt_level < 50 }
+			debt_not_bankrupt_trigger = yes
 			has_country_flag = SPR_invest_in_sugar_trade_flag
 		}
 		allowed = { tag = SPR }
@@ -515,10 +512,7 @@ SPR_colonial_affairs_category = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_has_declared_bankruptcy_tooltip
-				NOT = {
-					date < 1868.9.19
-					check_variable = { debt_level < 50 }
-				}
+				always = no
 			}
 		}
 		
@@ -548,15 +542,10 @@ SPR_colonial_affairs_category = {
 				tooltip = SPR_cuba_has_infrastructure_investments_trigger
 				has_country_flag = SPR_cuba_has_infrastructure_investments_flag
 			}
-			custom_trigger_tooltip = {
-				tooltip = SPR_not_declared_bankruptcy_tooltip
-				date < 1868.9.19
-				check_variable = { debt_level < 50 }
-			}
+			debt_not_bankrupt_trigger = yes
 		}
 		visible = {
-			date < 1868.9.19
-			check_variable = { debt_level < 50 }
+			debt_not_bankrupt_trigger = yes
 			has_country_flag = SPR_expand_tobacco_plantations_flag
 		}
 		allowed = { tag = SPR }
@@ -577,10 +566,7 @@ SPR_colonial_affairs_category = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_has_declared_bankruptcy_tooltip
-				NOT = {
-					date < 1868.9.19
-					check_variable = { debt_level < 50 }
-				}
+				always = no
 			}
 		}
 		
@@ -612,15 +598,10 @@ SPR_colonial_affairs_category = {
 				tooltip = SPR_puerto_rico_has_infrastructure_investments_trigger
 				has_country_flag = SPR_puerto_rico_has_infrastructure_investments_flag
 			}
-			custom_trigger_tooltip = {
-				tooltip = SPR_not_declared_bankruptcy_tooltip
-				date < 1868.9.19
-				check_variable = { debt_level < 50 }
-			}
+			debt_not_bankrupt_trigger = yes
 		}
 		visible = {
-			date < 1868.9.19
-			check_variable = { debt_level < 50 }
+			debt_not_bankrupt_trigger = yes
 			has_country_flag = SPR_increase_cattle_land_flag
 		}
 		allowed = { tag = SPR }
@@ -636,10 +617,7 @@ SPR_colonial_affairs_category = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_has_declared_bankruptcy_tooltip
-				NOT = {
-					date < 1868.9.19
-					check_variable = { debt_level < 50 }
-				}
+				always = no
 			}
 		}
 		
@@ -672,15 +650,10 @@ SPR_colonial_affairs_category = {
 				tooltip = SPR_cuba_has_infrastructure_investments_trigger
 				has_country_flag = SPR_cuba_has_infrastructure_investments_flag
 			}
-			custom_trigger_tooltip = {
-				tooltip = SPR_not_declared_bankruptcy_tooltip
-				date < 1868.9.19
-				check_variable = { debt_level < 50 }
-			}
+			debt_not_bankrupt_trigger = yes
 		}
 		visible = {
-			date < 1868.9.19
-			check_variable = { debt_level < 50 }
+			debt_not_bankrupt_trigger = yes
 			has_country_flag = SPR_increase_cattle_land_flag
 		}
 		allowed = { tag = SPR }
@@ -701,10 +674,7 @@ SPR_colonial_affairs_category = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_has_declared_bankruptcy_tooltip
-				NOT = {
-					date < 1868.9.19
-					check_variable = { debt_level < 50 }
-				}
+				always = no
 			}
 		}
 		

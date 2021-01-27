@@ -8,6 +8,8 @@ add_namespace = afr_total_detrimental_colonial_level
 add_namespace = DCI_african_colonial_incident_mission_event
 add_namespace = DCI_american_south_incident_mission_event
 add_namespace = DCI_caribbean_incident_mission_event
+add_namespace = DCI_south_east_asia_incident_mission_event
+add_namespace = DCI_oceania_incident_mission_event
 add_namespace = DCI_native_american_incident_mission_event
 add_namespace = DCI_native_south_american_incident_mission_event
 add_namespace = DCI_south_american_slave_coast_incident_mission_event
@@ -19,6 +21,8 @@ add_namespace = DCI_south_africa_incident_mission_event
 add_namespace = DCI_american_south_incident_event
 add_namespace = DCI_american_south_random_event_1
 add_namespace = DCI_caribbean_incident_event
+add_namespace = DCI_south_east_asia_incident_event
+add_namespace = DCI_oceania_incident_event
 add_namespace = DCI_native_american_incident_event
 add_namespace = DCI_native_south_american_incident_event
 add_namespace = DCI_south_american_slave_coast_incident_event
@@ -48,6 +52,24 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		hidden_effect = { clr_country_flag = DCI_caribbean_incident_mission_stop }
+	}
+}
+
+country_event = {
+	id = DCI_south_east_asia_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_south_east_asia_incident_mission_event }
+	}
+}
+
+country_event = {
+	id = DCI_oceania_incident_mission_event.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = { clr_country_flag = DCI_oceania_incident_mission_event }
 	}
 }
 
@@ -136,11 +158,13 @@ state_event = {
 						set_country_flag = DCI_american_south_random_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_american_south_random_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					20 = {
 						set_country_flag = DCI_american_south_runaway_slave_coastal_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_american_south_runaway_slave_coastal_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					20 = {
 						set_country_flag = DCI_american_south_vote_discrimination_event_1_flag 
@@ -357,8 +381,9 @@ state_event = {
 								limit = { TAG = HOL }
 								date > 1873.1.1
 							}
-							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
 						}
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_caribbean_runaway_slave_coastal_event_1_flag 
@@ -375,12 +400,13 @@ state_event = {
 								limit = { TAG = HOL }
 								date > 1873.1.1
 							}
-							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
 						}
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_caribbean_vote_discrimination_event_1_flag 
-						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
 						modifier = { factor = 0 has_country_flag = DCI_caribbean_vote_discrimination_event_1_flag }
 						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
 						modifier = { factor = 0 has_idea = afr_post_tribal }
@@ -482,6 +508,316 @@ state_event = {
 }
 
 state_event = {
+	id = DCI_south_east_asia_incident_event.1
+	is_triggered_only = yes
+	timeout_days = 1
+	hidden = yes
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+
+	immediate = {
+		ROOT = {
+			OWNER = {
+				random_list = {
+					30 = {
+						set_country_flag = DCI_south_east_asia_runaway_slave_land_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_south_east_asia_runaway_slave_land_event_1_flag }
+						modifier = {
+							factor = 0 
+							if = { 
+								limit = { TAG = SPR }
+								if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date > 1886.1.1 }
+								else_if = { limit = { ROOT = { STATE = 686 } } date > 1873.1.1 }
+								else = { date > 1886.1.1 }
+							}
+							else_if = { 
+								limit = { TAG = HOL }
+								date > 1873.1.1
+							}
+							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
+						}
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
+					}
+					30 = {
+						set_country_flag = DCI_south_east_asia_runaway_slave_coastal_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_south_east_asia_runaway_slave_coastal_event_1_flag }
+						modifier = {
+							factor = 0 
+							if = { 
+								limit = { TAG = SPR }
+								if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date > 1886.1.1 }
+								else_if = { limit = { ROOT = { STATE = 686 } } date > 1873.1.1 }
+								else = { date > 1886.1.1 }
+							}
+							else_if = { 
+								limit = { TAG = HOL }
+								date > 1873.1.1
+							}
+							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
+						}
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
+					}
+					30 = {
+						set_country_flag = DCI_south_east_asia_vote_discrimination_event_1_flag 
+						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
+						modifier = { factor = 0 has_country_flag = DCI_south_east_asia_vote_discrimination_event_1_flag }
+						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
+						modifier = { factor = 0 has_idea = afr_post_tribal }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
+					}
+					10 = {  
+						clr_country_flag = DCI_south_east_asia_runaway_slave_coastal_event_1_flag
+						clr_country_flag = DCI_south_east_asia_runaway_slave_land_event_1_flag
+						clr_country_flag = DCI_south_east_asia_vote_discrimination_event_1_flag
+						set_country_flag = DCI_south_east_asia_random_event_none_flag
+					}
+				}
+			}
+		}
+	}
+	option = {
+		OWNER = {
+			if = {
+				limit = {
+					has_country_flag = DCI_south_east_asia_runaway_slave_land_event_1_flag
+					if = { 
+						limit = { TAG = SPR }
+						if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date < 1886.1.1 }
+						else_if = { limit = { ROOT = { STATE = 686 } } date < 1873.1.1 }
+						else = { date < 1886.1.1 }
+					}
+					else_if = { 
+						limit = { TAG = HOL }
+						date < 1873.1.1
+					}
+					else = {
+						OR = {
+							has_idea = usa_slavery_law
+							has_idea = slavery
+						}
+					}
+					ROOT = {
+						any_neighbor_state = {
+							OWNER = {
+								NOT = { 
+									has_idea = usa_slavery_law
+									has_idea = tribal_slavery
+									has_idea = slavery
+									has_idea = slavery_all_but_name
+								}
+							}
+						}
+					}
+				}
+				clr_country_flag = DCI_south_east_asia_runaway_slave_land_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_land_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_south_east_asia_runaway_slave_coastal_event_1_flag
+					if = { 
+						limit = { TAG = SPR }
+						if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date < 1886.1.1 }
+						else_if = { limit = { ROOT = { STATE = 686 } } date < 1873.1.1 }
+						else = { date < 1886.1.1 }
+					}
+					else_if = { 
+						limit = { TAG = HOL }
+						date < 1873.1.1
+					}
+					else = {
+						OR = {
+							has_idea = usa_slavery_law
+							has_idea = slavery
+						}
+					}
+					ROOT = {
+						is_coastal = yes
+					}
+				}
+				clr_country_flag = DCI_south_east_asia_runaway_slave_coastal_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_coastal_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_south_east_asia_vote_discrimination_event_1_flag
+					NOT = {
+						has_idea = absolutism
+						has_idea = full_equality
+					}
+				}
+				clr_country_flag = DCI_south_east_asia_vote_discrimination_event_1_flag
+				country_event = { id = DCI_generic_vote_discrimination_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = { has_country_flag = DCI_south_east_asia_random_event_none_flag }
+				clr_country_flag = DCI_south_east_asia_random_event_none_flag
+			}
+			else = {
+				ROOT = { state_event = { id = DCI_south_east_asia_incident_event.1 } }
+			}
+		}
+	}
+}
+
+state_event = {
+	id = DCI_oceania_incident_event.1
+	is_triggered_only = yes
+	timeout_days = 1
+	hidden = yes
+	
+	trigger = {
+		ROOT = { check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals } }
+	}
+
+	immediate = {
+		ROOT = {
+			OWNER = {
+				random_list = {
+					30 = {
+						set_country_flag = DCI_oceania_runaway_slave_land_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_oceania_runaway_slave_land_event_1_flag }
+						modifier = {
+							factor = 0 
+							if = { 
+								limit = { TAG = SPR }
+								if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date > 1886.1.1 }
+								else_if = { limit = { ROOT = { STATE = 686 } } date > 1873.1.1 }
+								else = { date > 1886.1.1 }
+							}
+							else_if = { 
+								limit = { TAG = HOL }
+								date > 1873.1.1
+							}
+							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
+						}
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
+					}
+					30 = {
+						set_country_flag = DCI_oceania_runaway_slave_coastal_event_1_flag 
+						modifier = { factor = 0 has_country_flag = DCI_oceania_runaway_slave_coastal_event_1_flag }
+						modifier = {
+							factor = 0 
+							if = { 
+								limit = { TAG = SPR }
+								if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date > 1886.1.1 }
+								else_if = { limit = { ROOT = { STATE = 686 } } date > 1873.1.1 }
+								else = { date > 1886.1.1 }
+							}
+							else_if = { 
+								limit = { TAG = HOL }
+								date > 1873.1.1
+							}
+							else = { AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
+						}
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
+					}
+					30 = {
+						set_country_flag = DCI_oceania_vote_discrimination_event_1_flag 
+						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
+						modifier = { factor = 0 has_country_flag = DCI_oceania_vote_discrimination_event_1_flag }
+						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
+						modifier = { factor = 0 has_idea = afr_post_tribal }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
+					}
+					10 = {  
+						clr_country_flag = DCI_oceania_runaway_slave_coastal_event_1_flag
+						clr_country_flag = DCI_oceania_runaway_slave_land_event_1_flag
+						clr_country_flag = DCI_oceania_vote_discrimination_event_1_flag
+						set_country_flag = DCI_oceania_random_event_none_flag
+					}
+				}
+			}
+		}
+	}
+	option = {
+		OWNER = {
+			if = {
+				limit = {
+					has_country_flag = DCI_oceania_runaway_slave_land_event_1_flag
+					if = { 
+						limit = { TAG = SPR }
+						if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date < 1886.1.1 }
+						else_if = { limit = { ROOT = { STATE = 686 } } date < 1873.1.1 }
+						else = { date < 1886.1.1 }
+					}
+					else_if = { 
+						limit = { TAG = HOL }
+						date < 1873.1.1
+					}
+					else = {
+						OR = {
+							has_idea = usa_slavery_law
+							has_idea = slavery
+						}
+					}
+					ROOT = {
+						any_neighbor_state = {
+							OWNER = {
+								NOT = { 
+									has_idea = usa_slavery_law
+									has_idea = tribal_slavery
+									has_idea = slavery
+									has_idea = slavery_all_but_name
+								}
+							}
+						}
+					}
+				}
+				clr_country_flag = DCI_oceania_runaway_slave_land_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_land_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_oceania_runaway_slave_coastal_event_1_flag
+					if = { 
+						limit = { TAG = SPR }
+						if = { limit = { ROOT = { OR = { STATE = 1350 STATE = 315 STATE = 1022 } } } date < 1886.1.1 }
+						else_if = { limit = { ROOT = { STATE = 686 } } date < 1873.1.1 }
+						else = { date < 1886.1.1 }
+					}
+					else_if = { 
+						limit = { TAG = HOL }
+						date < 1873.1.1
+					}
+					else = {
+						OR = {
+							has_idea = usa_slavery_law
+							has_idea = slavery
+						}
+					}
+					ROOT = {
+						is_coastal = yes
+					}
+				}
+				clr_country_flag = DCI_oceania_runaway_slave_coastal_event_1_flag
+				country_event = { id = DCI_generic_runaway_slave_coastal_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = {
+					has_country_flag = DCI_oceania_vote_discrimination_event_1_flag
+					NOT = {
+						has_idea = absolutism
+						has_idea = full_equality
+					}
+				}
+				clr_country_flag = DCI_oceania_vote_discrimination_event_1_flag
+				country_event = { id = DCI_generic_vote_discrimination_event_1.1 random_days = 7 }
+			}
+			else_if = {
+				limit = { has_country_flag = DCI_oceania_random_event_none_flag }
+				clr_country_flag = DCI_oceania_random_event_none_flag
+			}
+			else = {
+				ROOT = { state_event = { id = DCI_oceania_incident_event.1 } }
+			}
+		}
+	}
+}
+
+state_event = {
 	id = DCI_native_american_incident_event.1
 	title = DCI_native_american_incident_event.1.t
 	desc = DCI_native_american_incident_event.1.d
@@ -543,15 +879,17 @@ state_event = {
 						set_country_flag = DCI_south_american_slave_coast_runaway_slave_land_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_south_american_slave_coast_runaway_slave_land_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_south_american_slave_coast_runaway_slave_coastal_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_south_american_slave_coast_runaway_slave_coastal_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_south_american_slave_coast_vote_discrimination_event_1_flag 
-						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
 						modifier = { factor = 0 has_country_flag = DCI_south_american_slave_coast_vote_discrimination_event_1_flag }
 						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
 						modifier = { factor = 0 has_idea = afr_post_tribal }
@@ -669,15 +1007,17 @@ state_event = {
 						set_country_flag = DCI_west_africa_runaway_slave_land_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_west_africa_runaway_slave_land_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_west_africa_runaway_slave_coastal_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_west_africa_runaway_slave_coastal_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_west_africa_vote_discrimination_event_1_flag 
-						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
 						modifier = { factor = 0 has_country_flag = DCI_west_africa_vote_discrimination_event_1_flag }
 						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
 						modifier = { factor = 0 has_idea = afr_post_tribal }
@@ -772,15 +1112,17 @@ state_event = {
 						set_country_flag = DCI_northern_south_africa_runaway_slave_land_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_northern_south_africa_runaway_slave_land_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_northern_south_africa_runaway_slave_coastal_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_northern_south_africa_runaway_slave_coastal_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_northern_south_africa_vote_discrimination_event_1_flag 
-						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
 						modifier = { factor = 0 has_country_flag = DCI_northern_south_africa_vote_discrimination_event_1_flag }
 						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
 						modifier = { factor = 0 has_idea = afr_post_tribal }
@@ -875,15 +1217,17 @@ state_event = {
 						set_country_flag = DCI_south_africa_runaway_slave_land_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_south_africa_runaway_slave_land_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_south_africa_runaway_slave_coastal_event_1_flag 
 						modifier = { factor = 0 has_country_flag = DCI_south_africa_runaway_slave_coastal_event_1_flag }
 						modifier = { factor = 0 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { factor = 0 has_variable = has_afr_empire_mechanic_system }
 					}
 					30 = {
 						set_country_flag = DCI_south_africa_vote_discrimination_event_1_flag 
-						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } } }
+						modifier = { add = 30 AND = { NOT = { has_idea = usa_slavery_law } NOT = { has_idea = slavery } NOT = { has_idea = tribal_slavery } NOT = { has_idea = slavery_all_but_name } } }
 						modifier = { factor = 0 has_country_flag = DCI_south_africa_vote_discrimination_event_1_flag }
 						modifier = { factor = 0 OR = { has_idea = absolutism has_idea = full_equality } }
 						modifier = { factor = 0 has_idea = afr_post_tribal }

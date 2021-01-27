@@ -6,7 +6,28 @@ SIA_decision_category_foriegn_influence = {
 		icon = generic_prepare_civil_war
 
 		available = {
-			
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+					has_variable = has_afr_empire_mechanic_system
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					has_variable = has_afr_empire_mechanic_system
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_10_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 9
+					}
+				}
+			}
 		}
 		
 		target_trigger = {
@@ -37,6 +58,35 @@ SIA_decision_category_foriegn_influence = {
 		
 		modifier={
 			production_speed_buildings_factor = 0.05
+		}
+		
+		complete_effect = {
+			if = {
+				limit = { 
+					has_variable = has_afr_empire_mechanic_system 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 10 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
+			if = {
+				limit = { 
+					has_variable = has_afr_empire_mechanic_system 
+					check_variable = { afr_prosperity_mechanic_value < 11 }
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_10_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -10
+				}
+			}
 		}
 		
 		remove_effect ={
@@ -95,6 +145,28 @@ SIA_decision_category_foriegn_influence = {
 					}
 				}
 			}
+			if = {
+				limit = { 
+					has_country_flag = afr_rrp_company_port
+					has_variable = has_afr_empire_mechanic_system
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_has_company
+					has_country_flag = afr_rrp_company_port
+				}
+			}
+			if = {
+				limit = { 
+					NOT = { has_country_flag = afr_rrp_company_port } 
+					has_variable = has_afr_empire_mechanic_system
+				}
+				custom_trigger_tooltip = {
+					tooltip = afr_prosperity_mechanic_greater_than_20_no_company
+					check_variable = {
+						afr_prosperity_mechanic_value > 19
+					}
+				}
+			}
 		}
 		cost = 100
 		days_remove = 365
@@ -113,6 +185,7 @@ SIA_decision_category_foriegn_influence = {
 			}
 			random_owned_controlled_state = {
 				limit = {
+					check_variable = { var = afr_empire_state_industrisation_progress value = 100 compare = not_equals }
 					free_building_slots = {
 						building = industrial_complex
 						size > 0
@@ -140,27 +213,52 @@ SIA_decision_category_foriegn_influence = {
 					level = 1
 					instant_build = yes
 				}
-			}
-			ROOT = {
 				if = {
-					limit = { 
-						check_variable = {ROOT.industrisation_progress < 100} 
-						OR = { 
-							has_idea = afr_reforming_kingdom
-							has_country_flag = Oceania_industrializing
-							has_country_flag = afr_colony_industrializing
-							has_country_flag = afr_an_african_industrializing
-						}
+					limit = { OWNER = { has_variable = has_afr_empire_mechanic_system } }
+					hidden_effect = { 
+						state_event = { id = afr_empire_politics_regional_development_boom_event.1 days = 120 trigger_for = controller }
+						set_state_flag = afr_empire_politics_has_regional_development_boom_flag
+						afr_empire_politics_state_gain_immigration = yes
+						afr_empire_politics_state_gain_boom = yes
 					}
-					custom_effect_tooltip = EDC_afr.5.t
-					hidden_effect = {
-						country_event = { id = EDC_afr.5 hours = 1 } 
-					}
+					custom_effect_tooltip = afr_empire_politics_state_economy_status_boom_effect
+					custom_effect_tooltip = afr_empire_state_industrialized_tooltip
 				}
+				hidden_effect = { set_variable = { var = afr_empire_state_industrisation_progress value = 100 } }
+				DCI_increase_by_1 = yes
 			}
 		}
 		complete_effect = {
-			   
+			  if = {
+				limit = { NOT = { has_variable = has_afr_empire_mechanic_system } }
+				debt_level_increase_by_1 = yes
+			}
+			if = {
+				limit = { 
+					has_variable = has_afr_empire_mechanic_system 
+					OR = {
+						check_variable = { afr_prosperity_mechanic_value > 20 }
+						NOT = { has_country_flag = afr_rrp_company_port }
+					}
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_investment_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -20
+				}
+			}
+			if = {
+				limit = { 
+					has_variable = has_afr_empire_mechanic_system 
+					check_variable = { afr_prosperity_mechanic_value < 21 }
+					has_country_flag = afr_rrp_company_port
+				}
+				custom_effect_tooltip = afr_prosperity_mechanic_minus_20_investment_debt_tooltip
+				add_to_variable = {
+					var = afr_prosperity_mechanic_value
+					value = -20
+				}
+			}
 		}
 	}
 	

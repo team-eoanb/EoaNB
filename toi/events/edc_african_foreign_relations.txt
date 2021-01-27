@@ -8,8 +8,45 @@ add_namespace = EDC_afr_machine_parts_factory	#10%
 add_namespace = EDC_afr_focus_path_change_clr
 add_namespace = EDC_afr_focus_path_change
 add_namespace = EDC_afr_focus_path_jihadist_coup
+add_namespace = afr_empire_state_industrialized_fully_event
 
+state_event = {
+	id = afr_empire_state_industrialized_fully_event.1
+	hidden = yes
+	is_triggered_only = yes
+	trigger = { NOT = { has_state_flag = afr_empire_state_industrialized_fully_once_flag } }
+	
+	immediate = { 
+		set_state_flag = afr_empire_state_industrialized_fully_once_flag 
+		OWNER = { country_event = afr_empire_state_industrialized_fully_event.2 }
+	}
+}
 
+country_event = {
+	id = afr_empire_state_industrialized_fully_event.2
+	title = afr_empire_state_industrialized_fully_event.2.t
+	desc = afr_empire_state_industrialized_fully_event.2.d
+	picture = GFX_report_event_chinese_army_training
+	is_triggered_only = yes
+	
+	option = {
+		name = afr_empire_state_industrialized_fully_event.2.a
+		ai_chance = { base = 100 }
+		hidden_effect = {
+			country_event = { id = EDC_afr.6 }
+		}
+		custom_effect_tooltip = EDC_afr.6.t
+	}
+	
+	option = {
+		name = afr_empire_state_industrialized_fully_event.2.b
+		ai_chance = { base = 0 }
+		FROM = { 
+			afr_empire_state_industrisation_progress_decrease_by_15 = yes
+			hidden_effect = { clr_state_flag = afr_empire_state_industrialized_fully_once_flag }
+		}
+	}
+}
 
 country_event = {
 	id = EDC_afr_focus_path_jihadist_coup.1

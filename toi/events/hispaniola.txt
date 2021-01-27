@@ -1,5 +1,8 @@
 ﻿add_namespace = hispaniola
 add_namespace = hispaniola_debt
+add_namespace = hispaniola_debt_declined
+add_namespace = FRA_hispaniola
+add_namespace = USA_hispaniola
 add_namespace = DOM_1857_tobacco_coup
 add_namespace = DOM_1858_santana_coup
 add_namespace = DOM_1858_santana_won_coup
@@ -13,6 +16,9 @@ country_event = {
 
 	option = {
 		name = DOM_1857_tobacco_coup.1.a
+		ai_chance = {
+			base = 80
+		}
 		add_political_power = 500
 		debt_level_decrease_by_1 = yes
 		hidden_effect = { country_event = { id = DOM_1857_tobacco_coup.2 days = 20 } }
@@ -20,7 +26,13 @@ country_event = {
 	
 	option = {
 		name = DOM_1857_tobacco_coup.1.b
-		
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
 	}
 }
 
@@ -280,13 +292,22 @@ country_event = {
 
 	option = {
 		name = DOM_1858_santana_coup.1.a
-		ai_chance = { factor = 50 }
+		ai_chance = { 
+			factor = 70 
+		
+		}
 		hidden_effect = { country_event = { id = DOM_1858_santana_coup.2 days = 15 } }
 	}
 	
 	option = {
 		name = DOM_1858_santana_coup.1.b
-		ai_chance = { factor = 50 }
+		ai_chance = { 
+			factor = 30 
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
 		
 	}
 }
@@ -300,7 +321,13 @@ country_event = {
 
 	option = {
 		name = DOM_1858_santana_coup.2.a
-		ai_chance = { factor = 75 }
+		ai_chance = { 
+			factor = 75 
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
 		retire_country_leader = yes
 		set_politics = { ruling_party = traditional_conservatism }
 		set_capital = 1318
@@ -316,7 +343,9 @@ country_event = {
 	
 	option = {
 		name = DOM_1858_santana_coup.2.b
-		ai_chance = { factor = 25 }
+		ai_chance = { 
+			factor = 25 
+		}
 		set_capital = 319
 		start_civil_war = {
 			ruling_party = centrism
@@ -821,6 +850,57 @@ country_event = {
 }
 
 country_event = {
+	id = hispaniola_debt_declined.1
+	title = hispaniola_debt_declined.1.t
+	desc = hispaniola_debt_declined.1.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = hispaniola_debt_declined.1.a
+		trigger = { NOT = { has_country_flag = SPR_hispaniola_declined } }
+		ai_chance = { factor = 70 }
+		SPR = { country_event = { id = hispaniola.2 days = 3 } }
+	}
+	
+	option = {
+		name = hispaniola_debt_declined.1.b
+		trigger = { NOT = { has_country_flag = USA_hispaniola_declined } }
+		ai_chance = { 
+			factor = 30 
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		USA = { country_event = { id = USA_hispaniola.1 days = 3 } }
+	}
+	
+	option = {
+		name = hispaniola_debt_declined.1.c
+		trigger = { NOT = { has_country_flag = FRA_hispaniola_declined } }
+		ai_chance = { 
+			factor = 10 
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		FRA = { country_event = { id = FRA_hispaniola.1 days = 3 } }
+	}
+	
+	option = {
+		name = hispaniola_debt_declined.1.c
+		trigger = { 
+			has_country_flag = SPR_hispaniola_declined
+			has_country_flag = USA_hispaniola_declined
+			has_country_flag = FRA_hispaniola_declined
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
 	id = hispaniola.1
 	title = hispaniola.1.t
 	desc = hispaniola.1.d
@@ -838,16 +918,234 @@ country_event = {
 	
 	option = {
 		name = hispaniola.1.a
-		ai_chance = { factor = 95 }
+		trigger = { SPR = { debt_not_bankrupt_trigger = yes } }
+		ai_chance = { 
+			base = 0 
+			modifier = {
+				add = 30
+				has_country_leader = { name = "Buenaventura Báez" ruling_only = yes }
+			}
+			modifier = {
+				add = 90
+				has_country_leader = { name = "Valverde's Guards" ruling_only = yes }
+			}
+			modifier = {
+				add = 85
+				has_country_leader = { name = "Pedro Santana" ruling_only = yes }
+			}
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
 		SPR = { country_event = { id = hispaniola.2 days = 3 } }
 	}
 	
-	#option = {
-	#	name = hispaniola.1.b
-	#	trigger = { has_country_leader = { name = "Buenaventura Báez" ruling_only = yes } }
-	#	ai_chance = { factor = 5 }
-	#	USA = { country_event = hispaniola.2 days = 3 }
-	#}
+	option = {
+		name = hispaniola.1.b
+		trigger = { 
+			USA = { NOT = { has_country_flag = USA_American_Civil_War } }
+			USA  = { debt_not_bankrupt_trigger = yes }
+		}
+		ai_chance = {
+			base = 0 
+			modifier = {
+				add = 60
+				has_country_leader = { name = "Buenaventura Báez" ruling_only = yes }
+			}
+			modifier = {
+				add = 5
+				has_country_leader = { name = "Valverde's Guards" ruling_only = yes }
+			}
+			modifier = {
+				add = 10
+				has_country_leader = { name = "Pedro Santana" ruling_only = yes }
+			}
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		USA = { country_event = { id = USA_hispaniola.1 days = 3 } }
+	}
+	
+	option = {
+		name = hispaniola.1.c
+		trigger = { FRA = { debt_not_bankrupt_trigger = yes } }
+		ai_chance = {
+			base = 0 
+			modifier = {
+				add = 10
+				has_country_leader = { name = "Buenaventura Báez" ruling_only = yes }
+			}
+			modifier = {
+				add = 5
+				has_country_leader = { name = "Valverde's Guards" ruling_only = yes }
+			}
+			modifier = {
+				add = 5
+				has_country_leader = { name = "Pedro Santana" ruling_only = yes }
+			}
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		FRA = { country_event = { id = FRA_hispaniola.1 days = 3 } }
+	}
+}
+
+country_event = {
+	id = USA_hispaniola.1
+	title = USA_hispaniola.1.t
+	desc = USA_hispaniola.1.d
+
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = USA_hispaniola.1.a
+		ai_chance = {
+			base = 100 
+			modifier = {
+				add = -100 
+				USA = { has_country_flag = USAPanic_Of_1857 }
+				USA = { NOT = { has_country_flag = USA_panic_recovery_flag } }
+			}
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		hidden_effect = { FROM = { debt_level_cleared_effect = yes } }
+		if = {
+			limit = { 
+				FROM = { is_ai = yes } 
+			}
+			annex_country = {
+				target = DOM
+				transfer_troops = no
+			}
+			#hidden_effect = { load_oob = "DOM_SPAIN_1861" }
+		}
+		else = {
+			if = {
+				limit = { OR = {
+					has_dlc = "Together for Victory"
+					has_dlc = "Waking the Tiger"
+					has_dlc = "Death or Dishonor"
+				} }
+				ROOT = {
+					hidden_effect = { FROM = { store_current_ideologies = yes } }
+					set_autonomy = {
+						target = FROM
+						autonomy_state = autonomy_organized_incorporated_territory
+						freedom_level = 0.5
+					}
+					hidden_effect = { FROM = { load_prevous_ideologies = yes } }
+				}
+			}
+			else = { 
+				hidden_effect = { FROM = { store_current_ideologies = yes } }
+				puppet = FROM 
+				hidden_effect = { FROM = { load_prevous_ideologies = yes } }
+			}
+			#hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
+			if = {
+				limit = { USA = { has_country_flag = USAPanic_Of_1857 } }
+				debt_level_increase_by_8 = yes
+			}
+			else = { debt_level_increase_by_5 = yes }
+		}
+	}
+	
+	option = {
+		name = USA_hispaniola.1.b
+		ai_chance = { 
+			base = 100 
+			modifier = {
+				add = -100 
+				if = {
+					limit = { USA = { has_country_flag = USAPanic_Of_1857 } }
+					USA = { has_country_flag = USA_panic_recovery_flag }
+				}
+			}
+		}
+		FROM = { country_event = { id = hispaniola_debt_declined.1 days = 3 } }
+		hidden_effect = {
+			FROM = { set_country_flag = USA_hispaniola_declined }
+		}
+	}
+}
+
+country_event = {
+	id = FRA_hispaniola.1
+	title = FRA_hispaniola.1.t
+	desc = FRA_hispaniola.1.d
+
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = FRA_hispaniola.1.a
+		ai_chance = { 
+			factor = 100 
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		hidden_effect = { FROM = { debt_level_cleared_effect = yes } }
+		if = {
+			limit = { 
+				FROM = { 
+					is_ai = yes 
+				} 
+			}
+			annex_country = {
+				target = DOM
+				transfer_troops = no
+			}
+			#hidden_effect = { load_oob = "DOM_SPAIN_1861" }
+		}
+		else = {
+			if = {
+				limit = { OR = {
+					has_dlc = "Together for Victory"
+					has_dlc = "Waking the Tiger"
+					has_dlc = "Death or Dishonor"
+				} }
+				ROOT = {
+					hidden_effect = { FROM = { store_current_ideologies = yes } }
+					hidden_effect = { FROM = { add_ideas = AFR_french_colony } }
+					set_autonomy = {
+						target = FROM
+						autonomy_state = autonomy_afr_colony
+						freedom_level = 0.5
+					}
+					hidden_effect = { FROM = { load_prevous_ideologies = yes } }
+				}
+			}
+			else = { 
+				hidden_effect = { FROM = { store_current_ideologies = yes } }
+				hidden_effect = { FROM = { add_ideas = AFR_french_colony } }
+				puppet = FROM 
+				hidden_effect = { FROM = { load_prevous_ideologies = yes } }
+			}
+			#hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
+			debt_level_increase_by_5 = yes
+		}
+	}
+	
+	option = {
+		name = FRA_hispaniola.1.b
+		ai_chance = { factor = 0 }
+		FROM = { country_event = { id = hispaniola_debt_declined.1 days = 3 } }
+		hidden_effect = {
+			FROM = { set_country_flag = FRA_hispaniola_declined }
+		}
+	}
+	
 }
 
 country_event = {
@@ -861,13 +1159,15 @@ country_event = {
 	option = {
 		name = hispaniola.2.a
 		ai_chance = { factor = 100 }
-		add_political_power = -15
-		hidden_effect = { FROM = { clear_variable = debt_level } }
+		hidden_effect = { FROM = { debt_level_cleared_effect = yes } }
 		if = {
 			limit = { 
 				FROM = { 
 					is_ai = yes 
-					has_country_leader = { name = "Pedro Santana" ruling_only = yes }
+					OR = {
+						has_country_leader = { name = "Pedro Santana" ruling_only = yes }
+						has_country_leader = { name = "Buenaventura Báez" ruling_only = yes }
+					}
 				} 
 			}
 			annex_country = {
@@ -903,12 +1203,16 @@ country_event = {
 			hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
 		}
 	    HAI = { country_event = { id = hispaniola.3 days = 3 } }
+		debt_level_increase_by_5 = yes
 	}
 	
 	option = {
 		name = hispaniola.2.b
 		ai_chance = { factor = 0 }
-		add_political_power = 40
+		FROM = { country_event = { id = hispaniola_debt_declined.1 days = 3 } }
+		hidden_effect = {
+			FROM = { set_country_flag = SPR_hispaniola_declined }
+		}
 	}
 	
 }
