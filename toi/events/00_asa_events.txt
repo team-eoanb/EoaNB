@@ -1859,21 +1859,20 @@ country_event = {
 
 	is_triggered_only = yes
 
-	option = {
-		name = asa_imperial_palace.1.a
+	immediate = {
 		set_province_name = {
 			id = 6845
 			name = "McClellan City"
 		}
+	}
+
+	option = {
+		name = asa_imperial_palace.1.a
 		set_capital = 1385
 		add_ideas = ASA_The_Imperial_Palace_1
 	}
 	option = {
 		name = asa_imperial_palace.1.b
-		set_province_name = {
-			id = 6845
-			name = "McClellan City"
-		}
 		add_ideas = ASA_The_Imperial_Palace_2
 	}
 }
@@ -2939,6 +2938,7 @@ country_event = { # Military defies orders
 	is_triggered_only = Yes
 
 	option = {
+		name = asa_arrest_protest_leaders.12.a
 		IF = {
 			limit = {
 				has_country_leader = {
@@ -3317,6 +3317,7 @@ country_event = { # Strikes In Philadelphia
 				id = asa_anarchist_revolt.3
 				days = 7
 			}
+			set_country_flag = asa_anarchist_revolt_protestors_shot_1_flag
 		}
 	}
 	option = { # Send National Guard To Disperse The Crowd
@@ -3356,6 +3357,7 @@ country_event = { # Strikes In Philadelphia
 				name = "George B. McClellan"
 				ruling_only = yes
 			}
+			has_government = traditional_conservatism
 		}
 		ASA_decrease_anarchist_riots = yes
 		hidden_effect = {
@@ -3397,11 +3399,13 @@ country_event = { # Protestors Marching To D.C.
 	option = { # This ends here
 		name = asa_anarchist_revolt.3.b
 		ASA_increase_anarchist_riots = yes
+		custom_effect_tooltip = asa_anarchist_revolt_3_tt
 		hidden_effect = {
 			country_event = {
-				id = asa_anarchist_revolt.7
+				id = asa_anarchist_revolt.12
 				days = 1
 			}
+			set_country_flag = asa_anarchist_revolt_protestors_shot_2_flag
 		}
 	}
 	option = { # Meet them halfway
@@ -3424,7 +3428,7 @@ country_event = { # Protestors Marching To D.C.
 		ASA_decrease_anarchist_riots = yes
 		hidden_effect = {
 			country_event = {
-				id = asa_anarchist_revolt.7
+				id = asa_anarchist_revolt.12
 				days = 21
 			}
 		}
@@ -3446,11 +3450,11 @@ country_event = { # Protestors propose meeting
 			}
 		}
 	}
-	option = { # Turn them away
+	option = { # Turn Them Away
 		name = asa_anarchist_revolt.4.b
 		hidden_effect = {
 			country_event = {
-				id = asa_anarchist_revolt.7
+				id = asa_anarchist_revolt.12
 				days = 30
 			}
 		}
@@ -3459,26 +3463,106 @@ country_event = { # Protestors propose meeting
 		name = asa_anarchist_revolt.4.c
 		hidden_effect = {
 			country_event = {
-				id = asa_anarchist_revolt.7
+				id = asa_anarchist_revolt.12
 				days = 3
 			}
+			set_country_flag = asa_anarchist_revolt_protestors_arrested_flag
 		}
 	}
 }
 
-country_event = { # Agreement reached
+country_event = { # Striking A Deal (Protestors Rights)
+	id = asa_anarchist_revolt.5
+	title = asa_anarchist_revolt.5.t
+	desc = asa_anarchist_revolt.5.desc
+	picture = placeholder
+	is_triggered_only = yes
+	option = { # Pardons for the protestors
+		name = asa_anarchist_revolt.5.a
+		add_political_power = -100
+		set_country_flag = asa_protestors_rights_pardoned_protestors_flag
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+				}
+			}
+			country_event = asa_anarchist_revolt.6
+		}
+		else_if = {
+			limit = {
+				has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+			}
+			country_event = asa_anarchist_revolt.7
+		}
+	}
+	option = { # Lighter Sentences
+		name = asa_anarchist_revolt.5.a
+		add_political_power = -50
+		set_country_flag = asa_protestors_rights_lighter_sentences_flag
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+				}
+			}
+			country_event = asa_anarchist_revolt.6
+		}
+		else_if = {
+			limit = {
+				has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+			}
+			country_event = asa_anarchist_revolt.7
+		}
+	}
+	option = { # No Compromise
+		name = asa_anarchist_revolt.5.b
+		add_political_power = 25
+		set_country_flag = asa_protestors_rights_no_compromise_flag
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+				}
+			}
+			country_event = asa_anarchist_revolt.6
+		}
+		else_if = {
+			limit = {
+				has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+			}
+			country_event = asa_anarchist_revolt.7
+		}
+	}
+}
+
+country_event = { # Workers Rights
 	id = asa_anarchist_revolt.6
 	title = asa_anarchist_revolt.6.t
 	desc = asa_anarchist_revolt.6.desc
 	picture = placeholder
 	is_triggered_only = yes
-	option = {
+	option = { # Legislate Protections For Workers' Co-ops
 		name = asa_anarchist_revolt.6.a
-		ASA_remove_anarchist_riots = yes
+		add_political_power = -100
+		set_country_flag = asa_protestors_coop_protection_flag
+		country_event = asa_anarchist_revolt.8
+	}
+	option = { # Simply allow Co-ops to continue
+		name = asa_anarchist_revolt.6.b
+		add_political_power = -50
+		set_country_flag = asa_protestors_coop_toleration_flag
+		country_event = asa_anarchist_revolt.8
+	}
+	option = {
+		name = asa_anarchist_revolt.6.c
+		add_political_power = 25
+		set_country_flag = asa_protestors_coop_no_compromise_flag
+		country_event = asa_anarchist_revolt.8
 	}
 }
 
-country_event = { #Anarchists Revolt
+country_event = { # Issue Of McClellan
 	id = asa_anarchist_revolt.7
 	title = asa_anarchist_revolt.7.t
 	desc = asa_anarchist_revolt.7.desc
@@ -3486,15 +3570,567 @@ country_event = { #Anarchists Revolt
 	is_triggered_only = yes
 	option = {
 		name = asa_anarchist_revolt.7.a
+		add_political_power = -100
+		set_country_flag = asa_protestors_mcclellan_removed_flag
+		if = {
+			limit = {
+				has_country_flag = emergency_election_wade_elected_flag
+			}
+			set_politics = {
+				ruling_party = social_egalitarianism
+				elections_allowed = yes
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = emergency_election_seward_elected_flag
+			}
+			set_politics = {
+				ruling_party = centrism
+				elections_allowed = yes
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = emergency_election_mcclellan_elected_flag
+			}
+			create_country_leader = {
+				name = "George W. Cass"
+				desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+				picture = "Portrait_ASA_George_Washington_Cass.dds"
+				expire = "1888.3.21"
+				ideology = federal
+				traits = {
+					railroad_tycoon
+				}
+			}
+			set_politics = {
+				ruling_party = traditional_conservatism
+				elections_allowed = yes
+			}
+		}
+		country_event = asa_anarchist_revolt.6
+	}
+	option = {
+		name = asa_anarchist_revolt.7.b
+		add_political_power = -50
+		set_country_flag = asa_protestors_mcclellan_stays_flag
+		country_event = asa_anarchist_revolt.6
+	}
+}
+
+country_event = { # Reduced Work Hours
+	id = asa_anarchist_revolt.8
+	title = asa_anarchist_revolt.8.t
+	desc = asa_anarchist_revolt.8.desc
+	picture = placeholder
+	is_triggered_only = yes
+	option = { # Saturday Off
+		name = asa_anarchist_revolt.8.a
+		add_political_power = -100
+		set_country_flag = asa_protestors_saturday_off_flag
+		hidden_effect = {
+			country_event = asa_anarchist_revolt.9
+		}
+	}
+	option = { # Lower daily work hours
+		name = asa_anarchist_revolt.8.b
+		add_political_power = -50
+		set_country_flag = asa_protestors_reduced_work_hours_flag
+		hidden_effect = {
+			country_event = asa_anarchist_revolt.9
+		}
+	}
+	option = {
+		name = asa_anarchist_revolt.8.c
+		add_political_power = 25
+		set_country_flag = asa_protestors_work_hours_no_compromise_flag
+		hidden_effect = {
+			country_event = asa_anarchist_revolt.9
+		}
+	}
+}
+
+country_event = { # Meeting Score Calculation
+	id = asa_anarchist_revolt.9
+	title = asa_anarchist_revolt.9.t
+	desc = asa_anarchist_revolt.9.desc
+	picture = placeholder
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		set_variable = {
+			anarchist_revolt_meeting_score = 0
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_mcclellan_removed_flag
+			}
+			add_to_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 3
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_rights_pardoned_protestors_flag
+			}
+			add_to_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 2
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_coop_protection_flag
+			}
+			add_to_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 2
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_saturday_off_flag
+			}
+			add_to_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 2
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_rights_lighter_sentences_flag
+			}
+			add_to_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_coop_toleration_flag
+			}
+			add_to_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_reduced_work_hours_flag
+			}
+			add_to_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_rights_no_compromise_flag
+			}
+			subtract_from_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_coop_no_compromise_flag
+			}
+			subtract_from_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_work_hours_no_compromise_flag
+			}
+			subtract_from_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = asa_protestors_mcclellan_stays_flag
+			}
+			subtract_from_variable = {
+				var = anarchist_revolt_meeting_score
+				value = 2
+			}
+		}
+	}
+	option = {
+		trigger = {
+			check_variable = {
+				anarchist_revolt_meeting_score > 6
+			}
+		}
+		country_event = {
+			id = asa_anarchist_revolt.10
+			days = 1
+		}
+		hidden_effect = {
+			clear_variable = anarchist_revolt_meeting_score
+		}
+	}
+	option = {
+		trigger = {
+			check_variable = {
+				anarchist_revolt_meeting_score < 6
+			}
+		}
+		country_event = {
+			id = asa_anarchist_revolt.11
+			days = 1
+		}
+		hidden_effect = {
+			clear_variable = anarchist_revolt_meeting_score
+		}
+	}
+}
+
+country_event = { # Agreement reached
+	id = asa_anarchist_revolt.10
+	title = asa_anarchist_revolt.10.t
+	desc = asa_anarchist_revolt.10.desc
+	picture = placeholder
+	is_triggered_only = yes
+	option = {
+		name = asa_anarchist_revolt.10.a
+		ASA_remove_anarchist_riots = yes
+	}
+}
+
+country_event = { # Agreement not reached
+	id = asa_anarchist_revolt.11
+	title = asa_anarchist_revolt.11.t
+	desc = asa_anarchist_revolt.11.desc
+	picture = placeholder
+	is_triggered_only = yes
+	option = {
+		name = asa_anarchist_revolt.11.a
+		hidden_effect = {
+			country_event = {
+				id = asa_anarchist_revolt.12
+				days = 14
+			}
+		}
+	}
+}
+
+country_event = { #Anarchists Revolt
+	id = asa_anarchist_revolt.12
+	title = asa_anarchist_revolt.12.t
+	desc = asa_anarchist_revolt.12.desc
+	picture = placeholder~~
+	is_triggered_only = yes
+	option = {
+		name = asa_anarchist_revolt.12.a
 	}
 	immediate = {
 		PHL = {
 			transfer_state = 1385
 			add_state_core = 1385
-			load_oob = "ASA_anarchist_revolt"
+			division_template = {
+				name = "Anarchist Paramilitary"
+				priority = 1
+				is_locked = no
+
+				regiments = {
+					irregular_infantry = { x = 0 y = 0 }
+					irregular_infantry = { x = 1 y = 0 }
+					light_infantry = { x = 0 y = 1 }
+					light_infantry = { x = 1 y = 1 }
+				}
+			}
+			set_variable = {
+				asa_anarchist_revolt_spawn_unit_score = 3
+			}
+			if = {
+				limit = {
+					has_country_flag = asa_anarchist_revolt_protestors_shot_1_flag
+				}
+				subtract_from_variable = {
+					var = asa_anarchist_revolt_spawn_unit_score
+					value = 1
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = asa_anarchist_revolt_protestors_shot_2_flag
+				}
+				subtract_from_variable = {
+					var = asa_anarchist_revolt_spawn_unit_score
+					value = 1
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = asa_anarchist_revolt_protestors_arrested_flag
+				}
+				subtract_from_variable = {
+					var = asa_anarchist_revolt_spawn_unit_score
+					value = 1
+				}
+			}
+			if = {
+				limit = {
+					check_variable = {
+						asa_anarchist_revolt_spawn_unit_score = 3
+					}
+				}
+				1385 = {
+					create_unit = { 
+						division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"17th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"18th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"19th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"20th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+				}
+			}
+			if = {
+				limit = {
+					check_variable = {
+						asa_anarchist_revolt_spawn_unit_score = 2
+					}
+				}
+				1385 = {
+					create_unit = { 
+						division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"17th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"18th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+				}
+			}
+			if = {
+				limit = {
+					check_variable = {
+						asa_anarchist_revolt_spawn_unit_score = 1
+					}
+				}
+				1385 = {
+					create_unit = { 
+						division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+				}
+			}
+			if = {
+				limit = {
+					check_variable = {
+						asa_anarchist_revolt_spawn_unit_score = 1
+					}
+				}
+				1385 = {
+					create_unit = { 
+						division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+					create_unit = { 
+						division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+					}
+				}
+			}
 		}
 		ASA = {
 			ASA_remove_anarchist_riots = yes
+		}
+	}
+	option = { # Down With The Traitor!
+		name = asa_anarchist_revolt.12.a
+		add_war_support = 0.05
+	}
+	option = { # The 2nd American Revolution Has Begun! (Play as Philadelphia)
+		name = asa_anarchist_revolt.12.a
+		1385 = {
+			OWNER = {
+				change_tag_from = ASA
+			}
 		}
 	}
 }
@@ -3560,6 +4196,7 @@ country_event = { ### EMERGENCY ELECTION ###
 				id = asa_anarchist_revolt.1
 				days = 180
 			}
+			set_country_flag = emergency_election_wade_elected_flag
 		}
 	}
 	option = { # William Seward
@@ -3573,6 +4210,7 @@ country_event = { ### EMERGENCY ELECTION ###
 				id = asa_anarchist_revolt.1
 				days = 180
 			}
+			set_country_flag = emergency_election_seward_elected_flag
 		}
 	}
 	option = { #George B. McClellan
@@ -3586,6 +4224,7 @@ country_event = { ### EMERGENCY ELECTION ###
 				id = asa_anarchist_revolt.1
 				days = 180
 			}
+			set_country_flag = emergency_election_mcclellan_elected_flag
 		}
 	}
 }
