@@ -248,13 +248,8 @@ country_event = {
 		is_triggered_only = yes
 
 		trigger = {
-			AND = {
-				has_completed_focus = PIE_Risorgimento
-				NOT = {
-					FRA = {
-						has_completed_focus = FRA_cut_ties_piedmont
-					}
-				}
+			FRA = {
+				has_country_flag = FRA_supports_PIE_risorgimento
 			}
 			
 		}
@@ -632,29 +627,20 @@ country_event = {
 		is_triggered_only = yes
 
 		trigger = {
+		OR = {
 			if = {
 				limit = {
-					PIE = {
-						has_completed_focus = PIE_Risorgimento
+					FRA = {
+						has_country_flag = FRA_supports_PIE_risorgimento
 					}
 				}
 			    has_completed_focus = PIE_Recruit_Nationalists
 				has_completed_focus = PIE_French_Aid
 				has_completed_focus = PIE_Start_Border_Operations
 			}
-			if = {
-				limit = {
-					NOT = {
-						PIE = {
-							has_completed_focus = PIE_Risorgimento
-						}
-					}
-					
-				}
-				has_completed_focus = PIE_Provoke_Austria
-			}
-
+			has_completed_focus = PIE_Provoke_Austria
 		}
+	}
 
 		option = {
 			name = sardinia.27.a
@@ -664,7 +650,9 @@ country_event = {
 			}
 			if = {
 				limit = {
-					has_completed_focus = PIE_Risorgimento
+					FRA = {
+						has_country_flag = FRA_supports_PIE_risorgimento
+					}
 				}
 				hidden_effect = { complete_national_focus = PIE_The_War_Starts }
 				hidden_effect = { complete_national_focus = PIE_Occupy_Central_Italy }
@@ -762,7 +750,9 @@ country_event = {
 		trigger = {
 			tag = PIE
 			country_exists = NSC
-			has_completed_focus = PIE_Risorgimento 
+			FRA = {
+				has_country_flag = FRA_supports_PIE_risorgimento
+			} 
 		}
 
 		fire_only_once = yes
@@ -1347,15 +1337,15 @@ country_event = {
             PIE = { 
                 divisions_in_state = {
                     type = infantry
-                    size > 5
-                    state = 159
+                    size > 10
+                    state = 160
                 }
             }
             CBI = {
                 divisions_in_state = {
                     type = infantry
-                    size > 5
-                    state = 159
+                    size > 10
+                    state = 160
                 }
             }
         }
@@ -1587,6 +1577,27 @@ country_event = {
 				id = sardinia.51
 				days = 5
 			}
+		}
+	}
+}
+country_event = {
+    id = sardinia.53
+    title = sardinia.53.t
+    desc = sardinia.53.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
+
+  
+    option = {
+        name = sardinia.53.a  #Yes
+		set_country_flag = FRA_supports_PIE_risorgimento
+	}
+	option = {
+        name = sardinia.53.b  #No
+		PIE = {
+			complete_national_focus = PIE_Go_with_Garibaldi
 		}
 	}
 }

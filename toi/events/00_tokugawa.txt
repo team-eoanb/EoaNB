@@ -3,6 +3,7 @@ add_namespace = shogunate_japan_fl
 add_namespace = shogunate_japan_l
 add_namespace = shogunate_japan_ansei
 add_namespace = shogunate_japan_boshin_anticheat
+add_namespace = shogunate_japan_choshu
 add_namespace = tsh_news
 #Intro
 country_event = {
@@ -1093,7 +1094,455 @@ country_event = {
     }
 }
 
+### FIRST CHOSHU EXPEDITION ###
 
+#Kinmon incident
+country_event = {
+	id = shogunate_japan_choshu.1
+	title = shogunate_japan_choshu.1.t
+	desc = shogunate_japan_choshu.1.d
+	
+	is_triggered_only = yes
+	
+	#Launch Expedition
+	option = {
+		name = shogunate_japan_choshu.1.a
+		ai_chance = { factor = 100 }
+		SAT = { country_event = { id = shogunate_japan_choshu.2 days = 1 } }
+	}
+}
+
+#Satsuma is called to arms
+country_event = {
+	id = shogunate_japan_choshu.2
+	title = shogunate_japan_choshu.2.t
+	desc = shogunate_japan_choshu.2.d
+	
+	is_triggered_only = yes
+	
+	#Satsuma supports expedition
+	option = {
+		name = shogunate_japan_choshu.2.a
+		ai_chance = { factor = 50 }
+		TSH = { country_event = { id = shogunate_japan_choshu.3 days = 1 } }
+	}
+	
+	#Satsuma does not support expedition
+	option = {
+		name = shogunate_japan_choshu.2.b
+		ai_chance = { factor = 50 }
+		TSH = { country_event = { id = shogunate_japan_choshu.13 days = 1 } }
+	}
+}
+
+#Shogunate notified Satsuma supports
+country_event = {
+	id = shogunate_japan_choshu.3
+	title = shogunate_japan_choshu.3.t
+	desc = shogunate_japan_choshu.3.d
+	
+	is_triggered_only = yes
+	
+	#Then let us begin
+	option = {
+		name = shogunate_japan_choshu.3.a
+		ai_chance = { factor = 50 }
+		SAT = { country_event = { id = shogunate_japan_choshu.4 days = 1 } }
+		CHO = { country_event = { id = shogunate_japan_choshu.5 days = 1 } }
+	}
+	
+}
+
+#Shogunate expedition arrives in Satsuma
+country_event = {
+	id = shogunate_japan_choshu.4
+	title = shogunate_japan_choshu.4.t
+	desc = shogunate_japan_choshu.4.d
+	
+	is_triggered_only = yes
+	
+	#Ok
+	option = {
+		name = shogunate_japan_choshu.4.a
+		ai_chance = { factor = 100 }
+	}
+	
+}
+
+#Shogunate expedition arrives in Choshu
+country_event = {
+	id = shogunate_japan_choshu.5
+	title = shogunate_japan_choshu.5.t
+	desc = shogunate_japan_choshu.5.d
+	
+	is_triggered_only = yes
+	
+	#Extradite responsible leaders
+	option = {
+		name = shogunate_japan_choshu.5.a
+		ai_chance = { factor = 50 }
+		add_ideas = TSH_choshu_defeat
+		TSH = { country_event = { id = shogunate_japan_choshu.6 days = 1 } }
+	}
+	
+	#Refuse to accept responsibility
+	option = {
+		name = shogunate_japan_choshu.5.b
+		ai_chance = { factor = 50 }
+		TSH = { country_event = { id = shogunate_japan_choshu.7 days = 1 } }
+	}
+	
+}
+
+#Shogunate receives extradited leaders
+country_event = {
+	id = shogunate_japan_choshu.6
+	title = shogunate_japan_choshu.6.t
+	desc = shogunate_japan_choshu.6.d
+	
+	is_triggered_only = yes
+	
+	#Ok
+	option = {
+		name = shogunate_japan_choshu.6.a
+		ai_chance = { factor = 100 }
+		add_ideas = TSH_upheld_authority
+	}
+	
+}
+
+#Shogunate receives news Choshu will not submit
+country_event = {
+	id = shogunate_japan_choshu.7
+	title = shogunate_japan_choshu.7.t
+	desc = shogunate_japan_choshu.7.d
+	
+	is_triggered_only = yes
+	
+	#Start the Border War
+	option = {
+		name = shogunate_japan_choshu.7.a
+		ai_chance = { factor = 100 }
+		start_border_war = {
+			change_state_after_war = no
+			attacker = {
+				state = 1261
+				num_provinces = 1
+				on_win = shogunate_japan_choshu.11
+				on_lose = shogunate_japan_choshu.9
+				on_cancel = shogunate_japan_choshu.12
+			}
+			defender = {
+				state = 1210
+				num_provinces = 1
+				on_win = shogunate_japan_choshu.8
+				on_lose = shogunate_japan_choshu.10
+				on_cancel = secondopiumwar.12
+			}
+		}
+	}
+	
+}
+
+#Choshu Wins
+country_event = {
+	id = shogunate_japan_choshu.8
+	title = shogunate_japan_choshu.8.t
+	desc = shogunate_japan_choshu.8.d
+	
+	is_triggered_only = yes
+	
+	#We prevail
+	option = {
+		name = shogunate_japan_choshu.8.a
+		ai_chance = { factor = 100 }
+		add_ideas = TSH_righteous_fury
+	}
+	
+}
+
+#Shogunate Loses
+country_event = {
+	id = shogunate_japan_choshu.9
+	title = shogunate_japan_choshu.9.t
+	desc = shogunate_japan_choshu.9.d
+	
+	is_triggered_only = yes
+	
+	#How could this happen
+	option = {
+		name = shogunate_japan_choshu.9.a
+		ai_chance = { factor = 100 }
+		add_stability = -0.15
+		add_war_support = -0.25
+	}
+	
+}
+
+#Choshu Loses
+country_event = {
+	id = shogunate_japan_choshu.10
+	title = shogunate_japan_choshu.10.t
+	desc = shogunate_japan_choshu.10.d
+	
+	is_triggered_only = yes
+	
+	#Humiliating Defeat
+	option = {
+		name = shogunate_japan_choshu.10.a
+		ai_chance = { factor = 100 }
+		add_ideas = TSH_choshu_defeat
+	}
+	
+}
+
+#Shogunate Wins
+country_event = {
+	id = shogunate_japan_choshu.11
+	title = shogunate_japan_choshu.11.t
+	desc = shogunate_japan_choshu.11.d
+	
+	is_triggered_only = yes
+	
+	#We disciplined Choshu
+	option = {
+		name = shogunate_japan_choshu.11.a
+		ai_chance = { factor = 100 }
+		add_ideas = TSH_upheld_authority
+	}
+	
+}
+
+#Draw
+country_event = {
+	id = shogunate_japan_choshu.12
+	title = shogunate_japan_choshu.12.t
+	desc = shogunate_japan_choshu.12.d
+	
+	is_triggered_only = yes
+	
+	#Ok
+	option = {
+		name = shogunate_japan_choshu.12.a
+		ai_chance = { factor = 100 }
+	}
+	
+}
+
+#Shogunate notified Satsuma does not support
+country_event = {
+	id = shogunate_japan_choshu.13
+	title = shogunate_japan_choshu.13.t
+	desc = shogunate_japan_choshu.13.d
+	
+	is_triggered_only = yes
+	
+	#We will take on both of them
+	option = {
+		name = shogunate_japan_choshu.13.a
+		ai_chance = { factor = 100 }
+		start_border_war = {
+			change_state_after_war = no
+			attacker = {
+				state = 1261
+				num_provinces = 1
+				on_win = shogunate_japan_choshu.17
+				on_lose = shogunate_japan_choshu.15
+				on_cancel = shogunate_japan_choshu.18
+			}
+			defender = {
+				state = 1210
+				num_provinces = 1
+				on_win = shogunate_japan_choshu.14
+				on_lose = shogunate_japan_choshu.16
+				on_cancel = secondopiumwar.18
+			}
+		}
+		SAT = { country_event = { id = shogunate_japan_choshu.20 days = 1 } }
+		hidden_effect = {
+			CHO = { country_event = { id = shogunate_japan_choshu.19 } }
+		}
+	}
+
+}
+
+#Choshu Wins
+country_event = {
+	id = shogunate_japan_choshu.14
+	title = shogunate_japan_choshu.14.t
+	desc = shogunate_japan_choshu.14.d
+	
+	is_triggered_only = yes
+	
+	#We prevail
+	option = {
+		name = shogunate_japan_choshu.14.a
+		ai_chance = { factor = 100 }
+		add_ideas = TSH_righteous_fury
+	}
+	
+}
+
+#Shogunate Loses
+country_event = {
+	id = shogunate_japan_choshu.15
+	title = shogunate_japan_choshu.15.t
+	desc = shogunate_japan_choshu.15.d
+	
+	is_triggered_only = yes
+	
+	#How could this happen
+	option = {
+		name = shogunate_japan_choshu.15.a
+		ai_chance = { factor = 100 }
+		add_stability = -0.05
+		add_war_support = -0.1
+	}
+	
+}
+
+#Choshu Loses
+country_event = {
+	id = shogunate_japan_choshu.16
+	title = shogunate_japan_choshu.16.t
+	desc = shogunate_japan_choshu.16.d
+	
+	is_triggered_only = yes
+	
+	#Humiliating Defeat
+	option = {
+		name = shogunate_japan_choshu.16.a
+		ai_chance = { factor = 100 }
+	}
+	
+}
+
+#Shogunate Wins
+country_event = {
+	id = shogunate_japan_choshu.17
+	title = shogunate_japan_choshu.17.t
+	desc = shogunate_japan_choshu.17.d
+	
+	is_triggered_only = yes
+	
+	#We disciplined Choshu
+	option = {
+		name = shogunate_japan_choshu.17.a
+		ai_chance = { factor = 100 }
+		annex_country = { target = CHO transfer_troops = no }
+	}
+	
+}
+
+#Draw
+country_event = {
+	id = shogunate_japan_choshu.18
+	title = shogunate_japan_choshu.18.t
+	desc = shogunate_japan_choshu.18.d
+	
+	is_triggered_only = yes
+	
+	#Ok
+	option = {
+		name = shogunate_japan_choshu.18.a
+		ai_chance = { factor = 100 }
+	}
+	
+}
+
+#Choshu will defend
+country_event = {
+	id = shogunate_japan_choshu.19
+	title = shogunate_japan_choshu.19.t
+	desc = shogunate_japan_choshu.19.d
+	
+	is_triggered_only = yes
+	
+	#For our clan
+	option = {
+		name = shogunate_japan_choshu.19.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = eoanb_tt_sjc_19
+		hidden_effect = {
+			load_oob = "CHO_first_expedition_irregulars"
+		}
+	}
+	
+}
+
+#Shogunate Expedition arrives in Satsuma
+country_event = {
+	id = shogunate_japan_choshu.20
+	title = shogunate_japan_choshu.20.t
+	desc = shogunate_japan_choshu.20.d
+	
+	is_triggered_only = yes
+	
+	#Entrench and wait for them to attack
+	option = {
+		name = shogunate_japan_choshu.20.a
+		ai_chance = { factor = 50 }
+		1257 = { add_building_construction = { type = bunker level = 1 instant_build = yes province = 13910 } }
+		1257 = { add_building_construction = { type = bunker level = 1 instant_build = yes province = 13912 } }
+		start_border_war = {
+			change_state_after_war = no
+			attacker = {
+				state = 1258
+				num_provinces = 1
+				on_win = shogunate_japan_choshu.21
+				on_lose = shogunate_japan_choshu.21
+				on_cancel = shogunate_japan_choshu.21
+			}
+			defender = {
+				state = 1257
+				num_provinces = 1
+				on_win = shogunate_japan_choshu.21
+				on_lose = shogunate_japan_choshu.21
+				on_cancel = secondopiumwar.21
+			}
+		}
+	}
+	
+	#Try to strike first
+	option = {
+		name = shogunate_japan_choshu.20.b
+		ai_chance = { factor = 50 }
+		start_border_war = {
+			change_state_after_war = no
+			attacker = {
+				state = 1257
+				num_provinces = 1
+				on_win = shogunate_japan_choshu.21
+				on_lose = shogunate_japan_choshu.21
+				on_cancel = shogunate_japan_choshu.21
+			}
+			defender = {
+				state = 1258
+				num_provinces = 1
+				on_win = shogunate_japan_choshu.21
+				on_lose = shogunate_japan_choshu.21
+				on_cancel = secondopiumwar.21
+			}
+		}
+	}
+	
+}
+
+#Ceasefire
+country_event = {
+	id = shogunate_japan_choshu.21
+	title = shogunate_japan_choshu.21.t
+	desc = shogunate_japan_choshu.21.d
+	
+	is_triggered_only = yes
+	
+	#Ok
+	option = {
+		name = shogunate_japan_choshu.21.a
+		ai_chance = { factor = 100 }
+	}
+	
+}
 
 ###FLAVOUR & MISC###
 
