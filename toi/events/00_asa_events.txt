@@ -17,6 +17,7 @@ add_namespace = asa_the_mcclellan_cult_event
 add_namespace = asa_reunion_with_west_virginia
 add_namespace = asa_referendum_in_connecticut
 add_namespace = asa_referendum_in_ohio
+add_namespace = asa_referendum_in_west_virginia
 add_namespace = asa_reunion_with_kentucky
 add_namespace = asa_create_a_new_doctrine_event
 add_namespace = asa_utilize_an_old_doctrine_event
@@ -35,6 +36,7 @@ add_namespace = asa_amend_ninth_amendment_militarist_event
 add_namespace = asa_amend_tenth_amendment_militarist_event
 add_namespace = asa_amend_eleventh_amendment_militarist_event
 add_namespace = asa_amend_twelvth_amendment_militarist_event
+add_namespace = asa_counter_coup
 add_namespace = asa_take_virginia
 add_namespace = asa_imperial_palace
 add_namespace = asa_new_social_issues
@@ -52,6 +54,8 @@ add_namespace = asa_1868_election
 add_namespace = asa_1872_election
 add_namespace = asa_1876_election
 add_namespace = asa_1880_election
+### GENERIC-ISH ###
+add_namespace = generic_shipping_raids
 
 #Global Events
 
@@ -153,7 +157,7 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = asa_mcclellan_responds_to_govt_issues_of_capital.1.a
-		custom_effect_tooltip = asa_mcclellan_responds_to_govt_issues_of_capital_tt
+		custom_effect_tooltip = asa_mcclellan_popularity_increase_tt
 		hidden_effect = {
 			add_to_variable = {
 				var = asa_mcclellan_popularity
@@ -190,7 +194,7 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = asa_mcclellan_responds_to_govt_issues_of_labor.1.a
-		custom_effect_tooltip = asa_mcclellan_responds_to_govt_issues_of_labor_tt
+		custom_effect_tooltip = asa_mcclellan_popularity_increase_tt
 		hidden_effect = {
 			add_to_variable = {
 				var = asa_mcclellan_popularity
@@ -372,6 +376,14 @@ country_event = {
 		name = asa_referendum_in_connecticut.1.a
 		custom_effect_tooltip = asa_referendum_in_Connecticut_1_a_tt
 		hidden_effect = {
+			random_list = {
+				50 = {
+					country_event = asa_referendum_in_connecticut.4
+				}
+				50 = {
+					country_event = asa_referendum_in_connecticut.5
+				}
+			}
 			country_event = {
 				id = asa_referendum_in_connecticut.2
 				days = 1
@@ -402,19 +414,8 @@ country_event = { #Connecticut Referendum
 
 	hidden = yes
 
-	option = { #Connecticut joins the ASA
+	option = {
 		name = asa_referendum_in_connecticut.2.a
-		country_event = {
-			id = asa_referendum_in_connecticut.4
-			days = 1
-		}
-	}
-	option = { #Connecticut does not join the ASA
-		name = asa_referendum_in_connecticut.2.b
-		country_event = {
-			id = asa_referendum_in_connecticut.5
-			days = 1
-		}
 	}
 }
 
@@ -713,10 +714,18 @@ country_event = { #ASA Proposes Referendum to GLC
 		name = asa_referendum_in_ohio.1.a
 		custom_effect_tooltip = asa_referendum_in_ohio_1_a_tt
 		hidden_effect = {
-			ASA = {
-				country_event = {
-					id = asa_referendum_in_ohio.2
-					days = 1
+			random_list = {
+				50 = {
+					country_event = {
+						id = asa_referendum_in_ohio.4
+						days = 1
+					}
+				}
+				50 = {
+					country_event = {
+						id = asa_referendum_in_ohio.5
+						days = 1
+					}
 				}
 			}
 		}
@@ -745,21 +754,8 @@ country_event = { #Ohio Referendum
 
 	is_triggered_only = yes
 
-	hidden = yes
-
-	option = { #Ohio joins the ASA
+	option = {
 		name = asa_referendum_in_ohio.2.a
-		country_event = {
-			id = asa_referendum_in_ohio.4
-			days = 1
-		}
-	}
-	option = { #Ohio does not join the ASA
-		name = asa_referendum_in_ohio.2.b
-		country_event = {
-			id = asa_referendum_in_ohio.5
-			days = 1
-		}
 	}
 }
 
@@ -953,7 +949,7 @@ country_event = { # GRL Offensive + Victory
 				white_peace = ASA
 				remove_ideas = ASA_Taking_Back_Ohio
 			}
-			ASA = { transfer_state = 261 }
+			GRL = { transfer_state = 261 }
 			clr_country_flag = GRL_Taking_Back_Ohio
 		}
 	}
@@ -1077,6 +1073,357 @@ country_event = { #Grant and Sherman join ASA
 			}
 			set_nationality = ASA
 		}
+	}
+}
+
+country_event = { #ASA Proposes Referendum to CSA
+	id = asa_referendum_in_west_virginia.1
+	title = asa_referendum_in_west_virginia.1.t
+	desc = asa_referendum_in_west_virginia.1.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = { #Allow the referendum
+		name = asa_referendum_in_west_virginia.1.a
+		custom_effect_tooltip = asa_referendum_in_west_virginia_1_a_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					country_event = {
+						id = asa_referendum_in_west_virginia.4
+						days = 1
+					}
+				}
+				50 = {
+					country_event = {
+						id = asa_referendum_in_west_virginia.5
+						days = 1
+					}
+				}
+			}
+		}
+	}
+	option = { #Don't allow the referendum
+		name = asa_referendum_in_west_virginia.1.b
+		custom_effect_tooltip = asa_referendum_in_west_virginia_1_b_tt
+		hidden_effect = {
+			ASA = {
+				country_event = {
+					id = asa_referendum_in_west_virginia.3
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = { #West_Virginia Referendum
+	id = asa_referendum_in_west_virginia.2
+	title = asa_referendum_in_west_virginia.2.t
+	desc = asa_referendum_in_west_virginia.2.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.2.a
+	}
+}
+
+country_event = { #ASA Response To GLC Not Allowing West_Virginia Referendum
+	id = asa_referendum_in_west_virginia.3
+	title = asa_referendum_in_west_virginia.3.t
+	desc = asa_referendum_in_west_virginia.3.desc
+	picture = placeholder
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.3.a
+		declare_war_on = {
+			target = CSA
+			type = topple_government
+		}
+		add_ideas = ASA_Taking_Back_West_Virginia
+		add_state_core = 746
+	}
+	option = {
+		name = asa_referendum_in_west_virginia.3.b
+	}
+}
+
+country_event = { #West_Virginia joins ASA via vote (ASA Perspective)
+	id = asa_referendum_in_west_virginia.4
+	title = asa_referendum_in_west_virginia.4.t
+	desc = asa_referendum_in_west_virginia.4.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = { #West_Virginia votes to join the ASA
+		name = asa_referendum_in_west_virginia.4.a
+		transfer_state = 746
+		add_state_core = 746
+		CSA = {
+			remove_state_core = 746
+			country_event = {
+				id = asa_referendum_in_west_virginia.7
+				days = 1
+			}
+		}
+		hidden_effect = {
+			set_country_flag = ASA_Took_West_Virginia
+			country_event = {
+				id = asa_referendum_in_west_virginia.16
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = { #West_Virginia votes to not join the ASA
+	id = asa_referendum_in_west_virginia.5
+	title = asa_referendum_in_west_virginia.5.t
+	desc = asa_referendum_in_west_virginia.5.desc
+	picture = placeholder
+	
+	fire_only_once = yes
+	
+	is_triggered_only = yes
+
+	option = { #Chicago rigged the vote!
+		name = asa_referendum_in_west_virginia.5.a
+		declare_war_on = {
+			target = CSA
+			type = topple_government
+		}
+		add_ideas = ASA_Taking_Back_West_Virginia
+		add_state_core = 746
+	}
+	option = { #It was worth a try
+		name = asa_referendum_in_west_virginia.5.b
+	}
+}
+
+country_event = { #West_Virginia votes not to join the ASA (CSA Perspective)
+	id = asa_referendum_in_west_virginia.6
+	title = asa_referendum_in_west_virginia.6.t
+	desc = asa_referendum_in_west_virginia.6.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.6.a
+	}
+}
+
+country_event = { #West_Virginia vote to join ASA (CSA Perspective)
+	id = asa_referendum_in_west_virginia.7
+	title = asa_referendum_in_west_virginia.7
+	desc = asa_referendum_in_west_virginia.7.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = { #Washington rigged the vote!
+		name = asa_referendum_in_west_virginia.7.a
+		declare_war_on = {
+			target = CSA
+			type = topple_government
+		}
+		add_ideas = ASA_Taking_Back_West_Virginia
+		add_state_core = 746
+		set_country_flag = CSA_Taking_Back_West_Virginia
+	}
+	option = { #If it's what the people want...
+		name = asa_referendum_in_west_virginia.7.b
+	}
+}
+
+country_event = { # ASA Offensive + Victory
+	id = asa_referendum_in_west_virginia.8
+	title = asa_referendum_in_west_virginia.8.t
+	desc = asa_referendum_in_west_virginia.8.desc
+	picture = placeholder
+	
+	fire_only_once = yes
+	
+	trigger = {
+		NOT = {
+			has_country_flag = ASA_Took_West_Virginia
+		}
+		ASA = {
+			has_offensive_war_with = CSA
+			has_completed_focus = ASA_West_Virginia_Referendum
+		}
+		OR = {
+			CSA = { surrender_progress > 0.7 }
+			ASA = { controls_state = 746 }
+		}
+	}
+
+	option = {
+		name = asa_referendum_in_west_virginia.8.a
+		ai_chance = {
+			base = 100
+		}
+		custom_effect_tooltip = asa_referendum_in_west_virginia_8_tt
+		hidden_effect = {
+			white_peace = CSA
+			remove_ideas = ASA_Taking_Back_West_Virginia
+			remove_state_core = 746
+			transfer_state = 746
+			set_country_flag = ASA_Took_West_Virginia
+		}
+	}
+}
+
+country_event = { # CSA Offensive + Victory
+	id = asa_referendum_in_west_virginia.9
+	title = asa_referendum_in_west_virginia.9.t
+	desc = asa_referendum_in_west_virginia.9.desc
+	picture = placeholder
+	
+	fire_only_once = yes
+	
+	trigger = {
+
+		has_country_flag = CSA_Taking_Back_West_Virginia
+
+		CSA = {
+			has_offensive_war_with = ASA
+			has_completed_focus = ASA_West_Virginia_Referendum
+		}
+		OR = {
+			ASA = { surrender_progress > 0.7 }
+			CSA = { controls_state = 746 }
+		}
+	}
+
+	option = {
+		name = asa_referendum_in_west_virginia.9.a
+		ai_chance = {
+			base = 100
+		}
+		custom_effect_tooltip = asa_referendum_in_west_virginia_9_tt
+		hidden_effect = {
+			CSA = {
+				white_peace = ASA
+				remove_ideas = ASA_Taking_Back_West_Virginia
+			}
+			ASA = { transfer_state = 746 }
+			clr_country_flag = CSA_Taking_Back_West_Virginia
+		}
+	}
+}
+
+country_event = { # ASA Offensive + Defeat
+	id = asa_referendum_in_west_virginia.10
+	title = asa_referendum_in_west_virginia.10.t
+	desc = asa_referendum_in_west_virginia.10.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.10.a
+		white_peace = CSA
+		remove_ideas = ASA_Taking_Back_West_Virginia
+	}	
+}
+
+country_event = { # CSA Offensive + Defeat
+	id = asa_referendum_in_west_virginia.11
+	title = asa_referendum_in_west_virginia.11.t
+	desc = asa_referendum_in_west_virginia.11.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.11.a
+		CSA = {
+			white_peace = ASA
+			remove_ideas = ASA_Taking_Back_West_Virginia
+		}
+	}	
+}
+
+country_event = { #ASA Defensive + Victory
+	id = asa_referendum_in_west_virginia.12
+	title = asa_referendum_in_west_virginia.12.t
+	desc = asa_referendum_in_west_virginia.12.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.12.a
+	}
+}
+
+country_event = { #CSA Defensive + Victory
+	id = asa_referendum_in_west_virginia.13
+	title = asa_referendum_in_west_virginia.13.t
+	desc = asa_referendum_in_west_virginia.13.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.13.a
+	}
+}
+
+country_event = { #ASA Defensive + Defeat
+	id = asa_referendum_in_west_virginia.14
+	title = asa_referendum_in_west_virginia.14.t
+	desc = asa_referendum_in_west_virginia.14.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.14.a
+	}
+}
+
+country_event = { #CSA Defensive + Defeat
+	id = asa_referendum_in_west_virginia.15
+	title = asa_referendum_in_west_virginia.15.t
+	desc = asa_referendum_in_west_virginia.15.desc
+	picture = placeholder
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = asa_referendum_in_west_virginia.15.a
 	}
 }
 
@@ -1846,6 +2193,28 @@ country_event = {
 			var = asa_military_authority
 			value = 1
 		}
+	}
+}
+
+country_event = {
+	id = asa_counter_coup.1
+	title = asa_counter_coup.1.t
+	desc = asa_counter_coup.1.desc
+	picture = placeholder 
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_politics = {
+			ruling_party = social_egalitarianism
+			elections_allowed = yes
+		}
+	}
+
+	option = {
+		name = asa_counter_coup.1.a
 	}
 }
 
@@ -4135,6 +4504,132 @@ country_event = { #Anarchists Revolt
 	}
 }
 
+country_event = { # Shipping Raids Report
+	id = generic_shipping_raids.1
+	title = generic_shipping_raids.1.t
+	desc = generic_shipping_raids.1.desc
+	is_triggered_only = yes
+	option = { # Organize a large force
+		name = generic_shipping_raids.1.a
+		trigger = {
+			command_power > 79.9
+		}
+		add_command_power = -80
+		random_list = {
+			80 = {
+				country_event = {
+					id = generic_shipping_raids.3
+					days = 1
+				}
+			}
+			20 = {
+				country_event = {
+					id = generic_shipping_raids.2
+					days = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = generic_shipping_raids.1.b
+		trigger = {
+			command_power > 49.9
+		}
+		add_command_power = -50
+		50 = {
+			country_event = {
+				id = generic_shipping_raids.3
+				days = 1
+			}
+		}
+		50 = {
+			country_event = {
+				id = generic_shipping_raids.2
+				days = 1
+			}
+		}
+	}
+	option = {
+		name = generic_shipping_raids.1.c
+		trigger = {
+			command_power > 24.9
+		}
+		add_command_power = -25
+		25 = {
+			country_event = {
+				id = generic_shipping_raids.3
+				days = 1
+			}
+		}
+		75 = {
+			country_event = {
+				id = generic_shipping_raids.2
+				days = 1
+			}
+		}
+	}
+	option = {
+		name = generic_shipping_raids.1.d
+	}
+}
+
+country_event = { # Nothing found
+	id = generic_shipping_raids.2
+	title = generic_shipping_raids.2.t
+	desc = generic_shipping_raids.2.desc
+	is_triggered_only = yes
+	option = {
+		name = generic_shipping_raids.2.a
+	}
+}
+
+country_event = { # Pirates spotted!
+	id = generic_shipping_raids.3
+	title = generic_shipping_raids.3.t
+	desc = generic_shipping_raids.3.desc
+	is_triggered_only = yes
+	option = { # Pursue them!
+		name = generic_shipping_raids.3.a
+		naval_experience = 5
+		random_list = {
+			50  ={
+				country_event = {
+					id = generic_shipping_raids.4
+					days = 1
+				}
+			}
+			50 = {
+				country_event = {
+					id = generic_shipping_raids.5
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Lost the pirates
+	id = generic_shipping_raids.4
+	title = generic_shipping_raids.4.t
+	desc = generic_shipping_raids.4.desc
+	is_triggered_only = yes
+	option = {
+		name = generic_shipping_raids.4.a
+	}
+}
+
+country_event = { # Pirates sunk
+	id = generic_shipping_raids.5
+	title = generic_shipping_raids.5.t
+	desc = generic_shipping_raids.5.desc
+	is_triggered_only = yes
+	option = {
+		name = generic_shipping_raids.5.a
+		naval_experience = 15
+		remove_ideas = generic_Shipping_Raided_By_Atlantic_Privateers
+	}
+}
+
 #################
 ### ELECTIONS ###
 #################
@@ -4213,7 +4708,7 @@ country_event = { ### EMERGENCY ELECTION ###
 			set_country_flag = emergency_election_seward_elected_flag
 		}
 	}
-	option = { #George B. McClellan
+	option = { # George B. McClellan
 		name = asa_emergency_election.2.c
 		set_politics = { #George B. McClellan
 			ruling_party = traditional_conservatism

@@ -16,7 +16,7 @@ ASA_passive_relations_category = {
 		complete_effect = {
 			FROM = {
 				country_event = {
-				id = asa_nap.1
+					id = asa_nap.1
 				}
 			}
 		}
@@ -439,7 +439,7 @@ ASA_fortify_borders = {
 		remove_effect = {
 			361 = {
 				add_building_construction = {
-					type = bunker
+					type = coastal_bunker
 					province = 6892
 					level = 1
 					instant_build = yes
@@ -447,7 +447,7 @@ ASA_fortify_borders = {
 			}
 			361 = {
 				add_building_construction = {
-					type = bunker
+					type = coastal_bunker
 					province = 9786
 					level = 1
 					instant_build = yes
@@ -863,7 +863,6 @@ ASA_embassy = {
 ASA_The_Minutemen_Act_category = {
 	ASA_Minutemen_Act_decision = {
 		available = {
-			has_completed_focus = ASA_The_Minutemen_Act
 			NOT = {
 				has_completed_focus = ASA_Allotment_System
 			}
@@ -898,14 +897,14 @@ ASA_The_Minutemen_Act_category = {
 }
 ASA_Privateer_Navy = {
 	ASA_Raid_British_Shipping = {
-		available = {
-			has_completed_focus = ASA_Hire_Privateers
-		}
-		visible = {
-			has_completed_focus = ASA_Hire_Privateers
-		}
 		allowed = { always = no }
 		cost = 0
+		cancel_trigger = {
+			has_country_flag =  asa_privateers_canceled_flag
+		}
+		modifier = {
+			consumer_goods_factor = -0.025
+		}
 		custom_cost_trigger = {
 			command_power > 24.9
 		}
@@ -918,16 +917,18 @@ ASA_Privateer_Navy = {
 			}
 			add_command_power = -25
 		}
+		days_remove = 30
+		days_re_enable = 180
 	}
 	ASA_Raid_Prussian_Shipping = {
-		available = {
-			has_completed_focus = ASA_Hire_Privateers
-		}
-		visible = {
-			has_completed_focus = ASA_Hire_Privateers
-		}
 		allowed = { always = no }
 		cost = 0
+		cancel_trigger = {
+			has_country_flag = asa_privateers_canceled_flag
+		}
+		modifier = {
+			consumer_goods_factor = -0.025
+		}
 		custom_cost_trigger = {
 			command_power > 24.9
 		}
@@ -940,16 +941,18 @@ ASA_Privateer_Navy = {
 			}
 			add_command_power = -25
 		}
+		days_remove = 30
+		days_re_enable = 180
 	}
 	ASA_Raid_French_Shipping = {
-		available = {
-			has_completed_focus = ASA_Hire_Privateers
-		}
-		visible = {
-			has_completed_focus = ASA_Hire_Privateers
-		}
 		allowed = { always = no }
 		cost = 0
+		cancel_trigger = {
+			has_country_flag = asa_privateers_canceled_flag
+		}
+		modifier = {
+			consumer_goods_factor = -0.025
+		}
 		custom_cost_trigger = {
 			command_power > 24.9
 		}
@@ -962,16 +965,18 @@ ASA_Privateer_Navy = {
 			}
 			add_command_power = -25
 		}
+		days_remove = 30
+		days_re_enable = 180
 	}
 	ASA_Raid_Spanish_Shipping = {
-		available = {
-			has_completed_focus = ASA_Hire_Privateers
-		}
-		visible = {
-			has_completed_focus = ASA_Hire_Privateers
-		}
 		allowed = { always = no }
 		cost = 0
+		cancel_trigger = {
+			has_country_flag = asa_privateers_canceled_flag
+		}
+		modifier = {
+			consumer_goods_factor = -0.025
+		}
 		custom_cost_trigger = {
 			command_power > 24.9
 		}
@@ -984,6 +989,8 @@ ASA_Privateer_Navy = {
 			}
 			add_command_power = -25
 		}
+		days_remove = 30
+		days_re_enable = 180
 	}
 }
 
@@ -2035,11 +2042,66 @@ internal_politics_eoanb = {
 				ruling_party = radical_democracy
 				elections_allowed = no
 			}
+			activate_targeted_decision = {
+				target = ASA
+				decision = ASA_Amend_The_Constitution_countdown
+			}
 		}
 	}
 }
 
 ASA_Amend_The_Constitution_militarist = {
+	ASA_Amend_The_Constitution_countdown = {
+		allowed = { tag = ASA }
+		available = { always = no }
+		activation = { always = no }
+		is_good = yes
+		days_mission_timeout = 30
+		timeout_effect = {
+			IF = {
+				limit = {
+					AND = {
+						check_variable = {
+							asa_civilian_authority > asa_military_authority
+						}
+						check_variable = {
+							asa_civilian_authority > asa_executive_authority
+						}
+					}
+				}
+				complete_national_focus = ASA_A_Militaristic_Republic
+			}
+			ELSE_IF = {
+				limit = {
+					AND = {
+						check_variable = {
+							asa_military_authority > asa_civilian_authority
+						}
+						check_variable = {
+							asa_military_authority > asa_executive_authority
+						}
+					}
+				}
+				complete_national_focus = ASA_A_Military_Republic
+			}
+			ELSE_IF = {
+				limit = {
+					AND = {
+						check_variable = {
+							asa_executive_authority > asa_civilian_authority
+						}
+						check_variable = {
+							asa_executive_authority > asa_military_authority
+						}
+					}
+				}
+				complete_national_focus = ASA_A_Military_Dictatorship
+			}
+			ELSE = {
+				country_event = asa_counter_coup.1
+			}
+		}
+	}
 	ASA_amend_first_amendment_militarist = {
 
 		fire_only_once = yes
