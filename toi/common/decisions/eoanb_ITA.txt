@@ -2,6 +2,8 @@
 
 ITA_Culture_category_decisions = {
 
+
+
 	ITA_decision_invest_in_opera = {
 		ai_will_do = {
 			base = 1
@@ -58,6 +60,249 @@ ITA_Culture_category_decisions = {
 	}
 
 }
+ITA_decisions_category_wars_and_conflicts = {
+
+	###activate_mission = ITA_Mission_AUS_PIE_Peace_Treaty_1860
+	ITA_Mission_AUS_PIE_Peace_Treaty_1860 = {
+        allowed = { always = no } # MEANS NO ONE SEES IT AT GAMESTART
+        icon = generic_political_actions
+
+        is_good = no # AI is smarter with conditions/achieving them if it is no, trust me.
+        days_mission_timeout = 200 # Arbitrary number, but I recommend a time of 1.5x expected time to finish war, max 1000
+        activation = { always = no } # MEANS THIS MISSION WILL BE MANUALLY ENABLED (~400x Optimized)
+
+        available = {
+            # Conditions to trigger peace treaty
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = ITA_Mission_AUS_PIE_Peace_Treaty_1860_ITA_VICTORY_tt
+						tag = PIE
+						PIE = {
+							if = {
+								limit = {
+									has_completed_focus = PIE_Path_of_the_Carbonari
+								}
+								LVN = {
+									has_capitulated = yes
+								}
+							}
+							if = {
+								limit = {
+									NOT = {
+										has_completed_focus = PIE_Path_of_the_Carbonari
+									}
+								}
+								divisions_in_state = {
+									type = infantry
+									size > 5
+									state = 159
+								}
+							}
+						}# SardiniaPiedmont's Victory Conditions
+               	 	}
+                custom_trigger_tooltip = {
+                    tooltip = ITA_Mission_AUS_PIE_Peace_Treaty_1860_AUS_VICTORY_tt
+						tag = AUS
+                        PIE = {
+							surrender_progress > 0.3	# Austria's Victory Conditions
+                    }
+           		}
+        	}
+		}
+        complete_effect = {
+            # Peace Treaty (Simple form, you can customize it later for various outcomes)
+            if = {
+                limit = { 
+					# INSERT PIEDMONT'S VICTORY CONDITIONS HERE
+					AND = { 
+						tag = PIE 
+							PIE = {
+								if = {
+									limit = {
+										has_completed_focus = PIE_Path_of_the_Carbonari
+									}
+									LVN = {
+										has_capitulated = yes
+									}
+								}
+								if = {
+									limit = {
+										NOT = {
+											has_completed_focus = PIE_Path_of_the_Carbonari
+										}
+									}
+									divisions_in_state = {
+										type = infantry
+										size > 5
+										state = 159
+									}
+								}
+							}
+						} 
+					} 
+					# Insert Sardinia's Victory Here (Recommended you also check for tag so it only fires for Sardinia)
+				PIE = {
+					if = {
+						limit = {
+						  has_completed_focus = PIE_Path_of_the_Carbonari
+						}
+						PIE = { 
+						  transfer_state = 159
+						  transfer_state = 982 
+						  transfer_state = 160
+					  }
+					  custom_effect_tooltip = PIE_2I_Peace
+					  hidden_effect = {
+						  white_peace = LVN
+						  white_peace = AUS
+						  news_event = sardinia_news.1
+						  clr_global_flag = FRA_PIE_OneCall
+						  set_global_flag = PIE_2IW_Victory
+						  CBI = {
+							  white_peace = LVN
+							  white_peace = AUS
+						  }
+						  AUS = {
+							  add_to_variable = {
+								  var = HUN_REVOLT_RISK
+								  value = 2  
+							  }
+							  add_to_variable = {
+								  var = SLA_REVOLT_RISK
+								  value = 1 
+							  }
+						  }
+					  }
+				  } 
+				  if = {
+					  limit = {
+						  NOT = {
+							  has_completed_focus = PIE_Path_of_the_Carbonari
+						  }
+					  }
+					  PIE = { 
+						  transfer_state = 159
+						  transfer_state = 982 
+					  }
+					  custom_effect_tooltip = PIE_2I_Peace
+					  hidden_effect = {
+						  white_peace = LVN
+						  white_peace = AUS
+						  news_event = sardinia_news.1
+						  clr_global_flag = FRA_PIE_OneCall
+						  set_global_flag = PIE_2IW_Victory
+						  AUS = {
+							  add_to_variable = {
+								  var = HUN_REVOLT_RISK
+								  value = 2  
+							  }
+							  add_to_variable = {
+								  var = SLA_REVOLT_RISK
+								  value = 1 
+							  }
+						  }
+						  release_puppet = PRM
+						  release_puppet = MOD
+						  release_puppet = TUS
+						  TUS = { white_peace = AUS }
+						  TUS = { white_peace = LVN }
+						  MOD = { white_peace = AUS }
+						  MOD = { white_peace = LVN }
+						  PRM = { white_peace = AUS }
+						  PRM = { white_peace = LVN }
+						  # France and puppets peace
+						  FRA = {
+							  if = {
+								  limit = { has_offensive_war_with = AUS }
+								  white_peace = AUS
+							  }
+							  if = {
+								  limit = { has_offensive_war_with = LVN }
+								  white_peace = LVN
+							  }
+						  }
+						  EPD = {
+							  if = {
+								  limit = { has_offensive_war_with = AUS }
+								  white_peace = AUS
+							  }
+							  if = {
+								  limit = { has_offensive_war_with = LVN }
+								  white_peace = LVN
+							  }
+						  }
+						  GBS = {
+							  if = {
+								  limit = { has_offensive_war_with = AUS }
+								  white_peace = AUS
+							  }
+							  if = {
+								  limit = { has_offensive_war_with = LVN }
+								  white_peace = LVN
+							  }
+						  }
+						  SNG = {
+							  if = {
+								  limit = { has_offensive_war_with = AUS }
+								  white_peace = AUS
+							  }
+							  if = {
+								  limit = { has_offensive_war_with = LVN }
+								  white_peace = LVN
+							  }
+						  }
+					  }
+				  }
+				}   
+			}
+            else_if = {
+				# INSERT AUSTRIA'S VICTORY CONDITIONS HERE
+                limit = {  
+					tag = AUS
+					PIE = {
+						surrender_progress > 0.3	# Austria's Victory Conditions
+					}
+				} 
+
+				# Insert Austria's Victory Here (Recommended you also check for tag so it only fires for Austria)
+				AUS = {
+					country_event = {
+						id = ita_confederation.6
+					}
+					annex_country = {
+						target = PIE
+					}
+					set_country_flag = ITA_AUS_Divide_Italy_Yes
+					set_country_flag = ITA_AUS_won_2I_Divide_Italy
+				}
+            }
+            else = {
+                ## IMPORTANT, IF YOU USE 'ELSE' IT WILL ALWAYS BE SEEN BY AI/PLAYER
+                # Optional: could be used for a custom_effect_tooltip to say simply 'will fire peace conference'
+                custom_effect_tooltip = ITA_Mission_AUS_PIE_Peace_Treaty_1860_tt
+            }
+        }
+        timeout_effect = {
+            if = {
+                limit = { date > 1890.1.1 } # Optional Trigger in case war lasting too long
+				AUS = {
+					country_event = {
+						id = ita_confederation.6
+					}
+					annex_country = {
+						target = PIE
+					}
+					set_country_flag = ITA_AUS_Divide_Italy_Yes
+					set_country_flag = ITA_AUS_won_2I_Divide_Italy
+				} # Stalemate if it is lasting too long
+            }
+            else_if = {
+                limit = { AUS = { has_war_with = PIE } } # Check if they are still at war
+                activate_mission = ITA_Mission_AUS_PIE_Peace_Treaty_1860 # Loops the mission if they are still at war.
+            	}
+        	}
+   	 	}
+	}
 #ITA_Referendum_category_decisions = {
 
 	#ITA_decision_ticino_referendum = {

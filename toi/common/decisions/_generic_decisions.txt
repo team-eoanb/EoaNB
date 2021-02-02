@@ -1,9 +1,6 @@
 #Everything that has to do with advancing scientific research and the infrastructure required for it
 
 scientific_advancement_decisions = {
-	
-	
-
 	eoanb_decision_westernisation = {
 
 		icon = generic_decision
@@ -1598,7 +1595,6 @@ eoanb_religious_affairs = {
 
 #Political Actions
 political_actions = {
-	
 	eoanb_decision_generic_independence_struggle = {
 		
 		icon = generic_independence
@@ -1733,14 +1729,124 @@ political_actions = {
 		}
 		
 		remove_effect = {
-			add_stability = -0.02
+			add_stability = -0.05
 		}
 		
 		ai_will_do = {
 			base = 0
 		}
 	}
-	
+
+	eoanb_decision_generic_arrest_opposition_leaders = {
+		available = {
+			NOT = { has_country_flag = parl_political_action_in_progress }
+		}
+
+		days_remove = 7
+
+		cost = 75
+
+		visible = {
+			NOT = { has_country_flag = eoanb_decision_generic_arrest_opposition_leaders_is_prohibited  }
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = eoanb_decision_generic_arrest_opposition_leaders_tt
+			set_country_flag = parl_political_action_in_progress
+		}
+
+		modifier = {
+			political_power_gain = -0.25
+		}
+
+		remove_effect = {
+			clr_country_flag = parl_political_action_in_progress
+
+			for_each_loop = {
+				array = seats_count_array
+				value = parl_v
+				index = parl_i
+
+				if = {
+					limit = {
+						check_variable = { parl_coalitions^parl_i = 2 }
+					}
+
+					set_temp_variable = { parl_r = random }
+					multiply_temp_variable = { parl_r = -5 }
+					round_variable = parl_r
+					add_to_temp_variable = { parl_r = -1 }
+					add_to_variable = { seats_count_array^parl_i = parl_r }
+				}
+			}
+
+			add_to_variable = { political_legitimacy = -0.15 }
+			clamp_variable = {
+				var = political_legitimacy
+				min = 0
+				max = 1
+			}
+
+			compute_number_seats_tot = yes
+			compute_number_seats_approve_est = yes
+		}
+	}
+
+	eoanb_decision_generic_ban_opposition_party = {
+		available = {
+			NOT = { has_country_flag = parl_political_action_in_progress }
+		}
+
+		days_remove = 7
+
+		cost = 100
+
+		visible = {
+			NOT = { has_country_flag = eoanb_decision_generic_ban_opposition_party_is_prohibited  }
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = eoanb_decision_generic_ban_opposition_party_tt
+			set_country_flag = parl_political_action_in_progress
+		}
+
+		modifier = {
+			political_power_gain = -0.25
+		}
+
+		remove_effect = {
+			clr_country_flag = parl_political_action_in_progress
+
+			for_each_loop = {
+				array = seats_count_array
+				value = parl_v
+				index = parl_i
+
+				if = {
+					limit = {
+						check_variable = { parl_coalitions^parl_i = 2 }
+					}
+
+					set_variable = { seats_count_array^parl_i = 0 }
+					set_variable = { parl_coalitions^parl_i = 3 }
+				}
+			}
+
+			add_to_variable = { political_legitimacy = -0.25 }
+			clamp_variable = {
+				var = political_legitimacy
+				min = 0
+				max = 1
+			}
+
+			apply_coalition_modifier = yes
+			compute_weights = yes
+			draw_seats = yes
+
+			compute_number_seats_tot = yes
+			compute_number_seats_approve_est = yes
+		}
+	}
 }
 
 #Foreign Politics

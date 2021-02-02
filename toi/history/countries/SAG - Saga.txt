@@ -1,35 +1,26 @@
 ﻿1857.1.1 = {
-  capital = 1259
+  # Setup
+  capital = 1259 # Saga
+  set_research_slots = 1
 
-  #oob = "CHO_1857"
-
-  set_convoys = 0
-
-  set_research_slots = 2
-  add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 1000 producer = SAG }
-  add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 producer = SAG }
-
-  activate_mission = TSH_Boshin_War_Progress_Mission
-
+  # Laws & Ideas
   add_ideas = {
-    #POLITICS
-
     hos_is_leader
     pre_industrial_era
     agrarian
     no_heir
     absolute_monarchy
 
-    civilian_economy
-    limited_exports
+    closed_economy
+    isolation
     two_percent
     normal_taxes
-	cl_legal
+    cl_legal
 
     stagnation_growth
     border_control
-	limited_conscription
-    limited_equality
+    extensive_conscription
+    slavery
     absolutism
 
     no_constitution
@@ -37,95 +28,118 @@
 
     privileged_education
     state_religion
-	religion_shinto
+    religion_shinto
 
-   hc_no_healthcare
+    hc_no_healthcare
     law_police_force
     inframain_no_subsidies_infrastructure
     navinfra_no_naval_infrastructure
     sfund_private_ventures_only
 
-         #NATIONAL SPIRITS
-		CHO_vic_tozama_domain
-        TSH_sankin_kotai_obligations
-		SAG_vic_eternal_debt
-		SAG_vic_kakure_krisitians
+    TSH_sankin_kotai_obligations
+    SAG_vic_eternal_debt
+    SAG_vic_kakure_krisitians
+    TSH_Spirit_Tozama_Daimyo
   }
 
-  add_to_variable = { var = SAG.imperial_popularity@TSH value = 60 }
-
-  add_to_variable = { var = SAG.shogun_popularity@TSH value = 40 }
-
-  set_politics = {
-	  ruling_party = autocracy
-}
-
-SAG = { set_country_flag = Oceania_industrializing }
-
-set_popularities = {
-    anarchism = 0
-    vanguard_communism = 0
-    collectivist_socialism = 0
-    social_egalitarianism = 0
-    centrism = 0
-    traditional_conservatism = 0
-    radical_democracy = 0
-    chauvinist_populism = 0
-    autocracy = 100
-    fundamentalism = 0
-}
-
+  # Technology
   set_technology = {
-	infantry_weapons = 1 traditional_mixed_arms = 1
-	tribal_carrier_birds=1 tribal_electrical_theory=1
-	tribal_steel_tools=1
-	tribal_tatics=1
-	tribal_gunpowder=1
-	tribal_riding=1
-	tribal_steam_experiments=1
-	tribal_forging=1
-	tribal_artisan=1
-	tribal_chemistry=1
-	tribal_guilds_trade=1
-	tribal_crop_planting=1
-	tribal_irrigation=1
-	tribal_crop_rotation=1
-	tribal_salted_smoked_goods=1
-	tribal_leching=1
-	start_build_tech = 1
-	vic_army_cloth = 1
-	tech_infantry_napoleonic_uniform = 1
-	tech_naval_mtg_simple_corvette_hull = 1
+    vic_army_cloth = 1
+    infantry_weapons = 1 
+    traditional_mixed_arms = 1
+    tribal_carrier_birds=1 
+    tribal_electrical_theory=1
+    tribal_steel_tools=1
+    tribal_tatics=1
+    tribal_gunpowder=1
+    tribal_riding=1
+    tribal_steam_experiments=1
+    tribal_forging=1
+    tribal_artisan=1
+    tribal_chemistry=1
+    tribal_guilds_trade=1
+    tribal_crop_planting=1
+    tribal_irrigation=1
+    tribal_crop_rotation=1
+    tribal_salted_smoked_goods=1
+    tribal_leching=1
+    tech_infantry_napoleonic_uniform = 1
+    tech_naval_mtg_simple_corvette_hull = 1
     tech_naval_mtg_24_pounder_battery = 1
     tech_naval_mtg_sails = 1
     tech_naval_mtg_crows_nest = 1
+    start_build_tech = 1
+    basic_cavalry = 1
+		hot_blast_furnaces = 1
+		industrial_blast_furnace = 1
+		industrial_finery_forge = 1
+		tech_naval_early_frigate = 1
+		tech_naval_1850_frigate = 1
+		tech_naval_mtg_early_frigate = 1
   }
 
-  # POLITICAL LEADERS
+  # Army & Equipment
+  SAG = {
+    load_oob = "SAG_1857"
+    add_equipment_to_stockpile = { type = convoy amount = 5 producer = SAG }
 
-  create_country_leader = {
-  name = "Nabeshima Naomasa"
-  desc = "POLITICS_TEMP_DESC"
-  picture = "Portrait_SAG_Nabeshima_Naomasa.dds"
-  expire = "1900.1.1"
-  ideology = despotism
-
-  }
-
-  # GENERALS
-
-  create_corps_commander = {
-    name = "Nabeshima Naomasa"
-    picture = "Portrait_SAG_Nabeshima_Naomasa.dds"
-	id = 2901
-    traits = {
-      infantry_leader
+    add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 1000 producer = SAG }
+    add_equipment_to_stockpile = { type = uniform_equipment_0 amount = 1000 producer = SAG }
+    
+    if = {
+      limit = { has_dlc = "Man the Guns" }
+      create_equipment_variant = {
+        name = "Early Gunboat Class"
+        type = ship_hull_gunboat_0
+        name_group = GER_CA_HISTORICAL
+        parent_version = 0
+        modules = {
+          fixed_ship_battery_slot = ship_cannon_battery_0
+          fixed_ship_fire_control_system_slot = fire_control_system_0
+          fixed_ship_engine_slot = ship_engine_paddle_gunboat
+          fixed_ship_armor_slot = ship_armor_capital_hardwood_0
+          mid_1_custom_slot = ship_cannon_battery_0
+          mid_2_custom_slot = ship_cannon_battery_1
+        }
+      }
     }
-    skill = 3
-    attack_skill = 2
-      defense_skill = 2
-      planning_skill = 2
-      logistics_skill = 1
   }
 
+  # Politics
+  SAG = {
+    set_politics = { ruling_party = autocracy }
+    set_country_flag = Oceania_industrializing
+
+    set_popularities = {
+      anarchism = 0
+      vanguard_communism = 0
+      collectivist_socialism = 0
+      social_egalitarianism = 0
+      centrism = 0
+      traditional_conservatism = 0
+      radical_democracy = 0
+      chauvinist_populism = 0
+      autocracy = 100
+      fundamentalism = 0
+    }
+
+    create_country_leader = {
+        name = "Nabeshima Naomasa"
+        desc = "POLITICS_TEMP_DESC"
+        picture = "Portrait_SAG_Nabeshima_Naomasa.dds"
+        expire = "1900.1.1"
+        ideology = despotism
+    }
+    create_corps_commander = {
+        name = "Nabeshima Naomasa"
+        picture = "Portrait_SAG_Nabeshima_Naomasa.dds"
+        id = 2901
+        traits = { infantry_leader }
+        skill = 3
+        attack_skill = 2
+        defense_skill = 2
+        planning_skill = 2
+        logistics_skill = 1
+    }
+  }
 }
