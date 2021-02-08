@@ -132,7 +132,10 @@ SPR_debt_management_category = {
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = LIB_US_invests_to_pay_debt_decision_trigger
-				NOT = { has_country_flag = USA_LIB_investment_flag }
+				OR = {
+					NOT = { has_country_flag = USA_LIB_investment_flag }
+					USA = { exists = no }
+				}
 			}
 		}
 
@@ -141,6 +144,10 @@ SPR_debt_management_category = {
 			check_variable = {ROOT.debt_level > 0}
 			hidden_trigger = {
 				has_country_flag = USA_LIB_investment_flag
+				OR = {
+					USA = { exists = yes }
+					any_other_country = { has_country_flag = LIB_investment_flag }
+				}
 				NOT = { has_country_flag = debt_declared_bankruptcy_flag }
 			}
 		}
@@ -154,15 +161,15 @@ SPR_debt_management_category = {
 		timeout_effect = {
 			if = {
 				limit = { has_country_flag = USA_assist_lib_debt }
-				#custom_effect_tooltip = EGY_afr_decrease_debt_2
+				#custom_effect_tooltip = EGY_afr_decrease_debt_3
 				hidden_effect = {
-					subtract_from_variable = {var = debt_level value = 2}
+					subtract_from_variable = {var = debt_level value = 3}
 				}
 			}
 			else = {
-				#custom_effect_tooltip = EGY_afr_decrease_debt_1
+				#custom_effect_tooltip = EGY_afr_decrease_debt_2
 				hidden_effect = {
-					subtract_from_variable = {var = debt_level value = 1}
+					subtract_from_variable = {var = debt_level value = 2}
 				}
 			}
 		}

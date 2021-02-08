@@ -1,1355 +1,1355 @@
-focus_tree = {
-	id = yem_vic_Yemen_victorian
-	country = {
-		factor = 0
-		modifier = {
-			add = 10
-			tag = YEM
-		}
-	}
-	default = no
-
-	continuous_focus_position = { x = 10 y = 10 }
-
-
-	focus = {
-		id = yem_vic_clear_land_railways
-		x = 10
-		y = 1
-		icon = GFX_goal_generic_construction2
-		cost = 140
-
-		available = {
-			has_completed_focus = yem_vic_building_society
-		}
-
-		ai_will_do = {
-			base = 10
-		}
-		completion_reward = {
-
-		   	random_owned_controlled_state = {
-		        add_extra_state_shared_building_slots = 2
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_goverment_land_rights
-		prerequisite = { focus = yem_vic_clear_land_railways }
-		x = -1
-		y = 1
-		relative_position_id = yem_vic_clear_land_railways
-		icon = GFX_focus_generic_military_academy
-		mutually_exclusive={ focus = yem_vic_relocate_tribs }
-		cost = 70
-		ai_will_do = {
-			base = 8
-		}
-		completion_reward = {
-		   	random_owned_controlled_state = {
-		        add_extra_state_shared_building_slots = 2
-				add_stability = -0.05
-
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_relocate_tribs
-		prerequisite = { focus = yem_vic_clear_land_railways }
-		x = 1
-		y = 1
-		relative_position_id = yem_vic_clear_land_railways
-		mutually_exclusive={ focus = yem_vic_goverment_land_rights }
-		icon = GFX_focus_Colonial_Troops
-		cost = 50
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		   	random_owned_controlled_state = {
-		        add_extra_state_shared_building_slots = 1
-				add_stability = 0.05
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_improved_tools
-		prerequisite = { focus = yem_vic_goverment_land_rights }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_goverment_land_rights
-		icon = GFX_focus_secret_rearmament
-		cost = 50
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		   	swap_ideas = {
-				remove_idea = inframain_no_subsidies_infrastructure
-				add_idea = inframain_basic_maintenance_infrastructure
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_sacrifes_we_make
-		icon = GFX_focus_secret_rearmament
-		prerequisite = { focus = yem_vic_improved_tools }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_improved_tools
-		cost = 210
-
-		available = {
-			has_manpower > 10000	`
-			has_completed_focus = yem_vic_inbrace_extremism
-		}
-
-		ai_will_do = {
-			base = 2
-		}
-		completion_reward = {
-			add_stability = -0.2
-			add_manpower = -10000
-            every_owned_state = {
-			    limit = {
-				    is_core_of = YEM
-			    }
-                add_building_construction = {
-				    type = infrastructure
-		            level = 2
-					instant_build = yes
-				    }
-            }
-
-			HJZ = { add_building_construction = {
-			type = infrastructure
-		            level = 1
-					instant_build = yes
-				    }
-				}
-
-			add_opinion_modifier = {
-				target = OTO
-				modifier = small_increase
-		    }
-
-			OTO = { add_building_construction = {
-			type = infrastructure
-		            level = 1
-					instant_build = yes
-				    }
-	        }
-			add_opinion_modifier = {
-				target = OTO
-				modifier = small_increase
-		    }
-		}
-	}
-
-
-	focus = {
-		id = yem_vic_before_the_end
-		prerequisite = { focus = yem_vic_relocate_tribs }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_relocate_tribs
-		icon = GFX_goal_focus_industrial_revolution
-		cost = 210
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		add_political_power = 50
-            every_owned_state = {
-			    limit = {
-				    is_core_of = YEM
-			    }
-                add_building_construction = {
-				    type = industrial_complex
-		            level = -1
-					instant_build = yes
-				    }
-            }
-
-			OTO = { add_building_construction = {
-			type = industrial_complex
-		            level = 1
-					instant_build = yes
-				    }
-		    add_opinion_modifier = {
-				target = OTO
-				modifier = large_increase
-			}
-	        }
-        }
-	}
-
-	focus = {
-		id = yem_vic_government_reforms
-		icon = GFX_goal_focus_reform_administration
-		x = 17
-		y = 1
-		cost = 70
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			add_political_power = 100
-		}
-	}
-
-	focus = {
-		id = yem_vic_field_training
-		icon = GFX_goal_generic_allies_build_infantry
-		prerequisite = { focus = yem_vic_government_reforms }
-		x = 2
-		y = 1
-		relative_position_id = yem_vic_government_reforms
-		cost = 35
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			army_experience = 10
-		}
-	}
-
-	focus = {
-		id = yem_vic_proclaim_islam
-		icon = GFX_goal_ottoman_army
-		prerequisite = { focus = yem_vic_government_reforms }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_government_reforms
-		cost = 70
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			add_stability = 0.07
-			add_opinion_modifier = {
-				target = OTO
-				modifier = small_increase
-			}
-			add_opinion_modifier = {
-				target = HJZ
-				modifier = small_increase
-			}
-			add_opinion_modifier = {
-				target = OMA
-				modifier = small_increase
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_inbrace_extremism
-		icon = GFX_goal_generic_political_pressure
-		prerequisite = { focus = yem_vic_proclaim_islam focus = yem_vic_field_training }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_field_training
-		cost = 70
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = stagnation_growth
-				add_idea = encouraged_growth
-			}
-			add_stability = -0.02
-		}
-	}
-
-	focus = {
-		id = yem_vic_the_new_beginning
-		prerequisite = { focus =  yem_vic_sacrifes_we_make focus = yem_vic_before_the_end }
-		x = 1
-		y = 1
-		relative_position_id = yem_vic_sacrifes_we_make
-		icon = GFX_goal_egypt_otto_chains
-		cost = 70
-
-		available={
-			date > 1868.1.1
-		}
-
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-            add_autonomy_ratio = {
-				value = 1
-			}
-	    add_stability = -0.05
-	    }
-	}
-
-	focus = {
-		id = yem_vic_land_grab
-		prerequisite = { focus = yem_vic_the_new_beginning }
-		x = -1
-		y = 1
-		relative_position_id = yem_vic_the_new_beginning
-		icon = GFX_goal_focus_gerrymandering
-		cost = 70
-
-		available={
-			date > 1870.1.1
-		}
-
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		    HJZ = { release = YEM }
-			add_opinion_modifier = {
-				target = HJZ
-				modifier = large_decrease
-		    }
-	    }
-	}
-
-	focus = {
-		id = yem_vic_building_society
-		prerequisite = { focus = yem_vic_government_reforms }
-		x = -2
-		y = 1
-		relative_position_id = yem_vic_government_reforms
-		icon = GFX_goal_focus_reform_government
-		cost = 70
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-        add_political_power = -50
-	    }
-	}
-
-	focus = {
-		id = yem_vic_better_healthcare
-		prerequisite = { focus = yem_vic_building_society }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_building_society
-		icon = GFX_goal_focus_reform_government
-		cost = 70
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-        swap_ideas = {
-			remove_idea = hc_no_healthcare
-			add_idea = hc_low_healthcare
-			}
-        add_stability = 0.02
-	    }
-	}
-
-	focus = {
-		id = yem_vic_basic_schools
-		prerequisite = { focus = yem_vic_better_healthcare }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_better_healthcare
-		icon = GFX_focus_research
-		cost = 70
-		ai_will_do = {
-			base = 5
-		}
-
-		completion_reward = {
-        swap_ideas = {
-			remove_idea = oral_tradition
-			add_idea = traditional_uluma
-			}
-        add_stability = 0.02
-	    }
-	}
-
-	focus = {
-		id = yem_vic_improvement_technique
-		prerequisite = { focus = yem_vic_basic_schools }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_basic_schools
-		icon = GFX_goal_generic_cavalry
-		cost = 70
-
-		available = {
-		has_completed_focus = yem_vic_sacrifes_we_make
-		}
-
-		ai_will_do = {
-			base = 5
-		}
-
-		completion_reward = {
-            add_political_power = 150
-            add_stability = 0.04
-	    }
-	}
-
-	focus = {
-		id = yem_vic_islamic_mines
-		prerequisite = { focus = yem_vic_proclaim_islam }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_proclaim_islam
-		icon = GFX_goal_generic_construct_infrastructure
-		cost = 70
-
-		available = {
-			has_completed_focus = yem_vic_building_society
-			has_tech = refining
-		}
-
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		    random_owned_controlled_state = {
-        	add_building_construction = {
-					type = coal_mine
-					level = 1
-					instant_build = yes
-				}
-	        }
-		}
-	}
-
-	focus = {
-		id = yem_vic_trade_secrets
-		icon = GFX_goal_focus_reform_government
-		prerequisite = { focus = yem_vic_islamic_mines }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_islamic_mines
-		cost = 70
-
-        available = {
-		    has_opinion = {
-                target = OTO
-                value > 49
-            }
-			or = {
-			    OTO = {
-			        has_tech = pre_industrial_farms
-			        has_tech = mechanized_farming
-			        has_tech = early_artificial_fertilizer
-			    }
-			}
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 0.5 uses = 1 technology = pre_industrial_farms }
-			add_tech_bonus = { bonus = 0.5 uses = 1 technology = mechanized_farming }
-			add_tech_bonus = { bonus = 0.5 uses = 1 technology = early_artificial_fertilizer }
-        }
-	}
-
-	focus = {
-		id = yem_vic_farmland
-		icon = GFX_focus_ITA_Wheat
-		prerequisite = { focus = yem_vic_trade_secrets }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_trade_secrets
-		cost = 140
-
-		available = {
-			has_tech = pre_industrial_farms
-			has_tech = mechanized_farming
-			has_tech = early_artificial_fertilizer
-		}
-		completion_reward={
-			random_owned_controlled_state = {
-			    add_extra_state_shared_building_slots = 1
-			    add_building_construction = {
-					type = farm
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_manpower = 1000
-		}
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	focus = {
-		id = yem_vic_feed_the_locals
-		icon = GFX_focus_generic_concessions
-		prerequisite = { focus = yem_vic_farmland }
-		x = -1
-		y = 1
-		relative_position_id = yem_vic_farmland
-		mutually_exclusive = { focus = yem_vic_dont_feed_the_locals }
-		cost = 70
-
-		available = {
-			has_tech = pre_industrial_farms
-			has_tech = mechanized_farming
-			has_tech = early_artificial_fertilizer
-		}
-		completion_reward={
-            add_political_power = -150
-			add_manpower = 1000
-			add_stability = 0.05
-		}
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	focus = {
-		id = yem_vic_setup_water_pumps
-		icon = GFX_focus_generic_concessions
-		prerequisite = { focus = yem_vic_feed_the_locals }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_feed_the_locals
-		cost = 70
-
-		available = {
-			has_tech = high_phosphate_fertilizer
-			has_tech = food_canning
-		}
-		completion_reward={
-            add_political_power = 50
-			add_stability = 0.02
-		}
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	focus = {
-		id = yem_vic_cotton_boom
-		icon = GFX_goal_anschluss
-		prerequisite = { focus = yem_vic_setup_water_pumps focus = yem_vic_take_the_water }
-		x = 1
-		y = 1
-		relative_position_id = yem_vic_setup_water_pumps
-		cost = 210
-
-		available = {
-			has_tech = high_phosphate_fertilizer
-			has_tech = food_canning
-		}
-		completion_reward={
-            random_owned_state = {
-			    add_extra_state_shared_building_slots = 2
-			    add_building_construction = {
-				    type = cotton_farm
-		            level = 2
-					instant_build = yes
-				    }
-				}
-		}
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	focus = {
-		id = yem_vic_dont_feed_the_locals
-		icon = GFX_goal_focus_decentralisation_power
-		prerequisite = { focus = yem_vic_farmland }
-		x = 1
-		y = 1
-		relative_position_id = yem_vic_farmland
-		mutually_exclusive = { focus = yem_vic_feed_the_locals }
-		cost = 70
-
-		completion_reward={
-            add_political_power = 50
-
-			add_stability = -0.05
-		}
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	focus = {
-		id = yem_vic_take_the_water
-		icon = GFX_goal_focus_decentralisation_power
-		prerequisite = { focus = yem_vic_dont_feed_the_locals }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_dont_feed_the_locals
-		cost = 70
-
-
-		completion_reward={
-            add_political_power = 100
-			add_manpower = -1000
-			add_stability = -0.05
-		}
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	focus = {
-		id = yem_vic_military_reform
-		icon = GFX_focus_generic_military_mission
-		cost = 140
-		x = 25
-		y = 1
-		available = {
-			has_completed_focus = yem_vic_field_training
-		}
-		completion_reward={
-			army_experience = 25
-		}
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	focus = {
-		id = yem_vic_experimental_tactics
-		icon = GFX_focus_exploration
-		prerequisite = { focus = yem_vic_military_reform }
-		x = -2
-		y = 1
-		relative_position_id = yem_vic_military_reform
-		cost = 35
-		available_if_capitulated = no
-
-		available = {
-			has_manpower > 500
-		}
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
-			add_manpower = -500
-		}
-	}
-
-	focus = {
-		id = yem_vic_gun_tests
-		icon = GFX_goal_continuous_reduce_training_time
-		prerequisite = { focus =  yem_vic_military_reform }
-		x = 2
-		y = 1
-		relative_position_id = yem_vic_military_reform
-		cost = 35
-		available_if_capitulated = no
-
-		available = {
-			has_manpower > 1500
-		}
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 1 uses = 1 category = infantry_weapons }
-			add_manpower = -1500
-		}
-	}
-
-	focus = {
-		id = yem_vic_updated_army
-		icon = GFX_focus_chi_army_reform
-		prerequisite = { focus =  yem_vic_inbrace_extremism focus = islamic_mines }
-		x = 2
-		y = 1
-		relative_position_id = yem_vic_islamic_mines
-		cost = 70
-
-		available = {
-		    date > 1860.1.1
-		    or = {
-			has_completed_focus = yem_vic_gun_tests
-			has_completed_focus = yem_vic_experimental_tactics
-			}
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			swap_ideas = {
-				add_idea = QNG_army_funding_3
-				remove_idea = QNG_outdated_army
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_military_budget
-		icon = GFX_goal_focus_increase_wages
-		prerequisite = { focus = yem_vic_updated_army }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_updated_army
-		cost = 70
-
-		available = {
-
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = two_percent
-				add_idea = three_percent
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_remove_al-husayn_iii
-		icon = GFX_goal_demand_sudetenland
-		prerequisite = { focus = yem_vic_military_reform }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_military_reform
-		cost = 70
-
-		available = {
-		    date > 1863.1.1
-		    or = {
-			has_completed_focus = yem_vic_gun_tests
-			has_completed_focus = yem_vic_experimental_tactics
-			}
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			remove_ideas={
-				ETH_idea_internal_unrest
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_troop_transport
-		icon = GFX_goal_generic_army_doctrines
-		prerequisite = { focus = yem_vic_remove_al-husayn_iii }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_remove_al-husayn_iii
-		cost = 140
-
-		available = {
-			has_completed_focus = yem_vic_improved_tools
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = inframain_basic_maintenance_infrastructure
-				add_idea =  inframain_well_maintaned_infrastructure
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_beach_head_training
-		icon = GFX_focus_prc_infiltration
-		prerequisite = { focus = yem_vic_troop_transport }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_troop_transport
-		cost = 70
-
-		available = {
-			has_tech = tech_naval_mtg_capital_ship_naval_transportation
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			swap_ideas = {
-			    remove_idea = navinfra_no_naval_infrastructure
-				add_idea = navinfra_low_naval_infrastructure
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_invite_investers
-		icon = GFX_focus_generic_concessions
-		prerequisite = { focus =  yem_vic_gun_tests }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_gun_tests
-		cost = 70
-
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-		    add_ideas = {
-				add_idea = eoanb_generic_infantry_equipment_manufacturer
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_more_experiments
-		icon = GFX_goal_continuous_reduce_training_time
-		prerequisite = { focus = yem_vic_experimental_tactics }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_experimental_tactics
-		cost = 70
-
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
-			add_manpower = -250
-		}
-	}
-
-	focus = {
-		id = yem_vic_buy_uniforms
-		icon = GFX_goal_generic_army_doctrines
-		prerequisite = { focus = yem_vic_more_experiments }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_more_experiments
-		cost = 70
-
-		available = {
-		has_political_power = 100
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-		    add_political_power = -100
-		    add_equipment_to_stockpile = {
-				type = uniform_equipment_1
-				amount = 500
-				producer = ENG
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_buy_french_convos
-		icon = GFX_goal_generic_construct_naval_dockyard
-		prerequisite = { focus = yem_vic_buy_uniforms }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_buy_uniforms
-		cost = 70
-
-		available = {
-		has_political_power = 50
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-		    add_political_power = -50
-		    if = {
-				limit = {
-					all_owned_state = { naval_base < 1 }
-					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
-					capital_scope = { is_coastal = no }
-				}
-				add_political_power = -250
-				random_owned_controlled_state = {
-					limit = {
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-						is_coastal = yes
-					}
-					set_state_flag = afr_port_town
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
-					}
-					add_extra_state_shared_building_slots = 1
-					afr_add_one_building_naval_base_scripted_effect = yes
-					if = {
-						limit = { THIS = { NOT = { is_core_of = ROOT } } }
-						add_core_of = ROOT
-					}
-					add_manpower = 1853
-				}
-			}
-			else_if = {
-				limit = {
-					any_owned_state = { has_state_flag = afr_port_town }
-				}
-				random_owned_controlled_state = {
-					limit = {
-						has_state_flag = afr_port_town
-					}
-					if = {
-						limit = { THIS = { NOT = { is_core_of = ROOT } } }
-						add_core_of = ROOT
-					}
-					add_manpower = 1853
-				}
-			}
-			else_if = {
-				limit = {
-					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
-					capital_scope = { is_coastal = yes naval_base < 1 }
-				}
-				random_owned_state = {
-					limit = {
-						is_coastal = yes
-						is_capital = yes
-					}
-					set_state_flag = afr_port_town
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
-					}
-					add_extra_state_shared_building_slots = 1
-					afr_add_one_building_naval_base_scripted_effect = yes
-				}
-			}
-			else_if = {
-				limit = {
-					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
-					capital_scope = { is_coastal = yes naval_base > 0 }
-				}
-				random_owned_state = {
-					limit = {
-						is_coastal = yes
-						is_capital = yes
-					}
-					set_state_flag = afr_port_town
-				}
-			}
-			else = {
-				random_owned_controlled_state = {
-					limit = {
-						naval_base > 0
-						is_coastal = yes
-					}
-					set_state_flag = afr_port_town
-					if = {
-						limit = { THIS = { NOT = { is_core_of = ROOT } } }
-						add_core_of = ROOT
-					}
-					add_manpower = 1853
-				}
-			}
-			add_equipment_to_stockpile = { type = convoy_1 amount = 7 }
-			if = {
-				limit = {
-					check_variable = {ROOT.industrisation_progress < 100}
-					OR = {
-						has_idea = afr_reforming_kingdom
-						has_country_flag = Oceania_industrializing
-						has_country_flag = afr_colony_industrializing
-						has_country_flag = afr_an_african_industrializing
-					}
-				}
-				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
-				custom_effect_tooltip = EDC_afr.6.t
-				hidden_effect = {
-					country_event = { id = yem_vic_EDC_afr.6 hours = 1 }
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_buy_guns
-		icon = GFX_goal_generic_small_arms
-		prerequisite = { focus = yem_vic_invite_investers }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_invite_investers
-		cost = 70
-
-		available = {
-		has_political_power = 100
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-		    add_political_power = -100
-		    add_equipment_to_stockpile = {
-				type = infantry_equipment_rifle_1
-				amount = 500
-				producer = ENG
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_buy_english_convos
-		icon = GFX_goal_generic_construct_naval_dockyard
-		prerequisite = { focus = yem_vic_buy_guns }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_buy_guns
-		cost = 70
-
-		available = {
-		has_political_power = 50
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-		    add_political_power = -50
-		    if = {
-				limit = {
-					all_owned_state = { naval_base < 1 }
-					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
-					capital_scope = { is_coastal = no }
-				}
-				random_owned_controlled_state = {
-					limit = {
-						Oceania_infrastructure_for_extra_building_slots_trigger = yes
-						is_coastal = yes
-					}
-					set_state_flag = afr_port_town
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
-					}
-					add_extra_state_shared_building_slots = 1
-					afr_add_one_building_naval_base_scripted_effect = yes
-					if = {
-						limit = { THIS = { NOT = { is_core_of = ROOT } } }
-						add_core_of = ROOT
-					}
-					add_manpower = 1853
-				}
-			}
-			else_if = {
-				limit = {
-					any_owned_state = { has_state_flag = afr_port_town }
-				}
-				random_owned_controlled_state = {
-					limit = {
-						has_state_flag = afr_port_town
-					}
-					if = {
-						limit = { THIS = { NOT = { is_core_of = ROOT } } }
-						add_core_of = ROOT
-					}
-					add_manpower = 1853
-				}
-			}
-			else_if = {
-				limit = {
-					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
-					capital_scope = { is_coastal = yes naval_base < 1 }
-				}
-				random_owned_state = {
-					limit = {
-						is_coastal = yes
-						is_capital = yes
-					}
-					set_state_flag = afr_port_town
-					hidden_effect = {
-						add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
-					}
-					add_extra_state_shared_building_slots = 1
-					afr_add_one_building_naval_base_scripted_effect = yes
-				}
-			}
-			else_if = {
-				limit = {
-					all_owned_state = { NOT = { has_state_flag = afr_port_town } }
-					capital_scope = { is_coastal = yes naval_base > 0 }
-				}
-				random_owned_state = {
-					limit = {
-						is_coastal = yes
-						is_capital = yes
-					}
-					set_state_flag = afr_port_town
-				}
-			}
-			else = {
-				add_political_power = -100
-				random_owned_controlled_state = {
-					limit = {
-						naval_base > 0
-						is_coastal = yes
-					}
-					set_state_flag = afr_port_town
-					if = {
-						limit = { THIS = { NOT = { is_core_of = ROOT } } }
-						add_core_of = ROOT
-					}
-					add_manpower = 1853
-				}
-			}
-			add_equipment_to_stockpile = { type = convoy_1 amount = 7 }
-			if = {
-				limit = {
-					check_variable = {ROOT.industrisation_progress < 100}
-					OR = {
-						has_idea = afr_reforming_kingdom
-						has_country_flag = Oceania_industrializing
-						has_country_flag = afr_colony_industrializing
-						has_country_flag = afr_an_african_industrializing
-					}
-				}
-				custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
-				custom_effect_tooltip = EDC_afr.6.t
-				hidden_effect = {
-					country_event = { id = yem_vic_EDC_afr.6 hours = 1 }
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_power_of_the_people
-		icon = GFX_goal_focus_conscription
-		prerequisite = { focus = yem_vic_buy_uniforms focus = yem_vic_buy_guns }
-		x = 2
-		y = 1
-		relative_position_id = yem_vic_buy_uniforms
-		cost = 70
-
-		available = {
-		has_completed_focus = yem_vic_remove_al-husayn_iii
-		}
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-		    add_ideas = {
-				add_idea = OMA_heavly_militerised_state_2
-			}
-		}
-	}
-
-	focus = {
-		id = yem_vic_power_to_people
-		icon = GFX_goal_focus_conscription
-		prerequisite = { focus = yem_vic_power_of_the_people }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_power_of_the_people
-		cost = 70
-
-
-		available_if_capitulated = no
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		completion_reward = {
-		    swap_ideas = {
-				add_idea = limited_conscription
-				remove_idea = volunteer_only
-			}
-		}
-	}
+# focus_tree = {
+	# id = yem_vic_Yemen_victorian
+	# country = {
+		# factor = 0
+		# modifier = {
+			# add = 10
+			# tag = YEM
+		# }
+	# }
+	# default = no
+
+	# continuous_focus_position = { x = 10 y = 10 }
+
+
+	# focus = {
+		# id = yem_vic_clear_land_railways
+		# x = 10
+		# y = 1
+		# icon = GFX_goal_generic_construction2
+		# cost = 140
+
+		# available = {
+			# has_completed_focus = yem_vic_building_society
+		# }
+
+		# ai_will_do = {
+			# base = 10
+		# }
+		# completion_reward = {
+
+		   	# random_owned_controlled_state = {
+		        # add_extra_state_shared_building_slots = 2
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_goverment_land_rights
+		# prerequisite = { focus = yem_vic_clear_land_railways }
+		# x = -1
+		# y = 1
+		# relative_position_id = yem_vic_clear_land_railways
+		# icon = GFX_focus_generic_military_academy
+		# mutually_exclusive={ focus = yem_vic_relocate_tribs }
+		# cost = 70
+		# ai_will_do = {
+			# base = 8
+		# }
+		# completion_reward = {
+		   	# random_owned_controlled_state = {
+		        # add_extra_state_shared_building_slots = 2
+				# add_stability = -0.05
+
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_relocate_tribs
+		# prerequisite = { focus = yem_vic_clear_land_railways }
+		# x = 1
+		# y = 1
+		# relative_position_id = yem_vic_clear_land_railways
+		# mutually_exclusive={ focus = yem_vic_goverment_land_rights }
+		# icon = GFX_focus_Colonial_Troops
+		# cost = 50
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		   	# random_owned_controlled_state = {
+		        # add_extra_state_shared_building_slots = 1
+				# add_stability = 0.05
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_improved_tools
+		# prerequisite = { focus = yem_vic_goverment_land_rights }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_goverment_land_rights
+		# icon = GFX_focus_secret_rearmament
+		# cost = 50
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		   	# swap_ideas = {
+				# remove_idea = inframain_no_subsidies_infrastructure
+				# add_idea = inframain_basic_maintenance_infrastructure
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_sacrifes_we_make
+		# icon = GFX_focus_secret_rearmament
+		# prerequisite = { focus = yem_vic_improved_tools }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_improved_tools
+		# cost = 210
+
+		# available = {
+			# has_manpower > 10000	`
+			# has_completed_focus = yem_vic_inbrace_extremism
+		# }
+
+		# ai_will_do = {
+			# base = 2
+		# }
+		# completion_reward = {
+			# add_stability = -0.2
+			# add_manpower = -10000
+            # every_owned_state = {
+			    # limit = {
+				    # is_core_of = YEM
+			    # }
+                # add_building_construction = {
+				    # type = infrastructure
+		            # level = 2
+					# instant_build = yes
+				    # }
+            # }
+
+			# HJZ = { add_building_construction = {
+			# type = infrastructure
+		            # level = 1
+					# instant_build = yes
+				    # }
+				# }
+
+			# add_opinion_modifier = {
+				# target = OTO
+				# modifier = small_increase
+		    # }
+
+			# OTO = { add_building_construction = {
+			# type = infrastructure
+		            # level = 1
+					# instant_build = yes
+				    # }
+	        # }
+			# add_opinion_modifier = {
+				# target = OTO
+				# modifier = small_increase
+		    # }
+		# }
+	# }
+
+
+	# focus = {
+		# id = yem_vic_before_the_end
+		# prerequisite = { focus = yem_vic_relocate_tribs }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_relocate_tribs
+		# icon = GFX_goal_focus_industrial_revolution
+		# cost = 210
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		# add_political_power = 50
+            # every_owned_state = {
+			    # limit = {
+				    # is_core_of = YEM
+			    # }
+                # add_building_construction = {
+				    # type = industrial_complex
+		            # level = -1
+					# instant_build = yes
+				    # }
+            # }
+
+			# OTO = { add_building_construction = {
+			# type = industrial_complex
+		            # level = 1
+					# instant_build = yes
+				    # }
+		    # add_opinion_modifier = {
+				# target = OTO
+				# modifier = large_increase
+			# }
+	        # }
+        # }
+	# }
+
+	# focus = {
+		# id = yem_vic_government_reforms
+		# icon = GFX_goal_focus_reform_administration
+		# x = 17
+		# y = 1
+		# cost = 70
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# add_political_power = 100
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_field_training
+		# icon = GFX_goal_generic_allies_build_infantry
+		# prerequisite = { focus = yem_vic_government_reforms }
+		# x = 2
+		# y = 1
+		# relative_position_id = yem_vic_government_reforms
+		# cost = 35
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# army_experience = 10
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_proclaim_islam
+		# icon = GFX_goal_ottoman_army
+		# prerequisite = { focus = yem_vic_government_reforms }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_government_reforms
+		# cost = 70
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# add_stability = 0.07
+			# add_opinion_modifier = {
+				# target = OTO
+				# modifier = small_increase
+			# }
+			# add_opinion_modifier = {
+				# target = HJZ
+				# modifier = small_increase
+			# }
+			# add_opinion_modifier = {
+				# target = OMA
+				# modifier = small_increase
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_inbrace_extremism
+		# icon = GFX_goal_generic_political_pressure
+		# prerequisite = { focus = yem_vic_proclaim_islam focus = yem_vic_field_training }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_field_training
+		# cost = 70
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# swap_ideas = {
+				# remove_idea = stagnation_growth
+				# add_idea = encouraged_growth
+			# }
+			# add_stability = -0.02
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_the_new_beginning
+		# prerequisite = { focus =  yem_vic_sacrifes_we_make focus = yem_vic_before_the_end }
+		# x = 1
+		# y = 1
+		# relative_position_id = yem_vic_sacrifes_we_make
+		# icon = GFX_goal_egypt_otto_chains
+		# cost = 70
+
+		# available={
+			# date > 1868.1.1
+		# }
+
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+            # add_autonomy_ratio = {
+				# value = 1
+			# }
+	    # add_stability = -0.05
+	    # }
+	# }
+
+	# focus = {
+		# id = yem_vic_land_grab
+		# prerequisite = { focus = yem_vic_the_new_beginning }
+		# x = -1
+		# y = 1
+		# relative_position_id = yem_vic_the_new_beginning
+		# icon = GFX_goal_focus_gerrymandering
+		# cost = 70
+
+		# available={
+			# date > 1870.1.1
+		# }
+
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		    # HJZ = { release = YEM }
+			# add_opinion_modifier = {
+				# target = HJZ
+				# modifier = large_decrease
+		    # }
+	    # }
+	# }
+
+	# focus = {
+		# id = yem_vic_building_society
+		# prerequisite = { focus = yem_vic_government_reforms }
+		# x = -2
+		# y = 1
+		# relative_position_id = yem_vic_government_reforms
+		# icon = GFX_goal_focus_reform_government
+		# cost = 70
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+        # add_political_power = -50
+	    # }
+	# }
+
+	# focus = {
+		# id = yem_vic_better_healthcare
+		# prerequisite = { focus = yem_vic_building_society }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_building_society
+		# icon = GFX_goal_focus_reform_government
+		# cost = 70
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+        # swap_ideas = {
+			# remove_idea = hc_no_healthcare
+			# add_idea = hc_low_healthcare
+			# }
+        # add_stability = 0.02
+	    # }
+	# }
+
+	# focus = {
+		# id = yem_vic_basic_schools
+		# prerequisite = { focus = yem_vic_better_healthcare }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_better_healthcare
+		# icon = GFX_focus_research
+		# cost = 70
+		# ai_will_do = {
+			# base = 5
+		# }
+
+		# completion_reward = {
+        # swap_ideas = {
+			# remove_idea = oral_tradition
+			# add_idea = traditional_uluma
+			# }
+        # add_stability = 0.02
+	    # }
+	# }
+
+	# focus = {
+		# id = yem_vic_improvement_technique
+		# prerequisite = { focus = yem_vic_basic_schools }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_basic_schools
+		# icon = GFX_goal_generic_cavalry
+		# cost = 70
+
+		# available = {
+		# has_completed_focus = yem_vic_sacrifes_we_make
+		# }
+
+		# ai_will_do = {
+			# base = 5
+		# }
+
+		# completion_reward = {
+            # add_political_power = 150
+            # add_stability = 0.04
+	    # }
+	# }
+
+	# focus = {
+		# id = yem_vic_islamic_mines
+		# prerequisite = { focus = yem_vic_proclaim_islam }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_proclaim_islam
+		# icon = GFX_goal_generic_construct_infrastructure
+		# cost = 70
+
+		# available = {
+			# has_completed_focus = yem_vic_building_society
+			# has_tech = refining
+		# }
+
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		    # random_owned_controlled_state = {
+        	# add_building_construction = {
+					# type = coal_mine
+					# level = 1
+					# instant_build = yes
+				# }
+	        # }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_trade_secrets
+		# icon = GFX_goal_focus_reform_government
+		# prerequisite = { focus = yem_vic_islamic_mines }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_islamic_mines
+		# cost = 70
+
+        # available = {
+		    # has_opinion = {
+                # target = OTO
+                # value > 49
+            # }
+			# or = {
+			    # OTO = {
+			        # has_tech = pre_industrial_farms
+			        # has_tech = mechanized_farming
+			        # has_tech = early_artificial_fertilizer
+			    # }
+			# }
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# add_tech_bonus = { bonus = 0.5 uses = 1 technology = pre_industrial_farms }
+			# add_tech_bonus = { bonus = 0.5 uses = 1 technology = mechanized_farming }
+			# add_tech_bonus = { bonus = 0.5 uses = 1 technology = early_artificial_fertilizer }
+        # }
+	# }
+
+	# focus = {
+		# id = yem_vic_farmland
+		# icon = GFX_focus_ITA_Wheat
+		# prerequisite = { focus = yem_vic_trade_secrets }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_trade_secrets
+		# cost = 140
+
+		# available = {
+			# has_tech = pre_industrial_farms
+			# has_tech = mechanized_farming
+			# has_tech = early_artificial_fertilizer
+		# }
+		# completion_reward={
+			# random_owned_controlled_state = {
+			    # add_extra_state_shared_building_slots = 1
+			    # add_building_construction = {
+					# type = farm
+					# level = 1
+					# instant_build = yes
+				# }
+			# }
+			# add_manpower = 1000
+		# }
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_feed_the_locals
+		# icon = GFX_focus_generic_concessions
+		# prerequisite = { focus = yem_vic_farmland }
+		# x = -1
+		# y = 1
+		# relative_position_id = yem_vic_farmland
+		# mutually_exclusive = { focus = yem_vic_dont_feed_the_locals }
+		# cost = 70
+
+		# available = {
+			# has_tech = pre_industrial_farms
+			# has_tech = mechanized_farming
+			# has_tech = early_artificial_fertilizer
+		# }
+		# completion_reward={
+            # add_political_power = -150
+			# add_manpower = 1000
+			# add_stability = 0.05
+		# }
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_setup_water_pumps
+		# icon = GFX_focus_generic_concessions
+		# prerequisite = { focus = yem_vic_feed_the_locals }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_feed_the_locals
+		# cost = 70
+
+		# available = {
+			# has_tech = high_phosphate_fertilizer
+			# has_tech = food_canning
+		# }
+		# completion_reward={
+            # add_political_power = 50
+			# add_stability = 0.02
+		# }
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_cotton_boom
+		# icon = GFX_goal_anschluss
+		# prerequisite = { focus = yem_vic_setup_water_pumps focus = yem_vic_take_the_water }
+		# x = 1
+		# y = 1
+		# relative_position_id = yem_vic_setup_water_pumps
+		# cost = 210
+
+		# available = {
+			# has_tech = high_phosphate_fertilizer
+			# has_tech = food_canning
+		# }
+		# completion_reward={
+            # random_owned_state = {
+			    # add_extra_state_shared_building_slots = 2
+			    # add_building_construction = {
+				    # type = cotton_farm
+		            # level = 2
+					# instant_build = yes
+				    # }
+				# }
+		# }
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_dont_feed_the_locals
+		# icon = GFX_goal_focus_decentralisation_power
+		# prerequisite = { focus = yem_vic_farmland }
+		# x = 1
+		# y = 1
+		# relative_position_id = yem_vic_farmland
+		# mutually_exclusive = { focus = yem_vic_feed_the_locals }
+		# cost = 70
+
+		# completion_reward={
+            # add_political_power = 50
+
+			# add_stability = -0.05
+		# }
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_take_the_water
+		# icon = GFX_goal_focus_decentralisation_power
+		# prerequisite = { focus = yem_vic_dont_feed_the_locals }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_dont_feed_the_locals
+		# cost = 70
+
+
+		# completion_reward={
+            # add_political_power = 100
+			# add_manpower = -1000
+			# add_stability = -0.05
+		# }
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_military_reform
+		# icon = GFX_focus_generic_military_mission
+		# cost = 140
+		# x = 25
+		# y = 1
+		# available = {
+			# has_completed_focus = yem_vic_field_training
+		# }
+		# completion_reward={
+			# army_experience = 25
+		# }
+		# available_if_capitulated = no
+		# ai_will_do = {
+			# factor = 1
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_experimental_tactics
+		# icon = GFX_focus_exploration
+		# prerequisite = { focus = yem_vic_military_reform }
+		# x = -2
+		# y = 1
+		# relative_position_id = yem_vic_military_reform
+		# cost = 35
+		# available_if_capitulated = no
+
+		# available = {
+			# has_manpower > 500
+		# }
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
+			# add_manpower = -500
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_gun_tests
+		# icon = GFX_goal_continuous_reduce_training_time
+		# prerequisite = { focus =  yem_vic_military_reform }
+		# x = 2
+		# y = 1
+		# relative_position_id = yem_vic_military_reform
+		# cost = 35
+		# available_if_capitulated = no
+
+		# available = {
+			# has_manpower > 1500
+		# }
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# add_tech_bonus = { bonus = 1 uses = 1 category = infantry_weapons }
+			# add_manpower = -1500
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_updated_army
+		# icon = GFX_focus_chi_army_reform
+		# prerequisite = { focus =  yem_vic_inbrace_extremism focus = islamic_mines }
+		# x = 2
+		# y = 1
+		# relative_position_id = yem_vic_islamic_mines
+		# cost = 70
+
+		# available = {
+		    # date > 1860.1.1
+		    # or = {
+			# has_completed_focus = yem_vic_gun_tests
+			# has_completed_focus = yem_vic_experimental_tactics
+			# }
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# swap_ideas = {
+				# add_idea = QNG_army_funding_3
+				# remove_idea = QNG_outdated_army
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_military_budget
+		# icon = GFX_goal_focus_increase_wages
+		# prerequisite = { focus = yem_vic_updated_army }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_updated_army
+		# cost = 70
+
+		# available = {
+
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# swap_ideas = {
+				# remove_idea = two_percent
+				# add_idea = three_percent
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_remove_al-husayn_iii
+		# icon = GFX_goal_demand_sudetenland
+		# prerequisite = { focus = yem_vic_military_reform }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_military_reform
+		# cost = 70
+
+		# available = {
+		    # date > 1863.1.1
+		    # or = {
+			# has_completed_focus = yem_vic_gun_tests
+			# has_completed_focus = yem_vic_experimental_tactics
+			# }
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# remove_ideas={
+				# ETH_idea_internal_unrest
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_troop_transport
+		# icon = GFX_goal_generic_army_doctrines
+		# prerequisite = { focus = yem_vic_remove_al-husayn_iii }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_remove_al-husayn_iii
+		# cost = 140
+
+		# available = {
+			# has_completed_focus = yem_vic_improved_tools
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# swap_ideas = {
+				# remove_idea = inframain_basic_maintenance_infrastructure
+				# add_idea =  inframain_well_maintaned_infrastructure
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_beach_head_training
+		# icon = GFX_focus_prc_infiltration
+		# prerequisite = { focus = yem_vic_troop_transport }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_troop_transport
+		# cost = 70
+
+		# available = {
+			# has_tech = tech_naval_mtg_capital_ship_naval_transportation
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# swap_ideas = {
+			    # remove_idea = navinfra_no_naval_infrastructure
+				# add_idea = navinfra_low_naval_infrastructure
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_invite_investers
+		# icon = GFX_focus_generic_concessions
+		# prerequisite = { focus =  yem_vic_gun_tests }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_gun_tests
+		# cost = 70
+
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+		    # add_ideas = {
+				# add_idea = eoanb_generic_infantry_equipment_manufacturer
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_more_experiments
+		# icon = GFX_goal_continuous_reduce_training_time
+		# prerequisite = { focus = yem_vic_experimental_tactics }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_experimental_tactics
+		# cost = 70
+
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+			# add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
+			# add_manpower = -250
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_buy_uniforms
+		# icon = GFX_goal_generic_army_doctrines
+		# prerequisite = { focus = yem_vic_more_experiments }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_more_experiments
+		# cost = 70
+
+		# available = {
+		# has_political_power = 100
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+		    # add_political_power = -100
+		    # add_equipment_to_stockpile = {
+				# type = uniform_equipment_1
+				# amount = 500
+				# producer = ENG
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_buy_french_convos
+		# icon = GFX_goal_generic_construct_naval_dockyard
+		# prerequisite = { focus = yem_vic_buy_uniforms }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_buy_uniforms
+		# cost = 70
+
+		# available = {
+		# has_political_power = 50
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+		    # add_political_power = -50
+		    # if = {
+				# limit = {
+					# all_owned_state = { naval_base < 1 }
+					# all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					# capital_scope = { is_coastal = no }
+				# }
+				# add_political_power = -250
+				# random_owned_controlled_state = {
+					# limit = {
+						# Oceania_infrastructure_for_extra_building_slots_trigger = yes
+						# is_coastal = yes
+					# }
+					# set_state_flag = afr_port_town
+					# hidden_effect = {
+						# add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+					# }
+					# add_extra_state_shared_building_slots = 1
+					# afr_add_one_building_naval_base_scripted_effect = yes
+					# if = {
+						# limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						# add_core_of = ROOT
+					# }
+					# add_manpower = 1853
+				# }
+			# }
+			# else_if = {
+				# limit = {
+					# any_owned_state = { has_state_flag = afr_port_town }
+				# }
+				# random_owned_controlled_state = {
+					# limit = {
+						# has_state_flag = afr_port_town
+					# }
+					# if = {
+						# limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						# add_core_of = ROOT
+					# }
+					# add_manpower = 1853
+				# }
+			# }
+			# else_if = {
+				# limit = {
+					# all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					# capital_scope = { is_coastal = yes naval_base < 1 }
+				# }
+				# random_owned_state = {
+					# limit = {
+						# is_coastal = yes
+						# is_capital = yes
+					# }
+					# set_state_flag = afr_port_town
+					# hidden_effect = {
+						# add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+					# }
+					# add_extra_state_shared_building_slots = 1
+					# afr_add_one_building_naval_base_scripted_effect = yes
+				# }
+			# }
+			# else_if = {
+				# limit = {
+					# all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					# capital_scope = { is_coastal = yes naval_base > 0 }
+				# }
+				# random_owned_state = {
+					# limit = {
+						# is_coastal = yes
+						# is_capital = yes
+					# }
+					# set_state_flag = afr_port_town
+				# }
+			# }
+			# else = {
+				# random_owned_controlled_state = {
+					# limit = {
+						# naval_base > 0
+						# is_coastal = yes
+					# }
+					# set_state_flag = afr_port_town
+					# if = {
+						# limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						# add_core_of = ROOT
+					# }
+					# add_manpower = 1853
+				# }
+			# }
+			# add_equipment_to_stockpile = { type = convoy_1 amount = 7 }
+			# if = {
+				# limit = {
+					# check_variable = {ROOT.industrisation_progress < 100}
+					# OR = {
+						# has_idea = afr_reforming_kingdom
+						# has_country_flag = Oceania_industrializing
+						# has_country_flag = afr_colony_industrializing
+						# has_country_flag = afr_an_african_industrializing
+					# }
+				# }
+				# custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+				# custom_effect_tooltip = EDC_afr.6.t
+				# hidden_effect = {
+					# country_event = { id = yem_vic_EDC_afr.6 hours = 1 }
+				# }
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_buy_guns
+		# icon = GFX_goal_generic_small_arms
+		# prerequisite = { focus = yem_vic_invite_investers }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_invite_investers
+		# cost = 70
+
+		# available = {
+		# has_political_power = 100
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+		    # add_political_power = -100
+		    # add_equipment_to_stockpile = {
+				# type = infantry_equipment_rifle_1
+				# amount = 500
+				# producer = ENG
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_buy_english_convos
+		# icon = GFX_goal_generic_construct_naval_dockyard
+		# prerequisite = { focus = yem_vic_buy_guns }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_buy_guns
+		# cost = 70
+
+		# available = {
+		# has_political_power = 50
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+		    # add_political_power = -50
+		    # if = {
+				# limit = {
+					# all_owned_state = { naval_base < 1 }
+					# all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					# capital_scope = { is_coastal = no }
+				# }
+				# random_owned_controlled_state = {
+					# limit = {
+						# Oceania_infrastructure_for_extra_building_slots_trigger = yes
+						# is_coastal = yes
+					# }
+					# set_state_flag = afr_port_town
+					# hidden_effect = {
+						# add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+					# }
+					# add_extra_state_shared_building_slots = 1
+					# afr_add_one_building_naval_base_scripted_effect = yes
+					# if = {
+						# limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						# add_core_of = ROOT
+					# }
+					# add_manpower = 1853
+				# }
+			# }
+			# else_if = {
+				# limit = {
+					# any_owned_state = { has_state_flag = afr_port_town }
+				# }
+				# random_owned_controlled_state = {
+					# limit = {
+						# has_state_flag = afr_port_town
+					# }
+					# if = {
+						# limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						# add_core_of = ROOT
+					# }
+					# add_manpower = 1853
+				# }
+			# }
+			# else_if = {
+				# limit = {
+					# all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					# capital_scope = { is_coastal = yes naval_base < 1 }
+				# }
+				# random_owned_state = {
+					# limit = {
+						# is_coastal = yes
+						# is_capital = yes
+					# }
+					# set_state_flag = afr_port_town
+					# hidden_effect = {
+						# add_to_variable = { Oceania_extra_state_shared_building_slots = 1 }
+					# }
+					# add_extra_state_shared_building_slots = 1
+					# afr_add_one_building_naval_base_scripted_effect = yes
+				# }
+			# }
+			# else_if = {
+				# limit = {
+					# all_owned_state = { NOT = { has_state_flag = afr_port_town } }
+					# capital_scope = { is_coastal = yes naval_base > 0 }
+				# }
+				# random_owned_state = {
+					# limit = {
+						# is_coastal = yes
+						# is_capital = yes
+					# }
+					# set_state_flag = afr_port_town
+				# }
+			# }
+			# else = {
+				# add_political_power = -100
+				# random_owned_controlled_state = {
+					# limit = {
+						# naval_base > 0
+						# is_coastal = yes
+					# }
+					# set_state_flag = afr_port_town
+					# if = {
+						# limit = { THIS = { NOT = { is_core_of = ROOT } } }
+						# add_core_of = ROOT
+					# }
+					# add_manpower = 1853
+				# }
+			# }
+			# add_equipment_to_stockpile = { type = convoy_1 amount = 7 }
+			# if = {
+				# limit = {
+					# check_variable = {ROOT.industrisation_progress < 100}
+					# OR = {
+						# has_idea = afr_reforming_kingdom
+						# has_country_flag = Oceania_industrializing
+						# has_country_flag = afr_colony_industrializing
+						# has_country_flag = afr_an_african_industrializing
+					# }
+				# }
+				# custom_effect_tooltip = AFR_GENERIC_COLONIAL_ENTER_TOOLTIP
+				# custom_effect_tooltip = EDC_afr.6.t
+				# hidden_effect = {
+					# country_event = { id = yem_vic_EDC_afr.6 hours = 1 }
+				# }
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_power_of_the_people
+		# icon = GFX_goal_focus_conscription
+		# prerequisite = { focus = yem_vic_buy_uniforms focus = yem_vic_buy_guns }
+		# x = 2
+		# y = 1
+		# relative_position_id = yem_vic_buy_uniforms
+		# cost = 70
+
+		# available = {
+		# has_completed_focus = yem_vic_remove_al-husayn_iii
+		# }
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+		    # add_ideas = {
+				# add_idea = OMA_heavly_militerised_state_2
+			# }
+		# }
+	# }
+
+	# focus = {
+		# id = yem_vic_power_to_people
+		# icon = GFX_goal_focus_conscription
+		# prerequisite = { focus = yem_vic_power_of_the_people }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_power_of_the_people
+		# cost = 70
+
+
+		# available_if_capitulated = no
+
+		# ai_will_do = {
+			# factor = 1
+		# }
+
+		# completion_reward = {
+		    # swap_ideas = {
+				# add_idea = limited_conscription
+				# remove_idea = volunteer_only
+			# }
+		# }
+	# }
 	
-	focus = {
-		id = yem_vic_musullu_ali_yaver_pasha
-		icon = GFX_goal_focus_conscription
-		prerequisite = { focus = yem_vic_cotton_boom }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_cotton_boom
-		cost = 70
+	# focus = {
+		# id = yem_vic_musullu_ali_yaver_pasha
+		# icon = GFX_goal_focus_conscription
+		# prerequisite = { focus = yem_vic_cotton_boom }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_cotton_boom
+		# cost = 70
         
-		available = {
-		     date > 1862.1.1
-		}
+		# available = {
+		     # date > 1862.1.1
+		# }
 
-		available_if_capitulated = no
+		# available_if_capitulated = no
              
-		ai_will_do = {
-			factor = 1
-		}
+		# ai_will_do = {
+			# factor = 1
+		# }
 
-		completion_reward = {
-		    add_stability = 0.02
-			add_political_power = 50
-		}
-	}
+		# completion_reward = {
+		    # add_stability = 0.02
+			# add_political_power = 50
+		# }
+	# }
 	
-	focus = {
-		id = yem_vic_claim_on_west_hadhramaut
-		prerequisite = { focus = yem_vic_land_grab }
-		x = -2
-		y = 1
-		relative_position_id = yem_vic_land_grab
-		icon = GFX_goal_focus_gerrymandering
-		cost = 70
+	# focus = {
+		# id = yem_vic_claim_on_west_hadhramaut
+		# prerequisite = { focus = yem_vic_land_grab }
+		# x = -2
+		# y = 1
+		# relative_position_id = yem_vic_land_grab
+		# icon = GFX_goal_focus_gerrymandering
+		# cost = 70
 
-		available={
-			date > 1874.1.1
-			has_manpower > 4000
-			has_completed_focus = yem_vic_power_to_people
-			has_completed_focus = yem_vic_military_budget
-			has_completed_focus = yem_vic_improvement_technique
-		}
+		# available={
+			# date > 1874.1.1
+			# has_manpower > 4000
+			# has_completed_focus = yem_vic_power_to_people
+			# has_completed_focus = yem_vic_military_budget
+			# has_completed_focus = yem_vic_improvement_technique
+		# }
 
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		    1194 = { add_claim_by = YEM }
-		}
-	}
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		    # 1194 = { add_claim_by = YEM }
+		# }
+	# }
 	
-	focus = {
-		id = yem_vic_claim_on_central_hadhramaut
-		prerequisite = { focus = yem_vic_claim_on_west_hadhramaut }
-		x = -2
-		y = 1
-		relative_position_id = yem_vic_claim_on_west_hadhramaut
-		icon = GFX_goal_focus_gerrymandering
-		cost = 70
+	# focus = {
+		# id = yem_vic_claim_on_central_hadhramaut
+		# prerequisite = { focus = yem_vic_claim_on_west_hadhramaut }
+		# x = -2
+		# y = 1
+		# relative_position_id = yem_vic_claim_on_west_hadhramaut
+		# icon = GFX_goal_focus_gerrymandering
+		# cost = 70
 
-		available={
-		    date > 1878.1.1
-			has_manpower > 8000
-			QUA = { is_subject_of = YEM } 
-		}
+		# available={
+		    # date > 1878.1.1
+			# has_manpower > 8000
+			# QUA = { is_subject_of = YEM } 
+		# }
 
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		    1195 = { add_claim_by = YEM }
-	    }
-	}
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		    # 1195 = { add_claim_by = YEM }
+	    # }
+	# }
 		
-	focus = {
-		id = yem_vic_claim_on_east_hadhramaut
-		prerequisite = { focus = yem_vic_claim_on_central_hadhramaut }
-		x = -2
-		y = 1
-		relative_position_id = yem_vic_claim_on_central_hadhramaut
-		icon = GFX_goal_focus_gerrymandering
-		cost = 70
+	# focus = {
+		# id = yem_vic_claim_on_east_hadhramaut
+		# prerequisite = { focus = yem_vic_claim_on_central_hadhramaut }
+		# x = -2
+		# y = 1
+		# relative_position_id = yem_vic_claim_on_central_hadhramaut
+		# icon = GFX_goal_focus_gerrymandering
+		# cost = 70
 
-		available={
-			date > 1882.1.1
-			has_manpower > 16000
-			KAT = { is_subject_of = YEM }
-		}
+		# available={
+			# date > 1882.1.1
+			# has_manpower > 16000
+			# KAT = { is_subject_of = YEM }
+		# }
 
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		    1196 = { add_claim_by = YEM }
-		    }
-	}
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		    # 1196 = { add_claim_by = YEM }
+		    # }
+	# }
 	
-	focus = {
-		id = yem_vic_demand_aden
-		prerequisite = { focus = yem_vic_claim_on_east_hadhramaut }
-		x = 0
-		y = 1
-		relative_position_id = yem_vic_claim_on_east_hadhramaut
-		icon = GFX_goal_focus_gerrymandering
-		cost = 70
+	# focus = {
+		# id = yem_vic_demand_aden
+		# prerequisite = { focus = yem_vic_claim_on_east_hadhramaut }
+		# x = 0
+		# y = 1
+		# relative_position_id = yem_vic_claim_on_east_hadhramaut
+		# icon = GFX_goal_focus_gerrymandering
+		# cost = 70
 
-		available={
-			has_army_manpower = {
-				size > 20000
-			}
-			has_political_power = 300
-		}
+		# available={
+			# has_army_manpower = {
+				# size > 20000
+			# }
+			# has_political_power = 300
+		# }
 
-		ai_will_do = {
-			base = 5
-		}
-		completion_reward = {
-		    add_political_power = -300
-		    annex_country = { target = ADN transfer_troops = yes } 
-		    }
-	    }
-	}
+		# ai_will_do = {
+			# base = 5
+		# }
+		# completion_reward = {
+		    # add_political_power = -300
+		    # annex_country = { target = ADN transfer_troops = yes } 
+		    # }
+	    # }
+	# }

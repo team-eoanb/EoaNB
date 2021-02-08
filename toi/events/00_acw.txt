@@ -1451,6 +1451,10 @@ add_namespace = acw_first_nations_trigger
 						373 = { set_demilitarized_zone = yes }
 					}
 					if = {
+						limit = { owns_state = 1410 }
+						1410 = { set_demilitarized_zone = yes }
+					}
+					if = {
 						limit = { owns_state = 374 }
 						374 = { set_demilitarized_zone = yes }
 					}
@@ -1860,8 +1864,16 @@ add_namespace = acw_first_nations_trigger
 		trigger = {
 			country_exists = USA
 			country_exists = CSA
-			373 = { has_state_flag = NA_B_Slave_Kansas }
-			373 = { is_owned_by = USA }
+			OR = {
+				AND = {
+					373 = { has_state_flag = NA_B_Slave_Kansas }
+					373 = { is_owned_by = USA }
+				}
+				AND = {
+					1410 = { has_state_flag = NA_B_Slave_Kansas }
+					1410 = { is_owned_by = USA }
+				}
+			}
 		}
 
 		immediate = {
@@ -1883,6 +1895,24 @@ add_namespace = acw_first_nations_trigger
 				}
 				else = { add_state_claim = 373 }
 			}
+			if = {
+				limit = { tag = USA }
+				if = {
+					limit = { USA = { owns_state = 1410 } }
+					remove_state_core = 1410
+					add_state_claim = 1410
+				}
+			}
+			else_if = {
+				limit = { tag = CSA }
+				if = {
+					limit = { USA = { owns_state = 1410 } }
+					1410 = { set_demilitarized_zone = no }
+					transfer_state = 1410
+					add_state_core = 1410
+				}
+				else = { add_state_claim = 1410 }
+			}
 		}
 
 		option = {
@@ -1896,6 +1926,7 @@ add_namespace = acw_first_nations_trigger
 			name = usa_slavery_debate_secession.102.b
 			trigger = { tag = CSA }
 			373 = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
+			1410 = { state_event = { id = afr_rrp_racial_tension_increase.1 } }
 			eoanb_add_1_prestige_score = yes
 		}
 	}
@@ -2369,7 +2400,7 @@ add_namespace = acw_first_nations_trigger
 					ideology = traditional_conservatism
 					popularity = -0.19
 				}
-				ROOT = {
+				USA = {
 					remove_ideas = USA_Spirit_Southern_Secession_Crisis
 					if = {
 						limit = { NOT = { has_country_flag = USA_LincolnorDouglas_Moderate_Appeal } }
@@ -2405,12 +2436,12 @@ add_namespace = acw_first_nations_trigger
 					remove_state_core = 372
 					add_state_claim = 372
 					if = {
-						limit = {	owns_state = 315 }
+						limit = { owns_state = 315 }
 						remove_state_core = 315
 						add_state_claim = 315
 					}
 					if = {
-						limit = {	owns_state = 1022 }
+						limit = { owns_state = 1022 }
 						remove_state_core = 1022
 						add_state_claim = 1022
 					}
@@ -2439,12 +2470,12 @@ add_namespace = acw_first_nations_trigger
 					transfer_state = 365
 					add_state_core = 365
 					if = {
-						limit = { ROOT = { owns_state = 366 } }
+						limit = { USA = { owns_state = 366 } }
 						transfer_state = 366
 						add_state_core = 366
 					}
 					if = {
-						limit = { ROOT = { owns_state = 1211 } }
+						limit = { USA = { owns_state = 1211 } }
 						transfer_state = 1211
 						add_state_core = 1211
 					}
@@ -2463,26 +2494,26 @@ add_namespace = acw_first_nations_trigger
 					if = {
 						limit = { NOT = { has_global_flag = NA_B_test_cuba_free } }
 						if = {
-							limit = {	ROOT = { owns_state = 315 } }
+							limit = { USA = { owns_state = 315 } }
 							transfer_state = 315
 							add_state_core = 315
 						}
 						if = {
-							limit = {	ROOT = { owns_state = 1022 } }
+							limit = { USA = { owns_state = 1022 } }
 							transfer_state = 1022
 							add_state_core 1022
 						}
 					}
 					else = {
 						if = {
-							limit = {	ROOT = { owns_state = 315 } }
+							limit = { USA = { owns_state = 315 } }
 							CUB = {
 								transfer_state = 315
 								add_state_core = 315
 							}
 						}
 						if = {
-							limit = {	ROOT = { owns_state = 1022 } }
+							limit = { USA = { owns_state = 1022 } }
 							CUB = {
 								transfer_state = 1022
 								add_state_core 1022
@@ -7701,6 +7732,7 @@ country_event = {
 	trigger = {
 		OR = {
 			owns_state = 373
+			owns_state = 1410
 		}
 	}
 
@@ -7725,6 +7757,15 @@ country_event = {
 			if = {
 				limit = { owns_state = 373 }
 				373 = {
+					remove_core_of = USA
+					add_claim_by = USA
+					MIO = { transfer_state = PREV }
+					add_core_of = MIO
+				}
+			}
+			if = {
+				limit = { owns_state = 1410 }
+				1410 = {
 					remove_core_of = USA
 					add_claim_by = USA
 					MIO = { transfer_state = PREV }
@@ -8857,6 +8898,7 @@ country_event = {
       372 = { set_demilitarized_zone = yes }
       369 = { set_demilitarized_zone = yes }
       373 = { set_demilitarized_zone = yes }
+	  1410 = { set_demilitarized_zone = yes }
       374 = { set_demilitarized_zone = yes }
       746 = { set_demilitarized_zone = yes }
     }
@@ -8876,6 +8918,7 @@ country_event = {
       372 = { set_demilitarized_zone = yes }
       369 = { set_demilitarized_zone = yes }
       373 = { set_demilitarized_zone = yes }
+	  1410 = { set_demilitarized_zone = yes }
       374 = { set_demilitarized_zone = yes }
       746 = { set_demilitarized_zone = yes }
     }
@@ -8901,6 +8944,7 @@ country_event = {
       369 = { set_demilitarized_zone = no }
       372 = { set_demilitarized_zone = no }
       373 = { set_demilitarized_zone = no }
+	  1410 = { set_demilitarized_zone = no }
       374 = { set_demilitarized_zone = no }
       746 = { set_demilitarized_zone = no }
 
@@ -10569,6 +10613,8 @@ news_event = {
 				add_state_core = 369
 				transfer_state = 373
 				add_state_core = 373
+				transfer_state = 1410
+				add_state_core = 1410
 				transfer_state = 1285
 				add_state_claim = 1285
 				transfer_state = 1300

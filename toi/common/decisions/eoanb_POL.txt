@@ -787,15 +787,17 @@ eoanb_category_diplomatic_actions = {
 	eoanb_decision_POL_1860_Reassert_Our_Claims = {
 		
 		icon = GFX_decision_generic_operation
+
+		allowed = {
+			original_tag = POL
+		}
 		
 		available = {
-		    tag = POL
 			has_war = no
 			is_puppet = no
 		}
 		
 		visible = {
-		    tag = POL
 			has_war = no
 		}
 		
@@ -841,6 +843,116 @@ eoanb_category_diplomatic_actions = {
 		}
 	}
 
+	### Trade Deal with Germany
+	eoanb_decision_POL_vic_Trade_GER = {
+		
+		icon = GFX_decision_gre_investment_decisions
+
+		allowed = {
+			original_tag = POL
+		}
+		
+		available = {
+			NOT = {
+				has_war_with = GER
+				has_war_with = PRS
+			}
+		}
+		
+		visible = {
+			OR = {
+				GER = { exists = yes }
+				PRS = { exists = yes }
+			}
+			has_completed_focus = POL_vic_Make_Deals
+		}
+		
+		fire_only_once = yes
+		
+		cost = 10
+		
+		complete_effect = {
+			if = {
+                limit = {
+                    PRS = { exists = yes }
+                    GER = { exists = no }
+                }
+		        PRS = {
+		        	country_event = {
+                    	id = poland.108
+                    	days = 2
+                    	random = 1
+                	}
+		        }
+			}
+			if = {
+                limit = {
+                    GER = { exists = yes }
+                }
+			    GER = { 
+			    	country_event = {
+                    	id = poland.108
+                    	days = 2
+                    	random = 1
+                	}
+			    }
+			}
+			hidden_effect = {
+				POL = {
+					set_country_flag = POL_vic_PRS_GER_Trade_Deal_GOOD
+				}
+			}
+		}
+		
+		ai_will_do = {
+			base = 1000
+		}
+	}
+
+	### Trade Deal with Austria
+	eoanb_decision_POL_vic_Trade_AUS = {
+		
+		icon = GFX_decision_gre_investment_decisions
+
+		allowed = {
+			original_tag = POL
+		}
+		
+		available = {
+			NOT = {
+				has_war_with = AUS
+			}
+		}
+		
+		visible = {
+			AUS = { exists = yes }
+			has_completed_focus = POL_vic_Make_Deals
+		}
+		
+		fire_only_once = yes
+		
+		cost = 10
+		
+		complete_effect = {
+			AUS = { 
+			    country_event = {
+                    id = poland.111
+                    days = 2
+                    random = 1
+                }
+			}
+			hidden_effect = {
+				POL = {
+					set_country_flag = POL_vic_AUS_Trade_Deal_GOOD
+				}
+			}
+		}
+		
+		ai_will_do = {
+			base = 1000
+		}
+	}
+
 }
 
 eoanb_category_traditions_celebrations = {
@@ -849,15 +961,17 @@ eoanb_category_traditions_celebrations = {
 	eoanb_decision_POL_commemoration_of_november_uprising = {
 		
 		icon = GFX_decision_generic_nationalism
+
+		allowed = {
+			original_tag = POL
+		}
 		
 		available = {
-		    tag = POL
 			has_war = no
 			is_puppet = no
 		}
 		
 		visible = {
-		    tag = POL
 			has_war = no
 		}
 		
@@ -877,6 +991,604 @@ eoanb_category_traditions_celebrations = {
 
 }
 
+eoanb_category_projects = {
+	
+	POL_mission_vic_expand_Modlin_fortress = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 98
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 98
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_Modlin_Fortress_Upgrade }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 160
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			98 = {
+				add_building_construction = {
+					type = bunker
+					province = 6567
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_Bug = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 1313
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 1313
+			controls_state = 10
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_North_Bug_Defence_Line }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 200
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			1313 = {
+				add_building_construction = {
+					type = bunker
+					province = 9544
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 402
+					level = 1
+					instant_build = yes
+				}
+			}
+			10 = {
+				add_building_construction = {
+					type = bunker
+					province = 524
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_North_Vistula = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 98
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 98
+			controls_state = 10
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_North_Vistula_Defence_Line }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 200
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			98 = {
+				add_building_construction = {
+					type = bunker
+					province = 6401
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 548
+					level = 1
+					instant_build = yes
+				}
+			}
+			10 = {
+				add_building_construction = {
+					type = bunker
+					province = 11492
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_Warta = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 87
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 87
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_Warta_Defence_Line }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 200
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			87 = {
+				add_building_construction = {
+					type = bunker
+					province = 11515
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 493
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 11428
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_Lodz = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 1315
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 1315
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_Lodz_Defence }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 130
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			1315 = {
+				add_building_construction = {
+					type = bunker
+					province = 9508
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_Kielce = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 90
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 90
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_Czestochowa_Defence }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 100
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			90 = {
+				add_building_construction = {
+					type = bunker
+					province = 3586
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_Lublin = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 92
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 92
+			controls_state = 1313
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_Bug_Defence_Line }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 200
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			1313 = {
+				add_building_construction = {
+					type = bunker
+					province = 11466
+					level = 1
+					instant_build = yes
+				}
+			}
+			92 = {
+				add_building_construction = {
+					type = bunker
+					province = 9452
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 6580
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_Plock = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 98
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 98
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_Plockian_Forest_Defence }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 200
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			98 = {
+				add_building_construction = {
+					type = bunker
+					province = 11274
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 11385
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 9316
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_Vistula = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 90
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 90
+			controls_state = 10
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_Vistula_Defence_Line }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 200
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			10 = {
+				add_building_construction = {
+					type = bunker
+					province = 6511
+					level = 1
+					instant_build = yes
+				}
+			}
+			90 = {
+				add_building_construction = {
+					type = bunker
+					province = 562
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 3458
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+    POL_mission_vic_fortify_Warsaw = {
+
+        icon = GFX_decision_generic_construction
+
+		highlight_states = {
+			state = 1314
+		}
+
+		allowed = {
+			original_tag = POL
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			controls_state = 1314
+		}
+
+		visible = {
+		    POL = { has_completed_focus = POL_vic_Warsaw_Defences }
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 0
+		days_remove = 130
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = { 
+			1314 = {
+				add_building_construction = {
+					type = bunker
+					province = 3544
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = { 
+				factor = 0 
+				num_of_civilian_factories_available_for_projects < 2
+			}
+		}
+    }
+
+}
+
 ### Habsburg's Art Patronage
 
 POL_art_patronage_descision_category_hab = {
@@ -885,15 +1597,17 @@ POL_art_patronage_descision_category_hab = {
 	eoanb_decision_POL_expand_the_lazienki_park = {
 		
 		icon = GFX_decision_hol_draw_up_staff_plans
+
+		allowed = {
+			original_tag = POL
+		}
 		
 		available = {
-		    tag = POL
 			has_war = no
 			is_puppet = no
 		}
 		
 		visible = {
-		    tag = POL
 			has_war = no
 		}
 		
@@ -914,15 +1628,17 @@ POL_art_patronage_descision_category_hab = {
 	eoanb_decision_POL_Invite_Foreign_Artists = {
 		
 		icon = GFX_decision_infiltrate_state
+
+		allowed = {
+			original_tag = POL
+		}
 		
 		available = {
-		    tag = POL
 			has_war = no
 			is_puppet = no
 		}
 		
 		visible = {
-		    tag = POL
 			has_war = no
 		}
 		
@@ -943,15 +1659,17 @@ POL_art_patronage_descision_category_hab = {
 	eoanb_decision_POL_Donate_To_Theaters = {
 		
 		icon = GFX_decision_eng_trade_unions_support
+
+		allowed = {
+			original_tag = POL
+		}
 		
 		available = {
-		    tag = POL
 			has_war = no
 			is_puppet = no
 		}
 		
 		visible = {
-		    tag = POL
 			has_war = no
 		}
 		
@@ -972,15 +1690,17 @@ POL_art_patronage_descision_category_hab = {
 	eoanb_decision_POL_Funds_For_Universites = {
 		
 		icon = GFX_decision_eng_trade_unions_support
+
+		allowed = {
+			original_tag = POL
+		}
 		
 		available = {
-		    tag = POL
 			has_war = no
 			is_puppet = no
 		}
 		
 		visible = {
-		    tag = POL
 			has_war = no
 		}
 		
@@ -1001,15 +1721,17 @@ POL_art_patronage_descision_category_hab = {
 	eoanb_decision_POL_continue_thursday_lunches = {
 		
 		icon = GFX_decision_eng_ally_imperialist_coup
+
+		allowed = {
+			original_tag = POL
+		}
 		
 		available = {
-		    tag = POL
 			has_war = no
 			is_puppet = no
 		}
 		
 		visible = {
-		    tag = POL
 			has_war = no
 		}
 		
@@ -1023,6 +1745,1107 @@ POL_art_patronage_descision_category_hab = {
 		
 		ai_will_do = {
 			base = 1000
+		}
+	}
+
+}
+
+### Migrations
+
+internal_politics_eoanb = {
+	
+	POL_mission_vic_Polonia_Immigration_1 = {
+
+        icon = GFX_decision_infiltrate_state
+
+        allowed = {
+        }
+
+        available = {
+        }
+
+        activation = {
+            has_completed_focus = POL_vic_Bring_In_Poles_From_Abroad
+        }
+
+        highlight_states = {
+			state = 10
+		}
+
+        fire_only_once = yes
+
+        is_good = yes
+        days_mission_timeout = 70
+
+        complete_effect = {
+            ### To Poland  ( 165204 )
+            10 = {
+                add_manpower = 10081
+            }
+            90 = {
+                add_manpower = 16089
+            }
+            87 = {
+                add_manpower = 19583
+            }
+            92 = {
+                add_manpower = 15289
+            }
+            98 = {
+                add_manpower = 17732
+            }
+            939 = {
+                add_manpower = 12646
+            }
+            940 = {
+                add_manpower = 9647
+            }
+            1313 = {
+                add_manpower = 10884
+            }
+            1314 = {
+                add_manpower = 35821
+            }
+            1315 = {
+                add_manpower = 17432
+            }
+            ## ( 165204 )
+            ### From The US
+            395 = {
+                add_manpower = -6345
+            }
+            393 = {
+                add_manpower = -4286
+            }
+            954 = {
+                add_manpower = -742
+            }
+            ### From France
+            814 = {
+                add_manpower = -8231
+            }
+            16 = {
+                add_manpower = -4629
+            }
+            ### From The UK
+            952 = {
+                add_manpower = -3228
+            }
+            126 = {
+                add_manpower = -2085
+            }
+            128 = {
+                add_manpower = -1231
+            }
+            ### From Lithuania
+            96 = {
+                add_manpower = -5732
+            }
+            11 = {
+                add_manpower = -4299
+            }
+            ### From Małopolska
+            1321 = {
+                add_manpower = -12175
+            }
+            88 = {
+                add_manpower = -21645
+            }
+            91 = {
+                add_manpower = -7922
+            }
+            89 = {
+                add_manpower = -5834
+            }
+            ### From Prussia
+            1107 = {
+                add_manpower = -3785
+            }
+            67 = {
+                add_manpower = -5634
+            }
+            66 = {
+                add_manpower = -4852
+            }
+            86 = {
+                add_manpower = -12078
+            }
+            85 = {
+                add_manpower = -6423
+            }
+            1002 = {
+                add_manpower = -5327
+            }
+            5 = {
+                add_manpower = -6367
+            }
+            ### From Belarus & Ukraine
+            206 = {
+                add_manpower = -4211
+            }
+            202 = {
+                add_manpower = -5256
+            }
+            93 = {
+                add_manpower = -8643
+            }
+            97 = {
+                add_manpower = -5423
+            }
+            94 = {
+                add_manpower = -8821
+            }
+            
+            ### Tech bonuses
+            add_tech_bonus = { bonus = 0.75 uses = 1 category = biochemistry_tech }
+            add_tech_bonus = { bonus = 0.75 uses = 1 category = mechanical_engineering_tech }
+            add_tech_bonus = { bonus = 0.75 uses = 1 category = process_engineering_tech }
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+
+    POL_mission_vic_Polonia_Immigration_2 = {
+
+        icon = GFX_decision_infiltrate_state
+
+        allowed = {
+        }
+
+        available = {
+        }
+
+        activation = {
+            has_completed_focus = POL_vic_Bring_In_Poles_From_Abroad
+        }
+
+        highlight_states = {
+			state = 10
+		}
+
+        fire_only_once = yes
+
+        is_good = yes
+        days_mission_timeout = 140
+
+        complete_effect = {
+            ### To Poland  ( 51435 )
+            10 = {
+                add_manpower = 6388
+            }
+            90 = {
+                add_manpower = 7854
+            }
+            87 = {
+                add_manpower = 6485
+            }
+            92 = {
+                add_manpower = 4319
+            }
+            98 = {
+                add_manpower = 5892
+            }
+            939 = {
+                add_manpower = 2076
+            }
+            940 = {
+                add_manpower = 1265
+            }
+            1313 = {
+                add_manpower = 3876
+            }
+            1314 = {
+                add_manpower = 8943
+            }
+            1315 = {
+                add_manpower = 4337
+            }
+            ## ( 51435 )
+            ### From The US
+            395 = {
+                add_manpower = -2774
+            }
+            393 = {
+                add_manpower = -1995
+            }
+            ### From France
+            814 = {
+                add_manpower = -2006
+            }
+            16 = {
+                add_manpower = -1754
+            }
+            ### From The UK
+            126 = {
+                add_manpower = -2966
+            }
+            ### From Małopolska
+            1321 = {
+                add_manpower = -3753
+            }
+            88 = {
+                add_manpower = -6322
+            }
+            91 = {
+                add_manpower = -2976
+            }
+            89 = {
+                add_manpower = -1784
+            }
+            ### From Prussia
+            1107 = {
+                add_manpower = -854
+            }
+            86 = {
+                add_manpower = -3559
+            }
+            85 = {
+                add_manpower = -2113
+            }
+            5 = {
+                add_manpower = -2543
+            }
+            ### From Belarus & Ukraine
+            93 = {
+                add_manpower = -3418
+            }
+            95 = {
+                add_manpower = -7629
+            }
+            94 = {
+                add_manpower = -4989
+            }
+            
+            ### Tech bonuses
+            add_tech_bonus = { bonus = 0.45 uses = 1 category = biochemistry_tech }
+            add_tech_bonus = { bonus = 0.45 uses = 1 category = mechanical_engineering_tech }
+            add_tech_bonus = { bonus = 0.45 uses = 1 category = process_engineering_tech }
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+
+}
+
+eoanb_category_military = {
+	
+	POL_vic_decision_FRA_weapons = {
+		
+		icon = GFX_decision_generic_prepare_civil_war
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = FRA }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_Buy_Military_Equipment
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			20 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = infantry_equipment
+   	 			amount = 200
+    			producer = FRA
+			}
+			20 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					infantry_equipment > 999
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_FRA_uniforms = {
+		
+		icon = GFX_decision_generic_army_support
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = FRA }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_Buy_Military_Equipment
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			20 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = uniform_equipment 
+   	 			amount = 180
+    			producer = POL
+			}
+			20 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					uniform_equipment > 999
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_ENG_weapons = {
+		
+		icon = GFX_decision_generic_prepare_civil_war
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = ENG }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_UK_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			128 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = infantry_equipment
+   	 			amount = 220
+    			producer = ENG
+			}
+			128 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					infantry_equipment > 999
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_ENG_cav = {
+		
+		icon = GFX_decision_eng_trade_unions_support
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = ENG }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_UK_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			125 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = cavalry_equipment
+   	 			amount = 28
+    			producer = ENG
+			}
+			125 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					cavalry_equipment > 99
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_ENG_uniforms = {
+		
+		icon = GFX_decision_generic_army_support
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = ENG }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_UK_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			952 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = uniform_equipment 
+   	 			amount = 185
+    			producer = POL
+			}
+			952 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					uniform_equipment > 999
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_PRS_art = {
+		
+		icon = GFX_decision_generic_ignite_civil_war
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = PRS }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_PRS_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			1009 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = howitzer_equipment
+   	 			amount = 25
+    			producer = PRS
+			}
+			1009 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					howitzer_equipment > 49
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_PRS_weapons = {
+		
+		icon = GFX_decision_generic_prepare_civil_war
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = PRS }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_PRS_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			951 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = infantry_equipment
+   	 			amount = 215
+    			producer = PRS
+			}
+			951 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					infantry_equipment > 999
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_US_weapons = {
+		
+		icon = GFX_decision_generic_prepare_civil_war
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = USA }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_US_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			958 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = infantry_equipment
+   	 			amount = 230
+    			producer = USA
+			}
+			958 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					infantry_equipment > 999
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_US_art = {
+		
+		icon = GFX_decision_generic_ignite_civil_war
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = USA }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_US_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			357 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = howitzer_equipment
+   	 			amount = 26
+    			producer = USA
+			}
+			357 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					howitzer_equipment > 49
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_US_cav = {
+		
+		icon = GFX_decision_eng_trade_unions_support
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = USA }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_US_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			360 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = cavalry_equipment
+   	 			amount = 29
+    			producer = USA
+			}
+			360 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					cavalry_equipment > 99
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_RUS_art = {
+		
+		icon = GFX_decision_generic_ignite_civil_war
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = RUS }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_RUS_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			398 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = howitzer_equipment
+   	 			amount = 25
+    			producer = RUS
+			}
+			398 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					howitzer_equipment > 49
+					}
+				}
+			}
+		}
+	}
+
+	POL_vic_decision_RUS_weapons = {
+		
+		icon = GFX_decision_generic_prepare_civil_war
+
+		allowed = {
+			tag = POL
+		}
+		
+		available = {
+			NOT = { has_war_with = RUS }
+		}
+		
+		visible = {
+			has_completed_focus = POL_vic_RUS_Weapons
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 5
+		
+        days_remove = 30
+		
+		cost = 0
+		
+		complete_effect = {
+			223 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		remove_effect = { 
+			add_equipment_to_stockpile = {
+    			type = infantry_equipment
+   	 			amount = 215
+    			producer = RUS
+			}
+			223 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+    				type = industrial_complex
+    				level = 1
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				OR = {
+					num_of_civilian_factories_available_for_projects < 3
+					has_equipment = {
+    					infantry_equipment > 999
+					}
+				}
+			}
 		}
 	}
 

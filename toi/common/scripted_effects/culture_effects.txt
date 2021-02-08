@@ -2038,3 +2038,210 @@ pops_sort_culture = {
 
 	#pops_update_culture_amount = yes #Update the culture amount
 }
+
+##religion sorts
+
+pops_normalize_religion = {
+	#Get the total percentage
+	set_temp_variable = { total_percentage_temp = 0 }
+	for_each_loop = {
+		array = state_religion_array
+		index = rr
+	
+		add_to_variable = { state_religion_array_num^rr = 0.001 }
+        add_to_temp_variable = { total_percentage_temp = state_religion_array_num^rr }
+	}
+	if = {
+		limit = {
+			#If the total percentage !=1, then normalize it
+			#If it does equal one, then there's no need to
+			NOT = { check_variable = { total_percentage_temp = 1 } }
+		}
+
+		#Normalize, then get total percentage
+		set_temp_variable = { total_percentage_2_temp = 0 }
+		for_each_loop = {
+			array = state_religion_array
+			index = rr
+
+			divide_variable = { state_religion_array_num^rr = total_percentage_temp }
+			add_to_temp_variable = { total_percentage_2_temp = state_religion_array_num^rr }
+		}
+
+		if = {
+			limit = {
+			#If the total percentage still !=1, then adjust the largest to fit
+			#If it does equal one, then there's no need to
+				NOT = { check_variable = { total_percentage_2_temp = 1 } }
+			}
+
+			#Adjust largest religion
+			set_temp_variable = { adjust_temp = 1 }
+			subtract_from_temp_variable = { adjust_temp = total_percentage_2_temp }
+			add_to_variable = { state_religion_array_num^0 = adjust_temp }
+		}
+
+		pops_sort_religion = yes #Sorts it and also sets the amount correctly
+    }
+}
+
+pops_increase_religion = {
+	#Input: type_temp (temp, integer), percentage_temp (temp, positive)
+	#Adds a % of support to a religion, then normalizes & sorts it 
+
+	#Technical: Looks through the religion array, finds the index with the same religion type, adds the percentage. 
+	#            If the religion isn't there, then it adds it. Finally, it calls the normalize scripted effect
+	if = {
+		limit = {
+			check_variable = { type_temp > 0 }
+			check_variable = { percentage_temp > 0 }
+		}
+		for_each_loop = {
+			array = state_religion_array
+			index = ii
+			value = vv
+			break = change_religion_break
+
+			if = {
+				limit = {
+					check_variable = { vv = type_temp }
+				}
+				add_to_variable = { state_religion_array_num^ii = percentage_temp }
+
+				set_temp_variable = { change_religion_break = 1 }
+			}
+		}
+		if = {
+			limit = {
+				NOT = { check_variable = { change_religion_break = 1 } }
+			}
+			add_to_array = { state_religion_array = type_temp }
+			add_to_array = { state_religion_array_num = percentage_temp }
+			#add_to_array = { pops_religion_amount = 0 }
+		}
+		pops_normalize_religion = yes
+	}
+}
+pops_decrease_religion = {
+	#Input: type_temp (temp, integer), percentage_temp (temp, positive)
+	#Subtracts a % of support from a religion, then normalizes & sorts it 
+
+	#Technical: Looks through the religion array, finds the index with the same religion type, subtracts the percentage. 
+	#            If the religion isn't there, nothing happens. If the support becomes 0 or negative, it is removed. 
+	#            Finally, it calls the normalize scripted effect
+            
+	if = {
+		limit = {
+			check_variable = { type_temp > 0 }
+			check_variable = { percentage_temp > 0 }
+		}
+		for_each_loop = {
+			array = state_religion_array
+			index = ii
+			value = vv
+			break = change_religion_break
+
+			if = {
+				limit = {
+					check_variable = { vv = type_temp }
+				}
+				subtract_from_variable = { state_religion_array_num^ii = percentage_temp }
+
+				set_temp_variable = { change_religion_break = 1 }
+			}
+		}
+		if = {
+			limit = {
+				check_variable = { change_religion_break = 1 }
+				NOT = { check_variable = { state_religion_array_num^ii > 0 } }
+			}
+			remove_from_array = {
+				array = state_religion_array
+				index = ii
+			}
+			remove_from_array = {
+				array = state_religion_array_num
+				index = ii
+			}
+		}
+		pops_normalize_religion = yes
+	}
+}
+
+pops_sort_religion = {
+	#Note: First index is the largest, last index is the smallest
+	clear_temp_array = pops_religion_type_temp
+	clear_temp_array = pops_religion_percentage_temp
+
+	add_to_temp_array = { pops_religion_type_temp = state_religion_array^0 }
+	add_to_temp_array = { pops_religion_percentage_temp = state_religion_array_num^0 }
+
+	#I don't sort amount b/c it's unnecessary as it gets set at the end
+
+
+	for_loop_effect = {
+		start = 1
+		end = state_religion_array^num
+		value = vv
+				
+		set_temp_variable = { vvv = pops_religion_percentage_temp^num }
+		subtract_from_temp_variable = { vvv = 1 }
+		while_loop_effect = {
+			limit = {
+				NOT = { check_variable = { vvv < 0 } }
+			}
+			break = sort_break
+			if = {
+				limit = {
+					check_variable = { pops_religion_percentage_temp^vvv > state_religion_array_num^vv }
+				}
+				add_to_temp_variable = { vvv = 1 }
+				add_to_temp_array = {
+					array = pops_religion_type_temp
+					value = state_religion_array^vv
+					index = vvv
+				}
+				add_to_temp_array = {
+					array = pops_religion_percentage_temp
+					value = state_religion_array_num^vv
+					index = vvv
+				}
+				set_temp_variable = { sort_break = 1 }
+			}
+
+			subtract_from_temp_variable = { vvv = 1 }
+		}
+		if = {
+			limit = {
+				check_variable = { vvv < 0 }
+			}
+			add_to_temp_array = {
+				array = pops_religion_type_temp
+				value = state_religion_array^vv
+				index = 0
+			}
+			add_to_temp_array = {
+				array = pops_religion_percentage_temp
+				value = state_religion_array_num^vv
+				index = 0
+			}
+		}
+	}
+
+	#Reinsert the data into the actual arrays
+	clear_array = state_religion_array
+	clear_array = state_religion_array_num
+	for_each_loop = {
+		array = pops_religion_type_temp
+		index = ii
+		if={		
+			limit={
+				check_variable = { pops_religion_percentage_temp^ii > 0 }
+			}
+			add_to_array = { state_religion_array = pops_religion_type_temp^ii }
+			add_to_array = { state_religion_array_num = pops_religion_percentage_temp^ii }
+		}
+	}
+
+	#pops_update_religion_amount = yes #Update the religion amount
+}

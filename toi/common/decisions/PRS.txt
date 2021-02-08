@@ -1,40 +1,3 @@
-economic_decisions = {
-	PRS_eighteenseventhreecrisis_mission = {
-		ai_will_do = { factor = 100 }
-		available = {
-			PRS_trigger_formed_germany = yes
-			has_completed_focus = GER_focus_historical_fight_crisis
-			OR = {
-				has_completed_focus = GER_focus_historical_protective_tariffs
-				has_completed_focus = GER_focus_historical_balanced_tarriffs
-				has_completed_focus = GER_focus_historical_lower_tarriffs
-			}
-		}
-		
-		allowed = { TAG = PRS }
-		activation = { 
-			PRS_is_in_1873_crisis = yes
-		}
-		selectable_mission = no
-		is_good = no
-		
-		fire_only_once = no
-
-		#cost = 0
-		
-		days_mission_timeout = 720
-		
-		complete_effect = {
-			PRS = { country_event = { id = eighteenseventhreecrisis.3 } }
-			hidden_effect = { PRS = { country_event = { id = eighteenseventhreecrisis.2 days = 20 } } }
-		}
-		timeout_effect = {
-			hidden_effect = { activate_mission = PRS_eighteenseventhreecrisis_mission }
-		}
-	}
-}
-
-
 political_actions = {
 
 	#Ask Hannover for military access
@@ -72,47 +35,128 @@ political_actions = {
 		}
 	}
 	
-	#The Prussian Reforms
-	eoanb_decision_PRS_gerconfed_reforms1 = {
+	#An Alliance with Italy
+	PRS_decision_PRS_ITA_alliance = {
+		
+		icon = generic_army_support
+		
+		allowed = { tag = PRS }
+		
+		available = {
+			has_stability > 0.35
+			has_war_support > 0.6
+			NOT = { has_global_flag = eoanb_flag_seven_weeks_war_ongoing }
+			#date < 1866.7.1
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_break_dualism }
+			#OR = {
+			#	has_country_flag = eoanb_flag_avoided_2_schleswig_war
+			#	has_country_flag = eoanb_flag_won_2_schleswig_war
+			#	has_country_flag = eoanb_flag_won_2_schleswig_war_gc
+			#}
+			PRS = { NOT = { has_country_flag = eoanb_flag_won_7_weeks_war } }
+			AUS = { NOT = { has_country_flag = AUS_flag_won_sww } }
+			#date < 1866.7.1
+		}
+		
+		fire_only_once = yes
+		
+		cost = 25
+		
+		days_remove = 30
+		
+		complete_effect = {
+		}
+		
+		remove_effect = {
+			add_war_support = 0.05
+			PIE = { country_event = { id = sevenweekswar.11 } }
+        }
+		
+		ai_will_do = {
+			base = 10000
+		}
+	}
+	
+	#Prussia - Bundesreformplan
+	PRS_decision_gerconfed_reforms = {
 		
 		icon = generic_break_treaty
 		
+		allowed = { tag = PRS }
+		
 		available = {
-			has_stability > 0.25
+			has_stability > 0.35
 			has_idea = GER_general_idea_ger_confed
 		}
 		
 		visible = {
-			OR = {
-				AND = {
-					TAG = PRS
-					has_country_flag = eoanb_flag_won_2_schleswig_war
-					date > 1866.1.1
-				}
-				AND = {
-					TAG = PRS
-					date > 1871.6.1
-					NOT = { has_country_flag = eoanb_flag_won_7_weeks_war }
-				}
-			}
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_bundesreform }
 		}
-		allowed = { TAG = PRS }
 		
 		fire_only_once = yes
 		
 		cost = 25
 		
 		complete_effect = {
-			custom_effect_tooltip = eoanb_tt_decision_prussian_reforms_1
-			PRS = { country_event = { days = 1 id = sevenweekswar.1 } }
-			hidden_effect = {
-				set_country_flag = eoanb_flag_PRS_made_reforms
-				PRS = { country_event = { days = 12 id = sevenweekswar.2 } }
-			}
+			custom_effect_tooltip = PRS_decision_gerconfed_reforms_tt
+			PRS = { country_event = { id = sevenweekswar.16 } }
 		}
 		
 		ai_will_do = {
-			base = 100
+			base = 10000
+		}
+	}
+	
+	#Gastein Convention
+	PRS_decision_gastein_convention = {
+		
+		icon = generic_form_nation
+		
+		allowed = { tag = PRS }
+		
+		available = {
+			has_stability > 0.45
+		}
+		
+		visible = {
+			tag = PRS
+			OR = {
+				has_country_flag = eoanb_flag_avoided_2_schleswig_war
+				has_country_flag = eoanb_flag_won_2_schleswig_war 
+			}
+			PRS = { has_completed_focus = PRS_focus_end_of_ssw }
+			date > 1865.1.1
+		}
+		
+		fire_only_once = yes
+		
+		cost = 25
+		
+		days_remove = 180
+		
+		complete_effect = {
+		}
+		
+		remove_effect = {
+			AUS = { country_event = { id = secschwar.60 } }
+			PRS = { country_event = { id = secschwar.61 } }
+			every_other_country = {
+				limit = {
+					has_idea = GER_general_idea_ger_confed
+					NOT = { tag = PRS }
+					NOT = { tag = AUS }
+				}
+				country_event = { days = 1 id = secschwar.62 }
+			}
+        }
+		
+		ai_will_do = {
+			base = 10000
 		}
 	}
 
@@ -153,9 +197,11 @@ political_actions = {
 	}
 	
 	#Core Land from Second Schleswig War Treaty Of Vienna
-	eoanb_decision_PRS_core_second_schleswig_war_vienna = {
+	PRS_decision_core_second_schleswig_war_vienna = {
 		
 		icon = generic_political_discourse
+		
+		allowed = { tag = PRS }
 		
 		available = {
 			OR = {
@@ -165,8 +211,11 @@ political_actions = {
 		}
 		
 		visible = {
-			TAG = PRS
-			has_country_flag = eoanb_flag_won_2_schleswig_war
+			tag = PRS
+			OR = {
+				has_country_flag = eoanb_flag_avoided_2_schleswig_war
+				has_country_flag = eoanb_flag_won_2_schleswig_war 
+			}
 			OR = {
 				PRS = {
 					owns_state = 58
@@ -181,7 +230,6 @@ political_actions = {
 				}
 			}
 		}
-		allowed = { TAG = PRS }
 		
 		fire_only_once = yes
 		
@@ -205,6 +253,8 @@ political_actions = {
 		
 		icon = generic_political_discourse
 		
+		allowed = { tag = PRS }
+		
 		available = {
 			OR = {
 				has_stability > 0.5
@@ -214,7 +264,10 @@ political_actions = {
 		
 		visible = {
 			TAG = PRS
-			has_country_flag = eoanb_flag_won_2_schleswig_war
+			OR = {
+				has_country_flag = eoanb_flag_avoided_2_schleswig_war
+				has_country_flag = eoanb_flag_won_2_schleswig_war 
+			}
 			OR = {
 				PRS = {
 					owns_state = 949
@@ -233,7 +286,6 @@ political_actions = {
 				}
 			}
 		}
-		allowed = { TAG = PRS }
 		
 		fire_only_once = yes
 		
@@ -255,6 +307,8 @@ political_actions = {
 		
 		icon = generic_political_discourse
 		
+		allowed = { tag = PRS }
+		
 		available = {
 			OR = {
 				has_stability > 0.5
@@ -264,7 +318,10 @@ political_actions = {
 		
 		visible = {
 			TAG = PRS
-			has_country_flag = eoanb_flag_won_2_schleswig_war
+			OR = {
+				has_country_flag = eoanb_flag_avoided_2_schleswig_war
+				has_country_flag = eoanb_flag_won_2_schleswig_war 
+			}
 			OR = {
 				PRS = {
 					owns_state = 58
@@ -283,7 +340,6 @@ political_actions = {
 				}
 			}
 		}
-		allowed = { TAG = PRS }
 		
 		fire_only_once = yes
 		
@@ -332,6 +388,10 @@ political_actions = {
 					owns_state = 55
 					owns_state = 60
 					owns_state = 65
+					owns_state = 1380
+					owns_state = 58
+					owns_state = 949
+					owns_state = 1032
 				}
 				any_country = {
 					is_subject_of = PRS
@@ -349,6 +409,10 @@ political_actions = {
 					owns_state = 55
 					owns_state = 60
 					owns_state = 65
+					owns_state = 1380
+					owns_state = 58
+					owns_state = 949
+					owns_state = 1032
 				}
 			}
 		}
@@ -374,6 +438,10 @@ political_actions = {
 				add_state_core = 55
 				add_state_core = 60
 				add_state_core = 65
+				add_state_core = 1380
+				add_state_core = 58
+				add_state_core = 949
+				add_state_core = 1032
 			}
 			custom_effect_tooltip = eoanb_tt_decision_remove_sww_cores
 			hidden_effect = {
@@ -388,6 +456,7 @@ political_actions = {
 				}
 				MCK = { remove_state_core = 61 }
 				MCK = { remove_state_core = 1034 }
+				MCK = { remove_state_core = 1380 }
 				LCK = { remove_state_core = 938 }
 				HAM = { remove_state_core = 868 }
 				BRE = { remove_state_core = 867 }
@@ -396,6 +465,9 @@ political_actions = {
 				HES = { remove_state_core = 55 }
 				THU = { remove_state_core = 60 }
 				SAX = { remove_state_core = 65 }
+				SCH = { remove_state_core = 58 }
+				SCH = { remove_state_core = 949 }
+				SCH = { remove_state_core = 1032 }
 			}
 		}
 		
@@ -417,9 +489,10 @@ political_actions = {
 		
 		visible = {
 			TAG = PRS
-			PRS = { has_completed_focus = PRS_focus_constitution_crisis }
-			date < 1865.1.1
+			PRS = { has_idea = PRS_german_national_movement }
+			date < 1866.1.1
 		}
+		
 		allowed = { TAG = PRS }
 		
 		fire_only_once = yes
@@ -433,6 +506,8 @@ political_actions = {
 				reverse_add_opinion_modifier = { target = BAD modifier = PRS_FOCUS_EISENACH_REL }
 				add_opinion_modifier = { target = BAV modifier = PRS_FOCUS_EISENACH_REL }
 				reverse_add_opinion_modifier = { target = BAV modifier = PRS_FOCUS_EISENACH_REL }
+				add_opinion_modifier = { target = WUR modifier = PRS_FOCUS_EISENACH_REL }
+				reverse_add_opinion_modifier = { target = WUR modifier = PRS_FOCUS_EISENACH_REL }
 				add_opinion_modifier = { target = HSD modifier = PRS_FOCUS_EISENACH_REL }
 				reverse_add_opinion_modifier = { target = HSD modifier = PRS_FOCUS_EISENACH_REL }
 				add_opinion_modifier = { target = FRK modifier = PRS_FOCUS_EISENACH_REL }
@@ -463,10 +538,52 @@ political_actions = {
 		}
 	}
 	
+	#Recognize Italy
+	PRS_recognize_italy = {
+		
+		icon = generic_form_nation
+		
+		available = {
+			tag = PRS
+		}
+		
+		visible = {
+			tag = PRS
+			any_country = {
+				has_country_flag = is_literally_italy
+			}
+		}
+		
+		allowed = { 
+			tag = PRS 
+		}
+		
+		fire_only_once = yes
+		
+		cost = 0
+		
+		complete_effect = {
+			add_political_power = 20
+			custom_effect_tooltip = PRS_decision_recognize_italy_effect_tt
+			hidden_effect = {
+				add_opinion_modifier = { target = ITA modifier = PRS_ITA_RECOGNIZE_ITALY_REL }
+				reverse_add_opinion_modifier = { target = ITA modifier = PRS_ITA_RECOGNIZE_ITALY_REL }
+				add_opinion_modifier = { target = AUS modifier = PRS_AUS_RECOGNIZE_ITALY_REL }
+				reverse_add_opinion_modifier = { target = AUS modifier = PRS_AUS_RECOGNIZE_ITALY_REL }
+			}
+		}
+		
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
 	#Integrate Schleswig
 	eoanb_decision_PRS_annex_puppet_SCH = {
 		
 		icon = generic_decision
+		
+		allowed = { tag = PRS }
 		
 		available = {
 			OR = {
@@ -477,10 +594,12 @@ political_actions = {
 		
 		visible = {
 			TAG = PRS
-			has_country_flag = eoanb_flag_won_2_schleswig_war
+			OR = {
+				has_country_flag = eoanb_flag_avoided_2_schleswig_war
+				has_country_flag = eoanb_flag_won_2_schleswig_war 
+			}
 			SCH = { is_subject_of = PRS }
 		}
-		allowed = { TAG = PRS }
 		
 		fire_only_once = yes
 		
@@ -504,7 +623,7 @@ political_actions = {
 			hidden_effect = {
 				annex_country = {
 					target = SCH
-					transfer_troops = yes
+					transfer_troops = no
 				}
 				SCH = {
 					remove_state_core = 58
@@ -533,7 +652,10 @@ political_actions = {
 		
 		visible = {
 			TAG = PRS
-			has_country_flag = eoanb_flag_won_2_schleswig_war
+			OR = {
+				has_country_flag = eoanb_flag_avoided_2_schleswig_war
+				has_country_flag = eoanb_flag_won_2_schleswig_war 
+			}
 			HLS = { is_subject_of = PRS }
 		}
 		allowed = { TAG = PRS }
@@ -560,7 +682,7 @@ political_actions = {
 			hidden_effect = {
 				annex_country = {
 					target = HLS
-					transfer_troops = yes
+					transfer_troops = no
 				}
 				HLS = {
 					remove_state_core = 949
@@ -573,7 +695,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Mecklenburg
+	#Integrate Mecklenburg #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_MCK = {
 		
 		icon = generic_decision
@@ -618,6 +740,7 @@ political_actions = {
 				MCK = {
 					remove_state_core = 61
 					remove_state_core = 1034
+					remove_state_core = 1380
 				}
 			}
 		}
@@ -631,7 +754,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Lubeck
+	#Integrate Lubeck #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_LCK = {
 		
 		icon = generic_decision
@@ -688,7 +811,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Hamburg
+	#Integrate Hamburg #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_HAM = {
 		
 		icon = generic_decision
@@ -745,7 +868,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Bremen
+	#Integrate Bremen #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_BRE = {
 		
 		icon = generic_decision
@@ -802,7 +925,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Oldenburg
+	#Integrate Oldenburg #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_OLD = {
 		
 		icon = generic_decision
@@ -859,7 +982,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Saxony
+	#Integrate Saxony #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_SAX = {
 		
 		icon = generic_decision
@@ -916,7 +1039,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Thuringia
+	#Integrate Thuringia #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_THU = {
 		
 		icon = generic_decision
@@ -973,7 +1096,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Hesse
+	#Integrate Hesse #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_HES = {
 		
 		icon = generic_decision
@@ -1030,7 +1153,7 @@ political_actions = {
 		}
 	}
 	
-	#Integrate Frankfurt
+	#Integrate Frankfurt #Basically obsolete?
 	eoanb_decision_PRS_annex_NGC_FRK = {
 		
 		icon = generic_decision
@@ -1386,10 +1509,8 @@ political_actions = {
 
 		visible = {
 			TAG = PRS
-			OR = {
-				has_completed_focus = PRS_marine_manage
-				date > 1859.6.1
-			}
+			has_completed_focus = PRS_focus_prussian_navy
+			date > 1859.6.1
 			has_dlc = "Man the Guns"
 		}
 		allowed = { TAG = PRS }
@@ -1400,8 +1521,12 @@ political_actions = {
 
 		complete_effect = {
 			destroy_ships = {
+				type = frigate
+				count = 1
+			}
+			destroy_ships = {
 				type = corvette
-				count = 3
+				count = 2
 			}
 			custom_effect_tooltip = eoanb_tt_decision_PRS_eulenburg_expedition
 			hidden_effect = {
@@ -1418,6 +1543,40 @@ political_actions = {
 
 economic_decisions = {
 
+	PRS_eighteenseventhreecrisis_mission = {
+		ai_will_do = { factor = 100 }
+		available = {
+			PRS_trigger_formed_germany = yes
+			has_completed_focus = GER_focus_historical_fight_crisis
+			OR = {
+				has_completed_focus = GER_focus_historical_protective_tariffs
+				has_completed_focus = GER_focus_historical_balanced_tarriffs
+				has_completed_focus = GER_focus_historical_lower_tarriffs
+			}
+		}
+		
+		allowed = { TAG = PRS }
+		activation = { 
+			PRS_is_in_1873_crisis = yes
+		}
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = no
+
+		#cost = 0
+		
+		days_mission_timeout = 720
+		
+		complete_effect = {
+			PRS = { country_event = { id = eighteenseventhreecrisis.3 } }
+			hidden_effect = { PRS = { country_event = { id = eighteenseventhreecrisis.2 days = 20 } } }
+		}
+		timeout_effect = {
+			hidden_effect = { activate_mission = PRS_eighteenseventhreecrisis_mission }
+		}
+	}
+	
 	#Fund Coal Mining in Brandenburg
 	eoanb_decision_GER_brandenburg_coal = {
 	
@@ -1431,7 +1590,7 @@ economic_decisions = {
 			TAG = PRS
 			PRS = { has_full_control_of_state = 64 }
 			NOT = { PRS = { has_resources_amount = { resource = coal amount > 10 state = 64 } } }
-			64 = { infrastructure > 5 }
+			64 = { infrastructure > 6 }
 			OR = {
 				has_idea = victorian_era
 				has_idea = machine_era
@@ -1466,26 +1625,38 @@ eoanb_category_zollverein = {
 		available = {
 			PRS = { has_war = no }
 			ION = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			ION = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			ION = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
+				}
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
 		}
-	}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			ION = { exists = yes }
+			ION = { is_puppet = no }
 			ION = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			ION = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1493,14 +1664,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				ION = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				ION = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Add Greece to the Zollverein
 	eoanb_decision_PRS_zollverein_add_GRE = {
@@ -1510,26 +1682,38 @@ eoanb_category_zollverein = {
 		available = {
 			PRS = { has_war = no }
 			GRE = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			GRE = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			GRE = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				} 
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			GRE = { exists = yes }
+			GRE = { is_puppet = no }
 			GRE = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			GRE = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1537,14 +1721,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				GRE = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				GRE = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Zollverein trade with Two Sicilies 
 	eoanb_decision_PRS_zollverein_add_NSC = {
@@ -1554,26 +1739,38 @@ eoanb_category_zollverein = {
 		available = {
 			PRS = { has_war = no }
 			NSC = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			NSC = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			NSC = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				}
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			NSC = { exists = yes }
+			NSC = { is_puppet = no }
 			NSC = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			NSC = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1581,14 +1778,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				NSC = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				NSC = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Zollverein trade with Dominican Republic
 	eoanb_decision_PRS_zollverein_add_DOM = {
@@ -1599,26 +1797,38 @@ eoanb_category_zollverein = {
 			PRS = { has_war = no }
 			DOM = { has_war = no }
 			OLD = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			DOM = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			DOM = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				} 
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			DOM = { exists = yes }
+			DOM = { is_puppet = no }
 			DOM = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			DOM = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1626,14 +1836,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				DOM = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				DOM = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Zollverein trade with the Kingdom of Italy
 	eoanb_decision_PRS_zollverein_add_ITA = {
@@ -1644,26 +1855,38 @@ eoanb_category_zollverein = {
 			PRS = { has_war = no }
 			PIE = { has_war = no }
 			date > 1868.1.1
-			has_completed_focus = PRS_norswe_zoll
-			PIE = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			PIE = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				} 
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			PIE = { exists = yes }
+			PIE = { is_puppet = no }
 			PIE = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			PIE = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1671,14 +1894,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				PIE = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				PIE = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Zollverein trade with Paraguay
 	eoanb_decision_PRS_zollverein_add_PAR = {
@@ -1688,26 +1912,38 @@ eoanb_category_zollverein = {
 		available = {
 			PRS = { has_war = no }
 			PAR = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			PAR = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			PAR = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				} 
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			PAR = { exists = yes }
+			PAR = { is_puppet = no }
 			PAR = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			PAR = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1715,14 +1951,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				PAR = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				PAR = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Zollverein trade with Chile
 	eoanb_decision_PRS_zollverein_add_CHL = {
@@ -1732,26 +1969,38 @@ eoanb_category_zollverein = {
 		available = {
 			PRS = { has_war = no }
 			CHL = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			CHL = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			CHL = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				} 
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			CHL = { exists = yes }
+			CHL = { is_puppet = no }
 			CHL = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			CHL = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1759,14 +2008,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				CHL = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				CHL = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Zollverein trade with Peru
 	eoanb_decision_PRS_zollverein_add_PRU = {
@@ -1776,26 +2026,38 @@ eoanb_category_zollverein = {
 		available = {
 			PRS = { has_war = no }
 			PRU = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			PRU = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			PRU = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				} 
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			PRU = { exists = yes }
+			PRU = { is_puppet = no }
 			PRU = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			PRU = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1803,14 +2065,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				PRU = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				PRU = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Zollverein trade with Colombia
 	eoanb_decision_PRS_zollverein_add_COL = {
@@ -1820,26 +2083,38 @@ eoanb_category_zollverein = {
 	    available = {
 			PRS = { has_war = no }
 			COL = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			COL = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			COL = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				} 
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			COL = { exists = yes }
+			COL = { is_puppet = no }
 			COL = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			COL = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1847,14 +2122,15 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				COL = { has_opinion = {
-                    target = PRS
-                    value > 61
-                }
-			} 
+				COL = { 
+					has_opinion = {
+						target = PRS
+						value > 61
+					}
+				} 
+			}
 		}
 	}
-}
 	
 	#Zollverein trade with Sweden - Norway
 	eoanb_decision_PRS_zollverein_add_SWE = {
@@ -1864,26 +2140,38 @@ eoanb_category_zollverein = {
 		available = {
 			PRS = { has_war = no }
 			SWE = { has_war = no }
-			has_completed_focus = PRS_norswe_zoll
-			SWE = { has_opinion = {
+			has_completed_focus = PRS_focus_norswe_zoll
+			SWE = { 
+				has_opinion = {
                     target = PRS
                     value > 61
-            } 
-		}
-	}	
+				} 
+			}
+			NOT = { has_country_flag = PRS_zollverein_trade_treaty_negotiating }
+		}	
 		
 		visible = {
-			TAG = PRS
+			tag = PRS
 			SWE = { exists = yes }
+			SWE = { is_puppet = no }
 			SWE = { nation_is_in_zollverein = no }
+			PRS = { NOT = { has_idea = PRS_Zollverein_foreign_treaties_2 } }
 		}
-		allowed = { TAG = PRS }
+		allowed = { tag = PRS }
 		
 		fire_only_once = yes
 		
-		cost = 100
+		cost = 25
+		
+		days_remove = 60
 		
 		complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_zollverein_trade_treaty_negotiating }
+			}
+		}
+		
+		remove_effect = {
 			SWE = { country_event = { days = 1 id = prussia.28 } }
 		}
 		
@@ -1891,14 +2179,161 @@ eoanb_category_zollverein = {
 			base = 1000
 			modifier = {
 				factor = 0
-				SWE = { has_opinion = {
-                    target = PRS
-                    value > 61
+				SWE = { 
+					has_opinion = {
+						target = PRS
+						value > 61
                     }
 			    } 
 		    }
 	   }
     }
+	
+	#Reform Zollverein - Reconstitute the Zollverein
+	PRS_decision_zollverein_reconstitution = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_reform_zollverein_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_reform_zollverein }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 30
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_reform_zollverein_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_zv_reconstitution_effect_tt
+			PRS = { country_event = prussiaelection.9 }
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_reform_zollverein_in_progress_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Reform Zollverein - Deal with Southern States
+	PRS_decision_zollverein_southern_states = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_reform_zollverein_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { 
+				has_completed_focus = PRS_focus_ngc_reform_zollverein
+				has_country_flag = PRS_zollparlament_elected_flag
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 30
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_reform_zollverein_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_zv_friendsouth_effect_tt
+			hidden_effect = {
+				add_opinion_modifier = { target = BAV modifier = PRS_NGC_IMPROVEMENT_ZV_REL }
+				reverse_add_opinion_modifier = { target = BAV modifier = PRS_NGC_IMPROVEMENT_ZV_REL }
+				add_opinion_modifier = { target = BAD modifier = PRS_NGC_IMPROVEMENT_ZV_REL }
+				reverse_add_opinion_modifier = { target = BAD modifier = PRS_NGC_IMPROVEMENT_ZV_REL }
+				add_opinion_modifier = { target = WUR modifier = PRS_NGC_IMPROVEMENT_ZV_REL }
+				reverse_add_opinion_modifier = { target = WUR modifier = PRS_NGC_IMPROVEMENT_ZV_REL }
+				add_opinion_modifier = { target = HSD modifier = PRS_NGC_IMPROVEMENT_ZV_REL }
+				reverse_add_opinion_modifier = { target = HSD modifier = PRS_NGC_IMPROVEMENT_ZV_REL }
+			}
+			unlock_decision_tooltip = PRS_decision_zollverein_institutions
+			hidden_effect = {
+				PRS = { 
+					set_country_flag = PRS_reform_zollverein_institutions_flag
+					clr_country_flag = PRS_reform_zollverein_in_progress_flag
+					clr_country_flag = PRS_zollparlament_elected_flag
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Reform Zollverein - Expand Zollverein Institutions
+	PRS_decision_zollverein_institutions = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_country_flag = PRS_reform_zollverein_institutions_flag }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 30
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			every_country = {
+				limit = {
+					has_idea = PRS_Zollverein_1
+				} 
+				swap_ideas = { remove_idea = PRS_Zollverein_1 add_idea = PRS_Zollverein_2 }
+			}
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_reform_zollverein_institutions_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
 }
 
 eoanb_category_projects = {
@@ -1909,7 +2344,12 @@ eoanb_category_projects = {
 		icon = generic_form_nation
 		
 		available = {
-			has_country_flag = eoanb_flag_won_2_schleswig_war
+			OR = {
+				has_country_flag = eoanb_flag_avoided_2_schleswig_war
+				has_country_flag = eoanb_flag_avoided_2_schleswig_war_gc
+				has_country_flag = eoanb_flag_won_2_schleswig_war 
+				has_country_flag = eoanb_flag_won_2_schleswig_war_gc
+			}
 			has_country_flag = eoanb_flag_won_7_weeks_war
 			has_country_flag = eoanb_flag_won_fra_prs_war
 		}
@@ -1950,327 +2390,86 @@ eoanb_category_projects = {
 
 PRS_category_Industrialisation_decisions = {
 	
-    PRS_mission_dreyse_mill = {
-
-        icon = GFX_decision_generic_construction
-
-        allowed = {
-
-        }
-
-        available = {
-			owns_state = 64
-			64 = { arms_factory > 3 }
-        }
-
-        activation = {
-            has_completed_focus = PRS_dreyse_mill
-        }
-
-        highlight_states = {
-			state = 64
-		}
-
-        fire_only_once = yes
-
-        is_good = no
-        days_mission_timeout = 1600
-        timeout_effect = {
-            add_political_power = -80
-            add_stability = -0.02
-        }
-        complete_effect = {
-            64 = { add_extra_state_shared_building_slots = 1 }
-			random_list = {
-                50 = {
-                    add_war_support = 0.05
-                }
-                50 = {
-                    army_experience = 10
-                     }
-                }
-            }
-
-        ai_will_do = {
-			base = 1
-		}
-    }
-	
-	PRS_mission_spandau_arsenal = {
-
-        icon = GFX_decision_generic_construction
-
-        allowed = {
-
-        }
-
-        available = {
-			owns_state = 64
-			64 = { arms_factory > 4 }
-        }
+    #Expand Berliner Börse
+	PRS_decision_expand_berlin_stock_exchange = {
 		
-        activation = {
-            has_completed_focus = PRS_spandau_arsenal
-        }
-
-        highlight_states = {
-			state = 64
-		}
-
-        fire_only_once = yes
-
-        is_good = no
-        days_mission_timeout = 1600
-        timeout_effect = {
-            add_political_power = -80
-            add_stability = -0.02
-        }
-        complete_effect = {
-            64 = { add_extra_state_shared_building_slots = 1 }
-			random_list = {
-                50 = {
-                    add_war_support = 0.05
-                }
-                50 = {
-                    army_experience = 10
-                     }
-                }
-            }
-
-        ai_will_do = {
-			base = 1
-		}
-    }
-	
-	PRS_mission_danzig_arsenal = {
-
-        icon = GFX_decision_generic_construction
-
-        allowed = {
-
-        }
-
-        available = {
-			owns_state = 1002
-			1002 = { arms_factory > 0 }
-        }
+		icon = generic_decision
 		
-        activation = {
-            has_completed_focus = PRS_danzig_rifles
-        }
-
-        highlight_states = {
-			state = 1002
-		}
-
-        fire_only_once = yes
-
-        is_good = no
-        days_mission_timeout = 1600
-        timeout_effect = {
-            add_political_power = -80
-            add_stability = -0.02
-        }
-        complete_effect = {
-            1002 = { add_extra_state_shared_building_slots = 1 }
-			random_list = {
-                50 = {
-                    add_war_support = 0.05
-                }
-                50 = {
-                    army_experience = 10
-                     }
-                }
-            }
-
-        ai_will_do = {
-			base = 1
-		}
-    }
-	
-	PRS_mission_factories_erfurt = {
-
-        icon = GFX_decision_generic_construction
-
-        allowed = {
-
-        }
-
-        available = {
-			owns_state = 948
-			948 = { arms_factory > 0 }
-        }
+		allowed = { tag = PRS }
 		
-        activation = {
-            has_completed_focus = PRS_erfurt_rifles
-        }
-
-        highlight_states = {
-			state = 948
+		available = {
+			tag = PRS
 		}
-
-        fire_only_once = yes
-
-        is_good = no
-        days_mission_timeout = 1600
-        timeout_effect = {
-            add_political_power = -80
-            add_stability = -0.02
-        }
-        complete_effect = {
-            948 = { add_extra_state_shared_building_slots = 1 }
-			random_list = {
-                50 = {
-                    add_war_support = 0.05
-                }
-                50 = {
-                    army_experience = 10
-                     }
-                }
-            }
-
-        ai_will_do = {
-			base = 1
-		}
-    }
-	
-	PRS_mission_factories_danzig = {
-
-        icon = GFX_decision_generic_construction
-
-        allowed = {
-
-        }
-
-        available = {
-			owns_state = 1002
-			1002 = { industrial_complex > 1 }
-        }
 		
-        activation = {
-            has_completed_focus = PRS_danzig_factory_focus
-        }
-
-        highlight_states = {
-			state = 1002
-		}
-
-        fire_only_once = yes
-
-        is_good = no
-        days_mission_timeout = 1600
-        timeout_effect = {
-            add_political_power = -80
-            add_stability = -0.02
-        }
-        complete_effect = {
-            1002 = { add_extra_state_shared_building_slots = 1 }
-			random_list = {
-                50 = {
-                    add_stability = 0.02 
-                }
-                50 = {
-                    add_manpower = 1000
-                     }
-                }
-            }
-
-        ai_will_do = {
-			base = 1
-		}
-    }
-	
-	PRS_mission_factories_stettin = {
-
-        icon = GFX_decision_generic_construction
-
-        allowed = {
-
-        }
-
-        available = {
-			owns_state = 63
-			63 = { industrial_complex > 0 }
-        }
-		
-        activation = {
-            has_completed_focus = PRS_stettin_factory_focus
-        }
-
-        highlight_states = {
-			state = 63
-		}
-
-        fire_only_once = yes
-
-        is_good = no
-        days_mission_timeout = 1600
-        timeout_effect = {
-            add_political_power = -80
-            add_stability = -0.02
-        }
-        complete_effect = {
-            63 = { add_extra_state_shared_building_slots = 1 }
-			random_list = {
-                50 = {
-                    add_stability = 0.02 
-                }
-                50 = {
-                    add_manpower = 1000
-                     }
-                }
-            }
-
-        ai_will_do = {
-			base = 1
-		}
-    }
-	
-	PRS_mission_factories_berlin = {
-
-        icon = GFX_decision_generic_construction
-
-        allowed = {
-
-        }
-
-        available = {
+		visible = {
+			tag = PRS
 			owns_state = 951
-			951 = { industrial_complex > 1 }
-        }
+			num_of_civilian_factories_available_for_projects > 2
+			has_completed_focus = PRS_focus_berliner_borse
+		}
 		
-        activation = {
-            has_completed_focus = PRS_berlin_factory_focus
-        }
-
-        highlight_states = {
-			state = 951
+		fire_only_once = yes
+		
+		cost = 50
+		
+		modifier = {
+			civilian_factory_use = 2
 		}
-
-        fire_only_once = yes
-
-        is_good = no
-        days_mission_timeout = 1600
-        timeout_effect = {
-            add_political_power = -80
-            add_stability = -0.02
-        }
-        complete_effect = {
-            951 = { add_extra_state_shared_building_slots = 1 }
-			random_list = {
-                50 = {
-                    add_stability = 0.02 
-                }
-                50 = {
-                    add_manpower = 1000
-                     }
-                }
-            }
-
-        ai_will_do = {
-			base = 1
+		
+		days_remove = 90
+		
+		complete_effect = {
 		}
-    }
+		
+		remove_effect = {
+			add_ideas = PRS_Berlin_Stock_Exchange_1
+		}
+		
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Prussian Consortium
+	PRS_decision_prussian_consortium = {
+		
+		icon = generic_decision
+		
+		allowed = { tag = PRS }
+		
+		available = {
+			tag = PRS
+			has_idea = PRS_Berlin_Stock_Exchange_1
+		}
+		
+		visible = {
+			tag = PRS
+			owns_state = 951
+			num_of_civilian_factories_available_for_projects > 2
+			has_completed_focus = PRS_focus_prussian_consortium
+		}
+		
+		fire_only_once = yes
+		
+		cost = 50
+		
+		modifier = {
+			civilian_factory_use = 2
+		}
+		
+		days_remove = 90
+		
+		complete_effect = {
+		}
+		
+		remove_effect = {
+			swap_ideas = { remove_idea = PRS_Berlin_Stock_Exchange_1 add_idea = PRS_Berlin_Stock_Exchange_2 }
+		}
+		
+		ai_will_do = {
+			base = 100
+		}
+	}
 	
 	PRS_mission_berlin_anhalt_rail = {
 
@@ -2281,36 +2480,134 @@ PRS_category_Industrialisation_decisions = {
         }
 
         available = {
-            60 = { infrastructure > 5 }
             64 = { infrastructure > 6 }
-			owns_state = 60
             owns_state = 64
+			951 = { infrastructure > 8 }
+            owns_state = 951
         }
 
         activation = {
-            has_completed_focus = PRS_berlin_anhalt_rail
+            has_completed_focus = PRS_focus_berlin_anhalt_rail
         }
 
         highlight_states = {
-			state = 60
+			state = 64
+			state = 951
 		}
 
         fire_only_once = yes
 
         is_good = no
+		
         days_mission_timeout = 1600
+		
         timeout_effect = {
-            add_political_power = -80
+            add_political_power = -50
             add_stability = -0.02
         }
+		
         complete_effect = {
-            60 = { add_extra_state_shared_building_slots = 1 }
             64 = { add_extra_state_shared_building_slots = 1 }
+			951 = { add_extra_state_shared_building_slots = 1 }
             add_tech_bonus = { bonus = 0.5 uses = 1 category = transport_tech }
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_1 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_1 add_idea = PRS_Rail_Focus_2 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_2 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_2 add_idea = PRS_Rail_Focus_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_3 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_3 add_idea = PRS_Rail_Focus_4 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_4 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_4 add_idea = PRS_Rail_Focus_5 }
+			}
         }
 
         ai_will_do = {
-			base = 1
+			base = 100
+		}
+    }
+	
+	PRS_mission_silesia_rail = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+
+        }
+
+        available = {
+            66 = { infrastructure > 6 }
+            67 = { infrastructure > 5 }
+			owns_state = 66
+            owns_state = 67
+        }
+
+        activation = {
+            has_completed_focus = PRS_focus_silesia_rail
+        }
+
+        highlight_states = {
+			state = 66
+			state = 67
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+            66 = { add_extra_state_shared_building_slots = 1 }
+            67 = { add_extra_state_shared_building_slots = 1 }
+            add_tech_bonus = { bonus = 0.5 uses = 1 category = transport_tech }
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_1 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_1 add_idea = PRS_Rail_Focus_2 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_2 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_2 add_idea = PRS_Rail_Focus_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_3 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_3 add_idea = PRS_Rail_Focus_4 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_4 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_4 add_idea = PRS_Rail_Focus_5 }
+			}
+        }
+
+        ai_will_do = {
+			base = 100
 		}
     }
 	
@@ -2325,85 +2622,85 @@ PRS_category_Industrialisation_decisions = {
         available = {
             5 = { infrastructure > 5 }
             63 = { infrastructure > 5 }
-			64 = { infrastructure > 5 }
+			64 = { infrastructure > 6 }
             68 = { infrastructure > 5 }
-			85 = { infrastructure > 6 }
+			85 = { infrastructure > 5 }
+			86 = { infrastructure > 5 }
+			1001 = { infrastructure > 6 }
+			1002 = { infrastructure > 6 }
+			1003 = { infrastructure > 8 }
 			owns_state = 5
             owns_state = 63
 			owns_state = 64
             owns_state = 68
 			owns_state = 85
+			owns_state = 86
+			owns_state = 1001
+			owns_state = 1002
+			owns_state = 1003
         }
 
         activation = {
-            has_completed_focus = PRS_ostbahn_rail
+            has_completed_focus = PRS_focus_ostbahn_rail
         }
 
         highlight_states = {
 			state = 5
+			state = 85
+			state = 1001
+			state = 1003
 		}
 
         fire_only_once = yes
 
         is_good = no
+		
         days_mission_timeout = 1600
+		
         timeout_effect = {
-            add_political_power = -80
+            add_political_power = -50
             add_stability = -0.02
         }
+		
         complete_effect = {
             5 = { add_extra_state_shared_building_slots = 1 }
             63 = { add_extra_state_shared_building_slots = 1 }
 			64 = { add_extra_state_shared_building_slots = 1 }
             68 = { add_extra_state_shared_building_slots = 1 }
 			85 = { add_extra_state_shared_building_slots = 1 }
+			86 = { add_extra_state_shared_building_slots = 1 }
+			1001 = { add_extra_state_shared_building_slots = 1 }
+			1002 = { add_extra_state_shared_building_slots = 1 }
+			1003 = { add_extra_state_shared_building_slots = 1 }
             add_tech_bonus = { bonus = 0.5 uses = 1 category = transport_tech }
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_1 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_1 add_idea = PRS_Rail_Focus_2 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_2 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_2 add_idea = PRS_Rail_Focus_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_3 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_3 add_idea = PRS_Rail_Focus_4 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_4 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_4 add_idea = PRS_Rail_Focus_5 }
+			}
         }
 
         ai_will_do = {
-			base = 1
-		}
-    }
-	
-	PRS_mission_silesia_rail = {
-
-        icon = GFX_decision_generic_construction
-
-        allowed = {
-
-        }
-
-        available = {
-            66 = { infrastructure > 5 }
-            67 = { infrastructure > 5 }
-			owns_state = 66
-            owns_state = 67
-        }
-
-        activation = {
-            has_completed_focus = PRS_silesia_rail
-        }
-
-        highlight_states = {
-			state = 66
-		}
-
-        fire_only_once = yes
-
-        is_good = no
-        days_mission_timeout = 1600
-        timeout_effect = {
-            add_political_power = -80
-            add_stability = -0.02
-        }
-        complete_effect = {
-            66 = { add_extra_state_shared_building_slots = 1 }
-            67 = { add_extra_state_shared_building_slots = 1 }
-            add_tech_bonus = { bonus = 0.5 uses = 1 category = transport_tech }
-        }
-
-        ai_will_do = {
-			base = 1
+			base = 100
 		}
     }
 	
@@ -2417,69 +2714,158 @@ PRS_category_Industrialisation_decisions = {
 
         available = {
             56 = { infrastructure > 5 }
-            57 = { infrastructure > 7 }
+            57 = { infrastructure > 6 }
+			745 = { infrastructure > 5 }
 			owns_state = 56
             owns_state = 57
+			owns_state = 745
         }
 
         activation = {
-            has_completed_focus = PRS_westphalia_rail
+            has_completed_focus = PRS_focus_westphalia_rail
         }
 
         highlight_states = {
+			state = 56
 			state = 57
+			state = 745
 		}
 
         fire_only_once = yes
 
         is_good = no
+		
         days_mission_timeout = 1600
+		
         timeout_effect = {
-            add_political_power = -80
+            add_political_power = -50
             add_stability = -0.02
         }
+		
         complete_effect = {
             56 = { add_extra_state_shared_building_slots = 1 }
             57 = { add_extra_state_shared_building_slots = 1 }
+			745 = { add_extra_state_shared_building_slots = 1 }
             add_tech_bonus = { bonus = 0.5 uses = 1 category = transport_tech }
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_1 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_1 add_idea = PRS_Rail_Focus_2 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_2 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_2 add_idea = PRS_Rail_Focus_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_3 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_3 add_idea = PRS_Rail_Focus_4 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_Rail_Focus_4 }
+				}
+				swap_ideas = { remove_idea = PRS_Rail_Focus_4 add_idea = PRS_Rail_Focus_5 }
+			}
         }
 
         ai_will_do = {
+			base = 100
+		}
+    }
+	
+	PRS_decision_rheinland_steel = { 
+
+        icon = GFX_decision_generic_operation
+		
+		allowed = {
+			tag = PRS
+        }
+		
+		available = {
+			num_of_civilian_factories_available_for_projects > 4
+		}
+
+		visible = {
+		    tag = PRS
+			PRS = { has_completed_focus = PRS_focus_mining_standards }
+			owns_state = 51
+			owns_state = 1009
+			controls_state = 51
+			controls_state = 1009
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		
+		modifier = {
+			civilian_factory_use = 4
+		}
+		
+		days_remove = 90
+		
+		complete_effect = {
+		}
+		
+		remove_effect = { 
+			51 = {
+				add_resource = {
+					type = iron
+					amount = 10
+				}
+			}
+			1009 = {
+				add_resource = {
+					type = iron
+					amount = 10
+				}
+			}
+		}
+
+		ai_will_do = {
 			base = 1
 		}
     }
 	
-	PRS_mission_silesian_steel = { 
+	PRS_decision_silesian_steel = { 
 
         icon = GFX_decision_generic_operation
 
-		highlight_states = {
-			state = 66
-		}
+		allowed = {
+			tag = PRS
+        }
 
 		available = {
-		    PRS = { has_completed_focus = PRS_silesian_steel }
 			num_of_civilian_factories_available_for_projects > 3
+		}
+
+		visible = {
+		    tag = PRS
+			PRS = { has_completed_focus = PRS_focus_mining_standards }
 			owns_state = 66
 			owns_state = 67
 			controls_state = 66
 			controls_state = 67
 		}
 
-		visible = {
-		    PRS = { has_completed_focus = PRS_silesian_steel }
-		}
-
 		fire_only_once = yes
-		is_good = yes
 
 		cost = 0
-		days_remove = 80
-
+		
 		modifier = {
-			civilian_factory_use = 4
+			civilian_factory_use = 3
 		}
+		
+		days_remove = 60
 
+		complete_effect = {
+		}
+		
 		remove_effect = { 
 			66 = {
 				add_resource = {
@@ -2500,60 +2886,506 @@ PRS_category_Industrialisation_decisions = {
 		}
     }
 	
-	PRS_mission_rheinland_steel = { 
+	PRS_mission_borsig_berlin = {
 
-        icon = GFX_decision_generic_operation
+        icon = GFX_decision_generic_construction
 
-		highlight_states = {
-			state = 51
+        allowed = {
+			tag = PRS
+        }
+
+        available = {
+			owns_state = 951
+			951 = { industrial_complex > 1 }
+        }
+		
+        activation = {
+            has_completed_focus = PRS_focus_borsig
+        }
+
+        highlight_states = {
+			state = 951
 		}
 
-		available = {
-		    PRS = { has_completed_focus = PRS_rheinland_steel }
-			num_of_civilian_factories_available_for_projects > 3
-			owns_state = 51
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+            951 = { add_extra_state_shared_building_slots = 1 }
+            add_stability = 0.02
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+	
+	PRS_mission_krupp_factories = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+        available = {
 			owns_state = 1009
-			controls_state = 51
-			controls_state = 1009
+			1009 = { arms_factory > 1 }
+			1009 = { industrial_complex > 1 }
+        }
+		
+        activation = {
+            has_completed_focus = PRS_focus_krupp_cooperation
+        }
+
+        highlight_states = {
+			state = 1009
 		}
 
-		visible = {
-		    PRS = { has_completed_focus = PRS_rheinland_steel }
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+            1009 = { add_extra_state_shared_building_slots = 2 }
+			add_stability = 0.02
+        }
+
+        ai_will_do = {
+			base = 1
 		}
+    }
+	
+	PRS_decision_support_krupp = {
 
-		fire_only_once = yes
-		is_good = yes
+        icon = GFX_decision_generic_construction
 
-		cost = 0
-		days_remove = 80
+        allowed = {
+			tag = PRS
+        }
 
+        available = {
+			num_of_civilian_factories_available_for_projects > 2
+			owns_state = 1009
+			1009 = { arms_factory > 1 }
+			1009 = { industrial_complex > 1 }
+        }
+		
+        visible = {
+            has_completed_focus = PRS_focus_krupp_cooperation
+        }
+
+        fire_only_once = yes
+		
+		cost = 25
+		
 		modifier = {
-			civilian_factory_use = 4
+			civilian_factory_use = 2
+		}
+		
+		days_remove = 180
+
+        complete_effect = {
+        }
+		
+		remove_effect = {
+			1009 = { add_extra_state_shared_building_slots = 1 }
+			custom_effect_tooltip = PRS_decision_support_krupp_effect_tt
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_krupp_support_flag }
+			}
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+	
+	PRS_mission_siemens_halske = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+        available = {
+			owns_state = 951
+			951 = { industrial_complex > 2 }
+        }
+		
+        activation = {
+            has_completed_focus = PRS_focus_siemens_halske
+        }
+
+        highlight_states = {
+			state = 951
 		}
 
-		remove_effect = { 
-			51 = {
-				add_resource = {
-					type = iron
-					amount = 10
-				}
-			}
-			1009 = {
-				add_resource = {
-					type = iron
-					amount = 10
-				}
-			}
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+            951 = { add_extra_state_shared_building_slots = 1 }
+			add_stability = 0.02 
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+	
+	PRS_mission_vulcan_ag = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+        available = {
+			owns_state = 62
+			62 = { industrial_complex > 1 }
+        }
+		
+        activation = {
+            has_completed_focus = PRS_focus_vulcan_ag
+        }
+
+        highlight_states = {
+			state = 62
 		}
 
-		ai_will_do = {
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+            62 = { add_extra_state_shared_building_slots = 1 }
+			add_stability = 0.02 
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+	
+	PRS_mission_dreyse_mill = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+        available = {
+			owns_state = 64
+			64 = { arms_factory > 3 }
+        }
+
+        activation = {
+            has_completed_focus = PRS_focus_dreyse_rifle_factory
+        }
+
+        highlight_states = {
+			state = 64
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+            64 = { add_extra_state_shared_building_slots = 1 }
+			add_stability = 0.02
+		}
+		
+        ai_will_do = {
+			base = 1
+		}
+    }
+	
+	PRS_mission_spandau_arsenal = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+        available = {
+			owns_state = 64
+			64 = { arms_factory > 4 }
+        }
+		
+        activation = {
+            has_completed_focus = PRS_focus_spandau_arsenal
+        }
+
+        highlight_states = {
+			state = 64
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+            64 = { add_extra_state_shared_building_slots = 1 }
+			add_stability = 0.02
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+	
+	PRS_mission_suhl_mills = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+        available = {
+			owns_state = 948
+			948 = { arms_factory > 0 }
+        }
+
+        activation = {
+            has_completed_focus = PRS_focus_suhl_rifle_factories
+        }
+
+        highlight_states = {
+			state = 948
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+			948 = { add_extra_state_shared_building_slots = 1 }
+			add_stability = 0.02
+        }
+
+        ai_will_do = {
+			base = 1
+		}
+    }
+	
+	PRS_mission_factories_erfurt = {
+
+        icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+        available = {
+			owns_state = 64
+			64 = { arms_factory > 5 }
+        }
+		
+        activation = {
+            has_completed_focus = PRS_focus_erfurt_rifle_factory
+        }
+
+        highlight_states = {
+			state = 64
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1600
+		
+        timeout_effect = {
+            add_political_power = -50
+            add_stability = -0.02
+        }
+		
+        complete_effect = {
+            64 = { add_extra_state_shared_building_slots = 1 }
+			add_stability = 0.02
+        }
+
+        ai_will_do = {
 			base = 1
 		}
     }
 }
 
-eoanb_category_constitutional_crisis_PRS = {
-	PRS_roons_reform_bill = {
+eoanb_category_heeresreform_PRS = {
+
+	PRS_mission_parliamentary_reform_bill = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			custom_trigger_tooltip = { 
+				tooltip = PRS_parliamentary_reform_bill_mission_tt
+			}
+			PRS = { has_country_flag = PRS_army_expansion_finished }
+		}
+		
+		activation = {
+			PRS = { has_completed_focus = PRS_parlamentsheer }
+		}
+		
+		selectable_mission = no
+
+		fire_only_once = yes
+		
+		is_good = no
+		
+		days_mission_timeout = 1800
+
+		complete_effect = {
+			add_political_power = -200
+			add_command_power = -100
+			add_war_support = 0.05
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.15
+			}
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_army_expansion_finished }
+			}
+		}
+		
+		timeout_effect = {
+			add_political_power = -200
+			add_command_power = -100
+			add_stability = -0.1
+			add_war_support = -0.1
+			decrease_ps_by_one = yes
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.15
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_mission_roons_reform_bill = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			custom_trigger_tooltip = { 
+				tooltip = PRS_roon_reform_bill_mission_tt
+				hidden_trigger = {
+					PRS = { has_country_flag = PRS_army_expansion_finished }
+				}
+			}
+		}
+		
+		activation = {
+			PRS = { has_completed_focus = PRS_roon_reform_bill }
+		}
+		
+		selectable_mission = no
+
+		fire_only_once = yes
+		
+		is_good = no
+		
+		days_mission_timeout = 1500
+
+		complete_effect = {
+			add_political_power = -50
+			add_command_power = -100
+			add_war_support = 0.05
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.05
+			}
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_army_expansion_finished }
+			}
+		}
+		
+		timeout_effect = {
+			add_political_power = -100
+			add_command_power = -100
+			add_stability = -0.1
+			add_war_support = -0.1
+			decrease_ps_by_one = yes
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.1
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+
+	PRS_roon_war_minister = {
 		icon = generic_civil_support
 
         allowed = {
@@ -2566,19 +3398,3184 @@ eoanb_category_constitutional_crisis_PRS = {
 
 		visible = {
 		   TAG = PRS
-		   PRS = { has_completed_focus = PRS_roon_reform_bill }
+		   PRS = { has_completed_focus = PRS_king_army_prs }
 		}
 
 		fire_only_once = yes
 
-        cost = 200
+        cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
 
 		complete_effect = {
-		    PRS = { country_event = { id = prussiaconscrisis.1 days = 1 } }
+			custom_effect_tooltip = PRS_albrecht_decision_tt
+			PRS = { 
+				set_temp_variable = { temp_advisor_frame = 12 } #Albrecht von Roon
+				set_temp_variable = { temp_advisor_trait = 36 }
+				mhc_add_army_advisor = yes
+				mhc_add_mark_advisor_as_high_army_brass = yes
+				
+				set_temp_variable = { mhc_add_sec_target = 12 }
+				mhc_add_sec = yes
+			}
+			add_command_power = -50
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_roon_chosen }
+			}
 		}
 
 		ai_will_do = {
 			base = 1000
 		}
     }
+	
+	PRS_moltke_army_chief = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+		   TAG = PRS
+		}
+
+		visible = {
+		   TAG = PRS
+		   PRS = { has_completed_focus = PRS_king_army_prs }
+		}
+
+		fire_only_once = yes
+
+        cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
+
+		complete_effect = {
+			custom_effect_tooltip = PRS_moltke_decision_tt
+			PRS = { 
+				set_temp_variable = { temp_advisor_frame = 13 } #Helmuth von Moltke
+				set_temp_variable = { temp_advisor_trait = 13 }
+				mhc_add_army_advisor = yes
+				mhc_add_mark_advisor_as_high_army_brass = yes
+				
+				set_temp_variable = { mhc_add_chief_target = 13 }
+				mhc_add_chief = yes
+			}
+			add_command_power = -50
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_moltke_chosen }
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_plan_army_reform = {
+		icon = generic_prepare_civil_war
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_plan_army_reform_decision_tt
+				hidden_trigger = {
+					PRS = {
+						has_variable = mhc_sec_value
+						has_variable = mhc_chief_value
+						command_power > 99.9
+					}
+				}
+			}
+			num_of_civilian_factories_available_for_projects > 0
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_king_army_prs }
+			PRS = { has_country_flag = lessons_sp_aus_war }
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		custom_cost_trigger = { command_power > 99.99 }
+		custom_cost_text = PRS_command_power_more_than_99
+		
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		days_remove = 150
+		
+        complete_effect = {
+			add_command_power = -100
+        }
+		
+		remove_effect = {
+            add_political_power = 50
+            add_war_support = 0.05
+			complete_national_focus = PRS_heeresreform
+			hidden_effect = { 
+				PRS = { clr_country_flag = lessons_sp_aus_war } 
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_heeresreform_krupp_guns = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				OR = {
+					has_completed_focus = PRS_focus_luckentheorie
+					has_completed_focus = PRS_king_deposed
+					has_country_flag = PRS_compromise_successful
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = { 
+			command_power > 99.9
+			has_army_experience > 24.9
+		}
+		custom_cost_text = PRS_command_power_more_than_99_army_experience_more_than_25
+		
+		days_remove = 180
+
+		complete_effect = {
+			add_command_power = -100
+			army_experience = -25
+		}
+		
+		remove_effect = {
+            PRS = { 
+				add_tech_bonus = { bonus = 0.75 uses = 1 category = artillery }
+			}
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_heeresreform_krupp }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_heeresreform_improve_officer_training = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				OR = {
+					has_completed_focus = PRS_focus_luckentheorie
+					has_completed_focus = PRS_king_deposed
+					has_country_flag = PRS_compromise_successful
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = { 
+			command_power > 99.9
+			has_army_experience > 24.9
+		}
+		custom_cost_text = PRS_command_power_more_than_99_army_experience_more_than_25
+		
+		days_remove = 180
+
+		complete_effect = {
+			add_command_power = -100
+			army_experience = -25
+		}
+		
+		remove_effect = {
+            PRS = { 
+				add_ideas = PRS_auftragstaktik
+			}
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_heeresreform_officer }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_heeresreform_army_logistics = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				OR = {
+					has_completed_focus = PRS_focus_luckentheorie
+					has_completed_focus = PRS_king_deposed
+					has_country_flag = PRS_compromise_successful
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = { 
+			command_power > 99.9
+			has_army_experience > 24.9
+		}
+		custom_cost_text = PRS_command_power_more_than_99_army_experience_more_than_25
+		
+		days_remove = 180
+
+		complete_effect = {
+			add_command_power = -100
+			army_experience = -25
+		}
+		
+		remove_effect = {
+            PRS = { 
+				add_tech_bonus = { bonus = 0.5 uses = 1 category = humanities_tech }
+				add_tech_bonus = { bonus = 0.5 uses = 1 category = biochemistry_tech }
+			}
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_heeresreform_logistics }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_heeresreform_new_tactics = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				OR = {
+					has_completed_focus = PRS_focus_luckentheorie
+					has_completed_focus = PRS_king_deposed
+					has_country_flag = PRS_compromise_successful
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = { 
+			command_power > 99.9
+			has_army_experience > 24.9
+		}
+		custom_cost_text = PRS_command_power_more_than_99_army_experience_more_than_25
+		
+		days_remove = 180
+
+		complete_effect = {
+			add_command_power = -100
+			army_experience = -25
+		}
+		
+		remove_effect = {
+            PRS = { 
+				add_tech_bonus = { bonus = 0.75 uses = 1 category = doctrine_victorian_innovative_tech }
+			}
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_heeresreform_tactics }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_heeresreform_war_games = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				OR = {
+					has_completed_focus = PRS_focus_luckentheorie
+					has_completed_focus = PRS_king_deposed
+					has_country_flag = PRS_compromise_successful
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = { 
+			command_power > 99.9
+			has_army_experience > 24.9
+		}
+		custom_cost_text = PRS_command_power_more_than_99_army_experience_more_than_25
+		
+		days_remove = 180
+
+		complete_effect = {
+			add_command_power = -100
+			army_experience = -25
+		}
+		
+		remove_effect = {
+            PRS = { 
+				add_tech_bonus = { bonus = 0.5 uses = 1 category = land_doctrine }
+			}
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_heeresreform_wargames }
+			}
+        }
+
+		ai_will_do = {
+			base = 500
+		}
+    }
+	
+	PRS_heeresreform_no_noble_privilege = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				has_completed_focus = PRS_king_deposed
+				### Event King Deposed ###
+			}
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = { 
+			command_power > 99.9
+			has_army_experience > 24.9
+		}
+		custom_cost_text = PRS_command_power_more_than_99_army_experience_more_than_25
+		
+		days_remove = 180
+
+		complete_effect = {
+			add_command_power = -100
+			army_experience = -25
+		}
+		
+		remove_effect = {
+            PRS = { 
+				if = {
+					limit = {
+						has_idea = PRS_generalstab_1
+					}
+					swap_ideas = {
+						remove_idea = PRS_generalstab_1
+						add_idea = PRS_generalstab_3
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = PRS_generalstab_2
+					}
+					swap_ideas = {
+						remove_idea = PRS_generalstab_2
+						add_idea = PRS_generalstab_4
+					}
+				}
+			}
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_heeresreform_noble }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_heeresreform_strenghten_generalstab = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				OR = {
+					has_completed_focus = PRS_focus_luckentheorie
+					has_country_flag = PRS_compromise_successful
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = { 
+			command_power > 99.9
+			has_army_experience > 24.9
+		}
+		custom_cost_text = PRS_command_power_more_than_99_army_experience_more_than_25
+		
+		days_remove = 180
+
+		complete_effect = {
+			add_command_power = -100
+			army_experience = -25
+		}
+		
+		remove_effect = {
+            PRS = { 
+				if = {
+					limit = {
+						has_idea = PRS_generalstab_1
+					}
+					swap_ideas = {
+						remove_idea = PRS_generalstab_1
+						add_idea = PRS_generalstab_5
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = PRS_generalstab_2
+					}
+					swap_ideas = {
+						remove_idea = PRS_generalstab_2
+						add_idea = PRS_generalstab_6
+					}
+				}
+			}
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_heeresreform_generalstab }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+}
+
+eoanb_category_constitutional_crisis_PRS = {
+	
+	PRS_deliver_blut_und_eisen_speech = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				has_country_leader = {
+					name = "Otto von Bismarck"
+					ruling_only = yes
+				}
+				NOT = {
+					OR = {
+						has_country_flag = MHC_military_junta_army
+						has_country_flag = MHC_military_junta_airforce
+						has_country_flag = MHC_military_junta_navy
+					}
+					is_in_array = {
+						array = mhc_powerful_army_officials
+						value = mhc_sec_value
+					}	
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+        cost = 0
+
+		complete_effect = {
+			PRS = { country_event = { days = 8 id = prussiaconscrisis.26 } }
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_bismarck_cabinet = {
+		icon = generic_civil_support
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			TAG = PRS
+		}
+
+		visible = {
+			TAG = PRS
+			PRS = { 
+				has_completed_focus = PRS_focus_luckentheorie
+				NOT = {
+					OR = {
+						has_country_flag = MHC_military_junta_army
+						has_country_flag = MHC_military_junta_airforce
+						has_country_flag = MHC_military_junta_navy
+					}
+					is_in_array = {
+						array = mhc_powerful_army_officials
+						value = mhc_sec_value
+					}	
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+        cost = 50
+
+		complete_effect = {
+			custom_effect_tooltip = PRS_decision_tt_bismarck_cabinet
+			hidden_effect = {
+				PRS = { set_country_flag = bismarck_cabinet_enabled }
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+}
+	
+eoanb_category_election_campaign_PRS = {
+	PRS_mission_rally_support = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			always = no
+		}
+
+		activation = {
+			has_completed_focus = PRS_focus_dissolve_parliament
+		}
+
+		fire_only_once = yes
+
+		selectable_mission = no
+		
+        days_mission_timeout = 60
+		
+        timeout_effect = {
+			hidden_effect = {
+				if = {
+					limit = {
+						check_variable = { var = PRS_election_campaign_success value = 5 compare = less_than }
+					}
+					PRS = { country_event = { days = 1 id = prussiaelection.3 } }
+				}
+				else_if = {
+					limit = {
+						check_variable = { var = PRS_election_campaign_success value = 5 compare = equals }
+					}
+					PRS = { country_event = { days = 1 id = prussiaelection.4 } }
+				}
+				else_if = {
+					limit = {
+						check_variable = { var = PRS_election_campaign_success value = 5 compare = greater_than }
+					}
+					PRS = { country_event = { days = 1 id = prussiaelection.5 } }
+				}
+			}
+        }
+		
+        complete_effect = {
+			custom_effect_tooltip = PRS_mission_tt_rally_support
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_election_campaign_gerrymandering = {
+		icon = generic_political_discourse
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			PRS = { NOT = { has_country_flag = PRS_electoral_corruption_in_progress } }
+		}
+
+		visible = {
+			tag = PRS
+			PRS = { 
+				has_completed_focus = PRS_focus_dissolve_parliament
+				has_active_mission = PRS_mission_rally_support
+			}
+		}
+
+		fire_only_once = yes
+
+        cost = 20
+		
+		days_remove = 14
+
+		complete_effect = {
+			custom_effect_tooltip = PRS_mission_tt_election_campaign
+			set_country_flag = PRS_electoral_corruption_in_progress
+		}
+		
+		remove_effect = {
+            PRS = { clr_country_flag = PRS_electoral_corruption_in_progress }
+			hidden_effect = {
+				random_list = {
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 3 } }
+					34 = {	add_to_variable = { var = PRS_election_campaign_success value = 2 } }
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 1 } }
+				}
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_election_campaign_canvass = {
+		icon = generic_political_discourse
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			PRS = { NOT = { has_country_flag = PRS_electoral_corruption_in_progress } }
+		}
+
+		visible = {
+			tag = PRS
+			PRS = { 
+				has_completed_focus = PRS_focus_dissolve_parliament
+				has_active_mission = PRS_mission_rally_support
+			}
+		}
+
+		fire_only_once = yes
+
+        cost = 20
+		
+		days_remove = 14
+
+		complete_effect = {
+			custom_effect_tooltip = PRS_mission_tt_election_campaign
+			set_country_flag = PRS_electoral_corruption_in_progress
+		}
+		
+		remove_effect = {
+            PRS = { clr_country_flag = PRS_electoral_corruption_in_progress }
+			hidden_effect = {
+				random_list = {
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 3 } }
+					34 = {	add_to_variable = { var = PRS_election_campaign_success value = 2 } }
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 1 } }
+				}
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	PRS_election_campaign_smear_campaign = {
+		icon = generic_political_discourse
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			PRS = { NOT = { has_country_flag = PRS_electoral_corruption_in_progress } }
+		}
+
+		visible = {
+			tag = PRS
+			PRS = { 
+				has_completed_focus = PRS_focus_dissolve_parliament
+				has_active_mission = PRS_mission_rally_support
+			}
+		}
+
+		fire_only_once = yes
+
+        cost = 20
+		
+		days_remove = 14
+
+		complete_effect = {
+			custom_effect_tooltip = PRS_mission_tt_election_campaign
+			set_country_flag = PRS_electoral_corruption_in_progress
+		}
+		
+		remove_effect = {
+            PRS = { clr_country_flag = PRS_electoral_corruption_in_progress }
+			hidden_effect = {
+				random_list = {
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 2 } }
+					34 = {	add_to_variable = { var = PRS_election_campaign_success value = 1 } }
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 0 } }
+				}
+			}
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+    }
+	
+	PRS_election_campaign_collaborate_with_other_parties = {
+		icon = generic_political_discourse
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			PRS = { NOT = { has_country_flag = PRS_electoral_corruption_in_progress } }
+		}
+
+		visible = {
+			tag = PRS
+			PRS = { 
+				has_completed_focus = PRS_focus_dissolve_parliament
+				has_active_mission = PRS_mission_rally_support
+			}
+		}
+
+		fire_only_once = yes
+
+        cost = 20
+		
+		days_remove = 14
+
+		complete_effect = {
+			custom_effect_tooltip = PRS_mission_tt_election_campaign
+			set_country_flag = PRS_electoral_corruption_in_progress
+		}
+		
+		remove_effect = {
+            PRS = { clr_country_flag = PRS_electoral_corruption_in_progress }
+			hidden_effect = {
+				random_list = {
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 2 } }
+					34 = {	add_to_variable = { var = PRS_election_campaign_success value = 1 } }
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 0 } }
+				}
+			}
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+    }
+	
+	PRS_election_campaign_invent_administrative_barriers = {
+		icon = generic_political_discourse
+
+        allowed = {
+            tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			PRS = { NOT = { has_country_flag = PRS_electoral_corruption_in_progress } }
+		}
+
+		visible = {
+			tag = PRS
+			PRS = { 
+				has_completed_focus = PRS_focus_dissolve_parliament
+				has_active_mission = PRS_mission_rally_support
+			}
+		}
+
+		fire_only_once = yes
+
+        cost = 20
+		
+		days_remove = 14
+
+		complete_effect = {
+			custom_effect_tooltip = PRS_mission_tt_election_campaign
+			set_country_flag = PRS_electoral_corruption_in_progress
+		}
+		
+		remove_effect = {
+            PRS = { clr_country_flag = PRS_electoral_corruption_in_progress }
+			hidden_effect = {
+				random_list = {
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 2 } }
+					34 = {	add_to_variable = { var = PRS_election_campaign_success value = 1 } }
+					33 = {	add_to_variable = { var = PRS_election_campaign_success value = 0 } }
+				}
+			}
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+    }
+}
+
+eoanb_category_navy_expansion_PRS = {
+	#Hagen's Jade Bight Port Expansion Plan
+	PRS_mission_hagens_expansion_plan = {
+		icon = GFX_decision_generic_construction
+
+        allowed = { tag = PRS }
+
+        available = {
+			owns_state = 1060
+			1060 = { dockyard > 0 }
+			1060 = { naval_base > 1 }
+        }
+		
+        activation = {
+			PRS = { has_completed_focus = PRS_focus_jade_bight }
+        }
+
+        highlight_states = {
+			state = 1060
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 3650
+		
+        timeout_effect = {
+            add_political_power = -50
+			add_war_support = -0.05
+			add_stability = -0.01
+        }
+		
+        complete_effect = {
+            1060 = { set_state_category = town }
+			1060 = { add_extra_state_shared_building_slots = 2 }
+			1060 = { 
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			1060 = {
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					instant_build = yes
+					province = 13562
+				}
+			}
+			1060 = { set_state_name = "Wilhelmshaven" }
+			set_province_name = { id = 13562 name = "Wilhelmshaven"}
+        }
+
+        ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Establish a High Seas Fleet
+	PRS_mission_build_high_sea_fleet = {
+		icon = generic_naval
+
+        allowed = { tag = PRS }
+
+        available = {
+			PRS = { 
+				AND = {
+					has_navy_size = { size > 39 }
+					has_navy_size = { 
+						size > 29
+						type = capital_ship
+					}
+				}
+			}
+        }
+		
+        activation = {
+			PRS = { has_completed_focus = PRS_focus_build_high_fleet }
+			hidden_trigger = { has_dlc = "Man the Guns" }
+        }
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 2920
+		
+        timeout_effect = {
+            add_political_power = -100
+			add_war_support = -0.1
+			add_stability = -0.03
+			remove_ideas = PRS_idea_build_high_fleet
+        }
+		
+        complete_effect = {
+			remove_ideas = PRS_idea_build_high_fleet 
+			add_ideas = PRS_idea_high_fleet_1 
+			if = {
+				limit = { PRS = { owns_state = 1060 } }
+				1060 = { 
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = naval_base
+						level = 1
+						instant_build = yes
+						province = 13562
+					}
+				}
+			}
+			if = {
+				limit = { PRS = { owns_state = 1002 } }
+				1002 = { 
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = naval_base
+						level = 1
+						instant_build = yes
+						province = 362
+					}
+				}
+			}
+			if = {
+				limit = { 
+					OR = {
+						PRS = { owns_state = 949 }
+						HLS = { is_subject_of = PRS }
+					}
+				}
+				949 = { 
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = naval_base
+						level = 1
+						instant_build = yes
+						province = 6389
+					}
+				}
+			}
+        }
+
+        ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Issue Bonds for Navy Expansion
+	PRS_decision_issue_bonds_for_ships = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 5
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_domestically_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_build_high_fleet }
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
+		
+        complete_effect = {
+			add_command_power = -50
+			PRS = { country_event = { id = prussiaforeign.15 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Order Warships from Prussian Dockyards 1
+	PRS_decision_order_warships_domestically_1 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 5
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_domestically_flag } }
+			PRS = { has_tech = tech_naval_mtg_1860_gunboat }
+			date < 1864.1.1
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_country_flag = PRS_issue_bonds_for_navy }
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		modifier = {
+			civilian_factory_use = 5
+		}
+		
+		days_remove = 180
+		
+        complete_effect = {
+			PRS = { set_country_flag = PRS_ordered_ships_domestically_flag }
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaforeign.16 } }
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Order Warships from Prussian Dockyards 2
+	PRS_decision_order_warships_domestically_2 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 3
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_domestically_flag } }
+			PRS = { has_tech = tech_naval_mtg_1860_gunboat }
+			date < 1865.1.1
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_country_flag = PRS_issue_bonds_for_navy }
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		modifier = {
+			civilian_factory_use = 3
+		}
+		
+		days_remove = 180
+		
+        complete_effect = {
+			PRS = { set_country_flag = PRS_ordered_ships_domestically_flag }
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaforeign.17 } }
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Ask Britain for Warships 1
+	PRS_decision_ask_ENG_for_ships_1 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 1
+			date > 1861.1.1
+			date < 1864.1.1
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = ENG
+			PRS = {
+				NOT = { has_war_with = ENG }
+				has_completed_focus = PRS_focus_build_high_fleet 
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
+		
+        complete_effect = {
+			add_command_power = -50
+			custom_effect_tooltip = PRS_decision_ask_britain_for_warships_tt
+			hidden_effect = { ENG = { country_event = { id = prussiaforeign.6 } } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Order Ships from Britain 1
+	PRS_decision_order_ships_ENG_1 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 1
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = ENG
+			PRS = {
+				NOT = { has_war_with = ENG }
+				has_country_flag = PRS_britain_agrees_navy_flag_1
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+		
+		days_remove = 120
+		
+        complete_effect = {
+			ENG = { country_event = { id = prussiaforeign.9 } }
+			PRS = { set_country_flag = PRS_ordered_ships_abroad_flag }
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_order_ships_from_britain_tt
+			hidden_effect = {
+				ENG = { country_event = { id = prussiaforeign.10 } }
+				PRS = { country_event = { id = prussiaforeign.11 } }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Ask Britain for Warships 2
+	PRS_decision_ask_ENG_for_ships_2 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 2
+			date > 1864.1.1
+			date < 1867.1.1
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = ENG
+			PRS = {
+				NOT = { has_war_with = ENG }
+				has_completed_focus = PRS_focus_build_high_fleet 
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
+		
+        complete_effect = {
+			add_command_power = -50
+			custom_effect_tooltip = PRS_decision_ask_britain_for_warships_tt
+			hidden_effect = { ENG = { country_event = { id = prussiaforeign.6 } } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Order Ships from Britain 2
+	PRS_decision_order_ships_ENG_2 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 2
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = ENG
+			PRS = {
+				NOT = { has_war_with = ENG }
+				has_country_flag = PRS_britain_agrees_navy_flag_2
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+		
+		days_remove = 150
+		
+        complete_effect = {
+			ENG = { country_event = { id = prussiaforeign.9 } }
+			PRS = { set_country_flag = PRS_ordered_ships_abroad_flag }
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_order_ships_from_britain_tt
+			hidden_effect = {
+				ENG = { country_event = { id = prussiaforeign.10 } }
+				PRS = { country_event = { id = prussiaforeign.13 } }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Ask France for Warships 1
+	PRS_decision_ask_FRA_for_ships_1 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 2
+			date > 1863.1.1
+			date < 1866.1.1
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = FRA
+			PRS = {
+				NOT = { has_war_with = FRA }
+				has_completed_focus = PRS_focus_build_high_fleet 
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
+		
+        complete_effect = {
+			add_command_power = -50
+			custom_effect_tooltip = PRS_decision_ask_france_for_warships_tt
+			hidden_effect = { FRA = { country_event = { id = prussiaforeign.6 } } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Order Ships from France 1
+	PRS_decision_order_ships_FRA_1 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 2
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = FRA
+			PRS = {
+				NOT = { has_war_with = FRA }
+				has_country_flag = PRS_france_agrees_navy_flag_1
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+		
+		days_remove = 150
+		
+        complete_effect = {
+			FRA = { country_event = { id = prussiaforeign.9 } }
+			PRS = { set_country_flag = PRS_ordered_ships_abroad_flag }
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_order_ships_from_france_tt
+			hidden_effect = {
+				FRA = { country_event = { id = prussiaforeign.10 } }
+				PRS = { country_event = { id = prussiaforeign.12 } }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Ask France for Warships 2
+	PRS_decision_ask_FRA_for_ships_2 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 3
+			date > 1866.1.1
+			date < 1870.1.1
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = FRA
+			PRS = {
+				NOT = { has_war_with = FRA }
+				has_completed_focus = PRS_focus_build_high_fleet 
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
+		
+        complete_effect = {
+			add_command_power = -50
+			custom_effect_tooltip = PRS_decision_ask_france_for_warships_tt
+			hidden_effect = { FRA = { country_event = { id = prussiaforeign.6 } } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Order Ships from France 2
+	PRS_decision_order_ships_FRA_2 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 1
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = FRA
+			PRS = {
+				NOT = { has_war_with = FRA }
+				has_country_flag = PRS_france_agrees_navy_flag_2
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		modifier = {
+			civilian_factory_use = 3
+		}
+		
+		days_remove = 180
+		
+        complete_effect = {
+			FRA = { country_event = { id = prussiaforeign.9 } }
+			PRS = { set_country_flag = PRS_ordered_ships_abroad_flag }
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_order_ships_from_france_tt
+			hidden_effect = {
+				FRA = { country_event = { id = prussiaforeign.10 } }
+				PRS = { country_event = { id = prussiaforeign.14 } }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Appoint Prince Adalbert as Navy Chief
+	PRS_decision_adalbert_navy_chief = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_navy_ministry }
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
+		
+        complete_effect = {
+			add_command_power = -50
+			custom_effect_tooltip = PRS_adalbert_decision_tt
+			hidden_effect = {
+				if = { 
+					limit = {
+						NOT = {
+							PRS = {
+								check_variable = { mhc_ncs_value = 1 }
+							}
+						}
+					}
+					set_temp_variable = { mhc_add_ncs_target = 1 }
+					mhc_add_ncs = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_nas_value = 1 }
+						}
+					}
+					mhc_clear_nas = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_nog_value = 1 }
+						}
+					}
+					mhc_clear_nog = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_cog_value = 1 }
+						}
+					}
+					mhc_clear_cog = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_nlg_value = 1 }
+						}
+					}
+					mhc_clear_nlg = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_mog_value = 1 }
+						}
+					}
+					mhc_clear_mog = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Establish Marineministerium - A.K.O. 16.04.1861
+	PRS_decision_navy_ministry = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PRS_navy_ministry_decision_trigger_tt
+				hidden_trigger = {
+					PRS = {
+						check_variable = { mhc_ncs_value = 1 }
+						check_variable = { mhc_sec_value = 12 }
+					}
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_navy_ministry }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+        complete_effect = {
+			custom_effect_tooltip = PRS_navy_ministry_decision_effect_tt
+			navy_experience = 50
+			add_ideas = PRS_idea_navy_ministry_1
+			if = {
+				limit = {
+					PRS = { has_idea = navinfra_no_naval_infrastructure }
+				}
+				swap_ideas = {
+					remove_idea = navinfra_no_naval_infrastructure
+					add_idea = navinfra_low_naval_infrastructure
+				}
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = navinfra_low_naval_infrastructure }
+				}
+				swap_ideas = {
+					remove_idea = navinfra_low_naval_infrastructure
+					add_idea = navinfra_decent_naval_infrastructure
+				}
+			}
+			PRS = { 
+				set_temp_variable = { temp_advisor_frame = 10 }
+				set_temp_variable = { temp_advisor_trait = 129 }
+				mhc_add_navy_advisor = yes
+				mhc_add_mark_advisor_as_high_navy_brass = yes
+				
+				set_temp_variable = { mhc_add_nas_target = 10 }
+				mhc_add_nas = yes
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Detach Marineministerium from military command - A.K.O. 29.06.1870
+	PRS_decision_detach_navy_ministry = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { 
+				has_completed_focus = PRS_focus_ngc_navy
+				has_idea = PRS_idea_navy_ministry_1
+			}
+			date > 1870.1.1
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+        complete_effect = {
+			custom_effect_tooltip = PRS_detach_navy_ministry_decision_tt
+			navy_experience = 25
+			swap_ideas = {
+				remove_idea = PRS_idea_navy_ministry_1
+				add_idea = PRS_idea_navy_ministry_2
+			}
+			if = {
+				limit = {
+					PRS = { has_idea = navinfra_no_naval_infrastructure }
+				}
+				swap_ideas = {
+					remove_idea = navinfra_no_naval_infrastructure
+					add_idea = navinfra_low_naval_infrastructure
+				}
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = navinfra_low_naval_infrastructure }
+				}
+				swap_ideas = {
+					remove_idea = navinfra_low_naval_infrastructure
+					add_idea = navinfra_decent_naval_infrastructure
+				}
+			}
+			hidden_effect = {
+				set_temp_variable = { temp_advisor_frame = 10 }
+				mhc_remove_navy_advisor = yes
+				if = { 
+					limit = {
+						NOT = {
+							PRS = {
+								check_variable = { mhc_nas_value = 1 }
+							}
+						}
+					}
+					set_temp_variable = { mhc_add_nas_target = 1 }
+					mhc_add_nas = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_ncs_value = 1 }
+						}
+					}
+					mhc_clear_ncs = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_nog_value = 1 }
+						}
+					}
+					mhc_clear_nog = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_cog_value = 1 }
+						}
+					}
+					mhc_clear_cog = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_nlg_value = 1 }
+						}
+					}
+					mhc_clear_nlg = yes
+				}
+				if = { 
+					limit = {
+						PRS = {
+							check_variable = { mhc_mog_value = 1 }
+						}
+					}
+					mhc_clear_mog = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Issue Bonds to finance Bundesflotte NGC
+	PRS_decision_issue_bonds_for_ships_ngc = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 3
+			date < 1870.7.1
+			PRS = { has_completed_focus = PRS_focus_prussian_consortium }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_navy }
+		}
+
+		fire_only_once = yes
+
+		cost = 150
+		
+		modifier = {
+			civilian_factory_use = 3
+		}
+		
+		days_remove = 365
+		
+        complete_effect = {
+			add_stability = -0.02
+			custom_effect_tooltip = PRS_decision_issue_bonds_for_ships_ngc_effect_tt
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_issue_bonds_for_navy_ngc }
+			}
+		}
+		
+		remove_effect = {
+			add_war_support = 0.02
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_high_fleet_1 }
+				}
+				swap_ideas = {
+					remove_idea = PRS_idea_high_fleet_1
+					add_idea = PRS_idea_high_fleet_2
+				}
+			}
+			else = { add_ideas = PRS_idea_high_fleet_2 }
+			hidden_effect = {
+				set_variable = { var = PRS_naval_infrastructure value = 0 }
+			}
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Ask Britain for Warships 3
+	PRS_decision_ask_ENG_for_ships_3 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 4
+			date > 1867.1.1
+			date < 1870.7.1
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = ENG
+			PRS = {
+				NOT = { has_war_with = ENG }
+				has_completed_focus = PRS_focus_ngc_navy 
+			}
+			hidden_trigger = { 
+				has_dlc = "Man the Guns"
+				PRS = { has_country_flag = PRS_issue_bonds_for_navy_ngc }
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		custom_cost_trigger = { command_power > 49.99 }
+		custom_cost_text = PRS_command_power_more_than_49
+		
+        complete_effect = {
+			add_command_power = -50
+			custom_effect_tooltip = PRS_decision_ask_britain_for_warships_tt
+			hidden_effect = { ENG = { country_event = { id = prussiaforeign.6 } } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Order Ships from Britain 3
+	PRS_decision_order_ships_ENG_3 = {
+		icon = generic_naval
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 4
+			NOT = { PRS = { has_country_flag = PRS_ordered_ships_abroad_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			country_exists = ENG
+			PRS = {
+				NOT = { has_war_with = ENG }
+				has_country_flag = PRS_britain_agrees_navy_flag_3
+			}
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		modifier = {
+			civilian_factory_use = 4
+		}
+		
+		days_remove = 365
+		
+        complete_effect = {
+			ENG = { country_event = { id = prussiaforeign.9 } }
+			PRS = { set_country_flag = PRS_ordered_ships_abroad_flag }
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_order_ships_from_britain_3_tt
+			hidden_effect = {
+				ENG = { country_event = { id = prussiaforeign.10 } }
+				PRS = { country_event = { id = prussiaforeign.18 } }
+				PRS = { clr_country_flag = PRS_issue_bonds_for_navy_ngc }
+			}
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Establish Wilhelmshaven War Port
+	PRS_decision_establish_wilhelmshaven_war_port = {
+		icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 3
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_war_ports }
+			owns_state = 1060
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		modifier = {
+			civilian_factory_use = 3
+		}
+		
+		days_remove = 180
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_naval_infrastructure_effect_tt
+			navy_experience = 50
+			1060 = { add_extra_state_shared_building_slots = 1 }
+			1060 = { 
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			1060 = {
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					instant_build = yes
+					province = 13562
+				}
+			}
+			hidden_effect = {
+				add_to_variable = { var = PRS_naval_infrastructure value = 1 }
+				if = {
+					limit = { 
+						check_variable = { var = PRS_naval_infrastructure value = 2 compare = equals } 
+						PRS = { NOT = { has_idea = PRS_idea_high_fleet_3 } }
+					}
+					PRS = { country_event = { days = 1 id = prussiaforeign.19 } }
+				}
+				else_if = {
+					limit = { check_variable = { var = PRS_naval_infrastructure value = 4 compare = equals } }
+					PRS = { country_event = { days = 1 id = prussiaforeign.20 } }
+				}
+			}
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Establish Kiel War Port
+	PRS_decision_establish_kiel_war_port = {
+		icon = GFX_decision_generic_construction
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 3
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_war_ports }
+			owns_state = 949
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		modifier = {
+			civilian_factory_use = 3
+		}
+		
+		days_remove = 180
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = PRS_decision_naval_infrastructure_effect_tt
+			navy_experience = 50
+			949 = { add_extra_state_shared_building_slots = 1 }
+			949 = { 
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			949 = {
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					instant_build = yes
+					province = 6389
+				}
+			}
+			hidden_effect = {
+				add_to_variable = { var = PRS_naval_infrastructure value = 1 }
+				if = {
+					limit = { 
+						check_variable = { var = PRS_naval_infrastructure value = 2 compare = equals } 
+						PRS = { NOT = { has_idea = PRS_idea_high_fleet_3 } }
+					}
+					PRS = { country_event = { days = 1 id = prussiaforeign.19 } }
+				}
+				else_if = {
+					limit = { check_variable = { var = PRS_naval_infrastructure value = 4 compare = equals } }
+					PRS = { country_event = { days = 1 id = prussiaforeign.20 } }
+				}
+			}
+        }
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Expand Kiel Navy Dockyard
+	PRS_mission_expand_kiel_dockyard = {
+		icon = GFX_decision_generic_construction
+
+        allowed = { tag = PRS }
+
+        available = {
+			owns_state = 949
+			949 = { dockyard > 2 }
+        }
+		
+        activation = {
+			PRS = { has_completed_focus = PRS_focus_royal_dockyards }
+			owns_state = 949
+        }
+
+        highlight_states = {
+			state = 949
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1095
+		
+        timeout_effect = {
+            add_political_power = -50
+			add_war_support = -0.02
+			add_stability = -0.01
+        }
+		
+        complete_effect = {
+            custom_effect_tooltip = PRS_decision_naval_infrastructure_effect_tt
+			navy_experience = 50
+			949 = { add_extra_state_shared_building_slots = 2 }
+			hidden_effect = {
+				add_to_variable = { var = PRS_naval_infrastructure value = 1 }
+				if = {
+					limit = { 
+						check_variable = { var = PRS_naval_infrastructure value = 2 compare = equals } 
+						PRS = { NOT = { has_idea = PRS_idea_high_fleet_3 } }
+					}
+					PRS = { country_event = { days = 1 id = prussiaforeign.19 } }
+				}
+				else_if = {
+					limit = { check_variable = { var = PRS_naval_infrastructure value = 4 compare = equals } }
+					PRS = { country_event = { days = 1 id = prussiaforeign.20 } }
+				}
+			}
+        }
+
+        ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Expand Danzig Navy Dockyard
+	PRS_mission_expand_danzig_dockyard = {
+		icon = GFX_decision_generic_construction
+
+        allowed = { tag = PRS }
+
+        available = {
+			owns_state = 1002
+			1002 = { dockyard > 1 }
+        }
+		
+        activation = {
+			PRS = { has_completed_focus = PRS_focus_royal_dockyards }
+			owns_state = 1002
+        }
+
+        highlight_states = {
+			state = 1002
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1095
+		
+        timeout_effect = {
+            add_political_power = -50
+			add_war_support = -0.02
+			add_stability = -0.01
+        }
+		
+        complete_effect = {
+            custom_effect_tooltip = PRS_decision_naval_infrastructure_effect_tt
+			navy_experience = 50
+			1002 = { add_extra_state_shared_building_slots = 2 }
+			hidden_effect = {
+				add_to_variable = { var = PRS_naval_infrastructure value = 1 }
+				if = {
+					limit = { 
+						check_variable = { var = PRS_naval_infrastructure value = 2 compare = equals } 
+						PRS = { NOT = { has_idea = PRS_idea_high_fleet_3 } }
+					}
+					PRS = { country_event = { days = 1 id = prussiaforeign.19 } }
+				}
+				else_if = {
+					limit = { check_variable = { var = PRS_naval_infrastructure value = 4 compare = equals } }
+					PRS = { country_event = { days = 1 id = prussiaforeign.20 } }
+				}
+			}
+        }
+
+        ai_will_do = {
+			base = 100
+		}
+	}
+}
+
+eoanb_category_NGC_politics_PRS = {
+	#Draft a Constitution for the Confederation
+	PRS_mission_draft_constitution = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PRS_mission_complete_constitution_draft_trigger_tt
+				hidden_trigger = {
+					check_variable = { var = PRS_NGC_constitution value = 21845 compare = greater_than_or_equals }
+					check_variable = { var = PRS_NGC_constitution value = 43690 compare = less_than_or_equals }
+				}
+			}
+		}
+
+		activation = {
+			has_completed_focus = PRS_focus_ngc_constitutive_reichstag
+		}
+
+		fire_only_once = yes
+		
+		is_good = no
+
+		selectable_mission = no
+		
+        days_mission_timeout = 210
+		
+        timeout_effect = {
+			add_political_power = -250
+			add_stability = -0.1
+			decrease_ps_by_two = yes
+			hidden_effect = {
+				#complete_national_focus = PRS_focus_ngc_constitution
+			}
+        }
+		
+        complete_effect = {
+			custom_effect_tooltip = PRS_mission_constitution_draft_ready_tt
+			add_stability = 0.05
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitution_draft_ready_flag }
+			}
+        }
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	#Put the Draft to Vote
+	PRS_decision_put_draft_to_vote = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_decision_unlock_constitutional_draft_vote_trigger_tt
+				hidden_trigger = {
+					PRS = { has_country_flag = PRS_constitution_draft_ready_flag }
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			hidden_trigger = {
+				check_variable = { var = PRS_NGC_constitution value = 21845 compare = greater_than_or_equals }
+				check_variable = { var = PRS_NGC_constitution value = 43690 compare = less_than_or_equals }
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			if = {
+				limit = {
+					check_variable = { var = PRS_NGC_constitution value = 21845 compare = equals }
+				}
+				add_ideas = PRS_idea_ngc_constitution_bismarck
+			}
+			else_if = {
+				limit = {
+					check_variable = { var = PRS_NGC_constitution value = 43690 compare = equals }
+				}
+				add_ideas = PRS_idea_ngc_constitution_liberal
+			}
+			else = {
+				add_ideas = PRS_idea_ngc_constitution_other
+			}
+			complete_national_focus = PRS_focus_ngc_constitution
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_constitution_draft_ready_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Constitution Issue: Federal or Centralised 1/8
+	PRS_decision_federal_or_centralised = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_bundesprasidium }
+			NOT = { PRS = { has_completed_focus = PRS_focus_ngc_constitution } }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaconstitutionngc.1 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Constitution Issue: Commander-in-Chief 2/8
+	PRS_decision_commander_in_chief = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_decision_unlock_ngc_commander_trigger_tt
+				hidden_trigger = {
+					check_variable = { var = PRS_NGC_constitution value = 1 compare = greater_than_or_equals }
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_bundesprasidium }
+			NOT = { PRS = { has_completed_focus = PRS_focus_ngc_constitution } }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaconstitutionngc.2 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Constitution Issue: Ministries 3/8
+	PRS_decision_ministries = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_decision_unlock_ngc_ministries_trigger_tt
+				hidden_trigger = {
+					check_variable = { var = PRS_NGC_constitution value = 5 compare = greater_than_or_equals }
+					check_variable = { var = PRS_NGC_constitution value = 10 compare = less_than_or_equals }
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_bundeskanzler }
+			NOT = { PRS = { has_completed_focus = PRS_focus_ngc_constitution } }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaconstitutionngc.3 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Constitution Issue: Accumulation of Offices 4/8
+	PRS_decision_personal_union_PRS_NGC = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_decision_unlock_ngc_accumulation_trigger_tt
+				hidden_trigger = {
+					check_variable = { var = PRS_NGC_constitution value = 21 compare = greater_than_or_equals }
+					check_variable = { var = PRS_NGC_constitution value = 42 compare = less_than_or_equals }
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_bundeskanzler }
+			NOT = { PRS = { has_completed_focus = PRS_focus_ngc_constitution } }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaconstitutionngc.4 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Constitution Issue: Voting Rights 5/8
+	PRS_decision_voting_rights = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_decision_unlock_ngc_voting_trigger_tt
+				hidden_trigger = {
+					check_variable = { var = PRS_NGC_constitution value = 85 compare = greater_than_or_equals }
+					check_variable = { var = PRS_NGC_constitution value = 170 compare = less_than_or_equals }
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_reichstag }
+			NOT = { PRS = { has_completed_focus = PRS_focus_ngc_constitution } }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaconstitutionngc.5 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Constitution Issue: Ministerial Responsibility 6/8
+	PRS_decision_ministerial_responsibility = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_decision_unlock_ngc_responsibility_trigger_tt
+				hidden_trigger = {
+					check_variable = { var = PRS_NGC_constitution value = 341 compare = greater_than_or_equals }
+					check_variable = { var = PRS_NGC_constitution value = 682 compare = less_than_or_equals }
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_reichstag }
+			NOT = { PRS = { has_completed_focus = PRS_focus_ngc_constitution } }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaconstitutionngc.6 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Constitution Issue: Pay and Perks 7/8
+	PRS_decision_career_politicians = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_decision_unlock_ngc_budget_trigger_tt
+				hidden_trigger = {
+					check_variable = { var = PRS_NGC_constitution value = 1365 compare = greater_than_or_equals }
+					check_variable = { var = PRS_NGC_constitution value = 2730 compare = less_than_or_equals }
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_bundesrath }
+			NOT = { PRS = { has_completed_focus = PRS_focus_ngc_constitution } }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaconstitutionngc.7 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Constitution Issue: Budget and Taxes 8/8
+	PRS_decision_budget_and_taxes = {
+		icon = generic_political_discourse
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			custom_trigger_tooltip = {
+				tooltip = PRS_decision_unlock_ngc_perks_trigger_tt
+				hidden_trigger = {
+					check_variable = { var = PRS_NGC_constitution value = 5461 compare = greater_than_or_equals }
+					check_variable = { var = PRS_NGC_constitution value = 10922 compare = less_than_or_equals }
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_bundesrath }
+			NOT = { PRS = { has_completed_focus = PRS_focus_ngc_constitution } }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 14
+		
+        complete_effect = {
+		}
+		
+		remove_effect = {
+			PRS = { country_event = { id = prussiaconstitutionngc.8 } }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Denominational Equality
+	PRS_decision_denominational_equality = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_innenpolitik }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 60
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+				PRS = { country_event = { days = 365 id = prussia.50 } }
+			}
+		}
+		
+		remove_effect = {
+			add_stability = 0.03
+			if = {
+				limit = {
+					PRS = { has_idea = state_religion }
+				}
+				swap_ideas = { remove_idea = state_religion add_idea = secular_state }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = theocratic_state }
+				}
+				swap_ideas = { remove_idea = theocratic_state add_idea = secular_state }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = atheistic_state }
+				}
+				swap_ideas = { remove_idea = atheistic_state add_idea = secular_state }
+			}
+			add_popularity = {
+				ideology = fundamentalism
+				popularity = 0.03
+			}
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Freedom of Movement
+	PRS_decision_freedom_of_movement = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_innenpolitik }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 60
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_industry_2 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_industry_2 add_idea = PRS_idea_ngc_industry_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_industry_1 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_industry_1 add_idea = PRS_idea_ngc_industry_2 }
+			}
+			else = { add_ideas = PRS_idea_ngc_industry_1 }
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_constitutional_change_in_progress_flag }
+				PRS = { country_event = { days = 90 id = prussiaconstitutionngc.14 } }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Passwesen
+	PRS_decision_passwesen = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_country_flag = PRS_passports_needed_flag }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 90
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.03
+			}
+			#if = {
+			#	limit = {
+			#		has_dlc = "La Resistance"
+			#		PRS = { has_intelligence_agency = no }
+			#	}
+			#	create_intelligence_agency = yes
+			#	upgrade_intelligence_agency = upgrade_form_department
+			#}
+			hidden_effect = {
+				PRS = { 
+					clr_country_flag = PRS_constitutional_change_in_progress_flag
+					clr_country_flag = PRS_passports_needed_flag
+				}
+			}
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_judiciary_2 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_judiciary_2 add_idea = PRS_idea_ngc_judiciary_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_judiciary_1 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_judiciary_1 add_idea = PRS_idea_ngc_judiciary_2 }
+			}
+			else = { add_ideas = PRS_idea_ngc_judiciary_1 }
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Strafgesetzbuch/Criminal Code
+	PRS_decision_stgb = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_legal_unification }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 60
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_judiciary_2 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_judiciary_2 add_idea = PRS_idea_ngc_judiciary_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_judiciary_1 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_judiciary_1 add_idea = PRS_idea_ngc_judiciary_2 }
+			}
+			else = { add_ideas = PRS_idea_ngc_judiciary_1 }
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Allg. Dt. Handelsgesetzbuch/Trade Regulation
+	PRS_decision_adhgb = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+			PRS = {
+				AND = {
+					has_completed_focus = PRS_focus_ngc_legal_unification
+					has_completed_focus = PRS_focus_ngc_trade_and_commerce
+				}
+			}
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { 
+				OR = { 
+					has_completed_focus = PRS_focus_ngc_legal_unification
+					has_completed_focus = PRS_focus_ngc_trade_and_commerce
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 60
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_judiciary_2 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_judiciary_2 add_idea = PRS_idea_ngc_judiciary_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_judiciary_1 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_judiciary_1 add_idea = PRS_idea_ngc_judiciary_2 }
+			}
+			else = { add_ideas = PRS_idea_ngc_judiciary_1 }
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Unitary Measures
+	PRS_decision_unitary_measures = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_trade_and_commerce }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 60
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_industry_2 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_industry_2 add_idea = PRS_idea_ngc_industry_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_industry_1 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_industry_1 add_idea = PRS_idea_ngc_industry_2 }
+			}
+			else = { add_ideas = PRS_idea_ngc_industry_1 }
+			hidden_effect = {
+				PRS = { country_event = { days = 90 id = prussiaconstitutionngc.15 } }
+				PRS = { clr_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Gewerbeordnung
+	PRS_decision_gewerbeordnung = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_country_flag = PRS_unitary_measures_flag }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 60
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_industry_2 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_industry_2 add_idea = PRS_idea_ngc_industry_3 }
+			}
+			else_if = {
+				limit = {
+					PRS = { has_idea = PRS_idea_ngc_industry_1 }
+				}
+				swap_ideas = { remove_idea = PRS_idea_ngc_industry_1 add_idea = PRS_idea_ngc_industry_2 }
+			}
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = humanities_tech }
+			hidden_effect = {
+				PRS = { 
+					clr_country_flag = PRS_constitutional_change_in_progress_flag
+					clr_country_flag = PRS_unitary_measures_flag
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Establish Auswärtiges Amt
+	PRS_decision_establish_foreign_office = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_aussenpolitik }
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 90
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			add_ideas = PRS_idea_foreign_ministry_1
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Uniform Military Service
+	PRS_decision_uniform_military_service = {
+		icon = generic_civil_support
+
+        allowed = {
+			tag = PRS
+        }
+
+		available = {
+			tag = PRS
+			NOT = { PRS = { has_country_flag = PRS_constitutional_change_in_progress_flag } }
+		}
+		
+		visible = {
+			tag = PRS
+			PRS = { has_completed_focus = PRS_focus_ngc_aussenpolitik }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		
+		days_remove = 60
+		
+        complete_effect = {
+			hidden_effect = {
+				PRS = { set_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+		
+		remove_effect = {
+			add_war_support = 0.1
+			army_experience = 50
+			hidden_effect = {
+				PRS = { clr_country_flag = PRS_constitutional_change_in_progress_flag }
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+		}
+	}
 }

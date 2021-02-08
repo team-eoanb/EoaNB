@@ -2,7 +2,7 @@ NDefines_Graphics = {
 
 NWiki = {
 	BASE_URL = "https://hoi4.paradoxwikis.com/",
-	FORUM_URL = "https://forum.paradoxplaza.com/forum/forums/hearts-of-iron-iv.844/"
+	FORUM_URL = "https://forum.paradoxplaza.com/forum/index.php?forums/hearts-of-iron-iv.844/"
 },
 
 NMapMode = {

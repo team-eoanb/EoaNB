@@ -9,530 +9,35 @@ focus_tree = {
 	}
 
 	default = no
-
-#### INDUSTRY
-
-	focus = {
-		id = POL_vic_Revieving_Polish_Industry
-		icon = GFX_goal_focus_industrial_revolution
-		cost = 70
-
-		available = {
-			POL = { has_war = no }
-			OR = {
-			    has_completed_focus = POL_vic_Abolish_Serfdom
-			    has_completed_focus = POL_vic_Agrarian_Reform
-			}
-		}
-
-		x = 3
-		y = 0
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 1 uses = 1 category = mechanical_engineering_tech }
-			swap_ideas = {
-				add_idea = industrializing
-				remove_idea = agrarian
-			}
-		}
-	}
-
-	### Develop Polish Mining
-
-	focus = {
-		id = POL_vic_Develop_Polish_Mining
-		icon = GFX_goal_generic_production
-		cost = 70
-
-		x = 1
-		y = 1
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 1.5 uses = 1 category = process_engineering_tech }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Increase_Steel
-		icon = GFX_goal_generic_production2
-		cost = 70
-
-		x = 0
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Develop_Polish_Mining }
-
-		completion_reward = {
-		    random_owned_controlled_state = {
-			  prioritize = { 90 }
-				add_resource = {
-					type = iron
-					amount = 6
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = POL_vic_Build_Coal_Mines
-		icon = GFX_goal_focus_coal_mines
-		cost = 70
-
-		x = 2
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Develop_Polish_Mining }
-
-		completion_reward = {  
-		    random_owned_controlled_state = {
-			  prioritize = { 90 }
-				limit = {
-					free_building_slots = {
-						building = coal_mine
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = coal_mine
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = coal_mine
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = POL_vic_Ironworks
-		icon = GFX_goal_focus_industrial_revolution
-		cost = 70
-
-		x = 1
-		y = 3
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Increase_Steel }
-		prerequisite = { focus = POL_vic_Build_Coal_Mines }
-
-		completion_reward = {  
-		    random_owned_controlled_state = {
-			  prioritize = { 90 }
-				limit = {
-					free_building_slots = {
-						building = steel_mill
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = steel_mill
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = steel_mill
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-    ### Railroads
-
-    focus = {
-		id = POL_vic_Create_The_PKP
-		icon = GFX_goal_focus_railroad_development
-		cost = 70
-
-		x = 4
-		y = 1
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
-
-		completion_reward = {
-			add_timed_idea = {
-                idea = POL_vic_Expansion_Of_Railroads
-                days = 8544
-            }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Railroads_Development
-		icon = GFX_goal_generic_construct_infrastructure
-		cost = 70
-
-		x = 5
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Create_The_PKP focus = POL_vic_Modernize_The_Economy }
-
-		completion_reward = {
-			random_owned_controlled_state = {
-			  prioritize = { 10 }
-				limit = {
-					free_building_slots = {
-						building = infrastructure 
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = infrastructure 
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_building_construction = {
-					type = infrastructure 
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_political_power = -20
-		}
-	}
-
-    ### Economy
-
-    focus = {
-		id = POL_vic_Modernize_The_Economy
-		icon = GFX_goal_generic_consumer_goods
-		cost = 70
-
-		x = 8
-		y = 1
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 1 uses = 1 category = electronics_devices_tech }
-			add_tech_bonus = { bonus = 1 uses = 1 category = biochemistry_tech }
-			add_tech_bonus = { bonus = 1 uses = 1 category = humanities_tech }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Expansion_Of_Lodz
-		icon = GFX_goal_generic_construction
-		cost = 70
-
-		x = 7
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Modernize_The_Economy }
-
-		completion_reward = {
-			1315 = {
-				add_extra_state_shared_building_slots = 2
-			}
-			add_political_power = -20
-		}
-	}
-
-	focus = {
-		id = POL_vic_Warsaw_Renovation
-		icon = GFX_goal_generic_position_armies
-		cost = 70
-
-		x = 9
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Modernize_The_Economy }
-
-		completion_reward = {
-			1314 = {
-				add_extra_state_shared_building_slots = 3
-			}
-			add_political_power = -60
-		}
-	}
-
-	focus = {
-		id = POL_vic_Warsaw_Infrastructure
-		icon = GFX_goal_generic_production2
-		cost = 70
-
-		x = 9
-		y = 4
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Warsaw_Renovation }
-
-		completion_reward = {
-			1314 = {
-				add_building_construction = {
-					type = infrastructure 
-					level = 2
-					instant_build = yes
-				}
-			}
-			add_political_power = -20
-		}
-	}
-
-	focus = {
-		id = POL_vic_Support_Urbanisation
-		icon = GFX_goal_generic_construct_civilian
-		cost = 35
-
-		x = 6
-		y = 3
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Railroads_Development }
-		prerequisite = { focus = POL_vic_Expansion_Of_Lodz focus = POL_vic_Warsaw_Renovation }
-
-		completion_reward = {
-		    random_owned_controlled_state = {
-			  prioritize = { 90 }
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = industrial_complex
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-			}
-			random_owned_controlled_state = {
-			  prioritize = { 87 }
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = industrial_complex
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-			}
-		}
-	}
-
-	focus = {
-		id = POL_vic_Polish_Positivism
-		icon = GFX_goal_anschluss
-		cost = 35
-
-		x = 7
-		y = 4
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Expansion_Of_Lodz focus = POL_vic_Warsaw_Renovation }
-
-		completion_reward = {
-		    add_tech_bonus = { bonus = 0.75 uses = 2 category = humanities_tech }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Polish_Military_Industry
-		icon = GFX_goal_generic_construct_mil_factory
-		cost = 70
-
-		x = 8
-		y = 3
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Expansion_Of_Lodz focus = POL_vic_Warsaw_Renovation }
-
-		completion_reward = {
-			random_owned_controlled_state = {
-			  prioritize = { 1314 }
-				limit = {
-					free_building_slots = {
-						building = arms_factory
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = arms_factory
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = arms_factory
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_political_power = -45
-		}
-	}
-
-	### Agriculture
-
-	focus = {
-		id = POL_vic_Restore_Agricultural_Society
-		icon = GFX_goal_focus_tomato_farming
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
-
-		x = 3
-		y = 3
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_timed_idea = {
-                idea = POL_Agricultural_Society
-                days = 7120
-            }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Agriculture_Focus
-		icon = GFX_goal_focus_telegraph_lines
-		cost = 70
-
-		x = 3
-		y = 4
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Restore_Agricultural_Society }
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 0.75 uses = 2 category = biochemistry_tech }
-		}
-	}
+	continuous_focus_position = { x = 25 y = 1310 }
 
 #### ARMY
 
 	focus = {
 		id = POL_vic_Reforming_Our_Army
-		icon = GFX_goal_focus_military_reforms
-		cost = 70
+		icon = GFX_focus_polonize_the_local_administrations
+		cost = 35
 
 		available = {
-			POL = { has_war = no }
+			has_war = no
 			OR = {
 			    has_completed_focus = POL_vic_The_Political_System
 			    has_completed_focus = POL_vic_Wielopolski_Government
 			}
 		}
 
-		x = 14
+		x = 7
 		y = 0
 		
 		ai_will_do = { factor = 11 } 
 
 		completion_reward = {
-		    add_tech_bonus = { bonus = 1.5 uses = 1 category = land_doctrine }
 		    custom_effect_tooltip = "POL_vic_POL_army_reform1"
 		    hidden_effect = {
-		        POL = { load_oob = POL_1863 }
+		        load_oob = POL_1863
 		        if = {
 		            limit = {
-		                POL = { has_completed_focus = POL_vic_Poland_Reborn }
+		                has_completed_focus = POL_vic_Poland_Reborn
 		            }
                     POL = {
 			            delete_unit_template_and_units = {
@@ -589,36 +94,107 @@ focus_tree = {
 		}
 	}
 
-## Military Techs
-
 	focus = {
-		id = POL_vic_Develop_New_Weapons
-		icon = GFX_goal_generic_small_arms
-		cost = 70.00
+		id = POL_vic_Army_Modernization
+		icon = GFX_goal_focus_reformed_army
+		cost = 28
 
-		x = 14
+		available = {}
+		prerequisite = { focus = POL_vic_Reforming_Our_Army }
+
+		x = 7
 		y = 1
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Reforming_Our_Army }
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.5 uses = 1 category = land_doctrine }
+		    add_tech_bonus = { bonus = 0.35 uses = 1 category = infantry_weapons }
+		    add_ideas = three_percent
+		}
+	}
+
+## Military Techs
+
+	focus = {
+		id = POL_vic_Equipment_Standardization
+		icon = GFX_goal_generic_military_sphere
+		cost = 28
+
+		x = 2
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Army_Modernization }
 
 		completion_reward = {
-			add_tech_bonus = { bonus = 1 uses = 2 category = infantry_weapons }
+			add_tech_bonus = { bonus = 1.4 uses = 1 category = infantry_weapons }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Develop_New_Weapons
+		icon = GFX_focus_secret_rearmament
+		cost = 28
+
+		x = 1
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Equipment_Standardization }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.75 uses = 2 category = infantry_weapons }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Uniform_Research
+		icon = GFX_focus_generic_military_mission
+		cost = 28
+
+		x = 1
+		y = 4
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Develop_New_Weapons }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 2 uses = 1 category = tech_category_uniforms }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Cavalry_Modernization
+		icon = GFX_goal_generic_cavalry
+		cost = 28
+
+		x = 1
+		y = 5
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Uniform_Research }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.75 uses = 2 category = tech_category_cavalry }
 		}
 	}
 
 	focus = {
 		id = POL_vic_Modernize_The_Artillery
-		icon = GFX_goal_generic_army_artillery2
-		cost = 70.00
+		icon = GFX_goal_SWE_artillery_supremacy
+		cost = 28
 
-		x = 14
-		y = 2
+		x = 3
+		y = 3
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Develop_New_Weapons }
+		prerequisite = { focus = POL_vic_Equipment_Standardization }
 
 		completion_reward = {
 			add_tech_bonus = { bonus = 1 uses = 1 category = artillery }
@@ -628,53 +204,135 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Support_Equipment
 		icon = GFX_goal_generic_army_artillery
-		cost = 70.00
+		cost = 28
 
-		x = 14
-		y = 3
+		x = 3
+		y = 4
 		
 		ai_will_do = { factor = 11 } 
 
 		prerequisite = { focus = POL_vic_Modernize_The_Artillery }
 
 		completion_reward = {
-			add_tech_bonus = { bonus = 1 uses = 1 category = support_tech }
+			add_tech_bonus = { bonus = 0.85 uses = 1 category = support_tech }
+			if = {
+            	limit = {
+            		NOT = { has_tech = tech_support }
+            	}
+            	hidden_effect = {
+            		set_technology = { tech_support = 1 }
+            	}
+				custom_effect_tooltip = "POL_vic_add_support_tech"
+            }
 		}
 	}
 
 	focus = {
-		id = POL_vic_New_Polish_Army
-		icon = GFX_focus_generic_military_mission
-		cost = 70.00
+		id = POL_vic_Engineering_Battalions
+		icon = GFX_goal_generic_construction2
+		cost = 28
 
-		x = 16
-		y = 4
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Support_Equipment }
-		prerequisite = { focus = POL_vic_Our_Uhlans_Are_The_Best focus = POL_vic_Prussian_Discipline focus = POL_vic_Defensive_Tactics focus = POL_vic_Army_Professional }
-
-		completion_reward = {
-			add_tech_bonus = { bonus = 1.5 uses = 1 category = land_doctrine }
-			army_experience = 25
-		}
-	}
-
-	focus = {
-		id = POL_vic_New_Doctrines
-		icon = GFX_goal_generic_army_doctrines
-		cost = 70.00
-
-		x = 16
+		x = 3
 		y = 5
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_New_Polish_Army }
+		prerequisite = { focus = POL_vic_Support_Equipment }
 
 		completion_reward = {
-			add_tech_bonus = { bonus = 1.5 uses = 1 category = land_doctrine }
+			add_tech_bonus = { bonus = 1 uses = 1 category = engineers_tech }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Unit_Specialization
+		icon = GFX_focus_eng_special_air_service
+		cost = 28
+
+		x = 3
+		y = 6
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Engineering_Battalions }
+
+		completion_reward = {
+			if = {
+			    limit = {
+			        has_tech = tech_infantry_specialized_training
+			    }
+                army_experience = 10
+            }
+            else_if = {
+            	limit = {
+            		has_tech = tech_infantry_terrain_adaptability
+            	}
+            	set_technology = { tech_infantry_specialized_training = 1 }
+            }
+            else_if = {
+            	limit = {
+            		has_tech = tech_infantry_special_infantry_corps
+            	}
+            	set_technology = { tech_infantry_terrain_adaptability = 1 }
+            }
+			else = {
+				set_technology = { tech_infantry_special_infantry_corps = 1 }
+			}
+		}
+	}
+
+### Manpower & War Support
+
+	focus = {
+		id = POL_vic_Hold_A_Military_Parade
+		icon = GFX_goal_focus_popularize
+		cost = 14
+
+		available = {}
+		prerequisite = { focus = POL_vic_Reforming_Our_Army }
+
+		x = 11
+		y = 1
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+		    add_war_support = 0.08
+		}
+	}
+
+	focus = {
+		id = POL_vic_Encourage_Polish_Militarism
+		icon = GFX_focus_generic_little_entente
+		cost = 42
+
+		prerequisite = { focus = POL_vic_Hold_A_Military_Parade }
+
+		x = 10
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_war_support = 0.09
+		    add_ideas = POL_vic_Militarism
+		}
+	}
+
+	focus = {
+		id = POL_vic_Recruitment_Incentives
+		icon = GFX_goal_focus_fund_partisans
+		cost = 28
+
+		prerequisite = { focus = POL_vic_Hold_A_Military_Parade }
+
+		x = 12
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+		    add_war_support = 0.12
 		}
 	}
 
@@ -683,44 +341,53 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Experience_From_The_Uprising
 		icon = GFX_goal_generic_position_armies
-		cost = 70.00
+		cost = 28
 
-		x = 16
-		y = 1
+		available = { has_completed_focus = POL_vic_January_Uprising }
+
+		x = 4
+		y = 2
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Reforming_Our_Army }
-		mutually_exclusive = { focus = POL_vic_Invite_Foreign_Advisors }
+		prerequisite = { focus = POL_vic_Army_Modernization }
 
 		completion_reward = {
-			army_experience = 30
+			add_tech_bonus = { bonus = 0.75 uses = 1 category = land_doctrine }
+			army_experience = 25
 		}
 	}
 
 	focus = {
 		id = POL_vic_Polish_High_Command
 		icon = GFX_focus_generic_military_academy
-		cost = 70.00
+		cost = 35
 
-		x = 16
+		available = {
+			OR = {
+				has_tech = tech_support
+				has_completed_focus = POL_vic_Support_Equipment
+			}
+		}
+
+		x = 7
 		y = 2
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Experience_From_The_Uprising }
+		prerequisite = { focus = POL_vic_Army_Modernization }
 
 		completion_reward = {
-			add_tech_bonus = { bonus = 1 uses = 2 category = land_doctrine }
+			add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
 		}
 	}
 
 	focus = {
-		id = POL_vic_Our_Uhlans_Are_The_Best
-		icon = GFX_goal_generic_cavalry
-		cost = 70.00
+		id = POL_vic_Military_University
+		icon = GFX_goal_focus_decentralisation_power
+		cost = 35
 
-		x = 16
+		x = 5
 		y = 3
 		
 		ai_will_do = { factor = 11 } 
@@ -728,10 +395,315 @@ focus_tree = {
 		prerequisite = { focus = POL_vic_Polish_High_Command }
 
 		completion_reward = {
-			add_timed_idea = {
-                idea = POL_Hussars
-                days = 10680
-            }
+			add_command_power = 15
+			create_corps_commander = {
+				name = "Antoni Barancewicz"
+				picture = "gfx/leaders/Europe/Portrait_Europe_generic_military_general_2.dds"
+				traits = { POL_insurgent_general trait_engineer }
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				planning_skill = 2
+				logistics_skill = 2
+			}
+			create_corps_commander = {
+				name = "Jan Jodłowski"
+				picture = "gfx/leaders/Europe/Portrait_Europe_generic_military_general_1.dds"
+				traits = { POL_insurgent_general winter_specialist }
+				skill = 3
+				attack_skill = 3
+				defense_skill = 2
+				planning_skill = 2
+				logistics_skill = 2
+			}
+			create_corps_commander = {
+				name = "Ludwik Ostaszewski"
+				picture = "gfx/leaders/Europe/Portrait_Europe_generic_military_general_10.dds"
+				traits = { POL_insurgent_general cavalry_leader }
+				skill = 3
+				attack_skill = 3
+				defense_skill = 2
+				planning_skill = 3
+				logistics_skill = 2
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Volunteer_Forces
+		icon = GFX_focus_generic_provoke_border_clashes
+		cost = 28
+
+		x = 5
+		y = 5
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Military_University }
+
+		completion_reward = {
+			set_rule = { can_send_volunteers = yes }
+			add_ideas = POL_vic_Military_Expeditions
+		}
+	}
+
+	focus = {
+		id = POL_vic_Establish_The_Military_Infrastructure
+		icon = GFX_goal_generic_construct_military
+		cost = 35
+
+		x = 7
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Polish_High_Command }
+
+		completion_reward = {
+			add_political_power = 35
+			add_command_power = 30
+			1314 = {
+				add_building_construction = {
+					type = bunker
+					province = 3544
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = "POL_vic_add_temp"
+			division_template = {
+    			name = "Korpus Żandarmerii "
+    			priority = 0
+    			regiments = {
+        			light_infantry = { x = 0 y = 0 }
+        			light_infantry = { x = 0 y = 1 }
+    			}
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Road_Tech
+		icon = GFX_goal_focus_gerrymandering
+		cost = 28
+
+		x = 6
+		y = 4
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Establish_The_Military_Infrastructure }
+
+		completion_reward = {
+			add_ideas = inframain_basic_maintenance_infrastructure
+			add_tech_bonus = { bonus = 1 uses = 1 category = humanities_tech }
+		}
+	}
+
+	focus = {
+		id = POL_vic_War_Hospitals
+		icon = GFX_goal_anschluss
+		cost = 28
+
+		x = 6
+		y = 6
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Road_Tech }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 1 uses = 1 category = health_tech }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Our_Own_Way
+		icon = GFX_goal_generic_air_doctrine
+		cost = 28
+
+		x = 8
+		y = 4
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Establish_The_Military_Infrastructure }
+		mutually_exclusive = { focus = POL_vic_Learn_From_The_British }
+		mutually_exclusive = { focus = POL_vic_Learn_From_The_French }
+		mutually_exclusive = { focus = POL_vic_Learn_From_The_Prussians }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
+			custom_effect_tooltip = "POL_vic_add_temp"
+			division_template = {
+    			name = "Brygada Piechoty Liniowej "
+    			division_names_group = POL_VIC_INF_BRIGADE
+    			regiments = {
+        			line_infantry = { x = 0 y = 0 }
+        			line_infantry = { x = 0 y = 1 }
+        			line_infantry = { x = 0 y = 2 }
+        			line_infantry = { x = 0 y = 3 }
+        			line_infantry = { x = 0 y = 4 }
+    			}
+			}
+			division_template = {
+    			name = "Brygada Piechoty Liniowej z Artylerią"
+    			division_names_group = POL_VIC_INF_BRIGADE
+    			regiments = {
+        			line_infantry = { x = 0 y = 0 }
+        			line_infantry = { x = 0 y = 1 }
+        			line_infantry = { x = 0 y = 2 }
+        			line_infantry = { x = 0 y = 3 }
+        			line_infantry = { x = 0 y = 4 }
+    			}
+    			support = {
+       	 			howitzer_artillery_support = { x = 0 y = 0 }
+    			}
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Elite_Units
+		icon = GFX_focus_generic_military_mission
+		cost = 28
+
+		x = 7
+		y = 5
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Our_Own_Way }
+
+		completion_reward = {
+			custom_effect_tooltip = "POL_vic_add_temp"
+			division_template = {
+    			name = "Dywizja Piechoty Liniowej "
+    			division_names_group = POL_VIC_INF_DIV
+    			priority = 2
+    			regiments = {
+        			line_infantry = { x = 0 y = 0 }
+        			line_infantry = { x = 0 y = 1 }
+        			line_infantry = { x = 0 y = 2 }
+        			line_infantry = { x = 0 y = 3 }
+        			line_infantry = { x = 0 y = 4 }
+    			}
+    			support = { 
+    				recon = { x = 0 y = 0 }
+       	 			engineer = { x = 0 y = 1 }
+       	 			maintenance_company = { x = 0 y = 2 }
+       	 			howitzer_artillery_support = { x = 0 y = 3 }
+    			}
+			}
+			division_template = {
+    			name = "Dywizja Ułanów "
+    			priority = 2
+    			regiments = {
+        			uhlans = { x = 0 y = 0 }
+        			uhlans = { x = 0 y = 1 }
+        			uhlans = { x = 0 y = 2 }
+        			uhlans = { x = 0 y = 3 }
+        			uhlans = { x = 0 y = 4 }
+    			}
+    			support = {
+    				recon = { x = 0 y = 0 }
+       	 			engineer = { x = 0 y = 1 }
+       	 			maintenance_company = { x = 0 y = 2 }
+       	 			howitzer_artillery_support = { x = 0 y = 3 }
+    			}
+			}
+			1314 = {
+				create_unit = {
+    				division = "name = \"Radomska Dywizja Piechoty Liniowej\" division_template = \"Dywizja Piechoty Liniowej \" start_experience_factor = 0.7 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+				create_unit = {
+    				division = "name = \"Warszawska Dywizja Ułanów\" division_template = \"Dywizja Ułanów \" start_experience_factor = 0.7 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Expand_Cavalry
+		icon = GFX_focus_generic_treaty
+		cost = 28
+
+		x = 9
+		y = 5
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Our_Own_Way }
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = mounted_infantry }
+				}
+				set_technology = { mounted_infantry = 1 }
+			}
+			add_tech_bonus = { bonus = 0.75 uses = 2 category = tech_category_cavalry }
+			custom_effect_tooltip = "POL_vic_add_temp"
+			division_template = {
+    			name = "Brygada Strzelców Konnych "
+    			division_names_group = POL_VIC_CAV_BRIGADE_DRAGOONS
+    			priority = 1
+    			regiments = {
+        			dragoon = { x = 0 y = 0 }
+        			dragoon = { x = 0 y = 1 }
+        			dragoon = { x = 0 y = 2 }
+    			}
+			}
+			division_template = {
+    			name = "Brygada Ułanów "
+    			division_names_group = POL_VIC_CAV_BRIGADE_LIGHT
+    			priority = 1
+    			regiments = {
+        			uhlans = { x = 0 y = 0 }
+        			uhlans = { x = 0 y = 1 }
+        			uhlans = { x = 0 y = 2 }
+    			}
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_National_Traditions
+		icon = GFX_goal_focus_support_conservatism
+		cost = 28
+
+		x = 9
+		y = 6
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Expand_Cavalry }
+
+		completion_reward = {
+			add_political_power = 50
+			add_war_support = 0.08
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = POL_vic_Determined_Force
+		icon = GFX_goal_generic_demand_territory
+		cost = 28
+
+		x = 8
+		y = 7
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_National_Traditions }
+		prerequisite = { focus = POL_vic_Elite_Units }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
+			army_experience = 40
 		}
 	}
 
@@ -739,115 +711,407 @@ focus_tree = {
 
 	focus = {
 		id = POL_vic_Invite_Foreign_Advisors
-		icon = GFX_focus_generic_diplomatic_treaty
-		cost = 70.00
+		icon = GFX_goal_focus_foreign_diplomacy
+		cost = 28
 
-		x = 20
-		y = 1
+		x = 13
+		y = 3
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Reforming_Our_Army }
-		mutually_exclusive = { focus = POL_vic_Experience_From_The_Uprising }
+		prerequisite = { focus = POL_vic_Polish_High_Command }
 
 		completion_reward = {
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = land_doctrine }
 			army_experience = 15
 		}
 	}
 
 	focus = {
 		id = POL_vic_Learn_From_The_Prussians
-		icon = GFX_goal_focus_ally_PRS
-		cost = 70.00
+		icon = GFX_goal_focus_contain_prussia
+		cost = 28
 
-		x = 18
-		y = 2
+		x = 11
+		y = 4
 		
 		ai_will_do = { factor = 11 } 
 
 		prerequisite = { focus = POL_vic_Invite_Foreign_Advisors }
 		mutually_exclusive = { focus = POL_vic_Learn_From_The_British }
 		mutually_exclusive = { focus = POL_vic_Learn_From_The_French }
+		mutually_exclusive = { focus = POL_vic_Our_Own_Way }
 
 		completion_reward = {
-		    add_tech_bonus = { bonus = 1.5 uses = 1 category = land_doctrine }
+		    add_tech_bonus = { bonus = 1.5 uses = 1 category = doctrine_victorian_innovative_tech }
+		    add_ideas = five_percent
 		}
 	}
 
 	focus = {
 		id = POL_vic_Prussian_Discipline
 		icon = GFX_goal_focus_prussian_militarism
-		cost = 70.00
+		cost = 28
 
-		x = 18
-		y = 3
+		x = 11
+		y = 5
 		
 		ai_will_do = { factor = 11 } 
 
 		prerequisite = { focus = POL_vic_Learn_From_The_Prussians }
 
 		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
+		    add_tech_bonus = { bonus = 1 uses = 1 category = doctrine_victorian_innovative_tech }
 		    army_experience = 10
+		    every_army_leader = {
+				add_attack = 1
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Polish_Landwehr
+		icon = GFX_goal_focus_traditional_army
+		cost = 28
+
+		x = 11
+		y = 6
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Prussian_Discipline }
+
+		completion_reward = {
+		    add_ideas = POL_vic_Polish_Landwehr
+		    custom_effect_tooltip = "POL_vic_add_temp"
+		    division_template = {
+    			name = "Brygada Obrony Krajowej "
+    			priority = 0
+    			regiments = {
+        			light_infantry = { x = 0 y = 0 }
+        			light_infantry = { x = 0 y = 1 }
+        			light_infantry = { x = 0 y = 2 }
+    			}
+			}
+			90 = {
+				create_unit = {
+    				division = "name = \"1. Brygada Obrony Krajowej\" division_template = \"Brygada Obrony Krajowej \" start_experience_factor = 0.4 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+			87 = {
+				create_unit = {
+    				division = "name = \"2. Brygada Obrony Krajowej\" division_template = \"Brygada Obrony Krajowej \" start_experience_factor = 0.4 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+			1313 = {
+				create_unit = {
+    				division = "name = \"3. Brygada Obrony Krajowej\" division_template = \"Brygada Obrony Krajowej \" start_experience_factor = 0.4 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+			939 = {
+				create_unit = {
+    				division = "name = \"4. Brygada Obrony Krajowej\" division_template = \"Brygada Obrony Krajowej \" start_experience_factor = 0.4 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_An_Offensive_Force
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		cost = 28
+
+		x = 11
+		y = 7
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Polish_Landwehr }
+
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.75 uses = 2 category = doctrine_victorian_artillery_tech }
+		    army_experience = 50
+		    custom_effect_tooltip = "POL_vic_add_temp"
+		    division_template = {
+    			name = "Dywizja Piechoty Liniowej z Artylerią"
+    			division_names_group = POL_VIC_INF_DIV
+    			regiments = {
+        			line_infantry = { x = 0 y = 0 }
+        			line_infantry = { x = 0 y = 1 }
+        			line_infantry = { x = 0 y = 2 }
+        			line_infantry = { x = 0 y = 3 }
+        			line_infantry = { x = 0 y = 4 }
+    			}
+    			support = {
+       	 			howitzer_artillery_support = { x = 0 y = 0 }
+    			}
+			}
+			division_template = {
+    			name = "Dywizja Artylerii"
+    			division_names_group = POL_VIC_ART_BRIGADE
+    			regiments = {
+        			line_infantry = { x = 0 y = 0 }
+        			line_infantry = { x = 0 y = 1 }
+        			line_infantry = { x = 0 y = 2 }
+        			line_infantry = { x = 0 y = 3 }
+        			howitzer_artillery = { x = 0 y = 4 }
+    			}
+			}
 		}
 	}
 
 	focus = {
 		id = POL_vic_Learn_From_The_French
-		icon = GFX_goal_focus_ally_FRA
-		cost = 70.00
+		icon = GFX_focus_chi_reach_out_to_france
+		cost = 28
 
-		x = 20
-		y = 2
+		x = 13
+		y = 4
 		
 		ai_will_do = { factor = 11 } 
 
 		prerequisite = { focus = POL_vic_Invite_Foreign_Advisors }
 		mutually_exclusive = { focus = POL_vic_Learn_From_The_British }
 		mutually_exclusive = { focus = POL_vic_Learn_From_The_Prussians }
+		mutually_exclusive = { focus = POL_vic_Our_Own_Way }
 
 		completion_reward = {
-		    add_tech_bonus = { bonus = 1.5 uses = 1 category = land_doctrine }
+		    add_tech_bonus = { bonus = 1.5 uses = 1 category = doctrine_victorian_artillery_tech }
 		    swap_ideas = {
 				add_idea = extensive_conscription
 				remove_idea = limited_conscription
 			}
+			add_ideas = five_percent
 		}
 	}
 
 	focus = {
-		id = POL_vic_Defensive_Tactics
-		icon = GFX_goal_generic_defence
-		cost = 70.00
+		id = POL_vic_Foreign_Legion
+		icon = GFX_focus_generic_little_entente
+		cost = 28
 
-		x = 20
-		y = 3
+		x = 13
+		y = 5
 		
 		ai_will_do = { factor = 11 } 
 
 		prerequisite = { focus = POL_vic_Learn_From_The_French }
 
 		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 2 category = land_doctrine }
+		    army_experience = 15
+		    add_manpower = 18858
+		    custom_effect_tooltip = "POL_vic_add_temp"
+			division_template = {
+    			name = "Legia Cudzoziemska "
+    			division_names_group = POL_VIC_INF_DIV
+    			priority = 2
+    			regiments = {
+        			line_infantry = { x = 0 y = 0 }
+        			line_infantry = { x = 0 y = 1 }
+        			line_infantry = { x = 0 y = 2 }
+        			line_infantry = { x = 0 y = 3 }
+        			line_infantry = { x = 0 y = 4 }
+    			}
+    			support = { 
+    				recon = { x = 0 y = 0 }
+       	 			engineer = { x = 0 y = 1 }
+       	 			howitzer_artillery_support = { x = 0 y = 2 }
+    			}
+			}
+			division_template = {
+    			name = "Kawaleria Cudzoziemska "
+    			priority = 2
+    			regiments = {
+        			uhlans = { x = 0 y = 0 }
+        			uhlans = { x = 0 y = 1 }
+        			uhlans = { x = 0 y = 2 }
+        			uhlans = { x = 0 y = 3 }
+        			uhlans = { x = 0 y = 4 }
+    			}
+			}
+			1314 = {
+				create_unit = {
+    				division = "name = \"1. Legia Cudzoziemska\" division_template = \"Legia Cudzoziemska \" start_experience_factor = 0.9 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+				create_unit = {
+    				division = "name = \"1. Kawaleria Cudzoziemska\" division_template = \"Kawaleria Cudzoziemska \" start_experience_factor = 0.9 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+			# 18858
+			227 = {
+				add_manpower = -2395
+			}
+			238 = {
+				add_manpower = -1327
+			}
+			195 = {
+				add_manpower = -2156
+			}
+			11 = {
+				add_manpower = -2894
+			}
+			65 = {
+				add_manpower = -1638
+			}
+			54 = {
+				add_manpower = -1471
+			}
+			16 = {
+				add_manpower = -3279
+			}
+			126 = {
+				add_manpower = -2114
+			}
+			158 = {
+				add_manpower = -1058
+			}
+			37 = {
+				add_manpower = -526
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_High_Morale
+		icon = GFX_goal_generic_national_unity
+		cost = 28
+
+		x = 13
+		y = 6
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Foreign_Legion }
+
+		completion_reward = {
+			add_political_power = 50
+			add_command_power = 25
+		    add_war_support = 0.1
+		}
+	}
+
+	focus = {
+		id = POL_vic_Defensive_Tactics
+		icon = GFX_goal_generic_defence
+		cost = 28
+
+		x = 13
+		y = 7
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_High_Morale }
+
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.85 uses = 2 category = doctrine_victorian_artillery_tech }
+		    army_experience = 35
+		    custom_effect_tooltip = "POL_vic_add_temp"
+			division_template = {
+    			name = "Dywizja Piechoty Liniowej "
+    			division_names_group = POL_VIC_INF_DIV
+    			regiments = {
+        			line_infantry = { x = 0 y = 0 }
+        			line_infantry = { x = 0 y = 1 }
+        			line_infantry = { x = 0 y = 2 }
+        			line_infantry = { x = 0 y = 3 }
+        			line_infantry = { x = 0 y = 4 }
+    			}
+    			support = { 
+       	 			engineer = { x = 0 y = 0 }
+       	 			howitzer_artillery_support = { x = 0 y = 1 }
+    			}
+			}
+			division_template = {
+    			name = "Gwardia Narodowa "
+    			priority = 0
+    			regiments = {
+        			light_infantry = { x = 0 y = 0 }
+        			light_infantry = { x = 0 y = 1 }
+        			light_infantry = { x = 0 y = 2 }
+    			}
+			}
+			10 = {
+				create_unit = {
+    				division = "name = \"1. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+			}
+			1313 = {
+				create_unit = {
+    				division = "name = \"4. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+			}
+			92 = {
+				create_unit = {
+    				division = "name = \"5. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+			}
+			98 = {
+				create_unit = {
+    				division = "name = \"8. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+			}
+			939 = {
+				create_unit = {
+    				division = "name = \"9. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+			}
+			940 = {
+				create_unit = {
+    				division = "name = \"10. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+			}
+			90 = {
+				create_unit = {
+    				division = "name = \"2. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+				create_unit = {
+    				division = "name = \"3. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+			}
+			87 = {
+				create_unit = {
+    				division = "name = \"6. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+				create_unit = {
+    				division = "name = \"7. Brygada Gwardii Narodowej\" division_template = \"Gwardia Narodowa \" start_experience_factor = 0 start_equipment_factor = 0.1"
+    				owner = POL
+				}
+			}
 		}
 	}
 
 	focus = {
 		id = POL_vic_Learn_From_The_British
-		icon = GFX_goal_focus_ally_ENG
-		cost = 70.00
+		icon = GFX_goal_focus_british_military_government
+		cost = 28
 
-		x = 22
-		y = 2
+		x = 15
+		y = 4
 		
 		ai_will_do = { factor = 11 } 
 
 		prerequisite = { focus = POL_vic_Invite_Foreign_Advisors }
 		mutually_exclusive = { focus = POL_vic_Learn_From_The_Prussians }
 		mutually_exclusive = { focus = POL_vic_Learn_From_The_French }
+		mutually_exclusive = { focus = POL_vic_Our_Own_Way }
 
 		completion_reward = {
-		    add_tech_bonus = { bonus = 1.5 uses = 1 category = land_doctrine }
+		    add_tech_bonus = { bonus = 1.5 uses = 1 category = doctrine_victorian_industry_tech }
 		    swap_ideas = {
 				add_idea = volunteer_only
 				remove_idea = limited_conscription
@@ -858,64 +1122,365 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Army_Professional
 		icon = GFX_goal_generic_military_sphere
-		cost = 70.00
+		cost = 28
 
-		x = 22
-		y = 3
+		x = 15
+		y = 5
 		
 		ai_will_do = { factor = 11 } 
 
 		prerequisite = { focus = POL_vic_Learn_From_The_British }
 
 		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 1 category = infantry_weapons }
-		    army_experience = 25
+		    add_tech_bonus = { bonus = 1.5 uses = 1 category = doctrine_victorian_artillery_tech }
+		    army_experience = 35
+		    every_army_leader = {
+				add_planning = 1
+				add_logistics = 1
+			}
+			add_war_support = 0.14
 		}
 	}
 
-### Forts
-
 	focus = {
-		id = POL_vic_Modlin_Fortress_Upgrade
-		icon = GFX_goal_generic_construction2
-		cost = 70.00
+		id = POL_vic_Quality_Army
+		icon = GFX_goal_focus_valient_kingdom
+		cost = 28
 
-		x = 12
-		y = 1
+		x = 15
+		y = 6
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Reforming_Our_Army }
+		prerequisite = { focus = POL_vic_Army_Professional }
 
 		completion_reward = {
-		    98 = {
-				add_building_construction = {
-					type = bunker
-					province = 6567
-					level = 3
-					instant_build = yes
+		    add_tech_bonus = { bonus = 0.85 uses = 1 category = doctrine_victorian_innovative_tech }
+		    army_experience = 25
+		    every_army_leader = {
+				add_attack = 1
+				add_defense = 1
+			}
+			add_war_support = 0.07
+		}
+	}
+
+	focus = {
+		id = POL_vic_Well_Armed_Force
+		icon = GFX_focus_Colonial_Troops
+		cost = 28
+
+		x = 15
+		y = 7
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Quality_Army }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.7 uses = 2 category = doctrine_victorian_innovative_tech }
+		    add_tech_bonus = { bonus = 0.7 uses = 1 category = infantry_weapons }
+		    add_tech_bonus = { bonus = 0.7 uses = 1 category = tech_category_uniforms }
+		    add_war_support = 0.1
+		    custom_effect_tooltip = "POL_vic_add_temp"
+			division_template = {
+    			name = "Dywizja Piechoty Liniowej "
+    			division_names_group = POL_VIC_INF_DIV
+    			regiments = {
+        			line_infantry = { x = 0 y = 0 }
+        			line_infantry = { x = 0 y = 1 }
+        			line_infantry = { x = 0 y = 2 }
+        			line_infantry = { x = 0 y = 3 }
+        			line_infantry = { x = 0 y = 4 }
+    			}
+    			support = { 
+    				recon = { x = 0 y = 0 }
+       	 			engineer = { x = 0 y = 1 }
+       	 			howitzer_artillery_support = { x = 0 y = 2 }
+    			}
+			}
+			division_template = {
+    			name = "Dywizja Piechoty Lekkiej "
+    			regiments = {
+        			light_infantry = { x = 0 y = 0 }
+        			light_infantry = { x = 0 y = 1 }
+        			light_infantry = { x = 0 y = 2 }
+        			light_infantry = { x = 0 y = 3 }
+        			light_infantry = { x = 0 y = 4 }
+    			}
+    			support = { 
+    				recon = { x = 0 y = 0 }
+       	 			engineer = { x = 0 y = 1 }
+       	 			howitzer_artillery_support = { x = 0 y = 2 }
+    			}
+			}
+			division_template = {
+    			name = "Dywizja Strzelców Konnych "
+    			regiments = {
+        			dragoon = { x = 0 y = 0 }
+        			dragoon = { x = 0 y = 1 }
+        			dragoon = { x = 0 y = 2 }
+        			dragoon = { x = 0 y = 3 }
+        			dragoon = { x = 0 y = 4 }
+    			}
+			}
+			1315 = {
+				create_unit = {
+    				division = "name = \"2. Dywizja Piechoty Liniowej\" division_template = \"Dywizja Piechoty Liniowej \" start_experience_factor = 0.6 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+			92 = {
+				create_unit = {
+    				division = "name = \"1. Dywizja Piechoty Lekkiej\" division_template = \"Dywizja Piechoty Lekkiej \" start_experience_factor = 0.6 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+			98 = {
+				create_unit = {
+    				division = "name = \"2. Dywizja Piechoty Lekkiej\" division_template = \"Dywizja Piechoty Lekkiej \" start_experience_factor = 0.6 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+			939 = {
+				create_unit = {
+    				division = "name = \"3. Dywizja Piechoty Liniowej\" division_template = \"Dywizja Piechoty Liniowej \" start_experience_factor = 0.6 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+			}
+			1314 = {
+				create_unit = {
+    				division = "name = \"1. Dywizja Piechoty Liniowej\" division_template = \"Dywizja Piechoty Liniowej \" start_experience_factor = 0.6 start_equipment_factor = 0.15"
+    				owner = POL
+				}
+				create_unit = {
+    				division = "name = \"1. Dywizja Strzelców Konnych\" division_template = \"Dywizja Strzelców Konnych \" start_experience_factor = 0.6 start_equipment_factor = 0.15"
+    				owner = POL
 				}
 			}
 		}
 	}
 
+### Defence Plans
+
 	focus = {
-		id = POL_vic_Fortification_Effort
-		icon = GFX_goal_generic_fortify_city
-		cost = 70.00
+		id = POL_vic_Draw_Up_Defence_Plans
+		icon = GFX_goal_generic_position_armies
+		cost = 28
 
 		x = 12
-		y = 2
+		y = 8
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Modlin_Fortress_Upgrade }
+		prerequisite = { focus = POL_vic_An_Offensive_Force focus = POL_vic_Well_Armed_Force focus = POL_vic_Defensive_Tactics focus = POL_vic_Determined_Force }
 
 		completion_reward = {
-		    add_timed_idea = {
-                idea = POL_vic_Fortification_Effort_idea
-                days = 365
-            }
+		    add_tech_bonus = { bonus = 0.75 uses = 1 category = land_doctrine }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Modlin_Fortress_Upgrade
+		icon = GFX_goal_generic_construction2
+		cost = 28
+
+		x = 12
+		y = 9
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Draw_Up_Defence_Plans }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_expand_Modlin_fortress
+		}
+	}
+
+	focus = {
+		id = POL_vic_North_Vistula_Defence_Line
+		icon = GFX_goal_generic_territory_or_war
+		cost = 28
+
+		x = 11
+		y = 10
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Defence_Against_Prussia focus = POL_vic_Defence_Against_Russia }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_North_Vistula
+		}
+	}
+
+	focus = {
+		id = POL_vic_North_Bug_Defence_Line
+		icon = GFX_goal_generic_construction2
+		cost = 28
+
+		x = 13
+		y = 10
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Defence_Against_Prussia focus = POL_vic_Defence_Against_Russia }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_Bug
+		}
+	}
+
+	focus = {
+		id = POL_vic_Defence_Against_Prussia
+		icon = GFX_goal_focus_form_germany
+		cost = 28
+
+		x = 10
+		y = 9
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Draw_Up_Defence_Plans }
+
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.45 uses = 1 category = land_doctrine }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Warta_Defence_Line
+		icon = GFX_goal_focus_BEL_Defense_Captiol
+		cost = 28
+
+		x = 9
+		y = 10
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Defence_Against_Prussia }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_Warta
+		}
+	}
+
+	focus = {
+		id = POL_vic_Lodz_Defence
+		icon = GFX_focus_generic_manpower
+		cost = 28
+
+		x = 9
+		y = 11
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Warta_Defence_Line }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_Lodz
+		}
+	}
+
+	focus = {
+		id = POL_vic_Czestochowa_Defence
+		icon = GFX_goal_generic_build_tank
+		cost = 28
+
+		x = 9
+		y = 12
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Lodz_Defence }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_Kielce
+		}
+	}
+
+	focus = {
+		id = POL_vic_Defence_Against_Russia
+		icon = GFX_goal_fight_RUS
+		cost = 28
+
+		x = 14
+		y = 9
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Draw_Up_Defence_Plans }
+
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.45 uses = 1 category = land_doctrine }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Bug_Defence_Line
+		icon = GFX_goal_generic_fortify_city
+		cost = 28
+
+		x = 15
+		y = 10
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Defence_Against_Russia }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_Lublin
+		}
+	}
+
+	focus = {
+		id = POL_vic_Plockian_Forest_Defence
+		icon = GFX_goal_generic_small_arms
+		cost = 28
+
+		x = 14
+		y = 11
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Bug_Defence_Line }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_Plock
+		}
+	}
+
+	focus = {
+		id = POL_vic_Vistula_Defence_Line
+		icon = GFX_focus_generic_coastal_fort
+		cost = 28
+
+		x = 16
+		y = 11
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Bug_Defence_Line }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_Vistula
+		}
+	}
+
+	focus = {
+		id = POL_vic_Warsaw_Defences
+		icon = GFX_goal_generic_production
+		cost = 28
+
+		x = 16
+		y = 12
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Vistula_Defence_Line }
+
+		completion_reward = {
+		    unlock_decision_tooltip = POL_mission_vic_fortify_Warsaw
 		}
 	}
 
@@ -924,15 +1489,15 @@ focus_tree = {
     focus = {
 		id = POL_vic_January_Uprising
 		icon = GFX_goal_focus_PLC
-		cost = 10
+		cost = 7
 
 		available = {
 		    is_puppet = no
 		    RUS = { has_country_flag = POL_January }
 		}
 
-		x = 8
-		y = 5
+		x = 2
+		y = 7
 		
 		ai_will_do = { factor = 11 } 
 
@@ -953,30 +1518,6 @@ focus_tree = {
 	}
 
 	focus = {
-		id = POL_vic_Buy_Weapons
-		icon = GFX_goal_focus_increase_wages
-		cost = 35
-
-		available = {
-		    is_puppet = no
-		    RUS = { has_country_flag = POL_January }
-		}
-
-		x = 7
-		y = 7
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Establish_The_Polish_National_Goverment }
-
-		completion_reward = {
-			add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 350 }
-			unlock_decision_tooltip = POL_Buy_Rifles
-			unlock_decision_tooltip = POL_Buy_Uniforms_And_Horses
-		}
-	}
-
-	focus = {
 		id = POL_vic_Establish_The_Polish_National_Goverment
 		icon = GFX_goal_focus_reform_administration
 		cost = 15
@@ -986,8 +1527,8 @@ focus_tree = {
 		    RUS = { has_country_flag = POL_January }
 		}
 
-		x = 8
-		y = 6
+		x = 2
+		y = 8
 		
 		ai_will_do = { factor = 11 } 
 
@@ -1001,17 +1542,41 @@ focus_tree = {
 	}
 
 	focus = {
-		id = POL_vic_Recruit_Volunteers
-		icon = GFX_focus_generic_little_entente
-		cost = 35
+		id = POL_vic_Buy_Weapons
+		icon = GFX_goal_focus_increase_wages
+		cost = 30
 
 		available = {
 		    is_puppet = no
 		    RUS = { has_country_flag = POL_January }
 		}
 
-		x = 9
-		y = 7
+		x = 1
+		y = 9
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Establish_The_Polish_National_Goverment }
+
+		completion_reward = {
+			add_equipment_to_stockpile = { type = infantry_equipment_rifle_0 amount = 350 }
+			unlock_decision_tooltip = POL_Buy_Rifles
+			unlock_decision_tooltip = POL_Buy_Uniforms_And_Horses
+		}
+	}
+
+	focus = {
+		id = POL_vic_Recruit_Volunteers
+		icon = GFX_focus_generic_little_entente
+		cost = 30
+
+		available = {
+		    is_puppet = no
+		    RUS = { has_country_flag = POL_January }
+		}
+
+		x = 3
+		y = 9
 		
 		ai_will_do = { factor = 11 } 
 
@@ -1033,8 +1598,8 @@ focus_tree = {
 		    RUS = { has_country_flag = POL_January }
 		}
 
-		x = 8
-		y = 8
+		x = 5
+		y = 9
 		
 		ai_will_do = { factor = 11 } 
 
@@ -1045,19 +1610,1011 @@ focus_tree = {
 		}
 	}
 
+#### INDUSTRY
+
+	focus = {
+		id = POL_vic_Revieving_Polish_Industry
+		icon = GFX_goal_focus_industrial_revolution
+		cost = 21
+
+		available = {
+			has_war = no
+			has_completed_focus = POL_vic_Abolish_Serfdom
+		}
+
+		x = 22
+		y = 0
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 1 uses = 1 category = mechanical_engineering_tech }
+			swap_ideas = {
+				add_idea = industrializing
+				remove_idea = agrarian
+			}
+		}
+	}
+
+	### Trade
+
+	focus = {
+		id = POL_vic_Trade_Focus
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 14
+
+		x = 18
+		y = 1
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
+
+		completion_reward = {
+			add_stability = 0.03
+		}
+	}
+
+	focus = {
+		id = POL_vic_Free_Trade
+		icon = GFX_goal_focus_support_liberalism
+		cost = 21
+
+		x = 17
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Trade_Focus }
+		mutually_exclusive = { focus = POL_vic_Protectionism }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = free_trade
+				}
+				add_political_power = 45
+			}
+			else = {
+				add_ideas = free_trade
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Investors
+		icon = GFX_goal_focus_international_investments
+		cost = 21
+
+		x = 17
+		y = 5
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Free_Trade }
+
+		completion_reward = {
+			add_ideas = POL_vic_Western_Workforce
+		}
+	}
+
+	focus = {
+		id = POL_vic_Trade_With_Russia
+		icon = GFX_goal_russian_department
+		cost = 21
+
+		x = 18
+		y = 3
+
+		bypass = {
+			has_completed_focus = POL_vic_Wielopolski_Government
+		}
+		
+		available = {
+			has_completed_focus = POL_vic_Open_Embassy_RUS
+		}
+
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Free_Trade focus = POL_vic_Protectionism }
+
+		completion_reward = {
+			RUS = {
+                country_event = {
+                    id = poland.17
+                    days = 2
+                    random = 1
+                }
+		    }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Make_Deals
+		icon = GFX_goal_focus_foreign_diplomacy_economy
+		cost = 21
+
+		x = 18
+		y = 4
+
+		available = {
+			has_completed_focus = POL_vic_Establish_Diplo_Relations
+			has_completed_focus = POL_vic_Open_Embassy_GER
+		}
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Trade_With_Russia }
+
+		completion_reward = {
+			unlock_decision_tooltip = eoanb_decision_POL_vic_Trade_GER
+			unlock_decision_tooltip = eoanb_decision_POL_vic_Trade_AUS
+		}
+	}
+
+	focus = {
+		id = POL_vic_Protectionism
+		icon = GFX_goal_focus_increase_wages
+		cost = 21
+
+		x = 19
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Trade_Focus }
+		mutually_exclusive = { focus = POL_vic_Free_Trade }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = export_focus
+				}
+				add_political_power = 45
+			}
+			else = {
+				add_ideas = export_focus
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Tariff_Revenue
+		icon = GFX_goal_focus_banks
+		cost = 21
+
+		x = 19
+		y = 5
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Protectionism }
+
+		completion_reward = {
+			add_ideas = POL_vic_Tariff_Revenue_idea
+		}
+	}
+
+	### Regional Development
+
+	focus = {
+		id = POL_vic_Regional_Development
+		icon = GFX_goal_generic_consumer_goods
+		cost = 14
+
+		x = 23
+		y = 1
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 1.5 uses = 1 category = process_engineering_tech }
+		}
+	}
+
+	### Develop Polish Mining
+
+	focus = {
+		id = POL_vic_Develop_Polish_Mining
+		icon = GFX_goal_generic_production
+		cost = 28
+
+		x = 21
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Regional_Development }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 1.5 uses = 1 category = process_engineering_tech }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Increase_Steel
+		icon = GFX_goal_generic_production2
+		cost = 49
+
+		x = 20
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Develop_Polish_Mining }
+
+		completion_reward = {
+		    random_owned_controlled_state = {
+			  prioritize = { 90 }
+				add_resource = {
+					type = iron
+					amount = 6
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Build_Coal_Mines
+		icon = GFX_goal_focus_coal_mines
+		cost = 49
+
+		x = 22
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Develop_Polish_Mining }
+
+		completion_reward = {  
+		    random_owned_controlled_state = {
+			  prioritize = { 90 }
+				limit = {
+					free_building_slots = {
+						building = coal_mine
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = coal_mine
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = coal_mine
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Ironworks
+		icon = GFX_goal_focus_industrial_revolution
+		cost = 49
+
+		x = 21
+		y = 4
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Increase_Steel }
+		prerequisite = { focus = POL_vic_Build_Coal_Mines }
+
+		completion_reward = {  
+		    random_owned_controlled_state = {
+			  prioritize = { 90 }
+				limit = {
+					free_building_slots = {
+						building = steel_mill
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = steel_mill
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = steel_mill
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Warsaw_Renovation
+		icon = GFX_goal_generic_position_armies
+		cost = 42
+
+		x = 23
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Regional_Development }
+
+		completion_reward = {
+			1314 = {
+				add_extra_state_shared_building_slots = 3
+			}
+			add_political_power = -60
+		}
+	}
+
+	focus = {
+		id = POL_vic_Warsaw_Infrastructure
+		icon = GFX_goal_generic_production2
+		cost = 49
+
+		x = 23
+		y = 4
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Warsaw_Renovation }
+
+		completion_reward = {
+			1314 = {
+				add_building_construction = {
+					type = infrastructure 
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_political_power = -20
+		}
+	}
+
+	focus = {
+		id = POL_vic_Expansion_Of_Lodz
+		icon = GFX_goal_generic_construction
+		cost = 42
+
+		x = 24
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Regional_Development }
+
+		completion_reward = {
+			1315 = {
+				add_extra_state_shared_building_slots = 2
+			}
+			add_political_power = -20
+		}
+	}
+
+ 	focus = {
+		id = POL_vic_Railroads_Development
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 100
+
+		available = {
+			has_tech = standardized_gauge
+		}
+
+		x = 25
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Regional_Development }
+
+		completion_reward = {
+			random_owned_controlled_state = {
+			  prioritize = { 92 }
+				limit = {
+					free_building_slots = {
+						building = infrastructure 
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = infrastructure 
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure 
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = process_engineering_tech }
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = chemistry_tech }
+			add_political_power = -20
+		}
+	}
+
+	focus = {
+		id = POL_vic_Support_PTN
+		icon = GFX_goal_tfv_generic_tech_sharing
+		cost = 21
+
+		x = 26
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Regional_Development }
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = process_engineering_tech }
+			add_tech_bonus = { bonus = 0.75 uses = 1 category = humanities_tech }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Increase_Wood_Production
+		icon = GFX_focus_back_to_basics
+		cost = 49
+
+		x = 27
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Regional_Development }
+
+		completion_reward = {  
+		    random_owned_controlled_state = {
+			  prioritize = { 939 }
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = logging_camp
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_political_power = -35
+		}
+	}
+
+	### Other
+
+	focus = {
+		id = POL_vic_Restore_Agricultural_Society
+		icon = GFX_goal_focus_tomato_farming
+		cost = 28
+
+		available = {  }
+
+		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
+
+		x = 20
+		y = 1
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_timed_idea = {
+                idea = POL_Agricultural_Society
+                days = 7120
+            }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Polish_Positivism
+		icon = GFX_goal_anschluss
+		cost = 35
+
+		x = 25
+		y = 1
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
+
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.75 uses = 2 category = humanities_tech }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Polish_Military_Industry
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 70
+
+		available = {
+			has_completed_focus = POL_vic_Establish_The_Military_Infrastructure
+		}
+
+		x = 28
+		y = 1
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
+
+		completion_reward = {
+			random_owned_controlled_state = {
+			  prioritize = { 1314 }
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_political_power = -45
+		}
+	}
+
+	focus = {
+		id = POL_vic_Expand_Military_Industry
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 70
+
+		available = {
+			has_completed_focus = POL_vic_Support_Equipment
+			has_completed_focus = POL_vic_Draw_Up_Defence_Plans
+		}
+
+		x = 28
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Polish_Military_Industry }
+
+		completion_reward = {
+			random_owned_controlled_state = {
+			  prioritize = { 90 }
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_political_power = -45
+		}
+	}
+
+###### Socio-Economic Reforms
+
+	focus = {
+		id = POL_vic_Remove_Tsarist_Regulations
+		icon = GFX_focus_renounce_the_treaty_of_trianon
+		cost = 35
+
+		available = {
+			has_war = no
+			OR = {
+				has_completed_focus = POL_vic_Polish_Democracy
+				has_completed_focus = POL_vic_Modern_Monarchy
+				has_completed_focus = POL_vic_Wielopolski_Government
+			}
+		}
+
+		x = 32
+		y = 0
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_stability = 0.04
+		}
+	}
+
+	focus = {
+		id = POL_vic_Organic_Work
+		icon = GFX_goal_focus_newspapers
+		cost = 42
+
+		x = 30
+		y = 1
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Remove_Tsarist_Regulations }
+		prerequisite = { focus = POL_vic_Revieving_Polish_Industry }
+
+		completion_reward = {
+		    add_timed_idea = {
+                idea = POL_Organic_Work
+                days = 10950
+            }
+		}
+	}
+
+    focus = {
+		id = POL_vic_Abolish_Serfdom
+		icon = GFX_focus_rom_handle_king
+		cost = 49
+
+		prerequisite = { focus = POL_vic_Remove_Tsarist_Regulations }
+
+		x = 32
+		y = 1
+		
+		ai_will_do = { factor = 1000 } 
+
+		completion_reward = {
+			swap_ideas = {
+				add_idea = lp_land_purchase
+				remove_idea = lp_serfdom
+			} 
+            add_timed_idea = {
+                idea = POL_Refund
+                days = 180
+            }
+		}
+	}
+
+	### Migration
+
+	focus = {
+		id = POL_vic_Bring_In_Poles_From_Abroad
+		icon = GFX_focus_generic_polish_deal
+		cost = 28
+
+		x = 30
+		y = 2
+
+		prerequisite = { focus = POL_vic_Abolish_Serfdom }
+		
+		ai_will_do = { factor = 11 }
+
+		completion_reward = {
+			activate_mission_tooltip = POL_mission_vic_Polonia_Immigration_1
+			activate_mission_tooltip = POL_mission_vic_Polonia_Immigration_2
+		}
+	}
+
+	focus = {
+		id = POL_vic_Policy_Towards_Minorities
+		icon = GFX_goal_focus_reform_administration
+		cost = 28
+
+		available = {  }
+
+		x = 30
+		y = 3
+
+		prerequisite = { focus = POL_vic_Bring_In_Poles_From_Abroad }
+		
+		ai_will_do = { factor = 11 }
+
+		completion_reward = {
+			country_event = {
+                id = poland.104
+                days = 1
+                random = 0
+            } 
+		}
+	}
+
+	### Economic Reforms
+
+	focus = {
+		id = POL_vic_Restore_The_Zloty
+		icon = GFX_goal_focus_banks
+		cost = 49
+
+		available = {  }
+
+		prerequisite = { focus = POL_vic_Abolish_Serfdom }
+
+		x = 32
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+
+	focus = {
+		id = POL_vic_Reform_The_Tax_System
+		icon = GFX_goal_focus_increase_wages
+		cost = 49
+
+		available = {  }
+
+		prerequisite = { focus = POL_vic_Restore_The_Zloty }
+
+		x = 32
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+
+### Social Reforms
+
+    focus = {
+		id = POL_vic_Social_Reforms
+		icon = GFX_goal_focus_the_workers
+		cost = 28
+
+		available = {}
+
+		x = 35
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Abolish_Serfdom }
+
+		completion_reward = {
+		    add_political_power = 80
+		}
+	}
+
+	focus = {
+		id = POL_vic_Question_The_Child_Labour
+		icon = GFX_focus_generic_concessions
+		cost = 28
+
+		x = 34
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Social_Reforms }
+
+		completion_reward = {
+		    country_event = {
+                id = poland.10
+                days = 1
+                random = 0
+            }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Set_The_Work_Day_Limit
+		icon = GFX_goal_focus_working_hours
+		cost = 28
+
+		x = 34
+		y = 4
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Question_The_Child_Labour }
+
+		completion_reward = {
+			country_event = {
+                id = poland.105
+                days = 1
+                random = 0
+            }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Separation_of_church
+		icon = GFX_goal_AUS_klerikabsolutist
+		cost = 28
+
+		x = 35
+		y = 5
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Social_Reforms }
+
+		completion_reward = {
+		    country_event = {
+                id = poland.107
+                days = 1
+                random = 0
+            }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Public_Schools
+		icon = GFX_focus_research2
+		cost = 28
+
+		x = 36
+		y = 3
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Social_Reforms }
+
+		completion_reward = {
+		    swap_ideas = {
+				add_idea = open_schools
+				remove_idea = privileged_education
+			}
+		}
+	}
+
+### Administrative Issues
+
+	focus = {
+		id = POL_vic_Administrative_Issues
+		icon = GFX_goal_SWE_victory
+		cost = 28
+
+		available = {}
+
+		x = 37
+		y = 1
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Remove_Tsarist_Regulations }
+
+		completion_reward = {
+		    add_political_power = 80
+		}
+	}
+
+	focus = {
+		id = POL_vic_Regionalism
+		icon = GFX_goal_focus_gerrymandering
+		cost = 28
+
+		available = {}
+
+		x = 37
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Administrative_Issues }
+
+		completion_reward = {
+		    add_political_power = 100
+		    add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = POL_vic_Separation_Of_Powers
+		icon = GFX_goal_focus_decentralisation_power
+		cost = 28
+
+		available = {}
+
+		x = 39
+		y = 2
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Administrative_Issues }
+
+		completion_reward = {
+		    country_event = {
+                id = poland.106
+                days = 1
+                random = 0
+            }
+		}
+	}
+
 #### Politics
 
     focus = {
 		id = POL_vic_Poland_Reborn
-		icon = GFX_goal_focus_POL_Reborn
-		cost = 15
+		icon = GFX_goal_focus_support_conservatism
+		cost = 14
 
 		available = {
-			POL = { has_war = no }
+			has_war = no
 			is_puppet = no
 		}
 
-		x = 32
+		x = 45
 		y = 0
 		
 		ai_will_do = { factor = 11 } 
@@ -1101,11 +2658,9 @@ focus_tree = {
 			    }
 			    if = {
 			        limit = {
-			            POL = {
-			                OR = {
-			                    has_unit_leader = 2050
-			                    has_unit_leader = 2051
-			                }
+			            OR = {
+			                has_unit_leader = 2050
+			                has_unit_leader = 2051
 			            }
 			        }
                     country_event = {
@@ -1120,17 +2675,17 @@ focus_tree = {
 
 	focus = {
 		id = POL_vic_Establish_Civilian_Government
-		icon = GFX_goal_tripartite_pact
-		cost = 20
+		icon = GFX_focus_generic_self_management
+		cost = 12
 
 		available = {
-			POL = { has_war = no }
+			has_war = no
 			is_puppet = no
 		}
 
 		prerequisite = { focus = POL_vic_Poland_Reborn }
 
-		x = 31
+		x = 44
 		y = 1
 		
 		ai_will_do = { factor = 11 } 
@@ -1143,17 +2698,17 @@ focus_tree = {
 
 	focus = {
 		id = POL_vic_Stabilize
-		icon = GFX_focus_generic_self_management
-		cost = 20
+		icon = GFX_focus_generic_treaty
+		cost = 12
 
 		available = {
-			POL = { has_war = no }
+			has_war = no
 			is_puppet = no
 		}
 
 		prerequisite = { focus = POL_vic_Poland_Reborn }
 
-		x = 33
+		x = 46
 		y = 1
 		
 		ai_will_do = { factor = 11 } 
@@ -1170,17 +2725,17 @@ focus_tree = {
 	focus = {
 		id = POL_vic_The_Political_System
 		icon = GFX_goal_focus_free_press
-		cost = 20
+		cost = 18
 
 		available = {
-			POL = { has_war = no }
+			has_war = no
 			is_puppet = no
 		}
 
 		prerequisite = { focus = POL_vic_Establish_Civilian_Government }
 		prerequisite = { focus = POL_vic_Stabilize }
 
-		x = 32
+		x = 45
 		y = 2
 		
 		ai_will_do = { factor = 11 } 
@@ -1190,267 +2745,7 @@ focus_tree = {
                 id = poland.11
                 days = 1
                 random = 0
-            } 
-		}
-	}
-
-### Democracy
-
-	focus = {
-		id = POL_vic_Polish_Democracy
-		icon = GFX_goal_support_democracy
-		cost = 7
-
-		available = {
-			always = no
-		}
-
-		prerequisite = { focus = POL_vic_The_Political_System }
-		mutually_exclusive = { focus = POL_vic_Modern_Monarchy }
-
-		x = 25
-		y = 3
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_political_power = 60
-            swap_ideas = {
-				add_idea = universal_suffrage
-				remove_idea = universal_male_suffrage
-			}
-			create_country_leader = {
-                name = "Andrzej Artur Zamoyski"
-                desc = "POLITICS_TEMP_DESC"
-                picture = "Portrait_POL_Zamoyski.dds"
-                expire = 2000.09.10
-                ideology = conserv_liberal
             }
-            create_country_leader = {
-                name = "Jarosław Dąbrowski"
-                desc = "POLITICS_TEMP_DESC"
-                picture = "Portrait_POL_Jaroslaw_Dabrowski.dds"
-                expire = 2000.09.10
-                ideology = revolutionary
-            }
-		}
-	}
- 
-    focus = {
-		id = POL_vic_A_Democratic_Constitution
-		icon = GFX_focus_generic_treaty
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Polish_Democracy }
-
-		x = 25
-		y = 6
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			POL = {
-			    swap_ideas = {
-				    add_idea = constitution_adopted
-		            remove_idea = no_constitution
-			    }
-			}
-		}
-	}
-
-### Economic Reforms
-
-    focus = {
-		id = POL_vic_Abolish_Serfdom
-		icon = GFX_focus_rom_handle_king
-		cost = 70
-
-		available = { 
-		    OR = {
-		        POL = { has_completed_focus = POL_vic_Pacta_Conventa }
-		        POL = { has_completed_focus = POL_vic_A_Democratic_Constitution }
-		    }
-	    }
-
-		prerequisite = { focus = POL_vic_Polish_Democracy focus = POL_vic_Modern_Monarchy }
-
-		x = 30
-		y = 4
-		
-		ai_will_do = { factor = 100 } 
-
-		completion_reward = {
-			swap_ideas = {
-				add_idea = lp_land_purchase
-				remove_idea = lp_serfdom
-			} 
-            add_timed_idea = {
-                idea = POL_Refund
-                days = 180
-            }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Restore_The_Zloty
-		icon = GFX_goal_focus_banks
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Abolish_Serfdom }
-
-		x = 29
-		y = 5
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_political_power = 120
-		}
-	}
-
-	focus = {
-		id = POL_vic_Reform_The_Tax_System
-		icon = GFX_goal_focus_increase_wages
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Abolish_Serfdom }
-
-		x = 31
-		y = 5
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_political_power = 120
-		}
-	}
-
-	focus = {
-		id = POL_vic_Organic_Work
-		icon = GFX_goal_anschluss
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 30
-		y = 6
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Abolish_Serfdom }
-
-		completion_reward = {
-		    add_timed_idea = {
-                idea = POL_Organic_Work
-                days = 10950
-            }
-		}
-	}
-
-### Social Reforms
-
-    focus = {
-		id = POL_vic_Social_Reforms
-		icon = GFX_goal_focus_the_workers
-		cost = 70
-
-		available = {
-			OR = {
-			    POL = { has_completed_focus = POL_vic_Pacta_Conventa }
-			    POL = { has_completed_focus = POL_vic_A_Democratic_Constitution }
-			}
-		}
-
-		x = 34
-		y = 4
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Polish_Democracy focus = POL_vic_Modern_Monarchy }
-
-		completion_reward = {
-		    add_political_power = 80
-		}
-	}
-
-	focus = {
-		id = POL_vic_Question_The_Child_Labour
-		icon = GFX_focus_generic_concessions
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 33
-		y = 5
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Social_Reforms }
-
-		completion_reward = {
-		    country_event = {
-                id = poland.10
-                days = 1
-                random = 0
-            } 
-		}
-	}
-
-	focus = {
-		id = POL_vic_Set_The_Work_Day_Limit
-		icon = GFX_goal_focus_working_hours
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 33
-		y = 6
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Question_The_Child_Labour }
-
-		completion_reward = {
-		    swap_ideas = {
-				add_idea = fourteen_hour_work_day
-				remove_idea = unlimited_work_day
-			}
-		}
-	}
-
-	focus = {
-		id = POL_vic_Public_Schools
-		icon = GFX_focus_research
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 35
-		y = 5
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Social_Reforms }
-
-		completion_reward = {
-		    swap_ideas = {
-				add_idea = open_schools
-				remove_idea = privileged_education
-			}
 		}
 	}
 
@@ -1468,7 +2763,7 @@ focus_tree = {
 		prerequisite = { focus = POL_vic_The_Political_System }
 		mutually_exclusive = { focus = POL_vic_Polish_Democracy }
 
-		x = 39
+		x = 41
 		y = 3
 		
 		ai_will_do = { factor = 11 } 
@@ -1506,12 +2801,11 @@ focus_tree = {
 	            ideology = absolutism
 	            traits = { }
             }
-            POL = {  #Finding the king
-                country_event = {
-                    id = poland.58
-                    days = 2
-                    random = 1
-                }
+            #Finding the king
+            country_event = {
+                id = poland.58
+                days = 2
+                random = 1
             }
 			hidden_effect = {
                 POL = {
@@ -1539,7 +2833,7 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Pacta_Conventa
 		icon = GFX_goal_focus_enact_law
-		cost = 70
+		cost = 0
 
 		available = { 
 		    always = no
@@ -1547,7 +2841,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Modern_Monarchy }
 
-		x = 39
+		x = 41
 		y = 5
 		
 		ai_will_do = { factor = 11 } 
@@ -1578,7 +2872,7 @@ focus_tree = {
     focus = {
 		id = POL_vic_Wettin
 		icon = GFX_focus_ger_revive_kaiserreich
-		cost = 70
+		cost = 14
 
 		available = { 
 		    has_country_flag = POL_vic_mon_SAX_chosen
@@ -1589,7 +2883,7 @@ focus_tree = {
 		mutually_exclusive = { focus = POL_vic_Piast }
 		mutually_exclusive = { focus = POL_vic_Bonaparte }
 
-		x = 36
+		x = 38
 		y = 6
 		
 		ai_will_do = { factor = 11 } 
@@ -1612,7 +2906,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Wettin }
 
-		x = 35
+		x = 37
 		y = 7
 		
 		ai_will_do = { factor = 11 } 
@@ -1634,7 +2928,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Support_The_Lower_Classes }
 
-		x = 35
+		x = 37
 		y = 8
 		
 		ai_will_do = { factor = 11 } 
@@ -1658,7 +2952,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Support_The_Education }
 
-		x = 35
+		x = 37
 		y = 9
 		
 		ai_will_do = { factor = 11 } 
@@ -1674,7 +2968,7 @@ focus_tree = {
     focus = {
 		id = POL_vic_Habsburg
 		icon = GFX_goal_AUS_franz_kaiser
-		cost = 70
+		cost = 14
 
 		available = { 
 		    has_country_flag = POL_vic_mon_AUS_chosen
@@ -1685,7 +2979,7 @@ focus_tree = {
 		mutually_exclusive = { focus = POL_vic_Piast }
 		mutually_exclusive = { focus = POL_vic_Bonaparte }
 
-		x = 38
+		x = 40
 		y = 6
 		
 		ai_will_do = { factor = 11 } 
@@ -1706,7 +3000,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Habsburg }
 
-		x = 37
+		x = 39
 		y = 7
 		
 		ai_will_do = { factor = 11 } 
@@ -1726,7 +3020,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Patronage_Of_Art }
 
-		x = 37
+		x = 39
 		y = 8
 		
 		ai_will_do = { factor = 11 } 
@@ -1746,7 +3040,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Strengthen_The_Church }
 
-		x = 37
+		x = 39
 		y = 9
 		
 		ai_will_do = { factor = 11 } 
@@ -1767,7 +3061,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Wettin focus = POL_vic_Habsburg focus = POL_vic_Piast focus = POL_vic_Bonaparte }
 
-		x = 39
+		x = 41
 		y = 7
 		
 		ai_will_do = { factor = 11 } 
@@ -1786,7 +3080,7 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Piast
 		icon = GFX_goal_focus_PLC
-		cost = 70
+		cost = 14
 
 		available = { 
 		    has_country_flag = POL_vic_mon_POL_chosen
@@ -1797,7 +3091,7 @@ focus_tree = {
 		mutually_exclusive = { focus = POL_vic_Habsburg }
 		mutually_exclusive = { focus = POL_vic_Bonaparte }
 
-		x = 40
+		x = 42
 		y = 6
 		
 		ai_will_do = { factor = 11 } 
@@ -1819,7 +3113,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Piast }
 
-		x = 41
+		x = 43
 		y = 7
 		
 		ai_will_do = { factor = 11 } 
@@ -1842,7 +3136,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_International_Influences }
 
-		x = 41
+		x = 43
 		y = 8
 		
 		ai_will_do = { factor = 11 } 
@@ -1865,7 +3159,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Support_Scientific_Societies }
 
-		x = 41
+		x = 43
 		y = 9
 		
 		ai_will_do = { factor = 11 } 
@@ -1881,7 +3175,7 @@ focus_tree = {
     focus = {
 		id = POL_vic_Bonaparte
 		icon = GFX_goal_focus_napoleonic_assemblee_nationale
-		cost = 70
+		cost = 14
 
 		available = {  
 		    has_country_flag = POL_vic_mon_FRA_chosen
@@ -1892,7 +3186,7 @@ focus_tree = {
 		mutually_exclusive = { focus = POL_vic_Habsburg }
 		mutually_exclusive = { focus = POL_vic_Piast }
 
-		x = 42
+		x = 44
 		y = 6
 		
 		ai_will_do = { factor = 11 } 
@@ -1913,7 +3207,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Bonaparte }
 
-		x = 43
+		x = 45
 		y = 7
 		
 		ai_will_do = { factor = 11 } 
@@ -1933,7 +3227,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Liberal_Reforms }
 
-		x = 43
+		x = 45
 		y = 8
 		
 		ai_will_do = { factor = 11 } 
@@ -1952,7 +3246,7 @@ focus_tree = {
 
 		prerequisite = { focus = POL_vic_Army_Reform }
 
-		x = 43
+		x = 45
 		y = 9
 		
 		ai_will_do = { factor = 11 } 
@@ -1963,506 +3257,989 @@ focus_tree = {
 		}
 	}
 
+### Political Issues
 
+	#focus = {
+	#	id = POL_vic_Political_Issues
+	#	icon = GFX_goal_anschluss
+	#	cost = 14
+	#
+	#	prerequisite = { focus = POL_vic_Polish_Democracy focus = POL_vic_Modern_Monarchy }
+	#
+	#	x = 43
+	#	y = 4
+	#	
+	#	ai_will_do = { factor = 11 } 
+	#
+	#	completion_reward = {
+	#		
+	#	}
+	#}
 
-#### Foreign Relations
+### Democracy
 
-    focus = {
-		id = POL_vic_Foreign_Relations
-		icon = GFX_goal_generic_improve_relations
-		cost = 70
+	focus = {
+		id = POL_vic_Polish_Democracy
+		icon = GFX_goal_support_democracy
+		cost = 7
 
-		available = { 
-            POL = { has_completed_focus = POL_vic_Abolish_Serfdom }
+		available = {
+			always = no
 		}
 
-		#prerequisite = { focus =  }
+		prerequisite = { focus = POL_vic_The_Political_System }
+		mutually_exclusive = { focus = POL_vic_Modern_Monarchy }
 
-		x = 39
-		y = 10
+		x = 49
+		y = 3
 		
 		ai_will_do = { factor = 11 } 
 
 		completion_reward = {
 			add_political_power = 60
+            swap_ideas = {
+				add_idea = universal_suffrage
+				remove_idea = universal_male_suffrage
+			}
+			create_country_leader = {
+                name = "Andrzej Artur Zamoyski"
+                desc = "POLITICS_TEMP_DESC"
+                picture = "Portrait_POL_Zamoyski.dds"
+                expire = 2000.09.10
+                ideology = conserv_liberal
+            }
+            create_country_leader = {
+                name = "Jarosław Dąbrowski"
+                desc = "POLITICS_TEMP_DESC"
+                picture = "Portrait_POL_Jaroslaw_Dabrowski.dds"
+                expire = 2000.09.10
+                ideology = revolutionary
+            }
 		}
 	}
 
-## West
 
-    focus = {
-		id = POL_vic_West_Europe
-		icon = GFX_goal_focus_continent_west_europe
-		cost = 70
 
-		available = {  }
+#### Foreign Relations
 
+	focus = {
+		id = POL_vic_Securing_Our_Independence
+		icon = GFX_goal_generic_propaganda
+		cost = 14
+
+		available = { 
+            has_completed_focus = POL_vic_Abolish_Serfdom
+            is_puppet = no
+		}
+
+		x = 23
+		y = 6
+		
 		prerequisite = { focus = POL_vic_Foreign_Relations }
-
-		x = 35
-		y = 11
+		mutually_exclusive = { focus = POL_vic_Russia_PU }
 		
 		ai_will_do = { factor = 11 } 
 
 		completion_reward = {
-			add_political_power = 80
+			add_political_power = 35
 		}
 	}
 
 	focus = {
-		id = POL_vic_Visit_France
+		id = POL_vic_Establish_Diplo_Relations
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 28
+
+		x = 26
+		y = 7
+		
+		prerequisite = { focus = POL_vic_Securing_Our_Independence }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_opinion_modifier = { target = AUS modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = AUS modifier = eoanb_om_RUS_increase_very_small }
+
+			add_opinion_modifier = { target = ENG modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = ENG modifier = eoanb_om_RUS_increase_very_small }
+
+			add_opinion_modifier = { target = DEN modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = DEN modifier = eoanb_om_RUS_increase_very_small }
+
+			add_opinion_modifier = { target = SPR modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = SPR modifier = eoanb_om_RUS_increase_very_small }
+
+			add_opinion_modifier = { target = PIE modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = PIE modifier = eoanb_om_RUS_increase_very_small }
+
+			add_opinion_modifier = { target = OTO modifier = eoanb_om_RUS_increase_very_small }
+			reverse_add_opinion_modifier = { target = OTO modifier = eoanb_om_RUS_increase_very_small }
+		}
+	}
+
+	focus = {
+		id = POL_vic_French_Guarantee
 		icon = GFX_goal_focus_ally_FRA
-		cost = 70
+		cost = 14
 
-		available = {  }
-
-		prerequisite = { focus = POL_vic_West_Europe }
-
-		x = 34
-		y = 12
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_opinion_modifier = { target = FRA modifier = POL_coop_France }
-			reverse_add_opinion_modifier = { target = FRA modifier = POL_coop_Poland }
+		available = {
+			NOT = {
+				has_war_with = FRA
+			}
 		}
-	}
 
-	focus = {
-		id = POL_vic_Trade_Deals_With_France
-		icon = GFX_goal_focus_merchants_french
-		cost = 70
+		bypass = {
+			has_war_with = FRA
+			is_guaranteed_by = FRA
+		}
 
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Visit_France }
-
-		x = 34
-		y = 13
+		x = 23
+		y = 7
+		
+		prerequisite = { focus = POL_vic_Securing_Our_Independence }
 		
 		ai_will_do = { factor = 11 } 
 
 		completion_reward = {
 			FRA = {
-				add_opinion_modifier = {
-					target = POL
-					modifier = fra_free_trade
-				}
+                country_event = {
+                    id = poland.114
+                    days = 3
+                    random = 1
+                }
+		    }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Open_Embassy_GER
+		icon = GFX_goal_focus_invite_prussian_diplomats
+		cost = 28
+
+		available = {
+			NOT = {
+				has_war_with = GER
+				has_war_with = PRS
+			}
+		}
+
+		x = 21
+		y = 8
+		
+		prerequisite = { focus = POL_vic_French_Guarantee }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			if = {
+                limit = {
+                    PRS = { exists = yes }
+                    GER = { exists = no }
+                }
+		        PRS = {
+            		add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_very_small }
+					reverse_add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_very_small }
+		        }
+			}
+			if = {
+                limit = {
+                    GER = { exists = yes }
+                }
+			    GER = { 
+            		add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_very_small }
+					reverse_add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_very_small }
+			    }
 			}
 		}
 	}
 
 	focus = {
-		id = POL_vic_Visit_Britian
-		icon = GFX_goal_focus_ally_ENG
-		cost = 70
+		id = POL_vic_NAP_GER
+		icon = GFX_goal_focus_ally_PRS
+		cost = 28
 
-		available = {  }
+		available = {
+			has_completed_focus = POL_vic_Make_Deals
+			has_country_flag = POL_vic_PRS_GER_Trade_Deal_GOOD
+			NOT = {
+				has_war_with = GER
+				has_war_with = PRS
+			}
+		}
 
-		prerequisite = { focus = POL_vic_West_Europe }
-
-		x = 32
-		y = 12
+		x = 20
+		y = 9
+		
+		prerequisite = { focus = POL_vic_Open_Embassy_GER }
 		
 		ai_will_do = { factor = 11 } 
 
 		completion_reward = {
-			add_opinion_modifier = { target = ENG modifier = POL_coop_Britian }
-			reverse_add_opinion_modifier = { target = ENG modifier = POL_coop_Poland }
+			if = {
+                limit = {
+                    PRS = { exists = yes }
+                    GER = { exists = no }
+                }
+		        PRS = {
+            		country_event = {
+                    	id = poland.117
+                    	days = 3
+                    	random = 1
+                	}
+		        }
+			}
+			else_if = {
+                limit = {
+                    GER = { exists = yes }
+                }
+			    GER = { 
+            		country_event = {
+                    	id = poland.117
+                    	days = 3
+                    	random = 1
+                	}
+			    }
+			}
 		}
 	}
 
 	focus = {
-		id = POL_vic_British_Military_Aid
+		id = POL_vic_Join_The_Zollverein
+		icon = GFX_focus_ger_revive_kaiserreich
+		cost = 28
+
+		available = {
+			has_completed_focus = POL_vic_Make_Deals
+			has_country_flag = POL_vic_PRS_GER_Trade_Deal_GOOD
+			NOT = {
+				has_war_with = GER
+				has_war_with = PRS
+			}
+		}
+
+		x = 21
+		y = 10
+		
+		prerequisite = { focus = POL_vic_Open_Embassy_GER }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			if = {
+                limit = {
+                    PRS = { exists = yes }
+                    GER = { exists = no }
+                }
+		        PRS = {
+            		country_event = {
+                    	id = poland.125
+                    	days = 3
+                    	random = 1
+                	}
+		        }
+			}
+			else_if = {
+                limit = {
+                    GER = { exists = yes }
+                }
+			    GER = { 
+            		country_event = {
+                    	id = poland.125
+                    	days = 3
+                    	random = 1
+                	}
+			    }
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Join_GER_Sphere
+		icon = GFX_goal_focus_unlock_germany
+		cost = 28
+
+		available = {
+			NOT = {
+				has_war_with = GER
+				has_war_with = PRS
+				has_completed_focus = POL_vic_On_Our_Own
+
+				OR = {
+					AND = {
+						is_guaranteed_by = AUS
+						has_guaranteed = AUS
+					}
+					AND = {
+						is_guaranteed_by = FRA
+						has_guaranteed = FRA
+					}
+					AND = {
+						is_guaranteed_by = RUS
+						has_guaranteed = RUS
+					}
+				}
+			}
+		}
+
+		x = 20
+		y = 11
+		
+		prerequisite = { focus = POL_vic_NAP_GER }
+		prerequisite = { focus = POL_vic_Join_The_Zollverein }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			hidden_effect = {
+				clr_country_flag = POL_vic_PRS_GER_Trade_Deal_GOOD
+			}
+			if = {
+                limit = {
+                    PRS = { exists = yes }
+                    GER = { exists = no }
+                }
+		        PRS = {
+            		country_event = {
+                    	id = poland.128
+                    	days = 3
+                    	random = 1
+                	}
+		        }
+			}
+			else_if = {
+                limit = {
+                    GER = { exists = yes }
+                }
+			    GER = { 
+            		country_event = {
+                    	id = poland.128
+                    	days = 3
+                    	random = 1
+                	}
+			    }
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Open_Embassy_RUS
+		icon = GFX_goal_focus_embassy_st_petersburg
+		cost = 28
+
+		available = {
+			NOT = {
+				has_war_with = RUS
+			}
+		}
+
+		x = 23
+		y = 8
+		
+		prerequisite = { focus = POL_vic_French_Guarantee }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			RUS = {
+				add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_very_small }
+				reverse_add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_very_small }
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_NAP_RUS
+		icon = GFX_goal_generic_major_alliance
+		cost = 28
+
+		available = {
+			NOT = {
+				has_war_with = RUS
+			}
+			has_completed_focus = POL_vic_Trade_With_Russia
+		}
+
+		x = 23
+		y = 9
+		
+		prerequisite = { focus = POL_vic_Open_Embassy_RUS }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			RUS = {
+            	country_event = {
+                    id = poland.120
+                    days = 3
+                    random = 1
+                }
+		    }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Join_RUS_Sphere
+		icon = GFX_goal_focus_RUS_Reform_Empire
+		cost = 28
+
+		available = {
+			NOT = {
+				has_war_with = RUS
+				has_completed_focus = POL_vic_On_Our_Own
+
+				OR = {
+					AND = {
+						is_guaranteed_by = GER
+						has_guaranteed = GER
+					}
+					AND = {
+						is_guaranteed_by = PRS
+						has_guaranteed = PRS
+					}
+					AND = {
+						is_guaranteed_by = AUS
+						has_guaranteed = AUS
+					}
+					AND = {
+						is_guaranteed_by = FRA
+						has_guaranteed = FRA
+					}
+				}
+			}
+		}
+
+		x = 22
+		y = 11
+		
+		prerequisite = { focus = POL_vic_NAP_RUS }
+		
+		ai_will_do = { 
+			factor = 11 
+			modifier = {
+				factor = 0
+				NOT = {
+					AND = {
+						has_completed_focus = POL_vic_Join_GER_Sphere
+						has_completed_focus = POL_vic_Alliance_AUS
+						has_completed_focus = POL_vic_Ally_France
+					}
+				}
+			}
+		} 
+
+		completion_reward = {
+			RUS = {
+            	country_event = {
+                    id = poland.131
+                    days = 3
+                    random = 1
+                }
+		    }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Pro_Western_Diplomacy
+		icon = GFX_goal_focus_continent_west_europe
+		cost = 28
+
+		x = 24
+		y = 10
+		
+		prerequisite = { focus = POL_vic_French_Guarantee }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_political_power = 35
+			FRA = {
+				add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_small }
+				reverse_add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_small }
+			}
+			AUS = {
+				add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_very_small }
+				reverse_add_opinion_modifier = { target = POL modifier = eoanb_om_RUS_increase_very_small }
+			}
+		}
+	}
+
+	focus = {
+		id = POL_vic_Alliance_AUS
+		icon = GFX_goal_focus_ally_AUS
+		cost = 28
+
+		available = {
+			has_completed_focus = POL_vic_Make_Deals
+			has_country_flag = POL_vic_AUS_Trade_Deal_GOOD
+			NOT = {
+				has_war_with = AUS
+				has_completed_focus = POL_vic_On_Our_Own
+
+				OR = {
+					AND = {
+						is_guaranteed_by = GER
+						has_guaranteed = GER
+					}
+					AND = {
+						is_guaranteed_by = PRS
+						has_guaranteed = PRS
+					}
+					AND = {
+						is_guaranteed_by = RUS
+						has_guaranteed = RUS
+					}
+				}
+			}
+		}
+
+		x = 24
+		y = 11
+		
+		prerequisite = { focus = POL_vic_Pro_Western_Diplomacy }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			hidden_effect = {
+				clr_country_flag = POL_vic_AUS_Trade_Deal_GOOD
+			}
+			AUS = {
+            	country_event = {
+                    id = poland.134
+                    days = 3
+                    random = 1
+                }
+		    }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Ally_France
+		icon = GFX_goal_focus_merchants_french
+		cost = 28
+
+		available = {
+			NOT = {
+				has_war_with = FRA
+				has_completed_focus = POL_vic_On_Our_Own
+
+				OR = {
+					AND = {
+						is_guaranteed_by = GER
+						has_guaranteed = GER
+					}
+					AND = {
+						is_guaranteed_by = PRS
+						has_guaranteed = PRS
+					}
+					AND = {
+						is_guaranteed_by = RUS
+						has_guaranteed = RUS
+					}
+				}
+			}
+		}
+
+		x = 26
+		y = 11
+		
+		prerequisite = { focus = POL_vic_Pro_Western_Diplomacy }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			FRA = {
+            	country_event = {
+                    id = poland.137
+                    days = 3
+                    random = 1
+                }
+		    }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Request_Allied_Military_Aid
 		icon = GFX_goal_generic_intelligence_exchange
-		cost = 70
+		cost = 28
 
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Visit_Britian }
-
-		x = 32
-		y = 13
+		x = 23
+		y = 12
+		
+		prerequisite = { focus = POL_vic_Join_GER_Sphere focus = POL_vic_Ally_France focus = POL_vic_Alliance_AUS focus = POL_vic_Join_RUS_Sphere focus = POL_vic_Alliance_GER focus = POL_vic_Alliance_ITA}
 		
 		ai_will_do = { factor = 11 } 
 
 		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
-			army_experience = 15
+			army_experience = 30
+			add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
+			add_tech_bonus = { bonus = 0.75 uses = 1 category = infantry_weapons }
 		}
 	}
 
 	focus = {
-		id = POL_vic_European_Rivalries
-		icon = GFX_goal_focus_leave_continent_alone
-		cost = 70
+		id = POL_vic_On_Our_Own
+		icon = GFX_goal_generic_alliance
+		cost = 28
 
-		available = {  }
+		available = {
+			NOT = {
+				OR = {
+					AND = {
+						is_guaranteed_by = GER
+						has_guaranteed = GER
+					}
+					AND = {
+						is_guaranteed_by = PRS
+						has_guaranteed = PRS
+					}
+					AND = {
+						is_guaranteed_by = AUS
+						has_guaranteed = AUS
+					}
+					AND = {
+						is_guaranteed_by = FRA
+						has_guaranteed = FRA
+					}
+					AND = {
+						is_guaranteed_by = RUS
+						has_guaranteed = RUS
+					}
+				}
+			}
+		}
 
-		prerequisite = { focus = POL_vic_West_Europe }
+		x = 26
+		y = 8
+		
+		prerequisite = { focus = POL_vic_French_Guarantee }
+		
+		ai_will_do = {
+			factor = 11 
+			modifier = {
+				factor = 0
+				NOT = {
+					AND = {
+						has_completed_focus = POL_vic_Join_GER_Sphere
+						has_completed_focus = POL_vic_Alliance_AUS
+						has_completed_focus = POL_vic_Ally_France
+						has_completed_focus = POL_vic_Join_RUS_Sphere
+					}
+				}
+			}
+		} 
 
-		x = 37
-		y = 12
+		completion_reward = {
+			add_political_power = 35
+		}
+	}
+
+	focus = {
+		id = POL_vic_Intervene_In_Bruderkrieg
+		icon = GFX_goal_generic_major_war
+		cost = 14
+
+		available = {
+			PRS = {
+				has_war_with = AUS
+			}
+		}
+
+		x = 25
+		y = 9
+		
+		prerequisite = { focus = POL_vic_On_Our_Own }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			country_event = {
+                id = poland.123
+            }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Intervene_In_Prusso_French_War
+		icon = GFX_focus_generic_strike_at_democracy1
+		cost = 14
+
+		available = {
+			PRS = {
+				has_war_with = FRA
+			}
+		}
+
+		x = 27
+		y = 9
+		
+		prerequisite = { focus = POL_vic_On_Our_Own }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			country_event = {
+                id = poland.124
+            }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Buy_Military_Equipment
+		icon = GFX_goal_generic_small_arms
+		cost = 28
+
+		x = 29
+		y = 7
+		
+		prerequisite = { focus = POL_vic_Securing_Our_Independence focus = POL_vic_Russia_PU }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = infantry_weapons }
+			unlock_decision_tooltip = POL_vic_decision_FRA_weapons
+			unlock_decision_tooltip = POL_vic_decision_FRA_uniforms
+		}
+	}
+
+	focus = {
+		id = POL_vic_UK_Weapons
+		icon = GFX_goal_focus_merchants_british
+		cost = 28
+
+		x = 28
+		y = 8
+		
+		prerequisite = { focus = POL_vic_Buy_Military_Equipment }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = infantry_weapons }
+			unlock_decision_tooltip = POL_vic_decision_ENG_weapons
+			unlock_decision_tooltip = POL_vic_decision_ENG_cav
+			unlock_decision_tooltip = POL_vic_decision_ENG_uniforms
+		}
+	}
+
+	focus = {
+		id = POL_vic_US_Weapons
+		icon = GFX_focus_chi_mission_to_the_us
+		cost = 28
+
+		x = 30
+		y = 8
+		
+		prerequisite = { focus = POL_vic_Buy_Military_Equipment }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = infantry_weapons }
+			unlock_decision_tooltip = POL_vic_decision_US_weapons
+			unlock_decision_tooltip = POL_vic_decision_US_art
+			unlock_decision_tooltip = POL_vic_decision_US_cav
+		}
+	}
+
+	focus = {
+		id = POL_vic_PRS_Weapons
+		icon = GFX_focus_prussian_guns
+		cost = 28
+
+		x = 29
+		y = 9
+		
+		prerequisite = { focus = POL_vic_Buy_Military_Equipment }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = artillery }
+			unlock_decision_tooltip = POL_vic_decision_PRS_art
+			unlock_decision_tooltip = POL_vic_decision_PRS_weapons
+		}
+	}
+
+	focus = {
+		id = POL_vic_RUS_Weapons
+		icon = GFX_goal_focus_negotiate_russia
+		cost = 28
+
+		x = 31
+		y = 9
+
+		available = { 
+            is_puppet_of = RUS
+		}
+		
+		prerequisite = { focus = POL_vic_Buy_Military_Equipment }
+		prerequisite = { focus = POL_vic_Russia_PU }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.45 uses = 1 category = artillery }
+			unlock_decision_tooltip = POL_vic_decision_RUS_art
+			unlock_decision_tooltip = POL_vic_decision_RUS_weapons
+		}
+	}
+
+### PU with Russia
+
+	focus = {
+		id = POL_vic_Russia_PU
+		icon = GFX_Focus_RUS_tsars_reforms
+		cost = 14
+
+		available = { 
+            has_completed_focus = POL_vic_Abolish_Serfdom
+            is_puppet_of = RUS
+            RUS = {
+            	OR = {
+            		has_idea = absolute_monarchy
+            		has_idea = constitutional_monarchy
+            		has_idea = parliamentary_monarchy
+            	}
+            }
+		}
+
+		# Allows Poland to access the military part of the tree when they aren't Russia's puppet
+		bypass = {
+			AND = {
+				has_completed_focus = POL_vic_Abolish_Serfdom
+				OR = {
+					AND = {
+						is_puppet = yes
+						NOT = { is_puppet_of = RUS }
+					}	
+					AND = {
+						is_puppet_of = RUS
+            			RUS = {
+            				NOT = {
+            					has_idea = absolute_monarchy
+            					has_idea = constitutional_monarchy
+            					has_idea = parliamentary_monarchy
+            				}
+            			}
+					}
+				}
+			}
+		}
+
+		x = 31
+		y = 6
+		
+		prerequisite = { focus = POL_vic_Foreign_Relations }
+		mutually_exclusive = { focus = POL_vic_Securing_Our_Independence }
+		
+		ai_will_do = { factor = 11 } 
+
+		completion_reward = {
+			add_political_power = 45
+			add_opinion_modifier = { target = RUS modifier = eoanb_om_RUS_increase_small }
+			reverse_add_opinion_modifier = { target = RUS modifier = eoanb_om_RUS_increase_small }
+		}
+	}
+
+	focus = {
+		id = POL_vic_RUS_Trade
+		icon = GFX_goal_focus_support_liberalism
+		cost = 21
+
+		available = { 
+            is_puppet_of = RUS
+            RUS = {
+            	OR = {
+            		has_idea = absolute_monarchy
+            		has_idea = constitutional_monarchy
+            		has_idea = parliamentary_monarchy
+            	}
+            }
+		}
+
+		x = 32
+		y = 7
+		
+		ai_will_do = { factor = 11 } 
+
+		prerequisite = { focus = POL_vic_Russia_PU }
+
+		completion_reward = {
+		    add_timed_idea = {
+                idea = POL_vic_Russian_Trade
+                days = 4272
+            }
+		}
+	}
+
+	focus = {
+		id = POL_vic_Invite_The_Tsar
+		icon = GFX_goal_focus_popularize
+		cost = 14
+
+		available = { 
+            is_puppet_of = RUS
+            RUS = {
+            	OR = {
+            		has_idea = absolute_monarchy
+            		has_idea = constitutional_monarchy
+            		has_idea = parliamentary_monarchy
+            	}
+            }
+		}
+
+		x = 32
+		y = 8
+		
+		prerequisite = { focus = POL_vic_RUS_Trade }
 		
 		ai_will_do = { factor = 11 } 
 
 		completion_reward = {
 			add_political_power = 60
+			add_war_support = 0.05
+			add_opinion_modifier = { target = RUS modifier = eoanb_om_RUS_increase_small }
+			reverse_add_opinion_modifier = { target = RUS modifier = eoanb_om_RUS_increase_small }
 		}
 	}
 
 	focus = {
-		id = POL_vic_Italian_Relations
-		icon = GFX_goal_focus_italian_identity
-		cost = 70
+		id = POL_vic_RUS_army_coop
+		icon = GFX_focus_generic_military_mission
+		cost = 28
 
-		available = {  }
-
-		prerequisite = { focus = POL_vic_European_Rivalries }
-
-		x = 36
-		y = 13
+		x = 30
+		y = 10
 		
 		ai_will_do = { factor = 11 } 
 
+		prerequisite = { focus = POL_vic_RUS_Weapons }
+
 		completion_reward = {
-			add_opinion_modifier = { target = ITA modifier = eoanb_om_PRS_focus_like }
-			reverse_add_opinion_modifier = { target = ITA modifier = eoanb_om_PRS_focus_like }
+		    army_experience = 10
+		    add_tech_bonus = { bonus = 0.85 uses = 1 category = land_doctrine }
+		    RUS = { army_experience = 10 }
 		}
 	}
 
 	focus = {
-		id = POL_vic_Support_Italy
-		icon = GFX_goal_generic_major_alliance
-		cost = 70
+		id = POL_vic_RUS_Weapons_Development
+		icon = GFX_goal_generic_small_arms
+		cost = 28
 
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Italian_Relations }
-		mutually_exclusive = { focus = POL_vic_Support_Austria }
-
-		x = 36
-		y = 14
+		x = 32
+		y = 10
 		
 		ai_will_do = { factor = 11 } 
 
-		completion_reward = {
-		    add_political_power = 60
-			ITA = { add_political_power = 60 }
-			reverse_add_opinion_modifier = { target = AUS modifier = eoanb_om_PRS_focus_dislike }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Austrian_Relations
-		icon = GFX_goal_focus_ally_AUS
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_European_Rivalries }
-
-		x = 38
-		y = 13
-		
-		ai_will_do = { factor = 11 } 
+		prerequisite = { focus = POL_vic_RUS_Weapons }
 
 		completion_reward = {
-			add_opinion_modifier = { target = AUS modifier = eoanb_om_PRS_focus_like }
-			reverse_add_opinion_modifier = { target = AUS modifier = eoanb_om_PRS_focus_like }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Support_Austria
-		icon = GFX_goal_generic_major_alliance
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Austrian_Relations }
-		mutually_exclusive = { focus = POL_vic_Support_Italy }
-
-		x = 38
-		y = 14
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-		    add_political_power = 60
-			AUS = { add_political_power = 60 }
-			reverse_add_opinion_modifier = { target = ITA modifier = eoanb_om_PRS_focus_dislike }
-		}
-	}
-
-## PRS, RUS
-
-    focus = {
-		id = POL_vic_Our_Rivals
-		icon = GFX_goal_generic_dangerous_deal
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Foreign_Relations }
-
-		x = 43
-		y = 11
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_political_power = 80
-		}
-	}
-
-# PRS
-
-    focus = {
-		id = POL_vic_German_Policy
-		icon = GFX_goal_focus_unlock_germany
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Our_Rivals }
-
-		x = 41
-		y = 12
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_political_power = 80
-		}
-	}
-
-	focus = {
-		id = POL_vic_Germany_Hostile_Relations
-		icon = GFX_focus_generic_strike_at_democracy2
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_German_Policy }
-		mutually_exclusive = { focus = POL_vic_Germany_Good_Relations }
-
-		x = 40
-		y = 13
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-		    if = {
-                limit = {
-                    PRS = { exists = yes }
-                    GER = { exists = no }
-                }
-		        add_opinion_modifier = { target = PRS modifier = eoanb_om_PRS_focus_dislike }
-			    reverse_add_opinion_modifier = { target = PRS modifier = eoanb_om_PRS_focus_dislike }
-			}
-			if = {
-                limit = {
-                    GER = { exists = yes }
-                }
-			    add_opinion_modifier = { target = GER modifier = eoanb_om_PRS_focus_dislike }
-			    reverse_add_opinion_modifier = { target = GER modifier = eoanb_om_PRS_focus_dislike }
-			}
-		}
-	}
-
-	focus = {
-		id = POL_vic_Buy_French_Weapons
-		icon = GFX_goal_focus_invite_french_diplomats
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Germany_Hostile_Relations }
-
-		x = 40
-		y = 14
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-            add_equipment_to_stockpile = { type = infantry_equipment_rifle_1 amount = 2500 producer = FRA }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Germany_Good_Relations
-		icon = GFX_goal_focus_invite_prussian_diplomats
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_German_Policy }
-		mutually_exclusive = { focus = POL_vic_Germany_Hostile_Relations }
-
-		x = 42
-		y = 13
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-		    if = {
-                limit = {
-                    PRS = { exists = yes }
-                    GER = { exists = no }
-                }
-		        add_opinion_modifier = { target = PRS modifier = eoanb_om_PRS_focus_like }
-			    reverse_add_opinion_modifier = { target = PRS modifier = eoanb_om_PRS_focus_like }
-			}
-			if = {
-                limit = {
-                    GER = { exists = yes }
-                }
-			    add_opinion_modifier = { target = GER modifier = eoanb_om_PRS_focus_like }
-			    reverse_add_opinion_modifier = { target = GER modifier = eoanb_om_PRS_focus_like }
-			}
-		}
-	}
-
-	focus = {
-		id = POL_vic_Coop_With_GER
-		icon = GFX_goal_molotov_ribbentrop_pact
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Germany_Good_Relations }
-
-		x = 42
-		y = 14
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-		    if = {
-                limit = {
-                    PRS = { exists = yes }
-                    GER = { exists = no }
-                }
-		        PRS = { add_political_power = 120 }
-			}
-			if = {
-                limit = {
-                    GER = { exists = yes }
-                }
-			    GER = { add_political_power = 120 }
-			}
-			add_political_power = 120
-			add_war_support = -0.05
-		}
-	}
-
-# RUS
-
-    focus = {
-		id = POL_vic_Russian_Policy
-		icon = GFX_goal_focus_embassy_st_petersburg
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Our_Rivals }
-
-		x = 45
-		y = 12
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_political_power = 80
-		}
-	}
-
-	focus = {
-		id = POL_vic_RUS_Hostile
-		icon = GFX_goal_generic_forceful_treaty
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Russian_Policy }
-		mutually_exclusive = { focus = POL_vic_RUS_Friendly }
-
-		x = 44
-		y = 13
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_opinion_modifier = { target = RUS modifier = eoanb_om_PRS_focus_dislike }
-			reverse_add_opinion_modifier = { target = RUS modifier = eoanb_om_PRS_focus_dislike }
-		}
-	}
-
-	focus = {
-		id = POL_vic_RUS_Revolts
-		icon = GFX_goal_generic_military_sphere
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_RUS_Hostile }
-
-		x = 44
-		y = 14
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_political_power = -60
-			RUS = { add_stability = -0.05 }
-		}
-	}
-
-	focus = {
-		id = POL_vic_RUS_Friendly
-		icon = GFX_goal_generic_improve_relations
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_Russian_Policy }
-		mutually_exclusive = { focus = POL_vic_RUS_Hostile }
-
-		x = 46
-		y = 13
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-			add_opinion_modifier = { target = RUS modifier = eoanb_om_PRS_focus_like }
-			reverse_add_opinion_modifier = { target = RUS modifier = eoanb_om_PRS_focus_like }
-		}
-	}
-
-	focus = {
-		id = POL_vic_RUS_Free_Trade
-		icon = GFX_goal_generic_positive_trade_relations
-		cost = 70
-
-		available = {  }
-
-		prerequisite = { focus = POL_vic_RUS_Friendly }
-
-		x = 46
-		y = 14
-		
-		ai_will_do = { factor = 11 } 
-
-		completion_reward = {
-		    RUS = {
-                country_event = {
-                    id = poland.17
-                    days = 2
-                    random = 1
-                }
-		    }
+		    add_tech_bonus = { bonus = 1 uses = 1 category = infantry_weapons }
+		    RUS = { add_tech_bonus = { bonus = 0.5 uses = 1 category = infantry_weapons } }
 		}
 	}
 
@@ -2471,10 +4248,10 @@ focus_tree = {
     focus = {
 		id = POL_vic_Wielopolski_Government
 		icon = GFX_goal_focus_pol_1815
-		cost = 105
+		cost = 28
 
 		available = {
-			POL = { is_puppet_of = RUS }
+			is_puppet_of = RUS
 			NOT = { has_completed_focus = POL_vic_Poland_Reborn }
 		}
 
@@ -2495,26 +4272,6 @@ focus_tree = {
                 idea = POL_vic_A_Country_Reborn
                 days = 365
             }
-            #create_corps_commander = {
-            #    name = "Mikhail Muravyov-Vilensky"
-            #    picture = "gfx/leaders/RUS/Portrait_RUS_Mikhail_Muravyov_Vilensky.dds"
-            #    traits = { }
-            #    skill = 3
-            #    attack_skill = 1
-	        #    defense_skill = 1
-            # 	 planning_skill = 2
-	        #    logistics_skill = 1
-            #}
-            #create_corps_commander = {
-            #    name = "Nicholas Annenkov"
-            #    picture = "gfx/leaders/RUS/Portrait_RUS_Nicholas_Annenkov.dds"
-            #    traits = { }
-            #    skill = 2
-            #    attack_skill = 2
-            #    defense_skill = 1
-            #    planning_skill = 2
-            #    logistics_skill = 2
-            #}
 		}
 	}
 
@@ -2523,11 +4280,7 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Stabilize_The_Country
 		icon = GFX_goal_focus_reform_administration
-		cost = 105
-
-		#available = {
-		#	
-		#}
+		cost = 49
 
 		x = 58
 		y = 1
@@ -2543,48 +4296,20 @@ focus_tree = {
 	}
 
 	focus = {
-		id = POL_vic_Agrarian_Reform
-		icon = GFX_goal_focus_tomato_farming
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 58
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Stabilize_The_Country }
-
-		completion_reward = {
-		    swap_ideas = {
-				add_idea = lp_land_purchase
-				remove_idea = lp_serfdom
-			}
-			add_timed_idea = {
-                idea = POL_Refund
-                days = 180
-            }
-		}
-	}
-
-	focus = {
 		id = POL_vic_Write_A_New_Constitution
 		icon = GFX_goal_focus_enact_law
-		cost = 70
+		cost = 49
 
-		#available = {
-		#	
-		#}
+		available = {
+			has_completed_focus = POL_vic_Abolish_Serfdom
+		}
 
 		x = 58
 		y = 3
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Agrarian_Reform }
+		prerequisite = { focus = POL_vic_Stabilize_The_Country }
 
 		completion_reward = {
 		    swap_ideas = {
@@ -2597,11 +4322,7 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Polish_Central_Bank
 		icon = GFX_goal_focus_banks
-		cost = 70
-
-		#available = {
-		#	
-		#}
+		cost = 28
 
 		x = 58
 		y = 4
@@ -2618,11 +4339,7 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Modernize_The_Administration
 		icon = GFX_goal_focus_decentralisation_power
-		cost = 70
-
-		#available = {
-		#	
-		#}
+		cost = 28
 
 		x = 58
 		y = 5
@@ -2639,11 +4356,7 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Polonize_The_Government
 		icon = GFX_goal_generic_improve_relations
-		cost = 70
-
-		#available = {
-		#	
-		#}
+		cost = 28
 
 		x = 58
 		y = 6
@@ -2657,102 +4370,23 @@ focus_tree = {
 		}
 	}
 
-	## Right side
-
-	focus = {
-		id = POL_vic_Equal_Treatment
-		icon = GFX_goal_anschluss
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 60
-		y = 3
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Agrarian_Reform }
-
-		completion_reward = {
-		    add_stability = 0.05
-		    swap_ideas = {
-				add_idea = full_equality
-				remove_idea = limited_equality
-			}
-		}
-	}
-
-	focus = {
-		id = POL_vic_Limit_The_Working_Hours
-		icon = GFX_goal_focus_working_hours
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 60
-		y = 4
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Equal_Treatment }
-
-		completion_reward = {
-		    swap_ideas = {
-				add_idea = fourteen_hour_work_day
-				remove_idea = unlimited_work_day
-			}
-		}
-	}
-
-	focus = {
-		id = POL_vic_Education_Reform
-		icon = GFX_goal_tfv_generic_tech_sharing
-		cost = 140
-
-		#available = {
-		#	
-		#}
-
-		x = 60
-		y = 5
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Limit_The_Working_Hours }
-
-		completion_reward = {
-		    swap_ideas = {
-				add_idea = cl_restricted
-				remove_idea = cl_legal
-			}
-			swap_ideas = {
-				add_idea = open_schools
-				remove_idea = privileged_education
-			}
-		}
-	}
-
 	## Left side
 
 	focus = {
 		id = POL_vic_Establish_The_Sejm
 		icon = GFX_focus_generic_self_management
-		cost = 70
+		cost = 28
 
-		#available = {
-		#	
-		#}
+		available = {
+			has_completed_focus = POL_vic_Abolish_Serfdom
+		}
 
 		x = 56
-		y = 3
+		y = 2
 		
 		ai_will_do = { factor = 11 } 
 
-		prerequisite = { focus = POL_vic_Agrarian_Reform }
+		prerequisite = { focus = POL_vic_Stabilize_The_Country }
 
 		completion_reward = {
 		    swap_ideas = {
@@ -2765,14 +4399,10 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Talk_With_The_Whites
 		icon = GFX_goal_generic_major_alliance
-		cost = 70
-
-		#available = {
-		#	
-		#}
+		cost = 28
 
 		x = 56
-		y = 4
+		y = 3
 		
 		ai_will_do = { factor = 11 } 
 
@@ -2787,14 +4417,10 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Talk_With_The_Reds
 		icon = GFX_goal_generic_major_alliance
-		cost = 70
-
-		#available = {
-		#	
-		#}
+		cost = 28
 
 		x = 54
-		y = 4
+		y = 3
 		
 		ai_will_do = { factor = 11 } 
 
@@ -2809,14 +4435,10 @@ focus_tree = {
 	focus = {
 		id = POL_vic_Appoint_A_Cabinet
 		icon = GFX_goal_generic_intelligence_exchange
-		cost = 70
-
-		#available = {
-		#	
-		#}
+		cost = 28
 
 		x = 56
-		y = 5
+		y = 4
 		
 		ai_will_do = { factor = 11 }
 
@@ -2829,307 +4451,15 @@ focus_tree = {
 		}
 	}
 
-
-
-### Economy
-
-    focus = {
-		id = POL_vic_RUS_Trade
-		icon = GFX_goal_generic_trade
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 53
-		y = 1
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Wielopolski_Government }
-
-		completion_reward = {
-		    add_timed_idea = {
-                idea = POL_vic_Russian_Trade
-                days = 4272
-            }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Railways_with_RUS
-		icon = GFX_goal_focus_railroad_development
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 53
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_RUS_Trade }
-
-		completion_reward = {
-		    random_owned_controlled_state = {
-              prioritize = { 1314 }
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_political_power = -20
-		}
-	}
-
-	focus = {
-		id = POL_vic_Industrial_Research_Grants
-		icon = GFX_goal_focus_industrial_revolution
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 53
-		y = 3
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Railways_with_RUS }
-
-		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 2 category = mechanical_engineering_tech }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Steel_Mills
-		icon = GFX_goal_generic_construct_civ_factory
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 51
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_RUS_Trade }
-
-		completion_reward = { 
-		    random_owned_controlled_state = {
-			  prioritize = { 90 }
-				limit = {
-					free_building_slots = {
-						building = steel_mill
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = steel_mill
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = steel_mill
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_political_power = -45
-		}
-	}
-
-	focus = {
-		id = POL_vic_Carskie_Zaklady_Przemyslowe
-		icon = GFX_goal_generic_production2
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 55
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_RUS_Trade }
-
-		completion_reward = {
-		    random_owned_controlled_state = {
-			  prioritize = { 1314 }
-				limit = {
-					free_building_slots = {
-						building = arms_factory
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = arms_factory
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = arms_factory
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_political_power = -45
-		}
-	}
-
-	### Army
-
-	focus = {
-		id = POL_vic_RUS_army_coop
-		icon = GFX_focus_generic_military_mission
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 63
-		y = 1
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Wielopolski_Government }
-
-		completion_reward = {
-		    army_experience = 10
-		    RUS = { army_experience = 10 }
-		}
-	}
-
-	focus = {
-		id = POL_vic_RUS_Weapons_Development
-		icon = GFX_goal_generic_small_arms
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 61
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_RUS_army_coop }
-
-		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 1 category = infantry_weapons }
-		    RUS = { add_tech_bonus = { bonus = 0.5 uses = 1 category = infantry_weapons } }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Create_A_Strategy
-		icon = GFX_goal_russian_department
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 63
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_RUS_army_coop }
-
-		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Further_Research_Doctrines
-		icon = GFX_goal_generic_army_doctrines
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 63
-		y = 3
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_Create_A_Strategy }
-
-		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 1 category = land_doctrine }
-		}
-	}
-
-	focus = {
-		id = POL_vic_Improve_The_Aritllery
-		icon = GFX_goal_generic_army_artillery2
-		cost = 70
-
-		#available = {
-		#	
-		#}
-
-		x = 65
-		y = 2
-		
-		ai_will_do = { factor = 11 } 
-
-		prerequisite = { focus = POL_vic_RUS_army_coop }
-
-		completion_reward = {
-		    add_tech_bonus = { bonus = 1 uses = 1 category = artillery }
-		}
-	}
-
     ### Political Side
 
     focus = {
 		id = POL_vic_Polish_Political_Situation
 		icon = GFX_goal_focus_ally_POL
-		cost = 105
+		cost = 35
 
 		available = {
 			has_completed_focus = POL_vic_Appoint_A_Cabinet
-			has_completed_focus = POL_vic_Education_Reform
 		}
 
 		x = 58
@@ -3219,10 +4549,6 @@ focus_tree = {
 		icon = GFX_goal_focus_newspapers
 		cost = 70
 
-		#available = {
-		#	
-		#}
-
 		x = 52
 		y = 10
 		
@@ -3240,10 +4566,6 @@ focus_tree = {
 		id = POL_vic_Coop_With_Russia
 		icon = GFX_goal_generic_intelligence_exchange
 		cost = 70
-
-		#available = {
-		#	
-		#}
 
 		x = 53
 		y = 11
@@ -3640,9 +4962,4 @@ focus_tree = {
 		}
 	}
 
-
-
-
-
-
-continuous_focus_position = { x = 25 y = 1200 }
+}

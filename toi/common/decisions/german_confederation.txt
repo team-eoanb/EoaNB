@@ -42,16 +42,22 @@ german_confederation_decision_categories = {
 		}
 	}
 	
-	BAV_mission_industrializing = {
+	GER_mission_industrializing = {
 		
 		icon = generic_nationalism
 		
 		allowed = {
+		OR = {
 			tag = BAV
+			tag = BAD
 		}
+	}
 		
 		available = { 
-			OR = { has_completed_focus = BAV_focusoncivilianindustry has_completed_focus = BAV_focusonmilitaryindustry }
+			OR = {
+			    tag = BAV
+			    tag = BAD
+			}
 			has_stability > 0.5
 			has_tech = interchange_parts
 			has_idea = NA_B_medium_scale_railways
@@ -59,12 +65,18 @@ german_confederation_decision_categories = {
 		}
 		
 		activation = {
+		OR= { 
 			tag = BAV
+			tag = BAD
+			}
 			has_idea = agrarian
 		}
 		
 		visible = {
+		OR = {
 			tag = BAV
+			tag = BAD
+			}
 		}
 		
 		days_mission_timeout = 3000
@@ -75,30 +87,34 @@ german_confederation_decision_categories = {
 			}
 		
 		complete_effect = {
-		    swap_ideas = { remove_idea = agrarian add_idea = industrializing }
-			
+		    swap_ideas = { remove_idea = agrarian add_idea = industrializing }	
 		}
 	}
 	
-	BAV_railway_upgrade = {
+	GER_railway_upgrade = {
 
 		icon = generic_political_discourse
 		
 		allowed = {
-		    TAG = BAV
+		   OR = {
+			tag = BAV
+			tag = BAD
 		}
+	}
 
 		available = {
-		has_idea = NA_B_small_scale_railways
-		has_completed_focus = BAV_extendludwigdonaumainkanal
-		has_completed_focus = BAV_grundentlastung
-		has_tech = steam_locomotive_3
-		has_tech = standardized_gauge
+		    OR = { BAD = { has_completed_focus = BAD_focus_construction_industry } }
+		    OR = { has_idea = inframain_no_subsidies_infrastructure has_idea = inframain_basic_maintenance_infrastructure }
+		    has_tech = steam_locomotive_3
+		    has_tech = standardized_gauge
 		}
 
 		visible = {
-			TAG = BAV
+			OR = {
+			tag = BAV
+			tag = BAD
 		}
+	}
 
 		fire_only_once = yes
 		cost = 100
@@ -111,7 +127,180 @@ german_confederation_decision_categories = {
         }        
        
         remove_effect = {
-		    swap_ideas = { remove_idea = NA_B_small_scale_railways add_idea = NA_B_medium_scale_railways }
+		    if = {  limit = { OR = {  has_idea = inframain_no_subsidies_infrastructure has_idea = inframain_basic_maintenance_infrastructure } }
+            swap_ideas = { remove_idea = inframain_no_subsidies_infrastructure add_idea = inframain_basic_maintenance_infrastructure }
+            swap_ideas = { remove_idea = inframain_basic_maintenance_infrastructure add_idea = inframain_well_maintaned_infrastructure } } 		
+	    }
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	GER_trade_consulate_bremen = {
+
+		icon = generic_political_discourse
+		
+		highlight_states = {
+			state = 867
+		}
+		
+		allowed = {
+		    TAG = BAD
+		}
+
+		available = {
+			TAG = BAD
+            NOT = { has_country_flag = GER_trade_from_hamburg } 
+		}
+
+		visible = {
+			TAG = BAD
+		}
+
+		fire_only_once = yes
+		cost = 100
+        days_remove = 180
+         
+        modifier = {
+            political_power_gain = -0.15
+        }        
+       
+        remove_effect = {
+		    add_opinion_modifier = {
+				target = BRE
+				modifier = medium_increase
+			}
+			reverse_add_opinion_modifier = {
+				target = BRE
+				modifier = medium_increase 
+			} 
+	    }
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	GER_trade_consulate_hamburg = {
+
+		icon = generic_political_discourse
+		
+		highlight_states = {
+			state = 868
+		}
+		
+		allowed = {
+		    TAG = BAD
+		}
+
+		available = {
+			TAG = BAD
+		}
+
+		visible = {
+			TAG = BAD
+		}
+
+		fire_only_once = yes
+		cost = 100
+        days_remove = 1
+         
+        modifier = {
+            political_power_gain = -0.15
+        }        
+       
+        remove_effect = {
+		    add_opinion_modifier = {
+				target = HAM
+				modifier = medium_increase
+			}
+			reverse_add_opinion_modifier = {
+				target = HAM
+				modifier = medium_increase 
+			}
+            BAD = { set_country_flag = GER_trade_from_hamburg }			
+	    }
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	GER_purchasing_trade_convoys_non_trade_countries = {
+
+		icon = generic_political_discourse
+		
+		allowed = {
+		    tag = BAD
+		}
+
+		available = {
+		    has_country_flag = GER_trade_from_hamburg
+		}
+
+		visible = {
+		    tag = BAD
+		}
+
+		fire_only_once = no
+		
+		cost = 100
+		
+        days_remove = 180
+		
+		days_re_enable = 180
+         
+        modifier = {
+            political_power_gain = -0.1
+			consumer_goods_factor = 0.05
+			industrial_capacity_dockyard = -0.1
+        }        
+       
+        remove_effect = {
+		    add_equipment_to_stockpile = {
+                type = convoy
+                amount = 5
+        }
+	}
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	GER_establish_trade_UK = {
+
+		icon = generic_political_discourse
+		
+		allowed = {
+		    tag = BAD
+		}
+
+		available = {
+		    has_country_flag = GER_trade_from_hamburg
+			has_equipment = {
+                convoy > 9
+            }
+		}
+
+		visible = {
+		    tag = BAD
+		}
+
+		fire_only_once = no
+		
+		cost = 100
+		
+        days_remove = 180
+		
+		days_re_enable = 180
+         
+        modifier = {
+            political_power_gain = -0.2
+        }        
+       
+        remove_effect = {
 	}
        
 		ai_will_do = {
@@ -119,3 +308,127 @@ german_confederation_decision_categories = {
 		}
 	}
 }
+
+hansa_cities_decision_categories = {
+    GER_purchasing_trade_convoys = {
+
+		icon = generic_political_discourse
+		
+		allowed = {
+		    OR = { 
+			    tag = HAM
+				tag = LCK
+				tag = BRE
+			}
+		}
+
+		available = {
+		}
+
+		visible = {
+			OR = { 
+			    tag = HAM
+				tag = LCK
+				tag = BRE
+			}
+		}
+
+		fire_only_once = no
+		
+		cost = 100
+		
+        days_remove = 180
+		
+		days_re_enable = 180
+         
+        modifier = {
+            political_power_gain = -0.1
+			consumer_goods_factor = 0.05
+			industrial_capacity_dockyard = -0.1
+        }        
+       
+        remove_effect = {
+		    add_equipment_to_stockpile = {
+                type = convoy
+                amount = 5
+        }
+	}
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	HAM_zoologischer_garten = {
+
+		icon = generic_political_discourse
+		
+		allowed = {
+			tag = HAM
+		}
+
+		available = {
+		    has_completed_focus = HAM_focus_hanse_legacy
+			date > 1862.11.1
+		}
+
+		visible = {
+			tag = HAM
+		}
+
+		fire_only_once = yes
+		
+		cost = 100
+		
+        days_remove = 200
+         
+        modifier = {
+            political_power_gain = -0.2
+        }        
+       
+        remove_effect = {
+		    country_event = { id = HAM_hansadecisions.1 days = 10 } 
+	}
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	HAM_rescue_shipwrecked_people = {
+
+		icon = generic_political_discourse
+		
+		allowed = {
+			tag = HAM
+		}
+
+		available = {
+		    has_completed_focus = HAM_focus_hamburger_hafen
+			has_idea = HAM_Ernst_Merck
+			date > 1861.8.1
+		}
+
+		visible = {
+			tag = HAM
+		}
+
+		fire_only_once = yes
+		
+		cost = 50
+		
+        days_remove = 80
+         
+        modifier = {
+            political_power_gain = -0.15
+        }        
+       
+        remove_effect = {
+		    country_event = { id = HAM_hansadecisions.2 days = 10 } 
+	}
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+} 
