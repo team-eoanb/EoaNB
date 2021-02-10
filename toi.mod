@@ -1,6 +1,6 @@
 name="End of a New Beginning (Development)"
 path="mod/toi"
-version="0.2 Deus ex Machina"
+version="0.2.5 Pax Orientalis"
 tags={
 	"Alternative History"
 	"Balance"

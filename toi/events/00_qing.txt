@@ -164,7 +164,7 @@ news_event = { #Xinyou Coup
 				create_country_leader = {
 					name = "Empress Dowager Cixi"
 					desc = "POLITICS_QNG_EMPRESS_CIXI_DESC"
-					picture = "Portrait_QNG_empress_cixi.dds"
+					picture = "Portrait_QNG_Cixi_Empress.dds"
 					expire = "1965.1.1"
 					ideology = absolutism
 					traits = {
@@ -417,6 +417,7 @@ country_event = { #Tianshun revolt
         name = qing_reb.3.b
 		trigger={NOT={tag = QNG}}
 		QNG={white_peace = ANH}
+		ANH={load_focus_tree = CHI_warlords_1872}
 	}
 }
 country_event = { #Tianshun 2nd revolt
@@ -476,6 +477,7 @@ country_event = { #Tianshun 2nd revolt
         name = qing_reb.4.b
 		trigger={NOT={tag = QNG}}
 		QNG={white_peace = ANH}
+		ANH={load_focus_tree = CHI_warlords_1872}
 	}
 }
 country_event = { #Tianshun 3rd revolt
@@ -538,6 +540,7 @@ country_event = { #Tianshun 3rd revolt
         name = qing_reb.5.b
 		trigger={NOT={tag = QNG}}
 		QNG={white_peace = ANH}
+		ANH={load_focus_tree = CHI_warlords_1872}
 	}
 }
 
@@ -1138,19 +1141,6 @@ country_event = { #Dungan revolt
 				set_province_controller = 4709
 				set_province_controller = 10674
 				load_oob = "SIK_dungan_1"
-				declare_war_on = {
-					target = QNG
-					type = annex_everything
-				}
-				if={
-					limit={
-						SHX={exists = yes}
-					}
-					declare_war_on = {
-						target = SHX
-						type = annex_everything
-					}
-				}
 				create_country_leader = {
 					name = "Tuo Ming"
 					desc = "POLITICS_TEMP_DESC"
@@ -1159,6 +1149,22 @@ country_event = { #Dungan revolt
 					ideology = despotism
 				}
 				set_country_flag = rebel_uprisisng
+				if={
+					limit={ROOT={tag = QNG}}
+					declare_war_on = {
+						target = QNG
+						type = annex_everything
+					}
+					if={
+						limit={
+							SHX={exists = yes}
+						}
+						declare_war_on = {
+							target = SHX
+							type = annex_everything
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1169,7 +1175,6 @@ country_event = { #Dungan revolt
 	option = { #we must consolidate what we have
         name = qing_reb.15.b
 		trigger={NOT={tag = QNG}}
-		QNG={white_peace = SIK}
 				SIK={
 					load_focus_tree = CHI_warlords_1872	
 					set_cosmetic_tag = SIK_dungan_clique
@@ -1801,6 +1806,7 @@ country_event = { #Qing shattered
 					transfer_state = 591
 					add_state_core = 591
 					clr_country_flag = rebel_uprisisng
+					load_focus_tree = CHI_warlords_1872
 				}
 			}
 			
@@ -2231,17 +2237,20 @@ country_event = { #Equipment Cache captured
 			factor = 100
 		}
 		random_list={
-			55={
-				add_equipment_to_stockpile={
-					type = infantry_equipment_rifle_0
-					amount = 5000
-					producer = QNG
-				}
-			}
 			45={
 				add_equipment_to_stockpile={
 					type = uniform_equipment_0
 					amount = 1000
+					producer = QNG
+				}
+			}
+			30={
+				add_political_power = 10
+			}
+			25={
+				add_equipment_to_stockpile={
+					type = infantry_equipment_pike_and_shot_0
+					amount = 5000
 					producer = QNG
 				}
 			}

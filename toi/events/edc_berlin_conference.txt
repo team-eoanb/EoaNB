@@ -138,7 +138,7 @@ country_event = {
 			set_country_flag = berlin_conferance_voter
 		}
 		ai_chance = {
-			factor = 50
+			factor = 75
 			modifier = {
 				add = 100
 				is_historical_focus_on = yes
@@ -149,7 +149,7 @@ country_event = {
 		name = EDC_berlin_con.4.b
 		add_political_power = 55
 		ai_chance = {
-			factor = 25
+			factor = 0
 		}
 	}
 	option = {#why not host it in france?
@@ -167,7 +167,7 @@ country_event = {
 			factor = 25
 			modifier = {
 				add = 100
-				PRS={exists = no}
+				PRS={PRS_trigger_formed_germany = no}
 			}	
 		}
 	}
@@ -268,6 +268,10 @@ country_event = {
 	}
 	option = {#no, we shall ignore this
 		name = EDC_berlin_con.6.b
+		
+		trigger={
+			NOT={tag = BEL}
+		}
 		ai_chance = {
 			factor = 30	
 		}
@@ -582,61 +586,26 @@ country_event = {# assign cores - last ping event
 	# }
 	immediate = {##ok
 		#hidden_effect={
-			UCT = {
-				for_each_scope_loop = {#give extra votes for owned states
-					array = berlin_conferance_voters
-					PREV = {
-						afr_ber_assign_extra_votes_for_owned_states = yes
-					}
-				}
+			for_each_scope_loop = {#give extra votes for owned states
+				array = berlin_conferance_voters
+				afr_ber_assign_extra_votes_for_owned_states = yes
 			}
-			afr_ber_check_votes = yes#check the winner
-			every_country = {#if you already have a colonial state, give them the claims
-				#if = {
-					limit = {
-						is_subject_of = event_target:afr_ber_reigion_winner
-						afr_ber_check_if_owns_colonial_state = yes
-					}
-					save_event_target_as = afr_colonial_nation
-				#}
-			}		
-			if={
-				limit={event_target:afr_colonial_nation = {exists = yes}}
-				event_target:afr_colonial_nation = {#give the colonial nation cores
-					if={
-						limit={
-							OVERLORD={tag = event_target:afr_ber_reigion_winner}
-						}
-						afr_ber_assign_cores_to_winner = yes
-					}
-				}
-			}
-			clear_global_event_target = afr_colonial_nation
+			afr_ber_check_votes = yes#check the winner		
 			event_target:afr_ber_reigion_winner = {#give the colonial power claims
-				# if = {
-					# limit = {
-						# NOT = {
-							# any_country = {
-								# is_subject_of = event_target:afr_ber_reigion_winner
-								# afr_ber_check_if_owns_colonial_state = yes
-							# }
-						# }
-					# }
-					afr_ber_assign_claims_to_winner = yes 
-				# }
+				afr_ber_assign_claims_to_winner = yes 
 				country_event = { id = EDC_berlin_con.20 hours = 1 }#tell the winner they won
 			}
-			UCT = {set_variable ={afr_number_of_votes_in_the_conference=0}}#reset votes
+			clear_global_event_target = afr_ber_reigion_winner
+			set_variable ={UCT.afr_number_of_votes_in_the_conference=0}#reset votes
 			afr_ber_prepare_vote_vars =yes#prepare for the new voting round
 			if = {
 				limit = {
-					UCT = {check_variable = {current_region_conferance_vote < 24}}
+					check_variable = {current_region_conferance_vote < 24}
 				}
 				country_event = { id = EDC_berlin_con.15 hours = 1 }#if there are still regions left, start a new round of voting
 			}
 			else = {#if finished clean up
 				news_event = { id = EDC_berlin_con.17 hours = 24 }## end of the conference
-				clear_global_event_target = afr_ber_reigion_winner
 					every_country = {
 						limit ={
 							has_country_flag = berlin_conferance_voter
@@ -772,3 +741,21 @@ country_event = {# testing mandate decisions
 		name = EDC_berlin_con.23.a
 	}
 }
+country_event = {# testing mandate decisions
+	id = EDC_berlin_con.24
+	title = EDC_berlin_con.24.t
+	desc = EDC_berlin_con.24.desc ### 
+	picture = GFX_news_event_berlin_conference
+	
+	is_triggered_only = yes ##never triggered
+	option = {##ok
+		name = EDC_berlin_con.24.a
+		UCT={
+			print_variables = {
+				file = log_file
+				text = header_text
+			}
+		}
+	}
+}
+

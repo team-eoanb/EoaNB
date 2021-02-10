@@ -691,6 +691,12 @@ country_event = {
 					id = korea.23
 				}
 			}
+			hidden_effect = {
+				country_event = {
+					id = korea.32
+					days = 150
+				}
+			}
 
 		}
 	}
@@ -805,12 +811,25 @@ country_event = {
 			complete_national_focus = KOR_unlikelyalliance
 			complete_national_focus = KOR_portprotection
 			hidden_effect = {
-			USA = {
-				country_event = {
-					id = korea.28
-					days = 200
+				if = {
+					limit = {
+						NOT = {
+							has_global_flag = ACW_Great_Collapse
+						}
 					}
-				}	
+				USA = {
+					country_event = {
+						id = korea.28
+						days = 200
+						}
+					}	
+				}
+				else_if = {
+					limit = {
+						has_global_flag = ACW_Great_Collapse
+					}
+					##country_event
+				}
 			}
 		}
 	}
@@ -851,7 +870,7 @@ country_event = {
 			hidden_effect = {
 				country_event = {
 					id = korea.30
-					days = 90
+					days = 1100
 				}
 			}
 		}
@@ -893,9 +912,57 @@ country_event = {
 			##coding required
 			USA = {
 				#country_event = {
-					##id = korea.32
+					##id = korea.34
 				#}
 			}
+		}
+	}
+	country_event = {
+		id = korea.32
+		title = korea.32.t
+		desc = korea.32.d
+		picture = GFX_event_kor_donghak_revolt
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.32.a
+			FRA = {
+				declare_war_on = {
+					target = KOR
+					type = annex_everything
+				}
+				hidden_effect = {
+					load_oob = KOR_korean_garrison
+				}
+				activate_mission = KOR_Mission_FRA_Korean_Revolt_Decision
+			}
+			hidden_effect = {
+				KOR = {
+					load_oob = KOR_french_rebellion
+					country_event = {
+						id = korea.33
+					}
+					activate_mission = KOR_Mission_FRA_Korean_Revolt_Decision
+				}
+			}
+		}
+	}
+	country_event = {
+		id = korea.33
+		title = korea.33.t
+		desc = korea.33.d
+		picture = GFX_event_kor_donghak_revolt
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.33.a
+			
 		}
 	}
 

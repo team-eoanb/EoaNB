@@ -27,8 +27,10 @@ TSH_Category_Bakumatsu_Modernization = {
 				}
 			}
 		}
+		
 
 		days_mission_timeout = 75
+		is_good = no
 
 		complete_effect = {
 		}
@@ -38,32 +40,75 @@ TSH_Category_Bakumatsu_Modernization = {
 				limit = { has_global_flag = TSH_Bakumatsu_Debate_Ongoing }
 				if = {
 					limit = { is_subject_of = TSH }
-					set_temp_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare = TSH.TSH_Bakumatsu_Debate_Emperor_Influence }
-					subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare = TSH_Bakumatsu_Debate_Emperor_Influence }
+					# Compare from rest of Japan
+					set_temp_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = TSH.TSH_Bakumatsu_Debate_Tensions }
+					subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = TSH_Bakumatsu_Debate_Tensions }
+					# Apply weights
 					if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare < -0.10 } }
-						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -2 }
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare < -0.10 } }
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = -0.02 }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Down2_tt
 					}
 					else_if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare < 0 } }
-						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -1 }
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare < 0.00 } }
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = -0.01 }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Down1_tt
 					}
 					else_if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare > 0.10 } }
-						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 2 }
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare > 0.10 } }
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = 0.02 }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up2_tt
 					}
 					else_if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence_Compare > 0 } }
-						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 1 }
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tension_Compare > 0.00 } }
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up1_tt
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = 0.01 }
 					}
 					TSH_Bakumatsu_Debate_Influence_Country_Modify = yes
 					activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
 				}
-				else_if = { 
+				else_if = {
 					limit = { tag = TSH }
-					add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
-					TSH_Bakumatsu_Debate_Influence_Country_Modify = yes
-					activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
+					if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tension > 0.99 } }
+						# Start the Boshin War
+						# country_event = feudal_tokugawa_shogunate_boshin.1
+						clr_global_flag = TSH_Bakumatsu_Debate_Ongoing
+					}
+					else = {
+						# Continue Tensions
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up1_tt
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = 0.01 }
+						random_owned_controlled_state = {
+							limit = { 
+								is_in_japan = yes
+								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence < 0.9 }
+							}
+							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.02 }
+							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
+						}
+						random_owned_controlled_state = {
+							limit = { 
+								is_in_japan = yes
+								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence < 0.9 }
+							}
+							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
+							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
+						}
+						random_owned_controlled_state = {
+							limit = { 
+								is_in_japan = yes
+								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.1 }
+							}
+							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
+							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
+						}
+						activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
+					}
 				}
 			}
 		}
@@ -85,12 +130,12 @@ TSH_Category_Bakumatsu_Modernization = {
 		days_remove = 120
 
 		modifier = {
-			experience_gain_navy = 0.05
+			experience_gain_navy = 0.03
 			command_power_gain = -0.15
 		}
 
 		timeout_effect = {
-			load_oob = JAP_NAVAL_1858
+			country_event = feudal_tokugawa_shogunate.11
 		}
 	}
 	
@@ -111,6 +156,9 @@ TSH_Category_Bakumatsu_Modernization = {
 			TSH = {
 				is_subject = no
 				has_idea = pre_industrial_era
+				has_navy_size = {
+					size < 15
+				}
 			}
 		}
 
@@ -118,6 +166,9 @@ TSH_Category_Bakumatsu_Modernization = {
 			TSH = {
 				is_subject = no
 				has_idea = pre_industrial_era
+				has_navy_size = {
+					size < 20
+				}
 			}
 		}
 
@@ -139,8 +190,33 @@ TSH_Category_Bakumatsu_Modernization = {
 
 		complete_effect = {
 			country_event = feudal_tokugawa_shogunate.6
+			add_opinion_modifier = { target = TSH modifier = small_increase }
+			hidden_effect = {
+				add_political_power = -50
+				add_command_power = -25
+			}
 		}
 	}
+  TSH_Mission_Bakumatsu_Modernization_Ansei_Purge = {
+    icon = generic_nationalism
+
+    allowed = { always = no }
+
+    activation = { always = no }
+
+    available = { always = no }
+    fire_only_once = yes
+
+    days_mission_timeout = 1000
+    
+    modifier = {
+      political_power_gain = -0.05
+    }
+    remove_effect = {
+      clr_country_flag = TSH_Bakumatsu_Debate_Ansei_Purge_Ongoing
+      # country_event = ansei_purge_event_finish_here
+    }
+  }
 
 	TSH_decision_purchase_books = {
 
@@ -837,7 +913,7 @@ TSH_category_national_development = {
 		days_remove = 120
 
 		modifier = {
-		    consumer_goods_factor = 0.05
+			consumer_goods_factor = 0.05
 		}
 
 		remove_effect = {
@@ -849,9 +925,9 @@ TSH_category_national_development = {
 			}
 			1259 = { add_extra_state_shared_building_slots = 1 }
 			SAG = {
-                set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
-                TSH_Meiji_Influence_Modify = yes
-            }
+				set_temp_variable = { TSH_Meiji_Influence_Change = -5 }
+				TSH_Meiji_Influence_Modify = yes
+			}
 		}
 
 		ai_will_do = {

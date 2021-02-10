@@ -5,6 +5,7 @@ add_namespace = prussiaforeign
 add_namespace = prussiaelection
 add_namespace = prussiareformtroops
 add_namespace = prussiaconstitutionngc
+add_namespace = prussiafriedrich
 
 ### GENERAL EVENTS ###
 
@@ -1423,7 +1424,7 @@ country_event = {
 			ideology = fundamentalism
 			popularity = 0.02
 		}
-		add_tech_bonus = { bonus = 0.5 uses = 1 category = mechanical_engineering_tech }
+		add_tech_bonus = { bonus = 0.25 uses = 1 category = mechanical_engineering_tech }
 	}
 }
 
@@ -2285,7 +2286,7 @@ country_event = {
 			popularity = 0.05
 		}
 		hidden_effect = {
-				PRS = { country_event = { days = 90 id = prussiaconscrisis.12 } }
+				PRS = { country_event = { days = 7 id = prussiaconscrisis.12 } }
 		}
 	}
 }
@@ -2322,7 +2323,7 @@ country_event = {
 	}
 }
 
-#1861 Parliamentary Elections - Minor Liberal Victory
+#PLACEHOLDER 1861 Parliamentary Elections - Minor Liberal Victory
 country_event = {
 	id = prussiaconscrisis.13
 	title = prussiaconscrisis.13.t
@@ -2342,7 +2343,7 @@ country_event = {
 	}
 }
 
-#1861 Parliamentary Elections - Landslide Liberal Victory
+#PLACEHOLDER 1861 Parliamentary Elections - Landslide Liberal Victory
 country_event = {
 	id = prussiaconscrisis.14
 	title = prussiaconscrisis.14.t
@@ -2364,7 +2365,7 @@ country_event = {
 	}
 }
 
-#1861 Parliamentary Elections - Major Liberal Victory
+#PLACEHOLDER 1861 Parliamentary Elections - Major Liberal Victory
 country_event = {
 	id = prussiaconscrisis.15
 	title = prussiaconscrisis.15.t
@@ -2399,7 +2400,7 @@ country_event = {
 	
 	option = {
 		name = prussiaconscrisis.16.a 
-		ai_chance = { factor = 75 }
+		ai_chance = { factor = 100 }
 		hidden_effect = {
 			PRS = { country_event = { days = 7 id = prussiaconscrisis.17 } }
 		}
@@ -2407,7 +2408,7 @@ country_event = {
 	
 	option = {
 		name = prussiaconscrisis.16.b 
-		ai_chance = { factor = 25 }
+		ai_chance = { factor = 0 }
 		hidden_effect = {
 			PRS = { country_event = { days = 7 id = prussiaconscrisis.18 } }
 		}
@@ -2473,7 +2474,13 @@ country_event = {
 		swap_ideas = { remove_idea = PRS_Wilhelm_I add_idea = PRS_Friedrich_III }
 		swap_ideas = { remove_idea = PRS_idea_new_era add_idea = PRS_idea_new_era_1 }
 		hidden_effect = {
-			PRS = { country_event = { days = 7 id = prussiaconscrisis.20 } }
+			if = {
+				limit = {
+					PRS = { has_completed_focus = PRS_find_compromise }
+					NOT = { PRS = { has_idea = PRS_idea_constitutional_crisis } }
+				}
+				PRS = { country_event = { days = 7 id = prussiaconscrisis.20 } }
+			}
 		}
 	}
 }
@@ -2496,12 +2503,6 @@ country_event = {
 		hidden_effect = {
 			PRS = { set_country_flag = PRS_compromise_successful }
 		}
-		unlock_decision_tooltip = PRS_heeresreform_krupp_guns
-		unlock_decision_tooltip = PRS_heeresreform_improve_officer_training
-		unlock_decision_tooltip = PRS_heeresreform_army_logistics
-		unlock_decision_tooltip = PRS_heeresreform_new_tactics
-		unlock_decision_tooltip = PRS_heeresreform_war_games
-		unlock_decision_tooltip = PRS_heeresreform_strenghten_generalstab
 	}
 }
 
@@ -2611,6 +2612,7 @@ country_event = {
 			traits = {
 			}
 		}
+		unlock_decision_tooltip = PRS_deliver_blut_und_eisen_speech
 	}
 }
 
@@ -5169,6 +5171,132 @@ country_event = {
 		unlock_decision_tooltip = PRS_decision_gewerbeordnung
 		hidden_effect = {
 			PRS = { set_country_flag = PRS_unitary_measures_flag }
+		}
+	}
+}
+
+### REIGN OF FRIEDRICH III ###
+
+#Choose new PM
+country_event = {
+	id = prussiafriedrich.1
+	title = prussiafriedrich.1.t
+	desc = prussiafriedrich.1.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiafriedrich.1.a
+		ai_chance = { factor = 30 }
+		custom_effect_tooltip = PRS_new_pm_Vincke_tt
+		set_party_name = { ideology = centrism long_name = PRS_centrism_party_vincke name = PRS_centrism_party_vincke }
+		hidden_effect = {
+			set_politics = { ruling_party = centrism }
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Georg von Vincke"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				#picture = "Portrait_PRS_Georg_von_Vincke.dds"
+				expire = "1900.1.1"
+				ideology = moderatism
+				traits = { }
+			}
+			PRS = { set_country_flag = PRS_new_prime_minister_flag }
+		}
+	}
+	
+	option = {
+		name = prussiafriedrich.1.b
+		ai_chance = { factor = 30 }
+		custom_effect_tooltip = PRS_new_pm_Simson_tt
+		set_party_name = { ideology = centrism long_name = PRS_centrism_party name = PRS_centrism_party }
+		hidden_effect = {
+			set_politics = { ruling_party = centrism }
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Eduard Simson"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				picture = "Portrait_PRS_Eduard_Simson.dds"
+				expire = "1900.1.1"
+				ideology = conserv_liberal
+				traits = { }
+			}
+			PRS = { set_country_flag = PRS_new_prime_minister_flag }
+		}
+	}
+	
+	option = {
+		name = prussiafriedrich.1.c
+		ai_chance = { factor = 40 }
+		custom_effect_tooltip = PRS_new_pm_Virchow_tt
+		set_party_name = { ideology = centrism long_name = PRS_centrism_progressive_party_long name = PRS_centrism_progressive_party }
+		hidden_effect = {
+			set_politics = { ruling_party = centrism }
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "Rudolf Virchow"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				picture = "Portrait_PRS_Rudolf_Virchow.dds"
+				expire = "1900.1.1"
+				ideology = social_liberal
+				traits = { }
+			}
+			PRS = { set_country_flag = PRS_new_prime_minister_flag }
+		}
+	}
+}
+
+#Negotiate Compromise with Parliament
+country_event = {
+	id = prussiafriedrich.2
+	title = prussiafriedrich.2.t
+	desc = prussiafriedrich.2.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiafriedrich.2.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				has_idea = PRS_generalstab_2
+			}
+			swap_ideas = {
+				remove_idea = PRS_generalstab_2
+				add_idea = PRS_generalstab_1
+			}
+		}
+		else = {
+			add_political_power = -50
+		}
+		custom_effect_tooltip = PRS_compromise_negotiated_tt
+		hidden_effect = {
+			PRS = { clr_country_flag = PRS_new_prime_minister_flag }
+			PRS = { set_country_flag = PRS_compromise_negotiated_flag }
+		}
+	}
+	
+	option = {
+		name = prussiafriedrich.2.b
+		ai_chance = { factor = 0 }
+		if = {
+			limit = {
+				has_idea = PRS_landwehr_2
+			}
+			swap_ideas = {
+				remove_idea = PRS_landwehr_2
+				add_idea = PRS_landwehr_1
+			}
+		}
+		else = {
+			add_political_power = -50
+		}
+		custom_effect_tooltip = PRS_compromise_negotiated_tt
+		hidden_effect = {
+			PRS = { clr_country_flag = PRS_new_prime_minister_flag }
+			PRS = { set_country_flag = PRS_compromise_negotiated_flag }
 		}
 	}
 }

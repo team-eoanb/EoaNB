@@ -2661,6 +2661,12 @@ news_event = { #the scramble begins
 				}
 			}
 		}
+		if={
+			limit={
+				is_ai = no
+			}
+			set_variable = {super_event_displayed = 2}
+		}
 	}
 	option = {
 		name = EDC_afr.42.b#We must exploit the continent before the other powers get to it
@@ -2684,6 +2690,12 @@ news_event = { #the scramble begins
 			}
 		}
 		set_country_flag = is_historical_colonial_power
+		if={
+			limit={
+				is_ai = no
+			}
+			set_variable = {super_event_displayed = 2}
+		}
 	}
 	option = {#The Hordes of Europe do decend apon us
 		name = EDC_afr.42.c
@@ -2693,12 +2705,24 @@ news_event = { #the scramble begins
 				has_idea = afr_post_tribal
 			}
 		}
+		if={
+			limit={
+				is_ai = no
+			}
+			set_variable = {super_event_displayed = 2}
+		}
 	}
 	option = {#The Hordes of Europe do decend apon us, And we are Ready
 		name = EDC_afr.42.c2
 		trigger={
 			is_in_colonial_region = yes
 			has_idea = afr_post_tribal
+		}
+		if={
+			limit={
+				is_ai = no
+			}
+			set_variable = {super_event_displayed = 2}
 		}
 	}
 }
@@ -4222,23 +4246,24 @@ country_event = {###ping for the scramble
 		#hidden_effect={
 			every_country={
 				limit={
-					capital_scope = {is_on_continent = europe}
 					OR={
-						is_great_power = yes
-						is_secondary_power = yes
 						tag = BEL
 						tag = POR
 						tag = FRA
 						tag = ENG
+						AND={
+							capital_scope = {is_on_continent = europe}
+							OR={
+								is_great_power = yes
+								is_secondary_power = yes
+							}
+						}
 					}
 				}
 				set_country_flag = is_historical_colonial_power
 				if= {
 					limit = {
 						is_ai = yes
-						NOT = {
-							has_tech = tech_humanities_colonialism
-						}
 						OR  = {
 							tag = ENG
 							tag = FRA
@@ -4267,7 +4292,7 @@ country_event = {###ping for the scramble
 						}
 					}
 					set_technology = {
-							tech_humanities_colonialism = 1
+						tech_humanities_colonialism = 1
 					}
 				}
 			}

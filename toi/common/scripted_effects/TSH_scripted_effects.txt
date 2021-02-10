@@ -2,7 +2,7 @@ TSH_Bakumatsu_Debate_Setup = {
 	set_global_flag = TSH_Bakumatsu_Debate_Ongoing
 	
 	TSH = {
-		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.18 }
+		set_variable = { TSH_Bakumatsu_Debate_Tensions = 0.19 }
 		TSH_Bakumatsu_Debate_Country_Setup = yes
 	}
 	CHO = {
@@ -65,11 +65,11 @@ TSH_Bakumatsu_Debate_Influence_Country_Modify = {
 		# Modify Popularities
 		custom_effect_tooltip = TSH_Bakumatsu_Debate_Influence_Modify_tt
 		add_to_variable = { TSH_Bakumatsu_Debate_Emperor_Influence = TSH_Bakumatsu_Debate_Influence_Change }
-		# clamp_variable = {
-		# 	var = TSH_Bakumatsu_Debate_Emperor_Influence
-		# 	min = 0
-		# 	max = 1
-		# }
+		clamp_variable = {
+			var = TSH_Bakumatsu_Debate_Emperor_Influence
+			min = 0
+			max = 1
+		}
 		set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Total = 1.00 }
 		subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Influence_Total = TSH_Bakumatsu_Debate_Emperor_Influence }
 		set_variable = { TSH_Bakumatsu_Debate_Shogun_Influence = TSH_Bakumatsu_Debate_Influence_Total }
@@ -126,7 +126,10 @@ TSH_Bakumatsu_Debate_Influence_State_Modify = {
 TSH_Bakumatsu_Modernization_Amity_Treaty_Sign_West = {
 	if = {
 		limit = { has_global_flag = TSH_Bakumatsu_Debate_Ongoing }
-		add_ideas = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_West
+		add_timed_idea = { 
+			idea = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_West
+			days = 3765
+		}
 		eoanb_add_1_prestige_score = yes
 
 		every_state = {
@@ -135,8 +138,7 @@ TSH_Bakumatsu_Modernization_Amity_Treaty_Sign_West = {
 				is_demilitarized_zone = yes
 			}
 			random_list = {
-				9 = { PREV = { STATE_TAG_DCI_increase_by_1 = yes } }
-				1 = { }
+				PREV = { STATE_TAG_DCI_increase_by_1 = yes }
 			}
 		}
 		# Bad Effects Remove
@@ -149,7 +151,7 @@ TSH_Bakumatsu_Modernization_Amity_Treaty_Sign_Tokugawa = {
 		debt_level_increase_by_1 = yes
 		every_other_country = {
 			limit = { is_subject_of = TSH }
-			hidden_effect = { country_event = { id = feudal_tokugawa_shogunate.8 days = 3 random_days = 4 }}
+			hidden_effect = { country_event = { id = feudal_tokugawa_shogunate.8 days = 3 random_days = 4 } }
 		}
 		if = {
 			limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_Japan_6 }
@@ -209,6 +211,10 @@ TSH_Bakumatsu_Modernization_Amity_Treaty_Remove_Tokugawa = {
 		remove_ideas = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_Japan_2
 		remove_ideas = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_Japan_1
 		# REMOVE DMZ
+		every_state = {
+			limit = { is_in_japan = yes }
+			set_demilitarized_zone = no
+		}
 	}
 	else_if = {
 		limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_Japan_7 }
@@ -255,6 +261,10 @@ TSH_Bakumatsu_Modernization_Amity_Treaty_Remove_Tokugawa = {
 	else = {
 		add_ideas = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_Japan_1
 		# REMOVE DMZ
+		every_state = {
+			limit = { is_in_japan = yes }
+			set_demilitarized_zone = no
+		}
 	}
 }
 

@@ -109,9 +109,18 @@ KOR_decisions_category_wars_and_conflicts = {
         }
         timeout_effect = {
             if = {
-                limit = { date > 1867.1.1 } # Optional Trigger in case war lasting too long
+                limit = { date > 1868.1.1 } # Optional Trigger in case war lasting too long
 				FRA = {
-
+					white_peace = KOR
+					transfer_state = 1019
+					1019 = {
+						add_core_of = FRA
+						remove_core_of = KOR
+					}
+					country_event = {
+						id = korea.22
+						days = 10
+					}
 				} # Stalemate if it is lasting too long
             }
             else_if = {
@@ -120,4 +129,117 @@ KOR_decisions_category_wars_and_conflicts = {
             	}
         	}
    	 	}
+	KOR_Mission_FRA_Korean_Revolt_Decision = {
+		allowed = { always = no } # MEANS NO ONE SEES IT AT GAMESTART
+		icon = generic_political_actions
+
+		is_good = no # AI is smarter with conditions/achieving them if it is no, trust me.
+		days_mission_timeout = 200 # Arbitrary number, but I recommend a time of 1.5x expected time to finish war, max 1000
+		activation = { always = no } # MEANS THIS MISSION WILL BE MANUALLY ENABLED (~400x Optimized)
+
+		available = {
+			# Conditions to trigger peace treaty
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = KOR_KOR_Mission_FRA_Korean_Revolt_Decision_tt
+					AND = { 
+						tag = KOR
+						KOR = {
+							controls_state = 1019
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = FRA_KOR_Mission_FRA_Expedition_War_Decision_tt
+						tag = FRA
+						KOR = {
+							surrender_progress > 0.5
+						}
+					   }
+				}
+			}
+		complete_effect = {
+			# Peace Treaty (Simple form, you can customize it later for various outcomes)
+			if = {
+				limit = { 
+					# INSERT PIEDMONT'S VICTORY CONDITIONS HERE
+					AND = { 
+						tag = KOR
+						KOR = {
+							controls_state = 1019
+						}
+					}
+				} 
+					# Insert Sardinia's Victory Here (Recommended you also check for tag so it only fires for Sardinia)
+					KOR = {
+						white_peace = FRA
+						transfer_state = 1019
+						1019 = {
+							add_core_of = KOR
+							remove_core_of = FRA
+						}
+						##add_ideas ##Victory Confirmed idea ## Historical
+					}
+					#FRA = {
+						#country_event = {
+							##id = korea.25
+						#}
+					#}
+			}
+			else_if = {
+				# INSERT AUSTRIA'S VICTORY CONDITIONS HERE
+				limit = {  
+					tag = FRA
+						KOR = {
+							surrender_progress > 0.5
+						}
+				} 
+
+				# Insert Austria's Victory Here (Recommended you also check for tag so it only fires for Austria)
+				FRA = {
+					white_peace = KOR
+					1019 = {
+						add_core_of = KOR
+						remove_core_of = FRA
+					}
+					#country_event = {
+						##id = korea.22
+						#days = 10
+					#}
+				}
+				KOR = {
+					transfer_state = 1019
+					###Cosmetic Tag for French Protectorate 
+					#country_event = {
+						##id = korea.24
+					#}
+				}
+			}
+			else = {
+				## IMPORTANT, IF YOU USE 'ELSE' IT WILL ALWAYS BE SEEN BY AI/PLAYER
+				# Optional: could be used for a custom_effect_tooltip to say simply 'will fire peace conference'
+				custom_effect_tooltip = KOR_Mission_FRA_Korean_Revolt_Decision_Peace_tt
+			}
+		}
+		timeout_effect = {
+			if = {
+				limit = { date > 1875.1.1 } # Optional Trigger in case war lasting too long
+				FRA = {
+					white_peace = KOR
+					1019 = {
+						add_core_of = KOR
+						remove_core_of = FRA
+					}
+					#country_event = {
+						##id = korea.22
+						#days = 10
+					#}	
+				} # Stalemate if it is lasting too long
+			}
+			else_if = {
+				limit = { FRA = { has_war_with = KOR } } # Check if they are still at war
+				activate_mission = KOR_Mission_FRA_Korean_Revolt_Decision # Loops the mission if they are still at war.
+				}
+			}
+		}
 	}
