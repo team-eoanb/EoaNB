@@ -14,6 +14,7 @@ country_event = {
 		}
 	}
 }
+
 #Death of Friedrich Wilhelm IV
 country_event = {
 	id = succession.1
@@ -34,6 +35,10 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = -20
 		hidden_effect = {
+			swap_ideas = {
+				remove_idea = PRS_Friedrich_Wilhelm_IV
+				add_idea = hos_is_leader
+			}
 			PRS = { country_event = { days = 3 id = prussia.23 } }
 		}
 	}
@@ -74,7 +79,18 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = -20
 		remove_ideas = PRS_Wilhelm_I
-		add_ideas = PRS_Friedrich_III	
+		add_ideas = PRS_Friedrich_III_old
+		hidden_effect = {
+			retire_ideology_leader = autocracy
+			create_country_leader = {
+				name = "Friedrich III"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				picture = "gfx/leaders/PRS/Portrait_PRS_Wilhelm_I.dds"
+				expire = "1889.1.1"
+				ideology = despotism
+				traits = { }
+			}
+		}
 	}
 }
 
@@ -88,7 +104,12 @@ country_event = {
 		
 	immediate = {
 		every_country = {
-			limit = { has_idea = PRS_Friedrich_III }
+			limit = { 
+				OR = {
+					has_idea = PRS_Friedrich_III
+					has_idea = PRS_Friedrich_III_old
+				}
+			}
 			country_event = { id = succession.3 }
 		}
 	}
@@ -105,14 +126,40 @@ country_event = {
 	
 	trigger = {
 		#date > 1888.6.15
-		has_idea = PRS_Friedrich_III
+		OR = {
+			has_idea = PRS_Friedrich_III
+			has_idea = PRS_Friedrich_III_old
+		}
 	}
 		
 	option = {
 		name = succession.3.a
 		ai_chance = { factor = 100 }
 		add_political_power = -20
-		remove_ideas = PRS_Friedrich_III
-		add_ideas = PRS_Wilhelm_II
+		if = {
+			limit = {
+				has_idea = PRS_Friedrich_III
+			}
+			remove_ideas = PRS_Friedrich_III
+			add_ideas = PRS_Wilhelm_II
+		}
+		else_if = {
+			limit = {
+				has_idea = PRS_Friedrich_III_old
+			}
+			remove_ideas = PRS_Friedrich_III_old
+			add_ideas = PRS_Wilhelm_II
+		}
+		hidden_effect = {
+			retire_ideology_leader = autocracy
+			create_country_leader = {
+				name = "Wilhelm II"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				picture = "gfx/leaders/PRS/Portrait_PRS_Wilhelm_I.dds"
+				expire = "1889.1.1"
+				ideology = despotism
+				traits = { }
+			}
+		}
 	}
 }

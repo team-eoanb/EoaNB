@@ -1331,7 +1331,7 @@ eoanb_category_irish_unrest_ENG = {
 
     ENG_decision_ulster_revival = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
 		available = {
 		   date > 1859.6.1
@@ -1353,7 +1353,7 @@ eoanb_category_irish_unrest_ENG = {
 
 ENG_decision_deasy_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
 		available = {
 		   date > 1860.6.1
@@ -1375,7 +1375,7 @@ ENG_decision_deasy_act = {
 
 ENG_royal_tour_ireland_1861 = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
 		available = {
 		   date > 1861.8.21
@@ -1415,7 +1415,7 @@ ENG_riots_corck = {
 
 ENG_close_down_fenian_newspaper = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
 		available = {
 		   has_country_flag = eng_fenian_newspaper
@@ -1545,12 +1545,72 @@ ENG_bring_order_ireland = {
 			add_war_support = 0.05
         }
     }
+	
+	ENG_DCI_irish_incident = {
+		icon = generic_civil_support
+		allowed = { 
+			owns_irish_land = yes
+		}
+        activation = {
+           hidden_trigger = {
+				TAG = ENG
+				NOT = { has_country_flag = DCI_irish_incident_mission_stop }
+				custom_trigger_tooltip = {
+					tooltip = any_irish_states_have_over_10_DCI_tooltip
+					any_owned_state = {
+						if = {
+							limit = { 
+								is_irish_land = yes 
+								check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals }
+							}
+							always = yes
+						}
+						else = {
+							always = no
+						}
+					}
+				}
+			}
+        }
+		available = {
+			hidden_trigger = { always = no }
+		}
+        cancel_trigger = {
+            custom_trigger_tooltip = {
+				tooltip = all_irish_states_have_under_10_DCI_tooltip
+				all_owned_state = {
+					if = {
+						limit = { is_irish_land = yes }
+						check_variable = { var = detrimental_colonial_impact_value value = 10 compare = less_than }
+					}
+				}
+			}
+        }
+        days_mission_timeout = 90
+		is_good = no 
+		selectable_mission = no
+		fire_only_once = no
+        timeout_effect = {
+			custom_effect_tooltip = DCI_irish_incident_tooltip
+            hidden_effect = {
+				random_owned_state = {
+					limit = { 
+						is_irish_land = yes
+						check_variable = { var = detrimental_colonial_impact_value value = 10 compare = greater_than_or_equals }
+					}
+					#state_event = { id = DCI_irish_incident_event.1 random_days = 90 }
+				}
+				set_country_flag = DCI_irish_incident_mission_stop
+				country_event = { id = DCI_irish_incident_mission_event.1 days = 90 }
+			}
+        }
+    }
 }
 
 eoanb_category_british_industry = {
     ENG_mission_sawmills_lothian = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
         allowed = {
             tag = ENG
@@ -1595,7 +1655,7 @@ eoanb_category_british_industry = {
     }
 	ENG_mission_coal_mines_northern_england = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
         allowed = {
             tag = ENG
@@ -1640,7 +1700,7 @@ eoanb_category_british_industry = {
     }
 	ENG_mission_coal_mines_the_midlands = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
         allowed = {
             tag = ENG
@@ -1685,7 +1745,7 @@ eoanb_category_british_industry = {
     }
 	ENG_mission_scottish_iron = { 
 
-        icon = GFX_decision_generic_operation
+        icon = generic_operation
 
 		highlight_states = {
 			state = 133
@@ -1729,7 +1789,7 @@ eoanb_category_british_industry = {
     }
 	ENG_mission_scottish_bauxite = { 
 
-        icon = GFX_decision_generic_operation
+        icon = generic_operation
 
 		highlight_states = {
 			state = 120
@@ -1773,7 +1833,7 @@ eoanb_category_british_industry = {
     }
 	ENG_mission_english_iron = { 
 
-        icon = GFX_decision_generic_operation
+        icon = generic_operation
 
 		highlight_states = {
 			state = 128
@@ -1825,7 +1885,7 @@ eoanb_category_british_industry = {
     }
 	ENG_mission_northern_railway = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
         allowed = {
 
@@ -1866,7 +1926,7 @@ eoanb_category_british_industry = {
     }
 	ENG_mission_bristol_boston_line = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
         allowed = {
 
@@ -1907,7 +1967,7 @@ eoanb_category_british_industry = {
     }
 	ENG_mission_more_farms = {
 
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			num_of_civilian_factories_available_for_projects > 3
@@ -1939,7 +1999,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_yorkshire_steel_mill = {
 
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			num_of_civilian_factories_available_for_projects > 5
@@ -1971,7 +2031,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_indian_cotton = {
 
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			num_of_civilian_factories_available_for_projects > 3
@@ -2003,7 +2063,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_australian_coal = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
         allowed = {
 
@@ -2046,7 +2106,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_canadian_wood = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
         allowed = {
 
@@ -2097,7 +2157,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_develop_wales = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
         allowed = {
 
@@ -2151,7 +2211,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_cotton_autarky = {
 
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			num_of_civilian_factories_available_for_projects > 3
@@ -2183,7 +2243,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_develop_ireland = {
 
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			num_of_civilian_factories_available_for_projects > 5
@@ -2223,7 +2283,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_english_civilian_industry = {
 
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			num_of_civilian_factories_available_for_projects > 4
@@ -2255,7 +2315,7 @@ eoanb_category_british_industry = {
 	}
 	ENG_mission_english_military_industry = {
 
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			num_of_civilian_factories_available_for_projects > 4
@@ -2291,7 +2351,7 @@ eoanb_category_british_parliament_ENG = {
 
 ENG_decision_Inclosure_act_1857 = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2319,7 +2379,7 @@ ENG_decision_Inclosure_act_1857 = {
     }
 ENG_decision_Obscene_publications_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2347,7 +2407,7 @@ ENG_decision_Obscene_publications_act = {
     }
 ENG_decision_matrimonial_causes_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2375,7 +2435,7 @@ ENG_decision_matrimonial_causes_act = {
     }
 ENG_decision_government_of_india_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2403,7 +2463,7 @@ ENG_decision_government_of_india_act = {
     }
 ENG_decision_companies_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2432,7 +2492,7 @@ ENG_decision_companies_act = {
     }
 ENG_decision_molestation_workmen_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2461,7 +2521,7 @@ ENG_decision_molestation_workmen_act = {
     }
 ENG_decision_offences_against_person_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2490,7 +2550,7 @@ ENG_decision_offences_against_person_act = {
     }
 ENG_decision_metro_fire_brigade_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2519,7 +2579,7 @@ ENG_decision_metro_fire_brigade_act = {
     }
 ENG_decision_criminal_law_consolidation_acts = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2548,7 +2608,7 @@ ENG_decision_criminal_law_consolidation_acts = {
     }
 ENG_decision_coal_mines_consolidation_act_1860 = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2577,7 +2637,7 @@ ENG_decision_coal_mines_consolidation_act_1860 = {
     }
 ENG_decision_land_registry_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2606,7 +2666,7 @@ ENG_decision_land_registry_act = {
     }
 ENG_decision_locomotives_highway_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2635,7 +2695,7 @@ ENG_decision_locomotives_highway_act = {
     }
 ENG_decision_habeas_corpus_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2664,7 +2724,7 @@ ENG_decision_habeas_corpus_act = {
     }
 ENG_decision_adulteration_food_drinks_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2693,7 +2753,7 @@ ENG_decision_adulteration_food_drinks_act = {
     }
 ENG_decision_poaching_prevention_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2722,7 +2782,7 @@ ENG_decision_poaching_prevention_act = {
     }
 ENG_decision_medical_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2751,7 +2811,7 @@ ENG_decision_medical_act = {
     }
 ENG_decision_parliamentary_oaths_act_1866 = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2780,7 +2840,7 @@ ENG_decision_parliamentary_oaths_act_1866 = {
     }
 ENG_decision_1867_reform_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2809,7 +2869,7 @@ ENG_decision_1867_reform_act = {
     }
 ENG_decision_colonial_prisoners_removal_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2838,7 +2898,7 @@ ENG_decision_colonial_prisoners_removal_act = {
     }
 ENG_decision_irish_church_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2867,7 +2927,7 @@ ENG_decision_irish_church_act = {
     }
 ENG_decision_metropolitan_public_carriage_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2896,7 +2956,7 @@ ENG_decision_metropolitan_public_carriage_act = {
     }
 ENG_decision_elementary_education_1870_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2925,7 +2985,7 @@ ENG_decision_elementary_education_1870_act = {
     }
 ENG_decision_irish_land_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2954,7 +3014,7 @@ ENG_decision_irish_land_act = {
     }
 ENG_decision_elementary_education_act = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG
@@ -2983,7 +3043,7 @@ ENG_decision_elementary_education_act = {
     }
 ENG_decision_national_debt_reduction_1866 = {
 
-        icon = GFX_decision_eng_trade_unions_support
+        icon = eng_trade_unions_support
 
         allowed = {
             tag = ENG

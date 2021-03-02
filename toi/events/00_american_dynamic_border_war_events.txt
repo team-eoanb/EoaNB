@@ -61,6 +61,8 @@ add_namespace = USA_state_militia_flag_change
 add_namespace = USA_lower_state_militia_event
 add_namespace = AFR_lower_colonial_militia_event
 
+add_namespace = USA_FN_encroachment_event
+
 country_event = {
 	id = USA_state_militia_flag_change.1
 	hidden = yes
@@ -757,7 +759,22 @@ country_event = {
 			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_colonial_neighbor_flag } }
 		}
 		army_experience = 1
-		add_political_power = 20
+		if = {
+			limit = {
+				AND = {
+					ROOT = {
+						tag = USA
+					}
+					USA = {
+						has_completed_focus = USA_FN_passive1
+					}
+				}
+			}
+			add_political_power = 30
+		}
+		else = {
+			add_political_power = 15
+		}
 	}
 }
 country_event = {
@@ -768,9 +785,9 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	immediate = {
-		hidden_effect = { ROOT = { first_nations_tribal_raid_colonial_neighbor_penalty_random_list = yes } }
-	}
+	# immediate = {
+	# 	hidden_effect = { ROOT = { first_nations_tribal_raid_colonial_neighbor_penalty_random_list = yes } }
+	# }
 	
 	option = {
 		name = first_nations_tribal_raid_colonial_neighbor_on_lose_defender.1.a
@@ -778,7 +795,21 @@ country_event = {
 			limit = { ROOT = { has_border_war = no } }
 			hidden_effect = { ROOT = { clr_country_flag = first_nations_tribal_raid_colonial_neighbor_flag } }
 		}
-		first_nations_tribal_raid_colonial_neighbor_penalty = yes
+		if = {
+			limit = {
+				AND = {
+					tag = USA
+					USA = {
+						has_completed_focus = USA_FN_passive2
+					}
+				}
+			}
+			first_nations_tribal_raid_colonial_neighbor_penalty2 = yes
+		}
+		else = {
+			first_nations_tribal_raid_colonial_neighbor_penalty = yes
+		}
+		
 	}
 }
 country_event = {
@@ -967,9 +998,9 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	immediate = {
-		hidden_effect = { ROOT = { first_nations_tribal_raid_colonial_neighbor_penalty_random_list = yes } }
-	}
+	# immediate = {
+	# 	hidden_effect = { ROOT = { first_nations_tribal_raid_colonial_neighbor_penalty_random_list = yes } }
+	# }
 	
 	option = {
 		name = first_nations_tribal_border_war_enemy_on_lose_defender.1.a
@@ -1507,4 +1538,282 @@ country_event = {
 	}
 }
 
+country_event = {#clears flag for whatever reason
+	id = USA_FN_encroachment_event.1
+	hidden = yes
+	is_triggered_only = yes
 
+	immediate = {
+		if = {
+			limit = { ROOT = { has_country_flag = encroached_by_US_flag } }
+			ROOT = { clr_country_flag = encroached_by_US_flag }
+		}
+	}
+}
+
+country_event = {#doesnt do anything really
+	id = USA_FN_encroachment_event.2
+	title = USA_FN_encroachment_event.2.t
+	desc = USA_FN_encroachment_event.2.d
+	picture = GFX_report_event_chinese_army_training #get custom gfx
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = USA_FN_encroachment_event.2.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_combat_width_tooltip #check this #does nothing
+	}
+}
+
+country_event = {#potentially useless?
+	id = USA_FN_encroachment_event.3
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		FROM = { clear_variable = USA_recently_encroached_flag }
+		if = {
+			limit = {
+				USA = {
+					stockpile_ratio = {
+						archetype = infantry_equipment
+						ratio < 0.0001
+					}
+				}
+			}
+			ROOT = {
+				random_list = {
+					25 = {
+						country_event = {
+							id = USA_FN_encroachment_event.4
+							days = 75
+						}
+						modifier = {
+							add = 20
+							stockpile_ratio = {
+								archetype = infantry_equipment
+								ratio < 0.05
+							}
+						}
+						modifier = {
+							add = -20
+							stockpile_ratio = {
+								archetype = infantry_equipment
+								ratio > -0.05
+							}
+						}
+					}
+					25 = {
+						country_event = {
+							id = USA_FN_encroachment_event.4
+							days = 50
+						}
+						modifier = {
+							add = 20
+							stockpile_ratio = {
+								archetype = infantry_equipment
+								ratio < 0.025
+							}
+						}
+						modifier = {
+							add = -20
+							stockpile_ratio = {
+								archetype = infantry_equipment
+								ratio > -0.025
+							}
+						}
+					}
+					25 = {
+						country_event = {
+							id = USA_FN_encroachment_event.4
+							days = 25
+						}
+						modifier = {
+							add = 20
+							stockpile_ratio = {
+								archetype = infantry_equipment
+								ratio > 0.025
+							}
+						}
+						modifier = {
+							add = -20
+							stockpile_ratio = {
+								archetype = infantry_equipment
+								ratio < -0.025
+							}
+						}
+					}
+					25 = {
+						country_event = USA_FN_encroachment_event.4
+						modifier = {
+							add = 20
+							stockpile_ratio = {
+								archetype = infantry_equipment
+								ratio > 0.05
+							}
+						}
+						modifier = {
+							add = -20
+							stockpile_ratio = {
+								archetype = infantry_equipment
+								ratio < -0.05
+							}
+						}
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+country_event = {
+	id = USA_FN_encroachment_event.4
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		ROOT = { clr_country_flag = USA_recently_encroached@FROM }
+	}
+}
+
+country_event = {#US attacks and wins
+	id = USA_FN_encroachment_event.5
+	title = USA_FN_encroachment_event.5.t
+	desc = USA_FN_encroachment_event.5.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = USA_FN_encroachment_event.5.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = US_encroaching_flag_@FROM } }
+		}
+		army_experience = 5
+		add_political_power = 15
+		# USA = {
+		# 	transfer_state = FROM
+		# }
+		# FROM = {
+		# 	custom_effect_tooltip = afr_war_exhaustion_value_add_3
+		# 	add_to_variable = {
+		# 	var = afr_war_exhaustion_value
+		# 	value = 3
+		# 	}
+		# }
+	}
+}
+
+country_event = {#US attacks and loses
+	id = USA_FN_encroachment_event.6
+	title = USA_FN_encroachment_event.6.t
+	desc = USA_FN_encroachment_event.6.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = USA_FN_encroachment_event.6.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = US_encroaching_flag_@FROM } }
+		}
+		army_experience = 1
+		add_political_power = -30
+	}
+}
+country_event = {#US attacks but then goes "nah"
+	id = USA_FN_encroachment_event.7
+	title = USA_FN_encroachment_event.7.t
+	desc = USA_FN_encroachment_event.7.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = USA_FN_encroachment_event.7.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = US_encroaching_flag_@FROM } }
+		}
+		army_experience = 3
+		add_political_power = -15
+	}
+}
+
+country_event = {#FN defends and wins
+	id = USA_FN_encroachment_event.8
+	title = USA_FN_encroachment_event.8.t
+	desc = USA_FN_encroachment_event.8.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = USA_FN_encroachment_event.8.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = US_encroaching_flag } }
+		}
+		
+		ROOT = {
+			custom_effect_tooltip = afr_war_exhaustion_value_add_3
+			add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 1
+			army_experience = 10
+			}
+		}
+	}
+}
+country_event = {#FN defends but loses, F
+	id = USA_FN_encroachment_event.9
+	title = USA_FN_encroachment_event.9.t
+	desc = USA_FN_encroachment_event.9.d
+	picture = GFX_report_event_chinese_army_training
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = USA_FN_encroachment_event.9.a
+		USA = {
+			transfer_state = FROM
+		}
+		FROM = {
+			custom_effect_tooltip = AFR_Racial_Tension_plus_3
+				hidden_effect = { state_event = { id = afr_rrp_racial_tension_increase.3 } }
+		}
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = US_encroaching_flag } }
+		}
+		ROOT = {
+			custom_effect_tooltip = afr_war_exhaustion_value_add_3
+			add_to_variable = {
+			var = afr_war_exhaustion_value
+			value = 3
+			}
+		}
+	}
+}
+country_event = {#FN defends but then gets confused when the white-man fucks off home
+	id = USA_FN_encroachment_event.10
+	title = USA_FN_encroachment_event.10.t
+	desc = USA_FN_encroachment_event.10.d
+	picture = GFX_report_event_parwar
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = USA_FN_encroachment_event.10.a
+		if = { 
+			limit = { ROOT = { has_border_war = no } }
+			hidden_effect = { ROOT = { clr_country_flag = US_encroaching_flag } }
+		}
+	}
+}

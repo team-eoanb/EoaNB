@@ -4,6 +4,7 @@ add_namespace = shogunate_japan_l
 add_namespace = shogunate_japan_ansei
 add_namespace = shogunate_japan_boshin_anticheat
 add_namespace = shogunate_japan_choshu
+add_namespace = shogunate_japan_boshin
 add_namespace = tsh_news
 #Intro
 country_event = {
@@ -1521,7 +1522,7 @@ country_event = {
 				num_provinces = 1
 				on_win = shogunate_japan_choshu.21
 				on_lose = shogunate_japan_choshu.21
-				on_cancel = secondopiumwar.21
+				on_cancel = shogunate_japan_choshu.21
 			}
 		}
 	}
@@ -1540,24 +1541,249 @@ country_event = {
 	option = {
 		name = shogunate_japan_choshu.21.a
 		ai_chance = { factor = 100 }
+		if = {
+			limit = { tag = TSH }
+			hidden_effect = { country_event = { id = shogunate_japan_boshin.1 days = 50 } }
+		}
+	}
+}
+
+country_event = {
+	id = shogunate_japan_boshin.1
+	hidden = yes
+
+	is_triggered_only = yes
+
+	trigger = { tag = TSH }
+
+	immediate = {
+		clr_global_flag = TSH_Bakumatsu_Debate_Ongoing
+		set_country_flag = TSH_Boshin_War_Ongoing
+		if = {
+			limit = { eoanb_enable_autonomy = yes }
+			TSH = {
+				set_autonomy = {
+					target = CHO
+					autonomy_state = autonomy_free
+				}
+				set_autonomy = {
+					target = TOS
+					autonomy_state = autonomy_free
+				}
+				set_autonomy = {
+					target = SAT
+					autonomy_state = autonomy_free
+				}
+				set_autonomy = {
+					target = SAG
+					autonomy_state = autonomy_free
+				}
+				set_autonomy = {
+					target = MIT
+					autonomy_state = autonomy_free
+				}
+			}
+		}
+		else = {
+			end_puppet = CHO
+			end_puppet = TOS
+			end_puppet = SAG
+			end_puppet = SAT
+			end_puppet = MIT
+		}
+		CHO = { 
+			create_faction = "Satcho Alliance"
+			declare_war_on = {
+				target = TSH
+				type = annex_everything
+			}
+		}
+		every_country = {
+			limit = { is_japanese_country = yes }
+			CHO = { add_to_faction = THIS }
+			declare_war_on = {
+				target = TSH
+				type = annex_everything
+			}
+		}
+		UCT = { country_event = shogunate_japan_boshin.2 }
+		country_event = shogunate_japan_boshin.10
 	}
 	
+	option = {
+		name = shogunate_japan_boshin.1.a
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = shogunate_japan_boshin.2
+	hidden = yes
+
+	
+	is_triggered_only = yes
+
+	trigger = { tag = UCT }
+
+	immediate = {
+		if = {
+			limit = { TSH = { has_war = no } }
+			clr_global_flag = TSH_Boshin_War_Ongoing
+			if = {
+				limit = { CHO = { exists = yes is_subject = no } }
+				country_event = { id = shogunate_japan_boshin.8 } # Daimyo
+			}
+			else = {
+				country_event = shogunate_japan_boshin.7 # # Meiji
+			}
+		}
+		else = {
+			country_event = { id = shogunate_japan_boshin.2 days = 10 }
+			if = {
+				limit = { NOT = { controls_state = 282 } has_government = autocracy }
+				country_event = { id = shogunate_japan_boshin.9 } # Ouestu
+			}
+		}
+	}
+	
+	option = {
+		name = shogunate_japan_boshin.2.a
+		ai_chance = { factor = 100 }
+	}
+}
+
+# Meiji
+country_event = {
+	id = shogunate_japan_boshin.7
+	desc = shogunate_japan_boshin.8.d
+	title = shgounate_japan_boshin.8.t
+
+	is_triggered_only = yes
+
+	immediate = {
+		every_country = {
+			limit = { is_japanese_country = yes NOT = { tag = RYU } }
+			if = {
+				limit = { is_ai = no NOT = { tag = TSH } }
+				JAP = { change_tag_from  = THIS }
+			}
+			every_owned_state = {
+				remove_core_of = PREV
+				remove_core_of = TSH
+				add_core_of = JAP
+				JAP = { transfer_state = PREV }
+			}
+		}
+		JAP = {
+			inherit_technology = CHO
+			set_popularities = {
+				autocracy = 100
+			}
+			set_politics = { ruling_party = autocracy }
+		}
+	}
+	
+	option = {
+		name = shogunate_japan_boshin.8.a
+		ai_chance = { factor = 100 }
+	}
+}
+
+# Daimyo Republic
+country_event = {
+	id = shogunate_japan_boshin.8
+	hidden = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		TSH = {
+			set_cosmetic_tag = TSH_Daimyo_Republic_Cosmetic
+			set_politics = {
+				ruling_party = radical_democracy
+			}
+			set_popularities = {
+				radical_democracy = 100
+			}
+			set_party_name = {
+				ideology = radical_democracy
+				name = "Daimyo"
+				long_name = "Daimyo Council"
+			}
+			every_country = {
+				limit = { is_japanese_country = yes }
+				TSH = {
+					annex_country = {
+						target = PREV
+						transfer_troops = yes
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = shogunate_japan_boshin.8.a
+		ai_chance = { factor = 100 }
+	}
+}
+
+# Daimyo Republic
+country_event = {
+	id = shogunate_japan_boshin.9
+	hidden = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		TSH = {
+			set_cosmetic_tag = TSH_Ouestu_Alliance
+			set_politics = { ruling_party = radical_democracy }
+				set_party_name = {
+				ideology = radical_democracy
+				name = "Daimyo"
+				long_name = "Daimyo Council"
+			}
+			create_country_leader = {
+				name = "Yoshihisa Kitashirakawa"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				picture = "gfx/leaders/TSH/Portrait_TSH_Komatsu_Akihito.dds"
+				expire = "1900.1.1"
+				ideology = reactionary
+				traits = { }
+			}
+			every_country = {
+				limit = { is_subject_of = TSH }
+				TSH = {
+						annex_country = {
+						target = PREV
+						transfer_troops = yes
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = shogunate_japan_boshin.9.a
+		ai_chance = { factor = 100 }
+	}
 }
 
 ###FLAVOUR & MISC###
 
 #1858 Hietsu Earthquake
 country_event = {
-		id = shogunate_japan_fl.0
-		title = shogunate_japan_fl.0.t
-		desc = shogunate_japan_fl.0.d
-		picture = GFX_report_event_generic_ruins
-		
-		is_triggered_only = yes
+	id = shogunate_japan_fl.0
+	title = shogunate_japan_fl.0.t
+	desc = shogunate_japan_fl.0.d
+	picture = GFX_report_event_generic_ruins
+	
+	is_triggered_only = yes
 
-		fire_only_once = yes     
+	fire_only_once = yes     
 
-		option = {
+	option = {
 			name = shogunate_japan_fl.0.a
 
 			add_stability = -0.005

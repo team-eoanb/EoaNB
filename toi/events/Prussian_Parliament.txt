@@ -1,0 +1,795 @@
+add_namespace = prussian_votes
+add_namespace = prussian_votes_results
+
+#Vote on Expanding Voting Rights
+country_event = {
+	id = prussian_votes.1
+	title = prussian_votes.1.t
+	desc = prussian_votes.1.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_variable = { 
+			var = current_reform_id
+			value = 25.1    
+		}
+
+		reset_approval_arrays = yes 
+		set_1_approval_highly_disagree = yes 
+		set_2_approval_disagree = yes 
+		set_3_approval_agree = yes 
+		set_4_approval_highly_agree = yes 
+
+		set_vote_cul = yes
+		compute_voting_approval = yes
+
+		compute_number_seats_tot = yes 
+		compute_number_seats_approve_est = yes
+	}
+
+	option = { # Let's vote in a month
+		name = prussian_votes.1.a
+		ai_chance = { factor = 100 }
+		
+		country_event = {
+			id = prussian_votes_results.1
+			days = 31 
+		}
+	}
+
+	option = { # Abandon the idea
+		name = prussian_votes.1.b
+		ai_chance = { factor = 0 }
+		
+		add_political_power = -50
+		add_stability = -0.05
+		if = {
+			limit = {
+				has_government = traditional_conservatism
+			}
+			add_popularity = { ideology = traditional_conservatism popularity = -0.05 }
+		}
+		if = {
+			limit = {
+				has_government = centrism
+			}
+			add_popularity = { ideology = centrism popularity = -0.05 }
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+}
+
+#Results of Vote on Expanding Voting Rights
+country_event = {
+	id = prussian_votes_results.1
+	title = prussian_votes_results.1.t
+	desc = prussian_votes_results.1.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			calculate_vote_result = yes
+		}
+	}
+
+	option = { # It's a success !
+		name = prussian_votes_results.1.a
+		trigger = {
+			has_country_flag = eoanb_reform_vote_success
+		}
+		clr_country_flag = eoanb_reform_vote_success
+		enact_voted_reform = yes
+		
+		PRS = {
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a failure...
+		name = prussian_votes_results.1.b
+		trigger = {
+			has_country_flag = eoanb_reform_vote_failure
+		}
+		clr_country_flag = eoanb_reform_vote_failure
+
+		PRS = {
+			add_political_power = -50
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a tie...
+		name = prussian_votes_results.1.c
+		trigger = {
+			has_country_flag = eoanb_reform_vote_tie
+		}
+		clr_country_flag = eoanb_reform_vote_tie
+		
+		add_political_power = -25
+		PRS = { country_event = { id = prussian_votes.1 days = 14 } }
+	}
+}
+
+#Vote on Responsible Ministers
+country_event = {
+	id = prussian_votes.2
+	title = prussian_votes.2.t
+	desc = prussian_votes.2.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_variable = { 
+			var = current_reform_id
+			value = 25.2    
+		}
+
+		reset_approval_arrays = yes 
+		set_1_approval_highly_disagree = yes 
+		set_2_approval_disagree = yes 
+		set_3_approval_agree = yes 
+		set_4_approval_highly_agree = yes 
+
+		set_vote_cul = yes
+		compute_voting_approval = yes
+
+		compute_number_seats_tot = yes 
+		compute_number_seats_approve_est = yes
+	}
+
+	option = { # Let's vote in a month
+		name = prussian_votes.2.a
+		ai_chance = { factor = 100 }
+		
+		country_event = {
+			id = prussian_votes_results.2
+			days = 31 
+		}
+	}
+
+	option = { # Abandon the idea
+		name = prussian_votes.2.b
+		ai_chance = { factor = 0 }
+		
+		add_stability = -0.05
+		if = {
+			limit = {
+				has_government = traditional_conservatism
+			}
+			add_popularity = { ideology = traditional_conservatism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else_if = {
+			limit = {
+				has_government = centrism
+			}
+			add_popularity = { ideology = centrism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else = {
+			add_political_power = -100
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+}
+
+#Results of Vote on Responsible Ministers
+country_event = {
+	id = prussian_votes_results.2
+	title = prussian_votes_results.2.t
+	desc = prussian_votes_results.2.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			calculate_vote_result = yes
+		}
+	}
+
+	option = { # It's a success !
+		name = prussian_votes_results.2.a
+		trigger = {
+			has_country_flag = eoanb_reform_vote_success
+		}
+		clr_country_flag = eoanb_reform_vote_success
+		enact_voted_reform = yes
+		
+		PRS = {
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a failure...
+		name = prussian_votes_results.2.b
+		trigger = {
+			has_country_flag = eoanb_reform_vote_failure
+		}
+		clr_country_flag = eoanb_reform_vote_failure
+
+		PRS = {
+			add_political_power = -50
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a tie...
+		name = prussian_votes_results.2.c
+		trigger = {
+			has_country_flag = eoanb_reform_vote_tie
+		}
+		clr_country_flag = eoanb_reform_vote_tie
+		
+		add_political_power = -25
+		PRS = { country_event = { id = prussian_votes.2 days = 14 } }
+	}
+}
+
+#Vote on Adoption of the New Constitution
+country_event = {
+	id = prussian_votes.3
+	title = prussian_votes.3.t
+	desc = prussian_votes.3.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_variable = { 
+			var = current_reform_id
+			value = 25.3    
+		}
+
+		reset_approval_arrays = yes 
+		set_1_approval_highly_disagree = yes 
+		set_2_approval_disagree = yes 
+		set_3_approval_highly_agree = yes 
+		set_4_approval_highly_agree = yes 
+
+		set_vote_cul = yes
+		compute_voting_approval = yes
+
+		compute_number_seats_tot = yes 
+		compute_number_seats_approve_est = yes
+	}
+
+	option = { # Let's vote in a month
+		name = prussian_votes.3.a
+		ai_chance = { factor = 100 }
+		
+		country_event = {
+			id = prussian_votes_results.3
+			days = 31 
+		}
+	}
+
+	option = { # Abandon the idea
+		name = prussian_votes.3.b
+		ai_chance = { factor = 0 }
+		
+		add_stability = -0.05
+		if = {
+			limit = {
+				has_government = traditional_conservatism
+			}
+			add_popularity = { ideology = traditional_conservatism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else_if = {
+			limit = {
+				has_government = centrism
+			}
+			add_popularity = { ideology = centrism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else = {
+			add_political_power = -100
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+}
+
+#Results of Vote on Adoption of the New Constitution
+country_event = {
+	id = prussian_votes_results.3
+	title = prussian_votes_results.3.t
+	desc = prussian_votes_results.3.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			calculate_vote_result = yes
+		}
+	}
+
+	option = { # It's a success !
+		name = prussian_votes_results.3.a
+		trigger = {
+			has_country_flag = eoanb_reform_vote_success
+		}
+		clr_country_flag = eoanb_reform_vote_success
+		enact_voted_reform = yes
+		
+		PRS = {
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a failure...
+		name = prussian_votes_results.3.b
+		trigger = {
+			has_country_flag = eoanb_reform_vote_failure
+		}
+		clr_country_flag = eoanb_reform_vote_failure
+
+		PRS = {
+			add_political_power = -50
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a tie...
+		name = prussian_votes_results.3.c
+		trigger = {
+			has_country_flag = eoanb_reform_vote_tie
+		}
+		clr_country_flag = eoanb_reform_vote_tie
+		
+		add_political_power = -25
+		PRS = { country_event = { id = prussian_votes.3 days = 14 } }
+	}
+}
+
+#prussian_votes.4 - Propose Naval Agreement with England?
+#prussian_votes_results.4
+
+#prussian_votes.5 - Free Trade Act
+#prussian_votes_results.5
+
+#Vote on Longer Legislative Terms - Quinquennial Act
+country_event = {
+	id = prussian_votes.6
+	title = prussian_votes.6.t
+	desc = prussian_votes.6.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_variable = { 
+			var = current_reform_id
+			value = 25.6    
+		}
+
+		reset_approval_arrays = yes 
+		set_1_approval_highly_agree = yes 
+		set_2_approval_highly_agree = yes 
+		set_3_approval_disagree = yes 
+		set_4_approval_disagree = yes 
+
+		set_vote_cul = yes
+		compute_voting_approval = yes
+
+		compute_number_seats_tot = yes 
+		compute_number_seats_approve_est = yes
+	}
+
+	option = { # Let's vote in a month
+		name = prussian_votes.6.a
+		ai_chance = { factor = 100 }
+		
+		country_event = {
+			id = prussian_votes_results.6
+			days = 31 
+		}
+	}
+
+	option = { # Abandon the idea
+		name = prussian_votes.6.b
+		ai_chance = { factor = 0 }
+		
+		add_stability = -0.05
+		if = {
+			limit = {
+				has_government = traditional_conservatism
+			}
+			add_popularity = { ideology = traditional_conservatism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else_if = {
+			limit = {
+				has_government = centrism
+			}
+			add_popularity = { ideology = centrism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else = {
+			add_political_power = -100
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+}
+
+#Results of Vote on Longer Legislative Terms - Quinquennial Act
+country_event = {
+	id = prussian_votes_results.6
+	title = prussian_votes_results.6.t
+	desc = prussian_votes_results.6.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			calculate_vote_result = yes
+		}
+	}
+
+	option = { # It's a success !
+		name = prussian_votes_results.6.a
+		trigger = {
+			has_country_flag = eoanb_reform_vote_success
+		}
+		clr_country_flag = eoanb_reform_vote_success
+		enact_voted_reform = yes
+		
+		PRS = {
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a failure...
+		name = prussian_votes_results.6.b
+		trigger = {
+			has_country_flag = eoanb_reform_vote_failure
+		}
+		clr_country_flag = eoanb_reform_vote_failure
+
+		PRS = {
+			add_political_power = -50
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a tie...
+		name = prussian_votes_results.6.c
+		trigger = {
+			has_country_flag = eoanb_reform_vote_tie
+		}
+		clr_country_flag = eoanb_reform_vote_tie
+		
+		add_political_power = -25
+		PRS = { country_event = { id = prussian_votes.6 days = 14 } }
+	}
+}
+
+#Vote on Adoption of Prussian Constitutionalism
+country_event = {
+	id = prussian_votes.7
+	title = prussian_votes.7.t
+	desc = prussian_votes.7.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_variable = { 
+			var = current_reform_id
+			value = 25.7    
+		}
+
+		reset_approval_arrays = yes 
+		set_1_approval_highly_disagree = yes 
+		set_2_approval_agree = yes 
+		set_3_approval_agree = yes 
+		set_4_approval_highly_disagree = yes 
+
+		set_vote_cul = yes
+		compute_voting_approval = yes
+
+		compute_number_seats_tot = yes 
+		compute_number_seats_approve_est = yes
+	}
+
+	option = { # Let's vote in a month
+		name = prussian_votes.7.a
+		ai_chance = { factor = 100 }
+		
+		country_event = {
+			id = prussian_votes_results.7
+			days = 31 
+		}
+	}
+
+	option = { # Abandon the idea
+		name = prussian_votes.7.b
+		ai_chance = { factor = 0 }
+		
+		add_stability = -0.05
+		if = {
+			limit = {
+				has_government = traditional_conservatism
+			}
+			add_popularity = { ideology = traditional_conservatism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else_if = {
+			limit = {
+				has_government = centrism
+			}
+			add_popularity = { ideology = centrism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else = {
+			add_political_power = -100
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+}
+
+#Results of Vote on Adoption of Prussian Constitutionalism
+country_event = {
+	id = prussian_votes_results.7
+	title = prussian_votes_results.7.t
+	desc = prussian_votes_results.7.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			calculate_vote_result = yes
+		}
+	}
+
+	option = { # It's a success !
+		name = prussian_votes_results.7.a
+		trigger = {
+			has_country_flag = eoanb_reform_vote_success
+		}
+		clr_country_flag = eoanb_reform_vote_success
+		enact_voted_reform = yes
+		
+		PRS = {
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a failure...
+		name = prussian_votes_results.7.b
+		trigger = {
+			has_country_flag = eoanb_reform_vote_failure
+		}
+		clr_country_flag = eoanb_reform_vote_failure
+
+		PRS = {
+			add_political_power = -50
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a tie...
+		name = prussian_votes_results.7.c
+		trigger = {
+			has_country_flag = eoanb_reform_vote_tie
+		}
+		clr_country_flag = eoanb_reform_vote_tie
+		
+		add_political_power = -25
+		PRS = { country_event = { id = prussian_votes.7 days = 14 } }
+	}
+}
+
+#prussian_votes.8 - More Trade Treaty Decisions?
+#prussian_votes_results.8
+
+#prussian_votes.9 - Invite Austria to the Zollverein?
+#prussian_votes_results.9

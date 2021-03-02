@@ -35,7 +35,7 @@
 	twelve_hour_work_day
 
     stagnation_growth
-    volunteer_only
+    limited_conscription
     border_control
     limited_equality
     parliamentary_suffrage
@@ -77,6 +77,11 @@
   give_guarantee = GRE 
   give_guarantee = TAH 
 
+   declare_war_on = {
+    target = KBY
+    type = annex_everything
+  } 
+
   if = {
       limit = {
         OR = {
@@ -95,6 +100,11 @@
         autonomous_state = autonomy_colony
         freedom_level = 0.1
       }
+      set_autonomy = {
+        target = GAB
+        autonomous_state = afr_colonial_company
+        freedom_level = 0.1
+      }
     }
     if ={
       limit = {
@@ -106,6 +116,7 @@
       }
       puppet = GBS
       puppet = SNG
+      puppet = GAB
     }
 
   set_politics = {
@@ -173,12 +184,22 @@
   	early_howitzer = 1
   	#tech_naval_1830_frigate = 1 
 	start_build_tech = 1
-    tech_naval_mtg_simple_corvette_hull = 1
     tech_naval_mtg_24_pounder_battery = 1
     tech_naval_mtg_sails = 1
     tech_naval_mtg_crows_nest = 1  
+    tech_naval_mtg_simple_corvette_hull = 1
+    tech_naval_mtg_1857_corvette_hull = 1
+    tech_naval_mtg_early_frigate = 1
+    tech_naval_mtg_1850_frigate = 1
+    tech_naval_mtg_lineship_hull = 1
     #tech_naval_1812_troops = 1 
     #tech_naval_1855_frigate = 1 
+    mongolfiere = 1
+    ornithopter = 1
+    screw_propeller = 1 
+    corliss_steam_engine = 1
+    tech_naval_mtg_paddle_wheels = 1
+    tech_naval_mtg_capital_ship_naval_transportation = 1 
   }
 
   create_country_leader = {
@@ -370,7 +391,7 @@
   # https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Achille_Bazaine
   create_corps_commander = {
     name = "François Achille Bazaine"
-    picture = "Portrait_FRA_Francois_Achille_Bazaine.dds"
+    picture = "Portrait_FRA_1857_Francois_Achille_Bazaine.dds"
 	id = 178906
     traits = { 
       infantry_leader
@@ -412,7 +433,7 @@
   # https://fr.wikipedia.org/wiki/Adolphe_Niel
   create_corps_commander = {
     name = "Adolphe Niel"
-    picture = "Portrait_FRA_Adolphe_Niel.dds"
+    picture = "Portrait_FRA_1857_Adolphe_Niel.dds"
 	id = 178910
     traits = { 
       politically_connected
@@ -428,7 +449,7 @@
   # https://fr.wikipedia.org/wiki/Edmond_Le_B%C5%93uf
   create_corps_commander = {
     name = "Edmond Le Bœuf"
-    picture = "Portrait_FRA_Edmond_Le_Boeuf.dds"
+    picture = "Portrait_FRA_1857_Edmond_Le_Boeuf.dds"
 	id = 178911
     traits = { 
       fortress_buster
@@ -473,7 +494,7 @@
   # https://fr.wikipedia.org/wiki/Charles-Denis_Bourbaki
   create_corps_commander = {
     name = "Charles-Denis Bourbaki"
-    picture = "Portrait_FRA_Charles_Denis_Bourbaki.dds"
+    picture = "Portrait_FRA_1857_Charles_Denis_Bourbaki.dds"
 	id = 178914
     traits = { eoanb_french_general }
     skill = 2
@@ -503,7 +524,7 @@
   # https://fr.wikipedia.org/wiki/Charles_Auguste_Frossard
   create_corps_commander = {
     name = "Charles Auguste Frossard"
-    picture = "Portrait_FRA_Charles_Auguste_Frossard.dds"
+    picture = "Portrait_FRA_1857_Charles_Auguste_Frossard.dds"
 	id = 178917
     traits = {
 		career_officer
@@ -686,8 +707,81 @@
   
   if = {
 	limit = { has_dlc = "Man the Guns" }
-	create_equipment_variant = {
-		name = "Corvette Class"
+
+  create_equipment_variant = {
+		name = "Lineship Class"
+		type = ship_hull_lineship_0
+		name_group = GER_CA_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_cannon_battery_0
+			fixed_ship_fire_control_system_slot = fire_control_system_0
+			fixed_ship_engine_slot = ship_engine_sail_2
+			fixed_ship_armor_slot = empty
+			front_1_custom_slot = ship_cannon_battery_0
+			front_2_custom_slot = empty
+			mid_1_custom_slot = ship_cannon_battery_0
+			mid_2_custom_slot = empty
+			mid_3_custom_slot = empty
+			rear_1_custom_slot = ship_cannon_battery_0
+    	}
+		#obsolete = no
+  }
+
+  create_equipment_variant = {
+		name = "Penelope Class"
+		type = ship_hull_frigate_0
+		name_group = GER_CA_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_cannon_battery_0
+			fixed_ship_fire_control_system_slot = fire_control_system_0
+			fixed_ship_engine_slot = ship_engine_sail_2
+			fixed_ship_armor_slot = empty
+			front_1_custom_slot = empty
+			mid_1_custom_slot = ship_cannon_battery_0
+			mid_2_custom_slot = ship_cannon_battery_0
+			rear_1_custom_slot = empty
+    	}
+		#obsolete = no
+  }
+  
+  create_equipment_variant = {
+		name = "Vengeance Class"
+		type = ship_hull_frigate_1
+		name_group = GER_CA_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_cannon_battery_0
+			fixed_ship_fire_control_system_slot = fire_control_system_0
+			fixed_ship_engine_slot = ship_engine_sail_2
+			fixed_ship_armor_slot = empty
+			front_1_custom_slot = empty
+			mid_1_custom_slot = ship_cannon_battery_0
+			mid_2_custom_slot = ship_cannon_battery_0
+			rear_1_custom_slot = empty
+    	}
+		#obsolete = no
+  }
+  
+  create_equipment_variant = {
+		name = "Gomer Class"
+		type = ship_hull_corvette_1
+		name_group = GER_CA_HISTORICAL
+		parent_version = 0
+		modules = {
+        	fixed_ship_battery_slot = ship_cannon_battery_0
+			fixed_ship_fire_control_system_slot = fire_control_system_0
+			fixed_ship_engine_slot = ship_engine_paddle_screen
+			fixed_ship_armor_slot = empty
+			mid_1_custom_slot = empty
+			front_1_custom_slot = empty
+    	}
+		#obsolete = no
+  }
+
+  create_equipment_variant = {
+		name = "Heliopolis Class"
 		type = ship_hull_corvette_0
 		name_group = GER_CA_HISTORICAL
 		parent_version = 0
@@ -700,7 +794,335 @@
 			front_1_custom_slot = empty
     	}
 		#obsolete = no
-	}
-}
+  }
 
+	add_equipment_production = {
+		equipment = {
+			type = ship_hull_lineship_0
+			creator = "FRA" 
+			version_name = "Lineship Class"
+		}
+		name = "Alexandre" 
+		requested_factories = 1
+		progress = 0.90
+		amount = 1
+  }
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_lineship_0
+			creator = "FRA" 
+			version_name = "Lineship Class"
+		}
+		name = "Foutenoy" 
+		requested_factories = 1
+		progress = 0.80
+		amount = 1
+  }
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_lineship_0
+			creator = "FRA" 
+			version_name = "Lineship Class"
+		}
+		name = "Ville de Nantes" 
+		requested_factories = 1
+		progress = 0.80
+		amount = 1
+  }
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_lineship_0
+			creator = "FRA" 
+			version_name = "Lineship Class"
+		}
+		name = "Castiglione" 
+		requested_factories = 1
+		progress = 0.70
+		amount = 1
+  }
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_lineship_0
+			creator = "FRA" 
+			version_name = "Lineship Class"
+		}
+		name = "Massena" 
+		requested_factories = 1
+		progress = 0.70
+		amount = 1
+  }
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_lineship_0
+			creator = "FRA" 
+			version_name = "Lineship Class"
+		}
+		name = "Ville de Bordeaux" 
+		requested_factories = 1
+		progress = 0.60
+		amount = 1
+  }
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_lineship_0
+			creator = "FRA" 
+			version_name = "Lineship Class"
+		}
+		name = "Ville de Lyon" 
+		requested_factories = 1
+		progress = 0.50
+		amount = 1
+  }
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_lineship_0
+			creator = "FRA" 
+			version_name = "Lineship Class"
+		}
+		name = "Intrepide" 
+		requested_factories = 1
+		progress = 0.10
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Bellone" 
+		requested_factories = 1
+		progress = 0.90
+		amount = 1
+  }
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Clorinde" 
+		requested_factories = 1
+		progress = 0.90
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Danae" 
+		requested_factories = 1
+		progress = 0.90
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Ceres" 
+		requested_factories = 1
+		progress = 0.90
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Pandore" 
+		requested_factories = 1
+		progress = 0.90
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Zenobie" 
+		requested_factories = 1
+		progress = 0.90
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Renommee" 
+		requested_factories = 1
+		progress = 0.75
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Astree" 
+		requested_factories = 1
+		progress = 0.70
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Pallas" 
+		requested_factories = 1
+		progress = 0.30
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Hermione" 
+		requested_factories = 1
+		progress = 0.30
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Circe" 
+		requested_factories = 1
+		progress = 0.30
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Magicienne" 
+		requested_factories = 1
+		progress = 0.30
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Themis" 
+		requested_factories = 1
+		progress = 0.30
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Junon" 
+		requested_factories = 1
+		progress = 0.20
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Guerriere" 
+		requested_factories = 1
+		progress = 0.20
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Sémiramis" 
+		requested_factories = 1
+		progress = 0.10
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Victoire" 
+		requested_factories = 1
+		progress = 0.10
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Armorique" 
+		requested_factories = 1
+		progress = 0.10
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Flore" 
+		requested_factories = 1
+		progress = 0.10
+		amount = 1
+  }
+
+  add_equipment_production = {
+		equipment = {
+			type = ship_hull_frigate_1
+			creator = "FRA" 
+			version_name = "Vengeance Class"
+		}
+		name = "Resolue" 
+		requested_factories = 1
+		progress = 0.00
+		amount = 1
+  }
+
+  }
 }

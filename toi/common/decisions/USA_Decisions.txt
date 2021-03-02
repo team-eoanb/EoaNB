@@ -1,3 +1,71 @@
+# infrastructure_conversion = {
+	# 	state_target = yes
+	# 	available = {
+	# 		tag = RUS
+	# 	}
+	# 	visible = {
+	# 		tag = RUS
+	# 	}
+	# 	target_trigger = {
+    #         AND = {
+	# 			FROM = { 
+	# 			is_owned_and_controlled_by = ROOT 
+	# 			}
+	# 			FROM = {
+	# 				infrastructure > 3
+	# 			}
+	# 		}
+	# 	}
+	# 	complete_effect = {
+	# 		FROM = {
+	# 			remove_building = {
+	# 				type = infrastructure
+	# 				level = 1
+	# 			}
+	# 			add_building_construction = {
+	# 				type = infrastructure_inactive
+	# 				level = 1
+	# 				instant_build = yes
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+	# infrastructure_conversion_back = {
+	# 	state_target = yes
+	# 	available = {
+	# 		tag = RUS
+	# 	}
+	# 	visible = {
+	# 		tag = RUS
+	# 	}
+	# 	target_trigger = {
+    #         AND = {
+	# 			FROM = { 
+	# 			is_owned_and_controlled_by = ROOT 
+	# 			}
+	# 			FROM = {
+	# 				infrastructure_inactive > 0
+	# 			}
+	# 		}
+	# 	}
+	# 	complete_effect = {
+	# 		FROM = {
+	# 			remove_building = {
+	# 				type = infrastructure_inactive
+	# 				level = 1
+	# 			}
+	# 		}
+	# 		FROM = {
+	# 			add_building_construction = {
+	# 				type = infrastructure
+	# 				level = 1
+	# 				instant_build = yes
+	# 			}
+	# 		}
+	# 	}
+	# }
+
 
 eoanb_category_military = {
 	USA_second_fiji_expedition_mission = {
@@ -185,31 +253,21 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 	}
 	utahWar1 = {#Revoke New Governorship
 		
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
 
+		days_remove = 10
 
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -220,21 +278,16 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.1
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar2 = {#Revoke Posse Comitatus
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		available = {
 			AND = {
@@ -257,8 +310,19 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 				NOT = {
 					has_country_flag = USA_mormon_NME
 				}
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
+				}
 			}
 		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -271,22 +335,17 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			}
 			USA = {
 				set_country_flag = USA_mormon_NME
+				set_country_flag = USA_utah_war_flag
 			}
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar3 = {#Send small military escort
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		available = {
 			AND = {
@@ -309,8 +368,19 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 				NOT = {
 					has_country_flag = USA_mormon_NME
 				}
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
+				}
 			}
 		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -323,22 +393,17 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			}
 			USA = {
 				set_country_flag = USA_mormon_sME
+				set_country_flag = USA_utah_war_flag
 			}
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar4 = {#Send medium military escort
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		available = {
 			AND = {
@@ -361,8 +426,19 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 				NOT = {
 					has_country_flag = USA_mormon_NME
 				}
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
+				}
 			}
 		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -375,22 +451,18 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			}
 			USA = {
 				set_country_flag = USA_mormon_mME
+				set_country_flag = USA_utah_war_flag
 			}
 		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
+		}
 	}
+
 	utahWar5 = {#Send large military escort
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		available = {
 			AND = {
@@ -413,8 +485,19 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 				NOT = {
 					has_country_flag = USA_mormon_NME
 				}
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
+				}
 			}
 		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -427,234 +510,19 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			}
 			USA = {
 				set_country_flag = USA_mormon_LME
+				set_country_flag = USA_utah_war_flag
 			}
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar6 = {#Equating Dissenters with Traitors
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		allowed = {
-			always = no
-		}
-		
-		complete_effect = {
-			add_political_power = -10
-			country_event = {
-				id = USA_utah_war.6
-			}
-		}
-	}
-	utahWar7 = {#Pardon Dissenters
-	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		allowed = {
-			always = no
-		}
-		
-		complete_effect = {
-			add_political_power = -10
-			country_event = {
-				id = USA_utah_war.7
-			}
-		}
-	}
-	utahWar8 = {#Send a special delegate to ease tensions#Captain Van Vliet
-	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		allowed = {
-			always = no
-		}
-		
-		complete_effect = {
-			add_political_power = -10
-			country_event = {
-				id = USA_utah_war.8
-			}
-		}
-	}
-	utahWar9 = {#Send a special delegate who is a complete fool#whoever
-	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		allowed = {
-			always = no
-		}
-		
-		complete_effect = {
-			add_political_power = -10
-			country_event = {
-				id = USA_utah_war.9
-			}
-		}
-	}
-	utahWar10 = {#Send a second special delegate who is competent#Thomas L Kane
-	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		allowed = {
-			always = no
-		}
-		
-		complete_effect = {
-			add_political_power = -10
-			country_event = {
-				id = USA_utah_war.10
-			}
-		}
-	}
-	utahWar11 = {#Re-route CO expedition#lieutenant Ives
-	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
-
-		allowed = {
-			always = no
-		}
-		
-		complete_effect = {
-			add_political_power = -10
-			country_event = {
-				id = USA_utah_war.11
-			}
-		}
-	}
-	utahWar12 = {#Offer Alaska as a Mormon Refuge
-	
-		# visible = {
 		# 	AND = {
 		# 		has_completed_focus = USA_utah_war
 		# 		NOT = {
@@ -667,17 +535,221 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 		# }
 
 		available = {
-			AND = {
-				# has_completed_focus = USA_utah_war
-				# NOT = {
-				# 	OR = {
-				# 		has_completed_focus = USA_utah_peace
-				# 		has_completed_focus = USA_real_utah_war
-				# 	}
-				# }
-				has_completed_focus = USA_mormon_alaska
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
 			}
 		}
+
+		days_remove = 10
+
+		allowed = {
+			always = no
+		}
+
+		fire_only_once = yes
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.6
+			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
+		}
+	}
+	utahWar7 = {#Pardon Dissenters
+	
+		#visible
+
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.7
+			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
+		}
+	}
+	utahWar8 = {#Send a special delegate to ease tensions#Captain Van Vliet
+	
+		#visible
+
+		available = {
+			NOT = {
+				has_country_flag = USA_mormon_NME
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.8
+			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
+		}
+	}
+	utahWar9 = {#Send a special delegate who is a complete fool#whoever
+	
+		#visible
+
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.9
+			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
+		}
+	}
+	utahWar10 = {#Send a second special delegate who is competent#Thomas L Kane
+	
+		#visible
+
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.10
+			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
+		}
+	}
+	utahWar11 = {#Re-route CO expedition#lieutenant Ives
+	
+		#visible
+
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
+
+		allowed = {
+			always = no
+		}
+		
+		complete_effect = {
+			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.11
+			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
+		}
+	}
+	utahWar12 = {#Offer Alaska as a Mormon Refuge
+	
+		#visible
+
+		available = {
+			AND = {
+				has_completed_focus = USA_mormon_alaska
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -688,33 +760,30 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.12
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar13 = {#Guarantee an equal rights religious policy (in an era before the 14th amendment)
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -725,33 +794,30 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.13
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar14 = {#Demand a closure of all ecclesiastic courts in the territory
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -762,33 +828,30 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.14
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar15 = {#Officially close borders to the territory
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -799,33 +862,30 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.15
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar16 = {#Demand the Nauvoo Legions and other militias be dissolved
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -836,33 +896,26 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.16
 			}
+			set_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar17 = {#Pressure Natives against Mormons
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -873,33 +926,18 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.17
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar18 = {#March on defended pass
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -915,89 +953,95 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 				NOT = {
 					has_country_flag = USA_mormon_NME
 				}
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
+				}
 			}
 		}
+
+		days_remove = 10
 		
 		complete_effect = {
 			add_political_power = -10
 			country_event = {
 				id = USA_utah_war.18
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar19 = {#March on Undefended Pass
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		fire_only_once = yes
 
 		allowed = {
 			always = no
 		}
 
 		available = {
-			
+			AND = {
+				check_variable = {
+					var = USA_mormon_unrest
+					value = 10
+					compare = greater_than_or_equals
+				}
+				NOT = {
+					has_country_flag = USA_mormon_NME
+				}
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
+				}
+			}
 		}
+
+		days_remove = 10
 		
 		complete_effect = {
 			add_political_power = -10
+			country_event = {
+				id = USA_utah_war.19
+			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 
 	utahWar20 = {#Reinforce military escort by one step
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		available = {
 			AND = {
-				# has_completed_focus = USA_utah_war
-				# NOT = {
-				# 	OR = {
-				# 		has_completed_focus = USA_utah_peace
-				# 		has_completed_focus = USA_real_utah_war
-				# 	}
-				# }
 				NOT = {
-					has_country_flag = USA_mormon_sME
+					has_country_flag = USA_mormon_LME
 				}
 				NOT = {
-					has_country_flag = USA_mormon_mME
+					has_country_flag = USA_utah_war_flag
 				}
-				NOT = {
-					has_country_flag = USA_mormon_NME
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
 				}
 			}
 		}
+
+		days_remove = 10
 
 		allowed = {
 			always = no
@@ -1008,39 +1052,36 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.20
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar21 = {#Reinforce military escort by 2 steps
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		available = {
 			AND = {
-				# has_completed_focus = USA_utah_war
-				# NOT = {
-				# 	OR = {
-				# 		has_completed_focus = USA_utah_peace
-				# 		has_completed_focus = USA_real_utah_war
-				# 	}
-				# }
 				NOT = {
-					has_country_flag = USA_mormon_sME
+					has_country_flag = USA_mormon_MME
 				}
 				NOT = {
-					has_country_flag = USA_mormon_NME
+					has_country_flag = USA_mormon_LME
+				}
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
 				}
 			}
 		}
+
+		days_remove = 10
 
 		allowed = {
 			always = no
@@ -1051,42 +1092,33 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.21
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar22 = {#Decrease military escort by one step
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		available = {
 			AND = {
-				# has_completed_focus = USA_utah_war
-				# NOT = {
-				# 	OR = {
-				# 		has_completed_focus = USA_utah_peace
-				# 		has_completed_focus = USA_real_utah_war
-				# 	}
-				# }
 				NOT = {
-					has_country_flag = USA_mormon_sME
+					has_country_flag = USA_mormon_NME
 				}
 				NOT = {
-					has_country_flag = USA_mormon_mME
+					has_country_flag = USA_utah_war_flag
 				}
-				NOT = {
-					has_country_flag = USA_mormon_LME
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
 				}
 			}
 		}
+
+		days_remove = 10
 
 		allowed = {
 			always = no
@@ -1097,39 +1129,36 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.22
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	utahWar23 = {#Decrease military escort by 2 steps
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
 		available = {
 			AND = {
-				# has_completed_focus = USA_utah_war
-				# NOT = {
-				# 	OR = {
-				# 		has_completed_focus = USA_utah_peace
-				# 		has_completed_focus = USA_real_utah_war
-				# 	}
-				# }
 				NOT = {
-					has_country_flag = USA_mormon_mME
+					has_country_flag = USA_mormon_sME
 				}
 				NOT = {
-					has_country_flag = USA_mormon_LME
+					has_country_flag = USA_mormon_NME
+				}
+				NOT = {
+					has_country_flag = USA_utah_war_flag
+				}
+				check_variable = {
+					var = USA_mormon_unrest
+					value > 0
 				}
 			}
 		}
+
+		days_remove = 10
 
 		allowed = {
 			always = no
@@ -1140,34 +1169,31 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.23
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 	
 	utahWar24 = {#Promise to exepdite statehood
 	
-		# visible = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		#visible
 
-		# available = {
-		# 	AND = {
-		# 		has_completed_focus = USA_utah_war
-		# 		NOT = {
-		# 			OR = {
-		# 				has_completed_focus = USA_utah_peace
-		# 				has_completed_focus = USA_real_utah_war
-		# 			}
-		# 		}
-		# 	}
-		# }
+		available = {
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
+			check_variable = {
+				var = USA_mormon_unrest
+				value > 0
+			}
+		}
+
+		days_remove = 10
+
+		fire_only_once = yes
 
 		allowed = {
 			always = no
@@ -1178,19 +1204,24 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			country_event = {
 				id = USA_utah_war.24
 			}
+			set_country_flag = USA_utah_war_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = USA_utah_war_flag
 		}
 	}
 
 	utahWar90 = {#potential war mission
 
 		visible = {
-			NOT = {
-				380 = { is_controlled_by = USA }
-			}
+			always = yes
 		}
 
 		available = {
-			always = yes
+			NOT = {
+				380 = { is_controlled_by = USA }
+			}
 		}
 
 		allowed = {
@@ -2706,30 +2737,31 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 USA_foreign_policy = {
 
     #Harris Treaty
-	eoanb_decision_USA_harris_treaty = {
-		icon = generic_political_discourse
+	# eoanb_decision_USA_harris_treaty = {
+	# 	icon = generic_political_discourse
 
-		allowed = { always = no }
-		activation = { always = no }
-		available = { always = no }
+	# 	allowed = { tag = USA }
+	# 	# activation = { always = no }
+	# 	visible = { tag = USA }
+	# 	available = { has_completed_focus = USA_harris_treaty_focus }
 
-		days_mission_timeout = 545
-		timeout_effect = {
-			USA = { add_political_power = -75 }
-			TSH = { country_event = { id = shogunate_japan.1 } }
-		}
-		complete_effect = {
-			USA = {
-				complete_national_focus = USA_harris_treaty_focus
-				add_political_power = -25
-			}
-			TSH = { 
-				country_event = { 
-					id = shogunate_japan.1 
-				} 
-			}
-		}
-	}
+	# 	# days_mission_timeout = 545
+	# 	# timeout_effect = {
+	# 	# 	USA = { add_political_power = -75 }
+	# 	# 	TSH = { country_event = { id = shogunate_japan.1 } }
+	# 	# }
+	# 	complete_effect = {
+	# 		USA = {
+	# 			complete_national_focus = USA_harris_treaty_focus
+	# 			add_political_power = -25
+	# 		}
+	# 		TSH = { 
+	# 			country_event = { 
+	# 				id = shogunate_japan.1 
+	# 			} 
+	# 		}
+	# 	}
+	# }
 	#Treaty of Tianjin
     USA_tianjin_treaty = {
 
@@ -2742,7 +2774,11 @@ USA_foreign_policy = {
 				}
 				has_completed_focus = USA_trade_treaties
 			}
-        }
+		}
+		
+		allowed = {
+			tag = USA
+		}
 
         visible = {
             TAG = USA
@@ -2771,16 +2807,17 @@ USA_foreign_policy = {
         icon = generic_political_discourse
 
         available = {
-            NOT = {
-				has_global_flag = eoanb_flag_sow_ongoing
-			}
+            #NOT = {
+				#has_global_flag = eoanb_flag_sow_ongoing
+			has_completed_focus = USA_clayton_bulwar_treaty_focus
+			#}
         }
 		allowed = {
 			tag = USA
 		}
 
         visible = {
-            #has_completed_focus = USA_clayton_bulwar_treaty_focus
+            #
 			# always = no
 			tag = USA
         }
@@ -2790,12 +2827,356 @@ USA_foreign_policy = {
         cost = 25
 
         complete_effect = {
-             ENG = { country_event = { id = ENG_clayton_bulwar_treaty.1 } }
+            ENG = { country_event = { id = ENG_clayton_bulwar_treaty.1 } }
         }
         ai_will_do = {
             base = 4000
         }
-    }
+	}
+	
+	USA_FN_border_encroachment = {#allows US to steal states from FNs #source = first_nations_tribal_raid_colonial_neighbor 
+
+	#For the purposes of understanding this decision
+	# US = ROOT
+	# dynamic FN = FROM
+
+		available = {
+			tag = USA
+			NOT = { has_non_aggression_pact_with = FROM }
+			NOT = { has_variable = ROOT.USA_recently_encroached@FROM} #does not have flag that it attacked that FN recently
+			hidden_trigger = {
+				any_state = {
+					is_owned_and_controlled_by = FROM
+					any_neighbor_state = {
+						is_fully_controlled_by = ROOT
+					}
+				}
+				is_first_nations_tribe = no
+				#native_decision_acw_has_not_started_trigger = yes
+			}
+			NOT = {
+				has_country_flag = USA_recently_encroached_flag
+			}
+		}
+		highlight_states = {
+			state = var:FROM.defender_state_vs_@ROOT
+		}
+
+		visible = {
+			#NOT = { has_country_flag = USA_recently_encroached_flag }
+			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
+			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_territory }
+			NOT = { has_autonomy_state = autonomy_organized_unincorporated_commonwealth }
+			NOT = { has_autonomy_state = autonomy_freely_associated_state }
+			tag = USA
+			USA = {
+				AND = {
+					has_completed_focus = USA_buchanan_diplomacy
+					NOT = { has_completed_focus = USA_FN_passive1 }
+					NOT = { has_completed_focus = USA_FN_appeasing1 }
+				}
+			}
+
+		}
+		#allowed = {}
+
+		target_trigger = {
+			FROM = {
+				AND = {
+					is_neighbor_of = ROOT
+					is_first_nations_tribe = yes
+				}
+			}
+			ROOT = {
+				NOT = { is_subject_of = FROM }
+			}
+			FROM = {
+				NOT = { is_subject_of = ROOT }
+			}
+			if = { 
+				limit = { ROOT = { is_subject = yes } }
+				FROM = {
+					NOT = { is_subject_of = OVERLORD }
+				}
+			}
+		}
+
+		days_remove = 30
+		fire_only_once = no
+		days_re_enable = 90
+
+		cost = 0
+		
+		custom_cost_trigger = { #perhaps change this to Army XP?
+
+			command_power > 19.9
+
+		}
+		
+		custom_cost_text = afr_tribal_raid_colonial_neighbor_command_power_more_than_99 #change loc
+
+
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = edc_raid_decision_cancel_trigger #change loc
+				OR = {
+					is_in_faction_with = FROM
+					has_war_with = FROM
+					has_border_war_with = FROM
+				}
+			}
+		}
+
+		complete_effect = {
+			hidden_effect = { 
+				add_command_power = -20
+				FROM = { set_country_flag = encroached_by_US_flag }
+				FROM = { country_event = { id = USA_FN_encroachment_event.1 days = 31 } }#
+				random_list = {
+					60 = {
+						FROM = {
+							country_event = { id = USA_FN_encroachment_event.2 } #<- does nothing
+							set_country_flag = US_encroachment_spotted #first_nations_tribal_raid_spotted_flag #US_encroachment_spotted
+							# add_ai_strategy = {
+							# 	type = prepare_for_war
+							# 	id = ROOT
+							# 	value = 5
+							# }
+						}
+					}
+					40 = {
+
+					}
+				}
+			}
+			set_dynamic_american_state_border_war_variables = yes #check this
+		}
+		remove_effect = {
+			hidden_effect = {
+				set_country_flag = USA_recently_encroached_flag
+				set_variable = { var = ROOT.USA_recently_encroached@FROM value = 1 }
+				FROM = { country_event = { id = first_nations_tribe_recently_raided_event.3 days = 55 } }
+			}
+			
+			hidden_effect = { ROOT = { set_country_flag = US_encroaching_flag_@FROM } }
+			hidden_effect = { FROM = { set_country_flag = US_encroaching_flag } }
+			
+			# hidden_effect = {
+			# 	ROOT = { set_country_flag = afr_neighbor_state_colonial_militia_spawn_flag }
+			# 	if = {
+			# 		limit = { has_country_flag = afr_neighbor_state_colonial_militia_spawn_flag }
+			# 		var:FROM.defender_state_vs_@ROOT = {
+			# 			USA_call_state_militia_units = yes
+			# 		}
+			# 	}
+			# 	ROOT = { clr_country_flag = afr_neighbor_state_colonial_militia_spawn_flag }
+			# }
+
+			FROM = {
+				if = {
+					limit = { 
+						NOT = { has_country_flag = Tribal_Army_Raised } 
+						OR = {
+							check_variable = { Tribal_army_num > 999 }
+							check_variable = { Tribal_horse_army_num > 999 }
+							check_variable = { Tribal_horse_pistoleer_army_num > 999 }
+							check_variable = { Tribal_camel_army_num > 999 }
+						}
+					}
+					hidden_effect = {
+						set_country_flag = Tribal_Army_Raised_Due_To_Border_War
+						country_event = { id = first_nations_tribal_army_flag_change.1 days = 35 }
+						set_country_flag = Tribal_Army_Raised
+						afr_call_all_warrior_types = yes
+					}
+				}
+			}
+
+			start_dynamic_american_state_border_war_USA = yes
+			#custom_effect_tooltip = afr_war_exhaustion_value_add_1
+			# add_to_variable = {
+			# 	var = afr_war_exhaustion_value
+			# 	value = 1
+			# }
+			hidden_effect = {
+				FROM = {
+					if = {
+						limit = { has_country_flag = US_encroachment_spotted } #first_nations_tribal_raid_spotted_flag }
+						clr_country_flag = US_encroachment_spotted #first_nations_tribal_raid_spotted_flag
+						#add_ai_strategy = {
+						#	type = prepare_for_war
+						#	id = ROOT
+						#	value = -5
+						#}
+					}
+				}
+				ROOT = {
+					#add_ai_strategy = {
+					#	type = prepare_for_war
+					#	id = FROM
+					#	value = -5
+					#}
+				}
+			}
+		}
+		ai_will_do = {
+			base = 10
+			modifier = {
+				factor = 0 
+				ROOT = {
+					has_opinion = {
+						target = FROM
+						value > 60
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				ROOT = {
+					has_border_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				ROOT = {
+					has_border_war_with = FROM
+				}
+			}
+			modifier = {
+				factor = 2
+				ROOT = {
+					has_variable = FNT_recently_raided@FROM
+				}
+			}
+		}
+	}
+
+	USA_mexican_protectorate_1 = {
+		available = {
+			tag = USA
+			#has_government = radical_democracy
+
+		}
+		visible = {
+			USA = {
+				NOT = { owns_state = 483 }
+				has_completed_focus = USA_mexican_protectorate
+			}
+			has_government = radical_democracy
+			check_variable = {
+				var = raid_483
+				value > 0
+			}
+		}
+		highlight_states = { state = 483 }
+		cost = 50
+		
+		complete_effect = {
+			add_to_variable = {
+				var = raid_483
+				value = -1
+			}
+			# ROOT = {
+			# 	random_owned_state = {
+			# 		limit = {
+			# 			OR = {
+			# 				state = 377
+			# 				state = 1300
+			# 			}
+			# 		}
+			# 		set_variable = {
+			# 			var = id_attacker
+			# 			value = 
+			# 		}
+			# 	}
+				
+			# }
+			start_border_war = {
+				change_state_after_war = no
+				attacker = {
+					state = 377
+					num_provinces = 1
+					on_win = usa.220
+					on_lose = usa.221
+					on_cancel = usa.222
+				}
+				defender = {
+					state = 483
+					num_provinces = 2
+					on_win = usa.223
+					on_lose = usa.224
+					on_cancel = usa.225
+				}
+			}
+			set_border_war_data = {
+				attacker = 377
+				defender = 483
+				combat_width = 40
+			}
+		}
+	}
+	USA_mexican_protectorate_2 = {
+		available = {
+			tag = USA
+		}
+		visible = {
+			USA = {
+				NOT = { owns_state = 482 }
+				has_completed_focus = USA_mexican_protectorate
+			}
+			has_government = radical_democracy
+			check_variable = {
+				var = raid_482
+				value > 0
+			}
+		}
+		highlight_states = { state = 482 }
+		cost = 50
+		
+		complete_effect = {
+			add_to_variable = {
+				var = raid_482
+				value = -1
+			}
+			# ROOT = {
+			# 	random_owned_state = {
+			# 		limit = {
+			# 			OR = {
+			# 				state = 1303
+			# 				state = 1300
+			# 				state = 1285
+			# 			}
+			# 		}
+			# 		save_event_target_as = id_attacker
+			# 	}
+				
+			# }
+			start_border_war = {
+				change_state_after_war = no
+				attacker = {
+					state = 1303
+					num_provinces = 1
+					on_win = usa.220
+					on_lose = usa.221
+					on_cancel = usa.222
+				}
+				defender = {
+					state = 483
+					num_provinces = 2
+					on_win = usa.223
+					on_lose = usa.224
+					on_cancel = usa.225
+				}
+			}
+			set_border_war_data = {
+				attacker = id_attacker
+				defender = 483
+				combat_width = 40
+			}
+		}
+	}
+
 }
 
 ############ American Civil War Decisions in their own file #################################
@@ -2813,7 +3194,7 @@ USA_reconstruction_period = {
 			tag = USA
 		}
 
-		icon = GFX_decision_generic_independence
+		icon = generic_independence
 
 		cost = 50
 
@@ -2840,7 +3221,7 @@ USA_reconstruction_period = {
 			tag = USA
 		}
 
-		icon = GFX_decision_generic_prepare_civil_war
+		icon = generic_prepare_civil_war
 
 		cost = 25
 
@@ -2906,7 +3287,7 @@ USA_reconstruction_period = {
 			tag = USA
 		}
 
-		icon = GFX_decision_generic_political_discourse
+		icon = generic_political_discourse
 
 		cost = 50
 
@@ -2966,7 +3347,7 @@ USA_reconstruction_period = {
 			tag = USA
 		}
 
-		icon = GFX_decision_generic_scorched_earth
+		icon = generic_scorched_earth
 
 		cost = 100
 
@@ -3023,7 +3404,7 @@ USA_reconstruction_period = {
 			tag = USA
 		}
 
-		icon = GFX_decision_oppression
+		icon = oppression
 
 		cost = 100
 
@@ -3078,7 +3459,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Appease Standard Oil
 	eoanb_decision_USA_gilded_age_appease_oil = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		cost = 50
 
@@ -3136,7 +3517,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Appease Carnegie
 	eoanb_decision_USA_gilded_age_appease_steel = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		cost = 50
 
@@ -3194,7 +3575,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Standard Oil
 	eoanb_decision_USA_gilded_age_mission_oil = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		visible = {
 			check_variable = {
@@ -3347,7 +3728,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Standard Oil - Political Power
 	eoanb_mission_USA_gilded_age_mission_oil_1 = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		allowed = {
 			always = no
@@ -3409,7 +3790,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Standard Oil - Uniforms
 	eoanb_mission_USA_gilded_age_mission_oil_2 = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		allowed = {
 			always = no
@@ -3476,7 +3857,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Standard Oil - Oil Magnate
 	eoanb_mission_USA_gilded_age_mission_oil_3 = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		allowed = {
 			always = no
@@ -3538,7 +3919,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Standard Oil - Support
 	eoanb_mission_USA_gilded_age_mission_oil_4 = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		allowed = {
 			always = no
@@ -3603,7 +3984,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Standard Oil - Company
 	eoanb_mission_USA_gilded_age_mission_oil_5 = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		allowed = {
 			always = no
@@ -3665,7 +4046,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Standard Oil - Competitor
 	eoanb_mission_USA_gilded_age_mission_oil_6 = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		allowed = {
 			always = no
@@ -3731,7 +4112,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Carnegie Steel
 	eoanb_decision_USA_gilded_age_mission_steel = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		visible = {
 			check_variable = {
@@ -3885,7 +4266,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Carnegie Steel - Political Power
 	eoanb_mission_USA_gilded_age_mission_steel_1 = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		allowed = {
 			always = no
@@ -3947,7 +4328,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Carnegie Steel - Infantry
 	eoanb_mission_USA_gilded_age_mission_steel_2 = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		allowed = {
 			always = no
@@ -4014,7 +4395,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Carnegie Steel - Clever Buisnessman
 	eoanb_mission_USA_gilded_age_mission_steel_3 = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		allowed = {
 			always = no
@@ -4076,7 +4457,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Carnegie Steel - Support
 	eoanb_mission_USA_gilded_age_mission_steel_4 = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		allowed = {
 			always = no
@@ -4141,7 +4522,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Carnegie Steel - Company
 	eoanb_mission_USA_gilded_age_mission_steel_5 = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		allowed = {
 			always = no
@@ -4203,7 +4584,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Mission Carnegie Steel - Competitor
 	eoanb_mission_USA_gilded_age_mission_steel_6 = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		allowed = {
 			always = no
@@ -4270,7 +4651,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Provoke Standard Oil
 	eoanb_decision_USA_gilded_age_provoke_oil = {
 
-		icon = GFX_decision_oil
+		icon = oil
 
 		cost = 50
 
@@ -4329,7 +4710,7 @@ USA_gilded_age_captain_robber_influence = {
 	#Provoke Carnegie
 	eoanb_decision_USA_gilded_age_provoke_steel = {
 
-		icon = GFX_decision_steel
+		icon = steel
 
 		cost = 50
 
@@ -5467,7 +5848,7 @@ USA_return_from_ashes = {
 }
 internal_politics_eoanb = {
 	USA_Homestead_Act = {
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		allowed = { 
 			tag = USA
@@ -5498,6 +5879,340 @@ internal_politics_eoanb = {
 				limit = { owns_state = 384 }
 				384 = { add_manpower = 5000 }
 			}
+		}
+	}
+}
+
+economic_decisions = {
+
+	repair_inactive_infrastructure = {
+		allowed = {
+			tag = USA
+		}
+		#icon = 
+
+		available = {
+			FROM = {
+				infrastructure_inactive > 0
+			}
+			ROOT = {
+				num_of_civilian_factories_available_for_projects > 3
+			}
+		}
+
+		visible = {
+			USA = {
+				infrastructure_inactive > 0
+				NOT = { has_completed_focus = USA_panic_recovery }
+			}
+			FROM = {
+				infrastructure_inactive > 0
+			}
+		}
+
+		state_target = yes
+
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 4
+		}
+
+		target_trigger = {
+			infrastructure_inactive > 0
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_building = {
+					type = infrastructure_inactive
+					level = 1
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+		}
+	}
+	repair_inactive_civilian = {
+		allowed = {
+			tag = USA
+		}
+		#icon = 
+
+		available = {
+			FROM = {
+				industrial_complex_inactive > 0
+			}
+			ROOT = {
+				num_of_civilian_factories_available_for_projects > 3
+			}
+		}
+
+		visible = {
+			USA = {
+				industrial_complex_inactive > 0
+				NOT = { has_completed_focus = USA_panic_recovery }
+			}
+			FROM = {
+				industrial_complex_inactive > 0
+			}
+		}
+
+		state_target = yes
+
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 4
+		}
+
+		target_trigger = {
+			industrial_complex_inactive > 0
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_building = {
+					type = industrial_complex_inactive
+					level = 1
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+		}
+	}
+	repair_inactive_military = {
+		allowed = {
+			tag = USA
+		}
+		#icon = 
+
+		available = {
+			FROM = {
+				arms_factory_inactive > 0
+			}
+			ROOT = {
+				num_of_civilian_factories_available_for_projects > 3
+			}
+		}
+
+		visible = {
+			USA = {
+				arms_factory_inactive > 0
+				NOT = { has_completed_focus = USA_panic_recovery }
+			}
+			FROM = {
+				arms_factory_inactive > 0
+			}
+		}
+
+		state_target = yes
+
+		days_remove = 120
+
+		modifier = {
+			civilian_factory_use = 4
+		}
+
+		target_trigger = {
+			arms_factory_inactive > 0
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_building = {
+					type = arms_factory_inactive
+					level = 1
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+		}
+	}
+	repair_inactive_infrastructure2 = {
+		allowed = {
+			tag = USA
+		}
+		#icon = 
+
+		available = {
+			FROM = {
+				infrastructure_inactive > 0
+			}
+			ROOT = {
+				num_of_civilian_factories_available_for_projects > 1
+			}
+		}
+
+		visible = {
+			USA = {
+				infrastructure_inactive > 0
+				has_completed_focus = USA_panic_recovery 
+			}
+			FROM = {
+				infrastructure_inactive > 0
+			}
+		}
+
+		state_target = yes
+
+		days_remove = 90
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		target_trigger = {
+			infrastructure_inactive > 0
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_building = {
+					type = infrastructure_inactive
+					level = 1
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+		}
+	}
+	repair_inactive_civilian2 = {
+		allowed = {
+			tag = USA
+		}
+		#icon = 
+
+		available = {
+			FROM = {
+				industrial_complex_inactive > 0
+			}
+			ROOT = {
+				num_of_civilian_factories_available_for_projects > 1
+			}
+		}
+
+		visible = {
+			USA = {
+				industrial_complex_inactive > 0
+				has_completed_focus = USA_panic_recovery 
+			}
+			FROM = {
+				industrial_complex_inactive > 0
+			}
+		}
+
+		state_target = yes
+
+		days_remove = 90
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		target_trigger = {
+			industrial_complex_inactive > 0
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_building = {
+					type = industrial_complex_inactive
+					level = 1
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+		}
+	}
+	repair_inactive_military2 = {
+		allowed = {
+			tag = USA
+		}
+		#icon = 
+
+		available = {
+			FROM = {
+				arms_factory_inactive > 0
+			}
+			ROOT = {
+				num_of_civilian_factories_available_for_projects > 1
+			}
+		}
+
+		visible = {
+			USA = {
+				arms_factory_inactive > 0
+				has_completed_focus = USA_panic_recovery 
+			}
+			FROM = {
+				arms_factory_inactive > 0
+			}
+		}
+
+		state_target = yes
+
+		days_remove = 90
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		target_trigger = {
+			arms_factory_inactive > 0
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_building = {
+					type = arms_factory_inactive
+					level = 1
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 10
 		}
 	}
 }

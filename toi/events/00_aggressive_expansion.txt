@@ -1,341 +1,341 @@
-﻿add_namespace = contain
-
-#Capitulation
-country_event = {
-	id = contain.1
-	title = contain.1.t
-	desc = contain.1.d
-	picture = GFX_report_event_generic_riot
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = contain.1.a
-		clr_country_flag = containment_target
-		clr_global_flag = containment_successful
-		clr_country_flag = containment_possible_target
-		set_country_flag = containment_reperations
-		remove_ideas = containment_recent_target
-		add_timed_idea = { idea = containment_reperations days = 1825 }
-		add_political_power = -150
-		add_stability = -0.1
-		add_war_support = -0.1
-		add_named_threat = {
-			threat = -50
-			name = contain_capitulated
-		}
-		every_other_country = {
-			limit = {
-				has_country_flag = containment_starter
-				has_offensive_war = no
-			}
-			clr_country_flag = containment_starter
-		}
-		every_other_country = {
-			limit = {
-				has_country_flag = containment_declined_peace
-				has_offensive_war = no
-			}
-			clr_country_flag = containment_declined_peace
-		}
-		every_other_country = {
-			limit = {
-				has_country_flag = left_containment_war
-			}
-			clr_country_flag = left_containment_war
-		}
-	}
-}
-#Containment War nation wants to leave
-country_event = {
-	id = contain.2
-	title = contain.2.t
-	desc = contain.2.d
-	picture = GFX_report_event_generic_riot
-	
-	is_triggered_only = yes
-	
-	option = {
-		name = contain.2.a
-		add_political_power = 25
-		FROM = {
-			white_peace = ROOT
-		}
-		FROM = { set_country_flag = left_containment_war }
-	}
-	option = {
-		name = contain.2.b
-		FROM = { set_country_flag = containment_declined_peace }
-	}
-}
-#Target wins containment war
-country_event = {
-	id = contain.3
-	title = contain.3.t
-	desc = contain.3.d
-	picture = GFX_report_event_generic_riot
-
-	is_triggered_only = yes
-	
-	option = {
-		name = contain.3.a
-		clr_country_flag = containment_target_won
-		remove_ideas = containment_recent_target
-		every_other_country = {
-			limit = {
-				has_country_flag = containment_starter
-				has_offensive_war = no
-			}
-			clr_country_flag = containment_starter
-		}
-		every_other_country = {
-			limit = {
-				has_country_flag = containment_declined_peace
-				has_offensive_war = no
-			}
-			clr_country_flag = containment_declined_peace
-		}
-		every_other_country = {
-			limit = {
-				has_country_flag = left_containment_war
-			}
-			clr_country_flag = left_containment_war
-		}
-		ROOT = {
-			if = {
-				limit = {
-					check_variable = {
-						var = aggressive_expansion
-						value = 39
-						compare = greater_than_or_equals
-					}
-					check_variable = {
-						var = aggressive_expansion
-						value = 49
-						compare = less_than
-					}
-				}
-				subtract_from_variable = {
-					var = aggressive_expansion
-					value = 20
-				}
-			}
-			else_if = {
-				limit = {
-					check_variable = {
-						var = aggressive_expansion
-						value = 49
-						compare = greater_than_or_equals
-					}
-					check_variable = {
-						var = aggressive_expansion
-						value = 69
-						compare = less_than
-					}
-				}
-				subtract_from_variable = {
-					var = aggressive_expansion
-					value = 40
-				}
-			}
-			else_if = {
-				limit = {
-					check_variable = {
-						var = aggressive_expansion
-						value = 69
-						compare = greater_than_or_equals
-					}
-					check_variable = {
-						var = aggressive_expansion
-						value = 89
-						compare = less_than
-					}
-				}
-				subtract_from_variable = {
-					var = aggressive_expansion
-					value = 60
-				}
-			}
-			else_if = {
-				limit = {
-					check_variable = {
-						var = aggressive_expansion
-						value = 89
-						compare = greater_than_or_equals
-					}
-					check_variable = {
-						var = aggressive_expansion
-						value = 99
-						compare = less_than
-					}
-				}
-				subtract_from_variable = {
-					var = aggressive_expansion
-					value = 80
-				}
-			}
-			else_if = {
-				limit = {
-					check_variable = {
-						var = aggressive_expansion
-						value = 99
-						compare = greater_than_or_equals
-					}
-				}
-				subtract_from_variable = {
-					var = aggressive_expansion
-					value = 90
-				}
-			}
-		}
-	}
-}
-country_event = { #everyone becomes suspicious
-	id = contain.4
-	title = contain.4.t
-	desc = contain.4.d
-	picture = GFX_report_event_generic_riot
-	
-	trigger = {
-		NOT = { has_country_flag = containment_warning_1 }
-		check_variable = {
-			var = aggressive_expansion
-			value = 10
-			compare = greater_than_or_equals
-		}
-	}
-
-	mean_time_to_happen = {
-		days = 20
-	}
-	
-	option = {
-		name = contain.4.a
-		set_country_flag = containment_warning_1
-	}
-}
-country_event = { #everyone loses suspicion
-	id = contain.5
-	title = contain.5.t
-	desc = contain.5.d
-	picture = GFX_report_event_generic_riot
-	
-	trigger = {
-		has_country_flag = containment_warning_1
-		check_variable = {
-			var = aggressive_expansion
-			value = 10
-			compare = less_than
-		}
-	}
-
-	mean_time_to_happen = {
-		days = 20
-	}
-	
-	option = {
-		name = contain.5.a
-		clr_country_flag = containment_warning_1
-	}
-}
-
-add_namespace = contain_news
-news_event = { #Coalition War
-	id = contain_news.1
-	title = contain_news.1.t
-	desc = contain_news.1.d
-	picture = GFX_news_event_contain_coalition_vic
-	
-	is_triggered_only = yes
-
-	major = yes
-	
-	option = {
-		name = contain_news.1.a
-		trigger = {
-			NOT = {
-				tag = FROM
-				has_country_flag = containment_target
-			}
-		}
-	}
-	option = {
-		name = contain_news.1.b
-		trigger = {
-			tag = FROM
-		}
-		clear_global_event_target = contain_target_news
-	}
-	option = {
-		name = contain_news.1.c
-		trigger = {
-			has_country_flag = containment_target
-		}
-	}
-}
-news_event = { #Denounce
-	id = contain_news.2
-	title = contain_news.2.t
-	desc = contain_news.2.d
-	picture = GFX_news_event_contain_denounce_vic
-	
-	is_triggered_only = yes
-
-	major = yes
-	
-	option = {
-		name = contain_news.2.a
-		trigger = {
-			NOT = {
-				tag = FROM
-				has_country_flag = containment_denounced_us
-			}
-		}
-	}
-	option = {
-		name = contain_news.2.b
-		trigger = {
-			tag = FROM
-		}
-		clear_global_event_target = contain_denounce_news
-	}
-	option = {
-		name = contain_news.2.c
-		trigger = {
-			has_country_flag = containment_denounced_us
-		}
-	}
-}
-news_event = { #Embargo
-	id = contain_news.3
-	title = contain_news.3.t
-	desc = contain_news.3.d
-	picture = GFX_news_event_contain_denounce_vic
-	
-	is_triggered_only = yes
-
-	major = yes
-	
-	option = {
-		name = contain_news.3.a
-		trigger = {
-			NOT = {
-				tag = FROM
-				has_country_flag = containment_embargoed_us
-			}
-		}
-	}
-	option = {
-		name = contain_news.3.b
-		trigger = {
-			tag = FROM
-		}
-		clear_global_event_target = contain_embargo_news
-	}
-	option = {
-		name = contain_news.3.c
-		trigger = {
-			has_country_flag = containment_embargoed_us
-		}
-	}
-}
+﻿#add_namespace = contain
+#
+##Capitulation
+#country_event = {
+#	id = contain.1
+#	title = contain.1.t
+#	desc = contain.1.d
+#	picture = GFX_report_event_generic_riot
+#	
+#	is_triggered_only = yes
+#	
+#	option = {
+#		name = contain.1.a
+#		clr_country_flag = containment_target
+#		clr_global_flag = containment_successful
+#		clr_country_flag = containment_possible_target
+#		set_country_flag = containment_reperations
+#		remove_ideas = containment_recent_target
+#		add_timed_idea = { idea = containment_reperations days = 1825 }
+#		add_political_power = -150
+#		add_stability = -0.1
+#		add_war_support = -0.1
+#		add_named_threat = {
+#			threat = -50
+#			name = contain_capitulated
+#		}
+#		every_other_country = {
+#			limit = {
+#				has_country_flag = containment_starter
+#				has_offensive_war = no
+#			}
+#			clr_country_flag = containment_starter
+#		}
+#		every_other_country = {
+#			limit = {
+#				has_country_flag = containment_declined_peace
+#				has_offensive_war = no
+#			}
+#			clr_country_flag = containment_declined_peace
+#		}
+#		every_other_country = {
+#			limit = {
+#				has_country_flag = left_containment_war
+#			}
+#			clr_country_flag = left_containment_war
+#		}
+#	}
+#}
+##Containment War nation wants to leave
+#country_event = {
+#	id = contain.2
+#	title = contain.2.t
+#	desc = contain.2.d
+#	picture = GFX_report_event_generic_riot
+#	
+#	is_triggered_only = yes
+#	
+#	option = {
+#		name = contain.2.a
+#		add_political_power = 25
+#		FROM = {
+#			white_peace = ROOT
+#		}
+#		FROM = { set_country_flag = left_containment_war }
+#	}
+#	option = {
+#		name = contain.2.b
+#		FROM = { set_country_flag = containment_declined_peace }
+#	}
+#}
+##Target wins containment war
+#country_event = {
+#	id = contain.3
+#	title = contain.3.t
+#	desc = contain.3.d
+#	picture = GFX_report_event_generic_riot
+#
+#	is_triggered_only = yes
+#	
+#	option = {
+#		name = contain.3.a
+#		clr_country_flag = containment_target_won
+#		remove_ideas = containment_recent_target
+#		every_other_country = {
+#			limit = {
+#				has_country_flag = containment_starter
+#				has_offensive_war = no
+#			}
+#			clr_country_flag = containment_starter
+#		}
+#		every_other_country = {
+#			limit = {
+#				has_country_flag = containment_declined_peace
+#				has_offensive_war = no
+#			}
+#			clr_country_flag = containment_declined_peace
+#		}
+#		every_other_country = {
+#			limit = {
+#				has_country_flag = left_containment_war
+#			}
+#			clr_country_flag = left_containment_war
+#		}
+#		ROOT = {
+#			if = {
+#				limit = {
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 39
+#						compare = greater_than_or_equals
+#					}
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 49
+#						compare = less_than
+#					}
+#				}
+#				subtract_from_variable = {
+#					var = aggressive_expansion
+#					value = 20
+#				}
+#			}
+#			else_if = {
+#				limit = {
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 49
+#						compare = greater_than_or_equals
+#					}
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 69
+#						compare = less_than
+#					}
+#				}
+#				subtract_from_variable = {
+#					var = aggressive_expansion
+#					value = 40
+#				}
+#			}
+#			else_if = {
+#				limit = {
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 69
+#						compare = greater_than_or_equals
+#					}
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 89
+#						compare = less_than
+#					}
+#				}
+#				subtract_from_variable = {
+#					var = aggressive_expansion
+#					value = 60
+#				}
+#			}
+#			else_if = {
+#				limit = {
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 89
+#						compare = greater_than_or_equals
+#					}
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 99
+#						compare = less_than
+#					}
+#				}
+#				subtract_from_variable = {
+#					var = aggressive_expansion
+#					value = 80
+#				}
+#			}
+#			else_if = {
+#				limit = {
+#					check_variable = {
+#						var = aggressive_expansion
+#						value = 99
+#						compare = greater_than_or_equals
+#					}
+#				}
+#				subtract_from_variable = {
+#					var = aggressive_expansion
+#					value = 90
+#				}
+#			}
+#		}
+#	}
+#}
+#country_event = { #everyone becomes suspicious
+#	id = contain.4
+#	title = contain.4.t
+#	desc = contain.4.d
+#	picture = GFX_report_event_generic_riot
+#	
+#	trigger = {
+#		NOT = { has_country_flag = containment_warning_1 }
+#		check_variable = {
+#			var = aggressive_expansion
+#			value = 10
+#			compare = greater_than_or_equals
+#		}
+#	}
+#
+#	mean_time_to_happen = {
+#		days = 20
+#	}
+#	
+#	option = {
+#		name = contain.4.a
+#		set_country_flag = containment_warning_1
+#	}
+#}
+#country_event = { #everyone loses suspicion
+#	id = contain.5
+#	title = contain.5.t
+#	desc = contain.5.d
+#	picture = GFX_report_event_generic_riot
+#	
+#	trigger = {
+#		has_country_flag = containment_warning_1
+#		check_variable = {
+#			var = aggressive_expansion
+#			value = 10
+#			compare = less_than
+#		}
+#	}
+#
+#	mean_time_to_happen = {
+#		days = 20
+#	}
+#	
+#	option = {
+#		name = contain.5.a
+#		clr_country_flag = containment_warning_1
+#	}
+#}
+#
+#add_namespace = contain_news
+#news_event = { #Coalition War
+#	id = contain_news.1
+#	title = contain_news.1.t
+#	desc = contain_news.1.d
+#	picture = GFX_news_event_contain_coalition_vic
+#	
+#	is_triggered_only = yes
+#
+#	major = yes
+#	
+#	option = {
+#		name = contain_news.1.a
+#		trigger = {
+#			NOT = {
+#				tag = FROM
+#				has_country_flag = containment_target
+#			}
+#		}
+#	}
+#	option = {
+#		name = contain_news.1.b
+#		trigger = {
+#			tag = FROM
+#		}
+#		clear_global_event_target = contain_target_news
+#	}
+#	option = {
+#		name = contain_news.1.c
+#		trigger = {
+#			has_country_flag = containment_target
+#		}
+#	}
+#}
+#news_event = { #Denounce
+#	id = contain_news.2
+#	title = contain_news.2.t
+#	desc = contain_news.2.d
+#	picture = GFX_news_event_contain_denounce_vic
+#	
+#	is_triggered_only = yes
+#
+#	major = yes
+#	
+#	option = {
+#		name = contain_news.2.a
+#		trigger = {
+#			NOT = {
+#				tag = FROM
+#				has_country_flag = containment_denounced_us
+#			}
+#		}
+#	}
+#	option = {
+#		name = contain_news.2.b
+#		trigger = {
+#			tag = FROM
+#		}
+#		clear_global_event_target = contain_denounce_news
+#	}
+#	option = {
+#		name = contain_news.2.c
+#		trigger = {
+#			has_country_flag = containment_denounced_us
+#		}
+#	}
+#}
+#news_event = { #Embargo
+#	id = contain_news.3
+#	title = contain_news.3.t
+#	desc = contain_news.3.d
+#	picture = GFX_news_event_contain_denounce_vic
+#	
+#	is_triggered_only = yes
+#
+#	major = yes
+#	
+#	option = {
+#		name = contain_news.3.a
+#		trigger = {
+#			NOT = {
+#				tag = FROM
+#				has_country_flag = containment_embargoed_us
+#			}
+#		}
+#	}
+#	option = {
+#		name = contain_news.3.b
+#		trigger = {
+#			tag = FROM
+#		}
+#		clear_global_event_target = contain_embargo_news
+#	}
+#	option = {
+#		name = contain_news.3.c
+#		trigger = {
+#			has_country_flag = containment_embargoed_us
+#		}
+#	}
+#}

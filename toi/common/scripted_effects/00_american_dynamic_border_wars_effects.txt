@@ -423,82 +423,81 @@ AFR_dismiss_colonial_militia_units={
 ##############################
 set_dynamic_american_state_border_war_variables = {
 
-			hidden_effect = {
-				FROM = {
-					random_owned_controlled_state = {
-						limit = {
-							if = {
-								limit = { 
-									check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals }
-									ROOT = { has_country_flag = afr_unsanctioned_raid_on_1029 }
-									FROM = { owns_state = 1029 }
-									1029 = { any_neighbor_state = { is_fully_controlled_by = ROOT } }
-								}
-								STATE = 1029
-							}
-							else = {
-								hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
-								any_neighbor_state = {
-									hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
-									#has_ROOT_at_least_1_div_in_current_state_scope = yes
-									is_fully_controlled_by = ROOT
-								}
-							}
-						}
-						save_event_target_as = defender_state
-						set_variable = { FROM.defender_state_vs_@ROOT = id }
-						set_temp_variable = { defender_state_temp = id }
-						set_dynamic_american_state_province_variable_for_defender = yes
-						if = {
-							limit = { 
-								ROOT = { 
-									NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
-									NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
-									NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
-									NOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
-								}
-							}
-							set_state_flag = border_incident_active
-							add_claim_by = ROOT
-						}
-						if = {
-							limit = {
-								ROOT = {
-									has_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag
-								}
-							}
-							#add_claim_by = ROOT
-							set_variable = { first_nations_acw_border_claim@ROOT = 1 }
-						}
-					}
-				}
-				random_state = {
-					limit = {
-						is_fully_controlled_by = ROOT
-						hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
-						#has_ROOT_at_least_1_div_in_current_state_scope = yes
-						any_neighbor_state = {
-							state = var:FROM.defender_state_vs_@ROOT
-						}
-					}
-					save_event_target_as = attacker_state
-					set_variable = { FROM.attacker_state_vs_@ROOT = id }
-					set_temp_variable = { attacker_state_temp = id }
-					set_dynamic_american_state_province_variable_for_attacker = yes
+	hidden_effect = {
+		FROM = {
+			random_owned_controlled_state = {
+				limit = {
 					if = {
 						limit = { 
-							ROOT = { 
-								NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
-								NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
-								NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
-								NOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
-							}
+							check_variable = { var = ROOT.afr_has_unsanctioned_raid_against_colonial_neighbor@FROM value = 1 compare = greater_than_or_equals }
+							ROOT = { has_country_flag = afr_unsanctioned_raid_on_1029 }
+							FROM = { owns_state = 1029 }
+							1029 = { any_neighbor_state = { is_fully_controlled_by = ROOT } }
 						}
-						set_state_flag = border_incident_active
+						STATE = 1029
+					}
+					else = {
+						hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
+						any_neighbor_state = {
+							hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
+							#has_ROOT_at_least_1_div_in_current_state_scope = yes
+							is_fully_controlled_by = ROOT
+						}
 					}
 				}
+				save_event_target_as = defender_state
+				set_variable = { FROM.defender_state_vs_@ROOT = id }
+				set_temp_variable = { defender_state_temp = id }
+				set_dynamic_american_state_province_variable_for_defender = yes
+				if = {
+					limit = { 
+						ROOT = { 
+							NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+							NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+							NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+							NOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
+						}
+					}
+					set_state_flag = border_incident_active
+					add_claim_by = ROOT
+				}
+				if = {
+					limit = {
+						ROOT = {
+							has_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag
+						}
+					}
+					#add_claim_by = ROOT
+					set_variable = { first_nations_acw_border_claim@ROOT = 1 }
+				}
 			}
-
+		}
+		random_state = {
+			limit = {
+				is_fully_controlled_by = ROOT
+				hidden_trigger = { NOT = { has_state_flag = border_incident_active } }
+				#has_ROOT_at_least_1_div_in_current_state_scope = yes
+				any_neighbor_state = {
+					state = var:FROM.defender_state_vs_@ROOT
+				}
+			}
+			save_event_target_as = attacker_state
+			set_variable = { FROM.attacker_state_vs_@ROOT = id }
+			set_temp_variable = { attacker_state_temp = id }
+			set_dynamic_american_state_province_variable_for_attacker = yes
+			if = {
+				limit = { 
+					ROOT = { 
+						NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+						NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+						NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+						NOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
+					}
+				}
+				set_state_flag = border_incident_active
+			}
+		}
+	}
 }
 
 set_dynamic_american_state_province_variable_for_attacker = {
@@ -867,6 +866,108 @@ start_dynamic_american_state_border_war = {
 				}
 			}
 			else_if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					combat_width = 40
+				}
+			}
+		}
+		clear_variable = FROM.defender_state_vs_@ROOT
+		clear_variable = FROM.defender_state_province_@ROOT
+		clear_variable = FROM.attacker_state_vs_@ROOT
+		clear_variable = FROM.attacker_state_province_@ROOT
+	}
+}
+
+start_dynamic_american_state_border_war_USA = {
+	
+	start_border_war = {
+		change_state_after_war = no
+		attacker = {
+			state = var:FROM.attacker_state_vs_@ROOT
+			num_provinces = 1
+			on_win = USA_FN_encroachment_event.5 #US attacks and wins
+			on_lose = USA_FN_encroachment_event.6 #US attacks and loses
+			on_cancel = USA_FN_encroachment_event.7 #US attacks but then goes "nah"
+		}
+		
+		defender = {
+			state = var:FROM.defender_state_vs_@ROOT
+			num_provinces = 1
+			on_win = USA_FN_encroachment_event.8 #FN defends and wins
+			on_lose = USA_FN_encroachment_event.9 #FN defends but loses, F
+			on_cancel = USA_FN_encroachment_event.10 #FN defends but then gets confused when the white-man fucks off home
+		}
+	}
+	hidden_effect = {
+		if = {
+			limit = { 
+				ROOT = { 
+					NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+					NOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+					NOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+					NOT = { has_country_flag = balkanized_state_border_skirmish_neighbor_flag }
+				}
+			}
+			var:FROM.defender_state_vs_@ROOT = {
+				clr_state_flag = border_incident_active
+				if = {
+					limit = { OWNER = { has_country_flag = ETH_caliphate_raid } }
+					set_state_flag = ETH_caliphate_raid
+				}
+			}
+			var:FROM.attacker_state_vs_@ROOT = {
+				clr_state_flag = border_incident_active
+			}
+		}
+		if = {
+			limit = { 
+				ROOT = { owns_state = var:FROM.attacker_state_vs_@ROOT } #Attacker
+				FROM = { owns_state = var:FROM.defender_state_vs_@ROOT } #Defender
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_raid_neighbor_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					combat_width = 10
+				}
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					attacker_modifier = 0.10
+					combat_width = 20
+				}
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_afr_tribal_raid_colonial_neighbor_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					attacker_modifier = 0.10
+					combat_width = 20
+					
+				}
+			}
+			if = {
+				limit = { ROOT = { has_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag } }
+				ROOT = { clr_country_flag = set_border_war_data_first_nations_tribal_border_war_enemy_flag }
+				set_border_war_data = {
+					attacker = var:FROM.attacker_state_vs_@ROOT
+					defender = var:FROM.defender_state_vs_@ROOT
+					combat_width = 20
+				}
+			}
+			if = {
 				limit = { ROOT = { has_country_flag = set_border_war_data_former_usa_state_neighbor_flag } }
 				ROOT = { clr_country_flag = set_border_war_data_former_usa_state_neighbor_flag }
 				set_border_war_data = {

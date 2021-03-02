@@ -133,10 +133,6 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = asa_address_issues_of_capital.1.a
-		country_event = {
-			id = asa_mcclellan_responds_to_govt_issues_of_capital.1
-			days = 1
-		}
 	}
 }
 
@@ -369,15 +365,43 @@ country_event = {
 		hidden_effect = {
 			random_list = {
 				50 = {
-					country_event = asa_referendum_in_connecticut.4
+					ASA = {
+						country_event = {
+							id = asa_referendum_in_connecticut.4
+							days = 1
+						}
+					}
+					NEG = {
+						country_event = {
+							id = asa_referendum_in_connecticut.6
+							days = 1
+						}
+					}
 				}
 				50 = {
-					country_event = asa_referendum_in_connecticut.5
+					ASA = {
+						country_event = {
+							id = asa_referendum_in_connecticut.5
+							days = 1
+						}
+					}
+					NEG = {
+						country_event = {
+							id = asa_referendum_in_connecticut.7
+							days = 1
+						}
+					}
 				}
 			}
 			country_event = {
 				id = asa_referendum_in_connecticut.2
 				days = 1
+			}
+			ASA = {
+				country_event = {
+					id = asa_referendum_in_connecticut.2
+					days = 1
+				}
 			}
 		}
 	}
@@ -385,9 +409,11 @@ country_event = {
 		name = asa_referendum_in_connecticut.1.b
 		custom_effect_tooltip = asa_referendum_in_Connecticut_1_b_tt
 		hidden_effect = {
-			country_event = {
-				id = asa_referendum_in_connecticut.3
-				days = 1
+			ASA = {
+				country_event = {
+					id = asa_referendum_in_connecticut.3
+					days = 1
+				}
 			}
 		}
 	}
@@ -403,14 +429,12 @@ country_event = { #Connecticut Referendum
 
 	is_triggered_only = yes
 
-	hidden = yes
-
 	option = {
 		name = asa_referendum_in_connecticut.2.a
 	}
 }
 
-country_event = { #ASA Response To GLC Not Allowing Connecticut Referendum
+country_event = { #ASA Response To NEG Not Allowing Connecticut Referendum
 	id = asa_referendum_in_connecticut.3
 	title = asa_referendum_in_connecticut.3.t
 	desc = asa_referendum_in_connecticut.3.desc
@@ -427,7 +451,8 @@ country_event = { #ASA Response To GLC Not Allowing Connecticut Referendum
 			type = topple_government
 		}
 		add_ideas = ASA_Taking_Back_Connecticut
-		add_state_core = 261
+		add_state_core = 958
+        activate_mission = asa_retake_connecticut
 	}
 	option = {
 		name = asa_referendum_in_connecticut.3.b
@@ -446,10 +471,10 @@ country_event = { #Connecticut joins ASA via vote (ASA Perspective)
 
 	option = { #Connecticut votes to join the ASA
 		name = asa_referendum_in_connecticut.4.a
-		transfer_state = 261
-		add_state_core = 261
+		transfer_state = 958
+		add_state_core = 958
 		NEG = {
-			remove_state_core = 261
+			remove_state_core = 958
 			country_event = {
 				id = asa_referendum_in_connecticut.6
 				days = 1
@@ -478,7 +503,8 @@ country_event = { #Connecticut votes to not join the ASA
 			type = topple_government
 		}
 		add_ideas = ASA_Taking_Back_Connecticut
-		add_state_core = 261
+		add_state_core = 958
+        activate_mission = asa_retake_connecticut
 	}
 	option = { #It was worth a try
 		name = asa_referendum_in_connecticut.5.b
@@ -513,12 +539,13 @@ country_event = { #Connecticut vote to join ASA (NEG Perspective)
 	option = { #Washington rigged the vote!
 		name = asa_referendum_in_connecticut.7.a
 		declare_war_on = {
-			target = NEG
+			target = ASA
 			type = topple_government
 		}
 		add_ideas = ASA_Taking_Back_Connecticut
-		add_state_core = 261
+		add_state_core = 958
 		set_country_flag = NEG_Taking_Back_Connecticut
+        activate_mission = asa_retake_connecticut
 	}
 	option = { #If it's what the people want...
 		name = asa_referendum_in_connecticut.7.b
@@ -533,17 +560,7 @@ country_event = { # ASA Offensive + Victory
 	
 	fire_only_once = yes
 	
-	trigger = {
-		not = {
-			has_country_flag = ASA_Took_Connecticut
-		}
-		has_offensive_war_with = NEG
-		has_completed_focus = ASA_Connecticut_Referendum
-		OR = {
-			NEG = { surrender_progress > 0.7 }
-			ASA = { controls_state = 261 }
-		}
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = asa_referendum_in_connecticut.8.a
@@ -554,8 +571,8 @@ country_event = { # ASA Offensive + Victory
 		hidden_effect = {
 			white_peace = NEG
 			remove_ideas = ASA_Taking_Back_Connecticut
-			remove_state_core = 261
-			transfer_state = 261
+			remove_state_core = 958
+			transfer_state = 958
 			set_country_flag = ASA_Took_Connecticut
 		}
 	}
@@ -569,16 +586,7 @@ country_event = { # NEG Offensive + Victory
 	
 	fire_only_once = yes
 	
-	trigger = {
-		has_country_flag = NEG_Taking_Back_Connecticut
-
-		has_offensive_war_with = ASA
-			has_completed_focus = ASA_Connecticut_Referendum
-		OR = {
-			ASA = { surrender_progress > 0.7 }
-			controls_state = 261
-		}
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = asa_referendum_in_connecticut.9.a
@@ -589,7 +597,7 @@ country_event = { # NEG Offensive + Victory
 		hidden_effect = {
 			white_peace = ASA
 			remove_ideas = ASA_Taking_Back_Connecticut
-			transfer_state = 261
+			transfer_state = 958
 			clr_country_flag = NEG_Taking_Back_Connecticut
 		}
 	}
@@ -707,17 +715,43 @@ country_event = { #ASA Proposes Referendum to GLC
 		hidden_effect = {
 			random_list = {
 				50 = {
-					country_event = {
-						id = asa_referendum_in_ohio.4
-						days = 1
+					ASA = {
+						country_event = {
+							id = asa_referendum_in_ohio.4
+							days = 1
+						}
+					}
+					GRL = {
+						country_event = {
+							id = asa_referendum_in_ohio.6
+							days = 1
+						}
 					}
 				}
 				50 = {
-					country_event = {
-						id = asa_referendum_in_ohio.5
-						days = 1
+					ASA = {
+						country_event = {
+							id = asa_referendum_in_ohio.5
+							days = 1
+						}
+					}
+					GRL = {
+						country_event = {
+							id = asa_referendum_in_ohio.7
+							days = 1
+						}
 					}
 				}
+			}
+		}
+		country_event = {
+			id = asa_referendum_in_ohio.2
+			days = 1
+		}
+		ASA = {
+			country_event = {
+				id = asa_referendum_in_ohio.2
+				days = 1
 			}
 		}
 	}
@@ -768,6 +802,7 @@ country_event = { #ASA Response To GLC Not Allowing Ohio Referendum
 		}
 		add_ideas = ASA_Taking_Back_Ohio
 		add_state_core = 261
+		activate_mission = asa_retake_ohio
 	}
 	option = {
 		name = asa_referendum_in_ohio.3.b
@@ -823,6 +858,7 @@ country_event = { #Ohio votes to not join the ASA
 		}
 		add_ideas = ASA_Taking_Back_Ohio
 		add_state_core = 261
+        activate_mission = asa_retake_ohio
 	}
 	option = { #It was worth a try
 		name = asa_referendum_in_ohio.5.b
@@ -863,6 +899,7 @@ country_event = { #Ohio vote to join ASA (GRL Perspective)
 		add_ideas = ASA_Taking_Back_Ohio
 		add_state_core = 261
 		set_country_flag = GRL_Taking_Back_Ohio
+        activate_mission = asa_retake_ohio
 	}
 	option = { #If it's what the people want...
 		name = asa_referendum_in_ohio.7.b
@@ -877,19 +914,7 @@ country_event = { # ASA Offensive + Victory
 	
 	fire_only_once = yes
 	
-	trigger = {
-		NOT = {
-			has_country_flag = ASA_Took_Ohio
-		}
-		ASA = {
-			has_offensive_war_with = GRL
-			has_completed_focus = ASA_Ohio_Referendum
-		}
-		OR = {
-			GRL = { surrender_progress > 0.7 }
-			ASA = { controls_state = 261 }
-		}
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = asa_referendum_in_ohio.8.a
@@ -915,19 +940,7 @@ country_event = { # GRL Offensive + Victory
 	
 	fire_only_once = yes
 	
-	trigger = {
-
-		has_country_flag = GRL_Taking_Back_Ohio
-
-		GRL = {
-			has_offensive_war_with = ASA
-			has_completed_focus = ASA_Ohio_Referendum
-		}
-		OR = {
-			ASA = { surrender_progress > 0.7 }
-			GRL = { controls_state = 261 }
-		}
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = asa_referendum_in_ohio.9.a
@@ -1057,9 +1070,9 @@ country_event = { #Grant and Sherman join ASA
 		custom_effect_tooltip = asa_referendum_in_ohio_16_tt
 		every_unit_leader = {
 			limit = {
-					OR = {
-					has_id = 5001
-					has_id = 5002
+				OR = {
+					has_id = 5029
+					has_id = 5030
 				}
 			}
 			set_nationality = ASA
@@ -1083,17 +1096,43 @@ country_event = { #ASA Proposes Referendum to CSA
 		hidden_effect = {
 			random_list = {
 				50 = {
-					country_event = {
-						id = asa_referendum_in_west_virginia.4
-						days = 1
+					ASA = {
+						country_event = {
+							id = asa_referendum_in_west_virginia.4
+							days = 1
+						}
+					}
+					CSA = {
+						country_event = {
+							id = asa_referendum_in_west_virginia.6
+							days = 1
+						}
 					}
 				}
 				50 = {
-					country_event = {
-						id = asa_referendum_in_west_virginia.5
-						days = 1
+					ASA = {
+						country_event = {
+							id = asa_referendum_in_west_virginia.5
+							days = 1
+						}
+					}
+					CSA = {
+						country_event = {
+							id = asa_referendum_in_west_virginia.7
+							days = 1
+						}
 					}
 				}
+			}
+		}
+		country_event = {
+			id = asa_referendum_in_west_virginia.2
+			days = 1
+		}
+		ASA = {
+			country_event = {
+				id = asa_referendum_in_west_virginia.2
+				days = 1
 			}
 		}
 	}
@@ -1253,19 +1292,7 @@ country_event = { # ASA Offensive + Victory
 	
 	fire_only_once = yes
 	
-	trigger = {
-		NOT = {
-			has_country_flag = ASA_Took_West_Virginia
-		}
-		ASA = {
-			has_offensive_war_with = CSA
-			has_completed_focus = ASA_Reunite_With_West_Virginia
-		}
-		OR = {
-			CSA = { surrender_progress > 0.7 }
-			ASA = { controls_state = 746 }
-		}
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = asa_referendum_in_west_virginia.8.a
@@ -1291,19 +1318,7 @@ country_event = { # CSA Offensive + Victory
 	
 	fire_only_once = yes
 	
-	trigger = {
-
-		has_country_flag = CSA_Taking_Back_West_Virginia
-
-		CSA = {
-			has_offensive_war_with = ASA
-			has_completed_focus = ASA_Reunite_With_West_Virginia
-		}
-		OR = {
-			ASA = { surrender_progress > 0.7 }
-			CSA = { controls_state = 746 }
-		}
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = asa_referendum_in_west_virginia.9.a
@@ -2198,9 +2213,11 @@ country_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		set_politics = {
-			ruling_party = social_egalitarianism
-			elections_allowed = yes
+		hidden_effect = {
+			set_politics = {
+				ruling_party = social_egalitarianism
+				elections_allowed = yes
+			}
 		}
 	}
 
@@ -2220,9 +2237,11 @@ country_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		set_province_name = {
-			id = 6845
-			name = "McClellan City"
+		hidden_effect = {
+			set_province_name = {
+				id = 6845
+				name = "McClellan City"
+			}
 		}
 	}
 
@@ -2251,32 +2270,45 @@ country_event = { # McClellan Influence Random Events
 
 	is_triggered_only = yes
 
-	option = {
-		name = asa_mcclellan_influence_hidden.1.a
-		country_event = {
-			id = asa_mcclellan_founds_charity.1
-			days = 30
+	immediate = {
+		IF = {
+			limit = {
+				NOT = {
+					has_country_flag = asa_stevens_seward_act_flag
+				}
+			}
+			random_list = {
+				25 = {
+					country_event = {
+						id = asa_mcclellan_founds_charity.1
+						days = 30
+					}
+				}
+				25 = {
+					country_event = {
+						id = asa_mcclellan_founds_food_bank.1
+						days = 30
+					}
+				}
+				25 = {
+					country_event = {
+						id = asa_mcclellan_personally_recruits_soldiers.1
+						days = 30
+					}
+				}
+				25 = {
+					country_event = {
+						id = asa_mcclellan_gives_speech.1
+						days = 30
+					}
+				}
+			}
 		}
-	}
-	option = {
-		name = asa_mcclellan_influence_hidden.1.b
-		country_event = {
-			id = asa_mcclellan_founds_food_bank.1
-			days = 30
-		}
-	}
-	option = {
-		name = asa_mcclellan_influence_hidden.1.c
-		country_event = {
-			id = asa_mcclellan_personally_recruits_soldiers.1
-			days = 30
-		}
-	}
-	option = {
-		name = asa_mcclellan_influence_hidden.1.d
-		country_event = {
-			id = asa_mcclellan_gives_speech.1
-			days = 30
+		ELSE_IF = {
+			limit = {
+				has_country_flag = asa_stevens_seward_act_flag
+			}
+			add_political_power = 0
 		}
 	}
 }
@@ -2307,11 +2339,11 @@ country_event = {
 			popularity = 0.01
 		}
 		add_popularity = {
-			ideology = centrism
-			popularity = -0.01
+			ideology = traditional_conservatism
+			popularity = 0.01
 		}
 		add_popularity = {
-			ideology = traditional_conservatism
+			ideology = centrism
 			popularity = -0.01
 		}
 		add_popularity = {
@@ -2337,6 +2369,14 @@ country_event = {
 
 	option = {
 		name = asa_mcclellan_founds_charity.1.b
+		trigger = {
+			NOT = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+			}
+		}
 		add_popularity = {
 			ideology = autocracy
 			popularity = 0.005
@@ -2388,11 +2428,11 @@ country_event = {
 			popularity = 0.01
 		}
 		add_popularity = {
-			ideology = centrism
-			popularity = -0.01
+			ideology = traditional_conservatism
+			popularity = 0.01
 		}
 		add_popularity = {
-			ideology = traditional_conservatism
+			ideology = centrism
 			popularity = -0.01
 		}
 		add_popularity = {
@@ -2418,6 +2458,14 @@ country_event = {
 
 	option = {
 		name = asa_mcclellan_founds_food_bank.1.b
+		trigger = {
+			NOT = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+			}
+		}
 		add_popularity = {
 			popularity = 0.005
 		}
@@ -2455,11 +2503,11 @@ country_event = {
 			popularity = 0.01
 		}
 		add_popularity = {
-			ideology = centrism
-			popularity = -0.01
+			ideology = traditional_conservatism
+			popularity = 0.01
 		}
 		add_popularity = {
-			ideology = traditional_conservatism
+			ideology = centrism
 			popularity = -0.01
 		}
 		add_popularity = {
@@ -2485,6 +2533,14 @@ country_event = {
 
 	option = {
 		name = asa_mcclellan_personally_recruits_soldiers.1.b
+		trigger = {
+			NOT = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+			}
+		}
 		add_popularity = {
 			popularity = 0.005
 		}
@@ -2521,11 +2577,11 @@ country_event = {
 			popularity = 0.02
 		}
 		add_popularity = {
-			ideology = centrism
-			popularity = -0.02
+			ideology = traditional_conservatism
+			popularity = 0.02
 		}
 		add_popularity = {
-			ideology = traditional_conservatism
+			ideology = centrism
 			popularity = -0.02
 		}
 		add_popularity = {
@@ -2551,6 +2607,14 @@ country_event = {
 
 	option = {
 		name = asa_mcclellan_gives_speech.1.b
+		trigger = {
+			NOT = {
+				has_country_leader = {
+					name = "George B. McClellan"
+					ruling_only = yes
+				}
+			}
+		}
 		add_popularity = {
 			popularity = 0.005
 		}
@@ -3393,11 +3457,13 @@ country_event = { # Democratic revolt
 	is_triggered_only = yes
 
 	immediate = {
-		start_civil_war = {
-			ideology = social_egalitarianism
-			size = 0.5
-			capital = 358
-			states = { 358 1385 }
+		hidden_effect = {
+			start_civil_war = {
+				ideology = social_egalitarianism
+				size = 0.5
+				capital = 358
+				states = { 358 1385 }
+			}
 		}
 	}
 	option = { # Down with the traitors
@@ -3498,10 +3564,7 @@ country_event = { #Issues of Policy
 		}
 		set_country_flag = asa_meeting_with_protestors_policy_discussed
 		set_country_flag = asa_meeting_with_protestors_policy_planning
-		country_event = {
-			id = asa_meeting_with_protestors.1
-			days = 7
-		}
+		country_event = asa_meeting_with_protestors.1
 	}
 }
 
@@ -3542,10 +3605,7 @@ country_event = { #Issues of Economic Downturn
 		}
 		set_country_flag = asa_meeting_with_protestors_economy_discussed
 		set_country_flag = asa_meeting_with_protestors_economy_planning
-		country_event = {
-			id = asa_meeting_with_protestors.1
-			days = 7
-		}
+		country_event = asa_meeting_with_protestors.1
 	}
 }
 
@@ -3583,10 +3643,7 @@ country_event = { # Issues of National Security
 		}
 		set_country_flag = asa_meeting_with_protestors_national_security_discussed
 		set_country_flag = asa_meeting_with_protestors_national_security_planning
-		country_event = {
-			id = asa_meeting_with_protestors.1
-			days = 7
-		}
+		country_event = asa_meeting_with_protestors.1
 	}
 }
 
@@ -3635,6 +3692,11 @@ country_event = { # Rumors of Revolt
 			}
 		}
 	}
+	immediate =  {
+		hidden_effect = {
+			set_country_flag = asa_philidelphia_crisis_flag
+		}
+	}
 }
 
 country_event = { # Strikes In Philadelphia
@@ -3657,12 +3719,6 @@ country_event = { # Strikes In Philadelphia
 		add_stability = -0.025
 		set_country_flag = asa_mcclellan_granted_emergency_powers_flag
 		ASA_increase_anarchist_riots = yes
-		every_owned_state = {
-			resistance_target = 0.20
-		}
-		1385 = {
-			resistance_target = 0.10
-		}
 		hidden_effect = {
 			country_event = {
 				id = asa_anarchist_revolt.3
@@ -3678,12 +3734,6 @@ country_event = { # Strikes In Philadelphia
 		add_stability = -0.10
 		add_political_power = -75
 		ASA_decrease_anarchist_riots = yes
-		every_owned_state = {
-			resistance_target = 0.30
-		}
-		1385 = {
-			resistance_target = 0.20
-		}
 		hidden_effect = {
 			set_country_flag = asa_anarchist_protestors_fired_on
 			country_event = {
@@ -3698,9 +3748,6 @@ country_event = { # Strikes In Philadelphia
 		add_stability = -0.02
 		add_political_power = -25
 		ASA_decrease_anarchist_riots = yes
-		every_owned_state = {
-			resistance_target = 0.10
-		}
 		hidden_effect = {
 			country_event = {
 				id = asa_anarchist_revolt.3
@@ -3758,7 +3805,6 @@ country_event = { # Protestors Marching To D.C.
 				has_country_flag = asa_mcclellan_granted_emergency_powers_flag
 			}
 		}
-		
 		set_politics = {
 			ruling_party = radical_democracy
 			elections_allowed = no
@@ -3874,7 +3920,7 @@ country_event = { # Striking A Deal (Protestors Rights)
 		}
 	}
 	option = { # Lighter Sentences
-		name = asa_anarchist_revolt.5.a
+		name = asa_anarchist_revolt.5.b
 		add_political_power = -50
 		set_country_flag = asa_protestors_rights_lighter_sentences_flag
 		if = {
@@ -3893,7 +3939,7 @@ country_event = { # Striking A Deal (Protestors Rights)
 		}
 	}
 	option = { # No Compromise
-		name = asa_anarchist_revolt.5.b
+		name = asa_anarchist_revolt.5.c
 		add_political_power = 25
 		set_country_flag = asa_protestors_rights_no_compromise_flag
 		if = {
@@ -4202,12 +4248,11 @@ country_event = { #Anarchists Revolt
 	id = asa_anarchist_revolt.12
 	title = asa_anarchist_revolt.12.t
 	desc = asa_anarchist_revolt.12.desc
-	picture = placeholder~~
+	picture = placeholder
 	is_triggered_only = yes
 	immediate = {
 		hidden_effect = {
 				PHL = {
-				load_focus_tree = NA_B_reconstruction_shared
 				set_cosmetic_tag = PHL_revolt
 				transfer_state = 1385
 				add_state_core = 1385
@@ -4261,64 +4306,64 @@ country_event = { #Anarchists Revolt
 					}
 					1385 = {
 						create_unit = { 
-							division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"17th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"17th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"18th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"18th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"19th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"19th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"20th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"20th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 					}
 				}
@@ -4330,58 +4375,58 @@ country_event = { #Anarchists Revolt
 					}
 					1385 = {
 						create_unit = { 
-							division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"17th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"17th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"18th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"18th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 					}
 				}
@@ -4393,52 +4438,52 @@ country_event = { #Anarchists Revolt
 					}
 					1385 = {
 						create_unit = { 
-							division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"15th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"16th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 					}
 				}
@@ -4450,46 +4495,46 @@ country_event = { #Anarchists Revolt
 					}
 					1385 = {
 						create_unit = { 
-							division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"1st Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"2nd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"3rd Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"4th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"5th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"6th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"7th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"8th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"9th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"10th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"11th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"12th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"13th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 						create_unit = { 
-							division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 0.75" owner = OWNER
+							division = "name = \"14th Continental Militia\" division_template = \"Anarchist Paramilitary\" start_experience_factor = 0.1 start_equipment_factor = 1" owner = OWNER
 						}
 					}
 				}
@@ -4500,19 +4545,29 @@ country_event = { #Anarchists Revolt
 			}
 			ASA = {
 				ASA_remove_anarchist_riots = yes
+				set_country_flag = asa_philadelphia_uprising
+				set_country_flag = in_civil_war_flag
+				activate_mission = asa_put_down_philadelphia_revolt
 			}
 		}
 	}
 	option = { # Down With The Traitor!
 		name = asa_anarchist_revolt.12.a
 		add_war_support = 0.05
+		add_stability = 0.30
+		ASA = {
+			remove_state_core = 1385
+		}
 	}
-	option = { # The 2nd American Revolution Has Begun! (Play as Philadelphia)
+	option = { # The Revolution Has Begun... (Play as Philadelphia)
 		name = asa_anarchist_revolt.12.b
 		1385 = {
 			OWNER = {
 				change_tag_from = ASA
 			}
+		}
+		ASA = {
+			remove_state_core = 1385
 		}
 	}
 }
@@ -4665,10 +4720,10 @@ country_event = {
 	immediate = {
 		ASA = {
 			country_event = {
-				id = asa_1864_election.1
+				id = asa_1864_election.0
 			}
 			country_event = {
-				id = asa_1868_election.1
+				id = asa_1868_election.0
 				days = 1460
 			}
 		}
@@ -4691,6 +4746,11 @@ country_event = { ### EMERGENCY ELECTION ANNOUNCEMENT ###
 			days = 7
 		}
 	}
+	immediate = {
+		hidden_effect = {
+			country_event = asa_mcclellan_influence_hidden.1
+		}
+	}
 }
 
 country_event = { ### EMERGENCY ELECTION ###
@@ -4706,10 +4766,6 @@ country_event = { ### EMERGENCY ELECTION ###
 			elections_allowed = no
 		}
 		hidden_effect = {
-			country_event = {
-				id = asa_anarchist_revolt.1
-				days = 180
-			}
 			set_country_flag = emergency_election_stevens_elected
 		}
 	}
@@ -4720,10 +4776,6 @@ country_event = { ### EMERGENCY ELECTION ###
 			elections_allowed = no
 		}
 		hidden_effect = {
-			country_event = {
-				id = asa_anarchist_revolt.1
-				days = 180
-			}
 			set_country_flag = emergency_election_seward_elected_flag
 		}
 	}
@@ -4734,16 +4786,44 @@ country_event = { ### EMERGENCY ELECTION ###
 			elections_allowed = no
 		}
 		hidden_effect = {
+			set_country_flag = emergency_election_mcclellan_elected_flag
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = asa_mcclellan_influence_hidden.1
+				days = 7
+			}
 			country_event = {
 				id = asa_anarchist_revolt.1
 				days = 180
 			}
-			set_country_flag = emergency_election_mcclellan_elected_flag
 		}
 	}
 }
 
 ### 1864 ###
+
+country_event = { # Election check
+	id = asa_1864_election.0
+	title = asa_1864_election.0.t
+	desc = asa_1864_election.0.desc
+	picture = placeholder
+	hidden = yes
+	fire_only_once = yes
+	is_triggered_only = yes
+	immediate = {
+		IF = {
+			limit = {
+				has_country_flag = asa_elections_off_flag
+			}
+		}
+		ELSE = {
+			country_event = asa_1864_election.1
+		}
+	}
+}
 
 country_event = { ### 1864 RACE BEGINS ###
 	id = asa_1864_election.1
@@ -4757,9 +4837,16 @@ country_event = { ### 1864 RACE BEGINS ###
 	}
 	immediate = {
 		hidden_effect = {
-			country_event = {
-				id = asa_1864_election.2
-				days = 114
+			IF = {
+				limit = {
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = {
+					id = asa_1864_election.2
+					days = 114
+				}
 			}
 		}
 	}
@@ -4776,6 +4863,7 @@ country_event = { ### 1864 DEMOCRATIC NOMINEE NAMED ###
 		name = asa_1864_election.2.a
 		trigger = {
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_leader = {
 					name = "George B. McClellan"
 					ruling_only = yes
@@ -4787,6 +4875,9 @@ country_event = { ### 1864 DEMOCRATIC NOMINEE NAMED ###
 	option = { # Incumbent, McClellan
 		name = asa_1864_election.2.b
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_leader = {
 				name = "George B. McClellan"
 				ruling_only = yes
@@ -4794,10 +4885,25 @@ country_event = { ### 1864 DEMOCRATIC NOMINEE NAMED ###
 		}
 		set_country_flag = asa_1864_george_mcclellan_nominated_flag
 	}
+	option = {
+		name = asa_1864_election.2.c
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
+	}
 	immediate = {
-		country_event = {
-			id = asa_1864_election.3
-			days = 14
+		hidden_effect = {
+			IF = {
+				limit = {
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = {
+					id = asa_1864_election.3
+					days = 14
+				}
+			}
 		}
 	}
 }
@@ -4813,6 +4919,7 @@ country_event = { ### 1864 REPUBLICAN NOMINEE NAMED ###
 		name = asa_1864_election.3.a
 		trigger = {
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_leader = {
 					name = "Thaddeus Stevens"
 					ruling_only = yes
@@ -4828,6 +4935,9 @@ country_event = { ### 1864 REPUBLICAN NOMINEE NAMED ###
 	option = { #Incumbent, Radical, Thaddeus Stevens
 		name = asa_1864_election.3.b
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_leader = {
 				name = "Thaddeus Stevens"
 				ruling_only = yes
@@ -4839,6 +4949,7 @@ country_event = { ### 1864 REPUBLICAN NOMINEE NAMED ###
 		name = asa_1864_election.3.c
 		trigger = {
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_leader = {
 					name = "Thaddeus Stevens"
 					ruling_only = yes
@@ -4854,6 +4965,9 @@ country_event = { ### 1864 REPUBLICAN NOMINEE NAMED ###
 	option = { # Incumbent, Stalwart, William H. Seward
 		name = asa_1864_election.3.d
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_leader = {
 				name = "William H. Seward"
 				ruling_only = yes
@@ -4861,15 +4975,30 @@ country_event = { ### 1864 REPUBLICAN NOMINEE NAMED ###
 		}
 		set_country_flag = asa_1864_william_seward_nominated_flag
 	}
-	immediate = {
-		country_event = asa_1864_election.4
-		country_event = {
-			id = asa_1864_election.7
-			days = 67
+	option = {
+		name = asa_1864_election.3.e
+		trigger = {
+			has_country_flag = asa_elections_off_flag
 		}
-		country_event = {
-			id = asa_1864_election.9
-			days = 62
+	}
+	immediate = {
+		hidden_effect = {
+			IF = {
+				limit = {
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = asa_1864_election.4
+				country_event = {
+					id = asa_1864_election.7
+					days = 67
+				}
+				country_event = {
+					id = asa_1864_election.9
+					days = 62
+				}
+			}
 		}
 	}
 }
@@ -4882,25 +5011,32 @@ country_event = { # 1864 Candidate Campaign Hidden Event
 	is_triggered_only = yes
 	hidden = yes
 	immediate = {
-		if = {
-			limit = {
-				NOT = {
-					has_country_flag = asa_1864_election_over
-					has_country_flag = asa_1864_election_6_days_away
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = asa_1864_election_over
+						has_country_flag = asa_1864_election_6_days_away
+					}
+				}
+				random_list = {
+					50 = {
+						country_event = {
+							id = asa_1864_election.5
+							days = 7
+						}
+					}
+					50 = {
+						country_event = {
+							id = asa_1864_election.6
+							days = 7
+						}
+					}
 				}
 			}
-			random_list = {
-				50 = {
-					country_event = {
-						id = asa_1864_election.5
-						days = 7
-					}
-				}
-				50 = {
-					country_event = {
-						id = asa_1864_election.6
-						days = 7
-					}
+			else_if = {
+				limit ={
+					has_country_flag = asa_elections_off_flag
 				}
 			}
 		}
@@ -4909,6 +5045,7 @@ country_event = { # 1864 Candidate Campaign Hidden Event
 		trigger = {
 			has_country_flag = asa_1864_election_over
 			has_country_flag = asa_1864_election_6_days_away
+			has_country_flag = asa_elections_off_flag
 		}
 		name = asa_1864_election.4.d
 	}
@@ -4922,13 +5059,33 @@ country_event = { # Democrats Campaign
 	is_triggered_only = yes
 	option = {
 		name = asa_1864_election.5.a
+		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
+		}
 		add_popularity = {
 			ideology = traditional_conservatism
 			popularity = 0.01
 		}
 	}
+	option = {
+		name = asa_1864_election.5.b
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
+	}
 	immediate = {
-		country_event = asa_1864_election.4
+		hidden_effect = {
+			IF = {
+				limit = {
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = asa_1864_election.4
+			}
+		}
 	}
 }
 
@@ -4940,6 +5097,9 @@ country_event = { # Republicans Campaign
 	is_triggered_only = yes
 	option = {
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1864_thaddeus_stevens_nominated_flag
 		}
 		name = asa_1864_election.6.a
@@ -4950,6 +5110,9 @@ country_event = { # Republicans Campaign
 	}
 	option = {
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1864_william_seward_nominated_flag
 		}
 		name = asa_1864_election.6.b
@@ -4958,9 +5121,22 @@ country_event = { # Republicans Campaign
 			popularity = 0.01
 		}
 	}
+	option = {
+		name = asa_1864_election.6.c
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
+	}
 	immediate = {
-		hidden_effect = {
-			country_event = asa_1864_election.4
+		IF = {
+			limit = {
+				has_country_flag = asa_elections_off_flag
+			}
+		}
+		ELSE = {
+			hidden_effect = {
+				country_event = asa_1864_election.4
+			}
 		}
 	}
 }
@@ -4973,6 +5149,11 @@ country_event = { # 1864 Election
 	is_triggered_only = yes
 	option = { #McClellan
 		name = asa_1864_election.7.a
+		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
+		}
 		IF = {
 			limit = {
 				has_government = traditional_conservatism
@@ -4987,6 +5168,9 @@ country_event = { # 1864 Election
 	option = { #Seward
 		name = asa_1864_election.7.b
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1864_william_seward_nominated_flag
 		}
 		IF = {
@@ -5003,6 +5187,9 @@ country_event = { # 1864 Election
 	option = { #Stevens
 		name = asa_1864_election.7.c
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1864_thaddeus_stevens_nominated_flag
 		}
 		IF = {
@@ -5014,6 +5201,27 @@ country_event = { # 1864 Election
 		}
 		ELSE = {
 			set_country_flag = asa_1864_stevens_elected
+		}
+	}
+	option = { #Shut it down
+		name = asa_1864_election.7.d
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			IF = {
+				limit = {
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = {
+					id = asa_1864_election.8
+					days = 79
+				}
+			}
 		}
 	}
 }
@@ -5032,6 +5240,7 @@ country_event = { # Inauguration/Second Term
 		trigger = {
 			has_country_flag = asa_1864_mcclellan_elected
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_flag = asa_1864_incumbent_won
 			}
 		}
@@ -5045,6 +5254,7 @@ country_event = { # Inauguration/Second Term
 		trigger = {
 			has_country_flag = asa_1864_seward_elected
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_flag = asa_1864_incumbent_won
 			}
 		}
@@ -5058,6 +5268,7 @@ country_event = { # Inauguration/Second Term
 		trigger = {
 			has_country_flag = asa_1864_stevens_elected
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_flag = asa_1864_incumbent_won
 			}
 		}
@@ -5069,6 +5280,9 @@ country_event = { # Inauguration/Second Term
 	option = { # McClellan Second Term
 		name = asa_1864_election.8.d
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1864_incumbent_won
 			has_country_leader = {
 				name = "George B. McClellan"
@@ -5080,6 +5294,9 @@ country_event = { # Inauguration/Second Term
 	option = { # Seward Second Term
 		name = asa_1864_election.8.e
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1864_incumbent_won
 			has_country_leader = {
 				name = "William H. Seward"
@@ -5091,6 +5308,9 @@ country_event = { # Inauguration/Second Term
 	option = { # Stevens Second Term
 		name = asa_1864_election.8.f
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1864_incumbent_won
 			has_country_leader = {
 				name = "Thaddeus Stevens"
@@ -5098,6 +5318,12 @@ country_event = { # Inauguration/Second Term
 			}
 		}
 		add_political_power = 50
+	}
+	option = {
+		name = asa_1864_election.8.g
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
 	}
 }
 
@@ -5115,6 +5341,26 @@ country_event = { # Hidden Event To Cancel "Campaign" Events
 
 ### 1868 Elections ###
 
+country_event = { # Election check
+	id = asa_1868_election.0
+	title = asa_1868_election.0.t
+	desc = asa_1868_election.0.desc
+	picture = placeholder
+	hidden = yes
+	fire_only_once = yes
+	is_triggered_only = yes
+	immediate = {
+		IF = {
+			limit = {
+				has_country_flag = asa_elections_off_flag
+			}
+		}
+		ELSE = {
+			country_event = asa_1868_election.1
+		}
+	}
+}
+
 country_event = { ### 1868 RACE BEGINS ###
 	id = asa_1868_election.1
 	title = asa_1868_election.1.t
@@ -5126,9 +5372,18 @@ country_event = { ### 1868 RACE BEGINS ###
 		name = asa_1868_election.1.a
 	}
 	immediate = {
-		country_event = {
-			id = asa_1868_election.2
-			days = 114
+		hidden_effect = {
+			IF = {
+				limit ={
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = {
+					id = asa_1868_election.2
+					days = 114
+				}
+			}
 		}
 	}
 }
@@ -5144,6 +5399,7 @@ country_event = { ### 1868 DEMOCRATIC NOMINEE NAMED ###
 		name = asa_1868_election.2.a
 		trigger = {
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_leader = {
 					name = "George B. McClellan"
                     ruling_only = yes
@@ -5155,6 +5411,9 @@ country_event = { ### 1868 DEMOCRATIC NOMINEE NAMED ###
 	option = { # Incumbent, McClellan
 		name = asa_1868_election.2.b
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_leader = {
 				name = "George B. McClellan"
                 ruling_only = yes
@@ -5166,6 +5425,7 @@ country_event = { ### 1868 DEMOCRATIC NOMINEE NAMED ###
         name = asa_1868_election.2.c
         trigger = {
             NOT = {
+				has_country_flag = asa_elections_off_flag
                 has_country_leader = {
 					name = "George B. McClellan"
                     ruling_only = yes
@@ -5182,10 +5442,25 @@ country_event = { ### 1868 DEMOCRATIC NOMINEE NAMED ###
             traits = { }
         }
     }
+	option = {
+		name = asa_1868_election.2.d
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
+	}
 	immediate = {
-		country_event = {
-			id = asa_1868_election.3
-			days = 84
+		hidden_effect = {
+			IF = {
+				limit ={
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = {
+					id = asa_1868_election.3
+					days = 84
+				}
+			}
 		}
 	}
 }
@@ -5197,12 +5472,13 @@ country_event = { ### 1868 REPUBLICAN NOMINEE NAMED ###
 	picture = placeholder
 	fire_only_once = yes
 	is_triggered_only = yes
-	option = { # Radical, Thaddeus Stevens
+	option = { # Radical, Galusha A. Grow
 		name = asa_1868_election.3.a
 		trigger = {
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_leader = {
-					name = "Thaddeus Stevens"
+					name = "Galusha A. Grow"
 					ruling_only = yes
 				}
 				has_country_leader = {
@@ -5211,24 +5487,28 @@ country_event = { ### 1868 REPUBLICAN NOMINEE NAMED ###
 				}
 			}
 		}
-		set_country_flag = asa_1868_thaddeus_stevens_nominated_flag
+		set_country_flag = asa_1868_galusha_a_grow_nominated_flag
 	}
-	option = { #Incumbent, Radical, Thaddeus Stevens
+	option = { #Incumbent, Radical, Galusha A. Grow
 		name = asa_1868_election.3.b
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_leader = {
-				name = "Thaddeus Stevens"
+				name = "Galusha A. Grow"
 				ruling_only = yes
 			}
 		}
-		set_country_flag = asa_1868_thaddeus_stevens_nominated_flag
+		set_country_flag = asa_1868_galusha_a_grow_nominated_flag
 	}
 	option = { # Stalwart, William H. Seward
 		name = asa_1868_election.3.c
 		trigger = {
 			NOT = {
+				has_country_flag = asa_elections_off_flag
 				has_country_leader = {
-					name = "Thaddeus Stevens"
+					name = "Galusha A. Grow"
 					ruling_only = yes
 				}
 				has_country_leader = {
@@ -5242,6 +5522,9 @@ country_event = { ### 1868 REPUBLICAN NOMINEE NAMED ###
 	option = { # Incumbent, Stalwart, William H. Seward
 		name = asa_1868_election.3.d
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_leader = {
 				name = "William H. Seward"
 				ruling_only = yes
@@ -5249,39 +5532,30 @@ country_event = { ### 1868 REPUBLICAN NOMINEE NAMED ###
 		}
 		set_country_flag = asa_1868_william_seward_nominated_flag
 	}
-    option = { # Reuben Fenton
-        name = asa_1868_election.3.e
-        trigger = {
-			NOT = {
-				has_country_leader = {
-					name = "Thaddeus Stevens"
-					ruling_only = yes
-				}
-				has_country_leader = {
-					name = "William H. Seward"
-					ruling_only = yes
+	option = {
+		name = asa_1868_election.3.e
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			IF = {
+				limit = {
+					has_country_flag = asa_elections_off_flag
 				}
 			}
-		}
-        set_country_flag = asa_1868_reuben_fenton_nominated_flag
-        create_country_leader = {
-            name = "Reuben Fenton"
-            desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
-            picture = "Portrait_ASA_Reuben_Fenton.dds"
-            expire = 1885.8.25
-            ideology = conserv_liberal
-            traits = { }
-        }
-    }
-	immediate = {
-		country_event = asa_1868_election.4
-		country_event = {
-			id = asa_1868_election.8
-			days = 67
-		}
-		country_event = {
-			id = asa_1868_election.10
-			days = 62
+			ELSE = {
+				country_event = asa_1868_election.4
+				country_event = {
+					id = asa_1868_election.7
+					days = 67
+				}
+				country_event = {
+					id = asa_1868_election.9
+					days = 62
+				}
+			}
 		}
 	}
 }
@@ -5293,85 +5567,36 @@ country_event = { # 1868 Candidate Campaign Hidden Event
 	picture = placeholder
 	is_triggered_only = yes
 	hidden = yes
-	option = { # McClellan Campaigns
-		name = asa_1868_election.4.a
-		trigger = {
-			NOT = {
-				has_country_flag = asa_1868_election_over
-				has_country_flag = asa_1868_election_6_days_away
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = asa_elections_off_flag
+						has_country_flag = asa_1868_election_over
+						has_country_flag = asa_1868_election_6_days_away
+					}
+				}
+				random_list = {
+					50 = {
+						country_event = {
+							id = asa_1868_election.5
+							days = 7
+						}
+					}
+					50 = {
+						country_event = {
+							id = asa_1868_election.6
+							days = 7
+						}
+					}
+				}
 			}
-			has_country_flag = asa_1868_george_mcclellan_nominated_flag
-		}
-		country_event = {
-			id = asa_1868_election.5
-			days = 7
-		}
-	}
-	option = { # Stevens Campaigns
-		name = asa_1868_election.4.b
-		trigger = {
-			NOT = {
-				has_country_flag = asa_1868_election_over
-				has_country_flag = asa_1868_election_6_days_away
-			}
-			has_country_flag = asa_1868_thaddeus_stevens_nominated_flag
-		}
-		country_event = {
-			id = asa_1868_election.6
-			days = 7
-		}
-	}
-	option = { # Seward Campaigns
-		name = asa_1868_election.4.c
-		trigger = {
-			NOT = {
-				has_country_flag = asa_1868_election_over
-				has_country_flag = asa_1868_election_6_days_away
-			}
-			has_country_flag = asa_1868_william_seward_nominated_flag
-		}
-		country_event = {
-			id = asa_1868_election.7
-			days = 7
-		}
-	}
-    option = { # Seymour Campaigns
-		name = asa_1868_election.4.d
-		trigger = {
-			NOT = {
-				has_country_flag = asa_1868_election_over
-				has_country_flag = asa_1868_election_6_days_away
-			}
-			has_country_flag = asa_1868_horatio_seymour_nominated_flag
-		}
-		country_event = {
-			id = asa_1868_election.8
-			days = 7
 		}
 	}
 	option = {
 		trigger = {
-			has_country_flag = asa_1868_election_over
-			has_country_flag = asa_1868_election_6_days_away
-		}
-		name = asa_1868_election.4.d
-	}
-    option = { # Fenton Campaigns
-		name = asa_1868_election.4.d
-		trigger = {
-			NOT = {
-				has_country_flag = asa_1868_election_over
-				has_country_flag = asa_1868_election_6_days_away
-			}
-			has_country_flag = asa_1868_reuben_fenton_nominated_flag
-		}
-		country_event = {
-			id = asa_1868_election.9
-			days = 7
-		}
-	}
-	option = {
-		trigger = {
+			has_country_flag = asa_elections_off_flag
 			has_country_flag = asa_1868_election_over
 			has_country_flag = asa_1868_election_6_days_away
 		}
@@ -5379,7 +5604,7 @@ country_event = { # 1868 Candidate Campaign Hidden Event
 	}
 }
 
-country_event = { # McClellan Campaigns
+country_event = { # Democrats Campaign
 	id = asa_1868_election.5
 	title = asa_1868_election.5.t
 	desc = asa_1868_election.5.desc
@@ -5387,17 +5612,37 @@ country_event = { # McClellan Campaigns
 	is_triggered_only = yes
 	option = {
 		name = asa_1868_election.5.a
+		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
+		}
 		add_popularity = {
 			ideology = traditional_conservatism
 			popularity = 0.01
 		}
 	}
+	option = {
+		name = asa_1868_election.5.b
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
+	}
 	immediate = {
-		country_event = asa_1868_election.4
+		hidden_effect = {
+			IF = {
+				limit = {
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = asa_1868_election.4
+			}
+		}
 	}
 }
 
-country_event = { # Stevens Campaigns
+country_event = { # Republicans Campaign
 	id = asa_1868_election.6
 	title = asa_1868_election.6.t
 	desc = asa_1868_election.6.desc
@@ -5405,92 +5650,85 @@ country_event = { # Stevens Campaigns
 	is_triggered_only = yes
 	option = {
 		name = asa_1868_election.6.a
-		add_popularity = {
-			ideology = social_egalitarianism
-			popularity = 0.01
-		}
-		hidden_effect = {
-			country_event = asa_1868_election.4
+        trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
+            has_country_flag = asa_1868_william_seward_nominated_flag
+        }
+        add_popularity = {
+            ideology = centrism
+            popularity = 0.01
+        }
+	}
+    option = {
+        name = asa_1868_election.6.b
+        trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
+            has_country_flag = asa_1868_galusha_a_grow_nominated_flag
+        }
+        add_popularity = {
+            ideology = social_egalitarianism
+            popularity = 0.01
+        }
+    }
+	option = {
+		name = asa_1868_election.6.c
+		trigger = {
+			has_country_flag = asa_elections_off_flag
 		}
 	}
-}
-
-country_event = { # Seward Campaigns
-	id = asa_1868_election.7
-	title = asa_1868_election.7.t
-	desc = asa_1868_election.7.desc
-	picture = placeholder
-	is_triggered_only = yes
-	option = {
-		name = asa_1868_election.7.a
-		add_popularity = {
-			ideology = centrism
-			popularity = 0.01
-		}
+    immediate = {
 		hidden_effect = {
-			country_event = asa_1868_election.4
-		}
-	}
-}
-
-country_event = { # Seymour Campaigns
-	id = asa_1868_election.8
-	title = asa_1868_election.8.t
-	desc = asa_1868_election.8.desc
-	picture = placeholder
-	is_triggered_only = yes
-	option = {
-		name = asa_1868_election.8.a
-		add_popularity = {
-			ideology = centrism
-			popularity = 0.01
-		}
-		hidden_effect = {
-			country_event = asa_1868_election.4
-		}
-	}
-}
-
-country_event = { # Seymour Campaigns
-	id = asa_1868_election.9
-	title = asa_1868_election.9.t
-	desc = asa_1868_election.9.desc
-	picture = placeholder
-	is_triggered_only = yes
-	option = {
-		name = asa_1868_election.9.a
-		add_popularity = {
-			ideology = centrism
-			popularity = 0.01
-		}
-		hidden_effect = {
-			country_event = asa_1868_election.4
+			IF = {
+				limit = {
+					has_country_flag = asa_elections_off_flag
+				}
+			}
+			ELSE = {
+				country_event = asa_1868_election.4
+			}
 		}
 	}
 }
 
 country_event = { # 1868 Election
-	id = asa_1868_election.10
-	title = asa_1868_election.10.t
-	desc = asa_1868_election.10.desc
+	id = asa_1868_election.7
+	title = asa_1868_election.7.t
+	desc = asa_1868_election.7.desc
 	picture = placeholder
 	is_triggered_only = yes
 	option = { #McClellan
-		name = asa_1868_election.10.a
+		name = asa_1868_election.7.a
+		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
+			has_country_flag = asa_1868_george_mcclellan_nominated_flag
+		}
 		IF = {
 			limit = {
 				has_government = traditional_conservatism
 			}
 			add_political_power = 100
 			set_country_flag = asa_1868_incumbent_won
+            set_country_flag = asa_1868_mcclellan_elected
 		}
 		ELSE = {
 			set_country_flag = asa_1868_mcclellan_elected
 		}
+        hidden_effect = {
+            ASA_Count_McClellan_Terms = yes
+        }
 	}
 	option = { #Seward
-		name = asa_1868_election.10.b
+		name = asa_1868_election.7.b
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1868_william_seward_nominated_flag
 		}
 		IF = {
@@ -5499,15 +5737,19 @@ country_event = { # 1868 Election
 			}
 			add_political_power = 100
 			set_country_flag = asa_1868_incumbent_won
+            set_country_flag = asa_1868_seward_elected
 		}
 		ELSE = {
 			set_country_flag = asa_1868_seward_elected
 		}
 	}
-	option = { #Stevens
-		name = asa_1868_election.10.c
+	option = { #Grow
+		name = asa_1868_election.7.c
 		trigger = {
-			has_country_flag = asa_1868_thaddeus_stevens_nominated_flag
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
+			has_country_flag = asa_1868_galusha_a_grow_nominated_flag
 		}
 		IF = {
 			limit = {
@@ -5515,13 +5757,20 @@ country_event = { # 1868 Election
 			}
 			add_political_power = 100
 			set_country_flag = asa_1868_incumbent_won
+            set_country_flag = asa_1868_grow_elected
 		}
 		ELSE = {
-			set_country_flag = asa_1868_stevens_elected
+			set_country_flag = asa_1868_grow_elected
 		}
 	}
     option = { #Seymour
-		name = asa_1868_election.10.d
+		name = asa_1868_election.7.d
+		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
+			has_country_flag = asa_1868_horatio_seymour_nominated_flag
+		}
 		IF = {
 			limit = {
 				has_country_leader = {
@@ -5531,44 +5780,36 @@ country_event = { # 1868 Election
 			}
 			add_political_power = 100
 			set_country_flag = asa_1868_incumbent_won
+            set_country_flag = asa_1868_seymour_elected
 		}
 		ELSE = {
 			set_country_flag = asa_1868_seymour_elected
 		}
 	}
-    option = { #Fenton
-		name = asa_1868_election.10.e
-		IF = {
-			limit = {
-				has_country_leader = {
-					name = "Reuben Fenton"
-					ruling_only = yes
-				}
-			}
-			add_political_power = 100
-			set_country_flag = asa_1868_incumbent_won
-		}
-		ELSE = {
-			set_country_flag = asa_1868_fenton_elected
+	option = {
+		name = asa_1868_election.7.e
+		trigger = {
+			has_country_flag = asa_elections_off_flag
 		}
 	}
 }
 
 country_event = { # Inauguration/Second Term
-	id = asa_1868_election.11
-	title = asa_1868_election.11.t
-	desc = asa_1868_election.11.desc
+	id = asa_1868_election.8
+	title = asa_1868_election.8.t
+	desc = asa_1868_election.8.desc
 	picture = placeholder
 	is_triggered_only = yes
 	immediate = {
 		set_country_flag = asa_1868_election_over
 	}
 	option = { # McClellan Inauguration
-		name = asa_1868_election.11.a
+		name = asa_1868_election.8.a
 		trigger = {
 			has_country_flag = asa_1868_mcclellan_elected
 			NOT = {
 				has_country_flag = asa_1868_incumbent_won
+				has_country_flag = asa_elections_off_flag
 			}
 		}
 		set_politics = {
@@ -5577,11 +5818,12 @@ country_event = { # Inauguration/Second Term
 		}
 	}
 	option = { # Seward Inauguration
-		name = asa_1868_election.11.b
+		name = asa_1868_election.8.b
 		trigger = {
 			has_country_flag = asa_1868_seward_elected
 			NOT = {
 				has_country_flag = asa_1868_incumbent_won
+				has_country_flag = asa_elections_off_flag
 			}
 		}
 		set_politics = {
@@ -5589,12 +5831,13 @@ country_event = { # Inauguration/Second Term
 			elections_allowed = yes
 		}
 	}
-	option = { # Stevens Inauguration
-		name = asa_1868_election.11.c
+	option = { # Grow Inauguration
+		name = asa_1868_election.8.c
 		trigger = {
-			has_country_flag = asa_1868_stevens_elected
+			has_country_flag = asa_1868_grow_elected
 			NOT = {
 				has_country_flag = asa_1868_incumbent_won
+				has_country_flag = asa_elections_off_flag
 			}
 		}
 		set_politics = {
@@ -5603,8 +5846,11 @@ country_event = { # Inauguration/Second Term
 		}
 	}
 	option = { # McClellan Second Term
-		name = asa_1868_election.11.d
+		name = asa_1868_election.8.d
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1868_incumbent_won
 			has_country_leader = {
 				name = "George B. McClellan"
@@ -5614,8 +5860,11 @@ country_event = { # Inauguration/Second Term
 		add_political_power = 50
 	}
 	option = { # Seward Second Term
-		name = asa_1868_election.11.e
+		name = asa_1868_election.8.e
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1868_incumbent_won
 			has_country_leader = {
 				name = "William H. Seward"
@@ -5624,36 +5873,27 @@ country_event = { # Inauguration/Second Term
 		}
 		add_political_power = 50
 	}
-	option = { # Stevens Second Term
-		name = asa_1868_election.11.f
+	option = { # Grow Second Term
+		name = asa_1868_election.8.f
 		trigger = {
+			NOT = {
+				has_country_flag = asa_elections_off_flag
+			}
 			has_country_flag = asa_1868_incumbent_won
 			has_country_leader = {
-				name = "Thaddeus Stevens"
+				name = "Galusha A. Grow"
 				ruling_only = yes 
 			}
 		}
 		add_political_power = 50
 	}
-    option = { # Fenton Inauguration
-		name = asa_1868_election.11.g
-		trigger = {
-			has_country_flag = asa_1868_fenton_elected
-			NOT = {
-				has_country_flag = asa_1868_incumbent_won
-			}
-		}
-		set_politics = {
-			ruling_party = centrism
-			elections_allowed = yes
-		}
-	}
     option = { # Seymour Inauguration
-		name = asa_1868_election.11.f
+		name = asa_1868_election.8.g
 		trigger = {
 			has_country_flag = asa_1868_seymour_elected
 			NOT = {
 				has_country_flag = asa_1868_incumbent_won
+				has_country_flag = asa_elections_off_flag
 			}
 		}
 		set_politics = {
@@ -5661,7 +5901,27 @@ country_event = { # Inauguration/Second Term
 			elections_allowed = yes
 		}
 	}
+	option = {
+		name = asa_1868_election.8.h
+		trigger = {
+			has_country_flag = asa_elections_off_flag
+		}
+	}
 }
+
+country_event = { # Hidden Event To Cancel "Campaign" Events
+	id = asa_1868_election.9
+	title = asa_1868_election.9.t
+	desc = asa_1868_election.9.desc
+	picture = placeholder
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = asa_1868_election_6_days_away
+	}
+}
+
+### FLAVOR EVENTS ###
 
 country_event = { # Stevens Roasts The Government
 	id = asa_flavor.1
@@ -5702,9 +5962,57 @@ country_event = { # Stevens Roasts The Government
 		}
 		add_political_power = -50
 		add_manpower = -1
+		kill_ideology_leader = social_egalitarianism
 		custom_effect_tooltip = asa_stevens_gone_tt
 		hidden_effect = {
 			set_country_flag = asa_stevens_gone_flag
 		}
+	}
+}
+
+country_event = { # Thaddeus Stevens Dies
+	id = asa_flavor.2
+	title = asa_flavor.2.t
+	desc = asa_flavor.2.desc
+	picture = placeholder
+	is_triggered_only = yes
+	option = { # I miss him already
+		name = asa_flavor.2.a
+		kill_ideology_leader = social_egalitarianism
+		create_country_leader = {
+			name = "Galusha A. Grow"
+			desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+			expire = "1907.3.31"
+			picture = placeholder
+			ideology = liberal_social
+			traits = {
+				social_egalitarian
+			}
+		}
+		set_country_flag = asa_stevens_gone_flag
+	}
+}
+
+country_event = { # Elections called off
+	id = asa_flavor.3
+	title = asa_flavor.3.t
+	desc = asa_flavor.3.desc
+	picture = placeholder
+	is_triggered_only = yes
+	option = {
+		name = asa_flavor.3.a
+		set_country_flag = asa_elections_off_flag
+	}
+}
+
+country_event = {
+	id = asa_flavor.4
+	title = asa_flavor.4.t
+	desc = asa_flavor.4.desc
+	picture = placeholder
+	is_triggered_only = yes
+	option = {
+		name = asa_flavor.4.a
+		add_ideas = ASA_Anarchist_Strikes_level_5
 	}
 }

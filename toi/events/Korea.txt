@@ -57,7 +57,7 @@ country_event = {
 	option = { ###NKR tag North Korea with cosmetic tag - donghak revolt
 		name = korea.3.a
 		trigger = {
-			has_completed_focus = KOR_combatsocieties
+			has_completed_focus = KOR_denouncedong
 		}
 		hidden_effect = {
 			NKR = {
@@ -66,52 +66,6 @@ country_event = {
 			NKR = {
 				transfer_state = 525
 				load_oob = NKR_dong_revolt
-				declare_war_on = {
-					target = KOR
-					type = annex_everything
-				}
-				set_popularities = {
-					anarchism = 0
-					vanguard_communism = 0
-					collectivist_socialism = 0
-					social_egalitarianism = 0
-					centrism = 0
-					traditional_conservatism = 0
-					radical_democracy = 0
-					chauvinist_populism = 0
-					autocracy = 100
-					fundamentalism = 0
-				}
-				set_politics = {
-					ruling_party = autocracy
-			  }
-				create_country_leader = {
-					name = "Donghak Rebels"
-					#desc = "POLITICS_TEMP_DESC"
-					picture = "portrait_NKR_rebellion.dds"
-					expire = 1900.1.1
-					ideology = despotism
-				}
-			}
-			hidden_effect = {
-				news_event = {
-					id = koreanews.1
-				}
-			}
-		}
-	}
-	option = { ####Andong Confucian Revolt
-		name = korea.3.b
-		trigger = {
-			has_completed_focus = KOR_landreform
-		}
-		hidden_effect = {
-			NKR = {
-				set_cosmetic_tag = NKR_andong
-			}
-			NKR = {
-				transfer_state = 1020
-				load_oob = NKR_andong_revolt
 				declare_war_on = {
 					target = KOR
 					type = annex_everything
@@ -137,6 +91,52 @@ country_event = {
 					picture = "portrait_NKR_rebellion.dds"
 					expire = 1900.1.1
 					ideology = liberal_social
+				}
+			}
+			hidden_effect = {
+				news_event = {
+					id = koreanews.1
+				}
+			}
+		}
+	}
+	option = { ####Andong Confucian Revolt
+		name = korea.3.b
+		trigger = {
+			has_completed_focus = KOR_aidchoe
+		}
+		hidden_effect = {
+			NKR = {
+				set_cosmetic_tag = NKR_andong
+			}
+			NKR = {
+				transfer_state = 1020
+				load_oob = NKR_andong_revolt
+				declare_war_on = {
+					target = KOR
+					type = annex_everything
+				}
+				set_popularities = {
+					anarchism = 0
+					vanguard_communism = 0
+					collectivist_socialism = 0
+					social_egalitarianism = 0
+					centrism = 0
+					traditional_conservatism = 0
+					radical_democracy = 0
+					chauvinist_populism = 0
+					autocracy = 100
+					fundamentalism = 0
+				}
+				set_politics = {
+					ruling_party = autocracy
+			  }
+				create_country_leader = {
+					name = "Andong Confucian Rebels"
+					#desc = "POLITICS_TEMP_DESC"
+					picture = "portrait_NKR_rebellion.dds"
+					expire = 1900.1.1
+					ideology = despotism
 				}
 
 
@@ -404,7 +404,7 @@ country_event = {
 					ruling_party = autocracy
 			  }
 				create_country_leader = {
-					name = "Donghak Rebels"
+					name = "Andong Rebels"
 					#desc = "POLITICS_TEMP_DESC"
 					picture = "portrait_NKR_rebellion.dds"
 					expire = 1900.1.1
@@ -677,14 +677,14 @@ country_event = {
 		option = {
 			name = korea.22.b
 			add_stability = -.1
-			###switch to monopoly on Korean trade
+			###switch to monopoly on Korean trade (Kind of done)
 			add_timed_idea = {
 				idea = KOR_FRA_reperations_idea
 				days = 365
 			}
 			##maintain garrison (Rebellion in state after news spreads to koreans) 
 			FRA = {
-				transfer_state = 1024
+				transfer_state = 1019
 			}
 			KOR = {
 				country_event = {
@@ -694,7 +694,7 @@ country_event = {
 			hidden_effect = {
 				country_event = {
 					id = korea.32
-					days = 150
+					days = 250
 				}
 			}
 
@@ -828,7 +828,9 @@ country_event = {
 					limit = {
 						has_global_flag = ACW_Great_Collapse
 					}
-					##country_event
+					country_event = {
+						id = korea.34
+					}
 				}
 			}
 		}
@@ -858,7 +860,34 @@ country_event = {
 	country_event = {
 		id = korea.29
 		title = korea.29.t
-		desc = korea.29.d
+		desc = {
+			trigger = {
+				NOT = {
+					OR = {
+						FRA = {
+							controls_state = 1019
+						}
+						KOR = {
+							has_cosmetic_tag = KOR_FRA_Protectorate
+						}
+					}
+				}
+			}
+			text = korea.29.d
+		}
+		desc = {
+			trigger = {
+				OR = {
+					FRA = {
+						controls_state = 1019
+					}
+					KOR = {
+						has_cosmetic_tag = KOR_FRA_Protectorate
+					}
+				}
+			}
+			text = korea.29.d_2
+		}
 		picture = GFX_event_kor_warships_western
 	
 		is_triggered_only = yes
@@ -867,12 +896,52 @@ country_event = {
 	
 		option = {
 			name = korea.29.a
+			trigger = {
+				NOT = {
+					OR = {
+						FRA = {
+							controls_state = 1019
+						}
+						KOR = {
+							has_cosmetic_tag = KOR_FRA_Protectorate
+						}
+					}
+				}
+			}
 			hidden_effect = {
 				country_event = {
 					id = korea.30
 					days = 1100
 				}
 			}
+		}
+		option = {
+			name = korea.29.b
+			trigger = {
+				OR = {
+					FRA = {
+						controls_state = 1019
+					}
+					KOR = {
+						has_cosmetic_tag = KOR_FRA_Protectorate
+					}
+				}
+			}
+			####Ignore the Koreans
+		}
+		option = {
+			name = korea.29.c
+			trigger = {
+				OR = {
+					FRA = {
+						controls_state = 1019
+					}
+					KOR = {
+						has_cosmetic_tag = KOR_FRA_Protectorate
+					}
+				}
+			}
+			####Request meeting with French
 		}
 	}
 	###American Expedition
@@ -888,6 +957,8 @@ country_event = {
 	
 		option = {
 			name = korea.30.a
+			transfer_state = 1019
+			#load_oob = 
 			KOR = {
 				country_event = {
 					id = korea.31
@@ -910,10 +981,19 @@ country_event = {
 			name = korea.31.a
 			###Start of the expedition
 			##coding required
+			activate_mission = KOR_Mission_USA_Expedition_War_Decision
+			news_event = {
+				id = koreanews.2
+			}
 			USA = {
-				#country_event = {
-					##id = korea.34
-				#}
+			activate_mission = KOR_Mission_USA_Expedition_War_Decision
+				country_event = {
+					id = korea.38
+				}
+				declare_war_on = {
+					target = KOR
+					type = annex_everything
+				}
 			}
 		}
 	}
@@ -938,6 +1018,10 @@ country_event = {
 					load_oob = KOR_korean_garrison
 				}
 				activate_mission = KOR_Mission_FRA_Korean_Revolt_Decision
+				country_event = {
+					id = korea.36
+					days = 2
+				}
 			}
 			hidden_effect = {
 				KOR = {
@@ -965,6 +1049,143 @@ country_event = {
 			
 		}
 	}
+	country_event = {
+		id = korea.34
+		title = korea.34.t
+		desc = korea.34.d
+		picture = GFX_event_kor_expedition_map
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.34.a
+			
+		}
+	}
+	country_event = {
+		id = korea.35
+		title = korea.35.t
+		desc = korea.35.d
+		picture = GFX_event_kor_american_generals
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.35.a
+			add_stability = -.01
+			add_war_support = -.01
+			add_manpower = -1000
+		}
+	}
+	###Use more troops?
+	country_event = {
+		id = korea.36
+		title = korea.36.t
+		desc = korea.36.d
+		picture = GFX_event_kor_american_generals
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.36.a
+			add_timed_idea = {
+				idea = KOR_FRA_Supply_Costs
+				days = 300
+			}
+			load_oob = KOR_FRA_reinforcements
+			KOR = {
+				country_event = {
+					id = korea.37
+				}
+			}
+		}
+		option = {
+			name = korea.36.b
+		}
+	}
+	country_event = {
+		id = korea.37
+		title = korea.37.t
+		desc = korea.37.d
+		picture = GFX_event_kor_american_generals
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.37.a
+			custom_effect_tooltip = KOR_French_land_in_Pusan
+		}
+	}
+	country_event = {
+		id = korea.38
+		title = korea.38.t
+		desc = korea.38.d
+		picture = GFX_event_kor_expedition_boats_men
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.38.a
+			
+		}
+	}
+	country_event = {
+		id = korea.39
+		title = korea.39.t
+		desc = korea.39.d
+		picture = GFX_event_kor_expedition_map
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.39.a
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+	country_event = {
+		id = korea.40
+		title = korea.40.t
+		desc = korea.40.d
+		picture = GFX_event_kor_expedition_map
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.40.a
+			
+		}
+	}
+	country_event = {
+		id = korea.41
+		title = korea.41.t
+		desc = korea.41.d
+		picture = GFX_event_kor_american_generals
+	
+		is_triggered_only = yes
+		fire_only_once = yes
+	
+	
+		option = {
+			name = korea.41.a
+			
+		}
+	}
+	
 
 
 

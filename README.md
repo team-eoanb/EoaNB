@@ -52,7 +52,7 @@ We do not tolerate using content developed for EoaNB for other purposes. Any oth
 
 ### Other notable issues
 
-`Save Game Load Times`: It is a notable issue of how long save games take to load. Our average develop notices it takes them 5-10 minutes to load a save; longer as the game progresses past 1880. After the Pax Orientalis update, we will work to improving on this issue.
+`Save Game Load Times`: It is a notable issue of how long save games take to load. Our average developer notices it takes them 5-10 minutes to load a save; longer as the game progresses past 1880. After the Pax Orientalis update, we will work to improving on this issue.
 
 ## Meet the Team; Join the Discussion
 
@@ -64,10 +64,6 @@ Have more questions, comments or feedback? You can contact us by joining our dis
 *aka Centurions*
 <table>
 <tr>
-<td align="center">
-  <a href = "https://github.com/AtomicSoviet"><strong>AtomicFalco</strong></a>
-  <img src="https://cdn.discordapp.com/avatars/264200249545850890/1806a4b3a24bc961790f2e5cf99c63c4.png?size=256" width="120px;" alt="AtomicFalco"/>
-</td>
 <td align="center">
   <a href = "https://github.com/Coggernaut"><strong>Coggernaut</strong></a>
   <img src="https://media.discordapp.net/attachments/729456479651758220/796211077573640253/Battlemaster_Profile_Pic.jpg" width="120px;" alt="Coggernaut"/>
@@ -84,15 +80,9 @@ Have more questions, comments or feedback? You can contact us by joining our dis
   <a href = "https://github.com/Polskastronkkurwa"><strong>Kuba</strong></a>
   <img src="https://cdn.discordapp.com/avatars/320588200026308608/6109e4fcecf4e966d92545d72efdc332.png?size=256" width="120px;" alt="Kuba"/>
 </td>
-</tr>
-<tr>  
 <td align="center">
   <a href = "https://github.com/condor93"><strong>Lancer2201</strong></a>
   <img src="https://cdn.discordapp.com/avatars/318886512869507072/652309426aa905288b6824d83f3a4715.png?size=256" width="120px;" alt="Lancer"/>
-</td>
-<td align="center">
-  <a href = "https://github.com/L0ndinium"><strong>Londinium</strong></a>
-  <img src="https://cdn.discordapp.com/avatars/246957288881913857/09f0493f82af5544031208bf01afe898.png?size=256" width="120px;" alt="Londinium"/>
 </td>
 <td align="center">
   <a href = "https://github.com/TPS-Geronam"><strong>TPS-Geronam</strong></a>

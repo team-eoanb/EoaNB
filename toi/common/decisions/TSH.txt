@@ -1,144 +1,4 @@
-TSH_Category_Bakumatsu_Modernization = {
-
-	TSH_Mission_Bakumatsu_Modernization_Rising_Tensions = {
-		icon = generic_civil_support
-
-		allowed = { always = no }
-
-		activation = { always = no }
-
-		available = {
-			OR = {
-				# Boshin War Avoided
-				custom_trigger_tooltip = {
-					tooltip = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions_tt1
-					OR = {
-						check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions < 0.01 }
-						AND = {
-							NOT = { tag = TSH }
-							NOT = { is_subject_of = TSH }
-						}
-					}
-				}
-				# Bosthin War Trigger
-				custom_trigger_tooltip = {
-					tooltip = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions_tt2
-					check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions > 0.99 }
-				}
-			}
-		}
-		
-
-		days_mission_timeout = 75
-		is_good = no
-
-		complete_effect = {
-		}
-
-		timeout_effect = {
-			if = {
-				limit = { has_global_flag = TSH_Bakumatsu_Debate_Ongoing }
-				if = {
-					limit = { is_subject_of = TSH }
-					# Compare from rest of Japan
-					set_temp_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = TSH.TSH_Bakumatsu_Debate_Tensions }
-					subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = TSH_Bakumatsu_Debate_Tensions }
-					# Apply weights
-					if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare < -0.10 } }
-						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = -0.02 }
-						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
-						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Down2_tt
-					}
-					else_if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare < 0.00 } }
-						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = -0.01 }
-						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
-						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Down1_tt
-					}
-					else_if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare > 0.10 } }
-						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = 0.02 }
-						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
-						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up2_tt
-					}
-					else_if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Tension_Compare > 0.00 } }
-						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up1_tt
-						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
-						add_to_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = 0.01 }
-					}
-					TSH_Bakumatsu_Debate_Influence_Country_Modify = yes
-					activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
-				}
-				else_if = {
-					limit = { tag = TSH }
-					if = {
-						limit = { check_variable = { TSH_Bakumatsu_Debate_Tension > 0.99 } }
-						# Start the Boshin War
-						# country_event = feudal_tokugawa_shogunate_boshin.1
-						clr_global_flag = TSH_Bakumatsu_Debate_Ongoing
-					}
-					else = {
-						# Continue Tensions
-						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up1_tt
-						add_to_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = 0.01 }
-						random_owned_controlled_state = {
-							limit = { 
-								is_in_japan = yes
-								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence < 0.9 }
-							}
-							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.02 }
-							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
-						}
-						random_owned_controlled_state = {
-							limit = { 
-								is_in_japan = yes
-								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence < 0.9 }
-							}
-							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
-							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
-						}
-						random_owned_controlled_state = {
-							limit = { 
-								is_in_japan = yes
-								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.1 }
-							}
-							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
-							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
-						}
-						activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
-					}
-				}
-			}
-		}
-	}
-
-	TSH_Mission_Bakumatsu_Modernization_Kanrin_Mahru = {
-		icon = GFX_decision_generic_construction
-
-		allowed = { always = no }
-
-		activation = { always = no }
-
-		available = { always = no }
-
-		is_good = yes
-		fire_only_once = yes
-
-		days_mission_timeout = 120
-		days_remove = 120
-
-		modifier = {
-			experience_gain_navy = 0.03
-			command_power_gain = -0.15
-		}
-
-		timeout_effect = {
-			country_event = feudal_tokugawa_shogunate.11
-		}
-	}
-	
+foreign_politics = {
 	TSH_Decision_Bakumatsu_Modernization_Amity_Treaty = {
 		icon = generic_political_discourse
 
@@ -197,6 +57,168 @@ TSH_Category_Bakumatsu_Modernization = {
 			}
 		}
 	}
+}
+TSH_Category_Bakumatsu_Modernization = {
+
+	TSH_Mission_Bakumatsu_Modernization_Rising_Tensions = {
+		icon = generic_civil_support
+
+		allowed = { always = no }
+
+		activation = { always = no }
+
+		available = {
+			OR = {
+				# Boshin War Avoided
+				custom_trigger_tooltip = {
+					tooltip = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions_tt1
+					OR = {
+						check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions < 0.01 }
+						AND = {
+							NOT = { tag = TSH }
+							NOT = { is_subject_of = TSH }
+						}
+					}
+				}
+				# Bosthin War Trigger
+				custom_trigger_tooltip = {
+					tooltip = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions_tt2
+					check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions > 0.99 }
+				}
+			}
+		}
+		
+
+		days_mission_timeout = 60
+		is_good = no
+
+		complete_effect = {
+		}
+
+		timeout_effect = {
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							NOT = { tag = TSH }
+							NOT = { is_subject_of = TSH }
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions < 0.01 } }
+				if = {
+					limit = { tag = TSH }
+					clr_global_flag = TSH_Bakumatsu_Debate_Ongoing
+				}
+			}
+			else_if = {
+				limit = { check_variable = { TSH.TSH_Bakumatsu_Debate_Tensions > 0 } }
+				if = {
+					limit = { is_subject_of = TSH }
+					# Compare from rest of Japan
+					set_temp_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = TSH.TSH_Bakumatsu_Debate_Tensions }
+					subtract_from_temp_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = TSH_Bakumatsu_Debate_Tensions }
+					# Apply weights
+					if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare < -0.10 } }
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = -0.02 }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Down2_tt
+					}
+					else_if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare < 0.00 } }
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = -0.01 }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Down1_tt
+					}
+					else_if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tensions_Compare > 0.10 } }
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions = 0.02 }
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up2_tt
+					}
+					else_if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tension_Compare > 0.00 } }
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up1_tt
+						add_to_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = 0.01 }
+					}
+					TSH_Bakumatsu_Debate_Influence_Country_Modify = yes
+					activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
+				}
+				else_if = {
+					limit = { tag = TSH }
+					if = {
+						limit = { check_variable = { TSH_Bakumatsu_Debate_Tension > 0.99 } }
+						# Start the Boshin War
+						country_event = shogunate_japan_choshu.1
+						clr_global_flag = TSH_Bakumatsu_Debate_Ongoing
+						set_global_flag = TSH_Boshin_War_Ongoing
+						
+					}
+					else = {
+						# Continue Tensions
+						custom_effect_tooltip = TSH_Bakumatsu_Debate_Tensions_Up1_tt
+						add_to_variable = { TSH_Bakumatsu_Debate_Tensions_Compare = 0.01 }
+						random_owned_controlled_state = {
+							limit = { 
+								is_in_japan = yes
+								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence < 0.9 }
+							}
+							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.02 }
+							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
+						}
+						random_owned_controlled_state = {
+							limit = { 
+								is_in_japan = yes
+								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence < 0.9 }
+							}
+							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = 0.01 }
+							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
+						}
+						random_owned_controlled_state = {
+							limit = { 
+								is_in_japan = yes
+								check_variable = { TSH_Bakumatsu_Debate_Emperor_Influence > 0.1 }
+							}
+							set_temp_variable = { TSH_Bakumatsu_Debate_Influence_Change = -0.01 }
+							TSH_Bakumatsu_Debate_Influence_State_Modify = yes
+						}
+						activate_mission = TSH_Mission_Bakumatsu_Modernization_Rising_Tensions
+					}
+				}
+			}
+		}
+	}
+
+	TSH_Mission_Bakumatsu_Modernization_Kanrin_Mahru = {
+		icon = generic_construction
+
+		allowed = { always = no }
+
+		activation = { always = no }
+
+		available = { always = no }
+
+		is_good = yes
+		fire_only_once = yes
+
+		days_mission_timeout = 120
+		days_remove = 120
+
+		modifier = {
+			experience_gain_navy = 0.03
+			command_power_gain = -0.15
+		}
+
+		timeout_effect = {
+			country_event = feudal_tokugawa_shogunate.11
+		}
+	}
+	
+	
   TSH_Mission_Bakumatsu_Modernization_Ansei_Purge = {
     icon = generic_nationalism
 
@@ -208,6 +230,7 @@ TSH_Category_Bakumatsu_Modernization = {
     fire_only_once = yes
 
     days_mission_timeout = 1000
+	days_remove = 1000
     
     modifier = {
       political_power_gain = -0.05
@@ -248,7 +271,7 @@ TSH_Category_Bakumatsu_Modernization = {
 	
 	TSH_decision_foreign_strategy_books = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_recruit_gifted_students
@@ -281,7 +304,7 @@ TSH_Category_Bakumatsu_Modernization = {
 		
 	TSH_decision_foreign_weapon_manuals = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_recruit_gifted_students
@@ -315,7 +338,7 @@ TSH_Category_Bakumatsu_Modernization = {
         }
     TSH_decision_foreign_engineering_manuals = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_recruit_gifted_students
@@ -349,7 +372,7 @@ TSH_Category_Bakumatsu_Modernization = {
   }	
   TSH_decision_foreign_naval_manuals = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_recruit_gifted_students
@@ -383,7 +406,7 @@ TSH_Category_Bakumatsu_Modernization = {
   }
   TSH_decision_foreign_technical_manuals = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_recruit_gifted_students
@@ -506,7 +529,7 @@ TSH_category_national_development = {
 
 	TSH_decision_new_dockyards = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 533
@@ -638,7 +661,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_develop_the_metropolises = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 533
@@ -700,7 +723,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_widen_the_aizu_nishi_kaido = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 533
@@ -747,7 +770,7 @@ TSH_category_national_development = {
   }	
 	TSH_decision_widen_the_kichirei_kaido = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 535
@@ -793,7 +816,7 @@ TSH_category_national_development = {
   }	
 	TSH_decision_widen_the_mito_kaido = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1267
@@ -839,7 +862,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_widen_the_iwatsuki_kaido = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 282
@@ -885,7 +908,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_road_projects_saga_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1259
@@ -936,7 +959,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_request_road_projects_saga_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1259
@@ -980,7 +1003,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_road_projects_tosa_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1053
@@ -1031,7 +1054,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_request_road_projects_tosa_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1053
@@ -1075,7 +1098,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_road_projects_satsuma_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1054
@@ -1126,7 +1149,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_request_road_projects_satsuma_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1054
@@ -1170,7 +1193,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_road_projects_choshu_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1210
@@ -1221,7 +1244,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_request_road_projects_choshu_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1210
@@ -1265,7 +1288,7 @@ TSH_category_national_development = {
     }
     TSH_decision_road_projects_date_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 533
@@ -1316,7 +1339,7 @@ TSH_category_national_development = {
   }	
 	TSH_decision_request_road_projects_date_domain = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 533
@@ -1360,7 +1383,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_refurbish_the_tokaido = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 532
@@ -1421,7 +1444,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_refurbish_the_nakasendo = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 535
@@ -1474,7 +1497,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_refurbish_the_koshu_kaido = {
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 535
@@ -1519,7 +1542,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_refurbish_the_nikko = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1267
@@ -1568,7 +1591,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_silk_mills_kyoto = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1106
@@ -1619,7 +1642,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_silk_mills_edo = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1266
@@ -1670,7 +1693,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_silk_mills_osaka = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1263
@@ -1720,7 +1743,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_silk_mills_hiroshima = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1261
@@ -1770,7 +1793,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_silk_mills_nagasaki = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1260
@@ -1820,7 +1843,7 @@ TSH_category_national_development = {
   }
 	TSH_decision_early_modernization_of_silk_industry = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		available = {
 			has_country_flag = TSH_silk_mills_nagasaki
@@ -1892,7 +1915,7 @@ TSH_category_tax_reform = {
 TSH_category_military_affairs = {
   TSH_decision_purchase_foreign_firearms = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_fireams_dealings
@@ -1926,7 +1949,7 @@ TSH_category_military_affairs = {
 
     TSH_decision_purchase_support_equipment = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_fireams_dealings
@@ -1960,7 +1983,7 @@ TSH_category_military_affairs = {
     
     TSH_decision_purchase_foreign_artillery = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_fireams_dealings
@@ -2104,7 +2127,7 @@ TSH_category_naval_affairs = {
 
 	TSH_decision_catalogue_naval_assets = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			OR = {
@@ -2134,7 +2157,7 @@ TSH_category_naval_affairs = {
   }	
 	TSH_decision_begin_centralization_of_naval_forces = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_country_flag = tsh_catalogue_naval_assets
@@ -2165,7 +2188,7 @@ TSH_category_naval_affairs = {
   }
 	TSH_decision_prussian_ship = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_foreign_steamship_dealing
@@ -2193,7 +2216,7 @@ TSH_category_naval_affairs = {
   }	
 	TSH_decision_american_ship = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_foreign_steamship_dealing
@@ -2221,7 +2244,7 @@ TSH_category_naval_affairs = {
   }		
 	TSH_decision_british_ironclad = {
 		
-		icon = GFX_decision_generic_construction
+		icon = generic_construction
 
 		available = {
 			has_completed_focus = TSH_vic_foreign_steamship_dealing
@@ -2252,7 +2275,7 @@ TSH_category_naval_affairs = {
 TSH_category_industrial_affairs = {
 	TSH_decision_steel_mill_nagasaki = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1260
@@ -2301,7 +2324,7 @@ TSH_category_industrial_affairs = {
   }	
 	TSH_decision_nagasaki_arsenal_nagasaki = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1260
@@ -2350,7 +2373,7 @@ TSH_category_industrial_affairs = {
   }	
 	TSH_decision_nagasaki_naval_foundry = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 1260
@@ -2399,7 +2422,7 @@ TSH_category_industrial_affairs = {
   }
 	TSH_decision_yokosuka_iron_mill = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 282
@@ -2448,7 +2471,7 @@ TSH_category_industrial_affairs = {
   }
 	TSH_decision_yokosuka_weapons_foundry = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 282
@@ -2497,7 +2520,7 @@ TSH_category_industrial_affairs = {
   }
 	TSH_decision_yokosuka_shipyard = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 282
@@ -2546,7 +2569,7 @@ TSH_category_industrial_affairs = {
   }
 	TSH_decision_yokosuka_ironworks = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		highlight_states = {
 			state = 282
@@ -2598,7 +2621,7 @@ TSH_category_industrial_affairs = {
 TSH_category_ansei_purge = {
   TSH_decision_death_of_yokoi_shonan = { 
 
-    icon = GFX_decision_generic_construction
+    icon = generic_construction
 
 		available = {
 		    NOT = { 
@@ -2664,7 +2687,7 @@ TSH_category_ansei_purge = {
   }
 	TSH_decision_death_of_shozan = { 
 
-        icon = GFX_decision_generic_construction
+        icon = generic_construction
 
 		available = {
 		    NOT = { 

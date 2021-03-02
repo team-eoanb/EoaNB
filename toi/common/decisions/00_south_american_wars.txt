@@ -1,6 +1,7 @@
 war_measures = {
 	
 	PAR_Paraguayan_War_decision = {
+		icon = generic_prepare_civil_war
 		ai_will_do = { factor = 100 }
 		available = {
 			URG = { surrender_progress > 0.2 }
@@ -66,6 +67,7 @@ war_measures = {
 	}
 	
 	BRA_triple_alliance_decision = {
+		icon = generic_prepare_civil_war
 		ai_will_do = { factor = 100 }
 		available = {
 			BRA = { is_in_faction = no }
@@ -117,6 +119,7 @@ war_measures = {
 	}
 	
 	PAR_triple_alliance_decision = {
+		icon = generic_prepare_civil_war
 		ai_will_do = { factor = 100 }
 		available = {
 			BRA = { is_in_faction = no }
@@ -167,21 +170,37 @@ war_measures = {
 		}
 	}
 
-
+	
 	
 	HAI_spain_war_decision = {
+		icon = generic_prepare_civil_war
 		ai_will_do = { factor = 1 }
 		available = {
 			if = {
 				limit = { TAG = HAI }
-				controls_state = 1318
-				has_country_flag = HAI_spain_war
+				1318 = { is_fully_controlled_by = HAI }
 			}
 			if = {
-				limit = { TAG = SPR }
+				limit = { 
+					OR = {
+						TAG = DOM
+						TAG = SPR
+						TAG = USA
+						TAG = FRA
+					}
+				}
 				OR = {
-					SPR = { controls_state = 318 }
-					NOT = { country_exists = HAI }
+					any_country = { 
+						NOT = { TAG = HAI }
+						318 = { is_fully_controlled_by = PREV }
+					}
+					HAI = { 
+						OR = {
+							has_capitulated = yes
+							exists = no
+							surrender_progress > 0.9
+						}
+					}
 				}
 			}
 		}
@@ -189,10 +208,13 @@ war_measures = {
 		allowed = { 
 			OR = {
 				TAG = HAI 
+				TAG = DOM
 				TAG = SPR 
+				TAG = USA 
+				TAG = FRA 
 			}
 		}
-		activation = { HAI = { has_country_flag = HAI_spain_war } }
+		activation = { has_country_flag = HAI_spain_war }
 		selectable_mission = no
 		is_good = no
 		
@@ -207,8 +229,7 @@ war_measures = {
 				limit = { ROOT = { TAG = HAI } }
 				STATE = 1318
 			}
-			else_if = {
-				limit = { ROOT = { TAG = SPR } }
+			else = {
 				STATE = 318
 			}	
 		}
@@ -218,20 +239,45 @@ war_measures = {
 				limit = {
 					TAG = HAI
 					country_exists = HAI
-					HAI = { controls_state = 1318 }
+					HAI = { 1318  = { is_fully_controlled_by = PREV } }
 				}
 				HAI = { country_event = { id = hispaniola.4 } }
 			}
 			else_if = {
 				limit = {
-					TAG = SPR
-					SPR = { controls_state = 318 }
-					NOT = { country_exists = HAI }
+					OR = {
+						any_country = { 
+							NOT = { TAG = HAI }
+							318 = { is_fully_controlled_by = PREV }
+						}
+						NOT = { country_exists = HAI }
+						HAI = { has_capitulated = yes }
+						HAI = { surrender_progress > 0.9 }
+					}
 				}
-				SPR = { country_event = { id = hispaniola.5 } }
+				if = {
+					limit = {
+						DOM = { 
+							OR = {
+								is_subject_of = SPR
+								is_subject_of = USA
+								is_subject_of = FRA
+							}
+						}
+					}
+					DOM = { OVERLORD = { country_event = { id = hispaniola.5 } } }
+				}
+				else = { 1318 = { OWNER = { country_event = { id = hispaniola.5 } } } }
 			}
 			if = {
-				limit = { TAG = SPR }
+				limit = { 
+					OR = {
+						TAG = DOM
+						TAG = SPR
+						TAG = USA
+						TAG = FRA
+					}
+				}
 				custom_effect_tooltip = HAI_spain_war_decision_SPR_WIN
 			}
 			if = {
@@ -242,9 +288,27 @@ war_measures = {
 		timeout_effect = {
 			if = {
 				limit = {
-					SPR = { controls_state = 318 }
+					OR = {
+						any_country = { 
+							NOT = { TAG = HAI }
+							318 = { is_fully_controlled_by = PREV }
+						}
+						NOT = { country_exists = HAI }
+					}
 				}
-				SPR = { country_event = { id = hispaniola.5 } }
+				if = {
+					limit = {
+						DOM = { 
+							OR = {
+								is_subject_of = SPR
+								is_subject_of = USA
+								is_subject_of = FRA
+							}
+						}
+					}
+					DOM = { OVERLORD = { country_event = { id = hispaniola.5 } } }
+				}
+				else = { 1318 = { OWNER = { country_event = { id = hispaniola.5 } } } }
 			}
 			else = {
 				every_country = {
@@ -265,16 +329,17 @@ war_measures = {
 	}
 	
 	DOM_spain_war_decision = {
+		icon = generic_prepare_civil_war
 		ai_will_do = { factor = 1 }
 		available = {
 			if = {
 				limit = { TAG = DOM }
-				controls_state = 1318
+				1318 = { is_fully_controlled_by = DOM }
 			}
 			if = {
 				limit = { TAG = SPR }
 				OR = {
-					SPR = { controls_state = 319 }
+					1318 = { is_fully_controlled_by = DOM }
 					NOT = { country_exists = DOM }
 				}
 			}
@@ -319,14 +384,14 @@ war_measures = {
 				limit = {
 					TAG = DOM
 					country_exists = DOM
-					DOM = { controls_state = 1318 }
+					1318 = { is_fully_controlled_by = DOM }
 				}
 				DOM = { country_event = { id = hispaniola.9 } }
 			}
 			else_if = {
 				limit = {
 					TAG = SPR
-					SPR = { controls_state = 319 }
+					319 = { is_fully_controlled_by = SPR }
 				}
 				SPR = { country_event = { id = hispaniola.12 } }
 				hidden_effect = {
@@ -349,17 +414,18 @@ war_measures = {
 	}
 	
 	JAM_english_war_decision = {
+		icon = generic_prepare_civil_war
 		ai_will_do = { factor = 1 }
 		available = {
 			if = {
 				limit = { TAG = JAM }
-				controls_state = 689
-				NOT = {	has_idea = JAM_placeholder }
+				689 = { is_fully_controlled_by = JAM }
+				hidden_trigger = { NOT = {	has_idea = JAM_placeholder } }
 			}
 			if = {
 				limit = { TAG = ENG }
 				OR = {
-					ENG = { controls_state = 689 }
+					689 = { is_fully_controlled_by = ENG }
 					NOT = { country_exists = JAM }
 				}
 			}
@@ -395,7 +461,7 @@ war_measures = {
 				limit = {
 					TAG = JAM
 					country_exists = JAM
-					JAM = { controls_state = 689 }
+					689 = { is_fully_controlled_by = JAM }
 					has_country_flag = JAM_KINGSTON_1
 					NOT = {	has_idea = JAM_placeholder }
 				}
@@ -404,29 +470,30 @@ war_measures = {
 			if = {
 				limit = {
 					TAG = ENG
-					ENG = { controls_state = 689 }
+					689 = { is_fully_controlled_by = ENG }
 				}
 				hidden_effect = { ENG = { country_event = { id = jamaica.4 } } }
 			}
 			if = {
 				limit = { TAG = ENG }
-				custom_effect_tooltip = JAM_spain_war_decision_ENG_WIN
+				custom_effect_tooltip = JAM_english_war_decision_ENG_WIN
 			}
 			if = {
 				limit = { TAG = JAM }
-				custom_effect_tooltip = JAM_spain_war_decision_JAM_WIN
+				custom_effect_tooltip = JAM_english_war_decision_JAM_WIN
 			}
 		}
 		timeout_effect = {
-			activate_mission = JAM_english_war_decision
+			hidden_effect = { activate_mission = JAM_english_war_decision }
 		}
 	}
 	
 	PRT_spain_war_decision = {
+		icon = generic_prepare_civil_war
 		ai_will_do = { factor = 1 }
 		available = {
 			OR = {
-				controls_state = 686
+				686 = { is_fully_controlled_by = JAM }
 				NOT = { country_exists = PRT }
 			}
 		}
@@ -464,16 +531,17 @@ war_measures = {
 	}
 	
 	BRA_guyana_war_1857_decision = {
+		icon = generic_prepare_civil_war
 		ai_will_do = { factor = 1 }
 		available = {
 			if = {
 				limit = { TAG = BRA }
-				controls_state = 310
+				has_full_control_of_state = 310
 			}
 			if = {
 				limit = { TAG = FRA }
 				OR = {
-					FRA = { controls_state = 1323 }
+					FRA = { has_full_control_of_state = 1323 }
 					NOT = { country_exists = BRA }
 				}
 			}
@@ -514,14 +582,14 @@ war_measures = {
 				limit = {
 					TAG = BRA
 					country_exists = BRA
-					BRA = { controls_state = 310 }
+					310 = { is_fully_controlled_by = BRA }
 				}
 				BRA = { country_event = { id = brazil.21 } }
 			}
 			else_if = {
 				limit = {
 					TAG = FRA
-					FRA = { controls_state = 1323 }
+					1323 = { is_fully_controlled_by = FRA }
 				}
 				FRA = { country_event = { id = brazil.22 } }
 			}

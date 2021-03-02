@@ -4,7 +4,82 @@ focus_tree = {
 		factor = 0
 		modifier = {
 			add = 10
-				tag = TSH
+			tag = TSH
+		}
+	}
+	focus = {
+		id = TSH_vic_sign_amity_treaties
+		icon = GFX_focus_JAP_agree_to_trade
+		cost = 70
+
+		x = 3
+
+		available_if_capitulated = no
+		available = { always = no }
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			effect_increase_border = yes
+			load_oob = JAP_NAVAL_1859
+			set_country_flag = harris_treaty_signed
+			TSH_Bakumatsu_Modernization_Amity_Treaty_Sign_Tokugawa = yes
+			swap_ideas = {
+				remove_idea = closed_economy
+				add_idea = free_trade
+			}
+		}
+	}
+	focus = {
+		id = TSH_vic_handle_cholera_outbreak_1
+		icon = placeholder
+		cost = 42
+
+		relative_position_id = TSH_vic_sign_amity_treaties
+		x = -2
+		y = 1
+
+		available = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Cholera_Outbreak }
+		prerequisite = { focus = TSH_vic_sign_amity_treaties }
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			set_technology = { germ_theory = 1 }
+		}
+	}
+	focus = {
+		id = TSH_vic_handle_cholera_outbreak_2
+		icon = placeholder
+		cost = 105
+
+		relative_position_id = TSH_vic_handle_cholera_outbreak_1
+		y = 1
+		ai_will_do = { factor = 1 }
+
+		available = { 
+			has_idea = TSH_Spirit_Bakumatsu_Modernization_Cholera_Outbreak
+			date > 1859.7.1
+		}
+		prerequisite = { focus = TSH_vic_handle_cholera_outbreak_1 }
+
+		completion_reward = {
+			remove_ideas = TSH_Spirit_Bakumatsu_Modernization_Cholera_Outbreak
+		}
+	}
+	focus = {
+		id = TSH_vic_handle_cholera_outbreak_3
+		icon = GFX_goal_generic_scientific_exchange
+		cost = 105
+
+		relative_position_id = TSH_vic_handle_cholera_outbreak_2
+		y = 1
+		ai_will_do = { factor = 1 }
+
+		available_if_capitulated = no
+		prerequisite = { focus = TSH_vic_handle_cholera_outbreak_2 }
+
+		completion_reward = {
+			eoanb_add_1_prestige_score = yes
+			add_tech_bonus = { bonus = 0.2 uses = 2 category = biochemistry_tech }
 		}
 	}
 	focus = {
@@ -12,14 +87,19 @@ focus_tree = {
 		icon = GFX_focus_great_gold_exodus
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
+		
 		bypass = {
-			has_country_flag = TSH_open_port
+			NOT = { has_idea = TSH_vic_fiscal_crisis }
+			NOT = { has_idea = TSH_vic_fiscal_crisis_2 }
+			NOT = { has_idea = TSH_vic_fiscal_crisis_3 }
 		}
-		x = 7
-		y = 0
+		
+		relative_position_id = TSH_vic_sign_amity_treaties
+		x = 2
+		y = 1
+		
+		prerequisite = { focus = TSH_vic_sign_amity_treaties }
 		completion_reward = {
 			swap_ideas = {
 				add_idea = TSH_vic_fiscal_crisis_2
@@ -32,58 +112,48 @@ focus_tree = {
 		icon = GFX_focus_generic_self_management
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
 			focus = TSH_vic_great_gold_exodus
 		}
-		x = 7
+		relative_position_id = TSH_vic_great_gold_exodus
 		y = 1
+
+		bypass = {
+			NOT = { has_idea = TSH_vic_fiscal_crisis }
+			NOT = { has_idea = TSH_vic_fiscal_crisis_2 }
+			NOT = { has_idea = TSH_vic_fiscal_crisis_3 }
+		}
 		completion_reward = {
-			add_political_power = 50
+			add_political_power = 45
 		}
 	}
 	focus = {
 		id = TSH_vic_reign_in_han_currency
 		icon = GFX_goal_JAP_Han_Currency
-		cost = 70
+		cost = 85
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		mutually_exclusive = {
 			focus = TSH_vic_greater_control_on_gold_market
 		}
 		prerequisite = {
 			focus = TSH_vic_crisis_control
 		}
-		x = 6
-		y = 2
+
+		bypass = {
+			NOT = { has_idea = TSH_vic_fiscal_crisis }
+			NOT = { has_idea = TSH_vic_fiscal_crisis_2 }
+			NOT = { has_idea = TSH_vic_fiscal_crisis_3 }
+		}
+		relative_position_id = TSH_vic_crisis_control
+		x = -1
+		y = 1
+
 		completion_reward = {
 			add_political_power = 50
-			SAT = {
-				add_stability = -0.05
-				add_opinion_modifier = {
-					target = TSH
-					modifier = medium_decrease
-				}
-			}
-			CHO = {
-				add_stability = -0.05
-				add_opinion_modifier = {
-					target = TSH
-					modifier = medium_decrease
-				}
-			}
-			TOS = {
-				add_stability = -0.05
-				add_opinion_modifier = {
-					target = TSH
-					modifier = medium_decrease
-				}
-			}
-			SAG = {
+			every_country = {
+				limit = { has_idea = TSH_Spirit_Tozama_Daimyo }
 				add_stability = -0.05
 				add_opinion_modifier = {
 					target = TSH
@@ -99,38 +169,35 @@ focus_tree = {
 	focus = {
 		id = TSH_vic_greater_control_on_gold_market
 		icon = GFX_focus_increase_civillian_budget
-		cost = 70
+		cost = 85
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		mutually_exclusive = {
 			focus = TSH_vic_reign_in_han_currency
 		}
 		prerequisite = {
 			focus = TSH_vic_crisis_control
 		}
-		x = 8
-		y = 2
+
+		bypass = {
+			NOT = { has_idea = TSH_vic_fiscal_crisis }
+			NOT = { has_idea = TSH_vic_fiscal_crisis_2 }
+			NOT = { has_idea = TSH_vic_fiscal_crisis_3 }
+		}
+
+		relative_position_id = TSH_vic_crisis_control
+		x = 1
+		y = 1
 		completion_reward = {
 			add_political_power = 50
 			every_country = {
-				limit = {
-					OR = {
-						tag = ENG
-						tag = RUS
-						tag = HOL
-						tag = USA
-						tag = PRS
-						tag = FRA
-					}
-				}
+				limit = { has_idea = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_West }
 				add_opinion_modifier = {
 					target = TSH
 					modifier = minor_sanctions#custom modifer
 				}
 			}
-			swap_ideas={
+			swap_ideas = {
 				add_idea = TSH_vic_fiscal_crisis_3
 				remove_idea = TSH_vic_fiscal_crisis_2
 			}
@@ -141,34 +208,47 @@ focus_tree = {
 		icon = GFX_goal_focus_adopt_international_exchange_rates
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
 			focus = TSH_vic_greater_control_on_gold_market
 			focus = TSH_vic_reign_in_han_currency
 		}
-		x = 7
-		y = 3
+		relative_position_id = TSH_vic_crisis_control
+		y = 2
 		completion_reward = {
-			country_event = {id = shogunate_japan.3}
+			country_event = { id = shogunate_japan.3 }
 		}
 	}
 	focus = {
 		id = TSH_vic_issue_unbacked_notes
-		icon = GFX_goal_focus_issue_unbacked_notes_shine
+		icon = GFX_goal_focus_issue_unbacked_notes
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
 			focus = TSH_vic_international_exchange_rates
 		}
-		x = 6
-		y = 4
+		relative_position_id = TSH_vic_crisis_control
+		y = 3
+		x = -1
 		completion_reward = {
-			#??
+			add_political_power = 25
+			add_timed_idea = { idea = TSH_unbacked_notes_issued days = 200 }
+		}
+	}
+	focus = {
+		id = TSH_vic_issue_unbacked_notes_1
+		icon = GFX_goal_focus_JAP_reject_opium
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = { factor = 1 }
+		prerequisite = {
+			focus = TSH_vic_international_exchange_rates
+		}
+		relative_position_id = TSH_vic_crisis_control
+		y = 3
+		x = -3
+		completion_reward = {
 			add_political_power = 25
 			add_timed_idea = { idea = TSH_unbacked_notes_issued days = 200 }
 		}
@@ -178,14 +258,13 @@ focus_tree = {
 		icon = GFX_goal_JAP_Mexican_Pesos
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
 			focus = TSH_vic_international_exchange_rates
 		}
-		x = 8
-		y = 4
+		relative_position_id = TSH_vic_crisis_control
+		y = 3
+		x = 1
 		completion_reward = {
 			add_stability = 0.03
 			add_political_power = 25
@@ -194,11 +273,9 @@ focus_tree = {
 	focus = {
 		id = TSH_vic_adopt_weight_based_system
 		icon = GFX_goal_focus_return_to_weight_based_system
-		cost = 70
+		cost = 105
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
 			focus = TSH_vic_adopt_aratame_sanbu_sadame
 		}
@@ -208,10 +285,11 @@ focus_tree = {
 		available = {
 			has_political_power > 49
 		}
-		x =	7
-		y = 5
+		relative_position_id = TSH_vic_crisis_control
+		y = 4
 		completion_reward = {
-			add_political_power = -50
+			add_political_power = 25
+
 			remove_ideas = {
 				TSH_vic_fiscal_crisis_3
 			}
@@ -220,14 +298,7 @@ focus_tree = {
 
 			every_country = {
 				limit = {
-					OR = {
-						tag = ENG
-						tag = RUS
-						tag = HOL
-						tag = USA
-						tag = PRS
-						tag = FRA
-					}
+					has_idea = TSH_Spirit_Bakumatsu_Modernization_Amity_Treaty_West
 				}
 				remove_opinion_modifier = {
 					target = TSH
@@ -245,26 +316,31 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		prerequisite = {
-		}
-		x = 16
+		x = 13
 		y = 0
 		completion_reward = {
 		    add_political_power = 100
+			random_owned_controlled_state = {
+				limit = { is_demilitarized_zone = no }
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_controlled_state = {
+				limit = { is_demilitarized_zone = no }
+				add_extra_state_shared_building_slots = 1
+			}
 		}
 	}
 	focus = {
 		id = TSH_vic_assist_han_development
-		icon = GFX_focus_generic_industry_1
+		icon = GFX_goal_JAP_Han_Currency
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_national_development
+			focus = TSH_vic_national_development
 		}
-		x = 13
+		relative_position_id = TSH_vic_national_development
+		x = -3
 		y = 1
 		completion_reward = {
 		    add_political_power = 50
@@ -283,16 +359,14 @@ focus_tree = {
 	focus = {
 		id = TSH_vic_refurbish_the_kaido
 		icon = GFX_goal_generic_construct_infrastructure
-		cost = 70
+		cost = 105
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_assist_han_development
+			focus = TSH_vic_assist_han_development
 		}
-		x = 13
-		y = 2
+		relative_position_id = TSH_vic_assist_han_development
+		y = 1
 		completion_reward = {
 		    unlock_decision_tooltip = TSH_decision_widen_the_aizu_nishi_kaido
 			unlock_decision_tooltip = TSH_decision_widen_the_kichirei_kaido
@@ -305,126 +379,117 @@ focus_tree = {
 		icon = GFX_goal_focus_tozama_aid
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_refurbish_the_kaido
+			focus = TSH_vic_refurbish_the_kaido
 		}
 		mutually_exclusive = { focus = TSH_vic_focus_fudai }
-		x = 12
-		y = 3
+		relative_position_id = TSH_vic_refurbish_the_kaido
+		x = -1
+		y = 1
 		completion_reward = {
-		custom_effect_tooltip = "TSH_vic_tozama_investments"
-		hidden_effect = {
-		    unlock_decision_tooltip = TSH_decision_road_projects_saga_domain
-			SAG = { unlock_decision_tooltip = TSH_decision_request_road_projects_saga_domain }
+			# custom_effect_tooltip = "TSH_vic_tozama_investments"
+			unlock_decision_tooltip = TSH_decision_road_projects_saga_domain
 			unlock_decision_tooltip = TSH_decision_road_projects_tosa_domain
-			TOS = { unlock_decision_tooltip = TSH_decision_request_road_projects_tosa_domain }
 			unlock_decision_tooltip = TSH_decision_road_projects_choshu_domain
-			CHO = { unlock_decision_tooltip = TSH_decision_request_road_projects_choshu_domain }
 			unlock_decision_tooltip = TSH_decision_road_projects_satsuma_domain
-			SAT = { unlock_decision_tooltip = TSH_decision_request_road_projects_satsuma_domain }
+			hidden_effect = {
+				SAG = { unlock_decision_tooltip = TSH_decision_request_road_projects_saga_domain }
+				TOS = { unlock_decision_tooltip = TSH_decision_request_road_projects_tosa_domain }
+				CHO = { unlock_decision_tooltip = TSH_decision_request_road_projects_choshu_domain }
+				SAT = { unlock_decision_tooltip = TSH_decision_request_road_projects_satsuma_domain }
+			}
 		}
 	}
-}
 	focus = {
 		id = TSH_vic_tie_tozama
 		icon = GFX_goal_generic_improve_relations
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_focus_tozama
+			focus = TSH_vic_focus_tozama
 		}
-		x = 12
-		y = 4
+		available = {
+			has_country_leader = {
+				name = "Yoshinobu Tokugawa"
+				ruling_only = yes
+			}
+		}
+		relative_position_id = TSH_vic_focus_tozama
+		y = 1
 		completion_reward = {
-	    if = { 
-		    limit = { 
-		NOT = { has_country_flag = ansei_purge_completed } 
-		has_country_leader = {
-           name = "Yoshinobu Tokugawa"
-           ruling_only = yes
-           }
+			unlock_decision_tooltip = TSH_decision_address_saga_domain
+			unlock_decision_tooltip = TSH_decision_address_satsuma_domain
+			unlock_decision_tooltip = TSH_decision_address_tosa_domain
+			unlock_decision_tooltip = TSH_decision_address_choshu_domain
+			unlock_decision_tooltip = TSH_decision_address_date_domain
+			unlock_decision_tooltip = TSH_decision_address_daimyo_concerns
 		}
-		unlock_decision_tooltip = TSH_decision_address_saga_domain
-		unlock_decision_tooltip = TSH_decision_address_satsuma_domain
-		unlock_decision_tooltip = TSH_decision_address_tosa_domain
-		unlock_decision_tooltip = TSH_decision_address_choshu_domain
-		unlock_decision_tooltip = TSH_decision_address_date_domain
-		unlock_decision_tooltip = TSH_decision_address_daimyo_concerns
-        }
 	}
-}
 	
 	focus = {
 		id = TSH_vic_focus_fudai
-		icon = GFX_goal_generic_national_unity
+		icon = GFX_focus_JAP_tokugawa_crest
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
 		focus = TSH_vic_refurbish_the_kaido
 		}
 		mutually_exclusive = { focus = TSH_vic_focus_tozama }
-		x = 14
-		y = 3
+		relative_position_id = TSH_vic_refurbish_the_kaido
+		x = 1
+		y = 1
 		completion_reward = {
-		custom_effect_tooltip = "TSH_vic_fudai_investments"
-		hidden_effect = {
-		    unlock_decision_tooltip = TSH_decision_road_projects_date_domain
-			DTE = { unlock_decision_tooltip = TSH_decision_request_road_projects_date_domain }
-		}
-	}	
-}
+			# custom_effect_tooltip = "TSH_vic_fudai_investments"
+			unlock_decision_tooltip = TSH_decision_road_projects_date_domain
+			hidden_effect = {
+				DTE = { unlock_decision_tooltip = TSH_decision_request_road_projects_date_domain }
+			}
+		}	
+	}
 	focus = {
 		id = TSH_vic_tie_fudai
 		icon = GFX_goal_generic_major_alliance
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_focus_fudai
+			focus = TSH_vic_focus_fudai
 		}
-		x = 14
-		y = 4
+		relative_position_id = TSH_vic_refurbish_the_kaido
+		x = 1
+		y = 2
 		completion_reward = {
-		if = { 
-		    limit = { 
-		NOT = { has_country_flag = ansei_purge_completed } 
-		has_country_leader = {
-           name = "Yoshinobu Tokugawa"
-           ruling_only = yes
-           }
+			if = { 
+					limit = { 
+					NOT = { has_country_flag = ansei_purge_completed } 
+					has_country_leader = {
+						name = "Yoshinobu Tokugawa"
+						ruling_only = yes
+					}
+				}
+				unlock_decision_tooltip = TSH_decision_address_saga_domain
+				unlock_decision_tooltip = TSH_decision_address_satsuma_domain
+				unlock_decision_tooltip = TSH_decision_address_tosa_domain
+				unlock_decision_tooltip = TSH_decision_address_choshu_domain
+				unlock_decision_tooltip = TSH_decision_address_date_domain
+				unlock_decision_tooltip = TSH_decision_address_daimyo_concerns
+			}
 		}
-		unlock_decision_tooltip = TSH_decision_address_saga_domain
-		unlock_decision_tooltip = TSH_decision_address_satsuma_domain
-		unlock_decision_tooltip = TSH_decision_address_tosa_domain
-		unlock_decision_tooltip = TSH_decision_address_choshu_domain
-		unlock_decision_tooltip = TSH_decision_address_date_domain
-		unlock_decision_tooltip = TSH_decision_address_daimyo_concerns
-        }
 	}
-}
 	focus = {
 		id = TSH_vic_the_shihasho_territories
 		icon = GFX_goal_generic_construction2
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_national_development
+			focus = TSH_vic_national_development
 		}
-		x = 19
+		relative_position_id = TSH_vic_national_development
+		x = 3
 		y = 1
 		completion_reward = {
 		    add_timed_idea = {
@@ -438,33 +503,31 @@ focus_tree = {
 		icon = GFX_focus_tsh_money_guilds
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_the_shihasho_territories focus = TSH_vic_assist_han_development
+			focus = TSH_vic_the_shihasho_territories 
+			focus = TSH_vic_assist_han_development
 		}
-		x = 16
+		relative_position_id = TSH_vic_national_development
 		y = 2
 		completion_reward = {
-		    country_event = {id = shogunate_japan.17}
+		    country_event = { id = shogunate_japan.17 }
 		}
 	}
 	focus = {
 		id = TSH_vic_tax_reform
 		icon = GFX_goal_generic_tax_raise
-		cost = 70
+		cost = 105
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
+
 		prerequisite = {
-		focus = TSH_vic_kabunakama_monopoly_question
+			focus = TSH_vic_kabunakama_monopoly_question
 		}
-		x = 16
-		y = 5
+		relative_position_id = TSH_vic_kabunakama_monopoly_question
+		y = 2
 		completion_reward = {
-			activate_mission_tooltip = TSH_mission_tax_reform
+			activate_mission = TSH_mission_tax_reform
 		}
 	}
 	focus = {
@@ -472,14 +535,12 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civilian
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_the_shihasho_territories
+			focus = TSH_vic_the_shihasho_territories
 		}
-		x = 19
-		y = 2
+		relative_position_id = TSH_vic_the_shihasho_territories
+		y = 1
 		completion_reward = {
 		    unlock_decision_tooltip = TSH_decision_refurbish_the_tokaido
 			unlock_decision_tooltip = TSH_decision_refurbish_the_nakasendo
@@ -492,16 +553,14 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_refurbish_the_gokaido
+			focus = TSH_vic_refurbish_the_gokaido
 		}
-		x = 19
-		y = 3
+		relative_position_id = TSH_vic_refurbish_the_gokaido
+		y = 1
 		completion_reward = {
-		unlock_decision_tooltip = TSH_decision_develop_the_metropolises
+			unlock_decision_tooltip = TSH_decision_develop_the_metropolises
 		}
 	}
 	focus = {
@@ -509,16 +568,14 @@ focus_tree = {
 		icon = GFX_goal_generic_consumer_goods
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_develop_the_metropolises
+			focus = TSH_vic_develop_the_metropolises
 		}
-		x = 18
-		y = 4
+		relative_position_id = TSH_vic_develop_the_metropolises
+		x = -1
+		y = 1
 		completion_reward = {
-		hidden_effect = {
 		    add_ideas = TSH_silk_industry_2
 			unlock_decision_tooltip = TSH_decision_silk_mills_kyoto
 			unlock_decision_tooltip = TSH_decision_silk_mills_edo
@@ -526,23 +583,21 @@ focus_tree = {
 			unlock_decision_tooltip = TSH_decision_silk_mills_hiroshima
 			unlock_decision_tooltip = TSH_decision_silk_mills_nagasaki
 			unlock_decision_tooltip = TSH_decision_early_modernization_of_silk_industry
+			#custom_effect_tooltip = "TSH_vic_silk_industry_4"
 		}
-		custom_effect_tooltip = "TSH_vic_silk_industry_4"
 	}
-}
 	focus = {
 		id = TSH_vic_encourage_artisanship
 		icon = GFX_goal_generic_production2
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
-		}
+		ai_will_do = { factor = 1 }
 		prerequisite = {
-		focus = TSH_vic_develop_the_metropolises
+			focus = TSH_vic_develop_the_metropolises
 		}
-		x = 20
-		y = 4
+		relative_position_id = TSH_vic_develop_the_metropolises
+		x = 1
+		y = 1
 		completion_reward = {
 		    add_timed_idea = {
                 idea = TSH_encouraged_artisanship
@@ -555,72 +610,151 @@ focus_tree = {
 		icon = GFX_goal_generic_positive_trade_relations
 		cost = 70
 		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1
+		ai_will_do = { factor = 1 }
+		prerequisite = {
+			focus = TSH_vic_encourage_artisanship
 		}
 		prerequisite = {
-		focus = TSH_vic_encourage_artisanship
+			focus = TSH_vic_silk_industry
 		}
-		x = 20
-		y = 5
+		prerequisite = {
+			focus = TSH_vic_tax_reform
+		}
+		prerequisite = {
+			focus = TSH_vic_tie_fudai
+			focus = TSH_vic_tie_tozama
+		}
+		relative_position_id = TSH_vic_encourage_artisanship
+		x = -4
+		y = 1
 		completion_reward = {
-		     add_timed_idea = {
-                idea = TSH_expanding_financial_districts
-                days = 712
-            }
+			add_timed_idea = {
+				idea = TSH_expanding_financial_districts
+				days = 712
+			}
+		}
+	}
+	focus = {
+		id = TSH_vic_encourage_financial_districts_1
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 105
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+		available = {
+			has_political_power > 0
+			date > 1862.7.1
+		}
+		prerequisite = {
+			focus = TSH_vic_encourage_financial_districts
+		}
+		relative_position_id = TSH_vic_encourage_financial_districts
+		y = 1
+		completion_reward = {
+		    add_political_power = -35
+			random_owned_controlled_state = {
+				limit = { state_population > 1000000 }
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = TSH_vic_encourage_financial_districts_2
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 105
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 5
+		}
+		available = {
+			has_political_power > 0
+			date > 1862.7.1
+		}
+		prerequisite = {
+			focus = TSH_vic_encourage_financial_districts_1
+		}
+		relative_position_id = TSH_vic_encourage_financial_districts
+		y = 2
+		completion_reward = {
+		    add_political_power = -35
+			random_owned_controlled_state = {
+				limit = { state_population > 1000000 }
+				add_resource = {
+					type = coal
+					amount = 5
+				}
+			}
+			random_owned_controlled_state = {
+				limit = { state_population > 1000000 }
+				add_resource = {
+					type = wood
+					amount = 12
+				}
+			}
+			random_owned_controlled_state = {
+				limit = { is_coastal = yes }
+				add_resource = {
+					type = oil
+					amount = 1
+				}
+			}
 		}
 	}
 	###Westernization Branch
 	focus = {
 		id = TSH_vic_kaiseijo
-		icon = GFX_focus_research
+		icon = GFX_focus_TSH_kaiseijo
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
 		}
-		x = 25
-		y = 0
+		x = 1
+		y = 8
 		completion_reward = { 
-		    add_ideas = TSH_kaiseijo
+			add_ideas = TSH_kaiseijo
 		}
 	}
 	focus = {
 		id = TSH_vic_recruit_gifted_students
-		icon = GFX_goal_generic_scientific_exchange
-		cost = 70
+		icon = GFX_focus_generic_focus_recruit_gifted_students
+		cost =105
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
 		}
 		prerequisite = {
-		focus = TSH_vic_kaiseijo
+			focus = TSH_vic_kaiseijo
 		}
-		x = 25
-		y = 1
+		x = 1
+		y = 9
 		completion_reward = {
-		hidden_effect = {
-		    unlock_decision_tooltip = TSH_decision_foreign_strategy_books
+			unlock_decision_tooltip = TSH_decision_foreign_strategy_books
 			unlock_decision_tooltip = TSH_decision_foreign_weapon_manuals
 			unlock_decision_tooltip = TSH_decision_foreign_engineering_manuals
-            unlock_decision_tooltip = TSH_decision_foreign_naval_manuals
-            unlock_decision_tooltip = TSH_decision_foreign_technical_manuals			
-			}
-		custom_effect_tooltip = "TSH_vic_gifted_students"
+			unlock_decision_tooltip = TSH_decision_foreign_naval_manuals
+			unlock_decision_tooltip = TSH_decision_foreign_technical_manuals			
+			#custom_effect_tooltip = "TSH_vic_gifted_students"
+		}
 	}
-}
 	focus = {
 		id = TSH_vic_embassy_to_the_us
 		icon = GFX_focus_chi_mission_to_the_us
-		cost = 70
+		cost = 85
 		available_if_capitulated = no
+		available = { NOT = { has_war_with = USA } }
 		ai_will_do = {
 			factor = 1
 		}
-		x = 28
-		y = 0
+		x = 4
+		y = 8
 		completion_reward = {
-		    
+		    country_event = shogunate_japan.24
 		}
 	}
 	focus = {
@@ -628,63 +762,66 @@ focus_tree = {
 		icon = GFX_focus_chi_british_cooperation
 		cost = 70
 		available_if_capitulated = no
-		available = { NOT = { TSH { has_war_with = POR has_war_with = PRS has_war_with = HOL has_war_with = RUS has_war_with = FRA has_war_with = ENG  } } }
+		available = { has_war = no }
 		ai_will_do = {
 			factor = 1
 		}
 		prerequisite = {
-		focus = TSH_vic_embassy_to_the_us 
+			focus = TSH_vic_embassy_to_the_us 
 		}
 		prerequisite = {
-		focus = TSH_vic_kaiseijo
+			focus = TSH_vic_kaiseijo
 		}
-		x = 28
+		relative_position_id = TSH_vic_embassy_to_the_us
 		y = 1
 		completion_reward = {
-		    add_political_power = 100
+			country_event = shogunate_japan.25
 		}
 	}
 	focus = {
 		id = TSH_vic_second_embassy_to_europe
 		icon = GFX_focus_chi_reach_out_to_france
-		cost = 70
+		cost =105
 		available_if_capitulated = no
 		available = { has_country_flag = komei_orders_barbarian_expulsion has_country_flag = shimonoseki_bombarded }
 		ai_will_do = {
 			factor = 1
 		}
 		prerequisite = {
-		focus = TSH_vic_first_embassy_to_europe
+			focus = TSH_vic_first_embassy_to_europe
 		}
-		x = 28
+		relative_position_id = TSH_vic_embassy_to_the_us
 		y = 2
 		completion_reward = {
+			add_political_power = 100
+			country_event = shogunate_japan.25
 		}
 	}
 	focus = {
 		id = TSH_vic_us_embassy_review
-		icon = GFX_focus_research2
+		icon = GFX_goal_focus_JAP_science_usa_ind
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
 		}
 		prerequisite = {
-		focus = TSH_vic_embassy_to_the_us 
+			focus = TSH_vic_embassy_to_the_us 
 		}
 		prerequisite = {
-		focus = TSH_vic_kaiseijo
+			focus = TSH_vic_kaiseijo
 		}
-		x = 30
+		relative_position_id = TSH_vic_embassy_to_the_us
+		x = 2
 		y = 1
 		completion_reward = {
 		    add_tech_bonus = { bonus = 0.25 uses = 2 category = industry }
-			add_tech_bonus = { bonus = 0.25 uses = 1 category = infantry_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = artillery }
 		}
 	}
 	focus = {
 		id = TSH_vic_europe_embassy_review_i
-		icon = GFX_focus_research2
+		icon = GFX_goal_focus_JAP_science_eng_nav
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -693,17 +830,17 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_first_embassy_to_europe 
 		}
-		x = 30
+		relative_position_id = TSH_vic_embassy_to_the_us
+		x = 2
 		y = 2
 		completion_reward = {
-		    add_tech_bonus = { bonus = 0.25 uses = 2 category = industry }
 			add_tech_bonus = { bonus = 0.25 uses = 1 category = infantry_tech }
-			add_tech_bonus = { bonus = 0.25 uses = 1 category = naval_mtg_lineship_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = naval_mtg_lineship_tech }
 		}
 	}
 	focus = {
 		id = TSH_vic_europe_embassy_review_ii
-		icon = GFX_focus_research2
+		icon = GFX_goal_focus_JAP_science_fra_chem
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -712,10 +849,33 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_second_embassy_to_europe 
 		}
-		x = 30
+		relative_position_id = TSH_vic_embassy_to_the_us
+		x = 2
 		y = 3
 		completion_reward = {
+			eoanb_add_2_prestige_score = yes
 		    add_tech_bonus = { bonus = 0.25 uses = 1 category = industry }
+			add_tech_bonus = { bonus = 0.4 uses = 2 category = humanities_tech }
+		}
+	}
+	focus = {
+		id = TSH_vic_europe_embassy_review_iii
+		icon = GFX_goal_focus_JAP_science_hol_bio
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1
+		}
+		prerequisite = {
+		focus = TSH_vic_second_embassy_to_europe 
+		}
+		relative_position_id = TSH_vic_embassy_to_the_us
+		x = -2
+		y = 3
+		completion_reward = {
+			eoanb_add_2_prestige_score = yes
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = industry }
+			add_tech_bonus = { bonus = 0.4 uses = 2 category = humanities_tech }
 		}
 	}
 	###Army
@@ -727,15 +887,16 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-		x = 39
+		x = 38
 		y = 0
 		completion_reward = {
-		    add_political_power = 50
+			army_experience = 20
+			add_political_power = 50
 		}
 	}
 	focus = {
 		id = TSH_vic_reviewing_the_bakufu_army
-		icon = GFX_goal_generic_intelligence_exchange
+		icon = GFX_goal_focus_JAP_samurai_tactics
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -744,7 +905,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_bakufu_military 
 		}
-		x = 34
+		x = 33
 		y = 1
 		completion_reward = {
 		    add_tech_bonus = { bonus = 0.2 uses = 1 category = land_doctrine }
@@ -762,7 +923,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_reviewing_the_bakufu_army 
 		}
-		x = 34
+		x = 33
 		y = 2
 		completion_reward = {
 		add_timed_idea = {
@@ -782,7 +943,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_reorganization 
 		}
-		x = 33
+		x = 32
 		y = 3
 		completion_reward = {
 		add_timed_idea = {
@@ -802,7 +963,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_fund_training_schools 
 		}
-		x = 33
+		x = 32
 		y = 4
 		completion_reward = {
 		random_army_leader = {
@@ -828,7 +989,7 @@ focus_tree = {
 		focus = TSH_vic_training_a_new_generation focus = TSH_vic_unit_field_training
 		}
 		mutually_exclusive = { focus = TSH_vic_centralized_army_effort }
-		x = 33
+		x = 32
 		y = 5
 		completion_reward = {
 		    remove_ideas = {TSH_vic_sakoku_era_army}
@@ -842,7 +1003,7 @@ focus_tree = {
 	}
 	focus = {
 		id = TSH_vic_foreign_expertise
-		icon = GFX_focus_generic_military_mission
+		icon = GFX_goal_japan_foreign_expertise
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -851,7 +1012,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_reorganization 
 		}
-		x = 35
+		x = 34
 		y = 3
 		completion_reward = {
 		add_timed_idea = {
@@ -862,7 +1023,7 @@ focus_tree = {
 }
 	focus = {
 		id = TSH_vic_unit_field_training
-		icon = GFX_goal_generic_army_artillery
+		icon = GFX_focus_JAP_wooden_cannon
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -871,7 +1032,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_foreign_expertise 
 		}
-		x = 35
+		x = 34
 		y = 4
 		completion_reward = {
 		    army_experience = 25
@@ -890,7 +1051,7 @@ focus_tree = {
 		focus = TSH_vic_unit_field_training focus = TSH_vic_training_a_new_generation
 		}
 		mutually_exclusive = { focus = TSH_vic_rely_on_daimyo_levy }
-		x = 35
+		x = 34
 		y = 5
 		completion_reward = {
 		    add_political_power = 50
@@ -899,7 +1060,7 @@ focus_tree = {
 	}
 	focus = {
 		id = TSH_vic_integration_of_domain_leadership
-		icon = GFX_focus_generic_little_entente
+		icon = GFX_focus_JAP_daimyo_lords
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -908,7 +1069,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_rely_on_daimyo_levy 
 		}
-		x = 32
+		x = 31
 		y = 6
 		completion_reward = {
 		}
@@ -924,7 +1085,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_integration_of_domain_leadership 
 		}
-		x = 32
+		x = 31
 		y = 7
 		completion_reward = {
 			if = {
@@ -1010,7 +1171,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_greater_daimyo_contribution 
 		}
-		x = 32
+		x = 31
 		y = 8
 		completion_reward = {
 			add_ideas = TSH_shogunates_sword
@@ -1027,7 +1188,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_rely_on_daimyo_levy focus = TSH_vic_centralized_army_effort
 		}
-		x = 34
+		x = 33
 		y = 6
 		completion_reward = {
 		    unlock_decision_tooltip = TSH_decision_purchase_foreign_firearms
@@ -1045,7 +1206,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_fireams_dealings
 		}
-		x = 34
+		x = 33
 		y = 7
 		completion_reward = {
 		    unlock_decision_tooltip = TSH_decision_purchase_foreign_artillery
@@ -1062,7 +1223,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_centralized_army_effort
 		}
-		x = 36
+		x = 35
 		y = 6
 		completion_reward = {
 		    activate_mission_tooltip = TSH_mission_sakoku_army_reform
@@ -1079,7 +1240,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_formation_of_command
 		}
-		x = 36
+		x = 35
 		y = 7
 		completion_reward = {
 		    add_tech_bonus = { bonus = 0.2 uses = 1 category = land_doctrine }
@@ -1097,7 +1258,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_studey_western_field_tactics
 		}
-		x = 36
+		x = 35
 		y = 8
 		completion_reward = {
 		    add_tech_bonus = { bonus = 0.2 uses = 1 category = land_doctrine }
@@ -1114,7 +1275,7 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_study_field_command focus = TSH_vic_shogunates_sword
 		}
-		x = 34
+		x = 33
 		y = 9
 		completion_reward = {
 		}
@@ -1140,7 +1301,7 @@ focus_tree = {
 	}
 	focus = {
 		id = TSH_vic_kaigunsho
-		icon = GFX_goal_generic_navy_doctrines_tactics
+		icon = GFX_focus_JAP_naval_modernization_2
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1306,7 +1467,7 @@ focus_tree = {
 	}
 	focus = {
 		id = TSH_vic_naval_modernization 
-		icon = GFX_goal_focus_Naval_moderniszation
+		icon = GFX_focus_JAP_naval_modernization
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1430,7 +1591,7 @@ focus_tree = {
 	focus = {
 		id = TSH_vic_means_of_manufacture
 		icon = GFX_goal_focus_fund_factory
-		cost = 70
+		cost = 56
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
@@ -1441,7 +1602,7 @@ focus_tree = {
 		x = 52
 		y = 2
 		completion_reward = {
-		    add_tech_bonus = { bonus = 0.2 uses = 1 category = industry }
+			add_tech_bonus = { bonus = 0.2 uses = 1 category = industry }
 		}
 	}
 	focus = {
@@ -1453,12 +1614,12 @@ focus_tree = {
 			factor = 1
 		}
 		prerequisite = {
-		focus = TSH_vic_means_of_manufacture
+			focus = TSH_vic_means_of_manufacture
 		}
 		x = 51
 		y = 3
 		completion_reward = {
-		    add_tech_bonus = { bonus = 0.2 uses = 1 category = process_engineering_tech }
+			add_tech_bonus = { bonus = 0.3 uses = 1 category = process_engineering_tech }
 		}
 	}
 	focus = {
@@ -1475,7 +1636,7 @@ focus_tree = {
 		x = 49
 		y = 4
 		completion_reward = {
-		    unlock_decision_tooltip = TSH_decision_steel_mill_nagasaki
+			unlock_decision_tooltip = TSH_decision_steel_mill_nagasaki
 		}
 	}
 	focus = {
@@ -1492,7 +1653,7 @@ focus_tree = {
 		x = 49
 		y = 5
 		completion_reward = {
-		    unlock_decision_tooltip = TSH_decision_nagasaki_arsenal_nagasaki
+			unlock_decision_tooltip = TSH_decision_nagasaki_arsenal_nagasaki
 		}
 	}
 	focus = {
@@ -1565,7 +1726,7 @@ focus_tree = {
 	}
 	focus = {
 		id = TSH_vic_reverbatory_furnance
-		icon = GFX_goal_focus_fund_steel
+		icon = GFX_focus_JAP_preindustrial_ovens 
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1719,7 +1880,7 @@ focus_tree = {
 	}
 	focus = {
 		id = TSH_vic_yokosuka_technical_school
-		icon = GFX_goal_generic_production
+		icon = GFX_goal_japan_fund_training_schools
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1737,51 +1898,51 @@ focus_tree = {
 	###Political Branch 
 	focus = {
 		id = TSH_vic_the_illness_of_shogun_iesada #Needs Icon
-		icon = GFX_unknown
+		icon = GFX_focus_TSH_illness_of_shogun_iesada
 		cost = 70
 		available = { always = no }
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 1
 		}
-		x = 66
+		x = 24
 		y = 0
 		completion_reward = {
 		}
 	}
-	focus = {
-		id = TSH_vic_loyal_to_emperor #Needs Icon
-		icon = GFX_unknown
-		cost = 35
-		ai_will_do = {
-			factor = 0
-		}
-		x = 65
-		y = 1
-		completion_reward = {
-			add_political_power = 25
-			set_country_flag = TSH_Player_Chooses_Imperial_Faction_Flag
-			hidden_effect = {
-				country_event = shogunate_japan_boshin_anticheat.1
-			}
-		}
-	}
-	focus = {
-		id = TSH_vic_loyal_to_shogun #Needs Icon
-		icon = GFX_unknown
-		cost = 35
-		ai_will_do = {
-			factor = 1
-		}
-		x = 67
-		y = 1
-		completion_reward = {
-			add_political_power = 25
-		}
-	}
+	# focus = {
+	# 	id = TSH_vic_loyal_to_emperor #Needs Icon
+	# 	icon = GFX_unknown
+	# 	cost = 35
+	# 	ai_will_do = {
+	# 		factor = 0
+	# 	}
+	# 	x = 65
+	# 	y = 1
+	# 	completion_reward = {
+	# 		add_political_power = 25
+	# 		set_country_flag = TSH_Player_Chooses_Imperial_Faction_Flag
+	# 		hidden_effect = {
+	# 			country_event = shogunate_japan_boshin_anticheat.1
+	# 		}
+	# 	}
+	# }
+	# focus = {
+	# 	id = TSH_vic_loyal_to_shogun #Needs Icon
+	# 	icon = GFX_unknown
+	# 	cost = 35
+	# 	ai_will_do = {
+	# 		factor = 1
+	# 	}
+	# 	x = 67
+	# 	y = 1
+	# 	completion_reward = {
+	# 		add_political_power = 25
+	# 	}
+	# }
 	focus = {
 		id = TSH_vic_hitotsubashi_shogun #Needs Icon
-		icon = GFX_unknown
+		icon = GFX_focus_JAP_imperial_glory
 		cost = 70
 		available = { always = no }
 		available_if_capitulated = no
@@ -1789,11 +1950,11 @@ focus_tree = {
 			factor = 1
 		}
 		prerequisite = {
-			focus = TSH_vic_loyal_to_emperor
-			focus = TSH_vic_loyal_to_shogun
+			focus = TSH_vic_the_illness_of_shogun_iesada
 		}
-		x = 63
-		y = 2
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = -3
+		y = 1
 		completion_reward = {
 		}
 	}
@@ -1808,8 +1969,9 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_hitotsubashi_shogun 
 		}
-		x = 62
-		y = 3
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = -4
+		y = 2
 		completion_reward = {
 		}
 	}
@@ -1824,10 +1986,11 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_conciliate_the_court 
 		}
-		x = 62
-		y = 4
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = -4
+		y = 3
 		completion_reward = {
-		    remove_ideas = TSH_vic_sankin_kotai
+			remove_ideas = TSH_vic_sankin_kotai
 			TOS = { remove_ideas = TSH_sankin_kotai_obligations }
 			CHO = { remove_ideas = TSH_sankin_kotai_obligations }
 			SAT = { remove_ideas = TSH_sankin_kotai_obligations }
@@ -1847,15 +2010,16 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_hitotsubashi_shogun 
 		}
-		x = 64
-		y = 3
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = -2
+		y = 2
 		completion_reward = {
-		    add_ideas = TSH_political_restructuring
+			add_ideas = TSH_political_restructuring
 		}
 	}
 	focus = {
 		id = TSH_vic_level_the_field #Needs Icon
-		icon = GFX_unknown
+		icon = GFX_focus_geisha
 		cost = 70
 		available_if_capitulated = no
 		available = { NOT = { has_completed_focus = TSH_vic_kii_shogun } }
@@ -1865,10 +2029,11 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_restrict_fudai_favouritism 
 		}
-		x = 64
-		y = 4
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = -2
+		y = 3
 		completion_reward = {
-		    unlock_decision_tooltip = TSH_decision_unifying_the_nation
+			unlock_decision_tooltip = TSH_decision_unifying_the_nation
 			unlock_decision_tooltip = TSH_decision_negotiate_with_tozama_leaders
 			unlock_decision_tooltip = TSH_decision_sonno_joi
 		}
@@ -1883,11 +2048,11 @@ focus_tree = {
 			factor = 1
 		}
 		prerequisite = {
-			focus = TSH_vic_loyal_to_emperor
-			focus = TSH_vic_loyal_to_shogun
+			focus = TSH_vic_the_illness_of_shogun_iesada
 		}
-		x = 69
-		y = 2
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = 3
+		y = 1
 		completion_reward = {
 		    custom_effect_tooltip = TSH_kii_shogun_tt
 		}
@@ -1903,8 +2068,9 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_kii_shogun 
 		}
-		x = 69
-		y = 3
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = 3
+		y = 2
 		completion_reward = {
 		    activate_mission_tooltip = TSH_mission_purge_phase_1
 		}
@@ -1920,14 +2086,15 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_ansei_purge 
 		}
-		x = 69
-		y = 4
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = 3
+		y = 3
 		completion_reward = {
 		}
 	}
 	focus = {
 		id = TSH_vic_ban_daimyo_from_bakufu_positions #Needs Icon
-		icon = GFX_unknown
+		icon = GFX_focus_JAP_tokugawa_banner
 		cost = 70
 		available_if_capitulated = no
 		ai_will_do = {
@@ -1936,8 +2103,9 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_influence_the_imperial_court 
 		}
-		x = 70
-		y = 5
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = -3
+		y = 4
 		completion_reward = {
 		}
 	}
@@ -1952,8 +2120,9 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_ban_daimyo_from_bakufu_positions 
 		}
-		x = 70
-		y = 6
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = 4
+		y = 4
 		completion_reward = {
 		}
 	}
@@ -1971,7 +2140,9 @@ focus_tree = {
 		prerequisite = {
 		focus =  TSH_vic_level_the_field
 		}
-		x = 63
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		x = 4
 		y = 5
 		completion_reward = {
 		}
@@ -1987,8 +2158,8 @@ focus_tree = {
 		prerequisite = {
 		focus = TSH_vic_relax_sankin_kotai_attendance focus = TSH_vic_influence_the_imperial_court focus =  TSH_vic_level_the_field
 		}
-		x = 66
-		y = 5
+		relative_position_id = TSH_vic_the_illness_of_shogun_iesada
+		y = 4
 		completion_reward = {
 		}
 	}

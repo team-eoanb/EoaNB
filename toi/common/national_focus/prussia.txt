@@ -780,6 +780,7 @@ focus_tree = {
 					}
 				}
 			}
+			date > 1860.1.1
 			NOT = {
 				OR = {
 					has_country_flag = MHC_military_junta_army
@@ -829,6 +830,7 @@ focus_tree = {
 					}
 				}
 			}
+			date > 1860.1.1
 		}
 		ai_will_do = {
 			factor = 200
@@ -1331,6 +1333,13 @@ focus_tree = {
 				hidden_trigger = {
 					OR = {
 						has_cosmetic_tag = GER_north_confederation
+						has_cosmetic_tag = PRS_GER_liberal_republic
+						has_cosmetic_tag = PRS_GER_liberal_monarchy
+						has_cosmetic_tag = PRS_GER_bismarck
+						has_cosmetic_tag = PRS_GER_bismarck_imperial
+						has_cosmetic_tag = PRS_GER_bismarck_standard
+						has_cosmetic_tag = PRS_GER_bismarck_national
+						has_cosmetic_tag = PRS_GER_bismarck_hre
 						AND = {
 							MCK = { is_subject_of = PRS }
 							LCK = { is_subject_of = PRS }
@@ -1531,7 +1540,7 @@ focus_tree = {
 			add_political_power = 100
 			unlock_decision_tooltip = PRS_mission_draft_constitution
 			hidden_effect = {
-				PRS = { country_event = { days = 7 id = prussiaconstitutionngc.9 } }
+				PRS = { country_event = { id = prussiaconstitutionngc.9 } }
 				if = {
 					limit = { has_government = traditional_conservatism }	
 					PRS = { country_event = { days = 30 id = prussia.48 } }
@@ -1770,7 +1779,7 @@ focus_tree = {
 
 	focus = {
 		id = PRS_focus_ngc_aussenpolitik
-		icon = GFX_goal_focus_international_investments
+		icon = GFX_goal_focus_prussia_auswartiges_amt
 		x = 32
 		y = 5
 		cost = 70
@@ -2014,19 +2023,19 @@ focus_tree = {
 			custom_effect_tooltip = PRS_focus_conscrisis_resolved_effect_tt
 			custom_effect_tooltip = PRS_focus_tt_highly_unfinished_warning
 			custom_effect_tooltip = PRS_focus_tt_king_abdicate
-			PRS = { country_event = { days = 7 id = prussiaconscrisis.18 } }
+			PRS = { country_event = { days = 1 id = prussiaconscrisis.18 } }
 			hidden_effect = {
 				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
-
+	
 	focus = {
-		id = PRS_focus_restore_order
+		id = PRS_focus_tabula_rasa
 		icon = GFX_Focus_Government_Struggle
 		x = 39
 		y = 3
-		cost = 28
+		cost = 14
 		available_if_capitulated = no
 		allow_branch = {
 			has_completed_focus = PRS_king_abdicates
@@ -2037,45 +2046,29 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1000
 		}
+		bypass = {
+			PRS = { has_country_flag = PRS_compromise_successful }
+		}
 		
 		prerequisite = { focus = PRS_king_abdicates }
 
 		completion_reward = {
-			add_political_power = 100
-			add_stability = 0.03
-			increase_ps_by_one = yes
-		}
-	}
-	
-	focus = {
-		id = PRS_focus_new_prime_minister
-		icon = GFX_Focus_Government_Reform_Administration
-		x = 38
-		y = 4
-		cost = 14
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 1000
-		}
-
-		prerequisite = { focus = PRS_focus_restore_order }
-
-		completion_reward = {
-			add_popularity = { ideology = centrism popularity = 0.05 }
-			unlock_decision_tooltip = PRS_decision_new_prime_minister
+			PRS = { country_event = { id = prussiafriedrich.1 } }
 		}
 	}
 	
 	focus = {
 		id = PRS_focus_negotiate_with_parliament
 		icon = GFX_Focus_Government
-		x = 40
+		x = 38
 		y = 4
 		cost = 14
 		available_if_capitulated = no
 		available = {
-			has_completed_focus = PRS_focus_new_prime_minister
-			has_country_flag = PRS_new_prime_minister_flag
+			has_country_leader = {
+				name = "König Friedrich III"
+				ruling_only = yes
+			}
 		}
 		ai_will_do = {
 			factor = 1000
@@ -2084,13 +2077,36 @@ focus_tree = {
 			PRS = { has_country_flag = PRS_compromise_successful }
 		}
 
-		prerequisite = { focus = PRS_focus_restore_order }
+		prerequisite = { focus = PRS_focus_tabula_rasa }
 
 		completion_reward = {
 			PRS = { country_event = { id = prussiafriedrich.2 } }
-			hidden_effect = {
-				clr_country_flag = PRS_new_prime_minister_flag
-			}
+		}
+	}
+	
+	focus = {
+		id = PRS_focus_restore_order
+		icon = GFX_Focus_Government_Struggle
+		x = 40
+		y = 4
+		cost = 14
+		available_if_capitulated = no
+		available = {
+			has_completed_focus = PRS_focus_negotiate_with_parliament
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		bypass = {
+			PRS = { has_country_flag = PRS_compromise_successful }
+		}
+		
+		prerequisite = { focus = PRS_focus_tabula_rasa }
+
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.03
+			increase_ps_by_one = yes
 		}
 	}
 	
@@ -2107,12 +2123,36 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1000
 		}
+		bypass = {
+			PRS = { has_country_flag = PRS_compromise_successful }
+		}
 
-		prerequisite = { focus = PRS_focus_new_prime_minister }
 		prerequisite = { focus = PRS_focus_negotiate_with_parliament }
+		prerequisite = { focus = PRS_focus_restore_order }
 
 		completion_reward = {
 			remove_ideas = PRS_idea_constitutional_crisis
+			hidden_effect = {
+				clr_country_flag = PRS_compromise_negotiated_flag
+			}
+		}
+	}
+	
+	focus = {
+		id = PRS_focus_new_prime_minister
+		icon = GFX_Focus_Government_Reform_Administration
+		x = 39
+		y = 6
+		cost = 14
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 1000
+		}
+
+		prerequisite = { focus = PRS_focus_settle_verfassungskonflikt }
+
+		completion_reward = {
+			PRS = { country_event = { id = prussiafriedrich.3 } }
 			unlock_decision_tooltip = PRS_heeresreform_krupp_guns
 			unlock_decision_tooltip = PRS_heeresreform_improve_officer_training
 			unlock_decision_tooltip = PRS_heeresreform_army_logistics
@@ -2120,8 +2160,6 @@ focus_tree = {
 			unlock_decision_tooltip = PRS_heeresreform_war_games
 			unlock_decision_tooltip = PRS_heeresreform_strenghten_generalstab
 			hidden_effect = {
-				clr_country_flag = PRS_new_prime_minister_flag
-				clr_country_flag = PRS_compromise_negotiated_flag
 				clr_country_flag = PRS_compromise_successful
 			}
 		}
@@ -2134,19 +2172,33 @@ focus_tree = {
 		y = 7
 		cost = 35
 		available_if_capitulated = no
+		available = {
+			has_country_flag = PRS_new_prime_minister_flag
+		}
 		ai_will_do = {
 			factor = 100
 		}
 
-		prerequisite = { focus = PRS_focus_settle_verfassungskonflikt }
+		prerequisite = { focus = PRS_focus_new_prime_minister }
 
 		completion_reward = {
-			add_ideas = PRS_idea_liberal
+			if = {
+				limit = {
+					NOT = { has_idea = PRS_idea_new_era_1 }
+				}
+				add_ideas = PRS_idea_liberal_monarchy
+			}
+			else = {
+				add_political_power = 100
+			}
+			hidden_effect = {
+				clr_country_flag = PRS_new_prime_minister_flag
+			}
 		}
 	}
 
 	focus = {
-		id = PRS_focus_english_example
+		id = PRS_focus_british_example
 		icon = GFX_idea_ENG_focus_enact_law_uk
 		x = 35
 		y = 8
@@ -2160,7 +2212,7 @@ focus_tree = {
 		mutually_exclusive = { focus = PRS_focus_prussian_way }
 		
 		completion_reward = {
-			add_ideas = PRS_idea_english_style_rule
+			add_ideas = PRS_idea_british_style_rule
 		}
 	}
 
@@ -2175,16 +2227,17 @@ focus_tree = {
 			factor = 100
 		}
 
-		prerequisite = { focus = PRS_focus_english_example }
+		prerequisite = { focus = PRS_focus_british_example }
 
 		completion_reward = {
-			
+			add_political_power = 100
+			unlock_decision_category_tooltip = eoanb_category_PRS_Friedrich_III
 		}
 	}
 
 	focus = {
 		id = PRS_focus_expand_voting_rights
-		icon = GFX_Focus_Election
+		icon = GFX_goal_focus_encourage_voting_prussia
 		x = 32
 		y = 10
 		cost = 70
@@ -2196,7 +2249,7 @@ focus_tree = {
 		prerequisite = { focus = PRS_focus_constitutional_change }
 
 		completion_reward = {
-			
+			unlock_decision_tooltip = PRS_decision_expand_voting_rights
 		}
 	}
 	
@@ -2214,7 +2267,7 @@ focus_tree = {
 		prerequisite = { focus = PRS_focus_constitutional_change }
 
 		completion_reward = {
-			
+			unlock_decision_tooltip = PRS_decision_responsible_ministers
 		}
 	}
 	
@@ -2233,7 +2286,7 @@ focus_tree = {
 		prerequisite = { focus = PRS_focus_responsible_ministers }
 
 		completion_reward = {
-			add_ideas = PRS_idea_rule_of_law
+			unlock_decision_tooltip = PRS_decision_constitutional_adoption
 		}
 	}
 	
@@ -2244,42 +2297,31 @@ focus_tree = {
 		y = 9
 		cost = 70
 		available_if_capitulated = no
+		available = {
+			has_war = no
+			has_completed_focus = PRS_focus_rule_of_law
+		}
 		ai_will_do = {
 			factor = 100
 		}
 
-		prerequisite = { focus = PRS_focus_english_example }
+		prerequisite = { focus = PRS_focus_british_example }
 
 		completion_reward = {
-			
-		}
-	}
-	
-	focus = {
-		id = PRS_focus_strengthen_british_ties
-		icon = GFX_Focus_Diplomatic_Ally_ENG
-		x = 36
-		y = 10
-		cost = 70
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 100
-		}
-		
-		prerequisite = { focus = PRS_focus_foreign_policy_change }
-
-		completion_reward = {
-			
+			add_political_power = 150
 		}
 	}
 
 	focus = {
 		id = PRS_focus_endorse_free_trade
 		icon = GFX_goal_generic_positive_trade_relations
-		x = 38
+		x = 36
 		y = 10
 		cost = 70
 		available_if_capitulated = no
+		available = {
+			has_war = no
+		}
 		ai_will_do = {
 			factor = 100
 		}
@@ -2287,26 +2329,41 @@ focus_tree = {
 		prerequisite = { focus = PRS_focus_foreign_policy_change }
 
 		completion_reward = {
-			swap_ideas = { remove_idea = limited_exports add_idea = free_trade }
+			if = {
+				limit = {
+					has_idea = limited_exports
+				}
+				swap_ideas = { remove_idea = limited_exports add_idea = free_trade }
+			}
+			else_if = {
+				limit = {
+					has_idea = export_focus
+				}
+				swap_ideas = { remove_idea = export_focus add_idea = free_trade }
+			}
 		}
 	}
 	
 	focus = {
-		id = PRS_focus_revive_coburger_plan
-		icon = GFX_Focus_Partisans_Popularize
-		x = 37
-		y = 11
-		cost = 28
+		id = PRS_focus_strengthen_british_ties
+		icon = GFX_Focus_Diplomatic_Ally_ENG
+		x = 38
+		y = 10
+		cost = 70
 		available_if_capitulated = no
+		available = {
+			has_war = no
+		}
 		ai_will_do = {
 			factor = 100
 		}
 		
-		prerequisite = { focus = PRS_focus_strengthen_british_ties }
-		prerequisite = { focus = PRS_focus_endorse_free_trade }
+		prerequisite = { focus = PRS_focus_foreign_policy_change }
 
 		completion_reward = {
-			swap_ideas = { remove_idea = PRS_idea_english_style_rule add_idea = PRS_idea_english_style_rule_2 }
+			add_opinion_modifier = { target = ENG modifier = PRS_ENG_IMPROVEMENT_REL }
+			reverse_add_opinion_modifier = { target = ENG modifier = PRS_ENG_IMPROVEMENT_REL }
+			#Naval Agreement Decision?
 		}
 	}
 	
@@ -2322,17 +2379,85 @@ focus_tree = {
 		}
 		
 		prerequisite = { focus = PRS_focus_embrace_liberal_monarchy }
-		mutually_exclusive = { focus = PRS_focus_english_example }
+		mutually_exclusive = { focus = PRS_focus_british_example }
 		
 		completion_reward = {
+			add_ideas = PRS_idea_prussian_style_liberalism
+			add_political_power = 50
+		}
+	}
+	
+	focus = {
+		id = PRS_focus_full_rein_policy
+		icon = GFX_Focus_Continent_West_Europe
+		x = 41
+		y = 9
+		cost = 70
+		available_if_capitulated = no
+		available = {
+			has_war = no
+			has_completed_focus = PRS_focus_prussian_constitutionalism
+		}
+		ai_will_do = {
+			factor = 100
+		}
 		
+		prerequisite = { focus = PRS_focus_prussian_way }
+
+		completion_reward = {
+			add_political_power = 150
 		}
 	}
 
 	focus = {
+		id = PRS_focus_loosen_russian_ties
+		icon = GFX_focus_generic_coastal_fort
+		x = 40
+		y = 10
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		
+		prerequisite = { focus = PRS_focus_full_rein_policy }
+
+		completion_reward = {
+			add_opinion_modifier = { target = RUS modifier = PRS_RUS_LOOSEN_TIES_REL }
+			reverse_add_opinion_modifier = { target = RUS modifier = PRS_RUS_LOOSEN_TIES_REL }
+			#Approaching England Decision?
+		}
+	}
+	
+	focus = {
+		id = PRS_focus_expand_zollvereins_reach
+		icon = GFX_Focus_Economy_Reforms
+		x = 42
+		y = 10
+		cost = 70
+		available_if_capitulated = no
+		ai_will_do = {
+			factor = 100
+		}
+		
+		prerequisite = { focus = PRS_focus_full_rein_policy }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = limited_exports
+				}
+				swap_ideas = { remove_idea = limited_exports add_idea = export_focus }
+			}
+			#More Trade Treaty Decisions?
+			#Invite Austria to the Zollverein?
+		}
+	}
+	
+	focus = {
 		id = PRS_focus_constitutional_compromise
 		icon = GFX_Focus_Justice
-		x = 41
+		x = 45
 		y = 9
 		cost = 70
 		available_if_capitulated = no
@@ -2343,14 +2468,15 @@ focus_tree = {
 		prerequisite = { focus = PRS_focus_prussian_way }
 
 		completion_reward = {
-			
+			add_political_power = 100
+			unlock_decision_category_tooltip = eoanb_category_PRS_Friedrich_III
 		}
 	}
 	
 	focus = {
 		id = PRS_focus_confirm_parliament_rights
 		icon = GFX_focus_generic_treaty
-		x = 40
+		x = 44
 		y = 10
 		cost = 70
 		available_if_capitulated = no
@@ -2361,14 +2487,14 @@ focus_tree = {
 		prerequisite = { focus = PRS_focus_constitutional_compromise }
 
 		completion_reward = {
-			
+			unlock_decision_tooltip = PRS_decision_confirm_parliament_rights
 		}
 	}
 	
 	focus = {
 		id = PRS_focus_prolong_legislators_term
 		icon = GFX_goal_focus_working_hours
-		x = 42
+		x = 46
 		y = 10
 		cost = 70
 		available_if_capitulated = no
@@ -2379,14 +2505,14 @@ focus_tree = {
 		prerequisite = { focus = PRS_focus_constitutional_compromise }
 
 		completion_reward = {
-			
+			unlock_decision_tooltip = PRS_decision_prolong_legislators_term
 		}
 	}
 	
 	focus = {
 		id = PRS_focus_prussian_constitutionalism
 		icon = GFX_goal_focus_king_army_prs
-		x = 41
+		x = 45
 		y = 11
 		cost = 70
 		available_if_capitulated = no
@@ -2398,80 +2524,42 @@ focus_tree = {
 		prerequisite = { focus = PRS_focus_prolong_legislators_term }
 
 		completion_reward = {
-			
+			unlock_decision_tooltip = PRS_decision_prussian_constitutionalism
 		}
 	}
 	
 	focus = {
-		id = PRS_focus_full_rein_policy
-		icon = GFX_Focus_Continent_West_Europe
-		x = 45
-		y = 9
-		cost = 70
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 100
-		}
-		
-		prerequisite = { focus = PRS_focus_prussian_way }
-
-		completion_reward = {
-			
-		}
-	}
-
-	focus = {
-		id = PRS_focus_loosen_russian_ties
-		icon = GFX_focus_generic_coastal_fort
-		x = 44
-		y = 10
-		cost = 70
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 100
-		}
-		
-		prerequisite = { focus = PRS_focus_full_rein_policy }
-
-		completion_reward = {
-
-		}
-	}
-	
-	focus = {
-		id = PRS_focus_expand_zollvereins_reach
-		icon = GFX_Focus_Economy_Reforms
-		x = 46
-		y = 10
-		cost = 70
-		available_if_capitulated = no
-		ai_will_do = {
-			factor = 100
-		}
-		
-		prerequisite = { focus = PRS_focus_full_rein_policy }
-
-		completion_reward = {
-
-		}
-	}
-	
-	focus = {
-		id = PRS_focus_moralische_eroberungen
-		icon = GFX_Focus_Freedom_Association
-		x = 45
+		id = PRS_focus_revive_coburger_plan
+		icon = GFX_Focus_Partisans_Popularize
+		x = 39
 		y = 11
-		cost = 70
+		cost = 28
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 100
 		}
 		
-		prerequisite = { focus = PRS_focus_loosen_russian_ties }
-		prerequisite = { focus = PRS_focus_expand_zollvereins_reach }
-
+		prerequisite = { 
+			focus = PRS_focus_strengthen_british_ties
+			focus = PRS_focus_loosen_russian_ties
+		}
+		
+		prerequisite = { 
+			focus = PRS_focus_endorse_free_trade
+			focus = PRS_focus_expand_zollvereins_reach
+		}
+		
 		completion_reward = {
-
+			add_war_support = -0.05
+			every_other_country = {
+				limit = {
+					has_idea = GER_general_idea_ger_confed
+					NOT = { tag = AUS }
+					NOT = { tag = BAV }
+				} 
+				add_opinion_modifier = { target = ROOT modifier = PRS_COBURG_PLAN_REL }
+				reverse_add_opinion_modifier = { target = ROOT modifier = PRS_COBURG_PLAN_REL }
+			}
 		}
 	}
 
@@ -2537,9 +2625,6 @@ focus_tree = {
 		allow_branch = {
 			has_completed_focus = PRS_focus_bismarck
 		}
-		available = {
-			PRS = { has_country_flag = PRS_delivered_blut_und_eisen }
-		}
 		ai_will_do = {
 			factor = 200
 		}
@@ -2558,9 +2643,6 @@ focus_tree = {
 			unlock_decision_tooltip = PRS_heeresreform_new_tactics
 			unlock_decision_tooltip = PRS_heeresreform_war_games
 			unlock_decision_tooltip = PRS_heeresreform_strenghten_generalstab
-			hidden_effect = {
-				PRS = { clr_country_flag = PRS_delivered_blut_und_eisen }
-			}
 			hidden_effect = {
 				PRS = { set_variable = { political_legitimacy_equilibrium_custom = -0.20 }}
 			}
@@ -2681,9 +2763,23 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = -50
-			swap_ideas = {
-				remove_idea = free_press
-				add_idea = state_controlled_press
+			if = {
+				limit = {
+					has_idea = free_press
+				}
+				swap_ideas = {
+					remove_idea = free_press
+					add_idea = censored_press
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = censored_press
+				}
+				swap_ideas = {
+					remove_idea = censored_press
+					add_idea = state_controlled_press
+				}
 			}
 			hidden_effect = {
 				PRS = { country_event = { days = 7 id = prussiaconscrisis.29 } }
@@ -3399,6 +3495,7 @@ focus_tree = {
 				add_opinion_modifier = { target = ROOT modifier = PRS_SCHLESWIG_SUPPORT_REL }
 				reverse_add_opinion_modifier = { target = ROOT modifier = PRS_SCHLESWIG_SUPPORT_REL }
 			}
+			PRS = { country_event = { days = 1 id = secschwar.43 } }
 			hidden_effect = {
 				PRS = { 
 					clr_country_flag = PRS_event_federal_execution_granted_flag
@@ -3441,15 +3538,15 @@ focus_tree = {
 				limit = {
 					PRS = { has_country_flag = PRS_event_federal_execution_denied_flag }
 				}
-				PRS = { country_event { id = secschwar.23 } }
-				AUS = { country_event { id = secschwar.23 } }
+				PRS = { country_event = { id = secschwar.23 } }
+				AUS = { country_event = { id = secschwar.23 } }
 			}
 			else_if = {
 				limit = {
 					PRS = { has_country_flag = PRS_event_federal_execution_granted_flag }
 				}
-				PRS = { country_event { id = secschwar.24 } }
-				AUS = { country_event { id = secschwar.24 } }
+				PRS = { country_event = { id = secschwar.24 } }
+				AUS = { country_event = { id = secschwar.24 } }
 			}
 			hidden_effect = {
 				PRS = { 
@@ -3633,7 +3730,14 @@ focus_tree = {
 
 		completion_reward = {
 			add_war_support = 0.05
-			unlock_decision_tooltip = PRS_decision_PRS_ITA_alliance
+			if = {
+				limit = {
+					any_country = {
+						has_country_flag = is_literally_italy
+					}
+				}
+				unlock_decision_tooltip = PRS_decision_PRS_ITA_alliance
+			}
 			hidden_effect = {
 				PRS = { clr_country_flag = PRS_signs_of_war_GC_flag }
 			}
@@ -3817,21 +3921,15 @@ focus_tree = {
 				else = {
 					load_focus_tree = germany_united_focus
 				}
-			}
-			hidden_effect = {
-				PRS = { 
-					clr_country_flag = bismarck_cabinet_enabled
-					clr_country_flag = PRS_krupp_support_flag
-					clr_country_flag = PRS_siemens_support_flag
-				}
-				if = {
-					limit = {
-						is_ai = yes
+				PRS = {
+					if = {
+						limit = {
+							is_ai = yes
+						}
+						remove_ideas = PRS_hidden_idea_AI_lp_boost
 					}
-					remove_ideas = PRS_hidden_idea_AI_lp_boost
 				}
 			}
-			remove_ideas = PRS_german_national_movement_2
 		}
 	}
 

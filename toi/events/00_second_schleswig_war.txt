@@ -251,6 +251,7 @@ country_event = {
 		ai_chance = { factor = 0 }
 		add_stability = -0.1
 		add_political_power = -100
+		custom_effect_tooltip = PRS_focus_tt_highly_unfinished_warning
 		custom_effect_tooltip = eoanb_tt_event_secschwar_5
 		hidden_effect = {
 			#DEN = { country_event = { days = 21 id = secschwar.63 } } # Civil War
@@ -844,6 +845,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		custom_effect_tooltip = eoanb_event_london_conference_tt
 		hidden_effect = {
+		    DEN = { add_ideas = DEN_Lost_Schleswig_War }
 			DEN = { white_peace = PRS }
 			DEN = { white_peace = AUS }
 			PRS = { transfer_state = 58 }
@@ -1119,6 +1121,7 @@ country_event = {
 			PRS = { set_country_flag = eoanb_flag_won_2_schleswig_war }
 			PRS = { if = { limit = { has_idea = DEN_pomerania_blockade } remove_ideas = DEN_pomerania_blockade } }
 			DEN = {
+			    add_ideas = DEN_Lost_Schleswig_War
 				remove_ideas = hidden_idea_never_surrender
 				remove_ideas = SCH_idea_profits_from_altona_1
 			}
@@ -1166,6 +1169,7 @@ country_event = {
 			PRS = { if = { limit = { has_idea = DEN_pomerania_blockade } remove_ideas = DEN_pomerania_blockade } }
 			DEN = { white_peace = SCH }
 			DEN = {
+			    add_ideas = DEN_Lost_Schleswig_War
 				remove_ideas = hidden_idea_never_surrender
 				remove_ideas = SCH_idea_profits_from_altona_1
 			}
@@ -1192,7 +1196,7 @@ country_event = {
 		hidden_effect = {
 			DEN = { white_peace = PRS }
 			DEN = { white_peace = AUS }
-			DEN = { release = SCH }
+			DEN = { end_puppet = SCH }
 			DEN = { white_peace = SCH }
 			SCH = { transfer_state = 58 }
 			SCH = { transfer_state = 949 }
@@ -1209,11 +1213,16 @@ country_event = {
 				}
 			}
 			SCH = { set_party_name = { ideology = autocracy name = SCH_autocracy_party_augustenburg } }
+			SCH = { give_military_access = PRS }
+			SCH = { give_military_access = AUS }
+			SCH = { inherit_technology = DEN }
+			SCH = { load_oob = "SCH_free_GC_member" }
 			SCH = { country_event = { id = secschwar.54 } }
 			clr_global_flag = eoanb_flag_second_schleswig_war
 			PRS = { set_country_flag = eoanb_flag_won_2_schleswig_war_gc }
 			PRS = { if = { limit = { has_idea = DEN_pomerania_blockade } remove_ideas = DEN_pomerania_blockade } }
 			DEN = {
+			    add_ideas = DEN_Lost_Schleswig_War
 				remove_ideas = hidden_idea_never_surrender
 				remove_ideas = SCH_idea_profits_from_altona_1
 			}
@@ -1370,7 +1379,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		custom_effect_tooltip = eoanb_tt_event_secschwar_42
 		hidden_effect = {
-			DEN = { release = SCH }
+			DEN = { end_puppet = SCH }
 			DEN = { white_peace = SCH }
 			SCH = { transfer_state = 58 }
 			SCH = { transfer_state = 949 }
@@ -1398,6 +1407,7 @@ country_event = {
 			PRS = { complete_national_focus = PRS_focus_end_of_ssw }
 			PRS = { increase_ps_by_one = yes }
 			DEN = {
+			    add_ideas = DEN_Lost_Schleswig_War
 				remove_ideas = hidden_idea_never_surrender
 				remove_ideas = SCH_idea_profits_from_altona_1
 			}
@@ -1586,7 +1596,6 @@ country_event = {
 	desc = secschwar.48.d
 	picture = GFX_event_danish_retreat
 	
-	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = {
@@ -1724,7 +1733,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		custom_effect_tooltip = eoanb_tt_event_secschwar_52
 		hidden_effect = {
-			DEN = { release = SCH }
+			DEN = { end_puppet = SCH }
 			DEN = { white_peace = SCH }
 			SCH = { transfer_state = 58 }
 			SCH = { transfer_state = 949 }
@@ -1753,6 +1762,7 @@ country_event = {
 			PRS = { complete_national_focus = PRS_focus_end_of_ssw }
 			PRS = { increase_ps_by_one = yes }
 			DEN = {
+			    add_ideas = DEN_Lost_Schleswig_War
 				remove_ideas = hidden_idea_never_surrender
 				remove_ideas = SCH_idea_profits_from_altona_1
 			}
@@ -1815,6 +1825,84 @@ country_event = {
 		remove_ideas = SCH_idea_ethnic_conflicts
 		add_ideas = GER_general_idea_ger_confed
 		add_ideas = SCH_idea_ethnic_conflicts_DEN
+		SCH = {
+			if = {
+				limit = {
+					has_idea = state_controlled_press
+				}
+				swap_ideas = { remove_idea = state_controlled_press add_idea = free_press }
+			}
+			else_if = {
+				limit = {
+					has_idea = censored_press
+				}
+				swap_ideas = { remove_idea = censored_press add_idea = free_press }
+			}
+		}
+		SCH = {
+			if = {
+				limit = {
+					has_idea = no_constitution
+				}
+				swap_ideas = { remove_idea = no_constitution add_idea = constitution_adopted }
+			}
+			else_if = {
+				limit = {
+					has_idea = human_rights
+				}
+				swap_ideas = { remove_idea = human_rights add_idea = constitution_adopted }
+			}
+			else_if = {
+				limit = {
+					has_idea = limited_constitution
+				}
+				swap_ideas = { remove_idea = limited_constitution add_idea = constitution_adopted }
+			}
+		}
+		SCH = {
+			if = {
+				limit = {
+					has_idea = no_elections
+				}
+				swap_ideas = { remove_idea = no_elections add_idea = limited_elections }
+			}
+		}
+		SCH = {
+			if = {
+				limit = {
+					has_idea = no_heir
+				}
+				swap_ideas = { remove_idea = no_heir add_idea = has_heir }
+			}
+		}
+		SCH = {
+			if = {
+				limit = {
+					has_idea = agrarian
+				}
+				swap_ideas = { remove_idea = agrarian add_idea = industrializing }
+			}
+		}
+		SCH = {
+			if = {
+				limit = {
+					has_idea = absolute_monarchy
+				}
+				swap_ideas = { remove_idea = absolute_monarchy add_idea = constitutional_monarchy }
+			}
+		}
+		SCH = {
+			if = {
+				limit = {
+					has_idea = absolutism
+				}
+				swap_ideas = { remove_idea = absolutism add_idea = universal_male_suffrage }
+			}
+		}
+		add_popularity = {
+			ideology = centrism
+			popularity = 0.4
+		}
 		hidden_effect = {
 			every_country = {
 				limit = {
@@ -1833,7 +1921,6 @@ country_event = {
 	desc = secschwar.55.d
 	picture = GFX_report_event_generic_peaceful_annexation
 	
-	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = {
@@ -1841,12 +1928,9 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = -10
 		SCH = { add_political_power = 10 }
-		every_other_country = {
-			limit = {
-				has_idea = GER_general_idea_ger_confed
-			}
-			add_opinion_modifier = { target = ROOT modifier = eoanb_SCHLESWIG_GC_MEMBER_REL }
-			reverse_add_opinion_modifier = { target = ROOT modifier = eoanb_SCHLESWIG_GC_MEMBER_REL }
+		ROOT = {
+			add_opinion_modifier = { target = FROM modifier = eoanb_SCHLESWIG_GC_MEMBER_REL }
+			reverse_add_opinion_modifier = { target = FROM modifier = eoanb_SCHLESWIG_GC_MEMBER_REL }
 		}
 	}
 }

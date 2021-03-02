@@ -6,6 +6,7 @@ add_namespace = prussiaelection
 add_namespace = prussiareformtroops
 add_namespace = prussiaconstitutionngc
 add_namespace = prussiafriedrich
+add_namespace = prussiaadvisors
 
 ### GENERAL EVENTS ###
 
@@ -566,9 +567,22 @@ country_event = {
 	option = {
 		name = prussia.23.a
 		ai_chance = { factor = 100 }
+		swap_ideas = {
+			remove_idea = hos_is_leader
+			add_idea = PRS_Wilhelm_I
+		}
 		remove_ideas = PRS_idea_prince_wilhelm_regency
-		remove_ideas = PRS_Friedrich_Wilhelm_IV
-		add_ideas = PRS_Wilhelm_I
+		hidden_effect = {
+			retire_ideology_leader = autocracy
+			create_country_leader = {
+				name = "König Wilhelm I"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				picture = "gfx/leaders/PRS/Portrait_PRS_Wilhelm_I.dds"
+				expire = "1889.1.1"
+				ideology = despotism
+				traits = { }
+			}
+		}	
 	}
 	
 }
@@ -1100,7 +1114,7 @@ country_event = {
 	id = prussia.42
 	title = prussia.42.t
 	desc = prussia.42.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_prussian_parliament_king
 	
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -1728,7 +1742,7 @@ country_event = {
 			}
 			create_corps_commander = {
 				name = "Friedrich Wilhelm von Preußen"
-				picture = "Portrait_PRS_Frederick_III.dds"
+				picture = "Portrait_PRS_Friedrich_III_military.dds"
 				traits = { PRS_prussian_general skilled_staffer }
 				skill = 3
 					attack_skill = 3
@@ -2044,17 +2058,17 @@ country_event = {
 	
 	option = {
 		name = prussiaconscrisis.1.a 
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 75 }
 		PRS = { add_ideas = PRS_army_reform }
 		add_stability = -0.02
 	}
 	
 	option = {
 		name = prussiaconscrisis.1.b 
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 25 }
 		add_political_power = -50
 		PRS = { add_ideas = PRS_army_reform }
-		add_stability = -0.03
+		add_stability = -0.05
 		PRS = { 
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
@@ -2121,7 +2135,7 @@ country_event = {
 	id = prussiaconscrisis.4
 	title = prussiaconscrisis.4.t
 	desc = prussiaconscrisis.4.d
-	picture = GFX_report_event_king_speech
+	picture = GFX_event_berliner_schloss
 	
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -2142,7 +2156,7 @@ country_event = {
 	id = prussiaconscrisis.5
 	title = prussiaconscrisis.5.t
 	desc = prussiaconscrisis.5.d
-	picture = GFX_report_event_king_speech
+	picture = GFX_event_berliner_schloss
 	
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -2328,7 +2342,7 @@ country_event = {
 	id = prussiaconscrisis.13
 	title = prussiaconscrisis.13.t
 	desc = prussiaconscrisis.13.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_prussian_parliament_king
 	
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -2348,7 +2362,7 @@ country_event = {
 	id = prussiaconscrisis.14
 	title = prussiaconscrisis.14.t
 	desc = prussiaconscrisis.14.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_prussian_parliament_king
 	
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -2370,7 +2384,7 @@ country_event = {
 	id = prussiaconscrisis.15
 	title = prussiaconscrisis.15.t
 	desc = prussiaconscrisis.15.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_prussian_parliament_king
 	
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -2392,7 +2406,7 @@ country_event = {
 	id = prussiaconscrisis.16
 	title = prussiaconscrisis.16.t
 	desc = prussiaconscrisis.16.d
-	picture = GFX_report_event_king_speech
+	picture = GFX_event_berliner_schloss
 	
 	fire_only_once = yes
 	hidden = yes
@@ -2420,7 +2434,7 @@ country_event = {
 	id = prussiaconscrisis.17
 	title = prussiaconscrisis.17.t
 	desc = prussiaconscrisis.17.d
-	picture = GFX_report_event_king_speech
+	picture = GFX_event_berliner_schloss
 	
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -2439,7 +2453,7 @@ country_event = {
 	id = prussiaconscrisis.18
 	title = prussiaconscrisis.18.t
 	desc = prussiaconscrisis.18.d
-	picture = GFX_report_event_king_speech
+	picture = GFX_event_berliner_schloss
 	
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -2447,10 +2461,13 @@ country_event = {
 	option = {
 		name = prussiaconscrisis.18.a 
 		ai_chance = { factor = 100 }
+		custom_effect_tooltip = PRS_focus_tt_king_abdicate
+		custom_effect_tooltip = PRS_focus_tt_unfinished_warning
 		add_political_power = -50
 		add_stability = -0.03
 		decrease_ps_by_one = yes
-		PRS = { country_event = { days = 7 id = prussiaconscrisis.19 } }
+		swap_ideas = { remove_idea = PRS_Wilhelm_I add_idea = hos_is_leader }
+		PRS = { country_event = { days = 3 id = prussiaconscrisis.19 } }
 	}
 }
 
@@ -2469,11 +2486,18 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = 25
 		add_stability = 0.01
-		custom_effect_tooltip = PRS_focus_tt_king_abdicate
-		custom_effect_tooltip = PRS_focus_tt_king_abdicate_warning
-		swap_ideas = { remove_idea = PRS_Wilhelm_I add_idea = PRS_Friedrich_III }
+		swap_ideas = { remove_idea = hos_is_leader add_idea = PRS_Friedrich_III }
 		swap_ideas = { remove_idea = PRS_idea_new_era add_idea = PRS_idea_new_era_1 }
 		hidden_effect = {
+			retire_ideology_leader = autocracy
+			create_country_leader = {
+				name = "König Friedrich III"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				picture = "gfx/leaders/PRS/Portrait_PRS_Wilhelm_I.dds"
+				expire = "1889.1.1"
+				ideology = despotism
+				traits = { }
+			}
 			if = {
 				limit = {
 					PRS = { has_completed_focus = PRS_find_compromise }
@@ -2633,9 +2657,6 @@ country_event = {
 		add_popularity = {
 			ideology = traditional_conservatism
 			popularity = 0.05
-		}
-		hidden_effect = {
-			PRS = { set_country_flag = PRS_delivered_blut_und_eisen }
 		}
 		hidden_effect = {
 			PRS = { country_event = { days = 13 id = prussiaconscrisis.27 } }
@@ -2949,6 +2970,7 @@ country_event = {
 		hidden_effect = {
 			add_opinion_modifier = { target = FROM modifier = PRS_REJECTED_SHIP_PURCHASE_REL }
 			reverse_add_opinion_modifier = { target = FROM modifier = PRS_REJECTED_SHIP_PURCHASE_REL }
+			PRS = { country_event = { days = 1 id = prussiaforeign.36 } }
 		}
 	}
 }
@@ -3612,6 +3634,201 @@ country_event = {
 	}
 }
 
+#Prussia - Which Side to Approach?
+country_event = {
+	id = prussiaforeign.31
+	title = prussiaforeign.31.t
+	desc = prussiaforeign.31.d
+	picture = GFX_event_wilhelmstrasse_staatsministerium
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = prussiaforeign.31.a
+		trigger = {
+			PRS = { NOT = { has_country_flag = PRS_USA_sell_guns_rejected_flag } }
+		}
+		ai_chance = { factor = 80 }
+		add_political_power = -10
+		hidden_effect = {
+			USA = { country_event = { days = 7 id = prussiaforeign.32 } }
+		}
+	}
+	
+	option = {
+		name = prussiaforeign.31.b
+		trigger = {
+			PRS = { NOT = { has_country_flag = PRS_CSA_sell_guns_rejected_flag } }
+		}
+		ai_chance = { 
+			factor = 20
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_political_power = -10
+		hidden_effect = {
+			CSA = { country_event = { days = 7 id = prussiaforeign.32 } }
+		}
+	}
+}
+
+#USA/CSA - Buy Guns Offered by Prussia?
+country_event = {
+	id = prussiaforeign.32
+	title = prussiaforeign.32.t
+	desc = prussiaforeign.32.d
+	picture = GFX_event_wilhelmstrasse_staatsministerium
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = prussiaforeign.32.a
+		ai_chance = { factor = 80 }
+		add_political_power = -10
+		hidden_effect = {
+			PRS = { country_event = { days = 7 id = prussiaforeign.33 } }
+		}
+	}
+	
+	option = {
+		name = prussiaforeign.32.b
+		ai_chance = { 
+			factor = 20
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_political_power = 10
+		hidden_effect = {
+			PRS = { country_event = { days = 7 id = prussiaforeign.34 } }
+		}
+	}
+}
+
+#Prussia - The Americans Agree to Buy Our Guns
+country_event = {
+	id = prussiaforeign.33
+	title = prussiaforeign.33.t
+	desc = prussiaforeign.33.d
+	picture = GFX_event_wilhelmstrasse_staatsministerium
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = prussiaforeign.33.a
+		ai_chance = { factor = 100 }
+		unlock_decision_tooltip = PRS_decision_sell_guns_USA
+		hidden_effect = {
+			if = {
+				limit = {
+					FROM = { tag = USA }
+				}
+				PRS = { set_country_flag = PRS_USA_sell_guns_flag }
+			}
+			else_if = {
+				limit = {
+					FROM = { tag = CSA }
+				}
+				PRS = { set_country_flag = PRS_CSA_sell_guns_flag }
+			}
+			PRS = { clr_country_flag = PRS_weapons_deal_proposed }
+		}
+	}
+}
+
+#Prussia - The Americans Don't Want Our Guns
+country_event = {
+	id = prussiaforeign.34
+	title = prussiaforeign.34.t
+	desc = prussiaforeign.34.d
+	picture = GFX_event_wilhelmstrasse_staatsministerium
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = prussiaforeign.34.a
+		ai_chance = { factor = 100 }
+		add_political_power = -10
+		hidden_effect = {
+			if = {
+				limit = {
+					FROM = { tag = USA }
+				}
+				PRS = { set_country_flag = PRS_USA_sell_guns_rejected_flag }
+			}
+			else_if = {
+				limit = {
+					FROM = { tag = CSA }
+				}
+				PRS = { set_country_flag = PRS_CSA_sell_guns_rejected_flag }
+			}
+			PRS = { clr_country_flag = PRS_weapons_deal_proposed }
+		}
+	}
+}
+
+#USA/CSA - Prussian Guns Have Arrived
+country_event = {
+	id = prussiaforeign.35
+	title = prussiaforeign.35.t
+	desc = prussiaforeign.35.d
+	picture = GFX_report_event_soldiers_marching
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaforeign.35.a
+		ai_chance = { factor = 100 }
+		add_timed_idea = {
+			idea = PRS_USA_guns_deal_ACW
+			days = 365
+		}
+		if = {
+			limit = {
+				FROM = {
+					is_ai = yes
+				}
+			}
+			ROOT = {	
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 3000
+					producer = PRS
+				}
+			}
+		}
+		else = {
+			ROOT = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 5000
+					producer = PRS
+				}
+			}
+		}
+	}
+}
+
+#Prussia - Inquiry for Foreign Ships Rejected
+country_event = {
+	id = prussiaforeign.36
+	title = prussiaforeign.36.t
+	desc = prussiaforeign.36.d
+	picture = GFX_event_wilhelmstrasse_staatsministerium
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = prussiaforeign.36.a
+		ai_chance = { factor = 100 }
+		add_political_power = -10
+	}
+}
+
 
 ### PRUSSIAN ELECTIONS ###
 
@@ -3620,7 +3837,7 @@ country_event = {
 	id = prussiaelection.1
 	title = prussiaelection.1.t
 	desc = prussiaelection.1.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_prussian_parliament_king
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3644,7 +3861,7 @@ country_event = {
 	id = prussiaelection.2
 	title = prussiaelection.2.t
 	desc = prussiaelection.2.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_prussian_parliament_king
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3687,7 +3904,7 @@ country_event = {
 	id = prussiaelection.3
 	title = prussiaelection.3.t
 	desc = prussiaelection.3.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_prussian_parliament_king
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3714,7 +3931,7 @@ country_event = {
 	id = prussiaelection.4
 	title = prussiaelection.4.t
 	desc = prussiaelection.4.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_prussian_parliament_king
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3741,7 +3958,7 @@ country_event = {
 	id = prussiaelection.5
 	title = prussiaelection.5.t
 	desc = prussiaelection.5.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_prussian_parliament_king
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3768,7 +3985,7 @@ country_event = {
 	id = prussiaelection.6
 	title = prussiaelection.6.t
 	desc = prussiaelection.6.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_prussian_parliament_king
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3784,6 +4001,24 @@ country_event = {
 				ideology = centrism
 				popularity = 0.1
 		}
+		if = {
+			limit = {
+				has_idea = censored_press
+			}
+			swap_ideas = {
+				remove_idea = censored_press
+				add_idea = free_press
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = state_controlled_press
+			}
+			swap_ideas = {
+				remove_idea = state_controlled_press
+				add_idea = censored_press
+			}
+		}
 	}
 }
 
@@ -3792,7 +4027,7 @@ country_event = {
 	id = prussiaelection.7
 	title = prussiaelection.7.t
 	desc = prussiaelection.7.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_berliner_schloss
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3813,7 +4048,7 @@ country_event = {
 	id = prussiaelection.8
 	title = prussiaelection.8.t
 	desc = prussiaelection.8.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_north_german_confederation_gathering
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3840,7 +4075,7 @@ country_event = {
 	id = prussiaelection.9
 	title = prussiaelection.9.t
 	desc = prussiaelection.9.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_north_german_confederation_gathering
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3869,7 +4104,7 @@ country_event = {
 	id = prussiaelection.10
 	title = prussiaelection.10.t
 	desc = prussiaelection.10.d
-	picture = GFX_report_event_generic_parliament
+	picture = GFX_event_north_german_confederation_gathering
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -3904,7 +4139,7 @@ country_event = {
 	id = prussiareformtroops.1
 	title = prussiareformtroops.1.t
 	desc = prussiareformtroops.1.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = no
@@ -3992,7 +4227,7 @@ country_event = {
 	id = prussiareformtroops.2
 	title = prussiareformtroops.2.t
 	desc = prussiareformtroops.2.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = no
@@ -4066,7 +4301,7 @@ country_event = {
 	id = prussiareformtroops.3
 	title = prussiareformtroops.3.t
 	desc = prussiareformtroops.3.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = no
@@ -4140,7 +4375,7 @@ country_event = {
 	id = prussiareformtroops.4
 	title = prussiareformtroops.4.t
 	desc = prussiareformtroops.4.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = no
@@ -4214,7 +4449,7 @@ country_event = {
 	id = prussiareformtroops.5
 	title = prussiareformtroops.5.t
 	desc = prussiareformtroops.5.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = no
@@ -4288,7 +4523,7 @@ country_event = {
 	id = prussiareformtroops.6
 	title = prussiareformtroops.6.t
 	desc = prussiareformtroops.6.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = no
@@ -4362,7 +4597,7 @@ country_event = {
 	id = prussiareformtroops.7
 	title = prussiareformtroops.7.t
 	desc = prussiareformtroops.7.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = no
@@ -4436,7 +4671,7 @@ country_event = {
 	id = prussiareformtroops.8
 	title = prussiareformtroops.8.t
 	desc = prussiareformtroops.8.d
-	picture = GFX_report_event_election_vote
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = no
@@ -4512,6 +4747,7 @@ country_event = {
 	id = prussiaconstitutionngc.1
 	title = prussiaconstitutionngc.1.t
 	desc = prussiaconstitutionngc.1.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -4571,6 +4807,7 @@ country_event = {
 	id = prussiaconstitutionngc.2
 	title = prussiaconstitutionngc.2.t
 	desc = prussiaconstitutionngc.2.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -4638,6 +4875,7 @@ country_event = {
 	id = prussiaconstitutionngc.3
 	title = prussiaconstitutionngc.3.t
 	desc = prussiaconstitutionngc.3.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -4701,6 +4939,7 @@ country_event = {
 	id = prussiaconstitutionngc.4
 	title = prussiaconstitutionngc.4.t
 	desc = prussiaconstitutionngc.4.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -4760,6 +4999,7 @@ country_event = {
 	id = prussiaconstitutionngc.5
 	title = prussiaconstitutionngc.5.t
 	desc = prussiaconstitutionngc.5.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -4839,13 +5079,20 @@ country_event = {
 	id = prussiaconstitutionngc.6
 	title = prussiaconstitutionngc.6.t
 	desc = prussiaconstitutionngc.6.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
 	
 	option = {
 		name = prussiaconstitutionngc.6.a
-		ai_chance = { factor = 95 }
+		ai_chance = { 
+			factor = 95
+			modifier = {
+				factor = 0
+				has_idea = PRS_idea_british_style_rule_2
+			}
+		}
 		add_stability = -0.02
 		if = {
 			limit = {
@@ -4868,14 +5115,7 @@ country_event = {
 			}
 			modifier = {
 				factor = 0
-				OR = {
-					has_idea = PRS_Wilhelm_I
-					has_idea = PRS_Friedrich_III
-				}
-			}
-			modifier = {
-				factor = 0
-				has_government = traditional_conservatism
+				has_idea = PRS_Wilhelm_I
 			}
 		}
 		add_stability = 0.02
@@ -4890,6 +5130,7 @@ country_event = {
 	id = prussiaconstitutionngc.7
 	title = prussiaconstitutionngc.7.t
 	desc = prussiaconstitutionngc.7.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -4949,6 +5190,7 @@ country_event = {
 	id = prussiaconstitutionngc.8
 	title = prussiaconstitutionngc.8.t
 	desc = prussiaconstitutionngc.8.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -5058,7 +5300,10 @@ country_event = {
 			}
 			modifier = {
 				factor = 0
-				has_government = traditional_conservatism
+				OR = {
+					has_government = traditional_conservatism
+					has_government = autocracy
+				}
 			}
 		}
 		if = {
@@ -5082,6 +5327,7 @@ country_event = {
 	id = prussiaconstitutionngc.10
 	title = prussiaconstitutionngc.10.t
 	desc = prussiaconstitutionngc.10.d
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -5109,6 +5355,7 @@ country_event = {
 	id = prussiaconstitutionngc.11
 	title = prussiaconstitutionngc.11.t
 	desc = prussiaconstitutionngc.11.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -5141,6 +5388,7 @@ country_event = {
 	id = prussiaconstitutionngc.14
 	title = prussiaconstitutionngc.14.t
 	desc = prussiaconstitutionngc.14.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -5161,6 +5409,7 @@ country_event = {
 	id = prussiaconstitutionngc.15
 	title = prussiaconstitutionngc.15.t
 	desc = prussiaconstitutionngc.15.d
+	picture = GFX_event_north_german_confederation_gathering
 	
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -5177,18 +5426,114 @@ country_event = {
 
 ### REIGN OF FRIEDRICH III ###
 
-#Choose new PM
+#Sack Prime Minister zu Hohenlohe-Ingelfingen
 country_event = {
 	id = prussiafriedrich.1
 	title = prussiafriedrich.1.t
 	desc = prussiafriedrich.1.d
+	picture = GFX_event_berliner_schloss
 	
 	is_triggered_only = yes
 	fire_only_once = yes
 	
+	timeout_days = 5
+	
 	option = {
 		name = prussiafriedrich.1.a
-		ai_chance = { factor = 30 }
+		ai_chance = { factor = 100 }
+		add_political_power = -50
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "König Friedrich III"
+			desc = "POLITICS_GENERIC_EOANB_DESC"
+			picture = "gfx/leaders/PRS/Portrait_PRS_Friedrich_III_young.dds"
+			expire = "1900.1.1"
+			ideology = conserv
+			traits = { }
+		}
+	}
+}
+
+#Negotiate Compromise with Parliament
+country_event = {
+	id = prussiafriedrich.2
+	title = prussiafriedrich.2.t
+	desc = prussiafriedrich.2.d
+	picture = GFX_event_prussian_parliament_king
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	timeout_days = 7
+	
+	option = {
+		name = prussiafriedrich.2.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = PRS_compromise_negotiated_tt
+		if = {
+			limit = {
+				has_idea = PRS_generalstab_2
+			}
+			swap_ideas = {
+				remove_idea = PRS_generalstab_2
+				add_idea = PRS_generalstab_1
+			}
+			add_political_power = -50
+		}
+		else = {
+			add_political_power = -100
+		}
+		add_popularity = {
+			ideology = traditional_conservatism
+			popularity = 0.2
+		}
+		hidden_effect = {
+			PRS = { set_country_flag = PRS_compromise_negotiated_flag }
+		}
+	}
+	
+	option = {
+		name = prussiafriedrich.2.b
+		ai_chance = { factor = 0 }
+		custom_effect_tooltip = PRS_compromise_negotiated_tt
+		if = {
+			limit = {
+				has_idea = PRS_landwehr_2
+			}
+			swap_ideas = {
+				remove_idea = PRS_landwehr_2
+				add_idea = PRS_landwehr_1
+			}
+			add_political_power = -50
+		}
+		else = {
+			add_political_power = -100
+		}
+		add_popularity = {
+			ideology = traditional_conservatism
+			popularity = 0.15
+		}
+		hidden_effect = {
+			PRS = { set_country_flag = PRS_compromise_negotiated_flag }
+		}
+	}
+}
+
+#Choose new PM
+country_event = {
+	id = prussiafriedrich.3
+	title = prussiafriedrich.3.t
+	desc = prussiafriedrich.3.d
+	picture = GFX_event_four_pm_candidates
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	timeout_days = 5
+	
+	option = {
+		name = prussiafriedrich.3.a
+		ai_chance = { factor = 25 }
 		custom_effect_tooltip = PRS_new_pm_Vincke_tt
 		set_party_name = { ideology = centrism long_name = PRS_centrism_party_vincke name = PRS_centrism_party_vincke }
 		hidden_effect = {
@@ -5197,7 +5542,7 @@ country_event = {
 			create_country_leader = {
 				name = "Georg von Vincke"
 				desc = "POLITICS_GENERIC_EOANB_DESC"
-				#picture = "Portrait_PRS_Georg_von_Vincke.dds"
+				picture = "Portrait_PRS_Georg_von_Vincke.dds"
 				expire = "1900.1.1"
 				ideology = moderatism
 				traits = { }
@@ -5207,8 +5552,8 @@ country_event = {
 	}
 	
 	option = {
-		name = prussiafriedrich.1.b
-		ai_chance = { factor = 30 }
+		name = prussiafriedrich.3.b
+		ai_chance = { factor = 25 }
 		custom_effect_tooltip = PRS_new_pm_Simson_tt
 		set_party_name = { ideology = centrism long_name = PRS_centrism_party name = PRS_centrism_party }
 		hidden_effect = {
@@ -5227,8 +5572,8 @@ country_event = {
 	}
 	
 	option = {
-		name = prussiafriedrich.1.c
-		ai_chance = { factor = 40 }
+		name = prussiafriedrich.3.c
+		ai_chance = { factor = 25 }
 		custom_effect_tooltip = PRS_new_pm_Virchow_tt
 		set_party_name = { ideology = centrism long_name = PRS_centrism_progressive_party_long name = PRS_centrism_progressive_party }
 		hidden_effect = {
@@ -5243,60 +5588,756 @@ country_event = {
 				traits = { }
 			}
 			PRS = { set_country_flag = PRS_new_prime_minister_flag }
+			remove_ideas = PRS_advisor_rudolf_virchow
+		}
+	}
+	
+	option = {
+		name = prussiafriedrich.3.e
+		ai_chance = { factor = 25 }
+		custom_effect_tooltip = PRS_new_pm_Heydt_tt
+		add_popularity = {
+			ideology = traditional_conservatism
+			popularity = 0.1
+		}
+		hidden_effect = {
+			retire_country_leader = yes
+			create_country_leader = {
+				name = "August von der Heydt"
+				desc = "POLITICS_GENERIC_EOANB_DESC"
+				picture = "Portrait_PRS_August_von_der_Heydt.dds"
+				expire = "1900.1.1"
+				ideology = conserv
+				traits = { }
+			}
+			PRS = { set_country_flag = PRS_new_prime_minister_flag }
+			remove_ideas = PRS_advisor_august_von_der_heydt
 		}
 	}
 }
 
-#Negotiate Compromise with Parliament
+### PRUSSIAN ADVISORS ###
+
+#Death of Ernst Moritz Arndt
 country_event = {
-	id = prussiafriedrich.2
-	title = prussiafriedrich.2.t
-	desc = prussiafriedrich.2.d
+	id = prussiaadvisors.1
+	title = prussiaadvisors.1.t
+	desc = prussiaadvisors.1.d
 	
 	is_triggered_only = yes
 	fire_only_once = yes
 	
 	option = {
-		name = prussiafriedrich.2.a
+		name = prussiaadvisors.1.a
 		ai_chance = { factor = 100 }
-		if = {
-			limit = {
-				has_idea = PRS_generalstab_2
-			}
-			swap_ideas = {
-				remove_idea = PRS_generalstab_2
-				add_idea = PRS_generalstab_1
-			}
-		}
-		else = {
-			add_political_power = -50
-		}
-		custom_effect_tooltip = PRS_compromise_negotiated_tt
 		hidden_effect = {
-			PRS = { clr_country_flag = PRS_new_prime_minister_flag }
-			PRS = { set_country_flag = PRS_compromise_negotiated_flag }
+			if = {
+				limit = {
+					has_idea = PRS_advisor_ernst_moritz_arndt
+				}
+				remove_ideas = PRS_advisor_ernst_moritz_arndt
+			}
+			set_country_flag = PRS_ernst_moritz_arndt_dead
 		}
 	}
+}
+
+#Death of Friedrich Christoph Dahlmann
+country_event = {
+	id = prussiaadvisors.2
+	title = prussiaadvisors.2.t
+	desc = prussiaadvisors.2.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
 	
 	option = {
-		name = prussiafriedrich.2.b
-		ai_chance = { factor = 0 }
-		if = {
-			limit = {
-				has_idea = PRS_landwehr_2
-			}
-			swap_ideas = {
-				remove_idea = PRS_landwehr_2
-				add_idea = PRS_landwehr_1
-			}
-		}
-		else = {
-			add_political_power = -50
-		}
-		custom_effect_tooltip = PRS_compromise_negotiated_tt
+		name = prussiaadvisors.2.a
+		ai_chance = { factor = 100 }
 		hidden_effect = {
-			PRS = { clr_country_flag = PRS_new_prime_minister_flag }
-			PRS = { set_country_flag = PRS_compromise_negotiated_flag }
+			if = {
+				limit = {
+					has_idea = PRS_advisor_friedrich_dahlmann
+				}
+				remove_ideas = PRS_advisor_friedrich_dahlmann
+			}
+			set_country_flag = PRS_friedrich_dahlmann_dead
+		}
+	}
+}
+
+#Death of Friedrich Julius Stahl
+country_event = {
+	id = prussiaadvisors.3
+	title = prussiaadvisors.3.t
+	desc = prussiaadvisors.3.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.3.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_friedrich_stahl
+				}
+				remove_ideas = PRS_advisor_friedrich_stahl
+			}
+			set_country_flag = PRS_friedrich_stahl_dead
+		}
+	}
+}
+
+#Death of Ferdinand Lassalle
+country_event = {
+	id = prussiaadvisors.4
+	title = prussiaadvisors.4.t
+	desc = prussiaadvisors.4.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.4.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_ferdinand_lassalle
+				}
+				remove_ideas = PRS_advisor_ferdinand_lassalle
+			}
+			set_country_flag = PRS_ferdinand_lassalle_dead
+		}
+	}
+}
+
+#Death of Carl von Bodelschwingh
+country_event = {
+	id = prussiaadvisors.5
+	title = prussiaadvisors.5.t
+	desc = prussiaadvisors.5.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.5.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_finance_carl_von_bodelschwingh
+				}
+				remove_ideas = PRS_advisor_finance_carl_von_bodelschwingh
+			}
+			set_country_flag = PRS_carl_bodelschwingh_dead
+		}
+	}
+}
+
+#Death of August von der Heydt
+country_event = {
+	id = prussiaadvisors.6
+	title = prussiaadvisors.6.t
+	desc = prussiaadvisors.6.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.6.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_august_von_der_heydt
+				}
+				remove_ideas = PRS_advisor_august_von_der_heydt
+			}
+			set_country_flag = PRS_august_heydt_dead
+		}
+	}
+}
+
+#Death of Ernst Ludwig von Gerlach
+country_event = {
+	id = prussiaadvisors.7
+	title = prussiaadvisors.7.t
+	desc = prussiaadvisors.7.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.7.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_ernst_gerlach
+				}
+				remove_ideas = PRS_advisor_ernst_gerlach
+			}
+			set_country_flag = PRS_ernst_gerlach_dead
+		}
+	}
+}
+
+#Death of Moritz August von Bethmann Hollweg
+country_event = {
+	id = prussiaadvisors.8
+	title = prussiaadvisors.8.t
+	desc = prussiaadvisors.8.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.8.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_moritz_bethmann_hollweg
+				}
+				remove_ideas = PRS_advisor_moritz_bethmann_hollweg
+			}
+			set_country_flag = PRS_moritz_bethmann_hollweg_dead
+		}
+	}
+}
+
+#Death of Friedrich von Wrangel
+country_event = {
+	id = prussiaadvisors.9
+	title = prussiaadvisors.9.t
+	desc = prussiaadvisors.9.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.9.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_general_wrangel
+				}
+				remove_ideas = PRS_advisor_general_wrangel
+			}
+			set_country_flag = PRS_friedrich_wrangel_dead
+		}
+	}
+}
+
+#Death of Albert Borsig
+country_event = {
+	id = prussiaadvisors.10
+	title = prussiaadvisors.10.t
+	desc = prussiaadvisors.10.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.10.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_albert_borsig
+				}
+				remove_ideas = PRS_advisor_albert_borsig
+			}
+			set_country_flag = PRS_albert_borsig_dead
+		}
+	}
+}
+
+#Death of Friedrich Albrecht zu Eulenburg
+country_event = {
+	id = prussiaadvisors.11
+	title = prussiaadvisors.11.t
+	desc = prussiaadvisors.11.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.11.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_friedrich_albrecht_zu_eulenburg
+				}
+				remove_ideas = PRS_advisor_friedrich_albrecht_zu_eulenburg
+			}
+			set_country_flag = PRS_friedrich_eulenburg_dead
+		}
+	}
+}
+
+#Death of Wilhelm Stieber
+country_event = {
+	id = prussiaadvisors.12
+	title = prussiaadvisors.12.t
+	desc = prussiaadvisors.12.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.12.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_wilhelm_stieber
+				}
+				remove_ideas = PRS_advisor_wilhelm_stieber
+			}
+			set_country_flag = PRS_wilhelm_stieber_dead
+		}
+	}
+}
+
+#Death of Heinrich Friedrich von Itzenplitz
+country_event = {
+	id = prussiaadvisors.13
+	title = prussiaadvisors.13.t
+	desc = prussiaadvisors.13.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.13.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_heinrich_friedrich_von_itzenplitz
+				}
+				remove_ideas = PRS_advisor_heinrich_friedrich_von_itzenplitz
+			}
+			set_country_flag = PRS_heinrich_itzenplitz_dead
+		}
+	}
+}
+
+#Death of Hermann Schulze-Delitzsch
+country_event = {
+	id = prussiaadvisors.14
+	title = prussiaadvisors.14.t
+	desc = prussiaadvisors.14.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.14.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_hermann_schulze_delitzsch
+				}
+				remove_ideas = PRS_advisor_hermann_schulze_delitzsch
+			}
+			set_country_flag = PRS_schulze_delitzsch_dead
+		}
+	}
+}
+
+#Death of Werner von Selchow - obsolete - prussiaadvisors.15
+
+#Death of Alexander von Schleinitz
+country_event = {
+	id = prussiaadvisors.16
+	title = prussiaadvisors.16.t
+	desc = prussiaadvisors.16.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.16.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_alexander_von_schleinitz
+				}
+				remove_ideas = PRS_advisor_alexander_von_schleinitz
+			}
+			set_country_flag = PRS_alexander_schleinitz_dead
+		}
+	}
+}
+
+#Death of Maximilian Duncker
+country_event = {
+	id = prussiaadvisors.17
+	title = prussiaadvisors.17.t
+	desc = prussiaadvisors.17.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.17.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_maximilian_duncker
+				}
+				remove_ideas = PRS_advisor_maximilian_duncker
+			}
+			set_country_flag = PRS_maximilian_duncker_dead
+		}
+	}
+}
+
+#Death of Alfred Krupp
+country_event = {
+	id = prussiaadvisors.18
+	title = prussiaadvisors.18.t
+	desc = prussiaadvisors.18.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.18.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_alfred_krupp
+				}
+				remove_ideas = PRS_advisor_alfred_krupp
+			}
+			set_country_flag = PRS_alfred_krupp_dead
+		}
+	}
+}
+
+#Death of Leopold Biesterfeld-Weißenfeld - obsolete - prussiaadvisors.19
+
+#Death of Maximilian von Forckenbeck
+country_event = {
+	id = prussiaadvisors.20
+	title = prussiaadvisors.20.t
+	desc = prussiaadvisors.20.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.20.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_max_forckenbeck
+				}
+				remove_ideas = PRS_advisor_max_forckenbeck
+			}
+			set_country_flag = PRS_max_forckenbeck_dead
+		}
+	}
+}
+
+#Death of Werner von Siemens
+country_event = {
+	id = prussiaadvisors.21
+	title = prussiaadvisors.21.t
+	desc = prussiaadvisors.21.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.21.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_werner_von_siemens
+				}
+				remove_ideas = PRS_advisor_werner_von_siemens
+			}
+			set_country_flag = PRS_werner_siemens_dead
+		}
+	}
+}
+
+#Death of Hermann von Helmholtz
+country_event = {
+	id = prussiaadvisors.22
+	title = prussiaadvisors.22.t
+	desc = prussiaadvisors.22.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.22.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_hermann_von_helmholtz
+				}
+				remove_ideas = PRS_advisor_hermann_von_helmholtz
+			}
+			set_country_flag = PRS_hermann_helmholtz_dead
+		}
+	}
+}
+
+#Death of Gustav Freytag
+country_event = {
+	id = prussiaadvisors.23
+	title = prussiaadvisors.23.t
+	desc = prussiaadvisors.23.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.23.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_gustav_freytag
+				}
+				remove_ideas = PRS_advisor_gustav_freytag
+			}
+			set_country_flag = PRS_gustav_freytag_dead
+		}
+	}
+}
+
+#Death of Georg von Bunsen
+country_event = {
+	id = prussiaadvisors.24
+	title = prussiaadvisors.24.t
+	desc = prussiaadvisors.24.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.24.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_georg_bunsen
+				}
+				remove_ideas = PRS_advisor_georg_bunsen
+			}
+			set_country_flag = PRS_georg_bunsen_dead
+		}
+	}
+}
+
+#Death of Ludwig Bamberger
+country_event = {
+	id = prussiaadvisors.25
+	title = prussiaadvisors.25.t
+	desc = prussiaadvisors.25.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.25.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_ludwig_bamberger
+				}
+				remove_ideas = PRS_advisor_ludwig_bamberger
+			}
+			set_country_flag = PRS_ludwig_bamberger_dead
+		}
+	}
+}
+
+#Death of Wilhelm Liebknecht
+country_event = {
+	id = prussiaadvisors.26
+	title = prussiaadvisors.26.t
+	desc = prussiaadvisors.26.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.26.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_wilhelm_liebknecht
+				}
+				remove_ideas = PRS_advisor_wilhelm_liebknecht
+			}
+			set_country_flag = PRS_wilhelm_liebknecht_dead
+		}
+	}
+}
+
+#Death of Friedrich Wilhelm Raiffeisen
+country_event = {
+	id = prussiaadvisors.27
+	title = prussiaadvisors.27.t
+	desc = prussiaadvisors.27.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.27.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_friedrich_raiffeisen
+				}
+				remove_ideas = PRS_advisor_friedrich_raiffeisen
+			}
+			set_country_flag = PRS_friedrich_raiffeisen_dead
+		}
+	}
+}
+
+#Death of Rudolf Virchow
+country_event = {
+	id = prussiaadvisors.28
+	title = prussiaadvisors.28.t
+	desc = prussiaadvisors.28.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.28.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_rudolf_virchow
+				}
+				remove_ideas = PRS_advisor_rudolf_virchow
+			}
+			set_country_flag = PRS_rudolf_virchow_dead
+		}
+	}
+}
+
+#Death of James Hobrecht
+country_event = {
+	id = prussiaadvisors.29
+	title = prussiaadvisors.29.t
+	desc = prussiaadvisors.29.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.29.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_james_hobrecht
+				}
+				remove_ideas = PRS_advisor_james_hobrecht
+			}
+			set_country_flag = PRS_james_hobrecht_dead
+		}
+	}
+}
+
+#Death of Theodor Mommsen
+country_event = {
+	id = prussiaadvisors.30
+	title = prussiaadvisors.30.t
+	desc = prussiaadvisors.30.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.30.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_theodor_mommsen
+				}
+				remove_ideas = PRS_advisor_theodor_mommsen
+			}
+			set_country_flag = PRS_theodor_mommsen_dead
+		}
+	}
+}
+
+#Death of Friedrich August von Holstein
+country_event = {
+	id = prussiaadvisors.31
+	title = prussiaadvisors.31.t
+	desc = prussiaadvisors.31.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.31.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_fritz_holstein
+				}
+				remove_ideas = PRS_advisor_fritz_holstein
+			}
+			set_country_flag = PRS_fritz_holstein_dead
+		}
+	}
+}
+
+#Death of August Bebel
+country_event = {
+	id = prussiaadvisors.32
+	title = prussiaadvisors.32.t
+	desc = prussiaadvisors.32.d
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = prussiaadvisors.32.a
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = PRS_advisor_august_bebel
+				}
+				remove_ideas = PRS_advisor_august_bebel
+			}
+			set_country_flag = PRS_august_bebel_dead
 		}
 	}
 }

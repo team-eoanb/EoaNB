@@ -1,6 +1,7 @@
 ﻿add_namespace = egy_debt_system
 add_namespace = egy_debt_system_test
 add_namespace = egy_debt_system_managed
+add_namespace = SPR_bankruptcy_events
 
 
 country_event = { 
@@ -196,12 +197,6 @@ country_event = { #a creditor demands payment
 		NOT = { has_country_flag = debt_declared_bankruptcy_flag }
 		has_idea = egy_vic_debt
 		check_variable = {ROOT.debt_level > 24}
-		NOT = { 
-			has_idea = one_percent
-			has_idea = egy_industry_cuts
-			has_idea = very_high_taxes
-			has_country_flag = paying_debt
-		}
 	}
 		
 	option = {#yes
@@ -238,7 +233,7 @@ country_event = { #a creditor demands payment
 		afr_decrease_military_spending = yes	
 		debt_level_decrease_by_1 = yes	
 	}
-	option = {#Default to payment mission
+	option = {#if laws can't change by payment is not being made, do the payment mission
 		name = egy_debt_system.6.e
 		ai_chance = { factor = 100 }
 		trigger = {
@@ -251,6 +246,19 @@ country_event = { #a creditor demands payment
 			limit = { NOT = { has_country_flag = paying_debt } }
 			activate_decision = eoanb_decision_debt_repayments
 		}
+	}
+	option = {#Default to more debt
+		name = egy_debt_system.6.f
+		ai_chance = { factor = 100 }
+		trigger = {
+			NOT = { 
+				has_idea = one_percent
+				has_idea = egy_industry_cuts
+				has_idea = very_high_taxes
+				has_country_flag = paying_debt 
+			}
+		}
+		debt_level_increase_by_2 = yes	
 	}
 	mean_time_to_happen = {
 		days = 500
@@ -274,7 +282,13 @@ country_event = { #the national debt hits unpayable high, we are forced to decla
 		
 	option = {#SHIT
 		name = egy_debt_system.7.a
-		ai_chance = { factor = 100 }
+		ai_chance = { 
+			base = 100 
+			modifier = {
+				factor = 0 
+				TAG = SPR
+			}
+		}
 		#add_ideas = edc_bankrupt
 		add_timed_idea = {
 			idea = edc_bankrupt
@@ -291,13 +305,91 @@ country_event = { #the national debt hits unpayable high, we are forced to decla
 				remove_ideas = egy_vic_debt_payments
 			}
 			country_event = { id = egy_debt_system.10 days = 5 }
-			#egy_public_consered_debt_1
-			#egy_public_consered_debt_2
-			#egy_public_consered_debt_3
-			#egy_public_consered_debt_4
-			#egy_public_consered_debt_5
-			#egy_industry_cuts
+			if = {
+				limit = { has_idea = egy_public_consered_debt_1 }
+				remove_ideas = egy_public_consered_debt_1
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_2 }
+				remove_ideas = egy_public_consered_debt_2
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_3 }
+				remove_ideas = egy_public_consered_debt_3
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_4 }
+				remove_ideas = egy_public_consered_debt_4
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_5 }
+				remove_ideas = egy_public_consered_debt_5
+			}
+			if = {
+				limit = { has_idea = egy_industry_cuts }
+				remove_ideas = egy_industry_cuts
+			}
 		}
+	}
+	
+	option = {#Spain's Option
+		name = egy_debt_system.7.b
+		trigger = { 
+			TAG = SPR 
+			owns_state = 169
+			169 = { NOT = { has_state_flag = SPR_sold_andalusia_mining_rights_flag } }
+		}
+		ai_chance = { 
+			base = 0 
+			modifier = {
+				add = 100 
+				TAG = SPR
+			}
+		}
+		add_timed_idea = {
+			idea = edc_bankrupt
+			days = 2555
+		}
+		set_variable = {debt_level = 0}
+		hidden_effect = {
+			country_event = { id = egy_debt_system_managed.1 days = 1277 }
+			remove_ideas = egy_vic_debt
+			if = {
+				limit = { has_idea = egy_vic_debt_payments }
+				remove_ideas = egy_vic_debt_payments
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_1 }
+				remove_ideas = egy_public_consered_debt_1
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_2 }
+				remove_ideas = egy_public_consered_debt_2
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_3 }
+				remove_ideas = egy_public_consered_debt_3
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_4 }
+				remove_ideas = egy_public_consered_debt_4
+			}
+			if = {
+				limit = { has_idea = egy_public_consered_debt_5 }
+				remove_ideas = egy_public_consered_debt_5
+			}
+			if = {
+				limit = { has_idea = egy_industry_cuts }
+				remove_ideas = egy_industry_cuts
+			}
+			country_event = { id = egy_debt_system.10 days = 5 }
+		}
+		if = {
+			limit = { has_dlc = "Man the Guns" }
+			ENG = { custom_effect_tooltip = SPR_sell_andalusia_mining_rights_tooltip }
+		}
+		else = { add_political_power = -200 }
+		ENG = { country_event = { id = SPR_bankruptcy_events.1 days = 15 } }
 	}
 	#mean_time_to_happen = {
 	#	days = 100

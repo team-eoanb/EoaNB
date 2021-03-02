@@ -1,31 +1,122 @@
 ﻿add_namespace = jamaica
+add_namespace = DCI_jamaica
 
-country_event = {
-	id = jamaica.1
-	title = jamaica.1.t
-	desc = jamaica.1.d
-	
+state_event = {
+	id = DCI_jamaica.1
+	title = DCI_jamaica.1.t
+	desc = DCI_jamaica.1.d
 	is_triggered_only = yes
 	
-	trigger = {
-		AND = {
-			TAG = ENG
-			#date > 1865.10.11
-			owns_state = 686
+	immediate = { ROOT = { set_state_flag = ENG_morant_bay_trial } }
+	
+	option = {
+		name = DCI_jamaica.1.a
+		ai_chance = {
+			base = 25
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = { 
+			689 = { state_event = { id = DCI_jamaica.2 days = 1 trigger_for = controller } }
+			ROOT = { set_state_flag = ENG_morant_bay_trial_guilty }
 		}
 	}
 	
 	option = {
-		name = jamaica.1.a
-		add_political_power = 10
-		hidden_effect = {
-			set_country_flag = ENG_morant_bay
+		name = DCI_jamaica.1.b
+		trigger = { OWNER = { has_political_power > 0 } }
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = { 
+			689 = { state_event = { id = DCI_jamaica.3 days = 1 trigger_for = controller } }
+			ROOT = { set_state_flag = ENG_morant_bay_trial_innocent }
 		}
 	}
 	
 }
 
-country_event = {
+state_event = {
+	id = DCI_jamaica.2
+	title = DCI_jamaica.2.t
+	desc = DCI_jamaica.2.d
+	is_triggered_only = yes
+	
+	option = {
+		name = DCI_jamaica.2.a
+		ROOT = { DCI_increase_by_1 = yes }
+		hidden_effect = { 689 = { state_event = { id = jamaica.1 days = 3 trigger_for = controller } } }
+	}
+}
+
+state_event = {
+	id = DCI_jamaica.3
+	title = DCI_jamaica.3.t
+	desc = DCI_jamaica.3.d
+	is_triggered_only = yes
+	
+	option = {
+		name = DCI_jamaica.3.a
+		hidden_effect = { 689 = { state_event = { id = jamaica.1 days = 3 trigger_for = controller } } }
+	}
+}
+
+state_event = {
+	id = jamaica.1
+	title = jamaica.1.t
+	desc = jamaica.1.d
+	is_triggered_only = yes
+
+	#trigger = {
+	#	AND = {
+	#		TAG = ENG
+	#		#date > 1865.10.11
+	#		owns_state = 686
+	#	}
+	#}
+	
+	immediate = { ROOT = { set_state_flag = ENG_morant_bay } }
+	
+	option = {
+		name = jamaica.1.a
+		ai_chance = {
+			base = 25
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = { 
+			689 = { state_event = { id = jamaica.2 days = 30 trigger_for = controller } }
+		}
+	}
+	
+	option = {
+		name = jamaica.1.b
+		trigger = { OWNER = { has_political_power > 0 } }
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+		OWNER = {
+			if = {
+				limit = { has_idea = DCI_random_event_push_universal_suffrage_idea }
+				modify_timed_idea = { idea = DCI_random_event_push_universal_suffrage_idea days = 120 } 
+			}
+			else = { add_timed_idea = { idea = DCI_random_event_push_universal_suffrage_idea days = 120 } }
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = { 
+			689 = { state_event = { id = DCI_jamaica.4 days = 30 trigger_for = controller } }
+		}
+	}
+}
+
+state_event = {
 	id = jamaica.2
 	title = jamaica.2.t
 	desc = jamaica.2.d
@@ -33,39 +124,124 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	trigger = {
-		AND = {
-			TAG = ENG
-			#date > 1865.11.11
-			has_country_flag = ENG_morant_bay
-		}
-	}
+	#trigger = {
+	#	AND = {
+	#		TAG = ENG
+	#		#date > 1865.11.11
+	#		has_country_flag = ENG_morant_bay
+	#	}
+	#}
 	
 	option = {
 		name = jamaica.2.a
-		add_political_power = 5
-		add_popularity = {
-			ideology = traditional_conservatism
-			popularity = 0.05
+		ROOT = { DCI_increase_by_10 = yes }
+		hidden_effect = { 
+			689 = { state_event = { id = DCI_jamaica.5 days = 6 trigger_for = controller } }
+		}
+	}
+	
+}
+
+state_event = {
+	id = DCI_jamaica.4
+	title = DCI_jamaica.4.t
+	desc = DCI_jamaica.4.d
+	is_triggered_only = yes
+	
+	option = {
+		name = DCI_jamaica.4.a
+		ROOT = { DCI_decrease_by_1 = yes }
+	}
+}
+
+state_event = {
+	id = DCI_jamaica.5
+	title = DCI_jamaica.5.t
+	desc = DCI_jamaica.5.d
+	is_triggered_only = yes
+	
+	option = {
+		name = DCI_jamaica.5.a
+		ai_chance = {
+			base = 25
 		}
 		hidden_effect = {
-			clr_country_flag = ENG_morant_bay
+			OWNER = {
+				add_popularity = {
+					ideology = centrism
+					popularity = -0.05
+				}
+			}
+		}
+		OWNER = {
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.05
+			}
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = { 
+			ROOT = { set_state_flag = ENG_morant_bay2 }
+			689 = { state_event = { id = DCI_jamaica.6 days = 3 trigger_for = controller } }
 		}
 	}
 	
 	option = {
-		name = jamaica.2.b
-		add_political_power = -5
-		add_popularity = {
-			ideology = centrism
-			popularity = 0.05
+		name = DCI_jamaica.5.b
+		trigger = { OWNER = { has_political_power > 0 } }
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
 		}
 		hidden_effect = {
-			clr_country_flag = ENG_morant_bay
-			set_country_flag = ENG_morant_bay2
+			OWNER = {
+				add_popularity = {
+					ideology = traditional_conservatism
+					popularity = -0.05
+				}
+			}
+		}
+		OWNER = {
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.03
+			}
+			add_popularity = {
+				ideology = social_egalitarianism
+				popularity = 0.02
+			}
+		}
+		custom_effect_tooltip = DCI_incident_outcome_tooltip
+		hidden_effect = { 
+			689 = { state_event = { id = DCI_jamaica.7 days = 3 trigger_for = controller } }
 		}
 	}
+}
+
+state_event = {
+	id = DCI_jamaica.6
+	title = DCI_jamaica.6.t
+	desc = DCI_jamaica.6.d
+	is_triggered_only = yes
 	
+	option = {
+		name = DCI_jamaica.6.a
+		ROOT = { DCI_increase_by_1 = yes }
+	}
+}
+
+state_event = {
+	id = DCI_jamaica.7
+	title = DCI_jamaica.7.t
+	desc = DCI_jamaica.7.d
+	is_triggered_only = yes
+	
+	option = {
+		name = DCI_jamaica.7.a
+	}
 }
 
 country_event = {
@@ -77,11 +253,13 @@ country_event = {
 	is_triggered_only = yes
 	
 	trigger = {
-		AND = {
+		is_historical_focus_on = no
+		owns_state = 689
+		#AND = {
 			TAG = ENG
 			#date > 1866.1.1
-			has_country_flag = ENG_morant_bay2
-		}
+			#has_country_flag = ENG_morant_bay2
+		#}
 	}
 	
 	option = {
@@ -89,6 +267,10 @@ country_event = {
 		hidden_effect = {
 			JAM = {	
 				transfer_state = 689
+				set_rule = {
+					can_create_factions = no
+					can_join_factions = no
+				}
 				load_oob = JAM_1865_KINGSTON
 				set_country_flag = JAM_KINGSTON_1
 				add_timed_idea = {
@@ -112,6 +294,10 @@ country_event = {
 		hidden_effect = {
 			JAM = {	
 				transfer_state = 689
+				set_rule = {
+					can_create_factions = no
+					can_join_factions = no
+				}
 				load_oob = JAM_1865_KINGSTON
 				set_country_flag = JAM_KINGSTON_1
 				add_timed_idea = {
@@ -127,8 +313,8 @@ country_event = {
 				target = ENG
 				type = annex_everything
 			}
-		change_tag_from = ENG	
-		}	
+			change_tag_from = ENG	
+		}
 	}
 	
 }
@@ -184,6 +370,9 @@ country_event = {
 			}
 			white_peace = JAM
 		}	
+		set_rule = {
+			can_join_factions = yes
+		}
 	}
 	
 }

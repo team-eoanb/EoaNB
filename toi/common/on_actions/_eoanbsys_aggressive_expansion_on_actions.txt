@@ -1,281 +1,281 @@
-on_actions = {
-
-	on_startup = {
-		effect = {
-			every_country = {
-				limit = { 
-                    has_aggressive_expansion = yes
-                }
-                set_variable = { aggressive_expansion = 0 }
-                set_variable = { aggressive_expansion_decay_rate = -0.01 }
-
-                clamp_variable = {
-                    var = aggressive_expansion
-                    min = 0
-                    max = 100
-                }
-            }
-		}
-	}
-
-    on_declare_war = {
-        effect = {
-            if = {
-                limit = {
-                    NOT = {
-                        FROM = { has_idea = pre_industrial_era }
-                    }
-                }
-                ROOT = {
-                    add_to_variable = {
-                        var = aggressive_expansion
-                        value = 2
-                    }
-                }
-            }
-        }
-    }
-
-    on_annex = {
-        effect = {
-            if = {
-                limit = {
-                    NOT = {
-                        ROOT = { has_idea = pre_industrial_era }
-                        FROM = { has_idea = pre_industrial_era }
-                        FROM = { is_subject_of = ROOT }
-                        FROM = { is_puppet_of = ROOT }
-                    }
-                    NOT = {
-                        AND = {
-                            ROOT = { tag = PIE }
-                            date > 1862.1.1
-                            FROM = {
-                                OR = {
-                                    tag = MOD
-                                    tag = TUS
-                                    tag = PAP
-                                    tag = NSC
-                                    tag = LVN
-                                    tag = PRM
-                                }
-                            }
-                        }
-                    }
-                }
-                ROOT = {
-                    add_to_variable = {
-                        var = aggressive_expansion
-                        value = 5
-                    }
-                }
-            }
-            if = {
-                limit = {
-                    FROM = { has_idea = pre_industrial_era }
-                    NOT = {
-                        FROM = { is_subject_of = ROOT }
-                        FROM = { is_puppet_of = ROOT }
-                    }
-                    NOT = {
-                        AND = {
-                            ROOT = { tag = PIE }
-                            date > 1862.1.1
-                            FROM = {
-                                OR = {
-                                    tag = MOD
-                                    tag = TUS
-                                    tag = PAP
-                                    tag = NSC
-                                    tag = LVN
-                                    tag = PRM
-                                }
-                            }
-                        }
-                    }
-                }
-                ROOT = {
-                    add_to_variable = {
-                        var = aggressive_expansion
-                        value = 2
-                    }
-                }
-            }
-        }
-    }
-
-    on_civil_war_end = {
-        effect = {
-            if = {
-                limit = {
-                    NOT = {
-                        ROOT = { has_idea = pre_industrial_era }
-                        FROM = { has_idea = pre_industrial_era }
-                        FROM = { is_subject_of = ROOT }
-                    }
-                }
-                ROOT = {
-                    subtract_from_variable = {
-                        var = aggressive_expansion
-                        value = 5
-                    }
-                }
-            }
-            if = {
-                limit = {
-                    FROM = { has_idea = pre_industrial_era }
-                    NOT = {
-                        FROM = { is_subject_of = ROOT }
-                    }
-                }
-                ROOT = {
-                    subtract_from_variable = {
-                        var = aggressive_expansion
-                        value = 2
-                    }
-                }
-            }
-            every_state = {
-                limit = {
-                    has_claimed_state_in_peace_conference = ROOT
-                    NOT = {
-                        is_claimed_by = ROOT
-                        is_core_of = ROOT
-                    }
-                }
-                ROOT = {
-                    subtract_from_variable = {
-                        var = aggressive_expansion
-                        value = 3
-                    }
-                }
-            }
-            every_state = {
-                limit = {
-                    has_claimed_state_in_peace_conference = ROOT
-                    is_claimed_by = ROOT
-                }
-                ROOT = {
-                    subtract_from_variable = {
-                        var = aggressive_expansion
-                        value = 1
-                    }
-                }
-            }
-        }
-    }
-
-    on_peaceconference_ended = {
-        effect = {
-            every_state = {
-                limit = {
-                    ROOT = {
-                        has_civil_war = no
-                    }
-                    has_claimed_state_in_peace_conference = ROOT
-                    NOT = {
-                        is_claimed_by = ROOT
-                        is_core_of = ROOT
-                    }
-                }
-                ROOT = {
-                    add_to_variable = {
-                        var = aggressive_expansion
-                        value = 3
-                    }
-                }
-            }
-            every_state = {
-                limit = {
-                    ROOT = {
-                        has_civil_war = no
-                    }
-                    has_claimed_state_in_peace_conference = ROOT
-                    is_claimed_by = ROOT
-                }
-                ROOT = {
-                    add_to_variable = {
-                        var = aggressive_expansion
-                        value = 1
-                    }
-                }
-            }
-        }
-    }
-
-    on_puppet = {
-        effect = {
-            ROOT = {
-                add_to_variable = {
-                    var = aggressive_expansion
-                    value = 5
-                }
-            }
-        }
-    }
-
-    on_capitulation = {
-        effect = {
-            if = {
-                limit = {
-                    NOT = {
-                        AND = {
-                            civilwar_target = ROOT
-                            civilwar_target = FROM
-                        }
-                    }
-                }
-                FROM = {
-                    subtract_from_variable = {
-                        var = aggressive_expansion
-                        value = 10
-                    }
-                }
-            }
-        }
-    }
-
-    on_release_as_free = {
-        effect = {
-            FROM = {
-                subtract_from_variable = {
-                    var = aggressive_expansion
-                    value = 4
-                }
-            }
-        }
-    }
-
-    on_release_as_puppet = {
-        effect = {
-            FROM = {
-                subtract_from_variable = {
-                    var = aggressive_expansion
-                    value = 1
-                }
-            }
-        }
-    }
-    
-    on_daily = {
-		effect = {
-            if = {
-				limit = { 
-                    has_aggressive_expansion = yes
-                    has_offensive_war = no
-                    has_civil_war = no
-                }
-                
-                ROOT = {
-                    add_to_variable = { aggressive_expansion = aggressive_expansion_decay_rate }
-                }
-
-                clamp_variable = {
-                    var = aggressive_expansion
-                    min = 0
-                    max = 100
-                }
-			}
-        }
-    }
-}
+#on_actions = {
+#
+#	on_startup = {
+#		effect = {
+#			every_country = {
+#				limit = { 
+#                    has_aggressive_expansion = yes
+#                }
+#                set_variable = { aggressive_expansion = 0 }
+#                set_variable = { aggressive_expansion_decay_rate = -0.01 }
+#
+#                clamp_variable = {
+#                    var = aggressive_expansion
+#                    min = 0
+#                    max = 100
+#                }
+#            }
+#		}
+#	}
+#
+#    on_declare_war = {
+#        effect = {
+#            if = {
+#                limit = {
+#                    NOT = {
+#                        FROM = { has_idea = pre_industrial_era }
+#                    }
+#                }
+#                ROOT = {
+#                    add_to_variable = {
+#                        var = aggressive_expansion
+#                        value = 2
+#                    }
+#                }
+#            }
+#        }
+#    }
+#
+#    on_annex = {
+#        effect = {
+#            if = {
+#                limit = {
+#                    NOT = {
+#                        ROOT = { has_idea = pre_industrial_era }
+#                        FROM = { has_idea = pre_industrial_era }
+#                        FROM = { is_subject_of = ROOT }
+#                        FROM = { is_puppet_of = ROOT }
+#                    }
+#                    NOT = {
+#                        AND = {
+#                            ROOT = { tag = PIE }
+#                            date > 1862.1.1
+#                            FROM = {
+#                                OR = {
+#                                    tag = MOD
+#                                    tag = TUS
+#                                    tag = PAP
+#                                    tag = NSC
+#                                    tag = LVN
+#                                    tag = PRM
+#                                }
+#                            }
+#                        }
+#                    }
+#                }
+#                ROOT = {
+#                    add_to_variable = {
+#                        var = aggressive_expansion
+#                        value = 5
+#                    }
+#                }
+#            }
+#            if = {
+#                limit = {
+#                    FROM = { has_idea = pre_industrial_era }
+#                    NOT = {
+#                        FROM = { is_subject_of = ROOT }
+#                        FROM = { is_puppet_of = ROOT }
+#                    }
+#                    NOT = {
+#                        AND = {
+#                            ROOT = { tag = PIE }
+#                            date > 1862.1.1
+#                            FROM = {
+#                                OR = {
+#                                    tag = MOD
+#                                    tag = TUS
+#                                    tag = PAP
+#                                    tag = NSC
+#                                    tag = LVN
+#                                    tag = PRM
+#                                }
+#                            }
+#                        }
+#                    }
+#                }
+#                ROOT = {
+#                    add_to_variable = {
+#                        var = aggressive_expansion
+#                        value = 2
+#                    }
+#                }
+#            }
+#        }
+#    }
+#
+#    on_civil_war_end = {
+#        effect = {
+#            if = {
+#                limit = {
+#                    NOT = {
+#                        ROOT = { has_idea = pre_industrial_era }
+#                        FROM = { has_idea = pre_industrial_era }
+#                        FROM = { is_subject_of = ROOT }
+#                    }
+#                }
+#                ROOT = {
+#                    subtract_from_variable = {
+#                        var = aggressive_expansion
+#                        value = 5
+#                    }
+#                }
+#            }
+#            if = {
+#                limit = {
+#                    FROM = { has_idea = pre_industrial_era }
+#                    NOT = {
+#                        FROM = { is_subject_of = ROOT }
+#                    }
+#                }
+#                ROOT = {
+#                    subtract_from_variable = {
+#                        var = aggressive_expansion
+#                        value = 2
+#                    }
+#                }
+#            }
+#            every_state = {
+#                limit = {
+#                    has_claimed_state_in_peace_conference = ROOT
+#                    NOT = {
+#                        is_claimed_by = ROOT
+#                        is_core_of = ROOT
+#                    }
+#                }
+#                ROOT = {
+#                    subtract_from_variable = {
+#                        var = aggressive_expansion
+#                        value = 3
+#                    }
+#                }
+#            }
+#            every_state = {
+#                limit = {
+#                    has_claimed_state_in_peace_conference = ROOT
+#                    is_claimed_by = ROOT
+#                }
+#                ROOT = {
+#                    subtract_from_variable = {
+#                        var = aggressive_expansion
+#                        value = 1
+#                    }
+#                }
+#            }
+#        }
+#    }
+#
+#    on_peaceconference_ended = {
+#        effect = {
+#            every_state = {
+#                limit = {
+#                    ROOT = {
+#                        has_civil_war = no
+#                    }
+#                    has_claimed_state_in_peace_conference = ROOT
+#                    NOT = {
+#                        is_claimed_by = ROOT
+#                        is_core_of = ROOT
+#                    }
+#                }
+#                ROOT = {
+#                    add_to_variable = {
+#                        var = aggressive_expansion
+#                        value = 3
+#                    }
+#                }
+#            }
+#            every_state = {
+#                limit = {
+#                    ROOT = {
+#                        has_civil_war = no
+#                    }
+#                    has_claimed_state_in_peace_conference = ROOT
+#                    is_claimed_by = ROOT
+#                }
+#                ROOT = {
+#                    add_to_variable = {
+#                        var = aggressive_expansion
+#                        value = 1
+#                    }
+#                }
+#            }
+#        }
+#    }
+#
+#    on_puppet = {
+#        effect = {
+#            ROOT = {
+#                add_to_variable = {
+#                    var = aggressive_expansion
+#                    value = 5
+#                }
+#            }
+#        }
+#    }
+#
+#    on_capitulation = {
+#        effect = {
+#            if = {
+#                limit = {
+#                    NOT = {
+#                        AND = {
+#                            civilwar_target = ROOT
+#                            civilwar_target = FROM
+#                        }
+#                    }
+#                }
+#                FROM = {
+#                    subtract_from_variable = {
+#                        var = aggressive_expansion
+#                        value = 10
+#                    }
+#                }
+#            }
+#        }
+#    }
+#
+#    on_release_as_free = {
+#        effect = {
+#            FROM = {
+#                subtract_from_variable = {
+#                    var = aggressive_expansion
+#                    value = 4
+#                }
+#            }
+#        }
+#    }
+#
+#    on_release_as_puppet = {
+#        effect = {
+#            FROM = {
+#                subtract_from_variable = {
+#                    var = aggressive_expansion
+#                    value = 1
+#                }
+#            }
+#        }
+#    }
+#    
+#    on_daily = {
+#		effect = {
+#            if = {
+#				limit = { 
+#                    has_aggressive_expansion = yes
+#                    has_offensive_war = no
+#                    has_civil_war = no
+#                }
+#                
+#                ROOT = {
+#                    add_to_variable = { aggressive_expansion = aggressive_expansion_decay_rate }
+#                }
+#
+#                clamp_variable = {
+#                    var = aggressive_expansion
+#                    min = 0
+#                    max = 100
+#                }
+#			}
+#        }
+#    }
+#}

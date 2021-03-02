@@ -33,6 +33,7 @@ focus_tree = {
 			clr_country_flag = FRA_flag_elections_1857
 		}
 	}
+
 	focus = {
 		id = FRA_future_empire
 		icon = GFX_goal_focus_french_empire
@@ -55,6 +56,7 @@ focus_tree = {
 			FRA = { country_event = { id = nap_france.1 } }
 		}
 	}
+
 	focus = {
 		id = FRA_legislative_election_1863
 		icon = GFX_goal_focus_elections
@@ -79,6 +81,7 @@ focus_tree = {
 			clr_country_flag = FRA_flag_elections_1863
 		}
 	}
+
 	focus = {
 		id = FRA_legislative_elections_1869
 		icon = GFX_goal_focus_elections
@@ -352,6 +355,7 @@ focus_tree = {
 			clr_country_flag = FRA_flag_liberal_empire
 		}
 	}
+
 	focus = {
 		id = FRA_reform_empire
 		icon = GFX_focus_generic_support_the_left_right
@@ -385,6 +389,9 @@ focus_tree = {
 		cost = 70
 		prerequisite = {
 			focus = FRA_reform_empire
+		}
+		available = {
+			date > 1862.01.01
 		}
 		x = 7
 		y = 4
@@ -434,6 +441,9 @@ focus_tree = {
 		cost = 70
 		prerequisite = {
 			focus = FRA_end_censorship
+		}
+		available = {
+			date > 1867.04.10
 		}
 		x = 9
 		y = 5
@@ -1143,7 +1153,8 @@ focus_tree = {
 			focus = FRA_swiss_affairs
 		}
 		available = {
-			has_completed_focus = FRA_continental_system_reborn
+			#has_completed_focus = FRA_continental_system_reborn
+			always = no
 		}
 		x = 7
 		y = 12
@@ -1151,12 +1162,12 @@ focus_tree = {
 			factor = 10
 		}
 		completion_reward = {
-			custom_effect_tooltip = FRA_tooltip_contain_prussia
+			#custom_effect_tooltip = FRA_tooltip_contain_prussia
 			hidden_effect = {
-				activate_targeted_decision = {
-					target = FROM
-					decision = FRA_decision_continental_system
-				}
+				#activate_targeted_decision = {
+				#	target = FROM
+				#	decision = FRA_decision_continental_system
+				
 			}
 		}
 	}
@@ -1169,7 +1180,7 @@ focus_tree = {
 		id = FRA_new_public_works
 		icon = GFX_goal_generic_production
 		cost = 70
-		x = 27
+		x = 25
 		y = 0
 		ai_will_do = {
 			factor = 70
@@ -1182,7 +1193,7 @@ focus_tree = {
 		id = FRA_foreign_assets
 		icon = GFX_goal_generic_intelligence_exchange
 		cost = 70
-		x = 32
+		x = 29
 		y = 0
 		ai_will_do = {
 			factor = 60
@@ -1198,7 +1209,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_new_public_works
 		}
-		x = 23
+		x = 22
 		y = 1
 		ai_will_do = {
 			factor = 70
@@ -1212,38 +1223,7 @@ focus_tree = {
 			}
 		}
 	}
-	focus = {
-		id = FRA_southern_lines
-		icon = GFX_goal_generic_construct_infrastructure
-		cost = 70
-		prerequisite = {
-			focus = FRA_french_railway_system
-		}
-		x = 22
-		y = 2
-		ai_will_do = {
-			factor = 70
-		}
-		completion_reward = {
-			activate_mission = FRA_mission_southern_lines
-		}
-	}
-	focus = {
-		id = FRA_connect_the_country
-		icon = GFX_goal_generic_construction
-		cost = 70
-		prerequisite = {
-			focus = FRA_southern_lines
-		}
-		x = 22
-		y = 3
-		ai_will_do = {
-			factor = 70
-		}
-		completion_reward = {
-			activate_mission = FRA_mission_connect_the_country
-		}
-	}
+
 	focus = {
 		id = FRA_northern_lines
 		icon = GFX_goal_generic_construct_infrastructure
@@ -1251,7 +1231,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_french_railway_system
 		}
-		x = 24
+		x = 22
 		y = 2
 		ai_will_do = {
 			factor = 70
@@ -1260,34 +1240,104 @@ focus_tree = {
 			activate_mission = FRA_mission_northern_lines
 		}
 	}
+
 	focus = {
-		id = FRA_profits_gold_rush
-		icon = GFX_goal_generic_positive_trade_relations
+		id = FRA_southern_lines
+		icon = GFX_goal_generic_construct_infrastructure
 		cost = 70
 		prerequisite = {
-			focus = FRA_new_public_works
+			focus = FRA_northern_lines
 		}
-		x = 27
-		y = 1
+		x = 22
+		y = 3
 		ai_will_do = {
 			factor = 70
 		}
 		completion_reward = {
-			add_timed_idea = {
-				idea = FRA_idea_profits_gold_rush
-				days = 300
-			}
+			activate_mission = FRA_mission_southern_lines
 		}
 	}
+
+	focus = {
+		id = FRA_connect_the_country
+		icon = GFX_goal_generic_construction
+		cost = 70
+		prerequisite = {
+			focus = FRA_southern_lines
+		}
+		prerequisite = {
+			focus = FRA_complete_chatelrault_expansion
+		}
+		x = 23
+		y = 4
+		ai_will_do = {
+			factor = 70
+		}
+		completion_reward = {
+			activate_mission = FRA_mission_connect_the_country
+		}
+	}
+
+	focus = {
+		id = FRA_complete_chatelrault_expansion
+		icon = GFX_Focus_Industrial_Complex
+		cost = 70
+		prerequisite = { focus = FRA_new_public_works }
+		x = 24
+		y = 3
+		ai_will_do = {
+			factor = 70
+		}
+		completion_reward = {
+			FRA = { country_event = { id = nap_france.1610 } }			
+		}
+	}
+
+	focus = {
+		id = FRA_cobden_chevalier_treaty
+		icon = GFX_goal_focus_ally_ENG
+		cost = 70
+		prerequisite = {
+			focus = FRA_foreign_assets
+		}
+		x = 27
+		y = 1
+		ai_will_do = {
+			factor = 60
+		}
+		completion_reward = {
+			ENG = { country_event = { id = nap_france.16 } }
+		}
+	}
+
+	focus = {
+		id = FRA_expand_lgoc
+		icon = GFX_goal_focus_expand_lgoc
+		cost = 70
+		prerequisite = {
+			focus = FRA_cobden_chevalier_treaty
+		}
+		ai_will_do = {
+			factor = 60
+		}
+		completion_reward = {
+			ENG = {
+				country_event = { id = nap_france.3 }
+			}
+		}
+		x = 28
+		y = 2
+	}
+
 	focus = {
 		id = FRA_continue_haussmann_renovations
 		icon = GFX_goal_focus_haussmann
 		cost = 70
 		prerequisite = {
-			focus = FRA_profits_gold_rush
+			focus = FRA_expand_lgoc
 		}
-		x = 26
-		y = 2
+		x = 28
+		y = 3
 		ai_will_do = {
 			factor = 70
 		}
@@ -1302,16 +1352,48 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = FRA_profits_gold_rush
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 70
+		prerequisite = {
+			focus = FRA_new_public_works
+		}
+		x = 30
+		y = 1
+		ai_will_do = {
+			factor = 70
+		}
+		completion_reward = {
+			add_timed_idea = {
+				idea = FRA_idea_profits_gold_rush
+				days = 300
+			}
+		}
+	}
+
+	focus = {
+		id = FRA_forge_comity
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		cost = 70
+		prerequisite = { focus = FRA_cobden_chevalier_treaty }
+		x = 26
+		y = 2
+		ai_will_do = {
+			factor = 70
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	focus = {
 		id = FRA_open_new_mines
 		icon = GFX_goal_generic_construction2
 		cost = 70
 		prerequisite = {
-			focus = FRA_northern_lines
+			focus = FRA_forge_comity
 		}
-		prerequisite = {
-			focus = FRA_continue_haussmann_renovations
-		}
-		x = 25
+		x = 26
 		y = 3
 		ai_will_do = {
 			factor = 70
@@ -1325,19 +1407,32 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 70
 		prerequisite = {
-			focus = FRA_connect_the_country
-		}
-		prerequisite = {
 			focus = FRA_open_new_mines
 		}
-		x = 24
+		prerequisite = {
+			focus = FRA_continue_haussmann_renovations
+		}
+		x = 27
 		y = 4
 		ai_will_do = {
 			factor = 70
 		}
 		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 1
+			976 = {
+				add_building_construction = {
+					type = steel_mill
+					level = 1
+					instant_build = yes
+				}
+			}
+			971 = {
+				add_building_construction = {
+					type = steel_mill
+					level = 1
+					instant_build = yes
+				}
+			}
+			28 = {
 				add_building_construction = {
 					type = steel_mill
 					level = 1
@@ -1353,7 +1448,10 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_profits_gold_rush
 		}
-		x = 29
+		prerequisite = {
+			focus = FRA_chinese_indemnity
+		}
+		x = 31
 		y = 2
 		ai_will_do = {
 			factor = 70
@@ -1372,10 +1470,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_found_new_banks
 		}
-		prerequisite = {
-			focus = FRA_continue_haussmann_renovations
-		}
-		x = 27
+		x = 30
 		y = 3
 		ai_will_do = {
 			factor = 70
@@ -1391,7 +1486,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_found_new_banks
 		}
-		x = 29
+		x = 32
 		y = 3
 		ai_will_do = {
 			factor = 70
@@ -1410,7 +1505,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_rich_gets_richer
 		}
-		x = 28
+		x = 31
 		y = 4
 		ai_will_do = {
 			factor = 70
@@ -1429,7 +1524,10 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_increase_wages
 		}
-		x = 26
+		prerequisite = {
+			focus = FRA_connect_the_country
+		}
+		x = 27
 		y = 5
 		ai_will_do = {
 			factor = 70
@@ -1439,67 +1537,33 @@ focus_tree = {
 			add_ideas = FRA_idea_paris_revival
 		}
 	}
-	focus = {
-		id = FRA_cobden_chevalier_treaty
-		icon = GFX_goal_focus_ally_ENG
-		cost = 70
-		prerequisite = {
-			focus = FRA_foreign_assets
-		}
-		x = 31
-		y = 1
-		ai_will_do = {
-			factor = 60
-		}
-		completion_reward = {
-			ENG = { country_event = { id = nap_france.16 } }
-		}
-	}
-	focus = {
-		id = FRA_expand_lgoc
-		icon = GFX_goal_focus_expand_lgoc
-		cost = 70
-		prerequisite = {
-			focus = FRA_foreign_assets
-		}
-		ai_will_do = {
-			factor = 60
-		}
-		completion_reward = {
-			ENG = {
-				country_event = { id = nap_france.3 }
-			}
-		}
-		x = 29
-		y = 1
 
-	}
-	focus = {
-		id = FRA_franco_monegasque_treaty
-		icon = GFX_goal_focus_franco_monegasque_treaty
-		cost = 70
-		prerequisite = {
-			focus = FRA_international_investments
-		}
-		available = {
-			FRA = {
-				controls_state = 1153
-			}
-		}
-		ai_will_do = {
-			factor = 60
-		}
-		completion_reward = {
-			country_event = { id = nap_france.15 }
-			add_timed_idea = {
-				idea = FRA_idea_sovereignty_monaco_recognized
-				days = 180
-			}
-		}
-		x = 31
-		y = 3
+#	focus = {
+#		id = FRA_franco_monegasque_treaty
+#		icon = GFX_goal_focus_franco_monegasque_treaty
+#		cost = 70
+#		prerequisite = {
+#			focus = FRA_international_investments
+#		}
+#		available = {
+#			FRA = {
+#				controls_state = 1153
+#			}
+#		}
+#		ai_will_do = {
+#			factor = 60
+#		}
+#		completion_reward = {
+#			country_event = { id = nap_france.15 }
+#			add_timed_idea = {
+#				idea = FRA_idea_sovereignty_monaco_recognized
+#				days = 180
+#			}
+#		}
+#		x = 31
+#		y = 3
+#	}
 
-	}
 	focus = {
 		id = FRA_chinese_indemnity
 		icon = GFX_goal_focus_increase_wages
@@ -1507,7 +1571,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_foreign_assets
 		}
-		x = 33
+		x = 32
 		y = 1
 		ai_will_do = {
 			factor = 60
@@ -1521,15 +1585,9 @@ focus_tree = {
 		icon = GFX_goal_focus_international_investments
 		cost = 70
 		prerequisite = {
-			focus = FRA_cobden_chevalier_treaty
-		}
-		prerequisite = {
-			focus = FRA_profits_gold_rush
-		}
-		prerequisite = {
 			focus = FRA_chinese_indemnity
 		}
-		x = 31
+		x = 33
 		y = 2
 		ai_will_do = {
 			factor = 60
@@ -1593,7 +1651,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_navy_modernization
 		}
-		x = 34
+		x = 35
 		y = 3
 		ai_will_do = {
 			factor = 80
@@ -1614,7 +1672,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_navy_modernization
 		}
-		x = 38
+		x = 37
 		y = 3
 		ai_will_do = {
 			factor = 80
@@ -1643,7 +1701,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_expand_colonial_infantry
 		}
-		x = 37
+		x = 36
 		y = 4
 		ai_will_do = {
 			factor = 80
@@ -1664,7 +1722,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_steam_powered_ships_production
 		}
-		x = 39
+		x = 38
 		y = 4
 		ai_will_do = {
 			factor = 80
@@ -1700,7 +1758,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_invest_ironclad_research
 		}
-		x = 38
+		x = 37
 		y = 5
 		ai_will_do = {
 			factor = 80
@@ -2125,6 +2183,64 @@ focus_tree = {
 	}
 
 		#-----------------------------------------------------------------------------------
+		#	SENEGAL BRANCH
+		#-----------------------------------------------------------------------------------
+
+		focus = {
+			id = FRA_french_colonial_company_of_gabon
+			icon = GFX_focus_fra_expansion_equatorial_africa
+			cost = 70
+			x = 48
+			y = 1
+			available = {
+				886 = {is_owned_by = FRA }
+				848 = {is_owned_by = FRA }
+			}
+			ai_will_do = {
+				factor = 60
+			}
+			prerequisite = {
+				focus = FRA_french_colonial_empire
+			}
+			completion_reward = {
+				GAB = { 
+					transfer_state = 886
+					transfer_state = 848
+					add_state_core = 886
+					add_state_core = 848
+				}
+
+				if = {
+					limit = {
+					  OR = {
+						has_dlc = "Together for Victory"
+						has_dlc = "Waking the Tiger"
+						has_dlc = "Death or Dishonor"
+					  }
+					}
+					set_autonomy = {
+					  target = GAB
+					  autonomous_state = autonomy_colony
+					  freedom_level = 0.1
+					}
+				  }
+				  if ={
+					limit = {
+					  NOT = { OR = {
+						has_dlc = "Together for Victory"
+						has_dlc = "Waking the Tiger"
+						has_dlc = "Death or Dishonor"
+					  } }
+					}
+					puppet = GAB
+				  }
+				set_politics = {
+					ruling_party = autocracy
+			  }
+			}
+		}
+		
+		#-----------------------------------------------------------------------------------
 		#	INDOCHINA BRANCH
 		#-----------------------------------------------------------------------------------
 
@@ -2136,11 +2252,12 @@ focus_tree = {
 			focus = FRA_french_colonial_empire
 		}
 		available = {
-			date > 1858.6.1
-			has_country_flag = FRA_has_colonial_ambitions
-			has_global_flag = eoanb_flag_sow_ENG_FRA_cooperate
+			#date > 1858.6.1
+			#has_country_flag = FRA_has_colonial_ambitions
+			#has_global_flag = eoanb_flag_sow_ENG_FRA_cooperate
+			always = no
 		}
-		x = 49
+		x = 51
 		y = 1
 		ai_will_do = {
 			factor = 100
@@ -2179,7 +2296,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_french_indochina
 		}
-		x = 48
+		x = 50
 		y = 2
 		available = {
 			CCH = {
@@ -2202,7 +2319,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_french_indochina
 		}
-		x = 50
+		x = 52
 		y = 2
 		available = {
 			has_country_flag = FRA_death_mouhot
@@ -2228,7 +2345,7 @@ focus_tree = {
 		available = {
 			date > 1863.5.1
 		}
-		x = 49
+		x = 51
 		y = 3
 		ai_will_do = {
 			factor = 100
@@ -2576,24 +2693,24 @@ focus_tree = {
 			}
 		}
 	}
-	focus = {
-		id = FRA_continental_system_reborn
-		icon = GFX_goal_focus_napoleonic_continental_system
-		cost = 70
-		prerequisite = {
-			focus = FRA_french_banks
-			focus = FRA_Division_of_Italy
-			focus = FRA_status_papal_states
-		}
-		x = 28
-		y = 16
-		ai_will_do = {
-			factor = 100
-		}
-		completion_reward = {
-			create_faction = FRA_faction_continental_system
-		}
-	}
+	#focus = {
+		#id = FRA_continental_system_reborn
+		#icon = GFX_goal_focus_napoleonic_continental_system
+		#cost = 70
+		#prerequisite = {
+			#focus = FRA_french_banks
+			#focus = FRA_Division_of_Italy
+			#focus = FRA_status_papal_states
+		#}
+		#x = 28
+		#y = 16
+		#ai_will_do = {
+		#	factor = 100
+		#}
+		#completion_reward = {
+		#	create_faction = FRA_faction_continental_system
+		#}
+	#}
 
 	#---------------------------------------------------------------------------------------
 	#	ORSINI TRAGEDY BRANCH
@@ -2873,8 +2990,8 @@ focus_tree = {
 						type = annex_everything
 					}
 				}
-				}
 			}
+		}
 			if = {
 				limit = {
 					country_exists = MOD
@@ -2964,11 +3081,8 @@ focus_tree = {
 					}
 				}
 				ITA_Division_of_italy_variable = yes
-			}
-			
-
+			}	
 		}
-
 	}
 
 	#---------------------------------------------------------------------------------------
@@ -2983,7 +3097,7 @@ focus_tree = {
 		id = FRA_american_civil_war
 		icon = GFX_goal_focus_american_civil_war
 		cost = 70
-		x = 54
+		x = 56
 		y = 0
 		available = {
 			OR = {
@@ -2999,7 +3113,7 @@ focus_tree = {
 			USA = {exists = no}
 		}
 		ai_will_do = {
-			factor = 200
+			factor = 500
 		}
 		completion_reward = {
 			country_event = { id = nap_france.19 }
@@ -3015,7 +3129,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_recognize_csa
 		}
-		x = 53
+		x = 55
 		y = 1
 		available = {
 			OR = {
@@ -3025,7 +3139,11 @@ focus_tree = {
 			USA={has_war_with = CSA}
 		}
 		ai_will_do = {
-			factor = 100
+			factor = 80
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 100
+			}
 		}
 		completion_reward = {
 			add_political_power = 50
@@ -3040,7 +3158,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_neutral_stance_civil_war
 		}
-		x = 53
+		x = 55
 		y = 2
 		ai_will_do = {
 			factor = 100
@@ -3065,14 +3183,18 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_neutral_stance_civil_war
 		}
-		x = 55
+		x = 57
 		y = 1
 		available = {
 			has_country_flag = FRA_flag_support_csa
 			CSA={exists = yes}
 		}
 		ai_will_do = {
-			factor = 100
+			factor = 20
+			modifier = {
+				is_historical_focus_on = yes
+				factor = 0
+			}
 		}
 		completion_reward = {
 			CSA = {
@@ -3098,7 +3220,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_recognize_csa
 		}
-		x = 55
+		x = 57
 		y = 2
 		ai_will_do = {
 			factor = 100
@@ -3115,11 +3237,11 @@ focus_tree = {
 	focus = {
 		id = FRA_mexican_intervention
 		icon = GFX_goal_focus_mexican_intervention
-		cost = 70
+		cost = 140
 		prerequisite = {
 			focus = FRA_american_civil_war
 		}
-		x = 59
+		x = 60
 		y = 1
 		available = {
 			OR = {
@@ -3128,12 +3250,13 @@ focus_tree = {
 			}
 		}
 		ai_will_do = {
-			factor = 200
+			factor = 600
 		}
 		completion_reward = {
 			FRA = { country_event = { id = nap_france.360 } }
 		}
 	}
+	
 	focus = {
 		id = FRA_mexico_british_spanish_help
 		icon = GFX_goal_focus_deal_uk_spain
@@ -3144,7 +3267,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_mexican_intervention
 		}
-		x = 59
+		x = 60
 		y = 2
 		ai_will_do = {
 			factor = 100
@@ -3166,7 +3289,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_british_spanish_appeasement
 		}
-		x = 57
+		x = 59
 		y = 3
 		ai_will_do = {
 			factor = 100
@@ -3185,7 +3308,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_mexico_ourselves
 		}
-		x = 55
+		x = 57
 		y = 4
 		ai_will_do = {
 			factor = 100
@@ -3234,7 +3357,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_mexico_failure
 		}
-		x = 60
+		x = 61
 		y = 4
 		available = { always = no }
 		ai_will_do = {
@@ -3256,7 +3379,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_mexico_victory
 		}
-		x = 58
+		x = 59
 		y = 4
 		available = { always = no }
 		ai_will_do = {
@@ -3283,7 +3406,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_british_spanish_appeasement
 		}
-		x = 60
+		x = 61
 		y = 5
 		ai_will_do = {
 			factor = 100
@@ -3311,7 +3434,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_british_spanish_appeasement
 		}
-		x = 62
+		x = 63
 		y = 5
 		ai_will_do = {
 			factor = 100

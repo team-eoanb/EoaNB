@@ -225,8 +225,7 @@ country_event = {
 		trigger = {
 			FRA = {
 				has_country_flag = FRA_supports_PIE_risorgimento
-			}
-			
+			}	
 		}
 		
 		option = {
@@ -601,21 +600,6 @@ country_event = {
 
 		is_triggered_only = yes
 
-		trigger = {
-		OR = {
-			if = {
-				limit = {
-					FRA = {
-						has_country_flag = FRA_supports_PIE_risorgimento
-					}
-				}
-			    has_completed_focus = PIE_Recruit_Nationalists
-				has_completed_focus = PIE_French_Aid
-				has_completed_focus = PIE_Start_Border_Operations
-			}
-			has_completed_focus = PIE_Provoke_Austria
-		}
-	}
 
 		option = {
 			name = sardinia.27.a
@@ -633,7 +617,6 @@ country_event = {
 						has_country_flag = FRA_supports_PIE_risorgimento
 					}
 				}
-				hidden_effect = { complete_national_focus = PIE_The_War_Starts }
 				hidden_effect = { complete_national_focus = PIE_Occupy_Central_Italy }
 				hidden_effect = { complete_national_focus = PIE_French_Army_Arrives }
 			}
@@ -682,33 +665,75 @@ country_event = {
 		option = {
 				name = sardinia.28.a
 		
-
-				annex_country = {
+				if = {
+					limit = {
+						NOT = {
+							MOD = {
+								is_subject_of = PAP
+							}
+							PRM = {
+								is_subject_of = PAP
+							}
+						}
+					}
+					annex_country = {
 					target = MOD
 					transfer_troops = yes
-				}
-				annex_country = {
+					}
+					annex_country = {
 					target = PRM
 					transfer_troops = yes
+					}
 				}
 				if = {
 					limit = {
-						TUS = {
-							is_ai = yes
-						}
+						AND = {
+							TUS = {
+								is_ai = yes
+							}
+							NOT = {
+								TUS = {
+									is_subject_of = PAP
+								}
+							}
+						}	
 					}
 						annex_country = {
 							target = TUS
 							transfer_troops = yes
 						}
-					else = {
+					}
+				else_if = {
+					limit = {
 						TUS = {
-							country_event = {
-								id = sardina.35
+							NOT = {
+								is_subject_of = PAP
+								is_ai = yes
 							}
-						}	
+						}
+					}
+					TUS = {
+						country_event = {
+						id = sardina.35
 					}
 				}
+			}
+			if = {
+				limit = {
+					OR = {
+						PRM = {
+							is_subject_of = PAP
+						}
+						MOD = {
+							is_subject_of = PAP
+						}
+						TUS = {
+							is_subject_of = PAP
+						}
+					}
+				}
+				set_country_flag = PAP_PIE_Puppeted_States
+			}
 				#hidden_effect = {
 					#TUS = {
 						#country_event = {
@@ -728,7 +753,18 @@ country_event = {
 
 		trigger = {
 			tag = PIE
-			country_exists = NSC
+			NOT = {
+				115 = {
+					owner = {
+						tag = PIE
+					}
+				}
+				156 = {
+					owner = {
+						tag = PIE
+					}
+				}
+			}
 			FRA = {
 				has_country_flag = FRA_supports_PIE_risorgimento
 			} 
@@ -738,15 +774,27 @@ country_event = {
 
 		option = {
 				name = sardinia.29.a
+				add_state_core = 812
+				add_state_core = 117
+				add_state_core = 997
+				add_state_core = 156
+				add_state_core = 115
+				115 = {
+					owner = {
+						PIE = {
+							declare_war_on = {
+								target = PREV
+								type = annex_everything
+							}
+						}
+					}
+				}
 				hidden_effect = {
 				transfer_state = 115
 				transfer_state = 156
-				declare_war_on = {
-    				target = NSC
-    				type = annex_everything
-			}
-				load_oob = "PIE_Expedition_Thousand"
 				
+				####activate_mission
+				load_oob = "PIE_Expedition_Thousand"	
 		}
 	}
 }
@@ -1384,19 +1432,20 @@ country_event = {
 			hidden_effect = {
 				every_country = {
 						remove_state_core = 114
-						remove_state_claim = 114
-					
+						remove_state_claim = 114	
 				}
 					SAR = {
 						add_state_core = 114
 						transfer_state = 114
 						inherit_technology = PIE
-					}
-
-				
+					}	
+				}
+			every_unit_leader = {
+				limit = { has_id = 119 }
+				set_nationality = SAR
 			}
+		}
 	}
-}
 country_event = {
 	id = sardinia.49
 	title = sardinia.49.t
@@ -1576,7 +1625,7 @@ country_event = {
     option = {
         name = sardinia.53.a  #Yes
 		ai_chance = {
-			factor = 90
+			base = 15
 			modifier = {
 				add = 100
 				is_historical_focus_on = yes
@@ -1587,9 +1636,9 @@ country_event = {
 	option = {
         name = sardinia.53.b  #No
 		ai_chance = {
-			factor = 10
+			base = 1
 			modifier = {
-				add = 30
+				add = 5
 				is_historical_focus_on = no
 			}
 		}
@@ -1611,7 +1660,7 @@ country_event = {
 
   
     option = {
-        name = sardinia.54.a  #Yes
+        name = sardinia.54.a  
 		PIE = {
 			complete_national_focus = PIE_Go_with_Garibaldi
 		}
@@ -1619,7 +1668,190 @@ country_event = {
 			set_country_flag = PIE_risorgimento_failed
 		}
 	}
+}
+country_event = {
+    id = sardinia.55
+    title = sardinia.55.t
+    desc = sardinia.55.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
 
+  
+    option = {
+        name = sardinia.55.a
+		custom_effect_tooltip = PAP_give_up_unification
+		hidden_effect = {
+			set_country_flag = PAP_gave_up_unification
+		}
+		PIE = {
+			if = {
+				limit = {
+						TUS = {
+							is_ai = yes
+						}
+					}							
+					annex_country = {
+						target = TUS
+						transfer_troops = yes
+					}
+				}
+				else_if = {
+					limit = {
+						TUS = {
+							is_ai = no
+						}
+					}
+					TUS = {
+						country_event = {
+						id = sardina.35
+					}
+				}
+			}
+			annex_country = {
+				target = PRM
+				transfer_troops = yes
+			}
+			annex_country = {
+				target = MOD
+				transfer_troops = yes
+			}
+		}
+	}
+	option = {
+		name = sardinia.55.b
+		PAP = {
+			every_state = {
+				limit = {
+					owner = {
+						OR = {
+							tag = PIE
+							tag = MOD
+							tag = PRM
+							tag = TUS
+						}
+					}
+				}
+				add_core_of = PAP
+			}
+			annex_country = {
+				target = PRM
+			}
+			annex_country = {
+				target = MOD
+			}
+			declare_war_on = {
+				target = PIE
+				type = annex_everything
+			}
+			if = {
+				limit = {
+					TUS = {
+						is_ai = yes
+					}
+				}
+				TUS = {
+					transfer_navy = {
+						target = PAP
+					}
+				}
+				annex_country = {
+					target = TUS
+					transfer_troops = yes
+				}
+			}
+			else_if = {
+				limit = {
+					TUS = {
+						is_ai = no
+					}
+				}
+				TUS = {
+					country_event = {
+						id = sardinia.56
+					}
+				}	
+			}
+		}
+	}
+}
+country_event = {
+    id = sardinia.56
+    title = sardinia.56.t
+    desc = sardinia.56.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
+
+  
+    option = {
+				name = sardinia.56.a
+				ai_chance = {
+					factor = 50
+					  modifier = {
+						factor = 0
+						is_historical_focus_on = yes
+					  }
+				  }
+				hidden_effect = {
+					if = {
+						limit = {
+							TUS = {
+								is_ai = no
+							}
+						}
+						change_tag_from = ROOT
+					}
+					PAP = {
+						annex_country = {
+							target = TUS
+							transfer_troops = yes
+						}
+						TUS = {
+							transfer_navy = {
+								target = PAP
+							}
+						}
+					}					
+				}	
+			}
+		option = {
+				name = sardinia.56.b
+				ai_chance = {
+					factor = 50
+					  modifier = {
+						factor = 3
+						is_historical_focus_on = yes
+					  }
+				  }
+				  if = {
+						limit = {
+							TUS = {
+								is_ai = no
+							}
+						}
+						change_tag_from = ROOT
+					}
+				  PIE = {
+					annex_country = {
+						target = TUS
+						transfer_troops = yes
+					}
+					TUS = {
+						transfer_navy = {
+							target = PIE
+						}
+					}
+				  }
+				hidden_effect = {
+					#news_event = {
+    					#M
+						#days = 1
+					#}
+				}
+		}
 }
 
 news_event = {

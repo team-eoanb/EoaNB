@@ -450,9 +450,6 @@
 		y = 1
 		cost = 14
 		prerequisite = { focus = ASA_Train_Reserves }
-		bypass = {
-			NOT = {country_exists = WVG }
-		}
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 10
@@ -740,7 +737,7 @@
 	focus = {
 		id = ASA_Foreign_Aid
 		icon = GFX_goal_focus_foreign_diplomacy
-		x = 47
+		x = 46
 		y = 0
 		cost = 56
 		available_if_capitulated = no
@@ -1225,7 +1222,7 @@
 			}
 			create_corps_commander = {
 				name = "Elmer E. Ellsworth"
-				picture = placeholder
+				picture = "Portrait_ASA_Elmer_E_Ellsworth.dds"
 				traits = { quick_marcher }
 				skill = 2
 				id = 4481
@@ -1493,6 +1490,17 @@
 				uses = 2
 				category = marine_tech
 			}
+			division_template = {
+				name = "Marine Corps Battalion"
+				priority = 1
+				is_locked = no
+				regiments = {
+					early_marine = { x = 0 y = 0 }
+					early_marine = { x = 1 y = 0 }
+					early_marine = { x = 0 y = 1 }
+					early_marine = { x = 1 y = 1 }
+				}
+			}
 		}
 	}
 
@@ -1542,6 +1550,7 @@
 				uses = 1
 				category = tp_tech
 			}
+			add_ideas = ASA_Marine_Corps_level_1
 		}
 	}
 
@@ -1634,7 +1643,7 @@
 		completion_reward = {
 			create_corps_commander = {
 				name = "Rufus King"
-				picture = placeholder
+				picture = "Portrait_ASA_Rufus_King.dds"
 				traits = { infantry_officer }
 				skill = 2
 				id = 4487
@@ -1718,7 +1727,7 @@
 		completion_reward = {
 			create_corps_commander = {
 				name = "John Gibbon"
-				picture = placeholder
+				picture = "Portrait_ASA_John_Gibbon.dds"
 				traits = { artillery_officer }
 				skill = 2
 				id = 4488
@@ -1797,7 +1806,7 @@
 		completion_reward = {
 			create_corps_commander = {
 				name = "George Stoneman Jr."
-				picture = placeholder
+				picture = "Portrait_ASA_George_Stoneman_Jr.dds"
 				traits = { cavalry_officer career_officer }
 				skill = 3
 				id = 4489
@@ -2049,7 +2058,7 @@
 		mutually_exclusive = { focus = ASA_Address_Issues_Of_Capital }
 
 		completion_reward = {
-			custom_effect_tooltip = ASA_Address_Issues_Of_Labor_tt
+			country_event = asa_address_issues_of_labor.1
 		}
 	}
 
@@ -2072,10 +2081,7 @@
 		mutually_exclusive = { focus = ASA_Address_Issues_Of_Labor }
 
 		completion_reward = {
-			custom_effect_tooltip = ASA_Address_Issues_Of_Capital_tt
-			country_event = {
-				id = asa_address_issues_of_capital.1
-			}
+			country_event = asa_address_issues_of_capital.1
 		}
 	}
 
@@ -2742,7 +2748,7 @@
 		}
 
 		completion_reward = {
-			custom_effect_tooltip = ASA_Pacify_Pillagers_tt
+			add_stability = 0.10
 		}
 	}
 
@@ -2958,6 +2964,8 @@
 				ideology = radical_democracy
 				popularity = -0.05
 			}
+			custom_effect_tooltip = ASA_The_Stevens_Seward_Act_tt
+			set_country_flag = asa_stevens_seward_act_flag
 		}
 	}
 
@@ -2970,14 +2978,11 @@
 
 		allow_branch = {
 			has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+			has_completed_focus = ASA_McClellan_Third_Term
 		}
 
 		available = {
 			has_country_flag = asa_mcclellan_granted_emergency_powers_flag
-		}
-
-		mutually_exclusive = {
-			focus = ASA_McClellan_Third_Term
 		}
 
 		completion_reward = {
@@ -3112,15 +3117,12 @@
 		cost = 0
 
 		allow_branch = {
-			has_country_flag = asa_mcclellan_granted_emergency_powers_flag
+			has_completed_focus = ASA_McClellan_Third_Term
+			has_completed_focus = ASA_McClellan_Granted_Emergency_Powers
 		}
 
 		available = {
 			always = no
-		}
-
-		mutually_exclusive = {
-			focus = ASA_McClellan_Granted_Emergency_Powers
 		}
 
 		completion_reward = {
@@ -3137,7 +3139,9 @@
 		cost = 42
 
 		available = {
-			has_civil_war = no
+			NOT = {
+				has_country_flag = asa_philidelphia_crisis_flag
+			}
 		}
 
 		mutually_exclusive = {
@@ -3202,6 +3206,24 @@
 					popularity = .10
 				}
 			}
+			if = {
+				limit = {
+					has_idea = ASA_Habeus_Corpus_Suspended_level_1
+				}
+				remove_ideas = ASA_Habeus_Corpus_Suspended_level_1
+			}
+			if = {
+				limit = {
+					has_idea = ASA_Habeus_Corpus_Suspended_level_2
+				}
+				remove_ideas = ASA_Habeus_Corpus_Suspended_level_2
+			}
+			if = {
+				limit = {
+					has_idea = ASA_Habeus_Corpus_Suspended_level_3
+				}
+				remove_ideas = ASA_Habeus_Corpus_Suspended_level_3
+			}
 		}
 	}
 
@@ -3212,6 +3234,19 @@
 		x = 3
 		y = 1
 		cost = 42
+
+		allow_branch = {
+			OR = {
+				has_completed_focus = ASA_The_New_America
+				has_completed_focus = ASA_McClellan_Third_Term
+			}
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = asa_philidelphia_crisis_flag
+			}
+		}
 
 		mutually_exclusive = {
 			focus = ASA_Maintain_Democracy
@@ -3282,6 +3317,9 @@
 			add_timed_idea = {
 				idea = ASA_Faux_Republic_idea
 				days = 1825
+			}
+			hidden_effect = {
+				country_event = asa_flavor.3
 			}
 		}
 	}
@@ -3424,6 +3462,7 @@
 		relative_position_id = ASA_Encourage_Volunteership
 		x = 2
 		y = 1
+		cost = 42
 
 		prerequisite = {
 			focus = ASA_Encourage_Volunteership
@@ -4015,6 +4054,10 @@
 		prerequisite = {
 			focus = ASA_Military_Procedure
 			focus = ASA_Force_Conscription
+		}
+
+		completion_reward = {
+			add_political_power = 100
 		}
 	}
 

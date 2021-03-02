@@ -1,0 +1,423 @@
+war_measures = {
+	HAI_geffrard_monarchy_coup_mission = {
+		icon = generic_prepare_civil_war
+		ai_will_do = { base = 1 }
+		available = {
+			has_civil_war = no
+		}
+		allowed = { 
+			original_tag = HAI 
+		}
+		activation = { 
+			OR = {
+				has_country_flag = geffrard_monarchy_coup_1_flag
+				has_country_flag = geffrard_monarchy_coup_2_flag
+			}			
+		}
+		selectable_mission = no
+		is_good = no
+		fire_only_once = yes
+		#cost = 0
+		days_mission_timeout = 3600
+		
+		complete_effect = {
+			hidden_effect = {
+				if = {
+					limit = { ROOT = { NOT = { has_country_flag = HAI_coup_is_original_tag } } }
+					if = {
+						limit = { is_ai = yes }
+						random_state = {
+							limit = { is_owned_by = HAI }
+							every_country_with_original_tag = { original_tag_to_check = HAI limit = { has_country_flag = HAI_coup_is_original_tag } transfer_state = PREV }
+						}
+					}
+					else = {
+						every_country_with_original_tag = { original_tag_to_check = HAI limit = { has_country_flag = HAI_coup_is_original_tag }
+							random_state = {
+								limit = { is_owned_by = HAI }
+								every_country_with_original_tag = { original_tag_to_check = HAI limit = { has_country_flag = HAI_coup_is_original_tag } transfer_state = PREV }
+							}
+							THIS = { change_tag_from = ROOT }
+						}
+					}
+					every_country_with_original_tag = { original_tag_to_check = HAI limit = { has_country_flag = HAI_coup_is_original_tag }
+						if = {
+							limit = { PREV = { has_country_flag = geffrard_monarchy_coup_1_flag } }
+							PREV = { clr_country_flag = geffrard_monarchy_coup_1_flag }
+							clr_country_flag = geffrard_monarchy_coup_2_flag
+							retire_ideology_leader = autocracy
+							retire_ideology_leader = traditional_conservatism
+							retire_ideology_leader = centrism
+							retire_ideology_leader = radical_democracy
+							set_politics = { ruling_party = autocracy }
+							set_popularities = {
+								anarchism = 0
+								vanguard_communism = 0
+								collectivist_socialism = 0
+								social_egalitarianism = 0
+								centrism = 20
+								traditional_conservatism = 35
+								radical_democracy = 0
+								chauvinist_populism = 5
+								autocracy = 40
+								fundamentalism = 0
+							}
+							every_unit_leader = {
+								limit = { has_id = 318001 }
+								set_nationality = PREV
+							}
+							every_unit_leader = {
+								limit = { has_id = 318002 }
+								set_nationality = PREV
+							}
+							create_country_leader = {
+								name = "Fabren Geffard"
+								desc = "POLITICS_STENIO_VINCENT_DESC"
+								picture = "Portrait_HAI_Fabre_Geffrard.dds"
+								expire = "1965.1.1"
+								ideology = despotism
+								traits = {	
+								}
+							}
+							create_country_leader = {
+								name = "Jean-Nicolas Saget"
+								desc = "POLITICS_STENIO_VINCENT_DESC"
+								picture = "Portrait_Jean_Nicolas_Nissage_Saget.dds"
+								expire = "1965.2.1"
+								ideology = conserv_liberal
+								traits = {
+								}
+							}
+							create_country_leader = {
+								name = "Sylvain Salvane"
+								desc = "POLITICS_STENIO_VINCENT_DESC"
+								picture = "Portrait_HAI_Sylvain_Salnave.dds"
+								expire = "1965.1.15"
+								ideology = reactionary
+								traits = {
+								}
+							}
+							#POLITICS 
+								  
+							if = { limit = { NOT = { has_idea = hos_is_leader } } add_ideas = hos_is_leader }
+							if = { limit = { NOT = { has_idea = pre_industrial_era } } add_ideas = pre_industrial_era }
+							if = { limit = { NOT = { has_idea = agrarian } } add_ideas = agrarian }
+							if = { limit = { NOT = { has_idea = weak_heir } } add_ideas = weak_heir }
+							if = { limit = { NOT = { has_idea = absolute_monarchy } } add_ideas = absolute_monarchy }
+
+							if = { limit = { NOT = { has_idea = civilian_economy } } add_ideas = civilian_economy }
+							if = { limit = { NOT = { has_idea = limited_exports } } add_ideas = limited_exports }
+							if = { limit = { NOT = { has_idea = two_percent } } add_ideas = two_percent }
+							if = { limit = { NOT = { has_idea = normal_taxes } } add_ideas = normal_taxes }
+							if = { limit = { NOT = { has_idea = cl_legal } } add_ideas = cl_legal }
+
+							if = { limit = { NOT = { has_idea = stagnation_growth } } add_ideas = stagnation_growth }
+							if = { limit = { NOT = { has_idea = border_control } } add_ideas = border_control }
+							if = { limit = { NOT = { has_idea = limited_conscription } } add_ideas = limited_conscription }
+							if = { limit = { NOT = { has_idea = segregation } } add_ideas = segregation }
+							if = { limit = { NOT = { has_idea = absolutism } } add_ideas = absolutism }
+
+							if = { limit = { NOT = { has_idea = limited_constitution } } add_ideas = limited_constitution }
+							if = { limit = { NOT = { has_idea = no_elections } } add_ideas = no_elections }
+
+							if = { limit = { NOT = { has_idea = privileged_education } } add_ideas = privileged_education }
+							if = { limit = { NOT = { has_idea = state_religion } } add_ideas = state_religion }
+							if = { limit = { NOT = { has_idea = religion_catholic } } add_ideas = religion_catholic }
+
+							if = { limit = { NOT = { has_idea = hc_no_healthcare } } add_ideas = hc_no_healthcare }
+							if = { limit = { NOT = { has_idea = law_police_force } } add_ideas = law_police_force }
+							if = { limit = { NOT = { has_idea = inframain_no_subsidies_infrastructure } } add_ideas = inframain_no_subsidies_infrastructure }
+							if = { limit = { NOT = { has_idea = navinfra_no_naval_infrastructure } } add_ideas = navinfra_no_naval_infrastructure }
+							if = { limit = { NOT = { has_idea = sfund_private_ventures_only } } add_ideas = sfund_private_ventures_only }
+						}
+						if = {
+							limit = { PREV = { has_country_flag = geffrard_monarchy_coup_2_flag } }
+							PREV = { clr_country_flag = geffrard_monarchy_coup_2_flag }
+							clr_country_flag = geffrard_monarchy_coup_1_flag
+							retire_ideology_leader = autocracy
+							retire_ideology_leader = traditional_conservatism
+							retire_ideology_leader = centrism
+							retire_ideology_leader = radical_democracy
+							set_politics = { ruling_party = autocracy }
+							set_popularities = {
+								anarchism = 0
+								vanguard_communism = 0
+								collectivist_socialism = 0
+								social_egalitarianism = 0
+								centrism = 20
+								traditional_conservatism = 35
+								radical_democracy = 0
+								chauvinist_populism = 5
+								autocracy = 40
+								fundamentalism = 0
+							}
+							create_country_leader = {
+								name = "Faustin I"
+								desc = "POLITICS_STENIO_VINCENT_DESC"
+								picture = "Portrait_HAI_Faustin_Soulouque.dds"
+								expire = "1965.1.1"
+								ideology = despotism
+								traits = {
+								}
+							}
+							#POLITICS 
+								  
+							if = { limit = { NOT = { has_idea = hos_is_leader } } add_ideas = hos_is_leader }
+							if = { limit = { NOT = { has_idea = pre_industrial_era } } add_ideas = pre_industrial_era }
+							if = { limit = { NOT = { has_idea = agrarian } } add_ideas = agrarian }
+							if = { limit = { NOT = { has_idea = weak_heir } } add_ideas = weak_heir }
+							if = { limit = { NOT = { has_idea = absolute_monarchy } } add_ideas = absolute_monarchy }
+
+							if = { limit = { NOT = { has_idea = civilian_economy } } add_ideas = civilian_economy }
+							if = { limit = { NOT = { has_idea = limited_exports } } add_ideas = limited_exports }
+							if = { limit = { NOT = { has_idea = two_percent } } add_ideas = two_percent }
+							if = { limit = { NOT = { has_idea = normal_taxes } } add_ideas = normal_taxes }
+							if = { limit = { NOT = { has_idea = cl_legal } } add_ideas = cl_legal }
+
+							if = { limit = { NOT = { has_idea = stagnation_growth } } add_ideas = stagnation_growth }
+							if = { limit = { NOT = { has_idea = border_control } } add_ideas = border_control }
+							if = { limit = { NOT = { has_idea = limited_conscription } } add_ideas = limited_conscription }
+							if = { limit = { NOT = { has_idea = segregation } } add_ideas = segregation }
+							if = { limit = { NOT = { has_idea = absolutism } } add_ideas = absolutism }
+
+							if = { limit = { NOT = { has_idea = limited_constitution } } add_ideas = limited_constitution }
+							if = { limit = { NOT = { has_idea = no_elections } } add_ideas = no_elections }
+
+							if = { limit = { NOT = { has_idea = privileged_education } } add_ideas = privileged_education }
+							if = { limit = { NOT = { has_idea = state_religion } } add_ideas = state_religion }
+							if = { limit = { NOT = { has_idea = religion_catholic } } add_ideas = religion_catholic }
+
+							if = { limit = { NOT = { has_idea = hc_no_healthcare } } add_ideas = hc_no_healthcare }
+							if = { limit = { NOT = { has_idea = law_police_force } } add_ideas = law_police_force }
+							if = { limit = { NOT = { has_idea = inframain_no_subsidies_infrastructure } } add_ideas = inframain_no_subsidies_infrastructure }
+							if = { limit = { NOT = { has_idea = navinfra_no_naval_infrastructure } } add_ideas = navinfra_no_naval_infrastructure }
+							if = { limit = { NOT = { has_idea = sfund_private_ventures_only } } add_ideas = sfund_private_ventures_only }
+						}
+						clr_country_flag = HAI_coup_is_original_tag
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+						set_capital = 318
+					}
+				}
+				else = {
+					clr_country_flag = HAI_coup_is_original_tag
+					clr_country_flag = geffrard_monarchy_coup_1_flag
+					clr_country_flag = geffrard_monarchy_coup_2_flag
+				}
+			}
+		}
+	}
+
+	HAI_geffrard_presidential_coup_mission = {
+		icon = generic_prepare_civil_war
+		ai_will_do = { base = 1 }
+		available = {
+			has_civil_war = no
+		}
+		allowed = { 
+			original_tag = HAI 
+		}
+		activation = { 
+			OR = {
+				has_country_flag = geffrard_presidential_coup_1_flag
+				has_country_flag = geffrard_presidential_coup_2_flag
+			}			
+		}
+		selectable_mission = no
+		is_good = no
+		fire_only_once = yes
+		#cost = 0
+		days_mission_timeout = 3600
+		
+		complete_effect = {
+			hidden_effect = {
+				if = {
+					limit = { ROOT = { NOT = { has_country_flag = HAI_coup_is_original_tag } } }
+					if = {
+						limit = { is_ai = yes }
+						random_state = {
+							limit = { is_owned_by = HAI }
+							every_country_with_original_tag = { original_tag_to_check = HAI limit = { has_country_flag = HAI_coup_is_original_tag } transfer_state = PREV }
+						}
+					}
+					else = {
+						every_country_with_original_tag = { original_tag_to_check = HAI limit = { has_country_flag = HAI_coup_is_original_tag }
+							random_state = {
+								limit = { is_owned_by = HAI }
+								every_country_with_original_tag = { original_tag_to_check = HAI limit = { has_country_flag = HAI_coup_is_original_tag } transfer_state = PREV }
+							}
+							THIS = { change_tag_from = ROOT }
+						}
+					}
+					every_country_with_original_tag = { original_tag_to_check = HAI limit = { has_country_flag = HAI_coup_is_original_tag }
+						if = {
+							limit = { PREV = { has_country_flag = geffrard_presidential_coup_1_flag } }
+							PREV = { clr_country_flag = geffrard_presidential_coup_1_flag }
+							clr_country_flag = geffrard_presidential_coup_2_flag
+							retire_ideology_leader = autocracy
+							retire_ideology_leader = traditional_conservatism
+							retire_ideology_leader = centrism
+							retire_ideology_leader = radical_democracy
+							set_politics = { ruling_party = traditional_conservatism }
+							set_popularities = {
+								anarchism = 0
+								vanguard_communism = 0
+								collectivist_socialism = 0
+								social_egalitarianism = 0
+								centrism = 20
+								traditional_conservatism = 35
+								radical_democracy = 0
+								chauvinist_populism = 5
+								autocracy = 40
+								fundamentalism = 0
+							}
+							every_unit_leader = {
+								limit = { has_id = 318001 }
+								set_nationality = PREV
+							}
+							every_unit_leader = {
+								limit = { has_id = 318002 }
+								set_nationality = PREV
+							}
+							create_country_leader = {
+								name = "Fabren Geffard"
+								desc = "POLITICS_STENIO_VINCENT_DESC"
+								picture = "Portrait_HAI_Fabre_Geffrard.dds"
+								expire = "1965.1.1"
+								ideology = conserv
+								traits = {	
+								}
+							}
+							create_country_leader = {
+								name = "Jean-Nicolas Saget"
+								desc = "POLITICS_STENIO_VINCENT_DESC"
+								picture = "Portrait_Jean_Nicolas_Nissage_Saget.dds"
+								expire = "1965.2.1"
+								ideology = conserv_liberal
+								traits = {
+								}
+							}
+							create_country_leader = {
+								name = "Sylvain Salvane"
+								desc = "POLITICS_STENIO_VINCENT_DESC"
+								picture = "Portrait_HAI_Sylvain_Salnave.dds"
+								expire = "1965.1.15"
+								ideology = reactionary
+								traits = {
+								}
+							}
+							#POLITICS 
+								  
+							if = { limit = { NOT = { has_idea = hos_is_leader } } add_ideas = hos_is_leader }
+							if = { limit = { NOT = { has_idea = pre_industrial_era } } add_ideas = pre_industrial_era }
+							if = { limit = { NOT = { has_idea = agrarian } } add_ideas = agrarian }
+							if = { limit = { NOT = { has_idea = non_monarchical_system } } add_ideas = non_monarchical_system }
+							if = { limit = { NOT = { has_idea = semi_presidential_republic } } add_ideas = semi_presidential_republic }
+
+							if = { limit = { NOT = { has_idea = civilian_economy } } add_ideas = civilian_economy }
+							if = { limit = { NOT = { has_idea = limited_exports } } add_ideas = limited_exports }
+							if = { limit = { NOT = { has_idea = two_percent } } add_ideas = two_percent }
+							if = { limit = { NOT = { has_idea = normal_taxes } } add_ideas = normal_taxes }
+							if = { limit = { NOT = { has_idea = cl_legal } } add_ideas = cl_legal }
+
+							if = { limit = { NOT = { has_idea = stagnation_growth } } add_ideas = stagnation_growth }
+							if = { limit = { NOT = { has_idea = border_control } } add_ideas = border_control }
+							if = { limit = { NOT = { has_idea = limited_conscription } } add_ideas = limited_conscription }
+							if = { limit = { NOT = { has_idea = segregation } } add_ideas = segregation }
+							if = { limit = { NOT = { has_idea = absolutism } } add_ideas = absolutism }
+
+							if = { limit = { NOT = { has_idea = constitution_adopted } } add_ideas = constitution_adopted }
+							if = { limit = { NOT = { has_idea = no_elections } } add_ideas = no_elections }
+
+							if = { limit = { NOT = { has_idea = privileged_education } } add_ideas = privileged_education }
+							if = { limit = { NOT = { has_idea = state_religion } } add_ideas = state_religion }
+							if = { limit = { NOT = { has_idea = religion_catholic } } add_ideas = religion_catholic }
+
+							if = { limit = { NOT = { has_idea = hc_no_healthcare } } add_ideas = hc_no_healthcare }
+							if = { limit = { NOT = { has_idea = law_police_force } } add_ideas = law_police_force }
+							if = { limit = { NOT = { has_idea = inframain_no_subsidies_infrastructure } } add_ideas = inframain_no_subsidies_infrastructure }
+							if = { limit = { NOT = { has_idea = navinfra_no_naval_infrastructure } } add_ideas = navinfra_no_naval_infrastructure }
+							if = { limit = { NOT = { has_idea = sfund_private_ventures_only } } add_ideas = sfund_private_ventures_only }
+						}
+						if = {
+							limit = { PREV = { has_country_flag = geffrard_presidential_coup_2_flag } }
+							PREV = { clr_country_flag = geffrard_presidential_coup_2_flag }
+							clr_country_flag = geffrard_presidential_coup_1_flag
+							retire_ideology_leader = autocracy
+							retire_ideology_leader = traditional_conservatism
+							retire_ideology_leader = centrism
+							retire_ideology_leader = radical_democracy
+							set_politics = { ruling_party = autocracy }
+							set_popularities = {
+								anarchism = 0
+								vanguard_communism = 0
+								collectivist_socialism = 0
+								social_egalitarianism = 0
+								centrism = 20
+								traditional_conservatism = 35
+								radical_democracy = 0
+								chauvinist_populism = 5
+								autocracy = 40
+								fundamentalism = 0
+							}
+							create_country_leader = {
+								name = "Faustin I"
+								desc = "POLITICS_STENIO_VINCENT_DESC"
+								picture = "Portrait_HAI_Faustin_Soulouque.dds"
+								expire = "1965.1.1"
+								ideology = despotism
+								traits = {
+								}
+							}
+							#POLITICS 
+								  
+							if = { limit = { NOT = { has_idea = hos_is_leader } } add_ideas = hos_is_leader }
+							if = { limit = { NOT = { has_idea = pre_industrial_era } } add_ideas = pre_industrial_era }
+							if = { limit = { NOT = { has_idea = agrarian } } add_ideas = agrarian }
+							if = { limit = { NOT = { has_idea = weak_heir } } add_ideas = weak_heir }
+							if = { limit = { NOT = { has_idea = absolute_monarchy } } add_ideas = absolute_monarchy }
+
+							if = { limit = { NOT = { has_idea = civilian_economy } } add_ideas = civilian_economy }
+							if = { limit = { NOT = { has_idea = limited_exports } } add_ideas = limited_exports }
+							if = { limit = { NOT = { has_idea = two_percent } } add_ideas = two_percent }
+							if = { limit = { NOT = { has_idea = normal_taxes } } add_ideas = normal_taxes }
+							if = { limit = { NOT = { has_idea = cl_legal } } add_ideas = cl_legal }
+
+							if = { limit = { NOT = { has_idea = stagnation_growth } } add_ideas = stagnation_growth }
+							if = { limit = { NOT = { has_idea = border_control } } add_ideas = border_control }
+							if = { limit = { NOT = { has_idea = limited_conscription } } add_ideas = limited_conscription }
+							if = { limit = { NOT = { has_idea = segregation } } add_ideas = segregation }
+							if = { limit = { NOT = { has_idea = absolutism } } add_ideas = absolutism }
+
+							if = { limit = { NOT = { has_idea = limited_constitution } } add_ideas = limited_constitution }
+							if = { limit = { NOT = { has_idea = no_elections } } add_ideas = no_elections }
+
+							if = { limit = { NOT = { has_idea = privileged_education } } add_ideas = privileged_education }
+							if = { limit = { NOT = { has_idea = state_religion } } add_ideas = state_religion }
+							if = { limit = { NOT = { has_idea = religion_catholic } } add_ideas = religion_catholic }
+
+							if = { limit = { NOT = { has_idea = hc_no_healthcare } } add_ideas = hc_no_healthcare }
+							if = { limit = { NOT = { has_idea = law_police_force } } add_ideas = law_police_force }
+							if = { limit = { NOT = { has_idea = inframain_no_subsidies_infrastructure } } add_ideas = inframain_no_subsidies_infrastructure }
+							if = { limit = { NOT = { has_idea = navinfra_no_naval_infrastructure } } add_ideas = navinfra_no_naval_infrastructure }
+							if = { limit = { NOT = { has_idea = sfund_private_ventures_only } } add_ideas = sfund_private_ventures_only }
+						}
+						clr_country_flag = HAI_coup_is_original_tag
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+						set_capital = 318
+					}
+				}
+				else = {
+					clr_country_flag = HAI_coup_is_original_tag
+					clr_country_flag = geffrard_presidential_coup_1_flag
+					clr_country_flag = geffrard_presidential_coup_2_flag
+				}
+			}
+		}
+	}
+}

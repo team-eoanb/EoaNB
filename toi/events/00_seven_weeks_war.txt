@@ -292,41 +292,92 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	
+	#Options a,b,c only trigger when ITA does not already control Veneto
 	option = {
 		name = sevenweekswar.11.a
-		ai_chance = {
-			factor = 90 
-			modifier = {
-				add = 10
-				##controls state vento
-			}
+		trigger = {
+			ITA = { NOT = { controls_state = 160 } }
 		}
+		ai_chance = { factor = 95 }
 		hidden_effect = {
 			PRS = { country_event = { days = 1 id = sevenweekswar.12 } }
-			####Historical Option, or if already controling Veneto TBD
+			####Veneto = Historical Option
 		}
 	}
 
 	option = {
 		name = sevenweekswar.11.b
+		trigger = {
+			ITA = { NOT = { controls_state = 160 } }
+		}
 		ai_chance = { factor = 5 }
 		hidden_effect = {
 			PRS = { country_event = { days = 1 id = sevenweekswar.13 } }
+			####Veneto + Trentino
 		}
-		####Veneto + Another State of historical claim
 	}
 	
 	option = {
 		name = sevenweekswar.11.c
-		ai_chance = { factor = 5 }
+		trigger = {
+			ITA = { NOT = { controls_state = 160 } }
+		}
+		ai_chance = { factor = 0 }
 		hidden_effect = {
 			PRS = { country_event = { days = 1 id = sevenweekswar.14 } }
+			###Veneto + Trentino + Trieste
 		}
-		###Prussia most likely to decline alliance, Veneto + Large portion of claims
+	}
+	
+	#Options e,f,g only trigger when ITA already controls Veneto
+	option = {
+		name = sevenweekswar.11.e
+		trigger = {
+			ITA = { controls_state = 160 }
+		}
+		ai_chance = { factor = 95 }
+		hidden_effect = {
+			PRS = { country_event = { days = 1 id = sevenweekswar.79 } }
+			###Trentino
+		}
+	}
+	
+	option = {
+		name = sevenweekswar.11.f
+		trigger = {
+			ITA = { controls_state = 160 }
+		}
+		ai_chance = { factor = 5 }
+		hidden_effect = {
+			PRS = { country_event = { days = 1 id = sevenweekswar.80 } }
+			###Trentino + Trieste
+		}
+	}
+	
+	option = {
+		name = sevenweekswar.11.g
+		trigger = {
+			ITA = { controls_state = 160 }
+		}
+		ai_chance = { factor = 0 }
+		hidden_effect = {
+			PRS = { country_event = { days = 1 id = sevenweekswar.81 } }
+			###Trentino + Trieste + Istria + South Istria
+		}
+	}
+	
+	#Option h will always appear
+	option = {
+		name = sevenweekswar.11.h
+		ai_chance = { factor = 0 }
+		hidden_effect = {
+			PRS = { country_event = { days = 1 id = sevenweekswar.78 } }
+			###No Alliance with Prussia
+		}
 	}
 }
 
-#Prussia - Accept Italian Demands?
+#Prussia - Accept Italian Demands? ####Veneto = Historical Option
 country_event = {
 	id = sevenweekswar.12
 	title = sevenweekswar.12.t
@@ -338,22 +389,24 @@ country_event = {
 	
 	option = {
 		name = sevenweekswar.12.a
-		ai_chance = { factor = 95 }
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = PRS_accept_Italy_demands_Veneto_tt
 		hidden_effect = {
 			PRS = { set_country_flag = PRS_ITA_alliance_1866_1 }
+			ITA = { country_event = { days = 1 id = sevenweekswar.82 } }
 		}
 	}
 	
 	option = {
 		name = sevenweekswar.12.b
-		ai_chance = { factor = 5 }
+		ai_chance = { factor = 0 }
 		hidden_effect = {
-			PIE = { country_event = { days = 1 id = sevenweekswar.15 } }
+			ITA = { country_event = { days = 1 id = sevenweekswar.15 } }
 		}
 	}
 }
 
-#Prussia - Accept Italian Demands?
+#Prussia - Accept Italian Demands? ####Veneto + Trentino
 country_event = {
 	id = sevenweekswar.13
 	title = sevenweekswar.13.t
@@ -365,22 +418,24 @@ country_event = {
 	
 	option = {
 		name = sevenweekswar.13.a
-		ai_chance = { factor = 50 }
+		ai_chance = { factor = 25 }
+		custom_effect_tooltip = PRS_accept_Italy_demands_Veneto_Trentino_tt
 		hidden_effect = {
 			PRS = { set_country_flag = PRS_ITA_alliance_1866_2 }
+			ITA = { country_event = { days = 1 id = sevenweekswar.82 } }
 		}
 	}
 	
 	option = {
 		name = sevenweekswar.13.b
-		ai_chance = { factor = 50 }
+		ai_chance = { factor = 75 }
 		hidden_effect = {
-			PIE = { country_event = { days = 1 id = sevenweekswar.15 } }
+			ITA = { country_event = { days = 1 id = sevenweekswar.15 } }
 		}
 	}
 }
 
-#Prussia – No Italian Alliance 
+#Prussia – Accept Italian Demands? ###Veneto + Trentino + Trieste
 country_event = {
 	id = sevenweekswar.14
 	title = sevenweekswar.14.t
@@ -391,7 +446,20 @@ country_event = {
 	
 	option = {
 		name = sevenweekswar.14.a
-		ai_chance = { factor = 100 }
+		ai_chance = { factor = 5 }
+		custom_effect_tooltip = PRS_accept_Italy_demands_Veneto_Trentino_Trieste_tt
+		hidden_effect = {
+			PRS = { set_country_flag = PRS_ITA_alliance_1866_3 }
+			ITA = { country_event = { days = 1 id = sevenweekswar.82 } }
+		}
+	}
+	
+	option = {
+		name = sevenweekswar.14.b
+		ai_chance = { factor = 95 }
+		hidden_effect = {
+			ITA = { country_event = { days = 1 id = sevenweekswar.15 } }
+		}
 	}
 }
 
@@ -407,6 +475,8 @@ country_event = {
 	option = {
 		name = sevenweekswar.15.a
 		ai_chance = { factor = 100 }
+		add_political_power = -25
+		add_war_support = -0.05
 	}
 }
 
@@ -506,7 +576,7 @@ country_event = {
 		name = sevenweekswar.19.a
 		ai_chance = { factor = 95 }
 		add_political_power = -50
-		AUS = { add_timed_idea = { idea = PRS_idea_boost_AUS_socialism days = 180 } }
+		AUS = { add_timed_idea = { idea = AUS_idea_PRS_boost_socialism days = 180 } }
 		reverse_add_opinion_modifier = { target = AUS modifier = eoanb_om_PRS_AUS_socialism }
 	}
 	
@@ -790,6 +860,8 @@ country_event = {
 	
 	fire_only_once = yes
 	is_triggered_only = yes
+	
+	timeout_days = 2
 	
 	option = {
 		name = sevenweekswar.31.a
@@ -1113,12 +1185,72 @@ country_event = {
 			}
 			AUS = { create_faction = faction_austrian_allies }
 			AUS = { 
-				add_to_faction = BAV
-				add_to_faction = BAD
-				add_to_faction = FRK
+				if = {
+					limit = {
+						BAV = {
+							OR = {
+								has_country_flag = eoanb_flag_sww_side_aus
+								NOT = { has_country_flag = bavaria_sides_with_prussia }
+							}
+						}
+					}
+					add_to_faction = BAV
+					hidden_effect = {
+						BAV = { set_country_flag = eoanb_flag_AUS_ally_sww }
+					}
+				}
+				if = {
+					limit = {
+						WUR = {
+							OR = {
+								has_country_flag = WUR_stance_austria_accepted
+								has_country_flag = eoanb_flag_sww_side_aus
+								NOT = { has_country_flag = WUR_stance_prussia_accepted }
+							}
+						}
+					}
+					add_to_faction = WUR
+					hidden_effect = {
+						WUR = { set_country_flag = eoanb_flag_AUS_ally_sww }
+					}
+				}
+				if = {
+					limit = {
+						BAD = {
+							has_country_flag = eoanb_flag_sww_side_aus
+						}
+					}
+					add_to_faction = BAD
+					hidden_effect = {
+						BAD = { set_country_flag = eoanb_flag_AUS_ally_sww }
+					}
+				}
+				if = {
+					limit = {
+						FRK = {
+							has_country_flag = eoanb_flag_sww_side_aus
+						}
+					}
+					add_to_faction = FRK
+					hidden_effect = {
+						FRK = { set_country_flag = eoanb_flag_AUS_ally_sww }
+					}
+				}
+				if = {
+					limit = {
+						HSD = {
+							has_country_flag = eoanb_flag_sww_side_aus
+						}
+					}
+					add_to_faction = HSD
+					hidden_effect = {
+						HSD = { set_country_flag = eoanb_flag_AUS_ally_sww }
+					}
+				}
 				add_to_faction = LIE
-				add_to_faction = WUR
-				add_to_faction = HSD
+				hidden_effect = {
+					LIE = { set_country_flag = eoanb_flag_AUS_ally_sww }
+				}
 			}
 		}
 		if = {
@@ -1146,6 +1278,69 @@ country_event = {
 		name = sevenweekswar.47.a
 		ai_chance = { factor = 100 }
 		create_faction = faction_prussian_allies
+		PRS = {
+			if = {
+				limit = {
+					BAV = {
+						OR = {
+							has_country_flag = eoanb_flag_sww_side_prs
+							has_country_flag = bavaria_sides_with_prussia
+						}
+					}
+				}
+				add_to_faction = BAV
+				hidden_effect = {
+					BAV = { set_country_flag = eoanb_flag_PRS_ally_sww }
+				}
+			}
+			if = {
+				limit = {
+					WUR = {
+						OR = {
+							has_country_flag = eoanb_flag_sww_side_prs
+							has_country_flag = WUR_stance_prussia_accepted
+						}
+					}
+				}
+				add_to_faction = WUR
+				hidden_effect = {
+					WUR = { set_country_flag = eoanb_flag_PRS_ally_sww }
+				}
+			}
+			if = {
+				limit = {
+					BAD = {
+						has_country_flag = eoanb_flag_sww_side_prs
+					}
+				}
+				add_to_faction = BAD
+				hidden_effect = {
+					BAD = { set_country_flag = eoanb_flag_PRS_ally_sww }
+				}
+			}
+			if = {
+				limit = {
+					FRK = {
+						has_country_flag = eoanb_flag_sww_side_prs
+					}
+				}
+				add_to_faction = FRK
+				hidden_effect = {
+					FRK = { set_country_flag = eoanb_flag_PRS_ally_sww }
+				}
+			}
+			if = {
+				limit = {
+					HSD = {
+						has_country_flag = eoanb_flag_sww_side_prs
+					}
+				}
+				add_to_faction = HSD
+				hidden_effect = {
+					HSD = { set_country_flag = eoanb_flag_PRS_ally_sww }
+				}
+			}
+		}
 		custom_effect_tooltip = PRS_declares_german_war
 		declare_war_on = { target = AUS type = annex_everything }
 		hidden_effect = {
@@ -1157,6 +1352,10 @@ country_event = {
 						OR = { 
 							has_country_flag = PRS_ITA_alliance_1866_1
 							has_country_flag = PRS_ITA_alliance_1866_2
+							has_country_flag = PRS_ITA_alliance_1866_3
+							has_country_flag = PRS_ITA_alliance_1866_4
+							has_country_flag = PRS_ITA_alliance_1866_5
+							has_country_flag = PRS_ITA_alliance_1866_6
 						}
 					}
 				}
@@ -1257,6 +1456,7 @@ country_event = {
 		PRS = { add_to_faction = ROOT }
 		hidden_effect = {
 			PRS = { country_event = { days = 1 id = sevenweekswar.51 } }
+			ROOT = { set_country_flag = eoanb_flag_PRS_ally_sww }
 		}
 	}
 	
@@ -1269,6 +1469,7 @@ country_event = {
 		AUS = { add_to_faction = ROOT }
 		hidden_effect = {
 			PRS = { country_event = { days = 1 id = sevenweekswar.52 } }
+			ROOT = { set_country_flag = eoanb_flag_AUS_ally_sww }
 		}
 	}
 }
@@ -1355,6 +1556,7 @@ country_event = {
 		PRS = { add_to_faction = ROOT }
 		hidden_effect = {
 			PRS = { country_event = { days = 1 id = sevenweekswar.55 } }
+			ROOT = { set_country_flag = eoanb_flag_PRS_ally_sww }
 		}
 	}
 	
@@ -1373,6 +1575,7 @@ country_event = {
 		AUS = { add_to_faction = ROOT }
 		hidden_effect = {
 			PRS = { country_event = { days = 1 id = sevenweekswar.56 } }
+			ROOT = { set_country_flag = eoanb_flag_AUS_ally_sww }
 		}
 	}
 }
@@ -1427,7 +1630,7 @@ country_event = {
 		name = sevenweekswar.57.a
 		ai_chance = { factor = 100 }
 		add_political_power = -25
-		PIE = { country_event = { days = 3 id = sevenweekswar.58 } }
+		ITA = { country_event = { days = 3 id = sevenweekswar.58 } }
 	}
 }
 
@@ -1486,10 +1689,11 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = -50
 		add_stability = -0.15
-		add_war_support = -0.25
+		add_war_support = -0.5
 		custom_effect_tooltip = AUS_german_war_sue_for_peace
 		hidden_effect = {
 			white_peace = PRS
+			white_peace = ITA
 			PRS = { dismantle_faction = yes }
 			AUS = { dismantle_faction = yes }
 			clr_global_flag = eoanb_flag_seven_weeks_war_ongoing
@@ -1510,9 +1714,23 @@ country_event = {
 				limit = {
 					has_idea = GER_general_idea_ger_confed
 					NOT = { tag = PRS }
-					NOT = { tag = AUS }
 				}
 				country_event = { id = sevenweekswar.61 } 
+			}
+			if = {
+				limit = {
+					PRS = { 
+						OR = {
+							has_country_flag = PRS_ITA_alliance_1866_1
+							has_country_flag = PRS_ITA_alliance_1866_2
+							has_country_flag = PRS_ITA_alliance_1866_3
+							has_country_flag = PRS_ITA_alliance_1866_4
+							has_country_flag = PRS_ITA_alliance_1866_5
+							has_country_flag = PRS_ITA_alliance_1866_6
+						}
+					}
+				}
+				ITA = { country_event = { id = sevenweekswar.83 } }
 			}
 		}
 	}
@@ -1533,7 +1751,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = 100
 		add_stability = 0.1
-		add_war_support = -0.25
+		add_war_support = -0.5
 		hidden_effect = {
 			PRS = { country_event = { days = 11 id = sevenweekswar.65 } }
 			PRS = { country_event = { days = 23 id = sevenweekswar.69 } }
@@ -1562,7 +1780,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = -25
 		add_stability = -0.05
-		add_war_support = -0.25
+		add_war_support = -0.5
 	}
 }
 
@@ -1598,10 +1816,11 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = -50
 		add_stability = -0.15
-		add_war_support = -0.25
+		add_war_support = -0.5
 		custom_effect_tooltip = PRS_german_war_sue_for_peace
 		hidden_effect = {
 			white_peace = AUS
+			ITA = { white_peace = AUS }
 			PRS = { dismantle_faction = yes }
 			AUS = { dismantle_faction = yes }
 			clr_global_flag = eoanb_flag_seven_weeks_war_ongoing
@@ -1637,7 +1856,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = 100
 		add_stability = 0.1
-		add_war_support = -0.25
+		add_war_support = -0.5
 		hidden_effect = {
 			AUS = { country_event = { days = 28 id = sevenweekswar.73 } }
 		}
@@ -1658,7 +1877,7 @@ country_event = {
 		ai_chance = { factor = 100 }
 		add_political_power = 25
 		add_stability = 0.02
-		add_war_support = -0.25
+		add_war_support = -0.5
 	}
 }
 
@@ -1845,6 +2064,35 @@ country_event = {
 			PRS = { complete_national_focus = PRS_focus_peace_of_prague }
 			PRS = { set_country_flag = eoanb_flag_won_7_weeks_war }
 			PRS = { set_variable = { rival_country = FRA.id } }
+			FRA = { 
+				set_variable = { rival_country = PRS.id } 
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = PRS
+					value = 110
+				}		
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = BAV
+					value = 110
+				}		
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = BAD
+					value = 110
+				}
+				add_ai_strategy = {
+					type = area_priority
+					id = africa
+					value = -100
+				}
+				add_ai_strategy = {
+					type = area_priority
+					id = europe
+					value = 4000 #more focus here
+				} 
+			}
+
 			AUS = { country_event = { id = sevenweekswar.72 } }
 			PRS = { country_event = { days = 1 id = sevenweekswar.75 } }
 			every_country = {
@@ -1854,7 +2102,7 @@ country_event = {
 				}
 				country_event = { days = 1 id = sevenweekswar.76 } 
 			}
-			PIE = { country_event = { days = 41 id = sevenweekswar.78 } }
+			ITA = { country_event = { days = 41 id = sevenweekswar.84 } }
 		}
 	}
 }
@@ -1901,9 +2149,11 @@ country_event = {
 			}
 			WUR = { transfer_state = 1033 }
 			HAN = { annex_country = { target = OLD transfer_troops = no } }
+			HAN = { transfer_state = 1060 }
+			PRS = { transfer_state = 1035 }
 			AUS = { set_country_flag = AUS_flag_won_sww }
 			PRS = { country_event = { id = sevenweekswar.74 } }
-			PIE = { country_event = { days = 41 id = sevenweekswar.79 } }
+			ITA = { country_event = { days = 41 id = sevenweekswar.85 } }
 		}
 	}
 }
@@ -1997,6 +2247,209 @@ country_event = {
 	}
 }
 
-#sevenweekswar.78 - Placeholder - Peace of Vienna - Italian Victory
+#Prussia – No Italian Alliance 
+country_event = {
+	id = sevenweekswar.78
+	title = sevenweekswar.78.t
+	desc = sevenweekswar.78.d
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = sevenweekswar.78.a
+		ai_chance = { factor = 100 }
+		add_political_power = -25
+		add_war_support = -0.05
+	}
+}
 
-#sevenweekswar.79 - Placeholder - Peace of Vienna - Italian Defeat
+#Prussia - Accept Italian Demands? ###Trentino
+country_event = {
+	id = sevenweekswar.79
+	title = sevenweekswar.79.t
+	desc = sevenweekswar.79.d
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = sevenweekswar.79.a
+		ai_chance = { factor = 95 }
+		custom_effect_tooltip = PRS_accept_Italy_demands_Trentino_tt
+		hidden_effect = {
+			PRS = { set_country_flag = PRS_ITA_alliance_1866_4 }
+			ITA = { country_event = { days = 1 id = sevenweekswar.82 } }
+		}
+	}
+	
+	option = {
+		name = sevenweekswar.79.b
+		ai_chance = { factor = 5 }
+		hidden_effect = {
+			ITA = { country_event = { days = 1 id = sevenweekswar.15 } }
+		}
+	}
+}
+
+#Prussia - Accept Italian Demands? ###Trentino + Trieste
+country_event = {
+	id = sevenweekswar.80
+	title = sevenweekswar.80.t
+	desc = sevenweekswar.80.d
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = sevenweekswar.80.a
+		ai_chance = { factor = 20 }
+		custom_effect_tooltip = PRS_accept_Italy_demands_Trentino_Triest_tt
+		hidden_effect = {
+			PRS = { set_country_flag = PRS_ITA_alliance_1866_5 }
+			ITA = { country_event = { days = 1 id = sevenweekswar.82 } }
+		}
+	}
+	
+	option = {
+		name = sevenweekswar.80.b
+		ai_chance = { factor = 80 }
+		hidden_effect = {
+			ITA = { country_event = { days = 1 id = sevenweekswar.15 } }
+		}
+	}
+}
+
+#Prussia - Accept Italian Demands? ###Trentino + Trieste + Istria + South Istria
+country_event = {
+	id = sevenweekswar.81
+	title = sevenweekswar.81.t
+	desc = sevenweekswar.81.d
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = sevenweekswar.81.a
+		custom_effect_tooltip = PRS_accept_Italy_demands_Trentino_Triest_Istria_tt
+		ai_chance = { factor = 0 }
+		hidden_effect = {
+			PRS = { set_country_flag = PRS_ITA_alliance_1866_6 }
+			ITA = { country_event = { days = 1 id = sevenweekswar.82 } }
+		}
+	}
+	
+	option = {
+		name = sevenweekswar.81.b
+		ai_chance = { factor = 100 }
+		hidden_effect = {
+			ITA = { country_event = { days = 1 id = sevenweekswar.15 } }
+		}
+	}
+}
+
+#Italy/Sardinia-Piedmont – Prussia Accepted Our Demands
+country_event = {
+	id = sevenweekswar.82
+	title = sevenweekswar.82.t
+	desc = sevenweekswar.82.d
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = sevenweekswar.82.a
+		ai_chance = { factor = 100 }
+		add_political_power = 10
+		add_war_support = 0.25
+	}
+}
+
+#Italy/Sardinia-Piedmont – Austria Sues for Peace
+country_event = {
+	id = sevenweekswar.83
+	title = sevenweekswar.83.t
+	desc = sevenweekswar.83.d
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = sevenweekswar.83.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = ITA_SWW_Victory_effect_tt
+		add_political_power = 25
+		add_war_support = -0.25
+	}
+}
+
+#Italy/Sardinia-Piedmont – Peace of Vienna - Italian Victory
+country_event = {
+	id = sevenweekswar.84
+	title = sevenweekswar.84.t
+	desc = sevenweekswar.84.d
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = sevenweekswar.84.a
+		ai_chance = { factor = 100 }
+		custom_effect_tooltip = ITA_SWW_Victory_peace_tt
+		if = {
+			limit = {
+				PRS = { has_country_flag = PRS_ITA_alliance_1866_1 } 
+			}
+			ITA = { transfer_state = 160 } #Veneto
+		}
+		else_if = {
+			limit = {
+				PRS = { has_country_flag = PRS_ITA_alliance_1866_2 } 
+			}
+			ITA = { transfer_state = 160 } #Veneto
+			ITA = { transfer_state = 1234 } #Trentino
+		}
+		else_if = {
+			limit = {
+				PRS = { has_country_flag = PRS_ITA_alliance_1866_3 } 
+			}
+			ITA = { transfer_state = 160 } #Veneto
+			ITA = { transfer_state = 1234 } #Trentino
+			ITA = { transfer_state = 1235 } #Trieste
+		}
+		else_if = {
+			limit = {
+				PRS = { has_country_flag = PRS_ITA_alliance_1866_4 } 
+			}
+			ITA = { transfer_state = 1234 } #Trentino
+		}
+		else_if = {
+			limit = {
+				PRS = { has_country_flag = PRS_ITA_alliance_1866_5 } 
+			}
+			ITA = { transfer_state = 1234 } #Trentino
+			ITA = { transfer_state = 1235 } #Trieste
+		}
+		else_if = {
+			limit = {
+				PRS = { has_country_flag = PRS_ITA_alliance_1866_6 } 
+			}
+			ITA = { transfer_state = 1234 } #Trentino
+			ITA = { transfer_state = 1235 } #Trieste
+			ITA = { transfer_state = 736 } #Istria
+			ITA = { transfer_state = 1236 } #South Istria
+		}
+		hidden_effect = {
+			PRS = {
+				clr_country_flag = PRS_ITA_alliance_1866_1
+				clr_country_flag = PRS_ITA_alliance_1866_2
+				clr_country_flag = PRS_ITA_alliance_1866_3
+				clr_country_flag = PRS_ITA_alliance_1866_4
+				clr_country_flag = PRS_ITA_alliance_1866_5
+				clr_country_flag = PRS_ITA_alliance_1866_6
+			}
+		}
+	}
+}
+
+#sevenweekswar.85 - Placeholder - Peace of Vienna - Italian Defeat

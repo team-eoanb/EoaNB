@@ -1,6 +1,7 @@
 ﻿add_namespace = hispaniola
 add_namespace = hispaniola_debt
 add_namespace = hispaniola_debt_declined
+add_namespace = SPR_hispaniola
 add_namespace = FRA_hispaniola
 add_namespace = USA_hispaniola
 add_namespace = DOM_1857_tobacco_coup
@@ -183,7 +184,7 @@ country_event = {
 					create_country_leader = {
 						name = "Buenaventura Báez"
 						desc = "POLITICS_TEMP_DESC"
-						picture = "Portrait_DOM_Pedro_Santana.dds"
+						picture = "Portrait_DOM_Buenaventura_Baez.dds"
 						expire = 1884.3.14
 						ideology = conserv
 					}
@@ -214,7 +215,7 @@ country_event = {
 		create_country_leader = {
 			name = "Jose Desiderio Valverde"
 			desc = "POLITICS_TEMP_DESC"
-			picture = "Portrait_DOM_Pedro_Santana.dds"
+			picture = "Portrait_DOM_Jose_Desiderio_Valverde.dds"
 			expire = 1903.12.22
 			ideology = military_junta
 		}
@@ -260,7 +261,7 @@ country_event = {
 			create_country_leader = {
 				name = "Jose Desiderio Valverde"
 				desc = "POLITICS_TEMP_DESC"
-				picture = "Portrait_DOM_Pedro_Santana.dds"
+				picture = "Portrait_DOM_Jose_Desiderio_Valverde.dds"
 				expire = 1903.12.22
 				ideology = social_liberal
 			}
@@ -852,7 +853,26 @@ country_event = {
 country_event = {
 	id = hispaniola_debt_declined.1
 	title = hispaniola_debt_declined.1.t
-	desc = hispaniola_debt_declined.1.d
+	desc = {
+		text = hispaniola_debt_declined.1.desc_1
+		trigger = { 
+			NOT = { 
+				AND = {
+					has_country_flag = SPR_hispaniola_declined
+					has_country_flag = USA_hispaniola_declined
+					has_country_flag = FRA_hispaniola_declined
+				}
+			}
+		}
+	}
+	desc = {
+		text = hispaniola_debt_declined.1.desc_2
+		trigger = { 
+			has_country_flag = SPR_hispaniola_declined
+			has_country_flag = USA_hispaniola_declined
+			has_country_flag = FRA_hispaniola_declined
+		}
+	}
 	
 	is_triggered_only = yes
 
@@ -890,7 +910,7 @@ country_event = {
 	}
 	
 	option = {
-		name = hispaniola_debt_declined.1.c
+		name = hispaniola_debt_declined.1.d
 		trigger = { 
 			has_country_flag = SPR_hispaniola_declined
 			has_country_flag = USA_hispaniola_declined
@@ -927,7 +947,7 @@ country_event = {
 			}
 			modifier = {
 				add = 90
-				has_country_leader = { name = "Valverde's Guards" ruling_only = yes }
+				has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes }
 			}
 			modifier = {
 				add = 85
@@ -955,7 +975,7 @@ country_event = {
 			}
 			modifier = {
 				add = 5
-				has_country_leader = { name = "Valverde's Guards" ruling_only = yes }
+				has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes }
 			}
 			modifier = {
 				add = 10
@@ -980,7 +1000,7 @@ country_event = {
 			}
 			modifier = {
 				add = 5
-				has_country_leader = { name = "Valverde's Guards" ruling_only = yes }
+				has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes }
 			}
 			modifier = {
 				add = 5
@@ -1009,8 +1029,14 @@ country_event = {
 			base = 100 
 			modifier = {
 				add = -100 
-				USA = { has_country_flag = USAPanic_Of_1857 }
-				USA = { NOT = { has_country_flag = USA_panic_recovery_flag } }
+				USA = {
+					OR = {
+						has_idea = USA_1857Panic1
+						has_idea = USA_1857Panic2
+						has_idea = USA_1857Panic3
+						has_idea = USA_1857Panic4
+					}
+				}
 			}
 			modifier = {
 				factor = 0 
@@ -1050,13 +1076,16 @@ country_event = {
 				puppet = FROM 
 				hidden_effect = { FROM = { load_prevous_ideologies = yes } }
 			}
-			#hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
+			hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
 			if = {
 				limit = { USA = { has_country_flag = USAPanic_Of_1857 } }
 				debt_level_increase_by_8 = yes
 			}
 			else = { debt_level_increase_by_5 = yes }
+			hidden_effect = { ROOT = { country_event = { id = USA_hispaniola.2 days = 7 } } }
+			hidden_effect = { DOM = { add_ideas = normal_taxes } }
 		#}
+		
 	}
 	
 	option = {
@@ -1064,10 +1093,14 @@ country_event = {
 		ai_chance = { 
 			base = 100 
 			modifier = {
-				add = -100 
-				if = {
-					limit = { USA = { has_country_flag = USAPanic_Of_1857 } }
-					USA = { has_country_flag = USA_panic_recovery_flag }
+				add = 100 
+				USA = {
+					OR = {
+						has_idea = USA_1857Panic1
+						has_idea = USA_1857Panic2
+						has_idea = USA_1857Panic3
+						has_idea = USA_1857Panic4
+					}
 				}
 			}
 		}
@@ -1075,6 +1108,208 @@ country_event = {
 		hidden_effect = {
 			FROM = { set_country_flag = USA_hispaniola_declined }
 		}
+	}
+}
+
+country_event = {
+	id = USA_hispaniola.2
+	title = USA_hispaniola.2.t
+	desc = USA_hispaniola.2.d
+
+	is_triggered_only = yes
+	
+	trigger = { DOM = { is_subject_of = ROOT } }
+	
+	immediate = { hidden_effect = { ROOT = { country_event = { id = USA_hispaniola.2 days = 1460 } } } }
+	
+	option = {
+		name = USA_hispaniola.2.a
+		ai_chance = {
+			base = 75 
+			modifier = {
+				add = -25 
+				DOM = {
+					OR = {
+						has_country_leader = { name = "Buenaventura Báez" ruling_only = yes }
+						has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes }
+						has_country_leader = { name = "Pedro Santana" ruling_only = yes }
+					}
+				}
+			}
+		}
+		DOM = {
+			if = {
+				limit = { ROOT = { has_government = anarchism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = anarchism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = vanguard_communism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = vanguard_communism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = collectivist_socialism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = collectivist_socialism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = social_egalitarianism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = social_egalitarianism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = centrism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = centrism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = traditional_conservatism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = traditional_conservatism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = radical_democracy } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = radical_democracy }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = chauvinist_populism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = chauvinist_populism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = autocracy } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = autocracy }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = fundamentalism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = fundamentalism }
+					retire_country_leader = yes
+				}
+			}
+		}
+		hidden_effect = { DOM = { country_event = { id = USA_hispaniola.3 days = 3 } } }
+	}
+	
+	option = {
+		name = USA_hispaniola.2.b
+		ai_chance = { 
+			base = 25 
+			modifier = {
+				add = 25 
+				DOM = {
+					OR = {
+						has_country_leader = { name = "Buenaventura Báez" ruling_only = yes }
+						has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes }
+						has_country_leader = { name = "Pedro Santana" ruling_only = yes }
+					}
+				}
+			}
+		}
+		hidden_effect = { DOM = { country_event = { id = USA_hispaniola.4 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = USA_hispaniola.3
+	title = USA_hispaniola.3.t
+	desc = USA_hispaniola.3.d
+
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = USA_hispaniola.3.a
+		ai_chance = { base = 100 }
+		add_political_power = 25
+		ROOT = {
+			if = {
+				limit = { FROM = { has_government = anarchism } }
+				add_popularity = { ideology = anarchism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = vanguard_communism } }
+				add_popularity = { ideology = vanguard_communism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = collectivist_socialism } }
+				add_popularity = { ideology = collectivist_socialism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = social_egalitarianism } }
+				add_popularity = { ideology = social_egalitarianism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = centrism } }
+				add_popularity = { ideology = centrism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = traditional_conservatism } }
+				add_popularity = { ideology = traditional_conservatism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = radical_democracy } }
+				add_popularity = { ideology = radical_democracy popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = chauvinist_populism } }
+				add_popularity = { ideology = chauvinist_populism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = autocracy } }
+				add_popularity = { ideology = autocracy popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = fundamentalism } }
+				add_popularity = { ideology = fundamentalism popularity = 0.05 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = USA_hispaniola.4
+	title = USA_hispaniola.4.t
+	desc = USA_hispaniola.4.d
+
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = USA_hispaniola.4.a
+		ai_chance = { base = 100 }
+		add_political_power = 100
 	}
 }
 
@@ -1089,7 +1324,7 @@ country_event = {
 	option = {
 		name = FRA_hispaniola.1.a
 		ai_chance = { 
-			factor = 100 
+			base = 100 
 			modifier = {
 				factor = 0 
 				is_historical_focus_on = yes
@@ -1106,7 +1341,7 @@ country_event = {
 				target = DOM
 				transfer_troops = no
 			}
-			#hidden_effect = { load_oob = "DOM_SPAIN_1861" }
+			hidden_effect = { load_oob = "DOM_SPAIN_1861" }
 		}
 		else = {
 			if = {
@@ -1132,14 +1367,15 @@ country_event = {
 				puppet = FROM 
 				hidden_effect = { FROM = { load_prevous_ideologies = yes } }
 			}
-			#hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
+			hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
+			hidden_effect = { DOM = { add_ideas = normal_taxes } }
 			debt_level_increase_by_5 = yes
 		}
 	}
 	
 	option = {
 		name = FRA_hispaniola.1.b
-		ai_chance = { factor = 0 }
+		ai_chance = { base = 0 }
 		FROM = { country_event = { id = hispaniola_debt_declined.1 days = 3 } }
 		hidden_effect = {
 			FROM = { set_country_flag = FRA_hispaniola_declined }
@@ -1158,7 +1394,18 @@ country_event = {
 	
 	option = {
 		name = hispaniola.2.a
-		ai_chance = { factor = 100 }
+		trigger = { SPR = { debt_not_bankrupt_trigger = yes } }
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -100
+				check_variable = { debt_level > 40 }
+			}
+			modifier = {
+				add = 100 
+				is_historical_focus_on = yes
+			}
+		}
 		hidden_effect = { SPR = { set_country_flag = SPR_welcome_back_la_hispaniola_flag } }
 		hidden_effect = { FROM = { debt_level_cleared_effect = yes } }
 		if = {
@@ -1201,7 +1448,9 @@ country_event = {
 				puppet = FROM 
 				hidden_effect = { FROM = { load_prevous_ideologies = yes } }
 			}
-			hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
+			hidden_effect = { ROOT = { country_event = { id = SPR_hispaniola.2 days = 7 } } }
+			hidden_effect = { DOM = { add_ideas = normal_taxes } }
+			hidden_effect = { load_oob = "DOM_SPAIN_1861" }
 		}
 	    HAI = { country_event = { id = hispaniola.3 days = 3 } }
 		debt_level_increase_by_5 = yes
@@ -1209,13 +1458,213 @@ country_event = {
 	
 	option = {
 		name = hispaniola.2.b
-		ai_chance = { factor = 0 }
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				check_variable = { debt_level > 40 }
+			}
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
 		FROM = { country_event = { id = hispaniola_debt_declined.1 days = 3 } }
 		hidden_effect = {
 			FROM = { set_country_flag = SPR_hispaniola_declined }
 		}
 	}
 	
+}
+
+country_event = {
+	id = SPR_hispaniola.2
+	title = SPR_hispaniola.2.t
+	desc = SPR_hispaniola.2.d
+
+	is_triggered_only = yes
+	
+	trigger = { DOM = { is_subject_of = ROOT } }
+	
+	immediate = { hidden_effect = { ROOT = { country_event = { id = SPR_hispaniola.2 days = 1095 } } } }
+	
+	option = {
+		name = SPR_hispaniola.2.a
+		ai_chance = {
+			base = 75 
+			modifier = {
+				add = -75 
+				DOM = { has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes } }
+			}
+		}
+		DOM = {
+			if = {
+				limit = { ROOT = { has_government = anarchism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = anarchism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = vanguard_communism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = vanguard_communism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = collectivist_socialism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = collectivist_socialism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = social_egalitarianism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = social_egalitarianism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = centrism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = centrism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = traditional_conservatism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = traditional_conservatism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = radical_democracy } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = radical_democracy }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = chauvinist_populism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = chauvinist_populism }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = autocracy } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = autocracy }
+					retire_country_leader = yes
+				}
+			}
+			else_if = {
+				limit = { ROOT = { has_government = fundamentalism } }
+				retire_country_leader = yes
+				hidden_effect = { 
+					set_politics = { ruling_party = fundamentalism }
+					retire_country_leader = yes
+				}
+			}
+		}
+		hidden_effect = { DOM = { country_event = { id = SPR_hispaniola.3 days = 3 } } }
+	}
+	
+	option = {
+		name = SPR_hispaniola.2.b
+		ai_chance = { 
+			base = 25 
+			modifier = {
+				add = 75 
+				DOM = { has_country_leader = { name = "Jose Desiderio Valverde" ruling_only = yes } }
+			}
+		}
+		hidden_effect = { DOM = { country_event = { id = SPR_hispaniola.4 days = 3 } } }
+	}
+}
+
+country_event = {
+	id = SPR_hispaniola.3
+	title = SPR_hispaniola.3.t
+	desc = SPR_hispaniola.3.d
+
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = SPR_hispaniola.3.a
+		ai_chance = { base = 100 }
+		add_political_power = 25
+		ROOT = {
+			if = {
+				limit = { FROM = { has_government = anarchism } }
+				add_popularity = { ideology = anarchism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = vanguard_communism } }
+				add_popularity = { ideology = vanguard_communism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = collectivist_socialism } }
+				add_popularity = { ideology = collectivist_socialism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = social_egalitarianism } }
+				add_popularity = { ideology = social_egalitarianism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = centrism } }
+				add_popularity = { ideology = centrism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = traditional_conservatism } }
+				add_popularity = { ideology = traditional_conservatism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = radical_democracy } }
+				add_popularity = { ideology = radical_democracy popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = chauvinist_populism } }
+				add_popularity = { ideology = chauvinist_populism popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = autocracy } }
+				add_popularity = { ideology = autocracy popularity = 0.05 }
+			}
+			else_if = {
+				limit = { FROM = { has_government = fundamentalism } }
+				add_popularity = { ideology = fundamentalism popularity = 0.05 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = SPR_hispaniola.4
+	title = SPR_hispaniola.4.t
+	desc = SPR_hispaniola.4.d
+
+	is_triggered_only = yes
+	
+	
+	option = {
+		name = SPR_hispaniola.4.a
+		ai_chance = { base = 100 }
+		add_political_power = 100
+	}
 }
 
 country_event = {
@@ -1228,7 +1677,17 @@ country_event = {
 	
 	option = {
 		name = hispaniola.3.a
-		ai_chance = { factor = 95 }
+		ai_chance = { 
+			base = 95 
+			modifier = {
+				add = -10 
+				num_divisions > 2
+			}
+			modifier = {
+				add = -25 
+				num_divisions > 5
+			}
+		}
 		every_state = {
 			limit = {
 				is_core_of = DOM
@@ -1241,14 +1700,68 @@ country_event = {
 	
 	option = {
 		name = hispaniola.3.b
-		ai_chance = { factor = 5 }
+		ai_chance = { 
+			base = 5 
+			modifier = {
+				add = 10 
+				num_divisions > 2
+			}
+			modifier = {
+				add = 25 
+				num_divisions > 5
+			}
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
 		add_political_power = -40
 		remove_ideas = HAI_idea_humilliation_hispaniola
 		add_ideas = HAI_liberation_of_hispaniola
-		declare_war_on = {
-			target = SPR
-			type = take_claimed_state
+		if = {
+			limit = { 
+				DOM = {
+					OR = {
+						is_subject_of = SPR 
+						is_subject_of = USA 
+						is_subject_of = FRA 
+					}
+				} 
 			}
+			declare_war_on = {
+				target = DOM
+				type = take_claimed_state
+			}
+			DOM = {
+				OVERLORD = {
+					add_to_war = { 
+						targeted_alliance = DOM 
+						enemy = ROOT 
+						hostility_reason = asked_to_join
+					}
+					hidden_effect = { set_country_flag = HAI_spain_war }
+				}
+				hidden_effect = { set_country_flag = HAI_spain_war }
+			}
+			hidden_effect = { set_country_flag = HAI_spain_war }
+		}
+		else = {
+			every_country = {
+				limit = { 
+					OR = {
+						owns_state = 1318
+						owns_state = 319
+					}
+				}
+				ROOT = { 
+					declare_war_on = {
+						target = PREV
+						type = take_claimed_state
+					}
+				}
+				hidden_effect = { set_country_flag = HAI_spain_war }
+			}
+		}
 		hidden_effect = {
 			set_country_flag = HAI_spain_war
 		}
@@ -1263,13 +1776,13 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	
-	trigger = {
-		AND = {
-			TAG = HAI
-			controls_state = 1318
-			has_country_flag = HAI_spain_war
-		}
-	}
+	#trigger = {
+	#	AND = {
+	#		TAG = HAI
+	#		controls_state = 1318
+	#		has_country_flag = HAI_spain_war
+	#	}
+	#}
 	
 	option = {
 		name = hispaniola.4.a
@@ -1277,9 +1790,11 @@ country_event = {
 		remove_ideas = HAI_liberation_of_hispaniola
 		transfer_state = 1318
 		transfer_state = 319
-		clr_country_flag = HAI_spain_war
-		white_peace = SPR
 		hidden_effect = {
+			every_country = {
+				limit = { has_country_flag = HAI_spain_war }
+				clr_country_flag = HAI_spain_war
+			}
 			every_country = {
 				limit = { 
 					has_war_with = HAI 
@@ -1300,36 +1815,61 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	
-	trigger = {
-		AND = {
-			TAG = SPR
-			controls_state = 318
-			HAI = {
-				has_country_flag = HAI_spain_war
-			}
-		}
-	}
+	#trigger = {
+	#	AND = {
+	#		TAG = SPR
+	#		controls_state = 318
+	#		HAI = {
+	#			has_country_flag = HAI_spain_war
+	#		}
+	#	}
+	#}
 	
 	option = {
 		name = hispaniola.5.a
 		add_political_power = 30
 		HAI = {
 			remove_ideas = HAI_liberation_of_hispaniola
-			clr_country_flag = HAI_spain_war
+			hidden_effect = { clr_country_flag = HAI_spain_war }
 		}
-		white_peace = HAI
+		if = {
+			limit = { DOM = { is_subject_of = ROOT } }
+			DOM = {
+				transfer_state = 318
+				transfer_state = 790
+			}
+		}
+		else = {
+			hidden_effect = {
+				transfer_state = 318
+				transfer_state = 790
+			}
+		}
+		318 = { 
+			DCI_increase_by_4 = yes 
+			DCI_organization_increase_by_50 = yes
+		}
+		790 = { 
+			DCI_increase_by_4 = yes 
+			DCI_organization_increase_by_50 = yes
+		}
 		hidden_effect = {
 			every_country = {
-				limit = { 
-					has_war_with = HAI 
-					NOT = { original_tag = HAI }
+				limit = { has_country_flag = HAI_spain_war }
+				clr_country_flag = HAI_spain_war
+			}
+			if = {
+				limit = { HAI = { exists = yes } }
+				every_country = {
+					limit = { 
+						has_war_with = HAI 
+						NOT = { original_tag = HAI }
+					}
+					white_peace = HAI
 				}
-				white_peace = HAI
 			}
 		}
 	}
-	
-	
 }
 
 country_event = {
@@ -1486,70 +2026,7 @@ country_event = {
 	}    
 }
 
-country_event = {
-	id = hispaniola.10
-	title = hispaniola.10.t
-	desc = hispaniola.10.d
 
-	fire_only_once = yes
-	
-	is_triggered_only = yes
-	
-	#trigger = {
-	#	AND = {
-	#		TAG = HAI
-	#		date > 1867.05.16
-	#	}
-	#}
-	
-	option = {
-		name = hispaniola.10.a
-		add_political_power = -10
-		set_politics = { 
-			ruling_party = radical_democracy
-		}
-		add_popularity = {
-			ideology = radical_democracy
-			popularity = 0.15
-		}
-
-	}	
-}
-
-country_event = {
-	id = hispaniola.11
-	title = hispaniola.11.t
-	desc = hispaniola.11.d
-
-	fire_only_once = yes
-	
-	is_triggered_only = yes
-	
-	#trigger = {
-	#	AND = {
-	#		TAG = HAI
-	#		date > 1868.07.17
-	#	}
-	#}
-	
-	option = {
-		name = hispaniola.11.a
-		set_politics = {
-			ruling_party = centrism
-		}
-		start_civil_war = {
-			ideology = radical_democracy
-			size = 0.2
-			capital = 790
-			states = { 
-				790
-			}
-			keep_unit_leaders = {
-							
-			}
-		}
-	}	
-}
 
 country_event = {
 	id = hispaniola.12

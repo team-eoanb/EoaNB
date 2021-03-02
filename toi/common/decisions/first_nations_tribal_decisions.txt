@@ -243,7 +243,7 @@ first_nations_tribal_conflict_category = {
 		}
 
 		ai_will_do = {
-			base = 1
+			base = 5
 			modifier = {
 				factor = 0 
 				ROOT = {
@@ -253,11 +253,35 @@ first_nations_tribal_conflict_category = {
 					}
 				}
 			}
+			modifier = {
+				factor = 0.9
+				check_variable = {
+					afr_war_exhaustion_value = 1
+				}
+			}
+			modifier = {
+				factor = 0.8 
+				check_variable = {
+					afr_war_exhaustion_value = 2
+				}
+			}
+			modifier = {
+				factor = 0.7 
+				check_variable = {
+					afr_war_exhaustion_value = 3
+				}
+			}
+			modifier = {
+				factor = 0.6 
+				check_variable = {
+					afr_war_exhaustion_value = 4
+				}
+			}
 		}
 	}
 	
 	#This is considered a colonial mechanic
-	first_nations_tribal_raid_colonial_neighbor = {
+	first_nations_tribal_raid_colonial_neighbor = {#Tribe raids colonialist neighbor like US or Utah
 
 		icon = generic_political_discourse
 
@@ -335,6 +359,7 @@ first_nations_tribal_conflict_category = {
 				}
 			}
 		}
+
 		allowed = { is_first_nations_tribe = yes }
 		
 		target_trigger = {
@@ -366,9 +391,9 @@ first_nations_tribal_conflict_category = {
 			command_power > 99.9
 
 		}
+		
 		custom_cost_text = afr_tribal_raid_colonial_neighbor_command_power_more_than_99
 			
-		
 		cancel_trigger = {
 			custom_trigger_tooltip = {
 				tooltip = edc_raid_decision_cancel_trigger
@@ -379,6 +404,7 @@ first_nations_tribal_conflict_category = {
 				}
 			}
 		}
+
 		modifier = {
 			command_power_gain_mult = -0.90
 		}
@@ -387,6 +413,21 @@ first_nations_tribal_conflict_category = {
 				add_command_power = -100
 				ROOT = { set_country_flag = set_border_war_data_first_nations_tribal_raid_colonial_neighbor_flag }
 				ROOT = { country_event = { id = set_border_war_data_first_nations_tribal_raid.1 days = 31 } }
+				random_list = {
+					50 = {
+						FROM = {
+							country_event = { id = first_nations_tribal_raid_colonial_neighbor_detect_raid.1 } #<- does nothing 
+							set_country_flag = first_nations_tribal_raid_spotted_flag
+							#add_ai_strategy = {
+							#	type = prepare_for_war
+							#	id = ROOT
+							#	value = 5
+							#}
+						}
+					}
+					50 = {
+					}
+				}
 			}
 			if = {
 				limit = { 
@@ -581,6 +622,30 @@ first_nations_tribal_conflict_category = {
 						target = FROM
 						value > 60
 					}
+				}
+			}
+			modifier = {
+				factor = 0.9
+				check_variable = {
+					afr_war_exhaustion_value = 1
+				}
+			}
+			modifier = {
+				factor = 0.8 
+				check_variable = {
+					afr_war_exhaustion_value = 2
+				}
+			}
+			modifier = {
+				factor = 0.7 
+				check_variable = {
+					afr_war_exhaustion_value = 3
+				}
+			}
+			modifier = {
+				factor = 0.6 
+				check_variable = {
+					afr_war_exhaustion_value = 4
 				}
 			}
 		}

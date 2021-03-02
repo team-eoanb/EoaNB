@@ -202,6 +202,7 @@ focus_tree = {
 		icon = GFX_focus_rom_royal_dictatorship
 		cost = 15
 		ai_will_do = {
+			base = 1
 			modifier = {
 				is_historical_focus_on = yes
 				factor = 100
@@ -385,6 +386,7 @@ focus_tree = {
 			hidden_effect = {
 				set_country_flag = TUS_vic_Branch1Complete
 				set_country_flag = TUS_vic_Politics_complete_1
+				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
@@ -396,6 +398,7 @@ focus_tree = {
 		icon = GFX_goal_focus_enact_law
 		cost = 15
 		ai_will_do = {
+			base = 1
 			modifier = {
 				NOT = {
 					is_historical_focus_on = yes
@@ -619,6 +622,7 @@ focus_tree = {
 			   
 			  }
 			  set_country_flag = TUS_vic_Politics_complete_2
+			  mark_focus_tree_layout_dirty = yes
 			}
 			set_popularities = {
 				anarchism = 5
@@ -926,23 +930,16 @@ focus_tree = {
 		cost = 70
 
 		allow_branch = {
-			if = {
-				limit = {
-					NOT = { has_country_flag = TUS_vic_No_Monarchy }
-				}
-				OR = {
-					has_completed_focus = TUS_vic_Tuscanian_Traditions
-					has_completed_focus = TUS_vic_Power_To_The_Workers
-				}
-				else = {
-					has_country_flag = TUS_vic_No_Monarchy
-				}
-			}
-			NOT = {
-				is_puppet = yes
-			}
+            OR = {
+                has_completed_focus = TUS_vic_Tuscanian_Traditions
+                has_completed_focus = TUS_vic_Power_To_The_Workers
+                has_country_flag = TUS_vic_No_Monarchy
+            }
+            NOT = {
+                is_puppet = yes
+            }
            
-		}
+        }
 
 		#prerequisite = { focus =  }
 
@@ -955,6 +952,9 @@ focus_tree = {
 		
 		completion_reward = {
             add_stability = -0.05
+			hidden_effect = {
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -2140,11 +2140,12 @@ focus = {
 		cost = 70
 
 		available = {
-            always = no
+            custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt	
+				always = no
+			}
 		}
-		allow_branch = {
-			has_idea = TUS_farmer_strikes
-		}
+		
 		#prerequisite = { focus =  }
 
 		x = 5
@@ -2432,10 +2433,11 @@ focus = {
 					load_focus_tree = italy_focus
 					set_variable = { southern_revolt_risk = 10 }
 					add_ideas = ITA_Southern_Revolt_Risk_Idea
-					add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Brigandage  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
+					add_ideas = { ITA_Unorganized_Army  ITA_Unorganized_Navy  ITA_Different_Naval_Doctorines  ITA_Reliance_on_Farming }
 					LVN = {
 						remove_ideas = { LVN_National_Society }
 					}
+					###ITA_Brigandage TEMPORARILY REMOVED
 					country_event = {
 						id = ita.8
 					}
