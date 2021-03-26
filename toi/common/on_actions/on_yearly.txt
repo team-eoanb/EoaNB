@@ -7,17 +7,21 @@ on_actions = {
 		#####Second Checks the Decade (Bi-decadal (?) timeline)
 		#####Third Checks the year for bi-yearly firing
 		effect = {
+			log = "on_yearly_kde"
 			set_temp_variable = { tempkdecheck1 = global.year }
 			modulo_temp_variable = { var = tempkdecheck1 value = 2 }
 			if = {
 				limit = { 
 					check_variable = { var = tempkdecheck1 value = 0 compare = equals } 
 				}
+				log = "[GetDateText]:kde_first_check_complete"
 				if = {
 					limit = { check_variable = { global.year < 1870 } }
+					log = "[GetDateText]:kde_second_check_complete"
 					if = {
 						limit = { check_variable = { global.year < 1860 } }
 						UCT = { KDE_bi_yearly_event_fire_1858_to_1859 = yes }
+						log = "[GetDateText]:kde_scripted_effect_check_complete"
 					}
 					else_if = {
 						limit = { check_variable = { global.year < 1862 } }
@@ -28,7 +32,7 @@ on_actions = {
 						UCT = { KDE_bi_yearly_event_fire_1862_to_1863 = yes }
 					}
 					else_if = {
-						limit = { check_variable = { global.year < 1876 } }
+						limit = { check_variable = { global.year < 1866 } }
 						UCT = { KDE_bi_yearly_event_fire_1864_to_1865 = yes }
 					}
 					else_if = {
