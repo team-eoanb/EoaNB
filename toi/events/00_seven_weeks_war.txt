@@ -2900,6 +2900,9 @@ country_event = {
 		ai_chance = { base = 100 }
 		add_political_power = 100
 		increase_ps_by_one = yes
+		hidden_effect = {
+			PRS = { country_event = { days = 60 id = sevenweekswar.104 } }
+		}
 	}
 }
 
@@ -3164,7 +3167,7 @@ country_event = {
 	
 	option = { #Accept
 		name = sevenweekswar.114.a
-		ai_chance = { base = 100 }
+		ai_chance = { base = 100 } #Testing
 		hidden_effect = {
 			PRS = { country_event = { days = 3 id = sevenweekswar.116 } }
 			ROOT = { set_country_flag = PRS_furstentag_attending_flag }
@@ -3173,7 +3176,7 @@ country_event = {
 	
 	option = { #Decline
 		name = sevenweekswar.114.b
-		ai_chance = { base = 0 }
+		ai_chance = { base = 0 } #Testing
 		hidden_effect = {
 			PRS = { country_event = { days = 3 id = sevenweekswar.117 } }
 		}
@@ -3194,7 +3197,7 @@ country_event = {
 	
 	option = { #Accept
 		name = sevenweekswar.115.a
-		ai_chance = { base = 100 }
+		ai_chance = { base = 100 } #Testing
 		hidden_effect = {
 			PRS = { country_event = { days = 7 id = sevenweekswar.118 } }
 			ROOT = { set_country_flag = PRS_furstentag_attending_flag }
@@ -3203,7 +3206,7 @@ country_event = {
 	
 	option = { #Decline
 		name = sevenweekswar.115.b
-		ai_chance = { base = 0 }
+		ai_chance = { base = 0 } #Testing
 		hidden_effect = {
 			PRS = { country_event = { days = 7 id = sevenweekswar.119 } }
 		}
@@ -3360,6 +3363,14 @@ country_event = {
 		add_war_support = 0.05
 		hidden_effect = {
 			clr_country_flag = PRS_bundesreform_furstentag_attendance_too_low_flag
+			clr_global_flag = PRS_AUS_attends_furstentag_flag
+			clr_global_flag = PRS_AUS_declines_furstentag_flag
+			every_country = {
+				limit = {
+					has_country_flag = PRS_furstentag_attending_flag
+				}
+				clr_country_flag = PRS_furstentag_attending_flag
+			}
 		}
 	}
 }
@@ -3385,7 +3396,7 @@ country_event = {
 				}
 				country_event = { id = sevenweekswar.124 }	
 			}
-			PRS = { country_event = { days = 5 id = sevenweekswar.126 } }
+			PRS = { country_event = { days = 2 id = sevenweekswar.126 } }
 		}
 	}
 }
@@ -3423,6 +3434,8 @@ country_event = {
 	desc = sevenweekswar.124.d
 	picture = GFX_event_veste_coburg
 	
+	timeout_days = 4
+	
 	is_triggered_only = yes
 	
 	option = {
@@ -3437,6 +3450,8 @@ country_event = {
 	title = sevenweekswar.125.t
 	desc = sevenweekswar.125.d
 	picture = GFX_event_stolzenfels_castle
+	
+	timeout_days = 4
 	
 	is_triggered_only = yes
 	
@@ -3498,6 +3513,8 @@ country_event = {
 	desc = sevenweekswar.127.d
 	#picture = GFX_event_stolzenfels_castle
 	
+	timeout_days = 4
+	
 	is_triggered_only = yes
 	
 	option = {
@@ -3512,6 +3529,8 @@ country_event = {
 	title = sevenweekswar.128.t
 	desc = sevenweekswar.128.d
 	#picture = GFX_event_stolzenfels_castle
+	
+	timeout_days = 4
 	
 	is_triggered_only = yes
 	
@@ -3534,6 +3553,7 @@ country_event = {
 	option = {
 		name = sevenweekswar.129.a
 		ai_chance = { base = 100 }
+		custom_effect_tooltip = PRS_reform_vote_effect_tt
 		hidden_effect = {
 			set_variable = { var = PRS_bundesreform_furstentag_yes_votes value = 1 }
 			set_country_flag = PRS_furstentag_voting_yes_flag
@@ -3561,7 +3581,7 @@ country_event = {
 	
 	option = {
 		name = sevenweekswar.130.a
-		ai_chance = { base = 100 }
+		ai_chance = { base = 100 } #Testing
 		add_political_power = 10
 		hidden_effect = {
 			PRS = { add_to_variable = { var = PRS_bundesreform_furstentag_yes_votes value = 1 } }
@@ -3571,7 +3591,7 @@ country_event = {
 	
 	option = {
 		name = sevenweekswar.130.b
-		ai_chance = { base = 0 }
+		ai_chance = { base = 0 } #Testing
 		add_political_power = -10
 		hidden_effect = {
 			set_country_flag = PRS_furstentag_voting_no_flag
@@ -3595,6 +3615,7 @@ country_event = {
 		if = {
 			limit = {
 				check_variable = { var = PRS_bundesreform_furstentag_attendance value = 9 }
+				NOT = { check_variable = { PRS_bundesreform_furstentag_attendance = PRS_bundesreform_furstentag_yes_votes } }
 			}
 			if = {
 				limit = {
@@ -3609,6 +3630,7 @@ country_event = {
 		else_if = {
 			limit = {
 				check_variable = { var = PRS_bundesreform_furstentag_attendance value = 10 }
+				NOT = { check_variable = { PRS_bundesreform_furstentag_attendance = PRS_bundesreform_furstentag_yes_votes } }
 			}
 			if = {
 				limit = {
@@ -3626,6 +3648,7 @@ country_event = {
 					check_variable = { var = PRS_bundesreform_furstentag_attendance value = 11 }
 					check_variable = { var = PRS_bundesreform_furstentag_attendance value = 12 }
 				}
+				NOT = { check_variable = { PRS_bundesreform_furstentag_attendance = PRS_bundesreform_furstentag_yes_votes } }
 			}
 			if = {
 				limit = {
@@ -3640,6 +3663,7 @@ country_event = {
 		else_if = {
 			limit = {
 				check_variable = { var = PRS_bundesreform_furstentag_attendance value = 13 }
+				NOT = { check_variable = { PRS_bundesreform_furstentag_attendance = PRS_bundesreform_furstentag_yes_votes } }
 			}
 			if = {
 				limit = {
@@ -3657,6 +3681,7 @@ country_event = {
 					check_variable = { var = PRS_bundesreform_furstentag_attendance value = 14 }
 					check_variable = { var = PRS_bundesreform_furstentag_attendance value = 15 }
 				}
+				NOT = { check_variable = { PRS_bundesreform_furstentag_attendance = PRS_bundesreform_furstentag_yes_votes } }
 			}
 			if = {
 				limit = {
@@ -3671,6 +3696,7 @@ country_event = {
 		else_if = {
 			limit = {
 				check_variable = { var = PRS_bundesreform_furstentag_attendance value = 16 }
+				NOT = { check_variable = { PRS_bundesreform_furstentag_attendance = PRS_bundesreform_furstentag_yes_votes } }
 			}
 			if = {
 				limit = {
@@ -3685,6 +3711,7 @@ country_event = {
 		else_if = {
 			limit = {
 				check_variable = { var = PRS_bundesreform_furstentag_attendance value = 17 }
+				NOT = { check_variable = { PRS_bundesreform_furstentag_attendance = PRS_bundesreform_furstentag_yes_votes } }
 			}
 			if = {
 				limit = {
@@ -3695,6 +3722,12 @@ country_event = {
 			else = {
 				PRS = { country_event = { id = sevenweekswar.133 } }
 			}
+		}
+		else_if = {
+			limit = {
+				check_variable = { PRS_bundesreform_furstentag_attendance = PRS_bundesreform_furstentag_yes_votes }
+			}
+			PRS = { country_event = { id = sevenweekswar.134 } }
 		}
 		else = {
 			PRS = { country_event = { id = sevenweekswar.133 } }
@@ -3731,5 +3764,37 @@ country_event = {
 	option = {
 		name = sevenweekswar.133.a
 		ai_chance = { base = 100 }
+	}
+}
+
+#Prussia - Reform Vote Carried Unanimously
+country_event = {
+	id = sevenweekswar.134
+	title = sevenweekswar.134.t
+	desc = sevenweekswar.134.d
+	#picture = GFX_event_veste_coburg
+	
+	fire_only_once = yes
+	is_triggered_only = yes	
+	
+	option = {
+		name = sevenweekswar.134.a
+		ai_chance = { base = 100 }
+		if = {
+			limit = {
+				has_country_flag = PRS_BAV_propose_smaller_Germany_flag
+			}
+			custom_effect_tooltip = PRS_reform_vote_unanimous_smaller_effect_tt
+			hidden_effect = {
+			}
+		}
+		else_if = {
+			limit = {
+				has_country_flag = PRS_BAV_propose_greater_Germany_flag
+			}
+			custom_effect_tooltip = PRS_reform_vote_unanimous_greater_effect_tt
+			hidden_effect = {
+			}
+		}
 	}
 }
