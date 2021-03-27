@@ -1,5 +1,5 @@
 months = [-1, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-def dc(e_y, e_m, e_d, random_days = 100, s_y = 1870, s_m = 1, s_d = 1):
+def dc(e_y, e_m, e_d, random_days = 100, s_y = 1857, s_m = 5, s_d = 11):
     y, m, d = e_y-s_y, s_m, e_d-s_d
     c = 0
     if m > e_m:
@@ -20,6 +20,9 @@ def dc(e_y, e_m, e_d, random_days = 100, s_y = 1870, s_m = 1, s_d = 1):
         print("random_days =",random_days-c)
     else:
         print()
+
+print ("This is deprecated. Use KDE_calculator.py instead.")
+
 while True:
     vl = [int(x) for x in input("Enter the date around which you want to receive the event (YYYY MM DD, separated by spaces):").split()]
     r = input("Enter the range in which the event can fire in days:")
