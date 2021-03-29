@@ -24,7 +24,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Economic_Policies
 		icon = GFX_goal_focus_banks
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Focus_Politics
 		}
@@ -38,12 +38,12 @@ focus_tree = {
 	focus = {
 		id = ITA_Factor_Regional_Economies
 		icon = GFX_goal_focus_increase_wages
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Economic_Policies
 		}
 		available = {
-			has_government = social_egalitarianism
+			ita_elected_leftist_government = yes
 		}
 		mutually_exclusive = {
 			focus = ITA_Piedmontization
@@ -51,24 +51,42 @@ focus_tree = {
 		x = 4
 		y = 4
 
+		completion_reward = {
+			add_timed_idea = {
+				idea = ITA_Factor_regional_economies_idea
+				days = 200
+			}
+		}
+		
 	}
 	focus = {
 		id = ITA_Mixed_Economy
 		icon = GFX_goal_foreign_investments_focus
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Factor_Regional_Economies
 		}
 		x = 4
 		y = 5
 
+		completion_reward = {
+			##country_event
+			
+		}
+
 	}
 	focus = {
 		id = ITA_1861_elections
 		icon = GFX_goal_focus_elections
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Focus_Politics
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
 		}
 		x = 11
 		y = 3
@@ -77,9 +95,15 @@ focus_tree = {
 	focus = {
 		id = ITA_The_Intransigents
 		icon = GFX_goal_focus_ita_crispi
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1861_elections
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
 		}
 		allow_branch={
 				tag = PIE
@@ -91,7 +115,7 @@ focus_tree = {
 	focus = {
 		id = ITA_TUS_Social_Egal_1861
 		icon = GFX_goal_focus_ITA_Carlo_Catterno
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1861_elections
 		}
@@ -105,7 +129,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Piedmontization
 		icon = GFX_goal_focus_the_elite
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Economic_Policies
 		}
@@ -133,13 +157,53 @@ focus_tree = {
 	focus = {
 		id = ITA_Free_Trade
 		icon = GFX_goal_focus_international_investments
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Piedmontization
 		}
 		x = 6
 		y = 5
-
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = closed_economy
+				}
+				swap_ideas = {
+					remove_idea = closed_economy
+					add_idea = free_trade
+				}
+			}
+			if = {
+				limit = {
+					has_idea = limited_exports
+				}
+				swap_ideas = {
+					remove_idea = limited_exports
+					add_idea = free_trade
+				}
+			}
+			if = {
+				limit = {
+					has_idea = export_focus
+				}
+				swap_ideas = {
+					remove_idea = export_focus
+					add_idea = free_trade
+				}
+			}
+			if = {
+				limit = {
+					has_idea = free_trade
+				}
+				add_political_power = 100
+			}
+			add_to_variable = {
+				var = southern_revolt_risk
+				value = 3
+			}
+			custom_effect_tooltip = ITA_Increase_revolt_risk
+			##country_event 
+		}	
 	}
 	focus = {
 		id = ITA_Bring_Southern_Economy_North
@@ -151,6 +215,29 @@ focus_tree = {
 		x = 6
 		y = 6
 
+		completion_reward = {
+			158 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			117 = {
+				add_extra_state_shared_building_slots = -1
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			add_to_variable = {
+				var = southern_revolt_risk
+				value = 3
+			}
+			custom_effect_tooltip = ITA_Increase_revolt_risk
+		}
+
 	}
 	focus = {
 		id = ITA_limit_economic_power_south
@@ -161,11 +248,16 @@ focus_tree = {
 		}
 		x = 6
 		y = 7
+
+		completion_reward = {
+			unlock_decision_tooltip = ITA_Manipulate_Southern_Economy
+			###country_event
+		}
 	}
 	focus = {
 		id = ITA_TUS_Conservatives_1861
 		icon = GFX_goal_focus_ITA_Ubaldino_Peruzzi
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1861_elections
 		}
@@ -179,9 +271,15 @@ focus_tree = {
 	focus = {
 		id = ITA_The_Third_Party
 		icon = GFX_goal_focus_ita_urbano_rattazzi
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1861_elections
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
 		}
 		allow_branch = {
 			tag = PIE
@@ -193,7 +291,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Foreign_Policy
 		icon = GFX_goal_focus_foreign_diplomacy_central
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Focus_Politics
 		}
@@ -207,7 +305,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Opprotunistic_Isolation
 		icon = GFX_goal_focus_italian_identity
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Foreign_Policy
 		}
@@ -221,7 +319,7 @@ focus_tree = {
 	focus = {
 		id = ITA_New_Constiution
 		icon = GFX_goal_focus_enact_law
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_The_Right_Group
 		}
@@ -232,7 +330,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Remember_Old_Friends
 		icon = GFX_goal_focus_continent_west_europe
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Opprotunistic_Isolation
 		}
@@ -243,7 +341,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Allies_in_War
 		icon = GFX_goal_focus_ally_PRS
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Remember_Old_Friends
 		}
@@ -254,9 +352,15 @@ focus_tree = {
 	focus = {
 		id = ITA_The_Right_Group
 		icon = GFX_goal_focus_ita_carvour
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1861_elections
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
 		}
 		allow_branch = {
 			OR={
@@ -271,7 +375,7 @@ focus_tree = {
 	focus = {
 		id = ITA_The_Neoguelphists
 		icon = GFX_goal_focus_ita_carvour
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1861_elections
 		}
@@ -286,7 +390,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Irredentism
 		icon = GFX_goal_focus_form_italy
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Foreign_Policy
 		}
@@ -300,7 +404,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Diplomatic_Channels
 		icon = GFX_goal_focus_foreign_diplomacy
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Irredentism
 		}
@@ -314,7 +418,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Seek_Friends_in_Europe
 		icon = GFX_goal_focus_continent_west_europe
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Diplomatic_Channels
 		}
@@ -325,7 +429,7 @@ focus_tree = {
 	focus = {
 		id = ITA_International_Diplomacy
 		icon = GFX_goal_focus_foreign_diplomacy
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Seek_Friends_in_Europe
 		}
@@ -336,7 +440,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Whatever_means_Necessary
 		icon = GFX_goal_focus_imperialism
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Irredentism
 		}
@@ -350,7 +454,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Alone_in_Europe
 		icon = GFX_focus_death_or_dishonor
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Whatever_means_Necessary
 		}
@@ -361,7 +465,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Find_Friends_Abroad
 		icon = GFX_goal_focus_foreign_diplomacy
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Alone_in_Europe
 		}
@@ -372,7 +476,7 @@ focus_tree = {
 	focus = {
 		id = ITA_September_Convention
 		icon = GFX_goal_focus_invite_french_diplomats
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Foreign_Policy
 		}
@@ -383,7 +487,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Bring_Leftist_Policies_to_Parliamnet
 		icon = GFX_focus_violent_revolution
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Mixed_Economy
 		}
@@ -405,9 +509,15 @@ focus_tree = {
 	focus = {
 		id = ITA_The_Great_Centre
 		icon = GFX_goal_focus_ITA_Agostino_Depretis
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1861_elections
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
 		}
 		allow_branch ={
 			tag = PIE
@@ -419,7 +529,7 @@ focus_tree = {
 	focus = {
 		id = ITA_TUS_Centrist_1861
 		icon = GFX_goal_focus_focus_ITA_Eugen_di_Savoy
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1861_elections
 		}
@@ -433,7 +543,7 @@ focus_tree = {
 	focus = {
 		id = ITA_The_Southern_Question
 		icon = GFX_goal_focus_ITA_Southern_question
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_The_Intransigents
 			focus = ITA_The_Right_Group
@@ -445,28 +555,41 @@ focus_tree = {
 			focus = ITA_TUS_Centrist_1861
 
 		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
+		}
 		allow_branch = {
 			NOT= { 
 				OR = {
 					tag = NSC 
 					
 				}
-
 			}
 		}
 		x = 11
 		y = 5
 
+		
+
 	}
 	focus = {
 		id = ITA_Investigate_the_South
 		icon = GFX_focus_PIE_Casus_Belli
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_The_Right_Group
 		}
 		prerequisite = {
 			focus = ITA_The_Southern_Question
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
 		}
 		x = 14
 		y = 6
@@ -475,7 +598,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Land_Reform
 		icon = GFX_goal_focus_the_elite
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_The_Southern_Question
 		}
@@ -489,7 +612,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Regional_Administration
 		icon = GFX_goal_focus_enact_law
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_The_Southern_Question
 		}
@@ -503,7 +626,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Economic_Recovery
 		icon = GFX_goal_focus_the_workers
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Regional_Administration
 		}
@@ -517,7 +640,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Appoint_Northern_Officials
 		icon = GFX_goal_focus_enact_law
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Investigate_the_South
 		}
@@ -528,7 +651,7 @@ focus_tree = {
 	focus = {
 		id = ITA_The_South_Tamed
 		icon = GFX_goal_focus_conspiracy_murder_act
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Diminish_Clerical_Importance
 		}
@@ -539,7 +662,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Restore_Clerical_Rights
 		icon = GFX_goal_focus_religious_prayers
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_The_Southern_Question
 		}
@@ -556,7 +679,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Diminish_Clerical_Importance
 		icon = GFX_goal_focus_burning_cross
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Appoint_Northern_Officials
 		}
@@ -567,7 +690,7 @@ focus_tree = {
 	focus = {
 		id = ITA_1865_Elections
 		icon = GFX_goal_focus_elections
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_The_South_Tamed
 			focus = ITA_Economic_Recovery
@@ -583,7 +706,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Extreme_Wing_Victory
 		icon = GFX_goal_focus_ita_gioseppe_mazzini
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1865_Elections
 		}
@@ -594,7 +717,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Right_Wing_Victory
 		icon = GFX_goal_focus_ita_alfonso_la_marmora
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1865_Elections
 		}
@@ -605,7 +728,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Left_Wing_Victory
 		icon = GFX_goal_focus_ita_urbano_rattazzi
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_1865_Elections
 		}
@@ -616,7 +739,7 @@ focus_tree = {
 	focus = {
 		id = ITA_General_takes_his_Place
 		icon = GFX_goal_focus_government_control
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Right_Wing_Victory
 		}
@@ -627,9 +750,15 @@ focus_tree = {
 	focus = {
 		id = ITA_Move_the_Capital
 		icon = GFX_goal_focus_reform_government
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_September_Convention
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
 		}
 		x = 24
 		y = 5
@@ -638,7 +767,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Reign_in_Garibaldi
 		icon = GFX_focus_PIE_Garibaldi2
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Left_Wing_Victory
 		}
@@ -649,7 +778,7 @@ focus_tree = {
 	focus = {
 		id = ITA_Celebrate_the_Republic
 		icon = GFX_goal_focus_ita_republic_celebration
-		cost = 0.00
+		cost = 35.00
 		prerequisite = {
 			focus = ITA_Extreme_Wing_Victory
 		}
@@ -937,7 +1066,7 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = ITA_Brigandage_Handle_Focus_Decisions
-			#activate_mission = ITA_decision_deal_with_brigindage
+			
 		}
 
 	}
@@ -974,17 +1103,6 @@ focus_tree = {
 		}
 
 	}
-	#focus = {
-		#id = ITA_Creation_Decree
-		#icon = GFX_focus_generic_treaty
-		#cost = 25
-		#prerequisite = {
-		#	focus = ITA_IV_Corps
-		#}
-		#x = 25
-		#y = 5
-
-	#}
 	focus = {
 		id = ITA_Corazzieri
 		icon = GFX_goal_generic_cavalry
@@ -1041,9 +1159,9 @@ focus_tree = {
 			#	tech_naval_1857_gunboat = 1
 			#	tech_naval_1865_gunboat = 1
 			#}
-			hidden_effect = {
-    			load_oob = "ITA_Ship_Commision"
-			}
+			#hidden_effect = {
+    		#	load_oob = "ITA_Ship_Commision"
+			#}
 			custom_effect_tooltip = ITA_Purchase_Foreign_Ships_Tooltip
 
 		}

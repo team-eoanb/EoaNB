@@ -606,6 +606,9 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 			NOT = {
 				has_country_flag = USA_mormon_NME
 			}
+			NOT = {
+				has_country_flag = USA_utah_war_flag
+			}
 			check_variable = {
 				var = USA_mormon_unrest
 				value > 0
@@ -1234,7 +1237,7 @@ USA_mormon_war_decisions = { #decisions to either encourage the mormons to rebel
 
 		is_good = no
 
-		days_mission_timeout = 150
+		days_mission_timeout = 360
 
 		timeout_effect = {
 			country_event = {
@@ -2768,30 +2771,24 @@ USA_foreign_policy = {
         icon = generic_political_discourse
 
         available = {
-            AND = {
-				NOT = {
-					has_global_flag = eoanb_flag_sow_ongoing
-				}
-				has_completed_focus = USA_trade_treaties
+        	AND = {
+			NOT = {
+				has_global_flag = eoanb_flag_sow_ongoing
 			}
+			has_completed_focus = USA_trade_treaties
 		}
+	}
 		
-		allowed = {
-			tag = USA
-		}
-
-        visible = {
-            TAG = USA
-        }
+	allowed = { tag = USA }
 
         fire_only_once = yes
 
         cost = 25
-		complete_effect = {
-			USA = {
-				set_country_flag = USA_tianjin_treay_flag
-			}
+	complete_effect = {
+		USA = {
+			set_country_flag = USA_tianjin_treay_flag
 		}
+	}
         ai_will_do = {
             base = 4000
         }
@@ -2801,26 +2798,18 @@ USA_foreign_policy = {
 #Energywelder's Content goes here until someone tells him a better organization scheme
 #######################################################################################
 
-	#Clayton-Bulwar Treaty
-	USA_clayton_bulwar_treaty_decision = {
+#Clayton-Bulwar Treaty
+USA_clayton_bulwar_treaty_decision = {
 
         icon = generic_political_discourse
 
         available = {
-            #NOT = {
-				#has_global_flag = eoanb_flag_sow_ongoing
+        	#NOT = {
+			#has_global_flag = eoanb_flag_sow_ongoing
 			has_completed_focus = USA_clayton_bulwar_treaty_focus
-			#}
+		#}
         }
-		allowed = {
-			tag = USA
-		}
-
-        visible = {
-            #
-			# always = no
-			tag = USA
-        }
+	allowed = { tag = USA }
 
         fire_only_once = yes
 
@@ -2832,16 +2821,16 @@ USA_foreign_policy = {
         ai_will_do = {
             base = 4000
         }
-	}
+}
 	
-	USA_FN_border_encroachment = {#allows US to steal states from FNs #source = first_nations_tribal_raid_colonial_neighbor 
+USA_FN_border_encroachment = {#allows US to steal states from FNs #source = first_nations_tribal_raid_colonial_neighbor 
 
 	#For the purposes of understanding this decision
 	# US = ROOT
 	# dynamic FN = FROM
 
 		available = {
-			tag = USA
+			has_war = no
 			NOT = { has_non_aggression_pact_with = FROM }
 			NOT = { has_variable = ROOT.USA_recently_encroached@FROM} #does not have flag that it attacked that FN recently
 			hidden_trigger = {
@@ -2855,8 +2844,9 @@ USA_foreign_policy = {
 				#native_decision_acw_has_not_started_trigger = yes
 			}
 			NOT = {
-				has_country_flag = USA_recently_encroached_flag
+				USA = { has_country_flag = USA_recently_encroached_flag }
 			}
+			USA = { has_completed_focus = USA_FN_aggressive2 }
 		}
 		highlight_states = {
 			state = var:FROM.defender_state_vs_@ROOT
@@ -2879,7 +2869,7 @@ USA_foreign_policy = {
 			}
 
 		}
-		#allowed = {}
+		allowed = { tag = USA }
 
 		target_trigger = {
 			FROM = {
@@ -2902,9 +2892,9 @@ USA_foreign_policy = {
 			}
 		}
 
-		days_remove = 30
+		days_remove = 10
 		fire_only_once = no
-		days_re_enable = 90
+		days_re_enable = 30
 
 		cost = 0
 		
@@ -2914,7 +2904,7 @@ USA_foreign_policy = {
 
 		}
 		
-		custom_cost_text = afr_tribal_raid_colonial_neighbor_command_power_more_than_99 #change loc
+		custom_cost_text = USA_encroach_command_power_more_than_19 #change loc
 
 
 		cancel_trigger = {
@@ -3162,7 +3152,7 @@ USA_foreign_policy = {
 					on_cancel = usa.222
 				}
 				defender = {
-					state = 483
+					state = 482
 					num_provinces = 2
 					on_win = usa.223
 					on_lose = usa.224
@@ -3171,7 +3161,7 @@ USA_foreign_policy = {
 			}
 			set_border_war_data = {
 				attacker = id_attacker
-				defender = 483
+				defender = 482
 				combat_width = 40
 			}
 		}

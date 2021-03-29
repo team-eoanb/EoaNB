@@ -11,8 +11,42 @@ on_actions = {
 				set_country_flag = eoanb_startup_event_marker
 			}
 			if = {
+				limit = { 
+					has_start_date < 1858.05.11
+				}
+				every_state = {
+					limit = {
+						OWNER = {
+							OR = {
+								TAG = SEM
+								TAG = APA
+								TAG = NAV
+								TAG = COM
+								TAG = CHY
+								TAG = SIX
+								TAG = CRW
+								TAG = SHO
+								TAG = BFT
+								TAG = NEZ
+							}
+						}
+					}
+					if = {
+						limit = { has_dlc = "Man the Guns" }
+						OWNER = { give_resource_rights = { receiver = USA state = PREV } }
+					}
+					set_state_flag = NA_N_gave_resource_rights_flag
+				}
+			}
+			if = {
 				limit = {
 					has_start_date < 1858.05.11
+				}
+				SEM = {
+					complete_national_focus = NA_N_the_frontier
+					complete_national_focus = NA_N_the_encroachment_of_the_east
+					complete_national_focus = NA_N_prepare_for_the_invaders
+					complete_national_focus = NA_N_manufacture_weapons
 				}
 				SPR = {
 					if = {
@@ -1252,45 +1286,4 @@ on_actions = {
 		}
 	}
 	
-	on_state_control_changed = {
-		effect = {
-			if = {
-				limit = {
-					OR = {
-						tag = AUS
-						tag = PRS
-					}
-					FROM = {
-						tag = DEN
-					}
-					has_global_flag = eoanb_flag_second_schleswig_war
-					NOT = { has_global_flag = london_conference_happening }
-					NOT = { has_global_flag = london_conference_happened }
-					58 = {
-						OR = {
-							is_fully_controlled_by = PRS
-							is_fully_controlled_by = AUS
-						}
-					}
-					1032 = {
-						OR = {
-							is_fully_controlled_by = PRS
-							is_fully_controlled_by = AUS
-						}
-					}
-				}
-				every_country = {
-					limit = {
-						OR = {
-							tag = AUS
-							tag = PRS
-							tag = DEN
-							has_idea = GER_general_idea_ger_confed
-						}
-					}
-					country_event = secschwar.32
-				}
-			}
-		}
-	}
 }

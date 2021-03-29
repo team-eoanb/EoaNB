@@ -140,7 +140,314 @@ eoanb_category_formables = {
 		ai_will_do = {
 			factor = 100
 		}
+	}	
+}
+
+ROM_economy_descision_wallachia = {
+
+    ROM_start_industralization = {
 	
+		allowed = { tag = ROM }
+
+		available = {
+			always = no
+		}
+		
+		visible = {
+		    tag = ROM
+		}
+
+		activation = { always = no }
+		
+		fire_only_once = yes
+
+		days_mission_timeout = 350
+
+		timeout_effect = {
+		   hidden_effect = {
+				country_event = { id = wallachia_focustree.3 days = 5 }
+			}
+		}
 	}
 	
+	ROM_repair_agriculture = {
+	
+		allowed = { tag = ROM }
+
+		available = {
+			always = no
+		}
+		
+		visible = {
+		    tag = ROM
+		}
+
+		activation = { always = no }
+		
+		fire_only_once = yes
+
+		days_mission_timeout = 350
+
+		timeout_effect = {
+		   hidden_effect = {
+				country_event = { id = wallachia_focustree.4 days = 5 }
+			}
+		}
+	}
+	
+	ROM_decision_secularize_land = { 
+
+        icon = generic_construction
+
+		available = {
+			has_completed_focus = ROM_secularize_land
+		}
+
+		allowed = {
+		    tag = ROM
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 50
+		days_remove = 120
+
+		modifier = {
+		    consumer_goods_factor = 0.05
+		}
+
+		remove_effect = {
+            random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = farm
+						size > 0
+						include_locked = no
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building =farm
+										size > 0
+										include_locked = no
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = farm
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+
+    ROM_decision_jiu_valley = { 
+
+        icon = generic_operation
+		
+		available = {
+		    has_completed_focus = ROM_jiu_valley 
+			owns_state = 46
+			controls_state = 46
+		}
+
+		visible = {
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 50
+		days_remove = 80
+
+		modifier = {
+			civilian_factory_use = 1
+			political_power_gain = -0.1
+		}
+
+		remove_effect = { 
+			46 = {
+				add_resource = {
+					type = coal
+					amount = 5
+				}
+				add_resource = {
+					type = iron
+					amount = 2
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		    }
+        }
+		
+	ROM_decision_construction_university = { 
+
+        icon = generic_operation
+		
+		available = {
+		    has_completed_focus = ROM_construction_university 
+		}
+
+		visible = {
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 75
+		days_remove = 180
+
+		modifier = {
+			political_power_gain = -0.2
+		}
+
+		remove_effect = {
+			country_event = { id = wallachia_focustree.2 days = 10 }
+		}
+
+		ai_will_do = {
+			base = 1
+		    }
+        }
+		
+	ROM_decision_bucharest_craiova_railway = { 
+
+        icon = generic_construction
+
+		highlight_states = {
+			state = 46
+		}
+
+		available = {
+		    has_completed_focus = ROM_bucharest_craiova_railway
+			num_of_civilian_factories_available_for_projects > 1
+			owns_state = 46
+			controls_state = 46
+			owns_state = 81
+			controls_state = 81
+		}
+
+		allowed = {
+		    tag = ROM
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 25
+		days_remove = 180
+
+		modifier = {
+		    consumer_goods_factor = 0.01
+		}
+
+		remove_effect = { 
+			46 = {
+			    add_building_construction = { type = infrastructure level = 1 instant_build = yes } 
+			}
+			46 = { add_extra_state_shared_building_slots = 1 }
+			81 = {
+			    add_building_construction = { type = infrastructure level = 1 instant_build = yes } 
+			}
+			81 = { add_extra_state_shared_building_slots = 1 }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = transport_tech }
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	ROM_decision_bucharest_braila_railway = { 
+
+        icon = generic_construction
+
+		highlight_states = {
+			state = 46
+		}
+
+		available = {
+		    has_completed_focus = ROM_bucharest_braila_railway
+			num_of_civilian_factories_available_for_projects > 1
+			owns_state = 46
+			controls_state = 46
+		}
+
+		allowed = {
+		    tag = ROM
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 25
+		days_remove = 180
+
+		modifier = {
+		    consumer_goods_factor = 0.01
+		}
+
+		remove_effect = { 
+			46 = {
+			    add_building_construction = { type = infrastructure level = 1 instant_build = yes } 
+			}
+			46 = { add_extra_state_shared_building_slots = 1 }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = transport_tech }
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
+	
+	ROM_decision_reparing_countryside = { 
+
+        icon = generic_construction
+
+		available = {
+			has_completed_focus = ROM_reparing_the_countryside
+		}
+
+		allowed = {
+		    tag = ROM
+		}
+
+		fire_only_once = yes
+		is_good = yes
+
+		cost = 50
+		days_remove = 180
+
+		modifier = {
+		    consumer_goods_factor = 0.05
+		}
+
+		remove_effect = {
+            random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = { type = infrastructure level = 2 instant_build = yes } 
+				}
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = transport_tech }
+			}
+
+		ai_will_do = {
+			base = 1000
+		}
+    }
 }

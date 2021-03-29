@@ -1,0 +1,1412 @@
+focus_tree = {
+    id = phl_reconstruction_focus
+    continuous_focus_position = { x = 5400 y = 1600 }
+    country = {
+        factor = 0
+
+        modifier = {
+            add = 10
+            tag = PHL
+        }
+    }
+
+    default = no
+
+    shared_focus = NA_B_recon_infrastructure_effort_1
+	shared_focus = NA_B_recon_academic_effort_1
+	shared_focus = NA_B_recon_militia_effort_1
+	shared_focus = NA_B_recon_the_sea
+
+    focus = {
+        id = PHL_The_Second_Revolution
+        icon = placeholder
+        x = 0
+        y = 0
+        cost = 7
+        available_if_capitulated = no
+        available = {
+            has_country_flag = phl_independence_war_flag
+        }
+        ai_will_do = {
+            factor = 10
+        }
+        completion_reward = {
+            add_political_power = 100
+            add_ideas = PHL_The_Second_Revolution_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Construct_Makeshift_Defenses
+        icon = placeholder
+        relative_position_id = PHL_The_Second_Revolution
+        x = 0
+        y = 1
+        cost = 7
+        prerequisite = { focus = PHL_The_Second_Revolution }
+        available_if_capitulated = no
+        ai_will_do = {
+            factor = 5
+        }
+        available = {
+            has_country_flag = phl_independence_war_flag
+        }
+        completion_reward = {
+            1385 = {
+                add_building_construction = {
+                    type = bunker
+                    province = 6845
+                    level = 1
+                    instant_build = yes
+                }
+                add_extra_state_shared_building_slots = 1
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Reach_Out_To_Manhattan
+        icon = placeholder
+        relative_position_id = PHL_Construct_Makeshift_Defenses
+        x = 0
+        y = 1
+        cost = 14
+        prerequisite = { focus = PHL_Construct_Makeshift_Defenses }
+        available_if_capitulated = no
+        ai_will_do = {
+            factor = 5
+        }
+        available = {
+            country_exists = MHC
+            has_country_flag = phl_independence_war_flag
+        }
+        completion_reward = {
+            MHC = {
+                country_event = {
+                    id = phl_rebellion.2
+                    days = 1
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_The_Power_Struggle_focus
+        icon = placeholder
+        x = 5
+        y = 0
+        cost = 7
+        available_if_capitulated = no
+        available = {
+            NOT = {
+                has_country_flag = phl_independence_war_flag
+            }
+        }
+        completion_reward = {
+            country_event = phl_power_struggle.1
+            clr_country_flag = NA_B_infrastructure_progress_disabled
+            clr_country_flag = NA_B_academic_progress_disabled
+            clr_country_flag = NA_B_militia_progress_disabled
+            clr_country_flag = NA_B_navy_progress_disabled
+        }
+    }
+
+    focus = {
+        id = PHL_The_First_Election
+        icon = placeholder
+        relative_position_id = PHL_The_Power_Struggle_focus
+        prerequisite = { focus =  PHL_The_Power_Struggle_focus }
+        x = 0
+        y = 1
+        cost = 42
+        available_if_capitulated = no
+        completion_reward = {
+            country_event = phl_first_election.1
+        }
+    }
+
+    focus = {
+        id = PHL_Andrews_Victorious
+        icon = placeholder
+        relative_position_id = PHL_The_First_Election
+        prerequisite = { focus = PHL_The_First_Election }
+        x = -2
+        y = 1
+        cost = 0
+        available_if_capitulated = no
+        available = { always = no }
+        completion_reward = {
+            add_ideas = PHL_Legacy_Of_Andrews
+        }
+    }
+
+    focus = {
+        id = PHL_Davis_Victorious
+        icon = placeholder
+        relative_position_id = PHL_The_First_Election
+        prerequisite = { focus = PHL_The_First_Election }
+        x = 2
+        y = 1
+        cost = 0
+        available_if_capitulated = no
+        available = { always = no }
+        completion_reward = {
+            add_ideas = PHL_Legacy_Of_Davis
+        }
+    }
+
+    focus = {
+        id = PHL_Weydemeyer_Victorious
+        icon = placeholder
+        relative_position_id = PHL_The_First_Election
+        prerequisite = { focus = PHL_The_First_Election }
+        x = 2
+        y = 1
+        cost = 0
+        allow_branch = { has_country_flag = phl_weydemeyer_enlisted_flag }
+        available_if_capitulated = no
+        available = { always = no }
+        completion_reward = {
+            add_ideas = PHL_Legacy_Of_Weydemeyer
+        }
+    }
+
+    ### MILITARY TREE ###
+    ## MILITIA ##
+    focus = {
+        id = PHL_The_United_Continental_Militias
+        icon = placeholder
+        mutually_exclusive = { focus = PHL_The_Peoples_Revolutionary_Army }
+        x = 43
+        y = 0
+        cost = 0
+        available_if_capitulated = no
+        available = { always = no }
+        completion_reward = {
+            add_ideas = PHL_The_United_Continental_Militias_idea_level_1
+        }
+    }
+
+    focus = {
+        id = PHL_A_Non_Standing_Army
+        icon = placeholder
+        relative_position_id = PHL_The_United_Continental_Militias
+        prerequisite = { focus = PHL_The_United_Continental_Militias }
+        x = -2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Non_Standing_Army_idea
+        }
+    }
+
+    focus = {
+        id = PHL_The_Second_Amendment
+        icon = placeholder
+        relative_position_id = PHL_A_Non_Standing_Army
+        prerequisite = { focus = PHL_A_Non_Standing_Army }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            custom_effect_tooltip = PHL_The_Second_Amendment_tt
+        }
+    }
+
+    focus = {
+        id = PHL_Stock_Local_Armories
+        icon = placeholder
+        relative_position_id = PHL_The_Second_Amendment
+        prerequisite = { focus = PHL_The_Second_Amendment }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            custom_effect_tooltip = PHL_Stock_Local_Armories_tt
+        }
+    }
+
+    focus = {
+        id = PHL_De_Centralize_Command_Structure
+        icon = placeholder
+        relative_position_id = PHL_The_United_Continental_Militias
+        prerequisite = { focus = PHL_The_United_Continental_Militias }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_De_Centralized_Command_Structure
+        }
+    }
+
+    focus = {
+        id = PHL_Establish_A_Military_Academy
+        icon = placeholder
+        relative_position_id = PHL_De_Centralize_Command_Structure
+        prerequisite = { focus = PHL_De_Centralize_Command_Structure }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Philadelphia_Military_Academy
+        }
+    }
+
+    focus = {
+        id = PHL_New_Doctrines
+        icon = placeholder
+        relative_position_id = PHL_Establish_A_Military_Academy
+        prerequisite = { focus = PHL_Establish_A_Military_Academy }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_tech_bonus = {
+                bonus = 1
+                uses = 1
+                category = land_doctrine
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Establish_A_Reserve_Force
+        icon = placeholder
+        relative_position_id = PHL_The_United_Continental_Militias
+        prerequisite = { focus = PHL_The_United_Continental_Militias }
+        x = 2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_manpower = 10000
+            add_ideas = PHL_Reserve_Force_level_1
+        }
+    }
+
+    focus = {
+        id = PHL_Professional_Reserves
+        icon = placeholder
+        relative_position_id = PHL_Establish_A_Reserve_Force
+        prerequisite = { focus = PHL_Establish_A_Reserve_Force }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Reserve_Force_level_1
+                add_idea = PHL_Reserve_Force_level_2
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Reserve_Training_Camps
+        icon = placeholder
+        relative_position_id = PHL_Professional_Reserves
+        prerequisite = { focus = PHL_Professional_Reserves }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Reserve_Force_level_2
+                add_idea = PHL_Reserve_Force_level_3
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Continental_Army_Reborn
+        icon = placeholder
+        relative_position_id = PHL_New_Doctrines
+        prerequisite = { focus = PHL_Stock_Local_Armories }
+        prerequisite = { focus = PHL_New_Doctrines }
+        prerequisite = { focus = PHL_Reserve_Training_Camps }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_The_United_Continental_Militias_idea_level_1
+                add_idea = PHL_The_United_Continental_Militias_idea_level_2
+            }
+        }
+    }
+    ## MARXIST ARMY ##
+    focus = {
+        id = PHL_The_Peoples_Revolutionary_Army
+        icon = placeholder
+        mutually_exclusive = { focus = PHL_The_United_Continental_Militias }
+        x = 50
+        y = 0
+        cost = 0
+        available = { always = no }
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_The_Peoples_Revolutionary_Army_idea_level_1
+        }
+    }
+
+    focus = {
+        id = PHL_Form_The_Red_Honor_Guard
+        icon = placeholder
+        relative_position_id = PHL_The_Peoples_Revolutionary_Army
+        prerequisite = { focus = PHL_The_Peoples_Revolutionary_Army }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_The_Peoples_Revolutionary_Army_idea_level_1
+                add_idea = PHL_The_Peoples_Revolutionary_Army_idea_level_2
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Leadership_By_Example
+        icon = placeholder
+        relative_position_id = PHL_Form_The_Red_Honor_Guard
+        prerequisite = { focus = PHL_Form_The_Red_Honor_Guard }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_The_Peoples_Revolutionary_Army_idea_level_2
+                add_idea = PHL_The_Peoples_Revolutionary_Army_idea_level_3
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Draft_New_Drill_Manuals
+        icon = placeholder
+        relative_position_id = PHL_Leadership_By_Example
+        prerequisite = { focus = PHL_Leadership_By_Example }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_The_Peoples_Revolutionary_Army_idea_level_3
+                add_idea = PHL_The_Peoples_Revolutionary_Army_idea_level_4
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Mission_Type_Tactics
+        icon = placeholder
+        relative_position_id = PHL_Draft_New_Drill_Manuals
+        prerequisite = { focus = PHL_Draft_New_Drill_Manuals }
+        x = -3
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Mission_Type_Tactics_idea_level_1
+        }
+    }
+
+    focus = {
+        id = PHL_Officer_Adaptibility_Training
+        icon = placeholder
+        relative_position_id = PHL_Mission_Type_Tactics
+        prerequisite = { focus = PHL_Mission_Type_Tactics }
+        x = -2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Officer_Adaptibility_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Reward_Individual_Initiative
+        icon = placeholder
+        relative_position_id = PHL_Mission_Type_Tactics
+        prerequisite = { focus = PHL_Mission_Type_Tactics }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Individual_Initiative_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Emphasize_The_Mission_Over_All
+        icon = placeholder
+        relative_position_id = PHL_Mission_Type_Tactics
+        prerequisite = { focus = PHL_Mission_Type_Tactics }
+        x = 2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Mission_Type_Tactics_idea_level_1
+                add_idea = PHL_Mission_Type_Tactics_idea_level_2
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Maneuver_Warfare_Tactics
+        icon = placeholder
+        relative_position_id = PHL_Draft_New_Drill_Manuals
+        prerequisite = { focus = PHL_Draft_New_Drill_Manuals }
+        x = 3
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Maneuver_Tactics
+        }
+    }
+
+    focus = {
+        id = PHL_New_Quick_Marching_Drills
+        icon = placeholder
+        relative_position_id = PHL_Maneuver_Warfare_Tactics
+        prerequisite = { focus = PHL_Maneuver_Warfare_Tactics }
+        x = -2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Modern_Marching_Drills
+        }
+    }
+
+    focus = {
+        id = PHL_Flank_Attack_Focus
+        icon = placeholder
+        relative_position_id = PHL_Maneuver_Warfare_Tactics
+        prerequisite = { focus = PHL_Maneuver_Warfare_Tactics }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Flank_Attack_Focus_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Oblique_Attack_Tactics_Program
+        icon = placeholder
+        relative_position_id = PHL_Maneuver_Warfare_Tactics
+        prerequisite = { focus = PHL_Maneuver_Warfare_Tactics }
+        x = 2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Oblique_Tactics
+        }
+    }
+
+    focus = {
+        id = PHL_Red_Prussia_Of_The_Americas
+        icon = placeholder
+        relative_position_id = PHL_Draft_New_Drill_Manuals
+        prerequisite = { focus = PHL_Officer_Adaptibility_Training }
+        prerequisite = { focus = PHL_Reward_Individual_Initiative }
+        prerequisite = { focus = PHL_Emphasize_The_Mission_Over_All }
+        prerequisite = { focus = PHL_New_Quick_Marching_Drills }
+        prerequisite = { focus = PHL_Flank_Attack_Focus }
+        prerequisite = { focus = PHL_Oblique_Attack_Tactics_Program }
+        x = 0
+        y = 3
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_political_power = 100
+            custom_effect_tooltip = PHL_Red_Prussia_Of_The_Americas_tt
+            hidden_effect = {
+                remove_ideas = PHL_Officer_Adaptibility_idea
+                remove_ideas = PHL_Individual_Initiative_idea
+                remove_ideas = PHL_Mission_Type_Tactics_idea_level_2
+                remove_ideas = PHL_Maneuver_Tactics
+                remove_ideas = PHL_Modern_Marching_Drills
+                remove_ideas = PHL_Flank_Attack_Focus_idea
+                remove_ideas = PHL_Oblique_Tactics
+                remove_ideas = PHL_The_Peoples_Revolutionary_Army_idea_level_4
+                add_ideas = PHL_Red_Prussia_Of_The_Americas_idea
+            }
+        }
+    }
+
+    ### ANARCHIST PATH ###
+    focus = {
+        id = PHL_Anarchists_Win
+        icon = placeholder
+        x = 75
+        y = 0
+        cost = 0
+        available_if_capitulated = no
+        available = { always = no }
+        completion_reward = {
+            IF = {
+                limit = {
+                    has_idea = PHL_The_Sons_Of_Liberty_level_1
+                }
+                swap_ideas = {
+                    remove_idea = PHL_The_Sons_Of_Liberty_level_1
+                    add_idea = PHL_The_Sons_Of_Liberty_level_4
+                }
+            }
+            ELSE_IF = {
+                limit = {
+                    has_idea = PHL_The_Sons_Of_Liberty_level_2
+                }
+                swap_ideas = {
+                    remove_idea = PHL_The_Sons_Of_Liberty_level_2
+                    add_idea = PHL_The_Sons_Of_Liberty_level_4
+                }
+            }
+            ELSE_IF = {
+                limit = {
+                    has_idea = PHL_The_Sons_Of_Liberty_level_3
+                }
+                swap_ideas = {
+                    remove_idea = PHL_The_Sons_Of_Liberty_level_3
+                    add_idea = PHL_The_Sons_Of_Liberty_level_4
+                }
+            }
+            ELSE ={
+                add_ideas = PHL_The_Sons_Of_Liberty_level_4
+            }
+            hidden_effect = {
+                set_variable = {
+                    var = phl_federalization_progress_var
+                    value = 0
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Federalizing_Philadelphia
+        icon = placeholder
+        relative_position_id = PHL_Anarchists_Win
+        prerequisite = { focus = PHL_Anarchists_Win }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        prerequisite = { focus = PHL_Anarchists_Win }
+        completion_reward = {
+            add_ideas = PHL_Federalizing_Philadelphia_idea
+            hidden_effect = {
+                activate_mission = phl_federalization_countdown
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Constitutionalize_Central_Authority
+        icon = placeholder
+        relative_position_id = PHL_Federalizing_Philadelphia
+        prerequisite = { focus = PHL_Federalizing_Philadelphia }
+        x = -8
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Weak_Central_Authority
+        }
+    }
+
+    focus = {
+        id = PHL_National_Emergencies
+        icon = placeholder
+        relative_position_id = PHL_Constitutionalize_Central_Authority
+        prerequisite = { focus = PHL_Constitutionalize_Central_Authority }
+        x = -4
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_offsite_building = {
+                type = arms_factory
+                level = 1
+            }
+            add_ideas = PHL_Military_Investments_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Committee_Of_National_Defense
+        icon = placeholder
+        relative_position_id = PHL_National_Emergencies
+        prerequisite = { focus = PHL_National_Emergencies }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Committee_Of_National_Defense_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Committee_Of_Human_Services
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_National_Defense
+        prerequisite = { focus = PHL_Committee_Of_National_Defense }
+        x = -1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Committee_Of_Human_Services_idea_level_1
+        }
+    }
+
+    focus = {
+        id = PHL_Establish_The_Disaster_Relief_Fund
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_Human_Services
+        prerequisite = { focus = PHL_Committee_Of_Human_Services }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Committee_Of_Human_Services_idea_level_1
+                add_idea = PHL_Committee_Of_Human_Services_idea_level_2
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Committee_Of_Public_Health
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_National_Defense
+        prerequisite = { focus = PHL_Committee_Of_National_Defense }
+        x = 1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Committee_Of_Public_Health_idea_level_1
+        }
+    }
+
+    focus = {
+        id = PHL_Public_Health_Act
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_Public_Health
+        prerequisite = { focus = PHL_Committee_Of_Public_Health }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Committee_Of_Public_Health_idea_level_1
+                add_idea = PHL_Committee_Of_Public_Health_idea_level_2
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Committee_Of_National_Security_And_Safety
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_National_Defense
+        prerequisite = { focus = PHL_Establish_The_Disaster_Relief_Fund }
+        prerequisite = { focus = PHL_Public_Health_Act }
+        x = 0
+        y = 3
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            remove_ideas = PHL_Committee_Of_National_Defense_idea
+            remove_ideas = PHL_Committee_Of_Public_Health_idea_level_2
+            remove_ideas = PHL_Committee_Of_Human_Services_idea_level_2
+            add_ideas = PHL_Committee_Of_National_Security_And_Safety_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Diplomacy
+        icon = placeholder
+        relative_position_id = PHL_Constitutionalize_Central_Authority
+        prerequisite = { focus = PHL_Constitutionalize_Central_Authority }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_political_power = 100
+        }
+    }
+
+    focus = {
+        id = PHL_Committee_Of_Foreign_Affairs
+        icon = placeholder
+        relative_position_id = PHL_Diplomacy
+        prerequisite = { focus = PHL_Diplomacy }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Committee_Of_Foreign_Affairs_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Envoy_To_New_England
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_Foreign_Affairs
+        prerequisite = { focus = PHL_Committee_Of_Foreign_Affairs }
+        x = -1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            NEG = {
+                add_opinion_modifier = {
+                    target = PHL
+                    modifier = PHL_envoy
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Ask_For_Guarantees
+        icon = placeholder
+        relative_position_id = PHL_Envoy_To_New_England
+        prerequisite = { focus = PHL_Envoy_To_New_England }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            NEG = {
+                country_event = phl_flavor.1
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Envoy_To_Manhattan
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_Foreign_Affairs
+        prerequisite = { focus = PHL_Committee_Of_Foreign_Affairs }
+        x = 1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            MHC = {
+                add_opinion_modifier = {
+                    target = PHL
+                    modifier = PHL_envoy
+                }
+            }
+        }
+    }
+    
+    focus = {
+        id = PHL_Propose_Unification
+        icon = placeholder
+        relative_position_id = PHL_Envoy_To_Manhattan
+        prerequisite = { focus = PHL_Envoy_To_Manhattan }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            MHC = {
+                country_event = phl_flavor.4
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Atlantic_Entente
+        icon = placeholder
+        relative_position_id = PHL_Constitutionalize_Central_Authority
+        prerequisite = { focus = PHL_Ask_For_Guarantees }
+        prerequisite = { focus = PHL_Propose_Unification }
+        x = 0
+        y = 5
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            create_faction = PHL_ATLANTIC_ENTENTE_NAME
+            MHC = {
+                country_event = phl_flavor.7
+            }
+            NEG = {
+                country_event = phl_flavor.7
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Foreign_Trade
+        icon = placeholder
+        relative_position_id = PHL_Constitutionalize_Central_Authority
+        prerequisite = { focus = PHL_Constitutionalize_Central_Authority }
+        x = 4
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_offsite_building = {
+                type = industrial_complex
+                level = 1
+            }
+            add_ideas = limited_exports
+        }
+    }
+
+    focus = {
+        id = PHL_Committee_Of_Commerce
+        icon = placeholder
+        relative_position_id = PHL_Foreign_Trade
+        prerequisite = { focus = PHL_Foreign_Trade }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Committee_Of_Commerce_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Secure_Deals_With_Manhattan
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_Commerce
+        prerequisite = { focus = PHL_Committee_Of_Commerce }
+        x = -1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Trade_Deal_With_Manhattan_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Secure_Deals_With_New_England
+        icon = placeholder
+        relative_position_id = PHL_Committee_Of_Commerce
+        prerequisite = { focus = PHL_Committee_Of_Commerce }
+        x = 1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Trade_Deal_With_New_England_idea
+        }
+    }
+
+    focus = {
+        id = PHL_Export_Grain
+        icon = placeholder
+        relative_position_id = PHL_Secure_Deals_With_Manhattan
+        prerequisite = { focus = PHL_Secure_Deals_With_Manhattan }
+        prerequisite = { focus = PHL_Secure_Deals_With_New_England }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Exporting_Grain
+        }
+    }
+
+    focus = {
+        id = PHL_Share_The_Oceans_Bounty
+        icon = placeholder
+        relative_position_id = PHL_Secure_Deals_With_New_England
+        prerequisite = { focus = PHL_Secure_Deals_With_Manhattan }
+        prerequisite = { focus = PHL_Secure_Deals_With_New_England }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Oceans_Bounty
+        }
+    }
+
+    focus = {
+        id = PHL_Build_Up_The_Merchant_Fleet
+        icon = placeholder
+        relative_position_id = PHL_Foreign_Trade
+        prerequisite = { focus = PHL_Export_Grain }
+        prerequisite = { focus = PHL_Share_The_Oceans_Bounty }
+        x = 0
+        y = 4
+        cost = 5 
+        available_if_capitulated = no
+        completion_reward = {
+            add_timed_idea = {
+                idea = PHL_Building_Up_The_Merchant_Fleet
+                days = 365
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Enforce_The_Laws
+        icon = placeholder
+        relative_position_id = PHL_Atlantic_Entente
+        prerequisite = { focus = PHL_Committee_Of_National_Security_And_Safety }
+        prerequisite = { focus = PHL_Atlantic_Entente }
+        prerequisite = { focus = PHL_Build_Up_The_Merchant_Fleet }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Weak_Central_Authority
+                add_idea = PHL_Semi_Weak_Central_Authority
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Constitutionalize_Local_Authority
+        icon = placeholder
+        relative_position_id = PHL_Federalizing_Philadelphia
+        prerequisite = { focus = PHL_Federalizing_Philadelphia }
+        x = 8
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Semi_Weak_Local_Authority
+        }
+    }
+
+    focus = {
+        id = PHL_Daily_Governance
+        icon = placeholder
+        relative_position_id = PHL_Constitutionalize_Local_Authority
+        prerequisite = { focus = PHL_Constitutionalize_Local_Authority }
+        x = -4
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_political_power = 100
+        }
+    }
+
+    focus = {
+        id = PHL_Evenly_Distribute_Authority
+        icon = placeholder
+        relative_position_id = PHL_Daily_Governance
+        prerequisite = { focus = PHL_Daily_Governance }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Semi_Weak_Local_Authority
+                add_idea = PHL_Semi_Strong_Local_Authority
+            }
+            custom_effect_tooltip = PHL_federalization_increase_tt
+            hidden_effect = {
+                add_to_variable = {
+                    var = phl_federalization_progress_var
+                    value = 5
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Outline_State_Assemblies
+        icon = placeholder
+        relative_position_id = PHL_Evenly_Distribute_Authority
+        prerequisite = { focus = PHL_Evenly_Distribute_Authority }
+        x = -2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            custom_effect_tooltip = PHL_federalization_increase_tt
+            hidden_effect = {
+                add_to_variable = {
+                    var = phl_federalization_progress_var
+                    value = 5
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Prepare_Statehood_Procedures
+        icon = placeholder
+        relative_position_id = PHL_Outline_State_Assemblies
+        prerequisite = { focus = PHL_Outline_State_Assemblies }
+        x = -1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_political_power = 100
+            custom_effect_tooltip = PHL_federalization_increase_tt
+            hidden_effect = {
+                add_to_variable = {
+                    var = phl_federalization_progress_var
+                    value = 5
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_The_Tenth_Amendment
+        icon = placeholder
+        relative_position_id = PHL_Outline_State_Assemblies
+        prerequisite = { focus = PHL_Outline_State_Assemblies }
+        x = 1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_stability = 0.10
+            custom_effect_tooltip = PHL_federalization_increase_tt
+            hidden_effect = {
+                add_to_variable = {
+                    var = phl_federalization_progress_var
+                    value = 5
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_City_Assemblies
+        icon = placeholder
+        relative_position_id = PHL_Evenly_Distribute_Authority
+        prerequisite = { focus = PHL_Evenly_Distribute_Authority }
+        x = 2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            every_owned_state = {
+                add_extra_state_shared_building_slots = 1
+            }
+            custom_effect_tooltip = PHL_federalization_increase_tt
+            hidden_effect = {
+                add_to_variable = {
+                    var = phl_federalization_progress_var
+                    value = 5
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Local_Charters
+        icon = placeholder
+        relative_position_id = PHL_City_Assemblies
+        prerequisite = { focus = PHL_City_Assemblies }
+        x = -1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Local_Charters
+            custom_effect_tooltip = PHL_federalization_increase_tt
+            hidden_effect = {
+                add_to_variable = {
+                    var = phl_federalization_progress_var
+                    value = 5
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Elect_Representatives
+        icon = placeholder
+        relative_position_id = PHL_City_Assemblies
+        prerequisite = { focus = PHL_City_Assemblies }
+        x = 1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_stability = 0.05
+            custom_effect_tooltip = PHL_federalization_increase_tt
+            hidden_effect = {
+                add_to_variable = {
+                    var = phl_federalization_progress_var
+                    value = 5
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Cement_Local_Authority
+        icon = placeholder
+        relative_position_id = PHL_Evenly_Distribute_Authority
+        prerequisite = { focus = PHL_Prepare_Statehood_Procedures }
+        prerequisite = { focus = PHL_The_Tenth_Amendment }
+        prerequisite = { focus = PHL_Local_Charters }
+        prerequisite = { focus = PHL_Elect_Representatives }
+        x = 0
+        y = 3
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Semi_Strong_Local_Authority
+                add_idea = PHL_Strong_Local_Authority
+            }
+            custom_effect_tooltip = PHL_federalization_increase_tt
+            hidden_effect = {
+                add_to_variable = {
+                    var = phl_federalization_progress_var
+                    value = 5
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Law_Enforcement
+        icon = placeholder
+        relative_position_id = PHL_Constitutionalize_Local_Authority
+        prerequisite = { focus = PHL_Constitutionalize_Local_Authority }
+        x = 4
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_political_power = 50
+            add_stability = 0.10
+        }
+    }
+
+    focus = {
+        id = PHL_Community_Policing
+        icon = placeholder
+        relative_position_id = PHL_Law_Enforcement
+        prerequisite = { focus = PHL_Law_Enforcement }
+        x = 0
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            custom_effect_tooltip = law_communal_policing_tt
+            hidden_effect = {
+                add_ideas = law_communal_policing
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_The_Under_Siege_Mentality
+        icon = placeholder
+        relative_position_id = PHL_Community_Policing
+        prerequisite = { focus = PHL_Community_Policing }
+        x = -2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_ideas = PHL_Under_Siege_Mentality
+        }
+    }
+
+    focus = {
+        id = PHL_Hunt_Down_Spies
+        icon = placeholder
+        relative_position_id = PHL_The_Under_Siege_Mentality
+        prerequisite = { focus = PHL_The_Under_Siege_Mentality }
+        x = -1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_timed_idea = {
+                idea = PHL_Hunting_Spies
+                days = 1825
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_A_Mounted_Border_Patrol
+        icon = placeholder
+        relative_position_id = PHL_The_Under_Siege_Mentality
+        prerequisite = { focus = PHL_The_Under_Siege_Mentality }
+        x = 1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+					division_template = {
+						name = "Mounted Police"
+						priority = 1
+						is_locked = yes
+
+						regiments = {
+							light_cavalry = { x = 0 y = 0 }
+							light_cavalry = { x = 1 y = 0 }
+						}
+					}
+            PHL = {
+                1385 = {
+                    create_unit = { 
+						division = "name = \"Mounted Police\" division_template = \"Mounted Police\" start_experience_factor = 0.1 start_equipment_factor = 1"
+                        owner = PHL
+					}
+                    create_unit = { 
+						division = "name = \"Mounted Police\" division_template = \"Mounted Police\" start_experience_factor = 0.1 start_equipment_factor = 1"
+                        owner = PHL
+					}
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_The_Neighborhood_Watch
+        icon = placeholder
+        relative_position_id = PHL_Community_Policing
+        prerequisite = { focus = PHL_Community_Policing }
+        x = 2
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_stability = 0.10
+        }
+    }
+
+    focus = {
+        id = PHL_Teach_Non_Coercion
+        icon = placeholder
+        relative_position_id = PHL_The_Neighborhood_Watch
+        prerequisite = { focus = PHL_The_Neighborhood_Watch }
+        x = -1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_timed_idea = {
+                idea = PHL_Non_Coercion_Training
+                days = 365
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Civilian_Enforcement
+        icon = placeholder
+        relative_position_id = PHL_The_Neighborhood_Watch
+        prerequisite = { focus = PHL_The_Neighborhood_Watch }
+        x = 1
+        y = 1
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_political_power = 100
+        }
+    }
+
+    focus = {
+        id = PHL_An_Armed_Society_Is_A_Polite_One
+        icon = placeholder
+        relative_position_id = PHL_Community_Policing
+        prerequisite = { focus = PHL_Hunt_Down_Spies }
+        prerequisite = { focus = PHL_A_Mounted_Border_Patrol }
+        prerequisite = { focus = PHL_Teach_Non_Coercion }
+        prerequisite = { focus = PHL_Civilian_Enforcement }
+        x = 0
+        y = 3
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            add_stability = 0.05
+            add_war_support = 0.05
+            add_political_power = 75
+        }
+    }
+
+    focus = {
+        id = PHL_The_Federal_Model
+        icon = placeholder
+        relative_position_id = PHL_Constitutionalize_Local_Authority
+        prerequisite = { focus = PHL_Cement_Local_Authority }
+        prerequisite = { focus = PHL_An_Armed_Society_Is_A_Polite_One }
+        x = 0
+        y = 6
+        cost = 56
+        available_if_capitulated = no
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = PHL_Strong_Local_Authority
+                add_idea = PHL_Very_Strong_Local_Authority
+            }
+        }
+    }
+
+    focus = {
+        id = PHL_Constitution_Of_The_Federal_Republic
+        icon = placeholder
+        relative_position_id = PHL_Federalizing_Philadelphia
+        prerequisite = { focus = PHL_Enforce_The_Laws }
+        prerequisite = { focus = PHL_The_Federal_Model }
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = phl_federalization_complete_tt
+                OR = {
+                    check_variable = {
+                        phl_federalization_progress_var = 100
+                    }
+                    check_variable = {
+                        phl_federalization_progress_var > 100
+                    }
+                }
+            }
+        }
+        x = 0
+        y = 8
+        cost = 70
+        available_if_capitulated = no
+        completion_reward = {
+            custom_effect_tooltip = constitution_adopted_tt
+            hidden_effect = {
+                add_ideas = constitution_adopted
+            }
+        }
+    }
+}

@@ -1,0 +1,69 @@
+add_namespace = G_filler_WWI
+country_event = {
+	id = G_filler_WWI.1
+	title = G_filler_WWI.1.t
+	desc = G_filler_WWI.1.desc
+	picture = GFX_report_event_chinese_army_training
+
+	fire_only_once = yes
+	major = yes
+	trigger = {
+		original_tag = AUS
+		##requirements
+		country_exists = SER
+		country_exists = RUS
+		OR={
+			BOS={is_puppet_of = ROOT}
+			controls_state = 1272
+		}
+		date > 1914.06.27
+	}
+	#is_triggered_only = yes ##change to this if i ever get to revising this
+	option = {#yes, get german backing first
+		name = G_filler_WWI.1.a
+		trigger={
+			PRS = {
+				PRS_trigger_formed_germany = yes
+			}
+			tag = AUS
+		}
+		hidden_effect = {
+			PRS ={
+				country_event = { id = G_filler_WWI.1 hours = 20 }
+			}
+		}
+		ai_chance = {
+			factor = 95
+		}
+	}
+	option = {#to war
+		name = G_filler_WWI.1.b
+		trigger={
+			tag = AUS
+		}
+		ai_chance = {
+			factor = 5
+		}
+
+	}
+	option = {#not worth a war
+		name = G_filler_WWI.1.c
+		trigger={
+			tag = AUS
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+	option = {#A Tragedy
+		name = G_filler_WWI.1.e
+		trigger={
+			NOT={
+				tag = AUS
+			}
+		}
+		ai_chance = {
+			factor = 100
+		}
+	}
+}

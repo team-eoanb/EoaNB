@@ -1,6 +1,125 @@
 first_nations_tribal_conflict_category = {
+	NA_N_remove_resource_rights = {
+		icon = generic_prepare_civil_war
+		state_target = yes
+		available = {
+			FROM = { is_owned_and_controlled_by = ROOT }
+		}
+		allowed = { 
+			OR = {
+				TAG = SEM
+				TAG = APA
+				TAG = NAV
+				TAG = COM
+				TAG = CHY
+				TAG = SIX
+				TAG = CRW
+				TAG = SHO
+				TAG = BFT
+				TAG = NEZ
+			}
+		}
+		visible = { 
+			FROM = { is_owned_by = ROOT }
+			OR = {
+				has_country_flag = NA_N_economic_integration_flag
+				has_country_flag = NA_N_rudimentary_defenses_flag
+			}
+		}
+		target_trigger = {
+			FROM = { has_state_flag = NA_N_gave_resource_rights_flag }
+		}
+		custom_cost_trigger = {
+			if = {
+				limit = { has_country_flag = NA_N_remove_resource_rights_accepted_flag }
+				always = yes
+			}	
+			else = { command_power > 99.9 }
+		}
+		custom_cost_text = NA_N_remove_resource_rights_command_power_more_than_99
+		days_remove = 15
+		fire_only_once = no
+		days_re_enable = 15
+		complete_effect = {
+			if = {
+				limit = { has_country_flag = NA_N_remove_resource_rights_accepted_flag }
+				hidden_effect = { add_political_power = -25 }
+			}
+			else = { 
+				hidden_effect = { add_command_power = -100 } 
+			}
+		}
+		remove_effect = {
+			hidden_effect = {
+				FROM = { clr_state_flag = NA_N_gave_resource_rights_flag } 
+			}
+			add_stability = 0.01
+			if = {
+				limit = { has_country_flag = NA_N_remove_resource_rights_accepted_flag }
+				FROM = {
+					hidden_effect = { add_manpower = -1230 }
+					custom_effect_tooltip = NA_N_evict_settlers_tooltip
+					hidden_effect = { OWNER = { country_event = { id = NA_N_event.5 } } }
+					random_neighbor_state = {
+						limit = { 
+							NOT = {
+								is_owned_by = SEM
+								is_owned_by = APA
+								is_owned_by = NAV
+								is_owned_by = COM
+								is_owned_by = CHY
+								is_owned_by = SIX
+								is_owned_by = CRW
+								is_owned_by = SHO
+								is_owned_by = BFT
+								is_owned_by = NEZ
+							} 
+						}
+						hidden_effect = { add_manpower = 1230 }
+						custom_effect_tooltip = NA_N_settlers_relocation_tooltip
+					}
+				}
+				if = { 
+					limit = { has_dlc = "Man the Guns" }
+					USA = { remove_resource_rights = FROM }
+				}
+			}
+			else = {
+				FROM = {
+					add_manpower = -1230 hidden_effect = { add_manpower = -1230 }
+					custom_effect_tooltip = NA_N_evict_settlers_tooltip
+					hidden_effect = { OWNER = { country_event = { id = NA_N_event.5 } } }
+					random_neighbor_state = {
+						limit = { 
+							NOT = {
+								is_owned_by = SEM
+								is_owned_by = APA
+								is_owned_by = NAV
+								is_owned_by = COM
+								is_owned_by = CHY
+								is_owned_by = SIX
+								is_owned_by = CRW
+								is_owned_by = SHO
+								is_owned_by = BFT
+								is_owned_by = NEZ
+							}
+						}
+						hidden_effect = { state_event = { id = NA_N_event.6 } }
+						custom_effect_tooltip = NA_N_settlers_relocation_tooltip
+					}
+				}
+				custom_effect_tooltip = NA_N_evict_settlers_outcome_tooltip
+				if = {
+					limit = { has_dlc = "Man the Guns" }
+					USA = { remove_resource_rights = FROM }
+				}
+			}
+		}
+		ai_will_do = {
+			base = 100
+		}
+	}
 	colonial_state_neighbor_is_tribe = {
-		icon = generic_political_discourse
 		available = {
 			hidden_trigger = { always = no }
 		}
@@ -15,9 +134,66 @@ first_nations_tribal_conflict_category = {
 			}
 		}
 	}
+	USA_military_access_to_western_territories = {
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_military_access_to_western_territories_trigger
+				always = yes
+			}
+		}
+		visible = {
+			FROM = { NOT = { gives_military_access_to = ROOT } }
+			FROM = { has_idea = no_borders }
+			FROM = {
+				any_owned_state = {
+					OR = {
+						is_claimed_by = ROOT
+						is_core_of = ROOT
+					}
+				}
+			}
+			NOT = { has_war_with = FROM }
+			if = {
+				limit = { acw_has_started_scripted_trigger = yes } 
+				FROM = {
+					OR = {
+						has_country_flag = acw_first_nations_choose_USA_early_flag
+						has_country_flag = acw_first_nations_choose_USA_later_flag
+						has_country_flag = acw_first_nations_choose_USA_latest_flag
+					}
+				}
+			}
+		}
+		fire_only_once = no
+		target_trigger = {
+			FROM = { 
+				OR = {
+					TAG = SEM
+					TAG = APA
+					TAG = NAV
+					TAG = COM
+					TAG = CHY
+					TAG = SIX
+					TAG = CRW
+					TAG = SHO
+					TAG = BFT
+					TAG = NEZ
+				}
+			}
+		}
+		allowed = { 
+			TAG = USA
+		}
+		ai_will_do = {
+			base = 10
+		}
+		complete_effect = {
+			FROM = { give_military_access = ROOT }
+		}
+	}
 	first_nations_tribal_raid_neighbor = {
 
-		icon = generic_political_discourse
+		icon = generic_prepare_civil_war
 
 		available = {
 			if = {
@@ -283,7 +459,7 @@ first_nations_tribal_conflict_category = {
 	#This is considered a colonial mechanic
 	first_nations_tribal_raid_colonial_neighbor = {#Tribe raids colonialist neighbor like US or Utah
 
-		icon = generic_political_discourse
+		icon = generic_prepare_civil_war
 
 		available = {
 			if = {
@@ -337,12 +513,14 @@ first_nations_tribal_conflict_category = {
 				is_first_nations_tribe = yes
 				native_decision_acw_has_not_started_trigger = yes
 			}
+			
 		}
 		highlight_states = {
 			state = var:FROM.defender_state_vs_@ROOT
 		}
 
 		visible = {
+			NOT = { has_country_flag = NA_N_peaceful_co_existance_flag }
 			NOT = { has_country_flag = first_nations_tribe_recently_raided_flag }
 			NOT = { has_autonomy_state = autonomy_organized_incorporated_territory }
 			NOT = { has_autonomy_state = autonomy_first_nations_reservation }
@@ -356,6 +534,12 @@ first_nations_tribal_conflict_category = {
 				is_owned_and_controlled_by = FROM
 				any_neighbor_state = {
 					is_fully_controlled_by = ROOT
+				}
+			}
+			NOT = {
+				FROM = {
+					tag = USA
+					has_war_with = UTA
 				}
 			}
 		}
@@ -656,7 +840,7 @@ first_nations_tribal_american_civil_war_category = {
 
 	first_nations_tribal_border_war_enemy = {
 
-		icon = generic_political_discourse
+		icon = generic_prepare_civil_war
 
 		available = {
 			acw_has_started_scripted_trigger = yes

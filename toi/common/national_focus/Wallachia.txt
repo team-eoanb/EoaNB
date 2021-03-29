@@ -1,0 +1,512 @@
+focus_tree = {
+	id = wallachia_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = ROM
+		}
+	}
+
+	continuous_focus_position = {
+		x = 3000
+		y = 600
+	}
+	
+    default = no
+	
+	###Economy###
+	focus = {
+		id = ROM_industrial_situation
+		ai_will_do = { factor = 100 }
+		icon = GFX_Focus_Industry_Revolution
+		x = 6
+		y = 0
+		mutually_exclusive = { } 
+		prerequisite = { }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+				country_event = { id = wallachia_focustree.1 days = 3 }
+		}
+	}
+	
+	focus = {
+		id = ROM_preparing_for_industralization
+		ai_will_do = { factor = 100 }
+		icon = GFX_Focus_Industry_Construction
+		x = 3
+		y = 1
+		mutually_exclusive = { focus = ROM_focus_agriculture } 
+		prerequisite = { focus = ROM_industrial_situation }
+		cost = 35
+		available_if_capitulated = no  
+		available = { has_country_flag = ROM_industralziation }
+		completion_reward = {
+		    add_ideas = ROM_preparing_industralization
+			activate_mission = ROM_start_industralization
+		}
+	}
+	
+	focus = {
+		id = ROM_invite_foreign_investors
+		ai_will_do = { factor = 100 }
+		x = 1
+		y = 2
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_preparing_for_industralization }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_decision_unlocked
+		}
+	}
+	
+	focus = {
+		id = ROM_bucharest_craiova_railway
+		ai_will_do = { factor = 100 }
+		icon = GFX_Focus_Train_Victorian
+		x = 1
+		y = 3
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_invite_foreign_investors }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_decision_unlocked
+		}
+	}
+	
+	focus = {
+		id = ROM_jiu_valley
+		ai_will_do = { factor = 100 }
+		icon = GFX_Focus_Industry_Coal_Mine
+		x = 1
+		y = 4
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_bucharest_craiova_railway }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_decision_unlocked
+		}
+	}
+	
+	focus = {
+		id = ROM_danube_ports
+		ai_will_do = { factor = 100 }
+		x = 3
+		y = 2
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_preparing_for_industralization }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = ROM_preparing_industralization
+				add_idea = ROM_preparing_industralization1		
+			}
+		}
+	}
+	
+	focus = {
+		id = ROM_bucharest_braila_railway
+		ai_will_do = { factor = 100 }
+		icon = GFX_Focus_Train_Victorian
+		x = 3
+		y = 3
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_danube_ports }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_decision_unlocked
+		}
+	}
+	
+	focus = {
+		id = ROM_tax_vlach_danube
+		ai_will_do = { factor = 100 }
+		x = 3
+		y = 4
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_bucharest_braila_railway }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = ROM_preparing_industralization1
+				add_idea = ROM_preparing_industralization2	
+			}
+		}
+	}
+	
+	focus = {
+		id = ROM_literacy_program
+		ai_will_do = { factor = 100 }
+		icon = GFX_Focus_Education_Facultate_Medicina
+		x = 5
+		y = 2
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_preparing_for_industralization }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    swap_ideas = {
+				remove_idea = ROM_mass_illiteracy
+				add_idea = ROM_mass_illiteracy1
+			}
+		}
+	}
+	
+	focus = {
+		id = ROM_invite_scholars
+		ai_will_do = { factor = 100 }
+		icon = GFX_Focus_Education_Books
+		x = 5
+		y = 3
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_literacy_program }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.15 uses = 3 category = education_tech }
+		}
+	}
+	
+	focus = {
+		id = ROM_construction_university
+		ai_will_do = { factor = 100 }
+		icon = GFX_Focus_Industrial_Complex
+		x = 5
+		y = 4
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_invite_scholars }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_decision_unlocked
+		}
+	}
+	
+	focus = {
+		id = ROM_begin_industralization
+		ai_will_do = { factor = 100 }
+		x = 3
+		y = 5
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_construction_university focus = ROM_tax_vlach_danube focus = ROM_jiu_valley }
+		cost = 0
+        available = { always = no } 
+		available_if_capitulated = no  
+		completion_reward = {
+		    remove_ideas = ROM_preparing_industralization2
+			swap_ideas = {
+			    remove_idea = agrarian
+				add_idea = industrializing
+			}
+		}
+	}
+	
+	focus = {
+		id = ROM_focus_agriculture
+		ai_will_do = { factor = 100 }
+		x = 9
+		y = 1
+		mutually_exclusive = { focus = ROM_preparing_for_industralization } 
+		prerequisite = { focus = ROM_industrial_situation }
+		cost = 35
+		available_if_capitulated = no  
+		available = { has_country_flag = ROM_agriculture }
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = ROM_ruined_agriculture
+				add_idea = ROM_ruined_agriculture1
+		    }
+			activate_mission = ROM_repair_agriculture
+	    }
+	}
+	
+	focus = {
+		id = ROM_help_land_owners
+		ai_will_do = { factor = 100 }
+		x = 8
+		y = 2
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_focus_agriculture }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.15 uses = 3 category = economics_tech }
+			add_tech_bonus = { bonus = 0.15 uses = 3 category = law_tech }
+		}
+	}
+	
+	focus = {
+		id = ROM_reparing_the_countryside
+		ai_will_do = { factor = 100 }
+		x = 8
+		y = 3
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_help_land_owners }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_decision_unlocked
+		}
+	}
+	
+	focus = {
+		id = ROM_help_peasantry
+		ai_will_do = { factor = 100 }
+		x = 8
+		y = 4
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_reparing_the_countryside }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    add_tech_bonus = { bonus = 0.15 uses = 3 category = farming_tech }
+		}
+	}
+	
+	focus = {
+		id = ROM_secularize_land
+		ai_will_do = { factor = 100 }
+		x = 10
+		y = 2
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_focus_agriculture }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_decision_unlocked
+		}
+	}
+	
+	focus = {
+		id = ROM_compensate_landowners
+		ai_will_do = { factor = 100 }
+		x = 10
+		y = 3
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_secularize_land }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    add_timed_idea = {
+				idea = ROM_compensating_landowners
+				days = 90
+			}
+		}
+	}
+	
+	focus = {
+		id = ROM_excempt_church
+		ai_will_do = { factor = 100 }
+		x = 10
+		y = 4
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_compensate_landowners }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    add_stability = 0.05
+		}
+	}
+	
+	focus = {
+		id = ROM_revived_agriculture
+		ai_will_do = { factor = 100 }
+		x = 9
+		y = 5
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_excempt_church focus = ROM_help_peasantry }
+		cost = 35
+		cost = 0
+        available = { always = no }
+		available_if_capitulated = no  
+		completion_reward = {
+		    remove_ideas = ROM_ruined_agriculture1
+		}
+	}
+	
+	###Politics
+	
+	focus = {
+		id = ROM_focus_political_situation
+		ai_will_do = { factor = 100 }
+		x = 14
+		y = 0 
+		cost = 35
+		available_if_capitulated = no  
+		available = { }
+		completion_reward = {
+	    }
+	}
+	
+	focus = {
+		id = ROM_focus_unification_woes
+		ai_will_do = { factor = 100 }
+		x = 14
+		y = 1 
+		cost = 35
+		prerequisite = { focus = ROM_focus_political_situation }
+		available_if_capitulated = no  
+		available = { }
+		completion_reward = {
+	    }
+	}
+	
+	focus = {
+		id = ROM_focus_shutdown_brotherhood
+		ai_will_do = { factor = 100 }
+		x = 13
+		y = 2
+		mutually_exclusive = { focus = ROM_turn_blind_eye } 
+		prerequisite = { focus = ROM_focus_unification_woes }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    add_stability = -0.05
+		}
+	}
+	
+	focus = {
+		id = ROM_arrest_agitators
+		ai_will_do = { factor = 100 }
+		x = 13
+		y = 3
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_focus_shutdown_brotherhood }
+		cost = 35
+		available_if_capitulated = no  
+		completion_reward = {
+		    add_stability = 0.08
+		}
+	}
+	
+	focus = {
+		id = ROM_demote_unionist_officers
+		ai_will_do = { factor = 100 }
+		x = 13
+		y = 4
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_arrest_agitators }
+		cost = 35
+		available_if_capitulated = no  
+		completion_reward = {
+		    add_ideas = ROM_incompetent_officers
+		}
+	}
+	
+	focus = {
+		id = ROM_turn_blind_eye
+		ai_will_do = { factor = 100 }
+		x = 15
+		y = 2
+		mutually_exclusive = { focus = ROM_focus_shutdown_brotherhood } 
+		prerequisite = { focus = ROM_focus_unification_woes }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    add_stability = 0.05
+		}
+	}
+	
+	focus = {
+		id = ROM_support_unification
+		ai_will_do = { factor = 100 }
+		x = 15
+		y = 3
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_turn_blind_eye }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    swap_ideas = {
+			    remove_idea = ROM_idea_sentiment_of_unity
+				add_idea = ROM_idea_sentiment_of_unity1
+			}
+		}
+	}
+	
+	focus = {
+		id = ROM_unification_rallies
+		ai_will_do = { factor = 100 }
+		x = 15
+		y = 4
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_support_unification }
+		cost = 35
+		available_if_capitulated = no  
+		
+		completion_reward = {
+		    add_popularity = { ideology = centrism popularity = 0.05 }
+		}
+	}
+	
+	focus = {
+		id = ROM_elections
+		ai_will_do = { factor = 100 }
+		x = 14
+		y = 5
+		mutually_exclusive = { } 
+		prerequisite = { focus = ROM_unification_rallies }
+		prerequisite = { focus = ROM_demote_unionist_officers }
+		cost = 0
+		available_if_capitulated = no  
+		available = { always = no } 
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = ROM_cuza
+		ai_will_do = { factor = 100 }
+		x = 13
+		y = 6
+		mutually_exclusive = { focus = ROM_bibescu } 
+		prerequisite = { focus = ROM_elections }
+		cost = 0
+		available_if_capitulated = no  
+		available = { always = no } 
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = ROM_bibescu
+		ai_will_do = { factor = 100 }
+		x = 15
+		y = 6
+		mutually_exclusive = { focus = ROM_cuza } 
+		prerequisite = { focus = ROM_elections }
+		cost = 0
+		available_if_capitulated = no  
+		available = { always = no } 
+		completion_reward = {
+		}
+	}
+}

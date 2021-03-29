@@ -2,6 +2,544 @@
 add_namespace = sem_on_annex
 add_namespace = sem_on_puppet
 add_namespace = navajo
+add_namespace = NA_N_event
+add_namespace = nativeindustrial
+add_namespace = nativediplomatic
+
+country_event = {
+	id = NA_N_event.1 
+	title = NA_N_event.1.t
+	desc = NA_N_event.1.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.1.a
+	}
+}
+
+country_event = {
+	id = NA_N_event.2 
+	title = NA_N_event.2.t
+	desc = NA_N_event.2.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.2.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = -25
+				has_completed_focus = USA_buchanan_five_nation_approach
+			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_political_power = -50
+		hidden_effect = { 
+			FROM = { country_event = { id = NA_N_event.3 days = 3 } }
+		}
+	}
+	option = {
+	    name = NA_N_event.2.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 25
+				has_completed_focus = USA_buchanan_five_nation_approach
+			}
+		}
+		hidden_effect = {
+			random_list = {
+				50 = {
+					FROM = { country_event = { id = NA_N_event.3 days = 3 } }
+					modifier = {
+						add = -20
+						has_completed_focus = USA_buchanan_five_nation_approach
+					}
+					modifier = {
+						add = -20
+						has_completed_focus = USA_FN_aggressive1
+					}
+					modifier = {
+						factor = 0
+						is_historical_focus_on = yes
+					}
+				}
+				50 = {
+					FROM = { country_event = { id = NA_N_event.4 days = 3 } }
+					modifier = {
+						add = 20
+						has_completed_focus = USA_buchanan_five_nation_approach
+					}
+					modifier = {
+						add = 20
+						has_completed_focus = USA_FN_appeasing1
+					}
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = NA_N_event.3 
+	title = NA_N_event.3.t
+	desc = NA_N_event.3.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.3.a
+		hidden_effect = {
+			set_country_flag = NA_N_remove_resource_rights_accepted_flag
+		}
+	}
+}
+country_event = {
+	id = NA_N_event.4 
+	title = NA_N_event.4.t
+	desc = NA_N_event.4.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.4.a
+	}
+}
+
+country_event = {
+	id = NA_N_event.5 
+	title = NA_N_event.5.t
+	desc = NA_N_event.5.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.5.a
+	}
+}
+state_event = {
+	id = NA_N_event.6
+	hidden = yes
+	is_triggered_only = yes
+	
+	immediate = {
+	    random_list = {
+			33 = { set_state_flag = NA_N_evict_settlers_outcome_low_flag }
+			34 = { set_state_flag = NA_N_evict_settlers_outcome_med_flag }
+			33 = { set_state_flag = NA_N_evict_settlers_outcome_high_flag }
+		}
+		OWNER = { country_event = { id = NA_N_event.7 } }
+	}
+}
+country_event = {
+	id = NA_N_event.7 
+	title = NA_N_event.7.t
+	desc = NA_N_event.7.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.7.a
+		FROM.FROM = {
+			reverse_add_opinion_modifier = {
+				target = ROOT
+				modifier = NA_N_removed_settlers_opinion_modifier
+			}
+		}
+		FROM = {
+			if = {
+				limit = { has_state_flag = NA_N_evict_settlers_outcome_high_flag }
+				add_manpower = 1056
+				clr_state_flag = NA_N_evict_settlers_outcome_high_flag
+			}
+			if = {
+				limit = { has_state_flag = NA_N_evict_settlers_outcome_med_flag }
+				add_manpower = 832
+				clr_state_flag = NA_N_evict_settlers_outcome_med_flag
+			}
+			if = {
+				limit = { has_state_flag = NA_N_evict_settlers_outcome_low_flag }
+				add_manpower = 592
+				clr_state_flag = NA_N_evict_settlers_outcome_low_flag
+			}
+		}
+	}
+}
+
+country_event = {
+	id = NA_N_event.8 
+	title = NA_N_event.8.t
+	desc = NA_N_event.8.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.8.a
+		trigger = {
+			FROM = { 
+				OR = {
+					has_country_flag = NA_N_event_choose_USA_early_flag
+					has_country_flag = NA_N_event_choose_USA_later_flag
+					has_country_flag = NA_N_event_choose_USA_latest_flag
+				}
+			}
+		}
+		add_equipment_to_stockpile  = {
+			type = infantry_equipment_rifle_0
+			amount = 250
+			producer = FROM
+		}
+	}
+	
+	option = {
+	    name = NA_N_event.8.b
+		trigger = {
+			FROM = {
+				OR = {
+					has_country_flag = NA_N_event_choose_CSA_early_flag
+					has_country_flag = NA_N_event_choose_CSA_later_flag
+					has_country_flag = NA_N_event_choose_CSA_latest_flag
+				}
+			}
+		}
+		add_equipment_to_stockpile  = {
+			type = infantry_equipment_rifle_0
+			amount = 250
+			producer = FROM
+		}
+	}
+}
+
+country_event = {
+	id = NA_N_event.9 
+	title = NA_N_event.9.t
+	desc = NA_N_event.9.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.9.a
+		complete_national_focus = NA_N_no_man_a_slave
+	}
+	
+	option = {
+	    name = NA_N_event.9.b
+		complete_national_focus = NA_N_maintain_the_status_quo
+	}
+}
+
+country_event = {
+	id = NA_N_event.10 
+	title = NA_N_event.10.t
+	desc = NA_N_event.10.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.10.a
+	}
+}
+country_event = {
+	id = NA_N_event.11 
+	title = NA_N_event.11.t
+	desc = NA_N_event.11.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.11.a
+	}
+}
+country_event = {
+	id = NA_N_event.12 
+	title = NA_N_event.12.t
+	desc = NA_N_event.12.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.12.a
+	}
+}
+country_event = {
+	id = NA_N_event.13 
+	title = NA_N_event.13.t
+	desc = NA_N_event.13.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.13.a
+	}
+}
+country_event = {
+	id = NA_N_event.14 
+	title = NA_N_event.14.t
+	desc = NA_N_event.14.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.14.a
+	}
+}
+
+country_event = {
+	id = NA_N_event.15 
+	title = NA_N_event.15.t
+	desc = NA_N_event.15.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.15.a
+		trigger = {
+			OR = {
+				has_idea = totalitarian_dictatorship
+				has_idea = chiefdom
+			}
+		}
+		complete_national_focus = NA_N_centralized_economy
+		swap_ideas = {
+			remove_idea = lp_tribal_communalism
+			add_idea = lp_land_estates
+		} 
+	}
+	
+	option = {
+	    name = NA_N_event.15.b
+		trigger = {
+			OR = {
+				has_idea = parliamentary_republic
+				has_idea = parliamentary_chiefdom
+			}
+		}
+		complete_national_focus = NA_N_decentralized_economy
+		swap_ideas = {
+			remove_idea = lp_tribal_communalism
+			add_idea = lp_african_communalism
+		} 
+	}
+	
+	option = {
+	    name = NA_N_event.15.c
+		complete_national_focus = NA_N_decentralized_economy
+		swap_ideas = {
+			remove_idea = lp_tribal_communalism
+			add_idea = lp_land_purchase
+		} 
+	}
+}
+
+country_event = {
+	id = NA_N_event.16 
+	title = NA_N_event.16.t
+	desc = NA_N_event.16.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.16.a
+		show_ideas_tooltip = unlimited_work_day
+	}
+	
+	option = {
+	    name = NA_N_event.16.b
+		swap_ideas = {
+			remove_idea = unlimited_work_day
+			add_idea = fourteen_hour_work_day
+		}
+	}
+}
+country_event = {
+	id = NA_N_event.17 
+	title = NA_N_event.17.t
+	desc = NA_N_event.17.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.17.a
+		show_ideas_tooltip = cl_legal
+	}
+	
+	option = {
+	    name = NA_N_event.17.b
+		swap_ideas = {
+			remove_idea = cl_legal
+			add_idea = cl_restricted
+		}
+	}
+	
+	option = {
+	    name = NA_N_event.17.c
+		swap_ideas = {
+			remove_idea = cl_legal
+			add_idea = cl_illegal
+		}
+	}
+}
+
+country_event = {
+	id = NA_N_event.18 
+	title = NA_N_event.18.t
+	desc = NA_N_event.18.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.18.a
+		show_ideas_tooltip = closed_economy
+	}
+	
+	option = {
+	    name = NA_N_event.18.b
+		swap_ideas = {
+			remove_idea = closed_economy
+			add_idea = limited_exports
+		}
+	}
+	
+	option = {
+	    name = NA_N_event.18.c
+		swap_ideas = {
+			remove_idea = closed_economy
+			add_idea = free_trade
+		}
+	}
+}
+
+country_event = {
+	id = NA_N_event.19 
+	title = NA_N_event.19.t
+	desc = NA_N_event.19.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.19.a
+		show_ideas_tooltip = two_percent
+	}
+	
+	option = {
+	    name = NA_N_event.19.b
+		swap_ideas = {
+			remove_idea = two_percent
+			add_idea = three_percent
+		}
+	}
+	
+	option = {
+	    name = NA_N_event.19.c
+		swap_ideas = {
+			remove_idea = two_percent
+			add_idea = five_percent
+		}
+	}
+}
+
+country_event = {
+	id = NA_N_event.20 
+	title = NA_N_event.20.t
+	desc = NA_N_event.20.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.20.a
+		show_ideas_tooltip = low_taxes
+	}
+	
+	option = {
+	    name = NA_N_event.20.b
+		swap_ideas = {
+			remove_idea = low_taxes
+			add_idea = normal_taxes
+		}
+	}
+	option = {
+	    name = NA_N_event.20.c
+		swap_ideas = {
+			remove_idea = low_taxes
+			add_idea = high_taxes
+		}
+	}
+}
+
+country_event = {
+	id = NA_N_event.21 
+	title = NA_N_event.21.t
+	desc = NA_N_event.21.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.21.a
+		show_ideas_tooltip = law_communal_policing
+	}
+	
+	option = {
+	    name = NA_N_event.21.b
+		swap_ideas = {
+			remove_idea = law_communal_policing
+			add_idea = law_police_force
+		}
+	}
+}
+
+country_event = {
+	id = NA_N_event.22 
+	title = NA_N_event.22.t
+	desc = NA_N_event.22.d
+	picture = GFX_report_event_russian_protests
+
+	is_triggered_only = yes
+	
+	option = {
+	    name = NA_N_event.22.a
+		show_ideas_tooltip = high_judge_courtroom
+	}
+	
+	option = {
+	    name = NA_N_event.22.b
+		swap_ideas = {
+			remove_idea = high_judge_courtroom
+			add_idea = biased_courtroom
+		}
+	}
+	
+	option = {
+	    name = NA_N_event.22.c
+		swap_ideas = {
+			remove_idea = high_judge_courtroom
+			add_idea = jury_court
+		}
+	}
+}
 
 country_event = {
 	id = sem.1
@@ -233,7 +771,7 @@ country_event = {
 		USA = {
 			complete_national_focus = USA_buchanan_reservations
 		}
-		add_political_power = -250
+		add_political_power = -100
 		add_popularity = { ideology = social_egalitarianism popularity = 0.01 }
 		366 = {
 			remove_claim_by = SEM
@@ -329,7 +867,7 @@ country_event = {
 				is_historical_focus_on = yes
 			}
 		}
-		add_political_power = -250
+		add_political_power = -100
 		add_popularity = { ideology = social_egalitarianism popularity = 0.01 }
 		366 = {
 			remove_claim_by = SEM
@@ -499,3 +1037,158 @@ country_event = {
 		# add_ideas for payments
 	}
 }
+
+### LANCERS STUFF FUCK OFF ###
+
+country_event = {
+	id = nativeindustrial.1 ###Cherokee Machine Works
+	title = nativeindustrial.1.t
+	desc = nativeindustrial.1.d
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativeindustrial.1.a
+		add_ideas = {cherokee_machine_works}
+		
+	}
+}
+
+country_event = {
+	id = nativeindustrial.2 ###Sioux Telegraphy
+	title = nativeindustrial.2.t
+	desc = nativeindustrial.2.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativeindustrial.2.a
+		add_ideas = {sioux_telegraphy}
+		
+	}
+}
+
+country_event = {
+	id = nativeindustrial.3 ###Pyramid Chemical Industries
+	title = nativeindustrial.3.t
+	desc = nativeindustrial.3.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativeindustrial.3.a
+		add_ideas = {pyramid_chemical_industries}
+		
+	}
+}
+
+country_event = {
+	id = nativeindustrial.4 ###Palm Petro-Chemical
+	title = nativeindustrial.4.t
+	desc = nativeindustrial.4.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativeindustrial.4.a
+		add_ideas = {palm_petro_chemical}
+		
+	}
+}
+
+country_event = {
+	id = nativeindustrial.5 ###Golden Tyre Company
+	title = nativeindustrial.5.t
+	desc = nativeindustrial.5.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativeindustrial.5.a
+		add_ideas = {golden_tyre}
+		
+	}
+}
+
+country_event = {
+	id = nativeindustrial.6 ###Thunderbird Aviation Company
+	title = nativeindustrial.6.t
+	desc = nativeindustrial.6.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativeindustrial.6.a
+		add_ideas = {thunderbird_aviation}
+		
+		
+	}
+}
+
+country_event = {
+	id = nativeindustrial.7 ###Thunderbird Aviation Company
+	title = nativeindustrial.7.t
+	desc = nativeindustrial.7.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativeindustrial.7.a
+
+		
+		
+	}
+}
+
+### END OF THE OLD WORLD ###
+
+country_event = {
+	id = nativediplomatic.1 ###the world stage
+	title = nativediplomatic.1.t
+	desc = nativediplomatic.1.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativediplomatic.1.a
+		add_ideas = {native_diplomatic_1}
+		
+	}
+	
+	option = {
+		name = nativediplomatic.1.b
+		add_ideas = {native_diplomatic_2}
+		
+	}
+}
+
+country_event = {
+	id = nativediplomatic.2 ###self image
+	title = nativediplomatic.2.t
+	desc = nativediplomatic.2.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = nativediplomatic.2.a
+		add_ideas = {native_diplomatic_3}
+		
+	}
+	
+	option = {
+		name = nativediplomatic.2.b
+		add_ideas = {native_diplomatic_4}
+		
+	}
+}
+
+

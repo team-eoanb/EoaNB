@@ -13,16 +13,48 @@ focus_tree = {
 
 	continuous_focus_position = {
 		x = 50
-		y = 2000
+		y = 1500
 	}
 
 	default = no
+
+	###Emigration tree###
+	focus = {
+		id = NOR_focus_emigration_control_emigration
+		x = 2
+		y = 0
+		cost = 70
+		icon = GFX_goal_generic_construct_civilian
+		ai_will_do = {
+			factor = 1
+		}
+		allow_branch = {
+			check_variable = { NOR_var_emigration_level > 1 }
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = NOR_focus_emigration_attract_immigrants
+		x = 0
+		y = 1
+		relative_position_id = NOR_focus_emigration_control_emigration
+		cost = 35
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = NOR_focus_emigration_control_emigration }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+		}
+	}
 
 	###Industrial tree###
 
 	focus = {
 		id = NOR_focus_railway_investments
-		x = 2
+		x = 7
 		y = 0
 		cost = 70
 		icon = GFX_goal_generic_construct_civilian
@@ -279,7 +311,7 @@ focus_tree = {
 
 	focus = {
 		id = NOR_focus_vogt
-		x = 11
+		x = 16
 		y = 0
 		cost = 14
 		icon = GFX_goal_SWE_we_need_a_leader
@@ -309,7 +341,7 @@ focus_tree = {
 
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = "Vogt has resisted the King"
+				tooltip = "Rejected the call to abdicate"
 				has_country_flag = NOR_flag_vogt_stay
 			}
 			hidden_trigger = {
@@ -488,7 +520,7 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = NOR_focus_vogt_replacement_found
-		cost = 28
+		cost = 70
 		icon = GFX_goal_generic_major_alliance
 		prerequisite = { focus = NOR_focus_vogt_replacement_found focus = NOR_focus_vogt_vote_conclusion }
 
@@ -523,7 +555,7 @@ focus_tree = {
 		relative_position_id = NOR_focus_prepare_future_election
 		cost = 35
 		icon = GFX_goal_focus_elections
-		prerequisite = { focus = NOR_focus_prepare_future_election}
+		prerequisite = { focus = NOR_focus_prepare_future_election }
 
 		available = {
 			date > 1859.1.1
@@ -532,42 +564,205 @@ focus_tree = {
 			factor = 160
 		}
 		bypass = {
+			has_completed_focus = NOR_focus_prepare_future_election
 			date > 1860.1.1
 		}
 		completion_reward = {
 			add_political_power = 50
-			hold_election = ROOT
+			
+			effect_tooltip = {	
+				hold_election = ROOT
+			}
+
 			hidden_effect = {
-				mark_focus_tree_layout_dirty = yes
+				country_event = eoanb_norway.17
 			}
 		}
 	}
 
 	focus = {
-		id = NOR_focus_test
-		x = 0
-		y = 2
+		id = NOR_focus_election_liberal_victory
+		prerequisite = { focus = NOR_focus_election_1859 }
+		mutually_exclusive = { focus = NOR_focus_election_conservative_victory }
+
 		relative_position_id = NOR_focus_election_1859
-		cost = 35
-		icon = GFX_goal_focus_elections
+		x = -2
+		y = 1
+
+		cost = 0
+		icon = GFX_goal_focus_liberty
 
 		allow_branch = {
 			always = no
-			#has_completed_focus = NOR_focus_election_1859
 		}
 
-		ai_will_do = {
-			factor = 160
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "Completed by event"
+			}
+			hidden_trigger = {
+				always = no
+			}
 		}
+
 		completion_reward = {
+			add_popularity = {
+				ideology = centrism
+				popularity = 0.10
+			}
 		}
+	}
+
+	focus = {
+		id = NOR_focus_free_press
+		prerequisite = { focus = NOR_focus_election_liberal_victory }
+
+		relative_position_id = NOR_focus_election_liberal_victory
+		x = 0
+		y = 1
+
+		cost = 70
+		icon = GFX_goal_focus_freedom_press
+
+		completion_reward = { }
+	}
+
+	focus = {
+		id = NOR_focus_democracy_focus
+		prerequisite = { focus = NOR_focus_free_press }
+
+		relative_position_id = NOR_focus_free_press
+		x = 0
+		y = 1
+
+		cost = 70
+		#icon = GFX_focus_generic_the_giant_wakes
+
+		completion_reward = { }
+	}
+
+	focus = {
+		id = NOR_focus_election_conservative_victory
+		prerequisite = { focus = NOR_focus_election_1859 }
+		mutually_exclusive = { focus = NOR_focus_election_liberal_victory }
+
+		relative_position_id = NOR_focus_election_1859
+		x = 2
+		y = 1
+
+		cost = 0
+		icon = GFX_goal_focus_support_conservatism
+
+		allow_branch = {
+			always = no
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "Completed by event"
+			}
+			hidden_trigger = {
+				always = no
+			}
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = traditional_conservatism
+				popularity = 0.10
+			}
+		}
+	}
+
+	focus = {
+		id = NOR_focus_limit_freedom_of_speech
+		prerequisite = { focus = NOR_focus_election_conservative_victory }
+
+		relative_position_id = NOR_focus_election_conservative_victory
+		x = 0
+		y = 1
+
+		cost = 70
+		#icon = GFX_focus_generic_the_giant_wakes
+
+		completion_reward = { }
+	}
+
+	focus = {
+		id = NOR_focus_centralize_power
+		prerequisite = { focus = NOR_focus_limit_freedom_of_speech }
+
+		relative_position_id = NOR_focus_limit_freedom_of_speech
+		x = 0
+		y = 1
+
+		cost = 70
+		#icon = GFX_focus_generic_the_giant_wakes
+
+		completion_reward = { }
+	}
+
+	focus = {
+		id = NOR_focus_seek_swedish_confidence
+		prerequisite = { focus = NOR_focus_election_liberal_victory focus = NOR_focus_election_conservative_victory  }
+
+		relative_position_id = NOR_focus_election_liberal_victory
+		x = 2
+		y = 1
+
+		cost = 70
+		#icon = GFX_focus_generic_the_giant_wakes
+
+		completion_reward = { }
+	}
+
+	focus = {
+		id = NOR_focus_review_stattholder
+		prerequisite = { focus = NOR_focus_seek_swedish_confidence }
+
+		relative_position_id = NOR_focus_seek_swedish_confidence
+		x = 0
+		y = 1
+
+		cost = 35
+		#icon = GFX_focus_generic_the_giant_wakes
+
+		completion_reward = { }
+	}
+
+	focus = {
+		id = NOR_focus_resignation
+		prerequisite = { focus = NOR_focus_review_stattholder }
+
+		relative_position_id = NOR_focus_review_stattholder
+		x = 0
+		y = 1
+
+		cost = 35
+		#icon = GFX_focus_generic_the_giant_wakes
+
+		completion_reward = { }
+	}
+
+	focus = {
+		id = NOR_focus_frederik_stang
+		prerequisite = { focus = NOR_focus_resignation }
+
+		relative_position_id = NOR_focus_resignation
+		x = 0
+		y = 1
+
+		cost = 35
+		#icon = GFX_focus_generic_the_giant_wakes
+
+		completion_reward = { }
 	}
 
 	###Army and naval tree###
 
 	focus = {
 		id = NOR_focus_norwegian_military
-		x = 20
+		x = 25
 		y = 0
 		cost = 70
 		icon = GFX_goal_generic_axis_build_infantry
@@ -828,13 +1023,33 @@ focus_tree = {
 	}
 
 	focus = {
-		id = NOR_focus_norwegian_gunboats
+		id = NOR_focus_norwegian_fleet
 		x = 5
 		y = 1
 		relative_position_id = NOR_focus_norwegian_military
-		cost = 70
+		cost = 25
 		icon = GFX_goal_generic_navy_anti_submarine
 		prerequisite = { focus = NOR_focus_norwegian_military }
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = NOR_focus_norwegian_gunboats
+		x = 0
+		y = 1
+		relative_position_id = NOR_focus_norwegian_fleet
+		cost = 70
+		icon = GFX_goal_generic_navy_anti_submarine
+		prerequisite = { focus = NOR_focus_norwegian_fleet }
 		ai_will_do = {
 			factor = 1
 		}
@@ -858,29 +1073,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = NOR_focus_naval_training
+		id = NOR_focus_our_naval_doctrine
 		x = 0
 		y = 1
 		relative_position_id = NOR_focus_norwegian_gunboats
 		cost = 70
-		icon = GFX_goal_generic_navy_cruiser
-		prerequisite = { focus = NOR_focus_norwegian_gunboats }
-		ai_will_do = {
-			factor = 1
-		}
-		completion_reward = {
-			navy_experience = 40
-		}
-	}
-
-	focus = {
-		id = NOR_focus_our_naval_doctrine
-		x = 0
-		y = 1
-		relative_position_id = NOR_focus_naval_training
-		cost = 70
 		icon = GFX_goal_generic_navy_doctrines_tactics
-		prerequisite = { focus = NOR_focus_naval_training }
+		prerequisite = { focus = NOR_focus_norwegian_gunboats }
 		ai_will_do = {
 			factor = 1
 		}

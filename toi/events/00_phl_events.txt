@@ -1,0 +1,615 @@
+### NAMESPACES ###
+add_namespace = phl_rebellion
+add_namespace = phl_power_struggle
+add_namespace = phl_flavor
+add_namespace = phl_first_election
+##################
+
+### COUNTRY EVENTS ###
+country_event = { # Starting event
+    id = phl_rebellion.1
+    title = phl_rebellion.1.t
+    desc = phl_rebellion.1.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_rebellion.1.a
+        add_ideas = PHL_Liberty_Or_Death_idea
+    }
+}
+
+country_event = { # Philly requests help (MHC Perspective)
+    id = phl_rebellion.2
+    title = phl_rebellion.2.t
+    desc = phl_rebellion.2.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = { # Help Them!
+        name = phl_rebellion.2.a
+        PHL = {
+            country_event = {
+                id = phl_rebellion.3
+                days = 1
+            }
+        }
+    }
+    option = { # It's too risky
+        name = phl_rebellion.2.b
+        PHL = {
+            country_event = {
+                id = phl_rebellion.4
+                days = 1
+            }
+        }
+    }
+}
+
+country_event = { # MHC Helps us!
+    id = phl_rebellion.3
+    title = phl_rebellion.3.t
+    desc = phl_rebellion.3.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = { # Yay!
+        name = phl_rebellion.3.a
+    }
+}
+
+country_event = { # MHC refuses to help
+    id = phl_rebellion.4
+    title = phl_rebellion.4.t
+    desc = phl_rebellion.4.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = { # Aww :(
+        name = phl_rebellion.4.a
+    }
+}
+
+country_event = { # Victory in the rebellion
+    id = phl_rebellion.5
+    title = phl_rebellion.5.t
+    desc = phl_rebellion.5.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_rebellion.5.a
+    }
+}
+
+country_event = { # Weydemeyer Offers Services
+    id = phl_rebellion.6
+    title = phl_rebellion.6.t
+    desc = phl_rebellion.6.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = { # We could use all the help we can get
+        name = phl_rebellion.6.a
+        set_country_flag = phl_weydemeyer_enlisted_flag
+        create_field_marshal = {
+            name = "Joseph Weydemeyer"
+            picture = "Portrait_USA_Joseph_Weydemeyer.dds"
+            traits = { urban_assault_specialist career_officer inflexible_strategist defensive_doctrine }
+            skill = 4
+            id = 5031
+            attack_skill = 3
+            defense_skill = 6
+            planning_skill = 3
+            logistics_skill = 3
+        }
+        hidden_effect = {
+            create_country_leader = {
+                name = "Joseph Weydemeyer"
+                desc = "POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC"
+                picture = "Portrait_USA_Joseph_Weydemeyer.dds"
+                expire = "1866.8.26"
+                ideology = marxism
+            }
+        }
+    }
+    option = { # We don't need the help of a German Marxist
+        name = phl_rebellion.6.b
+    }
+}
+
+country_event = { # Power Struggle Intro
+    id = phl_power_struggle.1
+    title = phl_power_struggle.1.t
+    desc = phl_power_struggle.1.desc
+    fire_only_once = no
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_power_struggle.1.a
+        add_ideas = PHL_The_Army_Of_The_Lord_level_3
+        add_ideas = PHL_The_Sons_Of_Liberty_level_3
+        phl_power_struggle_check_popularities = yes
+    }
+}
+
+country_event = { # Power Struggle Hidden Effect
+    id = phl_power_struggle.2
+    title = phl_power_struggle.2.t
+    desc = phl_power_struggle.2.desc
+    picture = placeholder
+    is_triggered_only = yes
+    hidden = yes
+    immediate = {
+        IF = {
+            limit = {
+                NOT = {
+                    has_country_flag = phl_power_struggle_ended_flag
+                }
+            }
+            random_list = {
+                23 = {
+                    country_event = {
+                        id = phl_power_struggle.3
+                        days = 30
+                    }
+                }
+                23 = {
+                    country_event = {
+                        id = phl_power_struggle.4
+                        days = 30
+                    }
+                }
+                23 = {
+                    country_event = {
+                        id = phl_power_struggle.5
+                        days = 30
+                    }
+                }
+                23 = {
+                    country_event = {
+                        id = phl_power_struggle.6
+                        days = 30
+                    }
+                }
+                4 = {
+                    country_event = {
+                        id = phl_power_struggle.7
+                        days = 30
+                    }
+                }
+                4 = {
+                    country_event = {
+                        id = phl_power_struggle.8
+                        days = 30
+                    }
+                }
+            }
+        }
+        ELSE_IF = {
+            limit = {
+                has_country_flag = phl_power_struggle_ended_flag
+            }
+        }
+    }
+}
+
+country_event = { # Socialist paramilitaries attack anarchists
+    id = phl_power_struggle.3
+    title = phl_power_struggle.3.t
+    desc = phl_power_struggle.3.desc
+    picture = placeholder
+    is_triggered_only = yes
+    immediate = {
+        hidden_effect = {
+            country_event = phl_power_struggle.2
+        }
+    }
+    option = { # Reprimand these hooligans
+        name = phl_power_struggle.3.a
+        add_popularity = {
+            ideology = collectivist_socialism
+            popularity = -0.02
+        }
+    }
+    option = { # This is a job for the city police
+        name = phl_power_struggle.3.a
+        add_popularity = {
+            ideology = collectivist_socialism
+            popularity = -0.01
+            add_stability = -0.01
+            add_political_power = -25
+        }
+    }
+}
+
+country_event = { # Anarchist paramilitaries attack socialists
+    id = phl_power_struggle.4
+    title = phl_power_struggle.4.t
+    desc = phl_power_struggle.4.desc
+    picture = placeholder
+    is_triggered_only = yes
+    immediate = {
+        hidden_effect = {
+            country_event = phl_power_struggle.2
+        }
+    }
+    option = { # Reprimand these hooligans
+        name = phl_power_struggle.4.a
+        add_popularity = {
+            ideology = anarchism
+            popularity = -0.02
+        }
+    }
+    option = { # This is a job for the city police
+        name = phl_power_struggle.4.a
+        add_popularity = {
+            ideology = anarchism
+            popularity = -0.01
+            add_stability = -0.01
+            add_political_power = -25
+        }
+    }
+}
+
+country_event = { # Army Of The Lord distributes food
+    id = phl_power_struggle.5
+    title = phl_power_struggle.5.t
+    desc = phl_power_struggle.5.desc
+    picture = placeholder
+    is_triggered_only = yes
+    immediate = {
+        hidden_effect = {
+            country_event = phl_power_struggle.2
+        }
+    }
+    option = { # Congratulate their efforts
+        name = phl_power_struggle.5.a
+        add_popularity = {
+            ideology = collectivist_socialism
+            popularity = 0.02
+        }
+    }
+    option = { # This is just a publicity stunt. Shut it down.
+        name = phl_power_struggle.5.b
+        add_popularity = {
+            ideology = collectivist_socialism
+            popularity = 0.01
+        }
+        add_stability = -0.01
+        add_political_power = -25
+    }
+}
+
+country_event = { # Sons Of Liberty distributes food
+    id = phl_power_struggle.6
+    title = phl_power_struggle.6.t
+    desc = phl_power_struggle.6.desc
+    picture = placeholder
+    is_triggered_only = yes
+    immediate = {
+        hidden_effect = {
+            country_event = phl_power_struggle.2
+        }
+    }
+    option = { # Congratulate their efforts
+        name = phl_power_struggle.6.a
+        add_popularity = {
+            ideology = anarchism
+            popularity = 0.02
+        }
+    }
+    option = { # This is just a publicity stunt. Shut it down.
+        name = phl_power_struggle.6.b
+        add_popularity = {
+            ideology = anarchism
+            popularity = 0.01
+        }
+        add_stability = -0.01
+        add_political_power = -25
+    }
+}
+
+country_event = { # Marxist paramilitaries attack socialists
+    id = phl_power_struggle.7
+    title = phl_power_struggle.7.t
+    desc = phl_power_struggle.7.desc
+    picture = placeholder
+    is_triggered_only = yes
+    immediate = {
+        hidden_effect = {
+            country_event = phl_power_struggle.2
+        }
+    }
+    option = { # Reprimand these hooligans
+        name = phl_power_struggle.7.a
+        add_popularity = {
+            ideology = vanguard_communism
+            popularity = -0.02
+        }
+    }
+    option = { # This is a job for the city police
+        name = phl_power_struggle.7.a
+        add_popularity = {
+            ideology = vanguard_communism
+            popularity = -0.01
+            add_stability = -0.01
+            add_political_power = -25
+        }
+    }
+}
+
+country_event = { # United Workers' Militia distributes food
+    id = phl_power_struggle.8
+    title = phl_power_struggle.8.t
+    desc = phl_power_struggle.8.desc
+    picture = placeholder
+    is_triggered_only = yes
+    immediate = {
+        hidden_effect = {
+            country_event = phl_power_struggle.2
+        }
+    }
+    option = { # Congratulate their efforts
+        name = phl_power_struggle.8.a
+        add_popularity = {
+            ideology = vanguard_communism
+            popularity = 0.02
+        }
+    }
+    option = { # This is just a publicity stunt. Shut it down.
+        name = phl_power_struggle.8.b
+        add_popularity = {
+            ideology = vanguard_communism
+            popularity = 0.01
+        }
+        add_stability = -0.01
+        add_political_power = -25
+    }
+}
+
+country_event = { # Philly asks for guarantee (NEG perspective)
+    id = phl_flavor.1
+    title = phl_flavor.1.t
+    desc = phl_flavor.1.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = { # Yes
+        name = phl_flavor.1.a
+        give_guarantee = PHL
+        PHL = {
+            country_event = {
+                id = phl_flavor.2
+                days = 1
+            }
+        }
+    }
+    option = { # No
+        name = phl_flavor.1.b
+        PHL = {
+            country_event = {
+                id = phl_flavor.3
+                days = 1
+            }
+        }
+    }
+}
+
+country_event = { # New England accepts guarantee proposal!
+    id = phl_flavor.2
+    title = phl_flavor.2.t
+    desc = phl_flavor.2.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_flavor.2.a
+        give_guarantee = NEG
+    }
+}
+
+country_event = { # New England rejects guarantee proposal!
+    id = phl_flavor.3
+    title = phl_flavor.3.t
+    desc = phl_flavor.3.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_flavor.3.a
+    }
+}
+
+country_event = { # Unification proposal with MHC
+    id = phl_flavor.4
+    title = phl_flavor.4.t
+    desc = phl_flavor.4.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = { # Accept! (Player)
+        name = phl_flavor.4.a
+        trigger = {
+            is_ai = no
+        }
+        annex_country = {
+            target = PHL
+            transfer_troops = yes
+        }
+    }
+    option = { # Accept! (AI)
+        name = phl_flavor.4.b
+        trigger = {
+            is_ai = yes
+        }
+        ai_chance = {
+            base = 5
+        }
+        PHL = {
+            annex_country = {
+                target = MHC
+                transfer_troops = yes
+            }
+        }
+        PHL = {
+            country_event = phl_flavor.5
+        }
+    }
+    option = { # Reject!
+        name = phl_flavor.4.c
+        ai_chance = {
+            base = 5
+        }
+        PHL = {
+            country_event = phl_flavor.6
+        }
+    }
+}
+
+country_event = { # MHC Accepts Unification
+    id = phl_flavor.5
+    title = phl_flavor.5.t
+    desc = phl_flavor.5.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_flavor.5.a
+    }
+}
+
+country_event = { # MHC Rejects Unification
+    id = phl_flavor.6
+    title = phl_flavor.6.t
+    desc = phl_flavor.6.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_flavor.6.a
+    }
+}
+
+country_event = { # PHL offers alliance
+    id = phl_flavor.7
+    title = phl_flavor.7.t
+    desc = phl_flavor.7.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = { # Accept
+        ai_chance = {
+            base = 5
+            modifier = {
+                is_in_faction = yes
+                add = -5
+            }
+        }
+        name = phl_flavor.7.a
+        PHL = {
+            add_to_faction = ROOT
+        }
+        PHL = {
+            country_event = {
+                id = phl_flavor.8
+                days = 1
+            }
+        }
+    }
+    option = { # Reject
+        ai_chance = {
+            base = 5
+        }
+        name = phl_flavor.7.b
+        PHL = {
+            country_event = {
+                id = phl_flavor.9
+                days = 1
+            }
+        }
+    }
+}
+
+country_event = { # Atlantic Entente Membership Acceptance!
+    id = phl_flavor.8
+    title = phl_flavor.8.t
+    desc = phl_flavor.8.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_flavor.8.a
+    }
+}
+
+country_event = { # Atlantic Entente Membership Rejection!
+    id = phl_flavor.9
+    title = phl_flavor.9.t
+    desc = phl_flavor.9.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = {
+        name = phl_flavor.9.a
+    }
+}
+
+#################
+### ELECTIONS ###
+#################
+
+### FIRST ELECTION ###
+country_event = {
+    id = phl_first_election.1
+    title = phl_first_election.1.t
+    desc = phl_first_election.1.desc
+    picture = placeholder
+    is_triggered_only = yes
+    immediate = {
+        hidden_effect = {
+            country_event = {
+                id = phl_first_election.2
+                days = 14
+            }
+        }
+    }
+    option = {
+        name = phl_first_election.1.a
+    }
+}
+
+country_event = {
+    id = phl_first_election.2
+    title = phl_first_election.2.t
+    desc = phl_first_election.2.desc
+    picture = placeholder
+    is_triggered_only = yes
+    option = { # Stephen Pearl Andrews
+        name = phl_first_election.2.a
+        retire_ideology_leader = anarchism
+        create_country_leader = {
+            name = "Stephen Pearl Andrews"
+            desc = POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC
+            picture = placeholder
+            expire = 1866.5.21
+            ideology = libertarianism
+        }
+    }
+    option = { # Andrew Jackson Davis
+        name = phl_first_election.2.b
+        set_politics = {
+            ruling_party = collectivist_socialism
+        }
+        retire_ideology_leader = anarchism
+        create_country_leader = {
+            name = "Stephen Pearl Andrews"
+            desc = POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC
+            picture = placeholder
+            expire = 1866.5.21
+            ideology = libertarianism
+        }
+    }
+    option = { # Joseph Weydemeyer
+        name = phl_first_election.2.c
+        trigger = {
+            has_country_flag = phl_weydemeyer_enlisted_flag
+        }
+        set_politics = {
+            ruling_party = vanguard_communism
+        }
+        retire_ideology_leader = anarchism
+        create_country_leader = {
+            name = "Stephen Pearl Andrews"
+            desc = POLITICS_FRANKLIN_DELANO_ROOSEVELT_DESC
+            picture = placeholder
+            expire = 1866.5.21
+            ideology = libertarianism
+        }
+    }
+}

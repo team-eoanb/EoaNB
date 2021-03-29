@@ -10,13 +10,32 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = monaco.1.a
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 1
+				is_historical_focus_on = no
+			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 		hidden_effect = {
 			set_country_flag = PIE_aggressive_stance_monaco
+			add_state_core = 1153
 		}
 		##add custom effect tooltips
 	}
 	option = {
 		name = monaco.1.b
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 2
+				is_historical_focus_on = yes
+			}
+		}
 		hidden_effect = {
 			set_country_flag = PIE_passive_stance_monaco
 			MNC = {
@@ -27,7 +46,7 @@ country_event = {
 		}
 	}
 }
-
+#####Meeting with Charles III
 country_event = {
 	id = monaco.2
 	title = monaco.2.t
@@ -35,24 +54,23 @@ country_event = {
 	picture = GFX_event_ITA_monaco_19th_century
 	is_triggered_only = yes
 	fire_only_once = yes
-	option = {
+	option = {  
 		name = monaco.2.a
+		ai_chance = {
+			base = 3
+		}
 		MNC = {
 			country_event = {
 				id = monaco.3
 			}
 		}
-	}
-	option = {
-		name = monaco.2.b
-		MNC = {
-			country_event = {
-				id = monaco.4
-			}
+		hidden_effect = {
+			set_country_flag = PIE_met_with_monaco
 		}
 	}
+	
 }
-
+######Monaco Gets the event
 country_event = {
 	id = monaco.3
 	title = monaco.3.t
@@ -62,14 +80,325 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = monaco.3.a
-
-	}
-	option = {
-		name = monaco.3.b
-	
+		PIE = {
+			country_event = {
+				id = monaco.7
+			}
+		}
 	}
 }
 
+country_event = {
+	id = monaco.4
+	title = monaco.4.t
+	desc = monaco.4.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.4.a
+		ai_chance = {
+			base = 5
+		}
+		###Remain protectorate
+		PIE = {
+			country_event = {
+				id = monaco.5
+			}
+		}
+	}
+	option = {
+		name = monaco.4.b
+		ai_chance = {
+			base = 2
+		}
+		###Ask for independence
+		PIE = {
+			country_event = {
+				id = monaco.6
+			}
+		}
+	}
+	option = {
+		name = monaco.4.c
+		ai_chance = {
+			base = 0
+		}
+		###ask to be transfered to france
+		trigger = {
+			OR = {
+				PIE = {
+					has_completed_focus = PIE_A_Deal_with_Napoleon
+					has_completed_focus = PIE_Risorgimento
+				}
+			}
+		}
+		PIE = {
+			country_event = {
+				id = monaco.8
+			}
+		}
+	}
+}
+country_event = {
+	id = monaco.5
+	title = monaco.5.t
+	desc = monaco.5.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.5.a
+		###Clear all flags, Monaco remains protectorate
+		hidden_effect = {
+			set_country_flag = PIE_Monaco_resolved
+			clr_country_flag = PIE_aggressive_stance_monaco
+			clr_country_flag = PIE_met_with_monaco
+		}
+	}
+}
+country_event = {
+	id = monaco.6
+	title = monaco.6.t
+	desc = monaco.6.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.6.a
+		###war
+		MNC = {
+			country_event = {
+				id = moanco.11
+			}
+		}
+		declare_war_on = {
+			target = MNC
+			type = annex_everything
+		}
+		hidden_effect = {
+			set_country_flag = PIE_Monaco_resolved
+			clr_country_flag = PIE_aggressive_stance_monaco
+			clr_country_flag = PIE_met_with_monaco
+		}
+	}
+	option = {
+		name = monaco.6.b
+		###independence
+		MNC = {
+			country_event = {
+				id = monaco.10
+			}
+		}
+		hidden_effect = {
+			set_country_flag = PIE_Monaco_resolved
+			clr_country_flag = PIE_aggressive_stance_monaco
+			clr_country_flag = PIE_met_with_monaco
+		}
+	}
+}
+country_event = {
+	id = monaco.7
+	title = monaco.7.t
+	desc = monaco.7.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {  ###Protectorate
+		name = monaco.7.a
+		ai_chance = {
+			base = 3
+		}
+		MNC = {
+			country_event = {
+				id = monaco.4
+			}
+		}
+	}
+	option = {  ####annexation
+		name = monaco.7.b
+		ai_chance = {
+			base = 1
+		}
+		MNC = {
+			country_event = {
+				id = monaco.9
+			}
+		}
+	}
+}
+country_event = {
+	id = monaco.8
+	title = monaco.8.t
+	desc = monaco.8.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.8.a
+		hidden_effect = {
+			set_country_flag = PIE_agreed_to_transfer_monaco
+			clr_country_flag = PIE_aggressive_stance_monaco
+			clr_country_flag = PIE_met_with_monaco
+		}
+		MNC = {
+			country_event = {
+				id = monaco.10
+			}
+		}
+	}
+	option = {
+		name = monaco.8.b
+		##war
+		declare_war_on = {
+			target = MNC
+			type = annex_everything
+		}
+		MNC = {
+			country_event = {
+				id = monaco.11
+			}
+		}
+		hidden_effect = {
+			set_country_flag = PIE_Monaco_resolved
+			clr_country_flag = PIE_aggressive_stance_monaco
+			clr_country_flag = PIE_met_with_monaco
+		}
+	}
+}
+country_event = {  ###Sardinia demands annexation
+	id = monaco.9
+	title = monaco.9.t
+	desc = monaco.9.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.9.a
+		PIE = {
+			annex_country = {
+				target = MNC
+				transfer_troops = yes
+			}
+			hidden_effect = {
+				set_country_flag = PIE_Monaco_resolved
+				clr_country_flag = PIE_aggressive_stance_monaco
+				clr_country_flag = PIE_met_with_monaco
+			}
+		}
+	}
+	option = {
+		name = monaco.9.b
+		PIE = {
+			country_event = {
+				id = monaco.12
+			}
+		}
+	}
+}
+
+country_event = {  ##generic Sardinia agreed event for Monaco
+	id = monaco.10
+	title = monaco.10.t
+	desc = monaco.10.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.10.a
+		
+	}
+}
+country_event = {  ##generic Sardinia invades event
+	id = monaco.11
+	title = monaco.11.t
+	desc = monaco.11.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.11.a
+		
+	}
+}
+country_event = {  ##Monaco Requests Continuining Protectorate
+	id = monaco.12
+	title = monaco.12.t
+	desc = monaco.12.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.12.a
+		hidden_effect = {
+			set_country_flag = PIE_Monaco_resolved
+		}
+	}
+	option = {
+		name = monaco.12.b
+		MNC = {
+			country_event = {
+				id = monaco.11
+			}
+		}
+		declare_war_on = {
+			target = MNC
+			type = annex_everything
+		}
+		hidden_effect = {
+			set_country_flag = PIE_Monaco_resolved
+			clr_country_flag = PIE_aggressive_stance_monaco
+			clr_country_flag = PIE_met_with_monaco
+		}
+	}
+}
+country_event = { ####Monaco Transferred to France
+	id = monaco.13
+	title = monaco.13.t
+	desc = monaco.13.d
+	picture = GFX_event_ITA_monaco_19th_century
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = monaco.13.b
+		###Clear all flags, Monaco remains protectorate
+
+		PIE = {
+			if = {
+				limit = { eoanb_enable_autonomy = yes }
+				set_autonomy = { 
+					target = MNC
+					autonomy_state = autonomy_free
+				}
+			}
+			else = {
+				end_puppet = MNC
+			}			
+		}
+		FRA = {
+			if = {
+				limit = { eoanb_enable_autonomy = yes }
+				set_autonomy = { 
+					target = MNC
+					autonomy_state = autonomy_protectorate
+				}
+			}
+			else = {
+				puppet = MNC
+			}	
+			#country_event = {
+			#	id = monaco.14
+			#}	
+		}
+		hidden_effect = {
+			PIE = {
+				set_country_flag = PIE_Monaco_resolved
+				clr_country_flag = PIE_aggressive_stance_monaco
+				clr_country_flag = PIE_met_with_monaco
+			}
+		}
+	}
+}
 #Italy minor asks for volunteers from Austria
 country_event = {
 	id = italy_minor.1

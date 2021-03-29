@@ -3525,3 +3525,170 @@ country_event = { # Vote on the reform
 
   }
 }
+
+#Get Parliamentary Approval for Anglo-Prussian Naval Treaty - UK
+country_event = {
+	id = british_votes.26
+	title = british_votes.26.t
+	desc = british_votes.26.d
+	picture = GFX_report_event_uk_parliament
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_variable = { 
+			var = current_reform_id
+			value = -1   
+		}
+
+		reset_approval_arrays = yes 
+		set_1_approval_disagree = yes 
+		set_2_approval_agree = yes 
+		set_3_approval_agree = yes 
+		set_4_approval_highly_agree = yes 
+
+		set_vote_war = yes
+		compute_voting_approval = yes
+
+		compute_number_seats_tot = yes 
+		compute_number_seats_approve_est = yes
+	}
+
+	option = { # Let's vote in a month
+		name = british_votes.26.a
+		ai_chance = { base = 100 }
+		
+		country_event = {
+			id = british_votes_results.26
+			days = 35 
+		}
+	}
+
+	option = { # Abandon the idea
+		name = british_votes.26.b
+		ai_chance = { base = 0 }
+		
+		add_stability = -0.05
+		if = {
+			limit = {
+				has_government = traditional_conservatism
+			}
+			add_popularity = { ideology = traditional_conservatism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else_if = {
+			limit = {
+				has_government = centrism
+			}
+			add_popularity = { ideology = centrism popularity = -0.05 }
+			add_political_power = -50
+		}
+		else = {
+			add_political_power = -100
+		}
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+}
+
+#Results of Vote on Parliamentary Approval for Anglo-Prussian Naval Treaty - UK
+country_event = {
+	id = british_votes_results.26
+	title = british_votes_results.26.t
+	desc = british_votes_results.26.d
+	picture = GFX_event_prussian_parliament_king
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			calculate_vote_result = yes
+		}
+	}
+
+	option = { # It's a success !
+		name = british_votes_results.26.a
+		trigger = {
+			has_country_flag = eoanb_reform_vote_success
+		}
+		clr_country_flag = eoanb_reform_vote_success
+		enact_voted_reform = yes
+		
+		ENG = {
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		PRS = { country_event = { days = 1 id = prussiaforeign.41 } }
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a failure...
+		name = british_votes_results.26.b
+		trigger = {
+			has_country_flag = eoanb_reform_vote_failure
+		}
+		clr_country_flag = eoanb_reform_vote_failure
+
+		ENG = {
+			add_political_power = -50
+			if = {
+				limit = {
+					has_government = traditional_conservatism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = -0.01 }
+				add_popularity = { ideology = centrism popularity = 0.01 }
+			}
+			if = {
+				limit = {
+					has_government = centrism
+				}
+				add_popularity = { ideology = traditional_conservatism popularity = 0.01 }
+				add_popularity = { ideology = centrism popularity = -0.01 }
+			}
+		}
+		
+		PRS = { country_event = { days = 1 id = prussiaforeign.42 } }
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+    }
+
+	option = { # It's a tie...
+		name = british_votes_results.26.c
+		trigger = {
+			has_country_flag = eoanb_reform_vote_tie
+		}
+		clr_country_flag = eoanb_reform_vote_tie
+		
+		ENG = { add_political_power = -25 }
+		
+		PRS = { country_event = { days = 1 id = prussiaforeign.42 } }
+		
+		set_variable = { 
+			var = current_reform_id
+			value = 0
+		}
+	}
+}

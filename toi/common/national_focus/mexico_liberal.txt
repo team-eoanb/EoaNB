@@ -209,7 +209,7 @@ focus_tree = {
 		icon = GFX_goal_focus_trade_france_focus
 		x = 14
 		y = 6
-		cost = 33
+		cost = 120
 		prerequisite = {
 			focus = MEX_the_tiger_seizes_absolute_power
 		}
@@ -219,12 +219,50 @@ focus_tree = {
 		prerequisite = {
 			focus = MEX_purge_the_liberal_opposition
 		}
+		available = {
+			is_subject = no
+		}
+		bypass = {
+			OR = {
+				is_subject = yes
+				has_war_with = FRA
+				has_war_with = USA
+				has_war_with = CSA
+				has_war_with = SPR
+			}
+		}
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 0.1
 		}
 		completion_reward = {
-			
+			MEX = {
+				add_political_power = 150
+				add_tech_bonus = {
+					bonus = 0.5
+					uses = 3
+					category = mechanical_engineering_tech
+				}
+				random_owned_state = {
+					limit = { industrial_complex > 0 }
+					remove_building = {
+						type = industrial_complex
+						level = 1
+					}
+				}
+				load_focus_tree = generic
+			}
+			FRA = { 
+				give_guarantee = MEX
+				random_owned_state = {
+					limit = { is_core_of = FRA }
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
 		}
 	}
 	
@@ -385,12 +423,21 @@ focus_tree = {
 		icon = GFX_goal_focus_mexican_intervention
 		x = 8
 		y = 6
-		cost = 33
+		cost = 120
 		available = {
 			MEX = {
 				has_war_with = FRA
 			}
-		}	
+		}
+		bypass = {
+			OR = {
+				is_subject = yes
+				AND = {
+					NOT = { USA = { has_war_with = CSA has_war_with = NEG } }
+					NOT = { has_war_with = FRA }
+				}
+			}
+		}
 		prerequisite = {
 			focus = MEX_electoral_reforms
 		}
@@ -406,6 +453,18 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_war_support = 0.15
+			add_political_power = 120
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = mechanical_engineering_tech
+			}
+			add_tech_bonus = {
+				bonus = 0.2
+				uses = 2
+				category = infantry_weapons
+			}
+			load_focus_tree = generic
 		}
 	}
 }

@@ -58,6 +58,7 @@ capital = 110
 		NOR_idea_sami_opression
 		NOR_idea_norwegian_loyalty_2
 		NOR_idea_pm_in_stockholm
+		NOR_idea_storting
 	}
 
 	SWE = {
@@ -70,7 +71,8 @@ capital = 110
 				freedom_level = 0.2
 			}
 		}
-		else = {
+		if = {
+			limit = { eoanb_enable_autonomy = no }
 			puppet = NOR
 		}
 	}
@@ -116,10 +118,6 @@ capital = 110
 		tribal_leching=1
 		tech_infantry_napoleonic_uniform = 1
 		vic_army_cloth = 1
-		tech_naval_mtg_simple_corvette_hull = 1
-		tech_naval_mtg_24_pounder_battery = 1
-		tech_naval_mtg_sails = 1
-		tech_naval_mtg_crows_nest = 1
 		gw_artillery = 1
 		basic_cavalry = 1
 		horse_transport = 1
@@ -132,6 +130,29 @@ capital = 110
 		food_preserving_icebox = 1
 		early_artificial_fertilizer = 1
 		electrical_engineering = 1
+	}
+
+
+	if = { # Man the Guns tech
+		limit = { has_dlc = "Man the Guns" }
+
+		set_technology = {
+			tech_naval_mtg_simple_corvette_hull = 1
+			tech_naval_mtg_24_pounder_battery = 1
+			tech_naval_mtg_sails = 1
+			tech_naval_mtg_crows_nest = 1
+			tech_naval_mtg_early_frigate = 1
+			tech_naval_mtg_1850_frigate = 1
+		}
+
+		else = { # Legacy tech
+			set_technology = {
+				tech_naval_early_frigate = 1
+				tech_naval_1850_frigate = 1
+				tech_naval_corvette = 1
+				tech_naval_early_gunboat = 1
+			}
+		}
 	}
 
 	set_variable = {
@@ -252,22 +273,6 @@ capital = 110
 		set_naval_oob = "NOR_1857_naval_mtg"
 
 		create_equipment_variant = {
-			name = "Frigate Klasse"
-			type = ship_hull_frigate_0
-			name_group = GER_CA_HISTORICAL
-			parent_version = 0
-			modules = {
-				fixed_ship_battery_slot = ship_cannon_battery_0
-				fixed_ship_fire_control_system_slot = fire_control_system_0
-				fixed_ship_engine_slot = ship_engine_sail_2
-				fixed_ship_armor_slot = empty
-				front_1_custom_slot = empty
-				mid_1_custom_slot = ship_cannon_battery_0
-				mid_2_custom_slot = ship_cannon_battery_0
-				rear_1_custom_slot = empty
-			}
-		}
-		create_equipment_variant = {
 			name = "Kanonbåt Klasse"
 			type = ship_hull_gunboat_0
 			name_group = GER_CA_HISTORICAL
@@ -281,7 +286,7 @@ capital = 110
 				mid_2_custom_slot = ship_cannon_battery_1
 			}
 		}
-
+	
 		create_equipment_variant = {
 			name = "Fregatt Klasse"
 			type = ship_hull_frigate_1
@@ -297,8 +302,8 @@ capital = 110
 				mid_2_custom_slot = ship_cannon_battery_0
 				rear_1_custom_slot = empty
 			}
-	  	}
-
+		  }
+	
 		create_equipment_variant = {
 			name = "Korvett Klasse"
 			type = ship_hull_corvette_0
@@ -312,10 +317,27 @@ capital = 110
 				mid_1_custom_slot = empty
 				front_1_custom_slot = empty
 			}
-	 	}
+		 }
 	  
 		else = { # Load the non-mtg OOB
 			set_naval_oob = "NOR_1857_naval_legacy"
+			create_equipment_variant = {
+				name = "Kanonbåt Klasse"
+				type = ship_gunboat_0
+				name_group = GER_CA_HISTORICAL
+			}
+
+			create_equipment_variant = {
+				name = "Fregatt Klasse"
+				type = ship_frigate_1
+				name_group = GER_CA_HISTORICAL
+			}
+
+			create_equipment_variant = {
+				name = "Korvett Klasse"
+				type = ship_corvette_0
+				name_group = GER_CA_HISTORICAL
+			}
 		}
 	}
 }

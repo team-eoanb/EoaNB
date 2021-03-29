@@ -995,6 +995,113 @@ eoanb_category_military = {
 		}
 	}
 	
+	ENG_decision_demand_PRS_naval_treaty_compliance = {
+
+		icon = eng_trade_unions_demand
+
+		allowed = {
+			tag = ENG
+		}
+
+		available = {
+			if = {
+				limit = {
+					FROM = {
+						original_tag = PRS
+					}
+				}
+				FROM = {
+					custom_trigger_tooltip = {
+						tooltip = ENG_decision_demand_PRS_naval_treaty_compliance_trigger_tt
+						naval_strength_comparison = {
+							other = ENG
+							ratio > 0.3
+						}
+					}
+					NOT = { is_in_faction_with = ROOT }
+					NOT = { has_war_with = ROOT }
+				}
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = no
+
+		ai_will_do = {
+			base = 10000
+		}
+
+		visible = {
+			original_tag = ENG
+			has_idea = ENG_idea_PRS_naval_treaty
+			PRS = { has_idea = PRS_idea_ENG_naval_treaty }
+			FROM = {
+				original_tag = PRS
+				naval_strength_comparison = {
+					other = ENG
+					ratio > 0.25
+				}
+				NOT = { is_in_faction_with = ROOT }
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		complete_effect = {
+			FROM = {
+				set_country_flag = ENG_demanding_ship_reduction_flag
+				activate_mission = ENG_mission_demand_PRS_naval_treaty_compliance
+				country_event = { id = prussiaforeign.43 hours = 6 }
+				custom_effect_tooltip = ENG_decision_demand_PRS_naval_treaty_compliance_effect_tt
+			}
+		}
+	}
+	
+	ENG_mission_demand_PRS_naval_treaty_compliance = { # ENG demanding scuttling of ships to maintain Anglo-Prussian Naval Treaty - PRS Mission
+
+		icon = generic_naval
+		
+		available = {
+			if = {
+				limit = {
+					original_tag = PRS
+				}
+				custom_trigger_tooltip = {
+					tooltip = ENG_mission_demand_PRS_naval_treaty_compliance_trigger_tt
+					naval_strength_comparison = {
+						other = ENG
+						ratio < 0.26
+					}
+				}
+			}
+		}
+
+		days_mission_timeout = 60
+
+		fire_only_once = no
+
+		activation = {
+			has_country_flag = ENG_demanding_ship_reduction_flag
+		}
+
+		visible = {
+			has_country_flag = ENG_demanding_ship_reduction_flag
+		}
+
+		cancel_if_not_visible = yes
+
+		is_good = no
+
+		complete_effect = {
+			clr_country_flag = ENG_demanding_ship_reduction_flag
+			ENG = { country_event = { id = prussiaforeign.44 } }
+		}
+
+		timeout_effect = {
+			clr_country_flag = ENG_demanding_ship_reduction_flag
+			ENG = { country_event = { id = prussiaforeign.45 } }
+		}
+	}
 }
 
 political_actions = {
@@ -3064,6 +3171,47 @@ ENG_decision_national_debt_reduction_1866 = {
 
 		complete_effect = {
 		    ENG = { country_event = { id = british_votes.18 days = 10 } }
+		}
+
+		ai_will_do = {
+			base = 1000000
+		}
+    }
+	
+	ENG_decision_PRS_naval_treaty_approval = {
+
+        icon = generic_naval
+
+        allowed = {
+            tag = ENG
+        }
+
+		available = {
+			PRS = { has_war = no }
+			ENG = { has_war = no }
+			ENG = { 
+				has_opinion = {
+                    target = PRS
+                    value > 49
+				}
+			}
+			check_variable = { current_reform_id = 0 }
+		}
+
+		visible = {
+			has_country_flag = ENG_PRS_naval_treaty_flag
+			hidden_trigger = { has_dlc = "Man the Guns" }
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+
+		complete_effect = {
+			ENG = { country_event = { id = british_votes.26 days = 10 } }
+			hidden_effect = {
+				clr_country_flag = ENG_PRS_naval_treaty_flag
+			}
 		}
 
 		ai_will_do = {
