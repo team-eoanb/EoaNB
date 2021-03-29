@@ -70,7 +70,7 @@ def parse_line(text):
 
 lines = f.read_text().splitlines()
 
-from_to = [int(x) for x in input("Line from, and to: ").split(" ")]
+from_to = [int(x) for x in input("Line from, and to: (Seperated by spaces)").split(" ")]
 
 scripted_effect_instances = defaultdict(list)
 
