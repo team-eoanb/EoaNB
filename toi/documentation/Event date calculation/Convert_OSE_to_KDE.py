@@ -115,3 +115,5 @@ for key, value in scripted_effect_instances.items(): # This prints out all the b
 
 print("\nCOPY THIS INTO NOTEPAD OR SOMETHING SIMILAR FOR EASE OF USE!")
 print("Replace TAG with the tag of the country. NOTE: If the events are from different countries, add another TAG = { block.")
+
+input("Press any button to close...")
