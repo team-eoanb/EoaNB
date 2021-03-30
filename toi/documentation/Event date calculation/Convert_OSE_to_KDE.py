@@ -70,7 +70,7 @@ def parse_line(text):
 
 lines = f.read_text().splitlines()
 
-from_to = [int(x) for x in input("Line from, and to: (Seperated by spaces)").split(" ")]
+from_to = [int(x) for x in input("Line from, and to: (Seperated by spaces) ").split(" ")]
 
 scripted_effect_instances = defaultdict(list)
 
@@ -89,10 +89,8 @@ for i in range(from_to[0]-1, from_to[1]):
 
 		if year == 1857:
 			block_year, block_month, block_date = 1857, 5, 11
-		elif year % 2 == 0: # If the year is an even number.
-			block_year, block_month, block_date = year, 1, 1
 		else:
-			block_year, block_month, block_date = year-1, 1, 1
+			block_year, block_month, block_date = year-year % 2, 1, 1 # If it is an odd number, remove one: 1859 -> 1858.
 
 		days_from_KDE, KDE_scripted_effect = date_calc(year, month, day, block_year, block_month, block_date)
 

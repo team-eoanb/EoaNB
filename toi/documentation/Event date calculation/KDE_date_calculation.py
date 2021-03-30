@@ -40,7 +40,5 @@ while True:
 
 	if year == 1857:
 		date_calc(year, month, day, 1857, 5, 11)
-	elif year % 2 == 0: # If the year is an even number.
-		date_calc(year, month, day, year)
 	else:
-		date_calc(year, month, day, year-1) # Subtract one year if it is a odd number
+		date_calc(year, month, day, year-year % 2) # If it is an odd number, remove one: 1859 -> 1858.
