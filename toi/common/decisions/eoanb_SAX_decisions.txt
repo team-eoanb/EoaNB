@@ -1,0 +1,919 @@
+SAX_decision_category_foreign_policy = {
+	
+	#Prusso-Saxon Rapprochement
+	SAX_decision_prusso_saxon_rapprochement = {
+
+		icon = hol_exchange_intelligence_data
+		
+		allowed = { tag = SAX }
+
+		available = {
+			has_completed_focus = SAX_focus_mend_divide
+			NOT = { has_idea = SAX_idea_anti_prussian_sentiments }
+		}
+
+		visible = {
+			PRS = { 
+				exists = yes
+				is_puppet = no 
+			}
+			SAX = { 
+				exists = yes
+				is_puppet = no 
+			}
+		}
+
+		fire_only_once = yes
+		
+		cost = 10
+		
+        days_remove = 180
+         
+        modifier = {
+            political_power_gain = -0.05
+        }
+		
+		complete_effect = {
+			add_opinion_modifier = { target = PRS modifier = small_increase }
+			reverse_add_opinion_modifier = { target = PRS modifier = small_increase }
+		}
+       
+        remove_effect = {
+			PRS = {
+				remove_opinion_modifier = {
+					target = SAX
+					modifier = small_increase
+				}
+			}
+			SAX = {
+				remove_opinion_modifier = {
+					target = PRS
+					modifier = small_increase
+				}
+			}
+			add_opinion_modifier = { target = PRS modifier = large_increase }
+			reverse_add_opinion_modifier = { target = PRS modifier = large_increase }
+	    }
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+}
+
+SAX_decision_category_economy = {
+
+	#Expand Railway Network
+	SAX_mission_railway_expansion = {
+
+        icon = railway
+
+        allowed = { always = no }
+
+        available = {
+			owns_state = 65
+			65 = { infrastructure > 6 }
+        }
+		
+        activation = { always = no }
+
+        highlight_states = {
+			state = 65
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1200
+		
+        timeout_effect = {
+            if = {
+	            limit = {
+	            	is_ai = no
+	            }
+	            add_political_power = -50
+				add_stability = -0.02
+	        }
+        }
+		
+        complete_effect = {
+            65 = { add_extra_state_shared_building_slots = 1 }
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = transport_tech }
+        }
+
+        ai_will_do = {
+			base = 100
+		}
+	}
+	
+	#Railway Upgrade
+	SAX_decision_railway_upgrade = {
+
+		icon = railway
+		
+		allowed = { tag = SAX }
+
+		available = {
+			has_completed_focus = SAX_focus_railway_gaps
+			65 = { infrastructure > 7 }
+			if = {
+				limit = {
+					owns_state = 950
+				}
+				950 = { infrastructure > 6 }
+			}
+		    has_tech = steam_locomotive_3
+		    has_tech = standardized_gauge
+		}
+
+		visible = {
+			has_idea = NA_B_small_scale_railways
+		}
+
+		fire_only_once = yes
+		
+		cost = 100
+		
+        days_remove = 365
+         
+        modifier = {
+            political_power_gain = -0.05
+			consumer_goods_factor = 0.1
+			production_speed_buildings_factor = -0.05
+        }
+		
+		complete_effect = {
+			if = {  
+				limit = { 
+					has_idea = inframain_no_subsidies_infrastructure 
+				} 
+				swap_ideas = { remove_idea = inframain_no_subsidies_infrastructure add_idea = inframain_basic_maintenance_infrastructure }
+			}
+			else_if = {
+				limit = {
+					has_idea = inframain_basic_maintenance_infrastructure
+				}
+				swap_ideas = { remove_idea = inframain_basic_maintenance_infrastructure add_idea = inframain_well_maintaned_infrastructure } 
+			}
+			else_if = {
+				limit = {
+					has_idea = inframain_well_maintaned_infrastructure
+				}
+				swap_ideas = { remove_idea = inframain_well_maintaned_infrastructure add_idea = inframain_steady_network_expansion } 
+			}
+		}
+       
+        remove_effect = {
+			swap_ideas = { remove_idea = NA_B_small_scale_railways add_idea = NA_B_medium_scale_railways } 
+	    }
+       
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Expand Resource Output
+	SAX_decision_expand_resource_output = {
+
+		icon = coal
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_railway_ore_mountains
+			has_stability > 0.3
+			has_tech = machine_tools_1
+			65 = { infrastructure > 6 }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+			NOT = { 
+				SAX = {
+					has_resources_amount = {
+						resource = coal
+						amount > 16
+						state = 65
+					}
+				}
+				SAX = {
+					has_resources_amount = {
+						resource = iron
+						amount > 16
+						state = 65
+					}
+				}
+			}
+		}
+
+		fire_only_once = yes
+		
+		days_re_enable = 730
+
+		cost = 50
+		
+		days_remove = 180
+		
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
+		
+		remove_effect = {
+			add_resource = {
+				type = coal
+				amount = 2
+				state = 65
+			}
+			add_resource = {
+				type = iron
+				amount = 2
+				state = 65
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Expand Mining Districts
+	SAX_decision_expand_mining_districts = {
+
+		icon = coal
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_expand_mining_districts
+			has_stability > 0.3
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+		}
+
+		fire_only_once = yes
+
+		cost = 75
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
+		
+		remove_effect = {
+			add_resource = {
+				type = coal
+				amount = 2
+				state = 65
+			}
+			add_resource = {
+				type = iron
+				amount = 4
+				state = 65
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Leipzig-Plagwitz City Development
+	SAX_decision_leipzig_plagwitz_city_development = {
+
+		icon = hol_draw_up_staff_plans
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_factory_industry
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+		
+		days_remove = 730
+		
+		modifier = {
+			consumer_goods_factor = 0.03
+		}
+
+		remove_effect = {
+			65 = { add_extra_state_shared_building_slots = 1 }
+			65 = { add_manpower = 5000 }
+			set_victory_points = {
+				province = 3535
+				value = 5
+			}
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = mechanical_engineering_tech }
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Meißner Porzellan
+	SAX_decision_meissner_porzellan = {
+
+		icon = money
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_proto_industrialization
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_industry_development_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+			NOT = {
+				OR = {
+					has_government = social_egalitarianism
+					has_government = collectivist_socialism
+					has_government = vanguard_communism
+					has_government = anarchism
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 180
+		
+		modifier = {
+			consumer_goods_factor = 0.02
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_industry_development_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_industry_development_ongoing_flag 
+			}
+		}
+
+		remove_effect = {
+			eoanb_add_3_prestige_score = yes
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = humanities_tech }
+			hidden_effect = {
+				clr_country_flag = SAX_industry_development_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Spiegelglashütte Friedrichsthal
+	SAX_decision_spiegelglas_friedrichsthal = {
+
+		icon = money
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_proto_industrialization
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_industry_development_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 180
+		
+		modifier = {
+			consumer_goods_factor = 0.01
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_industry_development_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_industry_development_ongoing_flag 
+			}
+		}
+
+		remove_effect = {
+			eoanb_add_1_prestige_score = yes
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = biochemistry_tech }
+			hidden_effect = {
+				clr_country_flag = SAX_industry_development_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Enact Free Enterprise
+	SAX_decision_enact_free_enterprise = {
+
+		icon = eng_trade_unions_support
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_free_enterprise
+			has_stability > 0.3
+			centrism > 0.3
+			traditional_conservatism < 0.6
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+			NOT = {
+				OR = {
+					has_government = social_egalitarianism
+					has_government = collectivist_socialism
+					has_government = vanguard_communism
+					has_government = anarchism
+					has_government = chauvinist_populism
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 60
+		
+		remove_effect = {
+			add_ideas = SAX_idea_free_enterprise_1
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_government = social_egalitarianism
+							has_government = collectivist_socialism
+							has_government = vanguard_communism
+							has_government = anarchism
+							has_government = chauvinist_populism
+						}
+					}
+				}
+				unlock_decision_tooltip = SAX_decision_attract_foreign_businesses
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Attract Foreign Businesses
+	SAX_decision_attract_foreign_businesses = {
+
+		icon = hol_attract_foreign_investors
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_idea = SAX_idea_free_enterprise_1
+			has_stability > 0.3
+			centrism > 0.3
+			traditional_conservatism < 0.65
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+			NOT = {
+				OR = {
+					has_government = social_egalitarianism
+					has_government = collectivist_socialism
+					has_government = vanguard_communism
+					has_government = anarchism
+					has_government = chauvinist_populism
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+		
+		days_remove = 365
+		
+		remove_effect = {
+			if = {
+				limit = {
+					has_idea = SAX_idea_free_enterprise_1
+				}
+				swap_ideas = { remove_idea = SAX_idea_free_enterprise_1 add_idea = SAX_idea_free_enterprise_2 }
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Chemnitzer Actien-Spinnerei
+	SAX_decision_chemnitzer_actien_spinnerei = {
+
+		icon = generic_factory
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_textile_industry
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_industry_development_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_industry_development_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_industry_development_ongoing_flag 
+			}
+		}
+		
+		remove_effect = {
+			add_resource = {
+				type = fabric
+				amount = 6
+				state = 65
+			}
+			hidden_effect = {
+				clr_country_flag = SAX_industry_development_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Plauen Embroidery Industry
+	SAX_decision_plauen_embroidery_industry = {
+
+		icon = generic_factory
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_textile_industry
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_industry_development_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+		}
+
+		fire_only_once = yes
+
+		cost = 75
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.03
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_industry_development_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_industry_development_ongoing_flag 
+			}
+		}
+		
+		remove_effect = {
+			add_resource = {
+				type = fabric
+				amount = 4
+				state = 65
+			}
+			hidden_effect = {
+				clr_country_flag = SAX_industry_development_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Chemnitzer Werkzeugmaschinenfabrik
+	SAX_decision_chemnitzer_werkzeugmaschinenfabrik = {
+
+		icon = generic_factory
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_saxon_manchester
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_industry_development_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+			65 = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 0
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 200
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.15
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_industry_development_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_industry_development_ongoing_flag 
+			}
+		}
+		
+		remove_effect = {
+			65 = { add_extra_state_shared_building_slots = 1 }
+			65 = {
+				if = {
+					limit = {
+						steel_mill > 0
+					}
+					add_building_construction = {
+						type = 	machine_parts_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+				else = {
+					add_building_construction = {
+						type = 	steel_mill
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			hidden_effect = {
+				clr_country_flag = SAX_industry_development_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Sächsische Maschinenfabrik
+	SAX_decision_saxon_maschinenfabrik = {
+
+		icon = generic_factory
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_saxon_manchester
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_industry_development_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+			65 = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 0
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 200
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.15
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_industry_development_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_industry_development_ongoing_flag 
+			}
+		}
+		
+		remove_effect = {
+			65 = { add_extra_state_shared_building_slots = 1 }
+			65 = {
+				if = {
+					limit = {
+						steel_mill > 0
+					}
+					add_building_construction = {
+						type = 	machine_parts_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+				else = {
+					add_building_construction = {
+						type = 	steel_mill
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			hidden_effect = {
+				clr_country_flag = SAX_industry_development_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Support the ADCA
+	SAX_decision_support_adca = {
+
+		icon = money
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_allgemeine_creditanstalt
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_financial_investment_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+		
+		days_remove = 180
+		
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_financial_investment_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_financial_investment_ongoing_flag 
+			}
+		}
+		
+		remove_effect = {
+			add_stability = 0.03
+			increase_ps_by_one = yes
+			#remove debt
+			hidden_effect = {
+				clr_country_flag = SAX_financial_investment_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Strengthen the Leipzig Trade Fair
+	SAX_decision_strenghten_leipzig_trade_fair = {
+
+		icon = money
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_leipzig_book_fair
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_financial_investment_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_financial_investment_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_financial_investment_ongoing_flag 
+			}
+		}
+		
+		remove_effect = {
+			eoanb_add_3_prestige_score = yes
+			add_stability = 0.02
+			if = {
+				limit = {
+					has_idea = limited_exports
+				}
+				swap_ideas = { remove_idea = limited_exports add_idea = export_focus }
+			}
+			hidden_effect = {
+				clr_country_flag = SAX_financial_investment_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Found the Sächsische Bank zu Dresden
+	SAX_decision_found_saxon_bank_dresden = {
+
+		icon = money
+
+		allowed = { tag = SAX }
+		
+		available = {
+			has_completed_focus = SAX_focus_saxon_bank_dresden
+			has_stability > 0.3
+			NOT = { has_country_flag = SAX_financial_investment_ongoing_flag }
+		}
+
+		visible = {
+			has_full_control_of_state = 65
+			has_idea = sfund_private_ventures_only
+		}
+
+		fire_only_once = yes
+
+		cost = 150
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.1
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SAX_financial_investment_ongoing_effect_tt
+			hidden_effect = { 
+				set_country_flag = SAX_financial_investment_ongoing_flag 
+			}
+		}
+		
+		remove_effect = {
+			add_stability = 0.05
+			swap_ideas = { remove_idea = sfund_private_ventures_only add_idea = sfund_limited_state_sponsorship }
+			hidden_effect = {
+				clr_country_flag = SAX_financial_investment_ongoing_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+}

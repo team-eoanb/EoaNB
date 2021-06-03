@@ -1,0 +1,1468 @@
+﻿add_namespace = cochinchina_expedition 
+
+#-----------------------------------------
+#Ask France To Protect Churches
+#-----------------------------------------
+
+state_event = {
+	id = cochinchina_expedition.1
+	hidden = yes
+	fire_only_once = yes
+	is_triggered_only = yes
+	immediate = { OWNER = { country_event = { id = cochinchina_expedition.2 } } }
+}
+
+country_event = {
+	id = cochinchina_expedition.2
+	title = cochinchina_expedition.2.t
+	desc = cochinchina_expedition.2.d
+
+	is_triggered_only = yes
+	
+	option = {
+		name = cochinchina_expedition.2.a
+		ai_chance = { 
+			base = 100 
+		}
+		hidden_effect = {
+			FRA = { country_event = { id = cochinchina_expedition.3 days = 7 } }
+			SPR = { country_event = { id = cochinchina_expedition.3 days = 7 } }
+		}
+	}
+	option = {
+		name = cochinchina_expedition.2.b
+		ai_chance = {
+			base = 0 
+		}
+		
+	}
+}
+
+country_event = {
+	id = cochinchina_expedition.3
+	title = cochinchina_expedition.3.t
+	desc = cochinchina_expedition.3.d
+
+	is_triggered_only = yes
+	
+	option = {
+		name = cochinchina_expedition.3.a
+		trigger = { 
+			if = { limit = { TAG = FRA } has_country_flag = FRA_has_colonial_ambitions }
+			else_if = { limit = { TAG = SPR } has_government = autocracy }
+			else = { always = no }
+		}
+		ai_chance = { base = 100 }
+		if = {
+			limit = { TAG = SPR }
+			set_country_flag = SPR_cochinchina_intervention_flag
+			set_global_flag = SPR_cochinchina_intervention_flag
+					
+			complete_national_focus = SPR_conchinchina_expedition
+		}
+		if = {
+			limit = { TAG = FRA }
+			set_country_flag = FRA_cochinchina_intervention_flag 
+			set_global_flag = FRA_cochinchina_intervention_flag
+			complete_national_focus = FRA_french_indochina
+		}
+		if = {
+			limit = { not = { has_global_flag = SPR_cochinchina_intervention_global_flag } }
+			set_global_flag = SPR_cochinchina_intervention_global_flag
+		}
+	}
+	option = {
+		name = cochinchina_expedition.3.b
+		ai_chance = {
+			base = 0 
+		}
+		hidden_effect = {
+			if = {
+				limit = { TAG = FRA }
+				SPR = { country_event = { id = cochinchina_expedition.4 days = 15 } }
+			}
+			if = {
+				limit = { TAG = SPR }
+				FRA = { country_event = { id = cochinchina_expedition.4 days = 15 } }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = cochinchina_expedition.4
+	title = cochinchina_expedition.4.t
+	desc = cochinchina_expedition.4.d
+	
+	is_triggered_only = yes
+	
+	trigger = { 
+		if = {
+			limit = { TAG = SPR }
+			has_country_flag = SPR_cochinchina_intervention_flag 
+		}
+		if = {
+			limit = { TAG = FRA }
+			has_country_flag = FRA_cochinchina_intervention_flag 
+		}
+	}
+	
+	option = {
+		name = cochinchina_expedition.4.a
+		ai_chance = { base = 100 }
+		hidden_effect = {
+			if = {
+				limit = { TAG = FRA }
+				SPR = { country_event = { id = cochinchina_expedition.5 days = 1 } }
+			}
+			if = {
+				limit = { TAG = SPR }
+				FRA = { country_event = { id = cochinchina_expedition.5 days = 1 } }
+			}
+		}
+	}
+	option = {
+		name = cochinchina_expedition.4.b
+		ai_chance = {
+			base = 0 
+		}
+	}
+}
+
+country_event = {
+	id = cochinchina_expedition.5
+	title = cochinchina_expedition.5.t
+	desc = cochinchina_expedition.5.d
+
+	is_triggered_only = yes
+	
+	option = {
+		name = cochinchina_expedition.5.a
+		ai_chance = { base = 100 }
+		if = {
+			limit = { TAG = SPR }
+			set_country_flag = SPR_cochinchina_intervention_flag
+			set_global_flag = SPR_cochinchina_intervention_flag
+			complete_national_focus = SPR_cochinchina_expedition
+			hidden_effect = { FRA = { country_event = { id = cochinchina_expedition.6 days = 1 } } }
+		}
+		if = {
+			limit = { TAG = FRA }
+			set_country_flag = FRA_cochinchina_intervention_flag 
+			set_global_flag = FRA_cochinchina_intervention_flag
+			complete_national_focus = FRA_french_indochina
+			hidden_effect = { SPR = { country_event = { id = cochinchina_expedition.6 days = 1 } } }
+		}
+	}
+	option = {
+		name = cochinchina_expedition.5.b
+		ai_chance = {
+			base = 0 
+		}
+		hidden_effect = {
+			if = {
+				limit = { TAG = FRA }
+				SPR = { country_event = { id = cochinchina_expedition.7 days = 1 } }
+			}
+			if = {
+				limit = { TAG = SPR }
+				FRA = { country_event = { id = cochinchina_expedition.7 days = 1 } }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = cochinchina_expedition.6
+	title = cochinchina_expedition.6.t
+	desc = cochinchina_expedition.6.d
+
+	is_triggered_only = yes
+	
+	option = {
+		name = cochinchina_expedition.6.a
+		ai_chance = { base = 100 }
+		add_war_support = 0.03
+	}
+}
+
+country_event = {
+	id = cochinchina_expedition.7
+	title = cochinchina_expedition.7.t
+	desc = cochinchina_expedition.7.d
+
+	is_triggered_only = yes
+	
+	option = {
+		name = cochinchina_expedition.7.a
+		ai_chance = { base = 100 }
+		add_war_support = -0.03
+	}
+}
+
+country_event = {
+	id = cochinchina_expedition.8
+	title = cochinchina_expedition.8.t
+	desc = cochinchina_expedition.8.d
+
+	is_triggered_only = yes
+	
+	option = {
+		name = cochinchina_expedition.8.a
+		ai_chance = { base = 100 }
+		hidden_effect = {
+			add_opinion_modifier = { target = FROM modifier = improved_relations }
+			reverse_add_opinion_modifier = { target = FROM modifier = improved_relations }
+		}
+		custom_effect_tooltip = FRA_cochinchina_expedition_support_malina_port_tooltip
+		add_war_support = 0.03
+		debt_level_decrease_by_1 = yes
+	}
+}
+
+#----------------------------------------------------
+#Declare the War!
+#----------------------------------------------------
+country_event = {
+	id = cochinchina_expedition.18
+	title = cochinchina_expedition.18.t
+	desc = cochinchina_expedition.18.d
+
+	is_triggered_only = yes
+	
+	option = {
+		name = cochinchina_expedition.18.a
+		ai_chance = { 
+			base = 50
+		}
+		if = {
+			limit = { country_exists = VIN }
+			hidden_effect = {
+				VIN = { set_country_flag = VIN_cochinchina_intervention_flag }
+			}
+			if = {
+				limit = { SPR = { has_country_flag = SPR_cochinchina_intervention_flag } }
+				SPR = { declare_war_on = { target = VIN type = annex_everything } }
+				if = {
+					limit = { 
+						country_exists = SPH 
+						SPH = { is_subject_of = SPR }
+					}
+					SPH = { add_to_war = { targeted_alliance = SPR enemy = VIN  hostility_reason = asked_to_join } }
+				}
+			}
+			if = {
+				limit = { FRA = { has_country_flag = FRA_cochinchina_intervention_flag } }
+				FRA = { declare_war_on = { target = VIN type = annex_everything } }
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = { SPR = { has_country_flag = SPR_cochinchina_intervention_flag } }
+				SPR = {
+					add_ai_strategy = {
+						type = strike_force_home_base
+						id = 75
+						value = 100
+					}
+					#add_ai_strategy = {
+					#	type = naval_mission_threshold
+					#	id = MISSION_PATROL
+					#	target = 52
+					#	value = 50
+					#}
+					#add_ai_strategy = {
+					#	type = naval_mission_threshold
+					#	id = MISSION_PATROL
+					#	target = 170
+					#	value = 50
+					#}
+					#add_ai_strategy = {
+					#	type = naval_mission_threshold
+					#	id = MISSION_PATROL
+					#	target = 75
+					#	value = 50
+					#}
+					#add_ai_strategy = {
+					#	type = area_priority
+					#	id = cochinchina
+					#	value = 100
+					#}
+					add_ai_strategy = {
+						type = invade
+						id = VIN
+						value = 100
+					}
+				}
+				if = {
+					limit = { 
+						country_exists = SPH 
+						SPH = { is_subject_of = SPR }
+					}
+					SPH = {
+						add_ai_strategy = {
+							type = strike_force_home_base
+							id = 75
+							value = 100
+						}
+						#add_ai_strategy = {
+						#	type = naval_mission_threshold
+						#	id = MISSION_PATROL
+						#	target = 52
+						#	value = 50
+						#}
+						#add_ai_strategy = {
+						#	type = naval_mission_threshold
+						#	id = MISSION_PATROL
+						#	target = 170
+						#	value = 50
+						#}
+						#add_ai_strategy = {
+						#	type = naval_mission_threshold
+						#	id = MISSION_PATROL
+						#	target = 75
+						#	value = 50
+						#}
+						#add_ai_strategy = {
+						#	type = area_priority
+						#	id = cochinchina
+						#	value = 100
+						#}
+						add_ai_strategy = {
+							type = invade
+							id = VIN
+							value = 100
+						}
+					}
+				}
+				if = { 
+					limit = { FRA = { has_country_flag = FRA_cochinchina_intervention_flag } }
+					SPR = { diplomatic_relation = { country = FRA relation = military_access active = yes } }
+					SPR = { diplomatic_relation = { country = FRA relation = non_aggression_pact active = yes } }
+					if = {
+						limit = { 
+							country_exists = SPH 
+							SPH = { is_subject_of = SPR }
+						}
+						SPH = { diplomatic_relation = { country = FRA relation = military_access active = yes } }
+						SPH = { diplomatic_relation = { country = FRA relation = non_aggression_pact active = yes } }
+					}
+					#if = { 
+						#limit = { has_dlc = "Man the Guns" } 
+						#SPR = { diplomatic_relation = { country = FRA relation = docking_rights active = yes } }
+					#}
+				}
+			}
+			if = {
+				limit = { FRA = { has_country_flag = FRA_cochinchina_intervention_flag } }
+				FRA = {
+					add_ai_strategy = {
+						type = strike_force_home_base
+						id = 75
+						value = 100
+					}
+					#add_ai_strategy = {
+					#	type = naval_mission_threshold
+					#	id = MISSION_PATROL
+					#	target = 52
+					#	value = 50
+					#}
+					#add_ai_strategy = {
+					#	type = naval_mission_threshold
+					#	id = MISSION_PATROL
+					#	target = 75
+					#	value = 50
+					#}
+					#add_ai_strategy = {
+					#	type = naval_mission_threshold
+					#	id = MISSION_PATROL
+					#	target = 170
+					#	value = 50
+					#}
+					#add_ai_strategy = {
+					#	type = area_priority
+					#	id = cochinchina
+					#	value = 100
+					#}
+					add_ai_strategy = {
+						type = invade
+						id = VIN
+						value = 100
+					}
+				}
+				if = {
+					limit = { SPR = { has_country_flag = SPR_cochinchina_intervention_flag } }
+					FRA = { diplomatic_relation = { country = SPR relation = military_access active = yes } }
+					FRA = { diplomatic_relation = { country = SPR relation = non_aggression_pact active = yes } }
+					if = {
+						limit = { 
+							country_exists = SPH 
+							SPH = { is_subject_of = SPR }
+						}
+						FRA = { diplomatic_relation = { country = SPH relation = military_access active = yes } }
+						FRA = { diplomatic_relation = { country = SPH relation = non_aggression_pact active = yes } }
+					}
+					#if = { 
+						#limit = { has_dlc = "Man the Guns" } 
+						#FRA = { diplomatic_relation = { country = SPR relation = docking_rights active = yes } }
+					#}
+				}
+			}
+		}
+	}
+}
+#----------------------------------------------------
+#Cochinchina Invasion Failed
+#----------------------------------------------------
+country_event = {
+	id = cochinchina_expedition.23
+	title = cochinchina_expedition.23.t
+	desc = cochinchina_expedition.23.d
+	picture = GFX_report_event_nap_france_peace_prussia
+
+	is_triggered_only = yes
+
+	option = {
+		name = cochinchina_expedition.23.a
+		hidden_effect = {
+			if = {
+				limit = { has_global_flag = SPR_cochinchina_intervention_mission_end_flag }
+				clr_global_flag = SPR_cochinchina_intervention_mission_end_flag
+			}
+		}
+		if = {
+			limit = { TAG = SPR }
+			clr_country_flag = SPR_cochinchina_intervention_flag
+			clr_global_flag = SPR_cochinchina_intervention_flag
+		}
+		if = {
+			limit = { TAG = FRA }
+			clr_country_flag = FRA_cochinchina_intervention_flag
+			clr_global_flag = FRA_cochinchina_intervention_flag
+		}
+	}
+}
+country_event = {
+	id = cochinchina_expedition.24
+	title = cochinchina_expedition.24.t
+	desc = cochinchina_expedition.24.d
+	picture = GFX_report_event_nap_france_peace_prussia
+
+	is_triggered_only = yes
+
+	option = {
+		name = cochinchina_expedition.24.a
+		hidden_effect = {
+			if = {
+				limit = { has_global_flag = SPR_cochinchina_intervention_mission_end_flag }
+				clr_global_flag = SPR_cochinchina_intervention_mission_end_flag
+			}
+		}
+		if = {
+			limit = { TAG = VIN }
+			clr_country_flag = VIN_cochinchina_intervention_flag
+		}
+	}
+}
+#----------------------------------------------------
+#Cochinchina is Taken!
+#----------------------------------------------------
+country_event = { # French Troops lands on Veracruz
+	id = cochinchina_expedition.364
+	title = cochinchina_expedition.364.t
+	desc = cochinchina_expedition.364.d
+	picture = GFX_report_event_nap_france_peace_prussia
+
+	is_triggered_only = yes
+	
+	#historical
+	option = {
+		name = cochinchina_expedition.364.a
+		trigger = {
+			SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+			FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_global_flag = SPR_cochinchina_intervention_mission_end_flag }
+				clr_global_flag = SPR_cochinchina_intervention_mission_end_flag
+			}
+		}
+		if = {
+			limit = { NOT = { has_global_flag = SPR_cochinchina_expedition_cochinchina_landing } }
+			set_global_flag = SPR_cochinchina_expedition_cochinchina_landing
+		}
+		if = {
+			limit = { TAG = FRA }
+			hidden_effect = { FRA = { country_event = { id = cochinchina_expedition.365 days = 3 } } }
+		}
+	}
+	#France is not home
+	option = {
+		name = cochinchina_expedition.364.a
+		trigger = {
+			SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+			FRA = { NOT = { has_country_flag = FRA_cochinchina_intervention_flag } }
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_global_flag = SPR_cochinchina_intervention_mission_end_flag }
+				clr_global_flag = SPR_cochinchina_intervention_mission_end_flag
+			}
+		}
+		if = {
+			limit = { NOT = { has_global_flag = SPR_cochinchina_expedition_cochinchina_landing } }
+			set_global_flag = SPR_cochinchina_expedition_cochinchina_landing
+		}
+		if = {
+			limit = { TAG = SPR }
+			hidden_effect = { SPR = { country_event = { id = cochinchina_expedition.365 days = 3 } } }
+		}
+	}
+	#Spain is not home
+	option = {
+		name = cochinchina_expedition.364.a
+		trigger = {
+			SPR = { NOT = { has_country_flag = SPR_cochinchina_intervention_flag } }
+			FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_global_flag = SPR_cochinchina_intervention_mission_end_flag }
+				clr_global_flag = SPR_cochinchina_intervention_mission_end_flag
+			}
+		}
+		if = {
+			limit = { NOT = { has_global_flag = SPR_cochinchina_expedition_cochinchina_landing } }
+			set_global_flag = SPR_cochinchina_expedition_cochinchina_landing
+		}
+		if = {
+			limit = { TAG = FRA }
+			hidden_effect = { FRA = { country_event = { id = cochinchina_expedition.365 days = 3 } } }
+		}
+	}
+}
+
+
+# Proposal to end the CochinChina Intervention
+country_event = {
+	id = cochinchina_expedition.365
+	title = cochinchina_expedition.365.t
+	desc = cochinchina_expedition.365.d
+	picture = GFX_report_event_SPR_mexican_expedition_peace_prussia
+	
+	is_triggered_only = yes
+	
+	#France is a dick (historical)
+	option = {
+		name = cochinchina_expedition.365.a
+		trigger = {
+			SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+			FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+		}
+		hidden_effect = { SPR = { country_event = { id = cochinchina_expedition.3655 days = 1 } } }
+	}
+	#France is pretty cool (alt history)
+	option = {
+		name = cochinchina_expedition.365.b
+		trigger = {
+			SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+			FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+		}
+		SPR = { complete_national_focus = SPR_spanish_victory_cochinchina }
+		hidden_effect = { SPR = { country_event = { id = cochinchina_expedition.366 days = 1 } } }
+	}
+	#Home Alone (alt history)
+	option = {
+		name = cochinchina_expedition.365.c
+		trigger = {
+			OR = {
+				AND = {
+					SPR = { NOT = { has_country_flag = SPR_cochinchina_intervention_flag } }
+					FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+				}
+				AND = { 
+					SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+					FRA = { NOT = { has_country_flag = FRA_cochinchina_intervention_flag } }
+				}
+			}
+		}
+		if = {
+			limit = { TAG = SPR }
+			complete_national_focus = SPR_spanish_victory_cochinchina
+		}
+		VIN = { country_event = { id = cochinchina_expedition.366 days = 1 } }
+	}
+}
+
+country_event = { 
+	id = cochinchina_expedition.3655
+	title = cochinchina_expedition.3655.t
+	desc = cochinchina_expedition.3655.d
+	picture = GFX_report_event_SPR_mexican_expedition_peace_prussia
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+
+	option = { # Spain Pretends to not be hurt
+		name = cochinchina_expedition.3655.a
+		ai_chance = {
+			base = 100
+		}
+		complete_national_focus = SPR_obey_france
+		hidden_effect = { VIN = { country_event = { id = cochinchina_expedition.366 days = 1 } } }
+	}
+	option = { # Spain asserts it's inner alpha male energy thanks to alex jone's super male VINality pills
+		name = cochinchina_expedition.3655.b
+		ai_chance = {
+			base = 100
+		}
+		hidden_effect = { FRA = { country_event = { id = cochinchina_expedition.3656 days = 1 } } }
+	}
+}
+
+country_event = { 
+	id = cochinchina_expedition.3656
+	title = cochinchina_expedition.3656.t
+	desc = cochinchina_expedition.3656.d
+	picture = GFX_report_event_SPR_mexican_expedition_peace_prussia
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+
+	option = { # Spain is too alpha for France and walks back from it's position like a BETA MALE -amazin-
+		name = cochinchina_expedition.3656.a
+		ai_chance = {
+			base = 90
+		}
+		hidden_effect = { SPR = { country_event = { id = cochinchina_expedition.3657 days = 1 } } }
+	}
+	option = { # France activates it's inner sigma male, countering Spain like a Blue MTG Deck -triggered-
+		name = cochinchina_expedition.3656.b
+		ai_chance = {
+			base = 10
+		}
+		hidden_effect = { SPR = { country_event = { id = cochinchina_expedition.3658 days = 1 } } }
+	}
+}
+
+country_event = { 
+	id = cochinchina_expedition.3657
+	title = cochinchina_expedition.3657.t
+	desc = cochinchina_expedition.3657.d
+	picture = GFX_report_event_SPR_mexican_expedition_peace_prussia
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+
+	option = { # checkmate el emperador
+		name = cochinchina_expedition.3657.a
+		ai_chance = {
+			base = 100
+		}
+		complete_national_focus = SPR_spanish_victory_cochinchina
+		hidden_effect = { VIN = { country_event = { id = cochinchina_expedition.366 days = 1 } } }
+	}
+}
+
+country_event = { 
+	id = cochinchina_expedition.3658
+	title = cochinchina_expedition.3658.t
+	desc = cochinchina_expedition.3658.d
+	picture = GFX_report_event_SPR_mexican_expedition_peace_prussia
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+
+	option = { # NOOOOOOOOOOOO YOU CANT DOOO THIS! WE HAD A DEAL!!!!! -TRIGGERED-
+		name = cochinchina_expedition.3658.a
+		ai_chance = {
+			base = 100
+		}
+		complete_national_focus = SPR_obey_france
+		hidden_effect = { VIN = { country_event = { id = cochinchina_expedition.366 days = 1 } } }
+	}
+}
+
+
+
+#----------------------------------------------------
+#Proposal to end the Cochinchina Intervention (VIN view)
+#----------------------------------------------------
+country_event = { 
+	id = cochinchina_expedition.366
+	title = cochinchina_expedition.366.t
+	desc = cochinchina_expedition.366.d
+	picture = GFX_report_event_SPR_mexican_expedition_peace_prussia
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	immediate = {
+		
+	}
+
+	option = { # Accept
+		name = cochinchina_expedition.366.a
+		ai_chance = {
+			base = 100
+		}
+		hidden_effect = {
+
+		}
+		if = {
+			limit = {
+				SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+			}
+			SPR = { country_event = { id = cochinchina_expedition.21 days = 1 } }
+		}
+		if = {
+			limit = {
+				FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+			}
+			FRA = { country_event = { id = cochinchina_expedition.21 days = 1 } }
+		}
+	}
+}
+#----------------------------------------------------
+# Cochinchina Accepts the Soledad Conferencia!
+#----------------------------------------------------
+country_event = {
+	id = cochinchina_expedition.21
+	title = cochinchina_expedition.21.t
+	desc = cochinchina_expedition.21.d
+
+	is_triggered_only = yes
+	
+	immediate = { 
+		hidden_effect = { 
+			if = {
+				limit = { 
+					SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+					FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+				}
+				if = { 
+					limit = { SPR = { has_completed_focus = SPR_spanish_victory_cochinchina } }
+					CCH = { transfer_state = 286 }
+					if = { 
+						limit = { VIN = { is_ai = no } }
+						CCH = { change_tag_from = VIN }
+					}	
+				}
+				else = {
+					CCH = { transfer_state = 1386 }
+					if = { 
+						limit = { VIN = { is_ai = no } }
+						CCH = { change_tag_from = VIN }
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+					FRA = { NOT = { has_country_flag = FRA_cochinchina_intervention_flag } }
+				}
+				CCH = { transfer_state = 1386 }
+				hidden_effect = {
+					SPR = { 
+						add_opinion_modifier = { target = CCH modifier = AFR_spanish_colony }
+						reverse_add_opinion_modifier = { target = CCH modifier = AFR_spanish_colony }
+					}
+				}
+				if = { 
+					limit = { VIN = { is_ai = no } }
+					CCH = { change_tag_from = VIN }
+				}
+			}
+			else_if = {
+				limit = { 
+					SPR = { NOT = { has_country_flag = SPR_cochinchina_intervention_flag } }
+					FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+				}
+				CCH = { transfer_state = 1386 }
+				if = { 
+					limit = { VIN = { is_ai = no } }
+					CCH = { change_tag_from = VIN }
+				}
+			}
+			every_country = {
+				limit = {
+					OR = {
+						TAG = ROOT
+						is_subject_of = ROOT
+					}
+				}
+				if = {
+					limit = { is_subject = yes }
+					if = {
+						limit = { 
+							OR = {
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_cochinchina_intervention_flag
+										has_country_flag = FRA_cochinchina_intervention_flag
+									}
+								}
+								has_country_flag = SPR_cochinchina_intervention_flag
+								has_country_flag = FRA_cochinchina_intervention_flag
+							}
+						}
+						every_country = {
+							limit = { 
+								OR = {
+									is_subject_of = VIN 
+									TAG = VIN
+								}
+							}
+							white_peace = PREV
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = {
+							OR = {
+								has_country_flag = SPR_cochinchina_intervention_flag
+								has_country_flag = FRA_cochinchina_intervention_flag
+							}
+						}
+						every_country = {
+							limit = { 
+								OR = {
+									is_subject_of = VIN 
+									TAG = VIN
+								}
+							}
+							white_peace = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = cochinchina_expedition.21.a
+		#Take the money
+		ai_chance = { base = 100 }
+		set_country_flag = leave_cochinchina_intervention_temp_flag
+		if = {
+			limit = { 
+				count_triggers = {
+					amount = 2
+					has_global_flag = SPR_cochinchina_intervention_flag
+					has_global_flag = FRA_cochinchina_intervention_flag
+				}
+			}
+			if = {
+				limit = {check_variable = { var = SPR.SPR_soledad_conv_participants@SPR value = 1 compare = equals } }
+				hidden_effect = {
+					if = {
+						limit = { 
+							SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+							FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+						}
+						if = { 
+							limit = { SPR = { has_completed_focus = SPR_spanish_victory_cochinchina } }
+							if = {
+								limit = {
+									OR = {
+										has_dlc = "Together for Victory"
+										has_dlc = "Waking the Tiger"
+										has_dlc = "Death or Dishonor"
+									}
+								}
+								FRA = { 
+									set_autonomy = {
+										target = CCH
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+								CCH = {
+									annex_country = {
+										target = VIN
+										transfer_troops = no
+									}
+									annex_country = {
+										target = JAI
+										transfer_troops = no
+									}
+									annex_country = {
+										target = PHU
+										transfer_troops = no
+									}
+									
+								}
+							}
+							else = {
+								FRA = { puppet = CCH }
+								CCH = {
+									annex_country = {
+										target = VIN
+										transfer_troops = no
+									}
+									annex_country = {
+										target = JAI
+										transfer_troops = no
+									}
+									annex_country = {
+										target = PHU
+										transfer_troops = no
+									}
+									
+								}
+							}
+							if = {
+								limit = { 
+									country_exists = SPH
+									SPH = { is_subject_of = SPR } 
+								}
+								SPH = { transfer_state = 1386 }
+								SPH = { transfer_state = 998 }
+							}
+							else = {
+								SPR = { transfer_state = 1386 }
+								SPR = { transfer_state = 998 }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									OR = {
+										has_dlc = "Together for Victory"
+										has_dlc = "Waking the Tiger"
+										has_dlc = "Death or Dishonor"
+									}
+								}
+								FRA = { 
+									set_autonomy = {
+										target = CCH
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+								CCH = {
+									annex_country = {
+										target = VIN
+										transfer_troops = no
+									}
+									annex_country = {
+										target = JAI
+										transfer_troops = no
+									}
+									annex_country = {
+										target = PHU
+										transfer_troops = no
+									}
+									
+								}
+							}
+							else = {
+								FRA = { puppet = CCH }
+								CCH = {
+									annex_country = {
+										target = VIN
+										transfer_troops = no
+									}
+									annex_country = {
+										target = JAI
+										transfer_troops = no
+									}
+									annex_country = {
+										target = PHU
+										transfer_troops = no
+									}
+									
+								}
+							}
+						}
+					}
+					else_if = {
+						limit = { 
+							SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+							FRA = { NOT = { has_country_flag = FRA_cochinchina_intervention_flag } }
+						}
+						if = {
+							limit = {
+								OR = {
+									has_dlc = "Together for Victory"
+									has_dlc = "Waking the Tiger"
+									has_dlc = "Death or Dishonor"
+								}
+							}
+							SPR = { 
+								set_autonomy = {
+									target = CCH
+									autonomous_state = autonomy_colony
+									freedom_level = 0.1
+								}
+							}
+							CCH = {
+								annex_country = {
+									target = VIN
+									transfer_troops = no
+								}
+								set_autonomy = {
+									target = JAI
+									autonomous_state = autonomy_colony
+									freedom_level = 0.1
+								}
+								set_autonomy = {
+									target = PHU
+									autonomous_state = autonomy_colony
+									freedom_level = 0.1
+								}
+								
+							}
+						}
+						else = {
+							SPR = { puppet = CCH }
+							CCH = {
+								annex_country = {
+									target = VIN
+									transfer_troops = no
+								}
+								puppet = JAI
+								puppet = PHU
+							}
+						}
+					}
+					else_if = {
+						limit = { 
+							SPR = { NOT = { has_country_flag = SPR_cochinchina_intervention_flag } }
+							FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+						}
+						if = {
+							limit = {
+								OR = {
+									has_dlc = "Together for Victory"
+									has_dlc = "Waking the Tiger"
+									has_dlc = "Death or Dishonor"
+								}
+							}
+							FRA = { 
+								set_autonomy = {
+									target = CCH
+									autonomous_state = autonomy_colony
+									freedom_level = 0.1
+								}
+							}
+							CCH = {
+								annex_country = {
+									target = VIN
+									transfer_troops = no
+								}
+								annex_country = {
+									target = JAI
+									transfer_troops = no
+								}
+								annex_country = {
+									target = PHU
+									transfer_troops = no
+								}
+								
+							}
+						}
+						else = {
+							FRA = { puppet = CCH }
+							CCH = {
+								annex_country = {
+									target = VIN
+									transfer_troops = no
+								}
+								annex_country = {
+									target = JAI
+									transfer_troops = no
+								}
+								annex_country = {
+									target = PHU
+									transfer_troops = no
+								}
+								
+							}
+						}
+					}
+				}
+				news_event = { id = cochinchina_expedition.3611 days = 3 }
+				SPR = { country_event = { id = cochinchina_expedition.22 days = 1 } }
+				FRA = { country_event = { id = cochinchina_expedition.22 days = 1 } }
+				country_event = { id = cochinchina_expedition.31 days = 2 }
+			}
+			else = { add_to_variable = { var = SPR.SPR_soledad_conv_participants@SPR value = 1 } }
+		}
+		else = {
+			hidden_effect = {
+					if = {
+						limit = { 
+							SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+							FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+						}
+						if = { 
+							limit = { SPR = { has_completed_focus = SPR_spanish_victory_cochinchina } }
+							if = {
+								limit = {
+									OR = {
+										has_dlc = "Together for Victory"
+										has_dlc = "Waking the Tiger"
+										has_dlc = "Death or Dishonor"
+									}
+								}
+								FRA = { 
+									set_autonomy = {
+										target = VIN
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+								VIN = {
+									set_autonomy = {
+										target = JAI
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+									set_autonomy = {
+										target = PHU
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+							}
+							else = {
+								FRA = { puppet = VIN }
+								VIN = {
+									puppet = JAI
+									puppet = PHU
+								}
+							}
+							if = {
+								limit = { 
+									country_exists = SPH
+									SPH = { is_subject_of = SPR } 
+								}
+								SPH = { transfer_state = 1386 }
+								SPH = { transfer_state = 998 }
+							}
+							else = {
+								SPR = { transfer_state = 1386 }
+								SPR = { transfer_state = 998 }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									OR = {
+										has_dlc = "Together for Victory"
+										has_dlc = "Waking the Tiger"
+										has_dlc = "Death or Dishonor"
+									}
+								}
+								FRA = { 
+									set_autonomy = {
+										target = VIN
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+								VIN = {
+									set_autonomy = {
+										target = JAI
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+									set_autonomy = {
+										target = PHU
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+							}
+							else = {
+								FRA = { puppet = VIN }
+								VIN = {
+									puppet = JAI
+									puppet = PHU
+								}
+							}
+						}
+					}
+					else_if = {
+						limit = { 
+							SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+							FRA = { NOT = { has_country_flag = FRA_cochinchina_intervention_flag } }
+						}
+						if = {
+							limit = {
+								OR = {
+									has_dlc = "Together for Victory"
+									has_dlc = "Waking the Tiger"
+									has_dlc = "Death or Dishonor"
+								}
+							}
+							if = {
+								limit = { 
+									country_exists = SPH
+									SPH = { is_subject_of = SPR }
+								}
+								SPH = { 
+									set_autonomy = {
+										target = VIN
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+								VIN = {
+									set_autonomy = {
+										target = JAI
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+									set_autonomy = {
+										target = PHU
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+							}
+							else = {
+								SPR = { 
+									set_autonomy = {
+										target = VIN
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+								VIN = {
+									set_autonomy = {
+										target = JAI
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+									set_autonomy = {
+										target = PHU
+										autonomous_state = autonomy_colony
+										freedom_level = 0.1
+									}
+								}
+							}
+						}
+						else = {
+							SPR = { puppet = VIN }
+							VIN = {
+								puppet = JAI
+								puppet = PHU
+							}
+						}
+					}
+					else_if = {
+						limit = { 
+							SPR = { NOT = { has_country_flag = SPR_cochinchina_intervention_flag } }
+							FRA = { has_country_flag = FRA_cochinchina_intervention_flag }
+						}
+						if = {
+							limit = {
+								OR = {
+									has_dlc = "Together for Victory"
+									has_dlc = "Waking the Tiger"
+									has_dlc = "Death or Dishonor"
+								}
+							}
+							FRA = { 
+								set_autonomy = {
+									target = VIN
+									autonomous_state = autonomy_colony
+									freedom_level = 0.1
+								}
+							}
+							VIN = {
+								set_autonomy = {
+									target = JAI
+									autonomous_state = autonomy_colony
+									freedom_level = 0.1
+								}
+								set_autonomy = {
+									target = PHU
+									autonomous_state = autonomy_colony
+									freedom_level = 0.1
+								}
+							}
+						}
+						else = {
+							FRA = { puppet = VIN }
+							VIN = {
+								puppet = JAI
+								puppet = PHU
+							}
+						}
+					}
+				}
+			news_event = { id = cochinchina_expedition.3611 days = 3 }
+			SPR = { country_event = { id = cochinchina_expedition.22 days = 1 } }
+			FRA = { country_event = { id = cochinchina_expedition.22 days = 1 } }
+			country_event = { id = cochinchina_expedition.31 days = 2 }
+		}
+	}
+}
+country_event = {
+	id = cochinchina_expedition.22
+	hidden = yes
+	is_triggered_only = yes
+	
+	trigger = { has_country_flag = leave_cochinchina_intervention_temp_flag }
+	
+	immediate = {
+		if = {
+			limit = { TAG = SPR }
+			clr_country_flag = SPR_cochinchina_intervention_flag
+			clr_global_flag = SPR_cochinchina_intervention_flag
+		}
+		if = {
+			limit = { TAG = FRA }
+			clr_country_flag = FRA_cochinchina_intervention_flag
+			clr_global_flag = FRA_cochinchina_intervention_flag
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_flag = SPR_cochinchina_intervention_flag
+					has_global_flag = FRA_cochinchina_intervention_flag
+				}
+			}
+			VIN = { clr_country_flag = VIN_cochinchina_intervention_flag }
+			clr_global_flag = SPR_cochinchina_expedition_cochinchina_landing
+		}
+		clr_country_flag = leave_cochinchina_intervention_temp_flag
+		clear_variable = SPR.SPR_soledad_conv_participants@SPR
+		
+	}
+}
+country_event = {
+	id = cochinchina_expedition.31
+	hidden = yes
+	is_triggered_only = yes
+	fire_only_once = no
+	
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { SPR = { has_country_flag = SPR_cochinchina_intervention_flag } }
+				if = { 
+					limit = { FRA = { NOT = { has_country_flag = FRA_cochinchina_intervention_flag } } }
+					SPR = { diplomatic_relation = { country = FRA relation = military_access active = no } }
+					SPR = { diplomatic_relation = { country = FRA relation = non_aggression_pact active = no } }
+					if = {
+						limit = { 
+							country_exists = SPH 
+							SPH = { is_subject_of = SPR }
+						}
+						SPH = { diplomatic_relation = { country = FRA relation = military_access active = no } }
+						SPH = { diplomatic_relation = { country = FRA relation = non_aggression_pact active = no } }
+					}
+					#if = { 
+						#limit = { has_dlc = "Man the Guns" } 
+						#SPR = { diplomatic_relation = { country = FRA relation = docking_rights active = no } }
+					#}
+				}	
+			}
+			else_if = {
+				limit = { SPR = { NOT = { has_country_flag = SPR_cochinchina_intervention_flag } } }
+				SPR = { diplomatic_relation = { country = FRA relation = military_access active = no } }
+				SPR = { diplomatic_relation = { country = FRA relation = non_aggression_pact active = no } }
+				if = {
+					limit = { 
+						country_exists = SPH 
+						SPH = { is_subject_of = SPR }
+					}
+					SPH = { diplomatic_relation = { country = FRA relation = military_access active = no } }
+					SPH = { diplomatic_relation = { country = FRA relation = non_aggression_pact active = no } }
+				}
+				#if = { 
+					#limit = { has_dlc = "Man the Guns" } 
+					#SPR = { diplomatic_relation = { country = FRA relation = docking_rights active = no } }
+				#}
+			}
+			if = {
+				limit = { FRA = { has_country_flag = FRA_cochinchina_intervention_flag } }
+				if = { 
+					limit = { SPR = { NOT = { has_country_flag = SPR_cochinchina_intervention_flag } } }
+					FRA = { diplomatic_relation = { country = SPR relation = military_access active = no } }
+					FRA = { diplomatic_relation = { country = SPR relation = non_aggression_pact active = no } }
+					if = {
+						limit = { 
+							country_exists = SPH 
+							SPH = { is_subject_of = SPR }
+						}
+						FRA = { diplomatic_relation = { country = SPH relation = military_access active = no } }
+						FRA = { diplomatic_relation = { country = SPH relation = non_aggression_pact active = no } }
+					}
+					#if = { 
+						#limit = { has_dlc = "Man the Guns" } 
+						#FRA = { diplomatic_relation = { country = SPR relation = docking_rights active = no } }
+					#}
+				}
+			}
+			else_if = {
+				limit = { FRA = { NOT = { has_country_flag = FRA_cochinchina_intervention_flag } } }
+				FRA = { diplomatic_relation = { country = SPR relation = military_access active = no } }
+				FRA = { diplomatic_relation = { country = SPR relation = non_aggression_pact active = no } }
+				if = {
+					limit = { 
+						country_exists = SPH 
+						SPH = { is_subject_of = SPR }
+					}
+					FRA = { diplomatic_relation = { country = SPH relation = military_access active = no } }
+					FRA = { diplomatic_relation = { country = SPH relation = non_aggression_pact active = no } }
+				}
+				#if = { 
+					#limit = { has_dlc = "Man the Guns" } 
+					#FRA = { diplomatic_relation = { country = SPR relation = docking_rights active = no } }
+				#}	
+			}
+		}
+	}
+}
+#----------------------------------------------------
+#End of the Soledad Conferencia!
+#----------------------------------------------------
+news_event = { 
+	id = cochinchina_expedition.3611
+	title = cochinchina_expedition.3611.t
+	desc = cochinchina_expedition.3611.d
+	picture = GFX_report_event_SPR_mexican_expedition_peace_prussia
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+
+	option = {
+		name = cochinchina_expedition.3611.a
+		trigger = { 
+			NOT = {
+				TAG = SPR
+				TAG = SPH
+				TAG = FRA
+				TAG = VIN
+			}
+		}
+	}
+	
+	option = {
+		name = cochinchina_expedition.3611.b
+		trigger = { 
+			OR = {
+				TAG = SPR 
+				TAG = FRA 
+			}
+		}
+	}
+	
+	option = {
+		name = cochinchina_expedition.3611.c
+		trigger = { TAG = VIN }
+	}
+}

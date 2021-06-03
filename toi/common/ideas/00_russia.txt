@@ -36,20 +36,35 @@ ideas = {
             picture = rus_tsarist_vodka_monopoly
 
             modifier = {
-                political_power_gain = 1
-                stability_factor = 0.15
-                war_support_factor = 0.15
-                recruitable_population_factor = 0.05
-                conscription_factor = 0.05
-                mobilization_speed = 0.05
-                army_org_factor = -0.10
+                stability_factor = 0.1
+                consumer_goods_factor = -0.03
                 industrial_capacity_factory = -0.05
                 industrial_capacity_dockyard = -0.05
-                production_factory_start_efficiency_factor = -0.05
-                production_factory_max_efficiency_factor = -0.05
-                production_factory_efficiency_gain_factor = -0.05
                 production_speed_buildings_factor = -0.05
                 research_speed_factor = -0.05
+            }
+        }
+
+        RUS_idea_vodka_protests = {
+            allowed = {
+                always = yes
+            }
+
+            allowed_civil_war = {
+                always = yes
+            }
+
+            removal_cost = 0
+
+            picture = ast_classify_aliens
+
+            modifier = {
+                stability_factor = -0.04
+                consumer_goods_factor = 0.01
+                industrial_capacity_factory = 0.02
+                industrial_capacity_dockyard = 0.02
+                production_speed_buildings_factor = 0.02
+                research_speed_factor = 0.02
             }
         }
 		
@@ -908,15 +923,16 @@ ideas = {
     }
 	
 	#PEOPLE
+	
+	political_advisor = {
 
-	political_advisor = {		
-
-        RUS_vic_Alexander_Gorchakov = {
+		RUS_vic_Alexander_Gorchakov = {
             allowed = {
                 original_tag = RUS
             }
         
             traits = { 
+			    RUS_trait_Staunch_Authoritarian
                 popular_figurehead
             }
 
@@ -982,7 +998,15 @@ ideas = {
             }
         
             traits = { 
-                great_urbanizer  
+                great_urbanizer 
+            }
+			
+			modifier = {
+				political_power_factor = -0.05
+			}
+			
+			research_bonus = {
+                trains_tech = 0.07
             }
 
             visible = {
@@ -1003,8 +1027,12 @@ ideas = {
             }
         
             traits = { 
-                popular_figurehead
+                eoanb_philanthropist
             }
+			
+			modifier = {
+				political_power_factor = -0.05
+			}
 
             visible = {
                 date < 1895.9.27
@@ -1064,7 +1092,7 @@ ideas = {
             }
         
             traits = { 
-                eoanb_trait_strict_authoritarian
+                RUS_trait_Staunch_Authoritarian
                 eoanb_trait_effective_judge 
             }
 
@@ -1188,6 +1216,93 @@ ideas = {
             available = {
                 has_completed_focus = RUS_vic_Establish_The_Okhrana
                 date < 1866.5.1
+            }
+        }
+		
+		RUS_vic_Alexander_Ageevich_Abaza = {
+            allowed = {
+                original_tag = RUS
+            }
+        
+            traits = { 
+                eoanb_trait_finance_minister
+				centrism_alignment
+            }
+        
+            available = {
+                has_completed_focus = RUS_vic_Radical_Reforms
+            }
+        }
+		
+		RUS_vic_Konstantin_Katakazi = {
+            allowed = {
+                original_tag = RUS
+            }
+			
+			on_add = {
+            if = {
+                limit = { 
+                    NOT = { has_country_flag = RUS_vic_chosen_konstantin_katakazi } 
+                }
+                add_opinion_modifier = {
+                    target = USA
+                    modifier = eoanb_om_increase_rel_25
+                }
+                reverse_add_opinion_modifier = {
+                    target = USA
+                    modifier = eoanb_om_increase_rel_25
+                }
+                set_country_flag = RUS_vic_chosen_konstantin_katakazi
+            }
+        }
+        
+            traits = { 
+                eoanb_trait_experienced_diplomat
+            }
+        
+            available = {
+                has_completed_focus = RUS_vic_US_cooperation
+            }
+        }
+		
+		RUS_vic_Pyotr_Chikhachyov = {
+            allowed = {
+                original_tag = RUS
+            }
+			
+            traits = { 
+                geologist
+            }
+			
+			visible = {
+                date < 1890.11.13
+            }
+        
+            available = {
+                date < 1890.11.13
+            }
+        }
+		
+		RUS_vic_Nikolay_Rudanovsky = {
+            allowed = {
+                original_tag = RUS
+            }
+			
+            traits = { 
+                explorer
+            }
+			
+			modifier = {
+				experience_gain_navy = 0.05
+				experience_gain_navy_factor = 0.05  
+            }
+			
+			visible = {
+                date < 1882.1.3
+            }
+        
+            available = {
+                date < 1882.1.3
             }
         }
 	}
@@ -1426,6 +1541,47 @@ ideas = {
 
             traits = { socio_economic_theorist }
         }
+		
+		RUS_vic_Kvist_Alexander = {
+
+			allowed = {
+				original_tag = RUS
+			}
+
+			cost = 250
+
+			research_bonus = {
+				land_doctrine = 0.1
+			}
+
+			traits = { military_theorist }
+			
+			modifier = { 
+			    supply_consumption_factor = -0.03 
+				production_speed_bunker_factor = 0.05 
+				army_speed_factor = 0.05 
+			}
+		}
+		
+		RUS_vic_Nikolai_Fedorovich_Metlin = {
+
+			allowed = {
+				original_tag = RUS
+			}
+
+			cost = 250
+
+			research_bonus = {
+				naval_doctrine = 0.1
+			}
+
+			traits = { naval_theorist }
+			
+			modifier = { 
+			    naval_attrition = -0.05
+				naval_speed_factor	= 0.05
+			}
+		}
     }
 
 #    army_chief = {

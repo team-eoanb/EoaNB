@@ -205,13 +205,7 @@ focus_tree = {
 			base = 1
 			modifier = {
 				is_historical_focus_on = yes
-				factor = 100
-			}
-			modifier = {
-				NOT = {
-					is_historical_focus_on = yes
-				}
-				factor = 50	
+				add = 2
 			}
 		}
 		available = {
@@ -398,12 +392,12 @@ focus_tree = {
 		icon = GFX_goal_focus_enact_law
 		cost = 15
 		ai_will_do = {
-			base = 1
+			base = 0
 			modifier = {
 				NOT = {
 					is_historical_focus_on = yes
 				}
-				factor = 50	
+				add = 1
 			}
 		}
 		available = {
@@ -431,6 +425,9 @@ focus_tree = {
 			swap_ideas = { 
 			    remove_idea = absolute_monarchy
 			    add_idea = parliamentary_monarchy
+			}
+			hidden_effect = {
+				set_country_flag = ITA_unifier_flag
 			}
 		}
 	}
@@ -929,17 +926,12 @@ focus_tree = {
 		icon = GFX_focus_rom_handle_king
 		cost = 70
 
-		allow_branch = {
-            OR = {
-                has_completed_focus = TUS_vic_Tuscanian_Traditions
-                has_completed_focus = TUS_vic_Power_To_The_Workers
-                has_country_flag = TUS_vic_No_Monarchy
-            }
-            NOT = {
-                is_puppet = yes
-            }
-           
-        }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt	
+				always = no
+			}
+		}
 
 		#prerequisite = { focus =  }
 
@@ -1018,7 +1010,11 @@ focus_tree = {
 		cost = 70
 
 		available = {
-            
+			OR = {
+				has_government = centrism
+				has_government = traditional_conservatism
+				has_government = social_egalitarianism
+			}
 		}
 
 		prerequisite = { focus = TUS_vic_The_King_Is_Dead_Long_Live_The_King }
@@ -1363,6 +1359,15 @@ focus = {
 
 		}
 
+		bypass = {
+			NOT = {
+				AND = {
+					country_exists = PIE
+					country_exists = MOD
+					country_exists = PRM
+				}
+			}
+		}
 		x = 14
 		y = 11
 
@@ -1640,12 +1645,7 @@ focus = {
 		bypass = {
 
 		}
-		allow_branch = {
-			OR = {
-				has_country_flag = TUS_vic_Politics_complete_2
-				has_country_flag = TUS_vic_Politics_complete_1
-			}
-		}
+	
 		#prerequisite = { focus =  }
 
 		x = 5
@@ -1665,7 +1665,7 @@ focus = {
 	focus = {
 		id = TUS_vic_Go_Right
 		icon = GFX_focus_generic_support_the_left_right
-		cost = 35
+		cost = 20
 
 		available = {
            
@@ -1914,7 +1914,7 @@ focus = {
 	focus = {
 		id = TUS_vic_Go_Left
 		icon = GFX_goal_focus_revolutionary_council
-		cost = 35
+		cost = 20
 
 		available = {
             

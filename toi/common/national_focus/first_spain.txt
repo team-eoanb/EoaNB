@@ -96,39 +96,40 @@ focus_tree = {
 		relative_position_id = SPR_insure_the_goverment
 		x = 1
 		y = 1
-		cost = 60
+		cost = 30
 		available_if_capitulated = no
 		available = {
-			AND = {
-				date < 1858.01.01
-				has_government = traditional_conservatism
-			}
+			date < 1858.01.01
+			has_government = traditional_conservatism
+			controls_state = 166
+			controls_state = 175
+			controls_state = 804
 		}
 		ai_will_do = { base = 100 }
+		bypass = {
+			OR = {
+				NOT = {
+					owns_state = 166
+					owns_state = 175
+					owns_state = 804
+				}
+			}
+		}
 
 		prerequisite = { focus = SPR_insure_the_goverment }
 
 		completion_reward = {
-			804 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
+			custom_effect_tooltip = SPR_customeffect_infra_bonus_three
+			activate_mission_tooltip = SPR_mission_madrid_zaragoza_railway_concession
+			hidden_effect = {
+				set_variable = { infra_total = 0 }
+				every_owned_state = {
+					add_to_variable = { ROOT.infra_total = infrastructure_level }
 				}
-			}
-			41 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			166 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
+				set_variable = { infra_total_bonus = infra_total }
+				add_to_variable = { infra_total_bonus = 3 }
+				activate_mission = SPR_mission_madrid_zaragoza_railway_concession
+				add_ideas = SPR_idea_boost_infra_1
 			}
 		}
 	}
@@ -165,7 +166,7 @@ focus_tree = {
 		relative_position_id = SPR_stop_confiscation
 		x = 1
 		y = 1
-		cost = 60
+		cost = 30
 		available_if_capitulated = no
 		available = {
 			AND = {
@@ -613,10 +614,16 @@ focus = {
 		y = 1
 		cost = 60
 		available_if_capitulated = no
+		available = {
+			OR = {
+				has_completed_focus = SPR_the_president
+				has_completed_focus = SPR_the_queen
+			}
+		}
 		ai_will_do = { base = 100 }
 
 		completion_reward = {
-			#add_ideas = SPR_national_roads_expansion
+			add_ideas = SPR_idea_national_roads_plan
 		}
 	}
 	
@@ -633,7 +640,8 @@ focus = {
 		prerequisite = { focus = SPR_national_roads_plan }
 
 		completion_reward = {
-			#give idea that boost resource output
+			unlock_decision_tooltip = SPR_decision_coal_mines
+			add_ideas = SPR_idea_mining_revolution_1
 		}
 	}
 	
@@ -650,7 +658,19 @@ focus = {
 		prerequisite = { focus = SPR_mining_revolution }
 
 		completion_reward = {
-			#iron in basque county
+			unlock_decision_tooltip = SPR_decision_develop_basque_iron
+			if = {
+				limit = {
+					has_idea = SPR_idea_mining_revolution_1
+				}
+				swap_ideas = { remove_idea = SPR_idea_mining_revolution_1 add_idea = SPR_idea_mining_revolution_2 }
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_idea_mining_revolution_3
+				}
+				swap_ideas = { remove_idea = SPR_idea_mining_revolution_3 add_idea = SPR_idea_mining_revolution_4 }
+			}
 		}
 	}
 
@@ -662,13 +682,38 @@ focus = {
 		y = 1
 		cost = 60
 		available_if_capitulated = no
+		available = {
+			has_tech = industrial_blast_furnace
+		}
 		ai_will_do = { base = 100 }
 		
 		prerequisite = { focus = SPR_mining_revolution }
 
 		completion_reward = {
-			#steel mill production bonus?
-			#mission to finish the mill in the Toledo region and if successful add an idea?
+			custom_effect_tooltip = SPR_customeffect_steel_bonus_one
+			activate_mission_tooltip = SPR_mission_acero_toledano
+			hidden_effect = {
+				set_variable = { steel_total = 0 }
+				every_owned_state = {
+					add_to_variable = { ROOT.steel_total = building_level@steel_mill }
+				}
+				set_variable = { steel_total_bonus = steel_total }
+				add_to_variable = { steel_total_bonus = 1 }
+				add_ideas = SPR_idea_boost_steel
+				activate_mission = SPR_mission_acero_toledano
+			}
+			if = {
+				limit = {
+					has_idea = SPR_idea_mining_revolution_1
+				}
+				swap_ideas = { remove_idea = SPR_idea_mining_revolution_1 add_idea = SPR_idea_mining_revolution_3 }
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_idea_mining_revolution_2
+				}
+				swap_ideas = { remove_idea = SPR_idea_mining_revolution_2 add_idea = SPR_idea_mining_revolution_4 }
+			}
 		}
 	}
 
@@ -685,8 +730,9 @@ focus = {
 		prerequisite = { focus = SPR_national_roads_plan }
 		
 		completion_reward = {
-			#research bonus
-			#pp
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = humanities_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = electronics_devices_tech }
+			add_political_power = 75
 		}
 	}
 	
@@ -703,7 +749,8 @@ focus = {
 		prerequisite = { focus = SPR_telegraph_network }
 
 		completion_reward = {
-			#
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = humanities_tech }
+			add_political_power = 75
 		}
 	}
 
@@ -715,12 +762,19 @@ focus = {
 		y = 2
 		cost = 60
 		available_if_capitulated = no
+		available = {
+			date > 1864.1.1
+		}
 		ai_will_do = { base = 100 }
 		
 		prerequisite = { focus = SPR_banking_investments }
 
 		completion_reward = {
-			#
+			increase_ps_by_one = yes
+			add_timed_idea = {
+				idea = SPR_idea_currency_reform
+				days = 365
+			}
 		}
 	}
 
@@ -737,8 +791,17 @@ focus = {
 		prerequisite = { focus = SPR_reforming_the_escudo }
 
 		completion_reward = {
-			#research bonus
-			#change state laws regarding research funding?
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = humanities_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = biochemistry_tech }
+			if = {
+				limit = {
+					has_idea = sfund_private_ventures_only
+				}
+				swap_ideas = { remove_idea = sfund_private_ventures_only add_idea = sfund_limited_state_sponsorship }
+			}
+			else = {
+				add_political_power = 75
+			}
 		}
 	}
 
@@ -755,8 +818,17 @@ focus = {
 		prerequisite = { focus = SPR_reforming_the_escudo }
 
 		completion_reward = {
-			#research bonus
-			#change state laws regarding research funding?
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = biochemistry_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = electronics_devices_tech }
+			if = {
+				limit = {
+					has_idea = sfund_private_ventures_only
+				}
+				swap_ideas = { remove_idea = sfund_private_ventures_only add_idea = sfund_limited_state_sponsorship }
+			}
+			else = {
+				add_political_power = 75
+			}
 		}
 	}
 
@@ -768,12 +840,36 @@ focus = {
 		y = 1
 		cost = 60
 		available_if_capitulated = no
+		available = {
+			controls_state = 176
+			controls_state = 804
+			NOT = { has_idea = SPR_idea_boost_infra_1 }
+		}
 		ai_will_do = { base = 100 }
+		bypass = {
+			OR = {
+				NOT = {
+					owns_state = 176
+					owns_state = 804
+				}
+			}
+		}
 		
 		prerequisite = { focus = SPR_national_roads_plan }
 		
 		completion_reward = {
-			#infrastructure build bonus
+			custom_effect_tooltip = SPR_customeffect_infra_bonus_two
+			activate_mission_tooltip = SPR_mission_valladolid_burgos_railway_concession
+			hidden_effect = {
+				set_variable = { infra_total = 0 }
+				every_owned_state = {
+					add_to_variable = { ROOT.infra_total = infrastructure_level }
+				}
+				set_variable = { infra_total_bonus = infra_total }
+				add_to_variable = { infra_total_bonus = 2 }
+				activate_mission = SPR_mission_valladolid_burgos_railway_concession
+				add_ideas = SPR_idea_boost_infra_2
+			}
 		}		
 	}
 	
@@ -856,7 +952,7 @@ focus = {
 		available_if_capitulated = no
 		available = {
 			OR = {
-				owns_state = 297
+				owns_state = 1436
 				AND = {
 					owns_state = 1029
 					owns_state = 1030
@@ -887,7 +983,13 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		available = {
-			owns_state = 297
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_fernando_poo_tooltip
+				OR = { 
+					owns_state = 1436
+					1436 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
 			debt_not_bankrupt_trigger = yes
 		}
 		ai_will_do = { base = 100 }
@@ -911,8 +1013,7 @@ focus = {
 		available_if_capitulated = no
 
 		available = {
-			owns_state = 297
-			debt_not_bankrupt_trigger = yes
+			always = no
 		}
 		ai_will_do = { base = 100 }
 
@@ -935,8 +1036,7 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		available = {
-			owns_state = 297
-			debt_not_bankrupt_trigger = yes
+			always = no
 		}
 		ai_will_do = { base = 100 }
 
@@ -945,10 +1045,7 @@ focus = {
 		mutually_exclusive = { focus = SPR_keep_it }
 
 		completion_reward = {
-			add_timed_idea = {
-				idea = SPR_equatorial_guinea_purchase
-				days = 730
-			}
+			debt_level_decrease_by_2 = yes
 		}		
 	}
 	
@@ -961,7 +1058,13 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		available = {
-			owns_state = 297
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_fernando_poo_tooltip
+				OR = { 
+					owns_state = 1436
+					1436 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
 			debt_not_bankrupt_trigger = yes
 		}
 		ai_will_do = { base = 100 }
@@ -971,23 +1074,8 @@ focus = {
 		mutually_exclusive = { focus = SPR_make_it_a_penal_colony }
 
 		completion_reward = {
-			add_timed_idea = {
-				idea = SPR_developing_a_colony
-				days = 150
-			}
-			297 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 2
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = naval_base
-					level = 1
-					instant_build = yes
-					province = 1903
-				}
-			}
+			set_country_flag = SPR_develop_fernando_poo_flag
+			custom_effect_tooltip = SPR_develop_fernando_poo_tooltip
 		}		
 	}
 
@@ -1000,7 +1088,13 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		available = {
-			owns_state = 297
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_fernando_poo_tooltip
+				OR = { 
+					owns_state = 1436
+					1436 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
 			debt_not_bankrupt_trigger = yes
 		}
 		ai_will_do = { base = 100 }
@@ -1008,6 +1102,10 @@ focus = {
 		prerequisite = { focus = SPR_develop_fernando_poo }
 
 		completion_reward = {
+			1436 = {
+				add_manpower = 2500 
+				add_core_of = SPR
+			}
 		}
 	}
 	
@@ -1020,7 +1118,13 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		available = {
-			owns_state = 297
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_fernando_poo_tooltip
+				OR = { 
+					owns_state = 1436
+					1436 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
 			debt_not_bankrupt_trigger = yes
 		}
 		ai_will_do = { base = 100 }
@@ -1042,7 +1146,13 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		available = {
-			owns_state = 297
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_fernando_poo_tooltip
+				OR = { 
+					owns_state = 1436
+					1436 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
 			debt_not_bankrupt_trigger = yes
 		}
 		ai_will_do = { base = 100 }
@@ -1064,7 +1174,13 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		available = {
-			owns_state = 297
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_fernando_poo_tooltip
+				OR = { 
+					owns_state = 1436
+					1436 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
 			debt_not_bankrupt_trigger = yes
 		}
 		ai_will_do = { base = 100 }
@@ -1074,23 +1190,8 @@ focus = {
 		mutually_exclusive = { focus = SPR_the_island_of_death }
 
 		completion_reward = {
-			add_timed_idea = {
-				idea = SPR_developing_a_colony
-				days = 150
-			}
-			297 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 2
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = naval_base
-					level = 1
-					instant_build = yes
-					province = 1903
-				}
-			}
+			set_country_flag = SPR_develop_the_prison_flag
+			custom_effect_tooltip = SPR_develop_the_prison_tooltip
 		}		
 	}
 	
@@ -1165,6 +1266,7 @@ focus = {
 		x = 1
 		y = 2
 		cost = 60
+		available = { always = no }
 		available_if_capitulated = no
 		ai_will_do = { base = 100 }
 		
@@ -1408,7 +1510,7 @@ focus = {
 			owns_state = 686
 			owns_state = 1350
 		}
-		ai_will_do = { base = 100 }
+		ai_will_do = { base = 10 }
 		
 		prerequisite = { focus = SPR_the_international_policy }
 
@@ -1432,13 +1534,17 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		available = {
-			always = no
+			custom_trigger_tooltip = {
+				tooltip = SPR_mexico_expedition_tooltip
+				has_global_flag = SPR_mexican_intervention_global_flag
+			}
 		}
 		ai_will_do = { base = 100 }
 
 		prerequisite = { focus = SPR_america }
 
 		completion_reward = {
+			
 		}
 	}
 
@@ -1448,13 +1554,15 @@ focus = {
 		relative_position_id = SPR_mexico_expedition
 		x = -1
 		y = 1
-		cost = 60
+		cost = 25
 		available_if_capitulated = no
-		ai_will_do = { base = 100 }
+		ai_will_do = { base = 1000 }
 		
 		prerequisite = { focus = SPR_mexico_expedition }
 
 		completion_reward = {
+			custom_effect_tooltip = SPR_prepare_the_invasion_effect_tooltip
+			set_country_flag = SPR_prepare_the_invasion_flag
 		}		
 	}
 	
@@ -1464,13 +1572,14 @@ focus = {
 		relative_position_id = SPR_mexico_expedition
 		x = 1
 		y = 1
-		cost = 60
+		cost = 25
 		available_if_capitulated = no
-		ai_will_do = { base = 100 }
+		ai_will_do = { base = 1000 }
 		
 		prerequisite = { focus = SPR_mexico_expedition }
 
 		completion_reward = {
+			country_event = { id = SPR_mexican_expedition.6 }
 		}	
 	}
 	
@@ -1480,13 +1589,14 @@ focus = {
 		relative_position_id = SPR_mexico_expedition
 		x = 1
 		y = 2
-		cost = 60
+		cost = 25
 		available_if_capitulated = no
-		ai_will_do = { base = 100 }
+		ai_will_do = { base = 1000 }
 		
 		prerequisite = { focus = SPR_ask_france_to_join }
 
 		completion_reward = {
+			country_event = { id = SPR_mexican_expedition.10 }
 		}
 	}
 
@@ -1499,7 +1609,12 @@ focus = {
 		cost = 60
 		available_if_capitulated = no
 		ai_will_do = { base = 100 }
-		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_stay_in_the_war_tooltip
+				always = no
+			}
+		}
 		prerequisite = { focus = SPR_prepare_the_invasion }
 		prerequisite = { focus = SPR_ask_gb_to_join }
 
@@ -1515,7 +1630,7 @@ focus = {
 		y = 4
 		cost = 60
 		available_if_capitulated = no
-		ai_will_do = { base = 100 }
+		ai_will_do = { base = 10 }
 		
 		prerequisite = { focus = SPR_stay_in_the_war }
 
@@ -1972,8 +2087,29 @@ focus = {
 		prerequisite = { focus = SPR_give_power_to_the_landowners }
 
 		completion_reward = {
-			release_puppet = SPC
 			hidden_effect = {
+				if = {
+					limit = { DOM = { NOT = { is_subject_of = SPR } } }
+					if = {
+						limit = { SPC = { exists = no } }
+						release_puppet = SPC
+						if = {
+							limit = {
+							OR = {
+								  has_dlc = "Together for Victory"
+								  has_dlc = "Waking the Tiger"
+								  has_dlc = "Death or Dishonor"
+								}
+							}
+							set_autonomy = {
+								target = SPC
+								autonomous_state = autonomy_colony
+								freedom_level = 0.5
+							}
+						}
+					}
+				}
+				else = { DOM = { set_cosmetic_tag = SPC } }
 				if = {
 					limit = {
 						OR = {
@@ -1981,9 +2117,107 @@ focus = {
 							686 = { OWNER = { is_subject_of = ROOT } }
 						}
 					}
-					SPC = { transfer_state = 686 }
+					if = {
+						limit = { DOM = { NOT = { is_subject_of = SPR } } }
+						SPC = { transfer_state = 686 }
+					}
+					else = { DOM = { transfer_state = 686 } }
+				}
+				if = {
+					limit = {
+						OR = {
+							owns_state = 1350
+							1350 = { OWNER = { is_subject_of = ROOT } }
+						}
+					}
+					if = {
+						limit = { DOM = { NOT = { is_subject_of = SPR } } }
+						SPC = { transfer_state = 1350 }
+					}
+					else = { DOM = { transfer_state = 1350 } }
+				}
+				if = {
+					limit = {
+						OR = {
+							owns_state = 315
+							315 = { OWNER = { is_subject_of = ROOT } }
+						}
+					}
+					if = {
+						limit = { DOM = { NOT = { is_subject_of = SPR } } }
+						SPC = { transfer_state = 315 }
+					}
+					else = { DOM = { transfer_state = 315 } }
+				}
+				if = {
+					limit = {
+						OR = {
+							owns_state = 1022
+							1022 = { OWNER = { is_subject_of = ROOT } }
+						}
+					}
+					if = {
+						limit = { DOM = { NOT = { is_subject_of = SPR } } }
+						SPC = { transfer_state = 1022 }
+					}
+					else = { DOM = { transfer_state = 1022 } }
+				}
+				
+				#Hispaniola
+				if = {
+					limit = {
+						OR = {
+							owns_state = 790
+							790 = { OWNER = { is_subject_of = ROOT } }
+						}
+					}
+					if = {
+						limit = { DOM = { NOT = { is_subject_of = SPR } } }
+						SPC = { transfer_state = 790 }
+					}
+					else = { DOM = { transfer_state = 790 } }
+				}
+				if = {
+					limit = {
+						OR = {
+							owns_state = 318
+							318 = { OWNER = { is_subject_of = ROOT } }
+						}
+					}
+					if = {
+						limit = { DOM = { NOT = { is_subject_of = SPR } } }
+						SPC = { transfer_state = 318 }
+					}
+					else = { DOM = { transfer_state = 318 } }
+				}
+				if = {
+					limit = {
+						OR = {
+							owns_state = 319
+							319 = { OWNER = { is_subject_of = ROOT } }
+						}
+					}
+					if = {
+						limit = { DOM = { NOT = { is_subject_of = SPR } } }
+						SPC = { transfer_state = 319 }
+					}
+					else = { DOM = { transfer_state = 319 } }
+				}
+				if = {
+					limit = {
+						OR = {
+							owns_state = 1318
+							1318 = { OWNER = { is_subject_of = ROOT } }
+						}
+					}
+					if = {
+						limit = { DOM = { NOT = { is_subject_of = SPR } } }
+						SPC = { transfer_state = 1318 }
+					}
+					else = { DOM = { transfer_state = 1318 } }
 				}
 			}
+			
 		}
 	}
 	
@@ -2181,16 +2415,12 @@ focus = {
 			}
 			debt_not_bankrupt_trigger = yes
 		}
-		ai_will_do = { base = 100 }
+		ai_will_do = { base = 1000 }
 		
 		prerequisite = { focus = SPR_cochinchina_expedition }
 
 		completion_reward = {
-			327 = {
-				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
-				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 10265 }
-			}
-			debt_level_increase_by_1 = yes
+			set_country_flag = SPR_prepare_cochinchina_invasion_flag
 		}
 	}
 	
@@ -2216,7 +2446,7 @@ focus = {
 				owns_state = 684
 			}
 		}
-		ai_will_do = { base = 100 }
+		ai_will_do = { base = 1000 }
 		
 		prerequisite = { focus = SPR_cochinchina_expedition }
 

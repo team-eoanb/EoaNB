@@ -1,0 +1,279 @@
+eoanb_category_revolution = {
+
+BWR_raise_welsh_workers= {
+		allowed = {			
+			tag = BWR
+		}
+		highlight_states = {
+			state = 122
+		}
+		available = {
+			has_full_control_of_state = 122
+			has_war_with = ENG
+			surrender_progress < 0.2
+		}
+		visible = {
+			has_war_with = ENG
+		}
+
+		cancel_trigger = {
+			NOT = { controls_state = 122 }
+		}
+
+		fire_only_once = yes
+		days_remove = 7
+		cost = 50
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		complete_effect = {
+			add_political_power = 70
+			add_war_support = 0.03
+			add_stability = -0.03
+		}
+		remove_effect = {
+				122 = {
+					create_unit = {
+						division = "name = \"1st Welsh Revolutionary Regiment\" division_template = \"Armed Revolutionaries\"	start_experience_factor = 0.0"
+						owner = BWR
+					}
+					create_unit = {
+						division = "name = \"2nd Welsh Revolutionary Regiment\" division_template = \"Armed Revolutionaries\"	start_experience_factor = 0.0"
+						owner = BWR
+					}
+					create_unit = {
+						division = "name = \"3rd Welsh Revolutionary Regiment\" division_template = \"Armed Revolutionaries\"	start_experience_factor = 0.0"
+						owner = BWR
+					}
+					create_unit = {
+						division = "name = \"4th Welsh Revolutionary Regiment\" division_template = \"Armed Revolutionaries\"	start_experience_factor = 0.0"
+						owner = BWR
+					}
+				}
+			}
+		}
+	
+	BWR_draft_highlander_regiments = {
+	
+		allowed = {			
+			tag = ENG
+		}
+		highlight_states = {
+			state = 120
+		}
+		available = {
+			has_full_control_of_state = 120
+			has_war_with = BWR
+		}
+		visible = {
+			has_war_with = BWR
+		}
+
+		cancel_trigger = {
+			NOT = { controls_state = 120 }
+		}
+
+		fire_only_once = yes
+		days_remove = 7
+		cost = 50
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		complete_effect = {
+			add_political_power = 70
+			add_war_support = 0.03
+			add_stability = -0.03
+		}
+		remove_effect = {
+				120 = {
+					create_unit = {
+						division = "name = \"1st Scottish Royalist Regiment\" division_template = \"Colonial Garrison\"	start_experience_factor = 0.0"
+						owner = ENG
+					}
+					create_unit = {
+						division = "name = \"2nd Scottish Royalist Regiment\" division_template = \"Colonial Garrison\"	start_experience_factor = 0.0"
+						owner = ENG
+					}
+					create_unit = {
+						division = "name = \"3rd Scottish Royalist Regiment\" division_template = \"Colonial Garrison\"	start_experience_factor = 0.0"
+						owner = ENG
+					}
+					create_unit = {
+						division = "name = \"4th Scottish Royalist Regiment\" division_template = \"Colonial Garrison\"	start_experience_factor = 0.0"
+						owner = ENG
+					}
+				}
+			}
+		}
+		
+	BWR_hire_proffesional_officers = {
+		allowed = {			
+			tag = BWR
+		}
+
+		available = {
+			has_war_with = ENG
+			surrender_progress < 0.6
+		}
+		visible = {
+			has_war_with = ENG
+		}
+
+		cancel_trigger = {
+			BWR = { surrender_progress > 0.6 }
+		}
+
+		fire_only_once = yes
+		days_remove = 1
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+		}
+		
+		remove_effect = {
+		ENG = {
+			every_unit_leader = {
+				limit = {
+					OR = {
+						has_id = 167910 
+						}
+					}
+				set_nationality = BWR
+			    }
+		    }
+			
+		create_corps_commander = {
+		    name = "John Talbot Coke"
+		    traits = {
+		    }
+		    skill = 1
+			    attack_skill = 2
+			    defense_skill = 1
+			    planning_skill = 2
+			    logistics_skill = 1
+	    }
+		
+		create_corps_commander = {
+		    name = "Hugh Rose"
+		    traits = {
+		    }
+		    skill = 1
+			    attack_skill = 2
+			    defense_skill = 1
+			    planning_skill = 1
+			    logistics_skill = 2
+	    }
+		
+	    create_corps_commander = {
+		    name = "Evelyn Wood"
+		    traits = {
+		    }
+		    skill = 1
+			    attack_skill = 2
+			    defense_skill = 1
+			    planning_skill = 1
+			    logistics_skill = 2
+	        }
+	    }
+	}
+		
+	BWR_Revolution_Treaty_Mission = {
+	
+		allowed = { always = no }
+		
+		activation = { always = no }
+
+		is_good = no
+		days_mission_timeout = 180
+		
+		activation = {
+			always = no 
+		}
+
+		available = {
+			if = {
+				limit = {
+					tag = ENG
+				}
+				BWR = { surrender_progress > 0.8 }
+			}
+			if = {
+				limit = {
+					tag = BWR
+				}
+				ENG = { surrender_progress > 0.8 }
+				has_completed_focus = BWR_last_push
+			}
+		}
+
+		complete_effect = {
+		}
+		timeout_effect = {
+           
+		}
+	}
+	
+	BWR_fighters_to_factories = {
+		allowed = {			
+			tag = BWR
+		}
+
+		available = {
+			has_war_with = ENG
+			has_completed_focus = BWR_fighter_factories
+		}
+		visible = {
+			has_war_with = ENG
+		}
+
+		cancel_trigger = {
+		}
+
+		fire_only_once = no
+		days_remove = 10
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+		}
+		
+		complete_effect = {
+			add_offsite_building = { type = arms_factory level = 1 }
+			add_manpower = -1000
+		}
+	}
+	
+	BWR_workers_to_front = {
+		allowed = {			
+			tag = BWR
+		}
+
+		available = {
+			has_war_with = ENG
+			has_completed_focus = BWR_fighter_factories
+		}
+		visible = {
+			has_war_with = ENG
+		}
+
+		cancel_trigger = {
+		}
+
+		fire_only_once = no
+		days_remove = 10
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+		}
+		
+		complete_effect = {
+			add_offsite_building = { type = arms_factory level = -1 }
+			add_manpower = 1000
+		}
+}

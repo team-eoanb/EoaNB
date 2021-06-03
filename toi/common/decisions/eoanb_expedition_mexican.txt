@@ -1,0 +1,1543 @@
+war_measures = {
+	SPR_mexican_expedition_purchase_usa_support = {
+		icon = power_struggle
+		available = { debt_not_bankrupt_trigger = yes }
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_1_debt_loc
+		visible = { USA = { has_country_flag = USA_mexican_economic_intervention_flag } }
+		allowed = { tag = MEX }
+		fire_only_once = no
+		days_re_enable = 30
+		days_remove = 7
+		complete_effect = {
+			debt_level_increase_by_1 = yes
+		}
+		remove_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_rifle_1
+				amount = 1000
+				producer = USA
+			}
+			add_equipment_to_stockpile = {
+				type = uniform_equipment_1
+				amount = 1000
+				producer = USA
+			}
+			add_war_support = 0.01
+		}
+		ai_will_do = {
+			base = 10
+			modifier = {
+				factor = 0
+				check_variable = { debt_level > 44 }
+			}
+		}
+	}
+	SPR_mexican_expedition_cancel_invasion = {
+		icon = power_struggle
+		available = { }
+		visible = { 
+			OR = {
+				has_country_flag = SPR_mexican_expedition_final_yes
+				has_global_flag = USA_mexican_intervention_flag
+			}
+			OR = {
+				has_country_flag = SPR_mexican_intervention_flag
+				has_country_flag = FRA_mexican_intervention_flag
+				has_country_flag = ENG_mexican_intervention_flag
+			}
+		}
+		allowed = { 
+			OR = {
+				tag = SPR 
+				tag = FRA
+				tag = ENG
+			}
+		}
+		fire_only_once = no
+		days_re_enable = 45
+		complete_effect = {
+			if = {
+				limit = { TAG = SPR }
+				country_event = { id = SPR_mexican_expedition.25 }
+			}
+			if = {
+				limit = { TAG = FRA }
+				country_event = { id = SPR_mexican_expedition.3630 }
+			}
+			if = {
+				limit = { TAG = ENG }
+				country_event = { id = SPR_mexican_expedition.27 }
+			}
+		}
+		ai_will_do = {
+			base = 25
+			modifier = {
+				add = -25
+				any_controlled_state = {
+					OR = {
+						STATE = 311
+						STATE = 474
+						STATE = 475
+						STATE = 477
+						STATE = 476
+						STATE = 479
+						STATE = 485
+						STATE = 478
+						STATE = 1125
+						STATE = 483
+						STATE = 484
+						STATE = 1359
+					}
+					any_province_building_level = {
+						province = { limit_to_naval_base = yes }
+						building = naval_base
+						level > 2
+					}
+					CONTROLLER = {
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			modifier = {
+				add = 25
+				check_variable = { debt_level > 39 }
+			}
+		}
+	}
+	SPR_mexican_expedition_begin_invasion = {
+		icon = generic_prepare_civil_war
+		ai_will_do = { factor = 100 }
+		available = {
+			if = {
+				limit = { SPR = { has_country_flag = SPR_mexican_intervention_flag } }
+				if = {
+					limit = { TAG = SPR }
+					has_completed_focus = SPR_prepare_the_invasion
+					if = {
+						limit = { country_exists = FRA }
+						has_completed_focus = SPR_ask_france_to_join
+					}
+					if = {
+						limit = { country_exists = ENG }
+						has_completed_focus = SPR_ask_gb_to_join
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_begin_invasion_ready_trigger
+						if = {
+							limit = { country_exists = USA }
+							USA = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+							if = {
+								limit = { country_exists = SPR }
+								if = {
+									limit = { SPR = { has_country_flag = ENG_mexican_intervention_flag } }
+									SPR = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+								}
+							}
+							if = {
+								limit = { country_exists = FRA }
+								if = {
+									limit = { FRA = { has_country_flag = FRA_mexican_intervention_flag } }
+									FRA = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+								}
+							}
+							if = {
+								limit = { country_exists = ENG }
+								if = {
+									limit = { ENG = { has_country_flag = ENG_mexican_intervention_flag } }
+									ENG = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+								}
+							}		
+						}
+					}
+				}
+				else = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_begin_invasion_trigger
+						always = no
+					}
+				}
+			}
+			else_if = {
+				limit = { FRA = { has_country_flag = FRA_mexican_intervention_flag } }
+				if = {
+					limit = { TAG = FRA }
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_begin_invasion_ready_trigger
+						if = {
+							limit = { country_exists = USA }
+							USA = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+							if = {
+								limit = { country_exists = SPR }
+								if = {
+									limit = { SPR = { has_country_flag = ENG_mexican_intervention_flag } }
+									SPR = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+								}
+							}
+							if = {
+								limit = { country_exists = FRA }
+								if = {
+									limit = { FRA = { has_country_flag = FRA_mexican_intervention_flag } }
+									FRA = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+								}
+							}
+							if = {
+								limit = { country_exists = ENG }
+								if = {
+									limit = { ENG = { has_country_flag = ENG_mexican_intervention_flag } }
+									ENG = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+								}
+							}		
+						}
+					}
+				}
+				else = {
+					custom_trigger_tooltip = {
+						tooltip = FRA_mexican_expedition_begin_invasion_trigger
+						always = no
+					}
+				}
+			}
+			else = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_begin_invasion_ready_trigger
+					if = {
+						limit = { country_exists = USA }
+						USA = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+						if = {
+							limit = { country_exists = SPR }
+							if = {
+								limit = { SPR = { has_country_flag = ENG_mexican_intervention_flag } }
+								SPR = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+							}
+						}
+						if = {
+							limit = { country_exists = FRA }
+							if = {
+								limit = { FRA = { has_country_flag = FRA_mexican_intervention_flag } }
+								FRA = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+							}
+						}
+						if = {
+							limit = { country_exists = ENG }
+							if = {
+								limit = { ENG = { has_country_flag = ENG_mexican_intervention_flag } }
+								ENG = { has_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+							}
+						}		
+					}
+				}
+			}
+		}
+		activation = {
+			has_global_flag = SPR_mexican_intervention_global_flag
+			OR = {
+				has_country_flag = SPR_mexican_intervention_flag
+				has_country_flag = FRA_mexican_intervention_flag
+				has_country_flag = ENG_mexican_intervention_flag
+			}
+		}
+		allowed = { 
+			OR = {
+				tag = SPR 
+				tag = FRA
+				tag = ENG
+			}
+		}
+		selectable_mission = yes
+		is_good = no
+		fire_only_once = yes
+		#cost = 0
+		days_mission_timeout = 360
+		complete_effect = {
+			#Invasion Commences 
+			country_event = { id = SPR_mexican_expedition.18 }
+			hidden_effect = {
+				USA = { clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+				SPR = { 
+					clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+					clr_country_flag = SPR_mexican_expedition_initial_yes
+				}
+				FRA = { 
+					clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+					clr_country_flag = SPR_mexican_expedition_initial_yes
+				}
+				ENG = { 
+					clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+					clr_country_flag = SPR_mexican_expedition_initial_yes
+				}
+				if = {
+					limit = { TAG = SPR }
+					FRA = { remove_mission = SPR_mexican_expedition_begin_invasion }
+					ENG = { remove_mission = SPR_mexican_expedition_begin_invasion }
+				}
+				else_if = {
+					limit = { TAG = FRA }
+					SPR = { remove_mission = SPR_mexican_expedition_begin_invasion }
+					ENG = { remove_mission = SPR_mexican_expedition_begin_invasion }
+				}
+				else_if = {
+					limit = { TAG = ENG }
+					FRA = { remove_mission = SPR_mexican_expedition_begin_invasion }
+					SPR = { remove_mission = SPR_mexican_expedition_begin_invasion }
+				}
+				clr_global_flag = SPR_mexican_intervention_global_flag
+			}
+		}
+		timeout_effect = {
+			#Spain Doesnt Have it's Shit Together
+			hidden_effect = {
+				if = {
+					limit = { SPR = { has_country_flag = SPR_mexican_intervention_flag } }
+					if = {
+						limit = { TAG = SPR }
+						custom_effect_tooltip = SPR_mexican_expedition_begin_invasion_timeout_tooltip
+						clr_country_flag = SPR_mexican_intervention_flag
+						clr_global_flag = SPR_mexican_intervention_flag
+						if = {
+							limit = { FRA = { has_country_flag = FRA_mexican_intervention_flag } }
+							hidden_effect = { FRA = { activate_mission = SPR_mexican_expedition_begin_invasion } }
+						}
+						if = {
+							limit = { ENG = { has_country_flag = ENG_mexican_intervention_flag } }
+							hidden_effect = { ENG = { activate_mission = SPR_mexican_expedition_begin_invasion } }
+						}
+						if = {
+							limit = { 
+								FRA = { NOT = { has_country_flag = FRA_mexican_intervention_flag } }
+								ENG = { NOT = { has_country_flag = ENG_mexican_intervention_flag } }
+							}
+							if = {
+								limit = { 
+									MEX = { 
+										exists = yes
+										has_country_flag = MEX_Debt_Intervention_Flag 
+									} 
+								}
+								MEX = { country_event = { id = SPR_mexican_expedition.24 } }
+							}
+							else_if = {
+								limit = {
+									MEC = {
+										exists = yes
+										has_country_flag = MEX_Debt_Intervention_Flag 
+									}
+								}
+								MEC = { country_event = { id = SPR_mexican_expedition.24 } }
+							}
+							USA = { clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+							SPR = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							FRA = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							ENG = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							clr_global_flag = SPR_mexican_intervention_global_flag
+						}
+					}
+				}
+				else_if = {
+					limit = { FRA = { has_country_flag = FRA_mexican_intervention_flag } }
+					if = {
+						limit = { TAG = SPR }
+						custom_effect_tooltip = SPR_mexican_expedition_begin_invasion_timeout_tooltip
+						clr_country_flag = SPR_mexican_intervention_flag
+						clr_global_flag = SPR_mexican_intervention_flag
+						if = {
+							limit = { ENG = { has_country_flag = ENG_mexican_intervention_flag } }
+							hidden_effect = { ENG = { activate_mission = SPR_mexican_expedition_begin_invasion } }
+						}
+						else_if = {
+							limit = { 
+								MEX = { 
+									exists = yes
+									has_country_flag = MEX_Debt_Intervention_Flag 
+								} 
+							}
+							MEX = { country_event = { id = SPR_mexican_expedition.24 } }
+							USA = { clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+							SPR = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							FRA = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							ENG = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							clr_global_flag = SPR_mexican_intervention_global_flag
+						}
+						else_if = {
+							limit = {
+								MEC = {
+									exists = yes
+									has_country_flag = MEX_Debt_Intervention_Flag 
+								}
+							}
+							MEC = { country_event = { id = SPR_mexican_expedition.24 } }
+							USA = { clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+							SPR = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							FRA = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							ENG = { 
+								clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+								clr_country_flag = SPR_mexican_expedition_initial_yes
+							}
+							clr_global_flag = SPR_mexican_intervention_global_flag
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = { SPR = { has_country_flag = SPR_mexican_intervention_flag } }
+						SPR = { country_event = { id = SPR_mexican_expedition.23 } }
+					}
+					if = {
+						limit = { FRA = { has_country_flag = FRA_mexican_intervention_flag } }
+						FRA = { country_event = { id = SPR_mexican_expedition.23 } }
+					}
+					if = {
+						limit = { ENG = { has_country_flag = ENG_mexican_intervention_flag } }
+						ENG = { country_event = { id = SPR_mexican_expedition.23 } }
+					}
+					if = {
+						limit = { 
+							MEX = { 
+								exists = yes
+								has_country_flag = MEX_Debt_Intervention_Flag 
+							} 
+						}
+						MEX = { country_event = { id = SPR_mexican_expedition.24 } }
+					}
+					else_if = {
+						limit = {
+							MEC = {
+								exists = yes
+								has_country_flag = MEX_Debt_Intervention_Flag 
+							}
+						}
+						MEC = { country_event = { id = SPR_mexican_expedition.24 } }
+					}
+					USA = { clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag }
+					SPR = { 
+						clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+						clr_country_flag = SPR_mexican_expedition_initial_yes
+					}
+					FRA = { 
+						clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+						clr_country_flag = SPR_mexican_expedition_initial_yes
+					}
+					ENG = { 
+						clr_country_flag = SPR_mexican_expedition_begin_invasion_ready_flag 
+						clr_country_flag = SPR_mexican_expedition_initial_yes
+					}
+					clr_global_flag = SPR_mexican_intervention_global_flag
+				}
+			}
+		}
+	}
+#----------------------------------------------------------
+#The Imperials take Port Veracruz
+#----------------------------------------------------------
+	SPR_mexican_expedition_take_port_mission = {
+		icon = generic_naval
+		ai_will_do = { factor = 100 }
+		available = {
+			if = {
+				limit = {
+					NOT = { TAG = MEX }
+				}
+				477 = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+						MEX = { NOT = { controls_state = PREV } }
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+						any_country = {
+							controls_state = PREV
+							OR = {
+								AND = {
+									is_subject = yes
+									OVERLORD = {
+										OR = {
+											has_country_flag = SPR_mexican_intervention_flag
+											has_country_flag = FRA_mexican_intervention_flag
+											has_country_flag = ENG_mexican_intervention_flag
+										}
+									}
+								}
+								has_country_flag = SPR_mexican_intervention_flag
+								has_country_flag = FRA_mexican_intervention_flag
+								has_country_flag = ENG_mexican_intervention_flag
+							}
+						}
+					}
+				}
+			}
+			else = {
+				hidden_trigger = { always = no }
+				477 = { MEX = { controls_state = PREV } }
+			}
+		}
+		
+		allowed = { 
+			OR = { 
+				TAG = SPR
+				TAG = FRA
+				TAG = ENG
+				TAG = MEX
+				TAG = MEC
+			}
+		}
+		activation = { 
+			NOT = { has_global_flag = SPR_mexican_expedition_veracruz_landing }
+			NOT = { has_global_flag = SPR_mexican_expedition_capital_taken }
+			OR = {
+				has_country_flag = SPR_mexican_intervention_flag
+				has_country_flag = FRA_mexican_intervention_flag
+				has_country_flag = ENG_mexican_intervention_flag
+				has_country_flag = MEX_Debt_Intervention_Flag
+			}
+			MEX = { has_country_flag = MEX_Debt_Intervention_Flag }
+		}
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 365
+		
+		highlight_states = {
+			STATE = 477	
+		}
+		
+		complete_effect = {
+			#Europeans Take the Port
+			hidden_effect = {
+				if = {
+					limit = {
+						TAG = SPR
+						SPR = { has_country_flag = SPR_mexican_intervention_flag } 
+					}
+					SPR = { country_event = { id = SPR_mexican_expedition.364 } }
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_veracruz_landing } }
+						set_global_flag = SPR_mexican_expedition_veracruz_landing
+						MEX = { remove_mission = SPR_mexican_expedition_take_port_mission }
+					}
+				}
+				if = {
+					limit = {
+						TAG = FRA
+						FRA = { has_country_flag = FRA_mexican_intervention_flag } 
+					}
+					FRA = { country_event = { id = SPR_mexican_expedition.364 } }
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_veracruz_landing } }
+						set_global_flag = SPR_mexican_expedition_veracruz_landing
+						MEX = { remove_mission = SPR_mexican_expedition_take_port_mission }
+					}
+				}
+				if = {
+					limit = {
+						TAG = ENG
+						ENG = { has_country_flag = ENG_mexican_intervention_flag } 
+					}
+					ENG = { country_event = { id = SPR_mexican_expedition.364 } }
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_veracruz_landing } }
+						set_global_flag = SPR_mexican_expedition_veracruz_landing
+						MEX = { remove_mission = SPR_mexican_expedition_take_port_mission }
+					}
+				}
+			}
+		}
+		
+		timeout_effect = {
+			#Mexico Holds Out
+			hidden_effect = {
+				if = {
+					limit = {
+						TAG = SPR
+						SPR = { has_country_flag = SPR_mexican_intervention_flag } 
+					}
+					SPR = { country_event = { id = SPR_mexican_expedition.23 } }
+				}
+				if = {
+					limit = {
+						TAG = FRA
+						FRA = { has_country_flag = FRA_mexican_intervention_flag } 
+					}
+					FRA = { country_event = { id = SPR_mexican_expedition.23 } }
+				}
+				if = {
+					limit = {
+						TAG = ENG
+						ENG = { has_country_flag = ENG_mexican_intervention_flag } 
+					}
+					ENG = { country_event = { id = SPR_mexican_expedition.23 } }
+				}
+				if = {
+					limit = { 
+						TAG = MEX
+						MEX = { 
+							exists = yes
+							has_country_flag = MEX_Debt_Intervention_Flag 
+						} 
+					}
+					MEX = { country_event = { id = SPR_mexican_expedition.24 } }
+				}
+				else_if = {
+					limit = {
+						TAG = MEC
+						MEC = {
+							exists = yes
+							has_country_flag = MEX_Debt_Intervention_Flag 
+						}
+					}
+					MEC = { country_event = { id = SPR_mexican_expedition.24 } }
+				}
+			}
+		}
+	}
+#----------------------------------------------------------
+#The Imperials take the Mexico City
+#----------------------------------------------------------
+	SPR_mexican_expedition_take_capital_mission = {
+		icon = generic_prepare_civil_war
+		ai_will_do = { factor = 1 }
+		available = {
+			if = {
+				limit = {
+					NOT = { TAG = MEX }
+				}
+				277 = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+						MEX = { NOT = { controls_state = PREV } }
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+						any_country = {
+							controls_state = PREV
+							OR = {
+								AND = {
+									is_subject = yes
+									OVERLORD = {
+										OR = {
+											has_country_flag = SPR_mexican_intervention_flag
+											has_country_flag = FRA_mexican_intervention_flag
+											has_country_flag = ENG_mexican_intervention_flag
+										}
+									}
+								}
+								has_country_flag = SPR_mexican_intervention_flag
+								has_country_flag = FRA_mexican_intervention_flag
+								has_country_flag = ENG_mexican_intervention_flag
+							}
+						}
+					}
+				}
+			}
+			else = {
+				hidden_trigger = { always = no }
+				277 = { MEX = { controls_state = PREV } }
+			}
+		}
+		
+		allowed = { 
+			OR = { 
+				TAG = SPR
+				TAG = FRA
+				TAG = ENG
+				TAG = MEX
+			}
+		}
+		activation = { 
+			has_global_flag = SPR_mexican_expedition_veracruz_landing
+			NOT = { has_global_flag = SPR_mexican_expedition_capital_taken }
+			NOT = { has_global_flag = SPR_mexican_expedition_capital_defended }
+			OR = {
+				has_country_flag = SPR_mexican_intervention_flag
+				has_country_flag = FRA_mexican_intervention_flag
+				has_country_flag = ENG_mexican_intervention_flag
+				has_country_flag = MEX_Debt_Intervention_Flag
+			}
+			MEX = { has_country_flag = MEX_Debt_Intervention_Flag }
+		}
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 365
+		
+		highlight_states = {
+			STATE = 277	
+		}
+		
+		complete_effect = {
+			#Europeans Take the Port
+			hidden_effect = {
+				if = {
+					limit = {
+						TAG = SPR
+						SPR = { has_country_flag = SPR_mexican_intervention_flag } 
+					}
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_capital_taken } }
+						set_global_flag = SPR_mexican_expedition_capital_taken
+						MEX = { remove_mission = SPR_mexican_expedition_take_capital_mission }
+					}
+					SPR = { country_event = { id = SPR_mexican_expedition.3612 } }
+				}
+				if = {
+					limit = {
+						TAG = FRA
+						FRA = { has_country_flag = FRA_mexican_intervention_flag } 
+					}
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_capital_taken } }
+						set_global_flag = SPR_mexican_expedition_capital_taken
+						MEX = { remove_mission = SPR_mexican_expedition_take_capital_mission }
+					}
+					FRA = { country_event = { id = SPR_mexican_expedition.3612 } }
+				}
+				if = {
+					limit = {
+						TAG = ENG
+						ENG = { has_country_flag = ENG_mexican_intervention_flag } 
+					}
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_capital_taken } }
+						set_global_flag = SPR_mexican_expedition_capital_taken
+						MEX = { remove_mission = SPR_mexican_expedition_take_capital_mission }
+					}
+					ENG = { country_event = { id = SPR_mexican_expedition.3612 } }
+				}
+				clr_global_flag = SPR_mexican_expedition_veracruz_landing
+			}
+		}
+		
+		timeout_effect = {
+			#Mexico Holds Out
+			hidden_effect = {
+				clr_global_flag = SPR_mexican_expedition_veracruz_landing
+				if = {
+					limit = {
+						TAG = SPR
+						SPR = { has_country_flag = SPR_mexican_intervention_flag } 
+					}
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_capital_defended } }
+						set_global_flag = SPR_mexican_expedition_capital_defended
+					}
+					SPR = { country_event = { id = SPR_mexican_expedition.23 } }
+				}
+				if = {
+					limit = {
+						TAG = FRA
+						FRA = { has_country_flag = FRA_mexican_intervention_flag } 
+					}
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_capital_defended } }
+						set_global_flag = SPR_mexican_expedition_capital_defended
+					}
+					FRA = { country_event = { id = SPR_mexican_expedition.23 } }
+				}
+				if = {
+					limit = {
+						TAG = ENG
+						ENG = { has_country_flag = ENG_mexican_intervention_flag } 
+					}
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_capital_defended } }
+						set_global_flag = SPR_mexican_expedition_capital_defended
+					}
+					ENG = { country_event = { id = SPR_mexican_expedition.23 } }
+				}
+				if = {
+					limit = { 
+						TAG = MEX
+						has_country_flag = MEX_Debt_Intervention_Flag  
+					}
+					if = {
+						limit = { NOT = { has_global_flag = SPR_mexican_expedition_capital_defended } }
+						set_global_flag = SPR_mexican_expedition_capital_defended
+					}
+					MEX = { country_event = { id = SPR_mexican_expedition.24 } }
+				}
+			}
+		}
+	}
+#----------------------------------------------------------
+#The Imperials take the North
+#----------------------------------------------------------
+	SPR_mexican_expedition_take_northern_states_mission = {
+		icon = border_war
+		ai_will_do = { factor = 1 }
+		available = {
+			if = {
+				limit = {
+					NOT = { TAG = MEX }
+				}
+				479 = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+						MEX = { NOT = { controls_state = PREV } }
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+						any_country = {
+							controls_state = PREV
+							OR = {
+								AND = {
+									is_subject = yes
+									OVERLORD = {
+										OR = {
+											has_country_flag = SPR_mexican_intervention_flag
+											has_country_flag = FRA_mexican_intervention_flag
+											has_country_flag = ENG_mexican_intervention_flag
+											TAG = MXE
+										}
+									}
+								}
+								has_country_flag = SPR_mexican_intervention_flag
+								has_country_flag = FRA_mexican_intervention_flag
+								has_country_flag = ENG_mexican_intervention_flag
+								TAG = MXE
+							}
+						}
+					}
+				}
+				480 = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+						MEX = { NOT = { controls_state = PREV } }
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+						any_country = {
+							controls_state = PREV
+							OR = {
+								AND = {
+									is_subject = yes
+									OVERLORD = {
+										OR = {
+											has_country_flag = SPR_mexican_intervention_flag
+											has_country_flag = FRA_mexican_intervention_flag
+											has_country_flag = ENG_mexican_intervention_flag
+											TAG = MXE
+										}
+									}
+								}
+								has_country_flag = SPR_mexican_intervention_flag
+								has_country_flag = FRA_mexican_intervention_flag
+								has_country_flag = ENG_mexican_intervention_flag
+								TAG = MXE
+							}
+						}
+					}
+				}
+				482 = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+						MEX = { NOT = { controls_state = PREV } }
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+						any_country = {
+							controls_state = PREV
+							OR = {
+								AND = {
+									is_subject = yes
+									OVERLORD = {
+										OR = {
+											has_country_flag = SPR_mexican_intervention_flag
+											has_country_flag = FRA_mexican_intervention_flag
+											has_country_flag = ENG_mexican_intervention_flag
+											TAG = MXE
+										}
+									}
+								}
+								has_country_flag = SPR_mexican_intervention_flag
+								has_country_flag = FRA_mexican_intervention_flag
+								has_country_flag = ENG_mexican_intervention_flag
+								TAG = MXE
+							}
+						}
+					}
+				}
+			}
+			else = {
+				hidden_trigger = { always = no }
+				479 = { MEX = { controls_state = PREV } }
+				480 = { MEX = { controls_state = PREV } }
+				482 = { MEX = { controls_state = PREV } }
+			}
+		}
+		
+		allowed = { 
+			OR = { 
+				TAG = SPR
+				TAG = FRA
+				TAG = ENG
+				TAG = MEX
+				TAG = MXE
+			}
+		}
+		activation = { 
+			OR = {
+				has_country_flag = SPR_mexican_intervention_flag
+				has_country_flag = FRA_mexican_intervention_flag
+				has_country_flag = ENG_mexican_intervention_flag
+				has_country_flag = MXE_empire_civil_war
+			}
+			OR = {
+				MEX = { has_country_flag = MXE_empire_civil_war }
+				MXE = { has_country_flag = MXE_empire_civil_war }
+			}
+		}
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 365
+		
+		highlight_states = {
+			STATE = 479
+			STATE = 480
+			STATE = 482
+		}
+		
+		complete_effect = {
+			hidden_effect = {
+				if = {
+					limit = { 
+						TAG = MEX
+						MEX = { 
+							exists = yes
+						} 
+					}
+					MEX = { country_event = { id = SPR_mexican_expedition.3632 } }
+				}
+				USA = { clr_country_flag = USA_mexican_economic_intervention_flag }
+			}
+		}
+		
+		timeout_effect = {
+			
+		}
+	}
+#----------------------------------------------------------
+#The Republicans take Mexico City
+#----------------------------------------------------------
+	SPR_mexican_expedition_take_mexico_city_mission = {
+		icon = generic_prepare_civil_war
+		ai_will_do = { factor = 1 }
+		available = {
+			if = {
+				limit = {
+					NOT = { TAG = MEX }
+				}
+				277 = {
+					hidden_trigger = { always = no }
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+						MEX = { NOT = { controls_state = PREV } }
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+						any_country = {
+							controls_state = PREV
+							OR = {
+								AND = {
+									is_subject = yes
+									OVERLORD = {
+										OR = {
+											has_country_flag = SPR_mexican_intervention_flag
+											has_country_flag = FRA_mexican_intervention_flag
+											has_country_flag = ENG_mexican_intervention_flag
+											TAG = MXE
+										}
+									}
+								}
+								has_country_flag = SPR_mexican_intervention_flag
+								has_country_flag = FRA_mexican_intervention_flag
+								has_country_flag = ENG_mexican_intervention_flag
+								TAG = MXE
+							}
+						}
+					}
+				}
+			}
+			else = {
+				277 = {
+					MEX = { controls_state = PREV }
+				}
+			}
+		}
+		
+		allowed = { 
+			OR = { 
+				TAG = SPR
+				TAG = FRA
+				TAG = ENG
+				TAG = MEX
+				TAG = MXE
+			}
+		}
+		activation = { 
+			OR = {
+				has_country_flag = SPR_mexican_intervention_flag
+				has_country_flag = FRA_mexican_intervention_flag
+				has_country_flag = ENG_mexican_intervention_flag
+				has_country_flag = MXE_empire_civil_war
+			}
+			OR = {
+				MEX = { has_country_flag = MXE_empire_civil_war }
+				MXE = { has_country_flag = MXE_empire_civil_war }
+			}
+		}
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 365
+		
+		highlight_states = {
+			STATE = 277
+		}
+		
+		complete_effect = {
+			#hidden_effect = {
+				if = {
+					limit = {
+						TAG = SPR
+						SPR = { has_country_flag = SPR_mexican_intervention_flag } 
+					}
+					SPR = { country_event = { id = SPR_mexican_expedition.3629 } }
+				}
+				if = {
+					limit = {
+						TAG = FRA
+						FRA = { has_country_flag = FRA_mexican_intervention_flag } 
+					}
+					FRA = { country_event = { id = SPR_mexican_expedition.3629 } }
+				}
+				if = {
+					limit = {
+						TAG = ENG
+						ENG = { has_country_flag = ENG_mexican_intervention_flag } 
+					}
+					ENG = { country_event = { id = SPR_mexican_expedition.3629 } }
+				}
+				MEX = { country_event = { id = SPR_mexican_expedition.3629 } }
+			#}
+			
+		}
+		
+		timeout_effect = {
+			
+		}
+	}
+#----------------------------------------------------------
+#Republican Triumph
+#----------------------------------------------------------
+	SPR_mexican_expedition_republican_triumph_mission = {
+		icon = generic_form_nation
+		ai_will_do = { factor = 1 }
+		available = {
+			277 = { is_fully_controlled_by = MEX }
+			477 = { is_fully_controlled_by = MEX }
+			478 = { is_fully_controlled_by = MEX }
+			479 = { is_fully_controlled_by = MEX }
+			480 = { is_fully_controlled_by = MEX }
+			481 = { is_fully_controlled_by = MEX }
+			482 = { is_fully_controlled_by = MEX }
+			1112 = { is_fully_controlled_by = MEX }
+			1113 = { is_fully_controlled_by = MEX }
+			1124 = { is_fully_controlled_by = MEX }
+			MXE = { surrender_progress > 0.7 }
+		}
+		
+		allowed = { 
+			OR = { 
+				TAG = MEX
+				TAG = MEC
+			}
+		}
+		activation = { 
+			OR = {
+				MEX = { has_country_flag = MXE_empire_civil_war }
+				MXE = { has_country_flag = MXE_empire_civil_war }
+			}
+		}
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 365
+		highlight_states = {
+			STATE = 277
+			STATE = 477
+			STATE = 478
+			STATE = 479
+			STATE = 480
+			STATE = 481
+			STATE = 482
+			STATE = 1112
+			STATE = 1113
+			STATE = 1124
+		}
+		complete_effect = {
+			#hidden_effect = {
+				if = {
+					limit = { 
+						TAG = MEX
+						MEX = { 
+							exists = yes
+						} 
+					}
+					MEX = { country_event = { id = SPR_mexican_expedition.3634 } }
+				}
+				else_if = {
+					limit = {
+						TAG = MEC
+						MEC = {
+							exists = yes
+						}
+					}
+					MEC = { country_event = { id = SPR_mexican_expedition.3634 } }
+				}
+			#}
+		}
+		
+		timeout_effect = {
+			
+		}
+	}
+#----------------------------------------------------------
+#Imperial Triumph
+#----------------------------------------------------------
+	SPR_mexican_expedition_imperial_triumph_mission = {
+		icon = generic_form_nation
+		ai_will_do = { factor = 1 }
+		available = {
+			277 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			477 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			478 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			479 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			480 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			481 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			482 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			1112 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			1113 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			1124 = {
+				custom_trigger_tooltip = {
+					tooltip = SPR_mexican_expedition_state_not_controlled_trigger
+					MEX = { NOT = { controls_state = PREV } }
+				}
+				custom_trigger_tooltip = {
+						tooltip = SPR_mexican_expedition_state_controlled_trigger
+					any_country = {
+						controls_state = PREV
+						OR = {
+							AND = {
+								is_subject = yes
+								OVERLORD = {
+									OR = {
+										has_country_flag = SPR_mexican_intervention_flag
+										has_country_flag = FRA_mexican_intervention_flag
+										has_country_flag = ENG_mexican_intervention_flag
+										TAG = MXE
+									}
+								}
+							}
+							has_country_flag = SPR_mexican_intervention_flag
+							has_country_flag = FRA_mexican_intervention_flag
+							has_country_flag = ENG_mexican_intervention_flag
+							TAG = MXE
+						}
+					}
+				}
+			}
+			if = {
+				limit = { MEX = { exists = yes } }
+				MEX = { surrender_progress > 0.7 }
+			}
+		}
+		
+		allowed = { 
+			OR = { 
+				TAG = SPR
+				TAG = FRA
+				TAG = ENG
+				TAG = MXE
+			}
+		}
+		activation = { 
+			OR = {
+				has_country_flag = SPR_mexican_intervention_flag
+				has_country_flag = FRA_mexican_intervention_flag
+				has_country_flag = ENG_mexican_intervention_flag
+				has_country_flag = MXE_empire_civil_war
+			}
+			OR = {
+				MEX = { has_country_flag = MXE_empire_civil_war }
+				MXE = { has_country_flag = MXE_empire_civil_war }
+			}
+		}
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 365
+		highlight_states = {
+			STATE = 277
+			STATE = 477
+			STATE = 478
+			STATE = 479
+			STATE = 480
+			STATE = 481
+			STATE = 482
+			STATE = 1112
+			STATE = 1113
+			STATE = 1124
+		}
+		complete_effect = {
+			#hidden_effect = {
+				if = {
+					limit = {
+						TAG = SPR
+						SPR = { has_country_flag = SPR_mexican_intervention_flag } 
+					}
+					SPR = { country_event = { id = SPR_mexican_expedition.3635 } }
+				}
+				if = {
+					limit = {
+						TAG = FRA
+						FRA = { has_country_flag = FRA_mexican_intervention_flag } 
+					}
+					FRA = { country_event = { id = SPR_mexican_expedition.3635 } }
+				}
+				if = {
+					limit = {
+						TAG = ENG
+						ENG = { has_country_flag = ENG_mexican_intervention_flag } 
+					}
+					ENG = { country_event = { id = SPR_mexican_expedition.3635 } }
+				}
+				if = {
+					limit = {
+						TAG = MXE
+					}
+					MXE = { country_event = { id = SPR_mexican_expedition.3635 } }
+				}
+			#}
+		}
+		
+		timeout_effect = {
+			
+		}
+	}
+}

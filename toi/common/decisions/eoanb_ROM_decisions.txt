@@ -5,20 +5,28 @@ eoanb_category_formables = {
 		icon = generic_form_nation
 		
 		available = {
-			OR = {
-				AND = {
-					TAG = ROM
-					MOL = { exists = no }
-					owns_state = 46 
-					owns_state = 79
-					owns_state = 81
-				}
-				AND = {
-					TAG = MOL
-					ROM = { exists = no }
-					owns_state = 46 
-					owns_state = 79
-					owns_state = 81
+			date > 1881.03.23
+			if={
+				limit={has_dlc = "Together for Victory"}
+				is_subject = no
+			}
+			else={
+				is_puppet = no
+			}
+			owns_state = 46 
+			owns_state = 79
+			owns_state = 81
+			if={
+				limit = {NOT={has_cosmetic_tag = ROM_united_principalities}}
+				OR = {
+					AND = {
+						TAG = ROM
+						MOL = { exists = no }
+					}
+					AND = {
+						TAG = MOL
+						ROM = { exists = no }
+					}
 				}
 			}
 		}
@@ -29,7 +37,10 @@ eoanb_category_formables = {
 				TAG = MOL
 			}
 			ROM={
-				has_cosmetic_tag = WAL
+				OR={
+					has_cosmetic_tag = WAL
+					has_cosmetic_tag = ROM_united_principalities
+				}
 			}
 		}
 		allowed = { 
@@ -65,10 +76,10 @@ eoanb_category_formables = {
 		#Only ahistorical AI can form it this way
 		ai_will_do = {
 			base = 1000
-			modifier = {
-				factor = 0
-				is_historical_focus_on = yes
-			}
+			# modifier = {
+				# factor = 0
+				# is_historical_focus_on = yes
+			# }
 		}
 		
 	}

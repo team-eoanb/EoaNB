@@ -193,5 +193,31 @@ building_bonus_weekly_effect = {
 				clear_variable = farm_total
 			}
 		}
+		
+		#coal mine
+		if = {
+			limit = {
+				has_variable = coal_total_bonus
+			}
+			#getting the current total number of coal mines inside a country
+			set_variable = { coal_total = 0 }
+			every_owned_state = {
+				OWNER = {
+					add_to_variable = { coal_total = PREV.building_level@coal_mine }
+				}
+			}
+			
+			#if the current total number of coal mines inside a country equals or exceeds the bonus number, clear the variables
+			if = {
+				limit = {
+					OR = {
+						check_variable = { coal_total = coal_total_bonus }
+						check_variable = { coal_total > coal_total_bonus }
+					}
+				}
+				clear_variable = coal_total_bonus
+				clear_variable = coal_total
+			}
+		}
 	}
 }

@@ -1,7 +1,7 @@
 economic_decisions = {
 
 	SPR_buy_back_mining_rights_decision = {
-		icon = generic_political_discourse
+		icon = steel
 		available = { debt_not_bankrupt_trigger = yes }
 		visible = { 
 			169 = { has_state_flag = SPR_sold_andalusia_mining_rights_flag } 
@@ -30,15 +30,388 @@ economic_decisions = {
 			}
 		}
 	}
+	
+	#Develop Coal in Andalusia
+	SPR_decision_coal_mines = {
 
+		icon = coal
+
+		allowed = { tag = SPR }
+		
+		available = {
+			has_completed_focus = SPR_mining_revolution
+			has_stability > 0.2
+		}
+
+		visible = {
+			has_full_control_of_state = 41
+			has_full_control_of_state = 169
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = {
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				check_variable = { debt_level < 50 }
+			}
+			else = { has_political_power > 75 }
+		}
+		custom_cost_text = eoanb_decision_building_slot_victorian_cost
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+		
+		complete_effect = {
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				debt_level_increase_by_1 = yes
+			}
+			else = { add_political_power = -75 }
+		}
+		
+		remove_effect = {
+			41 = {
+				add_building_construction = {
+					type = 	coal_mine
+					level = 1
+					instant_build = yes
+				}
+			}
+			169 = {
+				add_building_construction = {
+					type = 	coal_mine
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Develop Basque Iron Deposits
+	SPR_decision_develop_basque_iron = {
+
+		icon = generic_operation
+
+		allowed = { tag = SPR }
+		
+		available = {
+			has_completed_focus = SPR_basque_iron
+			has_stability > 0.2
+		}
+
+		visible = {
+			has_full_control_of_state = 172
+			has_full_control_of_state = 1059
+		}
+
+		fire_only_once = yes
+
+		custom_cost_trigger = {
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				check_variable = { debt_level < 50 }
+			}
+			else = { has_political_power > 75 }
+		}
+		custom_cost_text = eoanb_decision_building_slot_victorian_cost
+		
+		days_remove = 365
+		
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+		
+		complete_effect = {
+			if = {
+				limit = { has_idea = egy_vic_debt }
+				debt_level_increase_by_1 = yes
+			}
+			else = { add_political_power = -75 }
+		}
+		
+		remove_effect = {
+			add_resource = {
+				type = iron
+				amount = 3
+				state = 172
+			}
+			add_resource = {
+				type = iron
+				amount = 5
+				state = 1059
+			}
+		}
+
+		ai_will_do = {
+			base = 1000
+		}
+	}
+	
+	#Popularize Acero Toledano
+	SPR_mission_acero_toledano = {
+
+        icon = generic_factory
+
+        allowed = { always = no }
+
+        available = {
+			owns_state = 175
+			175 = { steel_mill > 0 }
+        }
+		
+        activation = { always = no }
+
+        highlight_states = {
+			state = 175
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1500
+		
+        timeout_effect = {
+            if = {
+	            limit = {
+	            	is_ai = no
+	            }
+	            add_political_power = -50
+				add_stability = -0.01
+	        }
+        }
+		
+        complete_effect = {
+            175 = { add_extra_state_shared_building_slots = 1 }
+			custom_effect_tooltip = SPR_mission_acero_toledano_effect_tt
+        }
+
+        ai_will_do = {
+			base = 100
+		}
+    }
+	
+	#Madrid-Zaragoza Railway Concession
+	SPR_mission_madrid_zaragoza_railway_concession = {
+
+        icon = railway
+
+        allowed = { always = no }
+
+        available = {
+			owns_state = 166
+			owns_state = 175
+			owns_state = 804
+			166 = { infrastructure > 5 }
+            175 = { infrastructure > 5 }
+			804 = { infrastructure > 6 }	
+        }
+		
+        activation = { always = no }
+
+        highlight_states = {
+			state = 166
+			state = 175
+			state = 804
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1800
+		
+        timeout_effect = {
+            if = {
+	            limit = {
+	            	is_ai = no
+	            }
+	            add_political_power = -100
+				add_stability = -0.02
+	        }
+        }
+		
+        complete_effect = {
+            166 = { add_extra_state_shared_building_slots = 1 }
+			804 = { add_extra_state_shared_building_slots = 1 }
+			debt_level_decrease_by_3 = yes
+			hidden_effect = {
+				SPR = { country_event = { days = 730 id = SPR_bankruptcy_events.5 } }
+			}
+        }
+
+        ai_will_do = {
+			base = 100
+		}
+    }
+	
+	#Valladolid-Burgos Railway Concession
+	SPR_mission_valladolid_burgos_railway_concession = {
+
+        icon = railway
+
+        allowed = { always = no }
+
+        available = {
+			owns_state = 176
+			owns_state = 804
+            176 = { infrastructure > 5 }
+			804 = { infrastructure > 7 }	
+        }
+		
+        activation = { always = no }
+
+        highlight_states = {
+			state = 176
+			state = 804
+		}
+
+        fire_only_once = yes
+
+        is_good = no
+		
+        days_mission_timeout = 1200
+		
+        timeout_effect = {
+            if = {
+	            limit = {
+	            	is_ai = no
+	            }
+	            add_political_power = -100
+				add_stability = -0.02
+	        }
+        }
+		
+        complete_effect = {
+            176 = { add_extra_state_shared_building_slots = 1 }
+			804 = { add_extra_state_shared_building_slots = 1 }
+			debt_level_decrease_by_2 = yes
+			hidden_effect = {
+				SPR = { country_event = { days = 730 id = SPR_bankruptcy_events.6 } }
+			}
+        }
+
+        ai_will_do = {
+			base = 100
+		}
+    }
 }
 
 SPR_debt_management_category = {
 
-	DOM_declare_bankruptcy_mission = {
-
-		icon = generic_political_discourse
+	MEX_cease_foreign_debt_repayments_decision = {
+		icon = generic_break_treaty
+		available = {
+			if = { 
+				limit = { has_country_leader = { name = "Ignacio Comonfort" ruling_only = yes } }
+				NOT = { has_country_leader = { name = "Ignacio Comonfort" ruling_only = yes } }
+			}
+			else = { has_government = centrism }
+		}
+		visible = {
+			has_country_flag = MEX_foreign_debt_repayments_flag
+			has_war = no
+			NOT = { country_exists = MEC }
+			NOT = { country_exists = MXE }
+		}
+		allowed = { TAG = MEX }
+		fire_only_once = yes
+		cost = 25
+		complete_effect = {
+			custom_effect_tooltip = MEX_cease_foreign_debt_repayments_decision_tooltip
+			hidden_effect = { 
+				set_country_flag = MEX_cease_foreign_debt_repayments_decision_flag
+				country_event = { id = SPR_mexican_expedition.4 } 
+			}
+		}
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 5
+				check_variable = { debt_level > 19 }
+				date > 1861.1.1
+			}
+			modifier = {
+				add = 25
+				check_variable = { debt_level > 29 }
+				date > 1861.1.1
+			}
+			modifier = {
+				add = 50
+				date > 1861.1.1
+				is_historical_focus_on = yes
+			}
+			modifier = {
+				factor = 0
+				check_variable = { debt_level < 20 }
+			}
+		}
+	}
+	
+	MEX_foreign_debt_repayments_mission = {
+		icon = money
+		allowed = { 
+			OR = {
+				TAG = MEX 
+				TAG = MEC 
+				TAG = MXE
+			}
+		}
+		available = {
+			hidden_trigger = {
+				OR = { 
+					check_variable = {ROOT.debt_level > 49}
+					has_country_flag = debt_declared_bankruptcy_flag
+				}
+			}
+		}
 		
+		cancel_trigger = {
+			custom_trigger_tooltip = { 
+				tooltip = egy_vic_debt_paid_tooltip
+				always = no
+			}
+		}
+
+		activation = {
+			check_variable = {ROOT.debt_level > 19}
+			hidden_trigger = {
+				has_country_flag = MEX_foreign_debt_repayments_flag
+				NOT = { has_country_flag = debt_declared_bankruptcy_flag }
+			}
+		}
+		
+		is_good = no 
+		selectable_mission = no
+		days_mission_timeout = 360
+
+		timeout_effect = {
+			hidden_effect = { activate_mission = MEX_foreign_debt_repayments_mission }
+			#debt_level_increase_by_1 = yes
+			custom_effect_tooltip = MEX_foreign_debt_repayments_mission_complete_effect
+		}
+		complete_effect = {
+			hidden_effect = { 
+				country_event = { id = mexico_debt.1 days = 16 } 
+				set_country_flag = debt_declared_bankruptcy_flag
+			}
+		}
+		
+		ai_will_do = {
+			base = 0
+		}
+	}
+
+	DOM_declare_bankruptcy_mission = {
+		icon = money
 		allowed = { tag = DOM }  
 		available = {
 			hidden_trigger = {
@@ -89,9 +462,7 @@ SPR_debt_management_category = {
 
 
 	eoanb_decision_debt_repayments = {
-
-		icon = generic_political_discourse
-
+		icon = money
 		available = {
 			has_idea = egy_vic_debt
 		}
@@ -130,7 +501,7 @@ SPR_debt_management_category = {
 	}
 	
 	eoanb_decision_debt_repayments_done = {
-		icon = generic_political_discourse
+		icon = money
 		visible = { always = no }
 		fire_only_once = no
 		complete_effect = {
@@ -155,9 +526,7 @@ SPR_debt_management_category = {
 	}
 	
 	LIB_US_invests_to_pay_debt_decision = {
-
-		icon = generic_political_discourse
-		
+		icon = money
 		allowed = { tag = LIB }  
 		available = {
 			hidden_trigger = { always = no } 
@@ -214,6 +583,7 @@ SPR_debt_management_category = {
 	}
 
 	SPR_paying_debt_decision = {
+		icon = money
 		allowed = { always = no }
 		available = {
 			hidden_trigger = { always = no }
@@ -244,6 +614,7 @@ SPR_debt_management_category = {
 	}
 	
 	debt_colonial_profits_decision = {
+		icon = money
 		allowed = { always = no }
 		available = {
 			hidden_trigger = { always = no }
@@ -418,10 +789,14 @@ SPR_colonial_affairs_category = {
 	}
 
 	SPR_develop_puerto_rico_infrastructure_decision = {
+		icon = generic_construction
 		available = {
-			OR = {
-				owns_state = 686
-				686 = { OWNER = { is_subject_of = ROOT } }
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_puerto_rico_tooltip
+				OR = { 
+					owns_state = 686
+					686 = { OWNER = { is_subject_of = ROOT } }
+				}
 			}
 			debt_not_bankrupt_trigger = yes
 		}
@@ -437,9 +812,12 @@ SPR_colonial_affairs_category = {
 		fire_only_once = yes
 		
 		cancel_trigger = {
-			AND = {
-				NOT = { owns_state = 686 }
-				NOT = { 686 = { OWNER = { is_subject_of = ROOT } } }
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_puerto_rico_tooltip
+				AND = { 
+					NOT = { owns_state = 686 }
+					NOT = { 686 = { OWNER = { is_subject_of = ROOT } } }
+				}
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_has_declared_bankruptcy_tooltip
@@ -464,6 +842,7 @@ SPR_colonial_affairs_category = {
 	}
 	
 	SPR_develop_cuba_infrastructure_decision = {
+		icon = generic_construction
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = SPR_owns_all_of_cuba_tooltip
@@ -676,9 +1055,12 @@ SPR_colonial_affairs_category = {
 	
 	SPR_increase_cattle_land_in_puerto_rico_decision = {
 		available = {
-			OR = {
-				owns_state = 686
-				686 = { OWNER = { is_subject_of = ROOT } }
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_puerto_rico_tooltip
+				OR = { 
+					owns_state = 686
+					686 = { OWNER = { is_subject_of = ROOT } }
+				}
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_puerto_rico_has_infrastructure_investments_trigger
@@ -698,9 +1080,12 @@ SPR_colonial_affairs_category = {
 		fire_only_once = yes
 		
 		cancel_trigger = {
-			AND = {
-				NOT = { owns_state = 686 }
-				NOT = { 686 = { OWNER = { is_subject_of = ROOT } } }
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_puerto_rico_tooltip
+				AND = { 
+					NOT = { owns_state = 686 }
+					NOT = { 686 = { OWNER = { is_subject_of = ROOT } } }
+				}
 			}
 			custom_trigger_tooltip = {
 				tooltip = SPR_has_declared_bankruptcy_tooltip
@@ -869,6 +1254,234 @@ SPR_colonial_affairs_category = {
 			1318 = { add_colonial_profits_in_state_by_25 = yes }
 		}
 	}
+	
+	SPR_develop_la_habana_port_decision = {
+		icon = generic_construction
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_develop_la_habana_port_decision_trigger
+				has_country_flag = SPR_mexican_intervention_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_havana_tooltip
+				OR = { 
+					owns_state = 1350
+					1350 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_adalusia_tooltip
+				OR = { 
+					owns_state = 169
+					169 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_puerto_rico_tooltip
+				OR = { 
+					owns_state = 686
+					686 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
+			debt_not_bankrupt_trigger = yes
+		}
+		visible = {
+			debt_not_bankrupt_trigger = yes
+			has_country_flag = SPR_prepare_the_invasion_flag
+			has_country_flag = SPR_mexican_intervention_flag
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_2_debt_loc
+		days_remove = 90
+		fire_only_once = yes
+		highlight_states = {
+			STATE = 1350
+			#STATE = 169
+			#STATE = 686
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_havana_tooltip
+				AND = { 
+					NOT = { owns_state = 1350 }
+					NOT = { 1350 = { OWNER = { is_subject_of = ROOT } } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_adalusia_tooltip
+				AND = { 
+					NOT = { owns_state = 169 }
+					NOT = { 169 = { OWNER = { is_subject_of = ROOT } } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_puerto_rico_tooltip
+				AND = { 
+					NOT = { owns_state = 686 }
+					NOT = { 686 = { OWNER = { is_subject_of = ROOT } } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				always = no
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			debt_level_increase_by_1 = yes
+		}
+		remove_effect = {
+			#finishing debt
+			debt_level_increase_by_1 = yes
+			1350 = {
+				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 7622 }
+			}
+			686 = {
+				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 1440 }
+			}
+			169 = {
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 1048 }
+			}
+		}
+	}
+	
+	SPR_develop_manila_port_decision = {
+		icon = generic_construction
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_develop_manila_port_decision_trigger
+				has_country_flag = SPR_cochinchina_intervention_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_manila_tooltip
+				OR = { 
+					owns_state = 327
+					327 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_adalusia_tooltip
+				OR = { 
+					owns_state = 169
+					169 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
+			debt_not_bankrupt_trigger = yes
+		}
+		visible = {
+			debt_not_bankrupt_trigger = yes
+			has_country_flag = SPR_prepare_cochinchina_invasion_flag
+			has_country_flag = SPR_cochinchina_intervention_flag
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_2_debt_loc
+		days_remove = 90
+		fire_only_once = yes
+		highlight_states = {
+			STATE = 327
+			#STATE = 169
+		}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_manila_tooltip
+				AND = { 
+					NOT = { owns_state = 327 }
+					NOT = { 327 = { OWNER = { is_subject_of = ROOT } } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_adalusia_tooltip
+				AND = { 
+					NOT = { owns_state = 169 }
+					NOT = { 169 = { OWNER = { is_subject_of = ROOT } } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				always = no
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			debt_level_increase_by_1 = yes
+			set_country_flag = SPR_develop_manila_port_decision_started
+		}
+		remove_effect = {
+			#finishing debt
+			debt_level_increase_by_1 = yes
+			327 = {
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 10265 }
+			}
+			169 = {
+				add_building_construction = { type = infrastructure level = 1 instant_build = yes }
+				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 1048 }
+			}
+		}
+	}
+	
+	SPR_develop_fernando_poo_decision = {
+		icon = generic_construction
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_owns_fernando_poo_tooltip
+				OR = { 
+					owns_state = 1436
+					1436 = { OWNER = { is_subject_of = ROOT } }
+				}
+			}
+			debt_not_bankrupt_trigger = yes
+		}
+		visible = {
+			debt_not_bankrupt_trigger = yes
+			OR = {
+				has_country_flag = SPR_develop_fernando_poo_flag
+				has_country_flag = SPR_develop_the_prison_flag
+			}
+		}
+		allowed = { tag = SPR }
+		#cost = 100
+		custom_cost_trigger = { check_variable = { debt_level < 50 } }
+		custom_cost_text = eoanb_decision_cost_2_debt_loc
+		days_remove = 90
+		fire_only_once = yes
+		#highlight_states = {
+		#	STATE = 1436
+		#}
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = SPR_does_not_own_fernando_poo_tooltip
+				AND = { 
+					NOT = { owns_state = 1436 }
+					NOT = { 1436 = { OWNER = { is_subject_of = ROOT } } }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_has_declared_bankruptcy_tooltip
+				always = no
+			}
+		}
+		
+		complete_effect = {
+			#initial debt
+			debt_level_increase_by_1 = yes
+		}
+		remove_effect = {
+			#finishing debt
+			debt_level_increase_by_1 = yes
+			1436 = {
+				add_building_construction = { type = infrastructure level = 2 instant_build = yes }
+				add_building_construction = { type = naval_base level = 1 instant_build = yes province = 1903 }
+			}
+		}
+	}
 }
 
 SPR_FLAVOUR = {
@@ -934,5 +1547,6 @@ SPR_FLAVOUR = {
 		
 		fire_only_once = yes
 	}
+	
 }
 

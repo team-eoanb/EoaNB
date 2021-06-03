@@ -21,16 +21,12 @@ def date_calc(event_year, event_month, event_day, start_year = 1858, s_m = 1, s_
 		print("Error: Invalid date. Should be after 1857 05 11.")
 		return
 
-
-	print("Event start: days =", int(days)) # Print out days
-
-	if event_year >= 1858: # If event is fired in 1857 we should put it in _on_startup_events
+	if event_year >= 1858:
 		print("Should be put inside KDE_bi_yearly_event_fire_" + str(start_year))
 	else:
-		print("Should be put into _on_startup_events.txt.")
-		
+		print("Should be put into _on_startup_events.txt.") # If event is fired in 1857 we should put it in _on_startup_events
 
-	print("\nIf you want to add randomization you may add random_days = [days] to country_event.")
+	print("days =", int(days)) # Print out days
 
 
 while True:

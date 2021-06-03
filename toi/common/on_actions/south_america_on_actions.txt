@@ -120,6 +120,70 @@ on_actions = {
 			}
 		}
 	}
+	on_capitulation = {
+		effect = {
+			ROOT = {
+				if = {
+					limit = { 
+						ROOT = { TAG = MEX }
+						has_country_flag = MXE_empire_civil_war
+						has_war_with = MXE
+					}
+					MEX = { white_peace = MXE }
+					MXE = {
+						annex_country = {
+							target = MEX
+							transfer_troops = no
+						}
+					}
+				}
+				#if = {
+				#	limit = { 
+				#		ROOT = { TAG = MXE }
+				#		has_country_flag = MXE_empire_civil_war
+				#		has_war_with = MEX
+				#	}
+				#	MXE = { white_peace = MEX }
+				#	MEX = {
+				#		annex_country = {
+				#			target = MXE
+				#			transfer_troops = no
+				#		}
+				#	}
+				#}
+				if = {
+					limit = { 
+						ROOT = { TAG = DOM }
+						has_country_flag = HAI_spain_war
+						has_war_with = HAI
+					}
+					every_country = {
+						limit = { 
+							has_war_with = HAI 
+							NOT = { TAG = HAI }
+						}
+						white_peace = HAI
+					}
+					DOM = { set_country_flag = HAI_spain_war_decision_lost_flag }
+				}
+				if = {
+					limit = { 
+						ROOT = { TAG = HAI }
+						has_country_flag = HAI_spain_war
+						has_war_with = DOM
+					}
+					every_country = {
+						limit = { 
+							has_war_with = HAI 
+							NOT = { TAG = HAI }
+						}
+						white_peace = HAI
+					}
+					HAI = { set_country_flag = HAI_spain_war_decision_lost_flag }
+				}
+			}
+		}
+	}
 	on_peaceconference_ended = {
 		effect = {
 			PAR = { country_event = { id = par.14 } }

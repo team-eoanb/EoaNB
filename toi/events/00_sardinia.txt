@@ -673,96 +673,7 @@ country_event = {
 			}
 		}
 }
-country_event = {
-		id = sardinia.28
-		title = sardinia.28.t
-		desc = sardinia.28.d
-		picture = GFX_event_ITA_Creation_Army
 
-		is_triggered_only = yes
-
-		option = {
-				name = sardinia.28.a
-		
-				if = {
-					limit = {
-						NOT = {
-							MOD = {
-								is_subject_of = PAP
-							}
-							PRM = {
-								is_subject_of = PAP
-							}
-						}
-					}
-					annex_country = {
-					target = MOD
-					transfer_troops = yes
-					}
-					annex_country = {
-					target = PRM
-					transfer_troops = yes
-					}
-				}
-				if = {
-					limit = {
-						AND = {
-							TUS = {
-								is_ai = yes
-							}
-							NOT = {
-								TUS = {
-									is_subject_of = PAP
-								}
-							}
-						}	
-					}
-						annex_country = {
-							target = TUS
-							transfer_troops = yes
-						}
-					}
-				else_if = {
-					limit = {
-						TUS = {
-							NOT = {
-								is_subject_of = PAP
-								is_ai = yes
-							}
-						}
-					}
-					TUS = {
-						country_event = {
-						id = sardina.35
-					}
-				}
-			}
-			if = {
-				limit = {
-					OR = {
-						PRM = {
-							is_subject_of = PAP
-						}
-						MOD = {
-							is_subject_of = PAP
-						}
-						TUS = {
-							is_subject_of = PAP
-						}
-					}
-				}
-				set_country_flag = PAP_PIE_Puppeted_States
-			}
-				#hidden_effect = {
-					#TUS = {
-						#country_event = {
-										###id = sardinia.35
-										#days = 3
-								#}
-					#} 
-
-		}
-	}
 country_event = {
 		id = sardinia.29
 		title = sardinia.29.t
@@ -1872,7 +1783,296 @@ country_event = {
 				}
 		}
 }
+country_event = {
+    id = sardinia.57
+    title = sardinia.57.t
+    desc = sardinia.57.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
 
+    option = {
+        name = sardinia.57.a  
+		trigger = {
+			if = {
+				limit = {
+					TAG = TUS
+				}
+				NOT = {
+					has_completed_focus = TUS_vic_The_Second_Constitution
+				}
+			}
+		}
+		declare_war_on = {
+			target = PIE
+			type = annex_everything
+		}
+		if = {
+			limit = {
+				TAG = TUS
+			}
+			activate_mission = ITA_War_Mission_TUS_2IP
+		}
+	}
+	option = {
+		name = sardinia.57.b
+		trigger = {
+			TAG = TUS
+			has_completed_focus = TUS_vic_The_Second_Constitution
+		}
+	}
+	option = {
+		name = sardinia.57.c
+		trigger = {
+			TAG = TUS
+			has_completed_focus = TUS_vic_The_Second_Constitution
+		}
+		declare_war_on = {
+			target = LVN
+			type = annex_everything
+		}
+		set_country_flag = ITA_TUS_fight_Austria_2IP
+	}
+}
+country_event = {
+    id = sardinia.58
+    title = sardinia.58.t
+    desc = sardinia.58.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
+
+    option = {
+        name = sardinia.58.a 
+		custom_effect_tooltip = TUS_vic_being_annexed
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 5
+				is_historical_focus_on = yes
+			}
+		}
+		annex_country = {
+			target = PRM
+			transfer_troops = yes
+		}
+		annex_country = {
+			target = MOD
+			transfer_troops = yes
+		}
+		set_country_flag = TUS_form_central_states
+		set_politics = {
+			ruling_party = centrism
+		}
+		
+		PAP = {
+			country_event = {
+				id = sardinia.62
+			}
+		}
+		PIE = {
+			change_tag_from = TUS
+		}
+	}
+	option = {
+		name = sardinia.58.b
+		trigger = {
+			TAG = TUS
+			has_completed_focus = TUS_vic_The_Second_Constitution
+		}
+		ai_chance = {
+			base = 1
+		}
+		annex_country = {
+			target = PRM
+			transfer_troops = yes
+		}
+		annex_country = {
+			target = MOD
+			transfer_troops = yes
+		}
+		complete_national_focus = TUS_vic_Parmas_Alliance
+		complete_national_focus = TUS_vic_Invite_The_Duke
+	}
+	option = {
+		name = sardinia.58.c
+		trigger = {
+			has_country_flag = ITA_TUS_fight_Austria_2IP
+			has_completed_focus = TUS_vic_The_Second_Constitution
+		}
+		ai_chance = {
+			base = 5
+		}
+		annex_country = {
+			target = PRM
+			transfer_troops = yes
+		}
+		annex_country = {
+			target = MOD
+			transfer_troops = yes
+		}
+		PIE = {
+			country_event = {
+				id = sardinia.60
+			}
+		}
+	}
+}
+country_event = {
+    id = sardinia.59
+    title = sardinia.59.t
+    desc = sardinia.59.d
+    picture = GFX_event_ITA_Creation_Army
+    
+    fire_only_once = yes
+    is_triggered_only = yes
+
+    option = {
+        name = sardinia.59.a  
+		trigger = {
+			has_government = autocracy
+		}
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 1
+				is_historical_focus_on = yes
+			}
+		}
+		country_event = { id = tuscany.2 }
+		country_event = { id = tuscany.13 days = 10}
+	}
+	option = {
+		name = sardinia.59.b
+		trigger = {
+			has_government = autocracy
+		}
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		complete_national_focus = TUS_vic_Elections_Of_1860
+		PIE = {
+			country_event = {
+				id = sardinia.61
+			}
+			
+		}
+		country_event = {
+			id = sardinia.58
+			days = 100
+		}
+	}
+	option = {
+		name = sardinia.59.c
+		trigger = {
+			NOT = {
+				has_government = autocracy
+			}
+		}
+		###Form central states
+		country_event = {
+			id = sardinia.58
+			days = 100
+		}
+	}
+}
+country_event = {
+	id = sardinia.60
+	title = sardinia.60.t
+	desc = sardinia.60.d
+	picture = GFX_event_PIE_Confezione_di_Pastiglie_Leone
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = sardinia.60.a
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 2
+				TUS = {
+					has_country_flag = ITA_TUS_fight_Austria_2IP
+				}
+			}
+		}
+		TUS = {
+			change_tag_from = PIE
+		}
+		TUS = {
+			annex_country = {
+				target = PIE
+				transfer_troops = yes
+			}
+			complete_national_focus = TUS_vic_United_Kingdoms_Of_North_Italy
+		}
+	}
+	option = {
+		name = sardinia.60.b
+		ai_chance = {
+			base = 2
+		}
+		TUS = {
+			complete_national_focus = TUS_vic_Diplomatic_Failure
+		}
+	}
+}
+country_event = {
+	id = sardinia.61
+	title = sardinia.61.t
+	desc = sardinia.61.d
+	picture = GFX_event_PIE_Confezione_di_Pastiglie_Leone
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = sardinia.61.a
+		
+	}
+}
+country_event = {
+	id = sardinia.62
+	title = sardinia.62.t
+	desc = sardinia.62.d
+	picture = GFX_event_PIE_Confezione_di_Pastiglie_Leone
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = sardinia.62.a
+		trigger = {
+			161 = {
+				has_state_flag = PAP_enforced_loyalty
+			}
+		}
+		declare_war_on = {
+			target = TUS
+			type = annex_everything
+		}
+	}
+	option = {
+		name = sardinia.62.b
+		TUS = {
+			transfer_state = 157
+			transfer_state = 161
+			add_state_core = 157
+			add_state_core = 161
+		}
+		remove_state_core = 157
+		remove_state_core = 161
+	}
+}
 news_event = {
 	id = sardinia_news.5
 	title = sardinia_news.5.t

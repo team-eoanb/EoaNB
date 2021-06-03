@@ -38,7 +38,7 @@ eoanb_category_military = {
 			}
 		}
 		
-		allowed = { 
+		allowed = {
 			OR = {
 				TAG = RUS
 				TAG = ENG
@@ -3260,6 +3260,101 @@ eoanb_category_military = {
 }
 
 RUS_Caucasian_decisions = {
+
+	RUS_Burn_CIR_Villages = {
+
+		icon = generic_scorched_earth
+		
+		allowed = { tag = RUS }
+		visible = {
+			CIR = { exists = yes }
+			NOT = {
+				CIR = { is_subject_of = RUS }
+			}
+		}
+		  
+		available = { 
+			has_war_with = CIR
+			CIR = {
+				NOT = {
+					has_full_control_of_state = 233
+				}
+			}
+		}
+		  
+		is_good = yes
+		fire_only_once = yes
+		  
+		cost = 25
+
+		complete_effect = {
+			effect_tooltip = {
+				CIR = {
+					swap_ideas = {
+    					remove_idea = CAU_fierce_resistance
+    					add_idea = CAU_fierce_resistance_weak
+					}
+				}
+			}
+			233 = { add_manpower = -30000 }
+			CIR = {
+				country_event = {
+    				id = russiacaucasus.15
+    				days = 1
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+	}
+
+	RUS_Burn_CAU_Villages = {
+
+		icon = generic_scorched_earth
+		
+		allowed = { tag = RUS }
+		visible = {
+			CAU = { exists = yes }
+		}
+		  
+		available = { 
+			has_war_with = CAU
+			CAU = {
+				NOT = {
+					has_full_control_of_state = 232
+				}
+			}
+		}
+		  
+		is_good = yes
+		fire_only_once = yes
+		  
+		cost = 25
+
+		complete_effect = {
+			effect_tooltip = {
+				CAU = {
+					swap_ideas = {
+    					remove_idea = CAU_fierce_resistance
+    					add_idea = CAU_fierce_resistance_weak
+					}
+				}
+			}
+			232 = { add_manpower = -30000 }
+			CAU = {
+				country_event = {
+    				id = russiacaucasus.15
+    				days = 1
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+	}
 	 
 	RUS_Offer_Privileges = {
 
@@ -3267,25 +3362,30 @@ RUS_Caucasian_decisions = {
 		
 		allowed = { tag = RUS }		
 		visible = {
-			TAG = RUS
 			OR = {
-				CIR = { exists = yes }
+				AND = {
+					NOT = {
+						CIR = { is_subject_of = RUS }
+					}
+					CIR = { exists = yes }
+				}
 				CAU = { exists = yes }
 			}
 		}
 		  
-		available = { 
-			TAG = RUS
-		}
+		available = {}
 		  
 		is_good = yes
 		fire_only_once = yes
 		  
 		cost = 45
 
-		complete_effect = {				   
+		complete_effect = {
+			if = {
+				limit = { NOT = { CIR = { is_subject_of = RUS } } }
+				CIR = { add_war_support = -0.07 }
+			}		   
 			CAU = { add_war_support = -0.07 }
-			CIR = { add_war_support = -0.07 }
 		}
 
 		ai_will_do = {
@@ -3298,13 +3398,11 @@ RUS_Caucasian_decisions = {
 		icon = oppression
 		  
 		visible = {
-			TAG = RUS
 			date < 1862.01.01
 		}
 		allowed = { tag = RUS }		
 		  
 		available = { 
-			TAG = RUS
 			232 = { is_controlled_by = RUS }
 			date > 1858.05.05
 			date < 1870.01.01
@@ -3348,7 +3446,10 @@ RUS_Caucasian_decisions = {
 		allowed = { tag = RUS }		
 
 		visible = {
-			tag = RUS
+			NOT = { 233 = { is_core_of = RUS } }
+			NOT = {
+				CIR = { is_subject_of = RUS }
+			}
 		}
 
 		fire_only_once = yes
@@ -3360,7 +3461,12 @@ RUS_Caucasian_decisions = {
 		remove_effect = { 
 			233 = {
 				add_core_of = RUS
+				remove_core_of = CIR
 				add_manpower = -415876
+			}
+			1123 = {
+				remove_core_of = CIR
+				add_manpower = -142537
 			}
 			354 = {
 				add_manpower = 24622
@@ -3399,7 +3505,7 @@ RUS_Caucasian_decisions = {
 		allowed = { tag = RUS }		
 
 		visible = {
-			tag = RUS
+			NOT = { 232 = { is_core_of = RUS } }
 		}
 
 		fire_only_once = yes
@@ -3430,7 +3536,6 @@ RUS_Caucasian_decisions = {
 		icon = border_war
 		  
 		visible = {
-			TAG = RUS
 			OR = {
 				GEO = { exists = yes }
 				ABK = { exists = yes }
@@ -3439,8 +3544,10 @@ RUS_Caucasian_decisions = {
 		allowed = { tag = RUS }		
 		  
 		available = { 
-			TAG = RUS
-			CIR = { exists = no }
+			OR = {
+				CIR = { is_subject_of = RUS }
+				CIR = { exists = no }
+			}
 			CAU = { exists = no }
 			OR = {
 				GEO = { is_subject_of = ROOT }
@@ -3481,7 +3588,6 @@ RUS_Caucasian_decisions = {
 		icon = generic_ignite_civil_war
 		  
 		visible = {
-			TAG = RUS
 			OR = {
 				GEO = { exists = yes NOT = { is_subject_of = ROOT } }
 				ABK = { exists = yes NOT = { is_subject_of = ROOT } }
@@ -3490,7 +3596,6 @@ RUS_Caucasian_decisions = {
 		allowed = { tag = RUS }		
 		  
 		available = { 
-			TAG = RUS
 			CIR = { exists = no }
 			CAU = { exists = no }
 			date > 1863.01.01
@@ -3621,38 +3726,6 @@ RUS_Caucasian_decisions = {
 
 
 internal_politics_eoanb = {
-
-	internal_politics_RUS_issue_of_alcoholism = {
-
-		icon = generic_political_discourse
-
-		available = {
-			has_idea = RUS_idea_tsarist_vodka_monopoly
-			OR = {
-				NOT = {
-					OR = {
-						has_government = autocracy
-						has_government = radical_democracy
-					}
-				}
-				has_completed_focus = RUS_vic_Radical_Reforms
-			}
-		}
-
-		visible = {
-			tag = RUS
-		}
-
-		allowed = { tag = RUS }
-
-		cost = 200
-
-		days_remove = 365
-
-		remove_effect = {
-			remove_ideas = RUS_idea_tsarist_vodka_monopoly
-		}
-	}
 	
 	internal_politics_RUS_constitution = {
 
@@ -3779,7 +3852,56 @@ internal_politics_eoanb = {
 		ai_will_do = {
 			base = 1
 		}
-	}				  
+	}
+
+	RUS_decision_lithuanian_press_ban = {
+
+		icon = generic_political_discourse
+
+		available = {
+			has_completed_focus = RUS_vic_Repressions
+			has_country_flag = POL_January
+			OR = {
+				has_government = autocracy
+				has_government = radical_democracy
+			}
+		}	
+		
+		visible = {
+		}
+		
+		allowed = { tag = RUS }
+		
+		fire_only_once = yes
+
+		cost = 50
+
+		complete_effect = {
+			country_event = { id = russiavicfocus.23 days = 10 }
+		}
+		
+		cancel_trigger = {
+			RUS = { 
+				NOT = { 
+						controls_state = 11 
+				}
+			}
+			RUS = { 
+				NOT = {  
+					controls_state = 189 
+				}
+			}
+			RUS = { 
+				NOT = { 
+					controls_state = 940
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+		}
+	}
 }
 
 foreign_politics = {

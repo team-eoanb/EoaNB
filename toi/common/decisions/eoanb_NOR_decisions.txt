@@ -1,9 +1,13 @@
 # Indentation must be set to tabs before editing! This file is edited with a tab size of 4.
 NOR_decision_category_sami_opression = {
 	NOR_decision_invest_in_sami_area = {
-		icon = decision_money
+		icon = generic_construction
 		fire_only_once = no
 		cost = 250
+
+		highlight_state_targets = {
+			state = 144
+		}
 
 		allowed = {
 			TAG = NOR
@@ -18,14 +22,60 @@ NOR_decision_category_sami_opression = {
 		days_remove = 60
 
 		modifier = {
-			consumer_goods_factor = 0.10
+			civilian_factory_use = 1
 		}
 
 		remove_effect = {
 			144 = {
-				add_to_variable = { var = detrimental_colonial_impact_value value = -1}
+				add_to_variable = { var = detrimental_colonial_impact_value value = -2 }
 
-				custom_effect_tooltip = DCI_decrease_by_1_tooltip
+				custom_effect_tooltip = DCI_decrease_by_2_tooltip
+			}
+		}
+
+		days_re_enable = 365
+
+		ai_will_do = {
+			base = 1
+		}
+	}
+
+	NOR_decision_sami_build_industry = {
+		icon = generic_construction
+		fire_only_once = yes
+		cost = 50
+
+		highlight_state_targets = {
+			state = 144
+		}
+
+		allowed = {
+			TAG = NOR
+		}
+
+		available = {
+		}
+
+		complete_effect = {
+		}
+
+		days_remove = 60
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = {
+			144 = {
+				add_to_variable = { var = detrimental_colonial_impact_value value = 1 }
+				custom_effect_tooltip = DCI_increase_by_1_tooltip
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
 			}
 		}
 
@@ -36,54 +86,6 @@ NOR_decision_category_sami_opression = {
 }
 
 economic_decisions = {
-	NOR_decision_subsidize_lumber_industry = {
-		icon = generic_construction
-		fire_only_once = yes
-		cost = 50
-
-		state_target = yes
-		on_map_mode = map_and_decisions_view
-
-		allowed = {
-			TAG = NOR
-		}
-
-		visible = {
-			# Conditions to show
-			always = no
-		}
-
-		available = {
-			FROM = {
-				free_building_slots = {
-					building = logging_camp
-					size > 2
-					include_locked = yes
-				}
-			}
-			# Conditions to be able to click
-		}
-
-		complete_effect = {
-		}
-
-		days_remove = 60
-
-		modifier = {
-			consumer_goods_factor = 0.05
-		}
-
-		remove_effect = {
-			FROM = {
-				add_building_construction = { type = logging_camp level = 2 instant_build = yes }
-			}
-		}
-
-		ai_will_do = {
-			base = 1
-		}
-	}
-
 	NOR_decision_build_postage_meter_factory_vestlandet = {
 		icon = generic_construction
 		fire_only_once = yes
@@ -143,7 +145,7 @@ economic_decisions = {
 
 		allowed = {
 			# Checked at startup
-			always = no
+			tag = NOR
 		}
 
 		visible = {
@@ -178,6 +180,65 @@ economic_decisions = {
 
 		ai_will_do = {
 			base = 1
+		}
+	}
+}
+
+eoanb_category_military = {
+	NOR_decision_raise_skorpionen_klasse = {
+		icon = generic_military
+		fire_only_once = yes
+		cost = 25
+
+		allowed = {
+			tag = NOR
+		}
+
+		visible = {
+			# Conditions to show
+			#has_completed_focus = NOR_focus_skorpionen_klasse
+		}
+
+		available = {
+			# Conditions to be able to click
+			
+		}
+
+		days_remove = 35
+
+		remove_effect = {
+			add_equipment_to_stockpile = {
+				type = ship_monitor_1
+				amount = 1
+			}
+		}
+	}
+
+	NOR_decision_raise_thor_klasse = {
+		icon = generic_military
+		fire_only_once = yes
+		cost = 25
+
+		allowed = {
+			tag = nor
+		}
+
+		visible = {
+			# Conditions to show
+			#has_completed_focus = NOR_focus_thor_klasse
+		}
+
+		available = {
+			# Conditions to be able to click
+		}
+
+		days_remove = 35
+
+		remove_effect = {
+			add_equipment_to_stockpile = {
+				type = ship_monitor_1
+				amount = 1
+			}
 		}
 	}
 }

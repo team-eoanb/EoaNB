@@ -238,6 +238,7 @@ ITA_decisions_category_wars_and_conflicts = {
 							has_completed_focus = PIE_Path_of_the_Carbonari
 							tag = PIE
 						}
+								
 						PIE = {
 							transfer_state = 159
 							transfer_state = 982
@@ -253,6 +254,9 @@ ITA_decisions_category_wars_and_conflicts = {
 							CBI = {
 								white_peace = LVN
 								white_peace = AUS
+								white_peace = TUS
+								white_peace = MOD
+								white_peace = PRM
 							}
 							AUS = {
 								add_to_variable = {
@@ -264,6 +268,7 @@ ITA_decisions_category_wars_and_conflicts = {
 									value = 1
 								}
 								white_peace = CBI
+								white_peace = TUS
 							}
 						}
 					}
@@ -274,6 +279,12 @@ ITA_decisions_category_wars_and_conflicts = {
 								has_completed_focus = PIE_Path_of_the_Carbonari
 							}
 						}
+						TUS = {
+							country_event = {
+								id = sardinia.59
+								days = 30
+							}
+						}	
 						PIE = {
 							transfer_state = 159
 							transfer_state = 982
@@ -282,6 +293,9 @@ ITA_decisions_category_wars_and_conflicts = {
 						hidden_effect = {
 							white_peace = LVN
 							white_peace = AUS
+							white_peace = TUS
+							white_peace = MOD
+							white_peace = PRM
 							news_event = sardinia_news.1
 							clr_global_flag = FRA_PIE_OneCall
 							set_global_flag = PIE_2IW_Victory
@@ -295,9 +309,6 @@ ITA_decisions_category_wars_and_conflicts = {
 									value = 1
 								}
 							}
-							release_puppet = PRM
-							release_puppet = MOD
-							release_puppet = TUS
 							TUS = {
 								white_peace = AUS
 							}
@@ -396,6 +407,9 @@ ITA_decisions_category_wars_and_conflicts = {
 					set_country_flag = ITA_AUS_Divide_Italy_Yes
 					set_country_flag = ITA_AUS_won_2I_Divide_Italy
 				}
+				TUS = {
+					white_peace = PIE
+				}
 			}
 			else = {
 				## IMPORTANT, IF YOU USE 'ELSE' IT WILL ALWAYS BE SEEN BY AI/PLAYER
@@ -406,7 +420,7 @@ ITA_decisions_category_wars_and_conflicts = {
 		timeout_effect = {
 			if = {
 				limit = {
-					date > 1890.1.1
+					date > 1862.1.1
 				}
 				# Optional Trigger in case war lasting too long
 				AUS = {
@@ -429,6 +443,89 @@ ITA_decisions_category_wars_and_conflicts = {
 				}
 				# Check if they are still at war
 				activate_mission = ITA_Mission_AUS_PIE_Peace_Treaty_1860				# Loops the mission if they are still at war.
+			}
+		}
+	}
+	ITA_War_Mission_TUS_2IP = {
+		allowed = { always = no }
+		activation = { always = no }
+
+		is_good = yes
+		days_mission_timeout = 100
+
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = ITA_PIE_victory_conditions_AUS_tt1
+					# Victory Condition for Sardinia
+					tag = PIE
+					TUS = {
+						surrender_progress > 0.5
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = ITA_TUS_victory_conditions_AUS_tt2
+					# Victory Condition for Tuscany
+					tag = TUS
+					PIE = {
+						surrender_progress > 0.6
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			if = {
+				limit = {
+					tag = PIE
+					TUS = {
+						surrender_progress > 0.5
+					}
+				}
+				# Peace Treaty Event for X_country victory
+				white_peace = TUS
+
+			}
+			if = {
+				limit = {
+					tag = TUS
+					PIE = {
+						surrender_progress > 0.6
+					}
+				}
+				# Peace Treaty for Y_country victory
+				TUS = {
+					annex_country = {
+						target = PIE
+					}
+				}
+				FRA = {
+					transfer_state = 735
+					transfer_state = 822
+				}
+			}
+		}
+		timeout_effect = {
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							tag = PIE
+							has_war_with = TUS
+						}
+						AND = {
+							tag = TUS
+							has_war_with = PIE
+						}
+					}
+					date < 1861.1.1
+				}
+				activate_mission = ITA_War_Mission_TUS_2IP
+			}
+			else_if = {
+				limit = { date > 1860.12.31 }
+				white_peace = PIE
+				white_peace = TUS
 			}
 		}
 	}

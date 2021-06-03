@@ -1,1 +1,1703 @@
-#PURGED - SHOULD YOU EVER NEED TO RESTORE THIS, GET IT FROM A GITHUB VERSION PRIOR TO OCTOBER 22, 2018
+focus_tree = {
+	id = saxony_focus
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = SAX
+		}
+	}
+	continuous_focus_position = { x = 2500 y = 1000 }
+	
+	default = no
+
+### FOREIGN POLICY ###
+	#Saxony's Place in Germany
+    focus = {
+		id = SAX_focus_our_place_in_germany
+		icon = GFX_goal_focus_sway_sachsen 
+		cost = 60
+		available_if_capitulated = no
+		x = 6
+		y = 0
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 150
+			unlock_decision_category_tooltip = SAX_decision_category_foreign_policy
+		}
+	}
+
+	#Prusso-Saxon Relationship
+	focus = {
+		id = SAX_focus_prusso_saxon_relationship
+		icon = GFX_Focus_Diplomatic_Invitation_PRS
+		relative_position_id = SAX_focus_our_place_in_germany
+		x = -4
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			PRS = { 
+				exists = yes
+				is_puppet = no
+				has_war = no
+			}
+			SAX = { 
+				exists = yes
+				is_puppet = no 
+				has_war = no
+			}
+		}
+		prerequisite = { focus = SAX_focus_our_place_in_germany }
+		ai_will_do = { base = 50 }
+
+		completion_reward = {
+			SAX = { country_event = { days = 1 id = saxonyforeign.1 } }
+		}
+	}
+
+	#Deepen the Rift
+	focus = {
+		id = SAX_focus_deepen_rift
+		icon = GFX_
+		relative_position_id = SAX_focus_prusso_saxon_relationship
+		x = -1
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_prusso_saxon_relationship }
+		mutually_exclusive = { focus = SAX_focus_mend_divide }
+		ai_will_do = { base = 90 }
+
+		completion_reward = {
+			add_opinion_modifier = { target = PRS modifier = medium_decrease }
+			reverse_add_opinion_modifier = { target = PRS modifier = medium_decrease }
+		}
+	}
+	
+	#Claim Former Saxon Lands
+	focus = {
+		id = SAX_focus_claim_former_saxon_lands
+		icon = GFX_
+		relative_position_id = SAX_focus_prusso_saxon_relationship
+		x = -1
+		y = 7
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_deepen_rift }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			SAX = { add_state_claim = 950 }
+		}
+	}
+
+	#Mend the Divide
+	focus = {
+		id = SAX_focus_mend_divide
+		icon = GFX_Focus_Diplomatic_Ally_PRS
+		relative_position_id = SAX_focus_prusso_saxon_relationship
+		x = 1
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			PRS = { 
+				exists = yes
+				is_puppet = no
+				has_war = no
+			}
+			SAX = { 
+				exists = yes
+				is_puppet = no 
+				has_war = no
+			}
+		}
+		prerequisite = { focus = SAX_focus_prusso_saxon_relationship }
+		mutually_exclusive = { focus = SAX_focus_deepen_rift }
+		ai_will_do = { base = 10 }
+
+		completion_reward = {
+			remove_idea = SAX_idea_anti_prussian_sentiments
+			unlock_decision_tooltip = SAX_decision_prusso_saxon_rapprochement
+		}
+	}
+	
+	#Improve Relations with Prussia
+	focus = {
+		id = SAX_focus_improve_relations_prs
+		icon = GFX_
+		relative_position_id = SAX_focus_prusso_saxon_relationship
+		x = 1
+		y = 7
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			PRS = { 
+				exists = yes
+				is_puppet = no
+				has_war = no
+			}
+			SAX = { 
+				exists = yes
+				is_puppet = no 
+				has_war = no
+			}
+		}
+		prerequisite = { focus = SAX_focus_mend_divide }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_opinion_modifier = { target = PRS modifier = medium_increase }
+			reverse_add_opinion_modifier = { target = PRS modifier = medium_increase }
+		}
+	}
+
+	#Attempt to Reform the Confederation
+	focus = {
+		id = SAX_focus_attempt_to_reform_confederation
+		icon = GFX_Focus_Government_Reform_4
+		relative_position_id = SAX_focus_our_place_in_germany
+		x = 0
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			has_country_leader = {
+				name = "Friedrich Ferdinand von Beust"
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SAX_focus_our_place_in_germany }
+		ai_will_do = { base = 500 }
+
+		completion_reward = {
+		   # country_event
+		    #      id = saxony.3
+		     #     tag = SAX
+			#	  days = 1
+			#	  random = 1
+		}
+	}
+
+	#Legacy of the Bamberg Conference
+	focus = {
+		id = SAX_focus_legacy_of_bamberg_conference
+		icon = GFX_Focus_Government_Reform_2
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = 0
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_attempt_to_reform_confederation }
+		ai_will_do = { base = 400 }
+
+		completion_reward = {
+		    
+		}
+	}
+
+	#The Idea of the German Trias
+	focus = {
+		id = SAX_focus_idea_of_german_trias
+		icon = GFX_goal_focus_extend_trias
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = 0
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_legacy_of_bamberg_conference }
+		ai_will_do = { base = 400 }
+
+		completion_reward = {
+		   
+		}
+	}
+
+	#The Würzburg Conference
+	focus = {
+		id = SAX_focus_wurzburg_conference
+		icon = GFX_Focus_Government_Reform
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = 0
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_idea_of_german_trias }
+		ai_will_do = { base = 400 }
+
+		completion_reward = {
+		    #country_event
+		     #     id = saxony.11
+		      #    tag = AUS
+				#  days = 1
+				 # random = 1
+		}
+	}
+	
+	#The Schleswig-Holstein Question
+	focus = {
+		id = SAX_focus_schleswig_holstein_question
+		icon = GFX_goal_focus_the_german_question
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = 0
+		y = 4
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
+		}
+		prerequisite = { focus = SAX_focus_wurzburg_conference }
+		ai_will_do = { base = 1 }
+
+		completion_reward = {
+		    #country_event
+		     #     id = saxony.11
+		      #    tag = AUS
+				#  days = 1
+				 # random = 1
+		}
+	}
+	
+	#Support the Augustenburger
+	focus = {
+		id = SAX_focus_support_augustenburger
+		icon = GFX_Focus_Monarchy_Usurp_Throne
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = 0
+		y = 5
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_schleswig_holstein_question }
+		ai_will_do = { base = 400 }
+
+		completion_reward = {
+		    #country_event
+		     #     id = saxony.11
+		      #    tag = AUS
+				#  days = 1
+				 # random = 1
+		}
+	}
+	
+	#The Trias Succeeds
+	focus = {
+		id = SAX_focus_trias_succeeds
+		icon = GFX_
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = -1
+		y = 6
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
+		}
+		prerequisite = { focus = SAX_focus_support_augustenburger }
+		mutually_exclusive = { focus = SAX_focus_trias_fails }
+		ai_will_do = { base = 1 }
+
+		completion_reward = {
+		    #country_event
+		     #     id = saxony.11
+		      #    tag = AUS
+				#  days = 1
+				 # random = 1
+		}
+	}
+	
+	#A Common Goal
+	focus = {
+		id = SAX_focus_common_goal
+		icon = GFX_
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = -1
+		y = 7
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_trias_succeeds }
+		ai_will_do = { base = 300 }
+
+		completion_reward = {
+		    #country_event
+		     #     id = saxony.11
+		      #    tag = AUS
+				#  days = 1
+				 # random = 1
+		}
+	}
+	
+	#The Trias Fails
+	focus = {
+		id = SAX_focus_trias_fails
+		icon = GFX_
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = 1
+		y = 6
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GENERIC_Triggered_By_Event_tt
+				always = no
+			}
+		}
+		prerequisite = { focus = SAX_focus_support_augustenburger }
+		mutually_exclusive = { focus = SAX_focus_trias_succeeds }
+		ai_will_do = { base = 1 }
+
+		completion_reward = {
+		    #country_event
+		     #     id = saxony.11
+		      #    tag = AUS
+				#  days = 1
+				 # random = 1
+		}
+	}
+	
+	#Pick a Side
+	focus = {
+		id = SAX_focus_pick_side
+		icon = GFX_
+		relative_position_id = SAX_focus_attempt_to_reform_confederation
+		x = 1
+		y = 7
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_trias_fails }
+		ai_will_do = { base = 300 }
+
+		completion_reward = {
+		    #country_event
+		     #     id = saxony.11
+		      #    tag = AUS
+				#  days = 1
+				 # random = 1
+		}
+	}
+
+	#Austro-Saxon Relationship
+	focus = {
+		id = SAX_focus_austro_saxon_relationship
+		icon = GFX_
+		relative_position_id = SAX_focus_our_place_in_germany
+		x = 4
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_our_place_in_germany }
+		ai_will_do = { base = 75 }
+
+		completion_reward = {
+			SAX = { country_event = { days = 1 id = saxonyforeign.2 } }
+		}
+	}
+
+	#Strengthen the Bond
+	focus = {
+		id = SAX_focus_strengthen_bond
+		icon = GFX_Focus_Diplomatic_Ally_AUS
+		relative_position_id = SAX_focus_austro_saxon_relationship
+		x = -1
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_austro_saxon_relationship }
+		mutually_exclusive = { focus = SAX_focus_loosen_ties }
+		ai_will_do = { base = 90 }
+
+		completion_reward = {
+		   add_political_power = 50
+		   add_command_power = 5
+		}
+	}
+	
+	#Improve Relations with Austria
+	focus = {
+		id = SAX_focus_improve_relations_aus
+		icon = GFX_
+		relative_position_id = SAX_focus_austro_saxon_relationship
+		x = -1
+		y = 7
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_strengthen_bond }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+		   add_political_power = 50
+		   add_command_power = 5
+		}
+	}
+
+	#Loosen the Ties
+	focus = {
+		id = SAX_focus_loosen_ties
+		icon = GFX_
+		relative_position_id = SAX_focus_austro_saxon_relationship
+		x = 1
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_austro_saxon_relationship }
+		mutually_exclusive = { focus = SAX_focus_strengthen_bond }
+		ai_will_do = { base = 10 }
+
+		completion_reward = {
+		  #  country_event
+		   #       id = saxony.9
+		    #      tag = DEN
+			#	  days = 1
+			#	  random = 1
+			add_opinion_modifier = { target = DEN modifier = medium_increase }
+		}
+	}
+	
+	#A Neutral Stance
+	focus = {
+		id = SAX_focus_neutral_stance
+		icon = GFX_
+		relative_position_id = SAX_focus_austro_saxon_relationship
+		x = 1
+		y = 7
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_loosen_ties }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+		   add_political_power = 50
+		   add_command_power = 5
+		}
+	}
+
+	#Conflict in the German Confederation
+	focus = {
+		id = SAX_focus_conflict_in_german_confederation
+		icon = GFX_
+		relative_position_id = SAX_focus_our_place_in_germany
+		x = 0
+		y = 9
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_claim_former_saxon_lands focus = SAX_focus_improve_relations_prs }
+		prerequisite = { focus = SAX_focus_common_goal focus = SAX_focus_pick_side }
+		prerequisite = { focus = SAX_focus_improve_relations_aus focus = SAX_focus_neutral_stance }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+		   # country_event
+		    #      id = saxony.10
+		     #     tag = SAX
+			#	  days = 1
+			#	  random = 1
+		}
+	}
+	
+### INTERNAL POLITICS ###	
+	#Johann of Saxony
+	focus = {
+		id = SAX_focus_johann_of_saxony
+		icon = GFX_Focus_Johnnys_Saxony
+		cost = 35
+		available_if_capitulated = no
+		x = 22
+		y = 0
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 30
+		}
+	}
+
+	#Support the Protestants. ____EFFECT_____
+	focus = {
+		id = SAX_focus_support_the_protestants
+		icon = GFX_
+		relative_position_id = SAX_focus_johann_of_saxony
+		x = -2
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_johann_of_saxony }
+		mutually_exclusive = { focus = SAX_focus_support_the_catholics }
+		ai_will_do = { base = 50 }
+
+		completion_reward = {
+		          
+		}
+	}
+
+	#Support the Catholics _____EFFECTS_____
+	focus = {
+		id = SAX_focus_support_the_catholics
+		icon = GFX_
+		relative_position_id = SAX_focus_johann_of_saxony
+		x = 2
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_johann_of_saxony }
+		mutually_exclusive = { focus = SAX_focus_support_the_protestants }
+		ai_will_do = { base = 50 }
+
+		completion_reward = {
+		          
+		}
+	}
+
+	#Work With The Landtag  _____EFFECT_____
+	focus = {
+		id = SAX_focus_work_with_the_landtag
+		icon = GFX_focus_landtag
+		relative_position_id = SAX_focus_johann_of_saxony
+		x = 0
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_johann_of_saxony }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			add_political_power = 35
+			#country_event = 
+		}
+	}
+
+	# Introduce Liberal Reforms. ____ADD STABILITY DEBUFF____
+	focus = {
+		id = SAX_focus_liberal_reforms
+		icon = GFX_
+		relative_position_id = SAX_focus_work_with_the_landtag
+		x = -5
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_work_with_the_landtag }
+		mutually_exclusive = { focus = SAX_focus_revoke_1848_reforms }
+		ai_will_do = { base = 30 }
+
+		completion_reward = {
+			#country_event = saxony.13
+			add_political_power = -25
+		}
+	}
+
+	#A Party For The People. ____FIX EFFECTS____
+	focus = {
+		id = SAX_focus_a_party_for_the_people
+		icon = GFX_
+		relative_position_id = SAX_focus_liberal_reforms
+		x = -2
+		y = 1
+		cost = 56
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_liberal_reforms }
+		mutually_exclusive = { focus = SAX_focus_a_party_for_the_workers }
+		ai_will_do = { base = 35}
+
+		completion_reward = {
+			#country_event = saxony.13     
+		}
+	}
+
+	#A Party To Represent Us
+	focus = {
+		id = SAX_focus_a_party_to_represent_us
+		icon = GFX_
+		relative_position_id = SAX_focus_liberal_reforms
+		x = -2
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_a_party_for_the_people }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			#country_event = saxony.16
+		}
+	}
+
+	#Anti-Beust Riots. ____NEEDS FIXINGGGGG____
+	focus = {
+		id = SAX_focus_anti_Beust_riots
+		icon = GFX_
+		relative_position_id = SAX_focus_liberal_reforms
+		x = -2
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_a_party_to_represent_us }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			#country_event = saxony.fix
+			
+		          
+		}
+	}
+
+	#St Paul Church
+ 	focus = {
+		id = SAX_focus_st_pauls_church_meetings
+		icon = GFX_
+		relative_position_id = SAX_focus_liberal_reforms
+		x = -2
+		y = 4
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_anti_Beust_riots }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			#country_event = saxony.17      
+		}
+	}
+
+	#Demand The Constitution
+ 	focus = {
+		id = SAX_focus_demand_the_constitution
+		icon = GFX_
+		relative_position_id = SAX_focus_st_pauls_church_meetings
+		x = -2
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_st_pauls_church_meetings }
+		mutually_exclusive = { focus = SAX_focus_demand_the_republic }
+		ai_will_do = { base = 70}
+
+		completion_reward = {
+			#country_event = saxony.24       
+		}
+	}
+
+	#Demand The Republic 
+ 	focus = {
+		id = SAX_focus_demand_the_republic
+		icon = GFX_
+		relative_position_id = SAX_focus_st_pauls_church_meetings
+		x = 2
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_st_pauls_church_meetings }
+		mutually_exclusive = { focus = SAX_focus_demand_the_constitution }
+		ai_will_do = { base = 30 }
+
+		completion_reward = {
+			#country_event = saxony.25        
+		}
+	}
+
+	#A Party For The Workers  ____EFFECTS____
+	focus = {
+		id = SAX_focus_a_party_for_the_workers
+		icon = GFX_
+		relative_position_id = SAX_focus_liberal_reforms
+		x = 2
+		y = 1
+		cost = 56
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_liberal_reforms }
+		mutually_exclusive = { focus = SAX_focus_a_party_for_the_people }
+		ai_will_do = { base = 65 }
+
+		completion_reward = {    
+		}
+	}
+
+	#Der Sozialdemokrat
+ 	focus = {
+		id = SAX_focus_der_sozialdemokrat
+		icon = GFX_
+		relative_position_id = SAX_focus_a_party_for_the_workers
+		x = 0
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_a_party_for_the_workers }
+		ai_will_do = { base = 100 }
+		completion_reward = {       
+		}
+	}
+
+	#Lassale's Duel
+ 	focus = {
+		id = SAX_focus_lassales_duel
+		icon = GFX_
+		relative_position_id = SAX_focus_a_party_for_the_workers
+		x = -2
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_a_party_for_the_workers }
+		ai_will_do = { base = 100 }
+		completion_reward = {   
+		}
+	}
+	
+	#Reform the Second Chamber
+ 	focus = {
+		id = SAX_focus_reform_second_chamber
+		icon = GFX_
+		relative_position_id = SAX_focus_a_party_for_the_workers
+		x = -1
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_der_sozialdemokrat }
+		prerequisite = { focus = SAX_focus_lassales_duel }
+		ai_will_do = { base = 100 }
+		completion_reward = {   
+		}
+	}
+	
+	#Support the International
+ 	focus = {
+		id = SAX_focus_support_the_international
+		icon = GFX_
+		relative_position_id = SAX_focus_a_party_for_the_workers
+		x = 2
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_a_party_for_the_workers }
+		mutually_exclusive = { focus = SAX_focus_oust_marx }
+		ai_will_do = { base = 1 }
+		completion_reward = {     
+		}
+	}
+
+	#Oust Marx
+ 	focus = {
+		id = SAX_focus_oust_marx
+		icon = GFX_
+		relative_position_id = SAX_focus_a_party_for_the_workers
+		x = 4
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_a_party_for_the_workers }
+		mutually_exclusive = { focus = SAX_focus_support_the_international }
+		ai_will_do = { base = 1 }
+		completion_reward = {       
+		}
+	}
+	
+	#Revoke 1848 Reforms
+	focus = {
+		id = SAX_focus_revoke_1848_reforms
+		icon = GFX_
+		relative_position_id = SAX_focus_work_with_the_landtag
+		x = 5
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_work_with_the_landtag }
+		mutually_exclusive = { focus = SAX_focus_liberal_reforms }
+
+		ai_will_do = { base = 75 }
+
+		completion_reward = {
+			#country_event = saxony.14
+			add_political_power = 15       
+		}
+	}
+	
+	#A Party For The Elite.  ___EFFECCTS____
+	focus = {
+		id = SAX_focus_a_party_for_the_elite
+		icon = GFX_
+		relative_position_id = SAX_focus_revoke_1848_reforms
+		x = -2
+		y = 1
+		cost = 56
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_revoke_1848_reforms }
+		mutually_exclusive = { focus = SAX_focus_House_Wettin_Forever }
+		ai_will_do = { base = 15 }
+
+		completion_reward = {       
+		}
+	}
+
+	#A Bismark Style System.  _____EFFECTS____
+	focus = {
+		id = SAX_focus_bismarck_style_system
+		icon = GFX_
+		relative_position_id = SAX_focus_revoke_1848_reforms
+		x = -2
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_a_party_for_the_elite }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {  
+		}
+	}
+
+	#Ensure The Rights Of The Nobility. ___EFFECTS___
+ 	focus = {
+		id = SAX_focus_ensure_the_rights_of_the_nobility
+		icon = GFX_
+		relative_position_id = SAX_focus_revoke_1848_reforms
+		x = -2
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_bismarck_style_system }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {    
+		}
+	}
+
+	#Reform Thaw  ___EFFECTS___
+ 	focus = {
+		id = SAX_focus_reform_thaw
+		icon = GFX_
+		relative_position_id = SAX_focus_ensure_the_rights_of_the_nobility
+		x = -2
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_ensure_the_rights_of_the_nobility }
+		mutually_exclusive = { focus = SAX_focus_maintain_the_social_order }
+		ai_will_do = { base = 50 }
+
+		completion_reward = {       
+		}
+	}
+
+	#Maintain The Social Order. ___EFFECTS___
+  	focus = {
+		id = SAX_focus_maintain_the_social_order
+		icon = GFX_
+		relative_position_id = SAX_focus_ensure_the_rights_of_the_nobility
+		x = 2
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_ensure_the_rights_of_the_nobility }
+		mutually_exclusive = { focus = SAX_focus_reform_thaw }
+		ai_will_do = { base = 50 }
+
+		completion_reward = {   
+		}
+	}
+
+	#House Wettin Forever  ____EFFECTS___
+	focus = {
+		id = SAX_focus_House_Wettin_Forever
+		icon = GFX_
+		relative_position_id = SAX_focus_revoke_1848_reforms
+		x = 2
+		y = 1
+		cost = 56
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_revoke_1848_reforms }
+		mutually_exclusive = { focus = SAX_focus_a_party_for_the_elite }
+
+		ai_will_do = { base = 80 }
+
+		completion_reward = {
+		}
+	}
+
+	#Enforce the Succession ____EFFECT____
+ 	focus = {
+		id = SAX_focus_enforce_the_succession
+		icon = GFX_
+		relative_position_id = SAX_focus_revoke_1848_reforms
+		x = 2
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_House_Wettin_Forever }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {         
+		}
+	}
+
+	#Public Works
+	focus = {
+		id = SAX_focus_public_works
+		icon = GFX_
+		relative_position_id = SAX_focus_revoke_1848_reforms
+		x = 2
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_enforce_the_succession }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+			#add_building_construction = {
+			#	type = infrastructure
+			#	level = 2
+			#	instant_build = yes
+			#}       
+		}
+	}
+
+	#Hanoverian Ceremony __EFFECTS____ PP OR STABILITY, HANNOVER RELATIONS
+	focus = {
+		id = SAX_focus_Hannoverian_Ceremony
+		icon = GFX_
+		relative_position_id = SAX_focus_revoke_1848_reforms
+		x = 2
+		y = 4
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_public_works }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+		}
+	}
+
+	#Von Beust the Enforcer  ____EFFECTS____
+  	focus = {
+		id = SAX_focus_von_Beust_the_Enforcer
+		icon = GFX_
+		relative_position_id = SAX_focus_revoke_1848_reforms
+		x = 2
+		y = 5
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_Hannoverian_Ceremony }
+		ai_will_do = { base = 100 }
+
+		completion_reward = {
+		}
+	}
+
+### ARMY ###
+	#Saxon Army
+ 	focus = {
+		id = SAX_focus_the_saxon_army
+		icon = GFX_
+		cost = 60
+		available_if_capitulated = no
+		x = 34
+		y = 0
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_command_power = 10
+		}
+	}
+
+	#Refine Traditional Doctrine
+	focus = {
+		id = SAX_focus_refine_traditional_doctrine
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = -3
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_the_saxon_army }
+		mutually_exclusive = { focus = SAX_focus_a_new_method }
+		ai_will_do = { base = 75 }
+		completion_reward = {
+		}
+	}
+
+	#Re-establish the Home Guard
+	focus = {	
+		id = SAX_focus_reestablish_the_home_guard
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = -3
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_refine_traditional_doctrine }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_manpower = 2200
+		}
+	}
+
+	#Officer Academies
+	focus = {	
+		id = SAX_focus_officer_academies
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = -3
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_reestablish_the_home_guard }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+		}
+	}
+			
+	#A New Method
+	focus = {			
+		id = SAX_focus_a_new_method
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = -1
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_the_saxon_army }
+		mutually_exclusive = { focus = SAX_focus_refine_traditional_doctrine }
+		ai_will_do = { base = 25 }
+		completion_reward = {
+		}
+	}
+
+	#Integrate Artillery
+	focus = {		
+		id = SAX_focus_integrate_artillery
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = -1
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_a_new_method }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+		}
+	}
+			
+	#Address Our Generals
+	focus = {			
+		id = SAX_focus_address_our_generals
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = -1
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_integrate_artillery }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+		}
+	}
+
+	#Recover from 1815
+	focus = {	
+		id = SAX_focus_recover_from_1815
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = -2
+		y = 4
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { 
+			focus = SAX_focus_officer_academies
+			focus = SAX_focus_address_our_generals
+		}
+		ai_will_do = { base = 100 }
+		completion_reward = {
+		}
+	}
+
+	#LKG coordination
+ 	focus = {
+		id = SAX_focus_coordination_with_the_leipziger_kommunalgarde
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = 1
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_the_saxon_army }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+		    add_manpower = 2200
+		    #add_equipment_to_stockpile = 2000
+		}
+	}
+
+	#Encourage Banner Membership
+	focus = {
+		id = SAX_focus_encourage_banner_membership
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = 3
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		prerequisite = { focus = SAX_focus_the_saxon_army }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+		}
+	}
+	
+	#1860 Rifles
+    focus = {
+		id = SAX_focus_1860_rifle_distribution
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = 2
+		y = 4
+		cost = 60
+		#available = { year > 1860}
+		prerequisite = { focus = SAX_focus_coordination_with_the_leipziger_kommunalgarde }
+		prerequisite = { focus = SAX_focus_encourage_banner_membership }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			#add_equipment_to_stockpile = 3000
+		}
+	}
+	
+	#Give Albert the Reins
+    focus = {
+		id = SAX_focus_give_albert_reins
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = 1
+		y = 5
+		cost = 60
+		prerequisite = { focus = SAX_focus_1860_rifle_distribution }
+		mutually_exclusive = { focus = SAX_focus_give_george_reins }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+		}
+	}
+	
+	#Give George the Reins
+    focus = {
+		id = SAX_focus_give_george_reins
+		icon = GFX_
+		relative_position_id = SAX_focus_the_saxon_army
+		x = 3
+		y = 5
+		cost = 60
+		prerequisite = { focus = SAX_focus_1860_rifle_distribution }
+		mutually_exclusive = { focus = SAX_focus_give_albert_reins }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+		}
+	}
+
+### ECONOMY ###
+	#Saxony's Economy
+	focus = {
+		id = SAX_focus_saxonys_economy
+		icon = GFX_Focus_Industry
+		x = 42
+		y = 0
+		cost = 60
+		available_if_capitulated = no
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_political_power = 100
+			unlock_decision_category_tooltip = SAX_decision_category_economy
+		}
+	}
+	
+	#Expand Railway Infrastructure
+	focus = {
+		id = SAX_focus_saxon_state_railway
+		icon = GFX_focus_KNS_rail_company_subsidies
+		relative_position_id = SAX_focus_saxonys_economy
+		x = -3
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_saxonys_economy }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_ideas = SAX_idea_state_railways_1
+			custom_effect_tooltip = SAX_customeffect_infra_bonus_one
+			activate_mission_tooltip = SAX_mission_railway_expansion
+			hidden_effect = {
+				set_variable = { infra_total = 0 }
+				every_owned_state = {
+					add_to_variable = { ROOT.infra_total = infrastructure_level }
+				}
+				set_variable = { infra_total_bonus = infra_total }
+				add_to_variable = { infra_total_bonus = 1 }
+				activate_mission = SAX_mission_railway_expansion
+				add_ideas = SAX_idea_boost_infra
+			}
+		}
+	}
+
+	#Railway Connection to Bavaria
+	focus = {
+		id = SAX_focus_railway_bavaria
+		icon = GFX_goal_focus_railroad_development
+		relative_position_id = SAX_focus_saxon_state_railway
+		x = 0
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+			date > 1858.1.1
+		}
+		prerequisite = { focus = SAX_focus_saxon_state_railway }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			swap_ideas = { remove_idea = SAX_idea_state_railways_1 add_idea = SAX_idea_state_railways_2 }
+			add_opinion_modifier = { target = BAV modifier = medium_increase }
+			reverse_add_opinion_modifier = { target = BAV modifier = medium_increase }
+		}
+	}
+
+	#Railways in the Ore Mountains
+	focus = {
+		id = SAX_focus_railway_ore_mountains
+		icon = GFX_goal_focus_railroad_development
+		relative_position_id = SAX_focus_saxon_state_railway
+		x = 0
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+			date > 1861.1.1
+		}
+		prerequisite = { focus = SAX_focus_railway_bavaria }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			swap_ideas = { remove_idea = SAX_idea_state_railways_2 add_idea = SAX_idea_state_railways_3 }
+			if = {
+				limit = {
+					65 = { infrastructure > 6 }
+				}
+				unlock_decision_tooltip = SAX_decision_expand_resource_output
+			}
+		}
+	}
+
+	#Railway Connection to Prussia
+	focus = {
+		id = SAX_focus_railway_prussia
+		icon = GFX_goal_focus_railroad_development
+		relative_position_id = SAX_focus_saxon_state_railway
+		x = 0
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+			date > 1864.1.1
+			65 = { infrastructure > 6 }
+		}
+		prerequisite = { focus = SAX_focus_railway_ore_mountains }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			swap_ideas = { remove_idea = SAX_idea_state_railways_3 add_idea = SAX_idea_state_railways_4 }
+			add_opinion_modifier = { target = PRS modifier = small_increase }
+			reverse_add_opinion_modifier = { target = PRS modifier = small_increase }
+		}
+	}
+
+	#Close the Gaps in the Network
+	focus = {
+		id = SAX_focus_railway_gaps
+		icon = GFX_goal_focus_railroad_development
+		relative_position_id = SAX_focus_saxon_state_railway
+		x = 0
+		y = 4
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_railway_prussia }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = transport_tech }
+			unlock_decision_tooltip = SAX_decision_railway_upgrade
+		}
+	}
+
+	#Mining and Metallurgy
+	focus = {
+		id = SAX_focus_mining_and_metallurgy
+		icon = GFX_Focus_Industry_Coal_Mine
+		relative_position_id = SAX_focus_saxonys_economy
+		x = -1
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_saxonys_economy }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = process_engineering_tech }
+			add_political_power = 50
+		}
+	}
+	
+	#Königin Marienhütte
+	focus = {
+		id = SAX_focus_queen_mary_ironworks
+		icon = GFX_Focus_Production_Iron
+		relative_position_id = SAX_focus_mining_and_metallurgy
+		x = 0
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_mining_and_metallurgy }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = excavation_tech }
+			add_resource = {
+				type = iron
+				amount = 2
+				state = 65
+			}
+			custom_effect_tooltip = SAX_customeffect_coal_mine_bonus_one
+            hidden_effect = {
+                set_variable = { coal_total = 0 }
+                every_owned_state = {
+                    add_to_variable = { ROOT.coal_total = building_level@coal_mine }
+                }
+                set_variable = { coal_total_bonus = coal_total }
+                add_to_variable = { coal_total_bonus = 1 }
+                add_ideas = SAX_idea_boost_coal
+            }
+		}
+	}
+
+	#Soften the Bergregal
+	focus = {
+		id = SAX_focus_soften_bergregal
+		icon = GFX_Focus_Law
+		relative_position_id = SAX_focus_mining_and_metallurgy
+		x = 0
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_queen_mary_ironworks }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			swap_ideas = { remove_idea = SAX_idea_bergregal_1 add_idea = SAX_idea_bergregal_2 }
+		}
+	}
+
+	#Expand Mining Districts
+	focus = {
+		id = SAX_focus_expand_mining_districts
+		icon = GFX_Focus_Industry_Coal_Mine
+		relative_position_id = SAX_focus_mining_and_metallurgy
+		x = 0
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_soften_bergregal }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = excavation_tech }
+			unlock_decision_tooltip = SAX_decision_expand_mining_districts
+		}
+	}
+
+	#Enact Berggesetz
+	focus = {
+		id = SAX_focus_enact_berggesetz
+		icon = GFX_Focus_Law_Vote_1
+		relative_position_id = SAX_focus_mining_and_metallurgy
+		x = 0
+		y = 4
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_expand_mining_districts }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			swap_ideas = { remove_idea = SAX_idea_bergregal_2 add_idea = SAX_idea_berggesetz }
+		}
+	}
+	
+	#Factory Industry
+	focus = {
+		id = SAX_focus_factory_industry
+		icon = GFX_Focus_Industrial_Complex
+		relative_position_id = SAX_focus_saxonys_economy
+		x = 1
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_saxonys_economy }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = mechanical_engineering_tech }
+			unlock_decision_tooltip = SAX_decision_leipzig_plagwitz_city_development
+		}
+	}
+
+	#Legacy of Proto-Industrialization
+	focus = {
+		id = SAX_focus_proto_industrialization
+		icon = GFX_Focus_Small_Industry
+		relative_position_id = SAX_focus_factory_industry
+		x = 0
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_factory_industry }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_government = social_egalitarianism
+							has_government = collectivist_socialism
+							has_government = vanguard_communism
+							has_government = anarchism
+						}
+					}
+				}
+				unlock_decision_tooltip = SAX_decision_meissner_porzellan
+			}
+			unlock_decision_tooltip = SAX_decision_spiegelglas_friedrichsthal
+		}
+	}
+
+	#The Need for Free Enterprise
+	focus = {
+		id = SAX_focus_free_enterprise
+		icon = GFX_Focus_Freedom_Economy
+		relative_position_id = SAX_focus_factory_industry
+		x = 0
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_proto_industrialization }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_government = social_egalitarianism
+							has_government = collectivist_socialism
+							has_government = vanguard_communism
+							has_government = anarchism
+							has_government = chauvinist_populism
+						}
+					}
+				}
+				unlock_decision_tooltip = SAX_decision_enact_free_enterprise
+			}
+			else = {
+				add_political_power = 100
+				add_stability = -0.05
+			}
+		}
+	}
+
+	#Saxon Textile Industry
+	focus = {
+		id = SAX_focus_textile_industry
+		icon = GFX_Focus_Production_Fabric
+		relative_position_id = SAX_focus_factory_industry
+		x = 0
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_free_enterprise }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			unlock_decision_tooltip = SAX_decision_chemnitzer_actien_spinnerei
+			unlock_decision_tooltip = SAX_decision_plauen_embroidery_industry
+		}
+	}
+
+	#The Saxon Manchester
+	focus = {
+		id = SAX_focus_saxon_manchester
+		icon = GFX_Focus_Production_Machine_Parts
+		relative_position_id = SAX_focus_factory_industry
+		x = 0
+		y = 4
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_textile_industry }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			unlock_decision_tooltip = SAX_decision_chemnitzer_werkzeugmaschinenfabrik
+			unlock_decision_tooltip = SAX_decision_saxon_maschinenfabrik
+		}
+	}
+	
+	#Trade and Commerce
+	focus = {
+		id = SAX_focus_trade_and_commerce
+		icon = GFX_Focus_Economy_Reforms
+		relative_position_id = SAX_focus_saxonys_economy
+		x = 3
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_saxonys_economy }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = humanities_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = economics_tech }
+			add_political_power = 50
+		}
+	}
+
+	#Allgemeine Deutsche Credit-Anstalt
+	focus = {
+		id = SAX_focus_allgemeine_creditanstalt
+		icon = GFX_Focus_Economy
+		relative_position_id = SAX_focus_trade_and_commerce
+		x = 0
+		y = 1
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_trade_and_commerce }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			unlock_decision_tooltip = SAX_decision_support_adca
+		}
+	}
+
+	#Leipzig Book Fair
+	focus = {
+		id = SAX_focus_leipzig_book_fair
+		icon = GFX_Focus_Education_Books
+		relative_position_id = SAX_focus_trade_and_commerce
+		x = 0
+		y = 2
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_allgemeine_creditanstalt }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			swap_ideas = { remove_idea = SAX_idea_leipzig_center_of_trade_1 add_idea = SAX_idea_leipzig_center_of_trade_2 }
+			unlock_decision_tooltip = SAX_decision_strenghten_leipzig_trade_fair
+		}
+	}
+
+	#Pelzhandelszentrum Leipziger Brühl
+	focus = {
+		id = SAX_focus_pelzhandelszentrum_leipzig
+		icon = GFX_Focus_Economy_Growth_2
+		relative_position_id = SAX_focus_trade_and_commerce
+		x = 0
+		y = 3
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_leipzig_book_fair }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			swap_ideas = { remove_idea = SAX_idea_leipzig_center_of_trade_2 add_idea = SAX_idea_leipzig_center_of_trade_3 }
+			add_political_power = 50
+		}
+	}
+
+	#Sächsische Bank zu Dresden
+	focus = {
+		id = SAX_focus_saxon_bank_dresden
+		icon = GFX_Focus_Economy_Tax
+		relative_position_id = SAX_focus_trade_and_commerce
+		x = 0
+		y = 4
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_pelzhandelszentrum_leipzig }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = economics_tech }
+			if = {
+				limit = {
+					has_idea = sfund_private_ventures_only
+				}
+				unlock_decision_tooltip = SAX_decision_found_saxon_bank_dresden
+			}
+			else = {
+				add_political_power = 100
+			}
+		}
+	}
+
+	#Industrializing Model Country
+	focus = {
+		id = SAX_focus_model_country
+		icon = GFX_Focus_Industry_Revolution
+		relative_position_id = SAX_focus_saxonys_economy
+		x = 0
+		y = 6
+		cost = 60
+		available_if_capitulated = no
+		available = {
+			controls_state = 65
+		}
+		prerequisite = { focus = SAX_focus_railway_gaps }
+		prerequisite = { focus = SAX_focus_enact_berggesetz }
+		prerequisite = { focus = SAX_focus_saxon_manchester }
+		prerequisite = { focus = SAX_focus_saxon_bank_dresden }
+		ai_will_do = { base = 100 }
+		completion_reward = {
+			add_ideas = SAX_idea_industrializing_model_country
+			65 = { add_extra_state_shared_building_slots = 1 }
+			65 = { set_state_category = metropolis }
+		}
+	}
+	
+	#Saxon Cultural Heritage
+	#Universität Leipzig
+	#Sächsische Kultur und Vermächtnis
+	#Bürgerliches Gesetzbuch
+}

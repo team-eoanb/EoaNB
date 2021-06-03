@@ -13,6 +13,22 @@ on_actions = {
 				ROOT = { clear_variable = afr_regional_power_expansion_attacker@FROM }
 				FROM = { clear_variable = afr_regional_power_expansion_defender@ROOT }
 			}
+			if = {
+				limit = { 
+					ROOT = { has_country_flag = afr_empire_politics_autonomy_revolt_subject_perspective_flag }
+					FROM = { has_country_flag = afr_empire_politics_autonomy_revolt_subject_perspective_flag }
+				}
+				ROOT = {
+					every_country = {
+						limit = { has_war_with = ROOT } 
+						white_peace = ROOT
+					}
+				}
+				if = {
+					limit = { ROOT = { TAG = var:afr_empire_politics_autonomy_revolt_subject_temp_subject_id } }
+					ROOT = { set_country_flag = afr_independence_struggle_subject_lost_flag }
+				}
+			}
 		}
 	}
 	
@@ -902,6 +918,45 @@ on_actions = {
 					}
 					set_rule = {
 						can_join_factions = no
+					}
+				}
+				every_country = {
+					limit = {
+						OR = {
+							afr_is_tribal = yes
+							oceania_is_tribal = yes
+							has_variable = has_afr_empire_mechanic_system
+						}
+					}
+					if = {
+						limit = {
+							is_subject = yes 
+							OVERLORD = {
+								OR = {
+									afr_is_tribal = yes
+									oceania_is_tribal = yes
+									has_variable = has_afr_empire_mechanic_system
+								}
+							}
+						}
+						add_autonomy_score = { 
+							value = 500 
+							localization = add_autonomy_score_on_start_loc
+						}
+						if = {
+							limit = {
+								OR = {
+									TAG = DSS
+									TAG = ADM
+									TAG = BAG
+									TAG = MOM
+								}
+							}
+							add_autonomy_score = { 
+								value = 500 
+								localization = add_autonomy_score_on_start_loc
+							}
+						}
 					}
 				}
 			}

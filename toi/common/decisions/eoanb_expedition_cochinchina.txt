@@ -1,0 +1,367 @@
+war_measures = {
+	
+	#######################
+	# Preparing Decisions #
+	#######################
+	FRA_cochinchina_expedition_support_malina_port = {
+	    icon = generic_decision
+	    available = {
+			SPR = { has_country_flag = SPR_develop_manila_port_decision_started }
+			custom_trigger_tooltip = {
+				tooltip = SPR_interest_in_cochinchina_expedition_trigger
+				has_country_flag = FRA_cochinchina_intervention_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = SPR_cochinchina_expedition_has_not_began
+				NOT = { VIN = { has_country_flag = VIN_cochinchina_intervention_flag } }
+			}
+	    }
+		visible = {
+			has_country_flag = FRA_cochinchina_intervention_flag
+			SPR = { has_country_flag = SPR_cochinchina_intervention_flag }
+	    }
+		allowed = {
+			TAG = FRA
+		}
+		fire_only_once = yes
+		custom_cost_trigger = { has_political_power > 0 }
+		cost = 50
+		complete_effect = {
+			SPR = {
+				country_event = { id = cochinchina_expedition.8 }
+				clr_country_flag = SPR_develop_manila_port_decision_started 
+			}
+			custom_effect_tooltip = FRA_cochinchina_expedition_support_malina_port_tooltip
+		}
+		ai_will_do = { 
+			base = 10 
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+	}
+	SPR_cochinchina_expedition_ready_for_invasion = {
+	    icon = generic_decision
+	    available = {
+			if = {
+				limit = { TAG = SPR }
+				has_completed_focus = SPR_prepare_at_manila
+				has_completed_focus = SPR_patriotic_call
+			}
+	    }
+		activation = {
+			OR = {
+				has_country_flag = FRA_cochinchina_intervention_flag
+				has_country_flag = SPR_cochinchina_intervention_flag
+			}
+	    }
+		allowed = { 
+			OR = {
+				TAG = SPR 
+				TAG = FRA
+			}
+		}
+		selectable_mission = yes
+		is_good = yes
+		fire_only_once = yes
+		#cost = 0
+		days_mission_timeout = 1000
+		days_remove = 90
+		remove_effect = {
+			hidden_effect = {
+				set_country_flag = SPR_cochinchina_expedition_begin_invasion_ready_flag
+			}
+		}
+		timeout_effect = {
+			hidden_effect = {
+				set_country_flag = SPR_cochinchina_expedition_begin_invasion_ready_flag
+			}
+		}
+		ai_will_do = { base = 100 }
+	}
+	#####################
+	# Starting Decision #
+	#####################
+	SPR_cochinchina_expedition_begin_invasion = {
+		icon = generic_prepare_civil_war
+		ai_will_do = { factor = 100 }
+		available = {
+			if = {
+				limit = { FRA = { has_country_flag = FRA_cochinchina_intervention_flag } }
+				if = {
+					limit = { TAG = FRA }
+					custom_trigger_tooltip = {
+						tooltip = SPR_cochinchina_expedition_begin_invasion_ready_trigger
+						if = {
+							limit = { country_exists = SPR }
+							if = {
+								limit = { SPR = { has_country_flag = SPR_cochinchina_intervention_flag } }
+								SPR = { has_country_flag = SPR_cochinchina_expedition_begin_invasion_ready_flag }
+							}
+						}
+						if = {
+							limit = { country_exists = FRA }
+							if = {
+								limit = { FRA = { has_country_flag = FRA_cochinchina_intervention_flag } }
+								FRA = { has_country_flag = SPR_cochinchina_expedition_begin_invasion_ready_flag }
+							}
+						}	
+					}
+				}
+				else = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_cochinchina_expedition_begin_invasion_trigger
+						always = no
+					}
+				}
+			}
+			else_if = {
+				limit = { SPR = { has_country_flag = SPR_cochinchina_intervention_flag } }
+				if = {
+					limit = { TAG = SPR }
+					custom_trigger_tooltip = {
+						tooltip = SPR_cochinchina_expedition_begin_invasion_ready_trigger
+						if = {
+							limit = { country_exists = SPR }
+							if = {
+								limit = { SPR = { has_country_flag = SPR_cochinchina_intervention_flag } }
+								SPR = { has_country_flag = SPR_cochinchina_expedition_begin_invasion_ready_flag }
+							}
+						}
+						if = {
+							limit = { country_exists = FRA }
+							if = {
+								limit = { FRA = { has_country_flag = FRA_cochinchina_intervention_flag } }
+								FRA = { has_country_flag = SPR_cochinchina_expedition_begin_invasion_ready_flag }
+							}
+						}	
+					}
+				}
+				else = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_cochinchina_expedition_begin_invasion_trigger
+						always = no
+					}
+				}
+			}
+		}
+		activation = {
+			has_global_flag = SPR_cochinchina_intervention_global_flag
+			OR = {
+				has_country_flag = SPR_cochinchina_intervention_flag
+				has_country_flag = FRA_cochinchina_intervention_flag
+			}
+		}
+		allowed = { 
+			OR = {
+				tag = SPR 
+				tag = FRA
+			}
+		}
+		selectable_mission = yes
+		is_good = no
+		fire_only_once = yes
+		#cost = 0
+		days_mission_timeout = 1180
+		complete_effect = {
+			#Invasion Commences 
+			country_event = { id = cochinchina_expedition.18 }
+			if = {
+				limit = { TAG = SPR } 
+				complete_national_focus = SPR_champa_campaign
+			}
+			else_if = {
+				if = {
+					limit = { country_exists = SPR }
+					if = {
+						limit = { SPR = { has_country_flag = SPR_cochinchina_intervention_flag } }
+						hidden_effect = { SPR = { complete_national_focus = SPR_champa_campaign } }
+					}
+				}
+			}
+			hidden_effect = {
+				SPR = { 
+					clr_country_flag = SPR_cochinchina_expedition_begin_invasion_ready_flag 
+					clr_country_flag = SPR_cochinchina_expedition_initial_yes
+				}
+				FRA = { 
+					clr_country_flag = SPR_cochinchina_expedition_begin_invasion_ready_flag 
+					clr_country_flag = SPR_cochinchina_expedition_initial_yes
+				}
+				if = {
+					limit = { TAG = SPR }
+					FRA = { remove_mission = SPR_cochinchina_expedition_begin_invasion }
+				}
+				else_if = {
+					limit = { TAG = FRA }
+					SPR = { remove_mission = SPR_cochinchina_expedition_begin_invasion }
+				}
+				clr_global_flag = SPR_cochinchina_intervention_global_flag
+			}
+		}
+		timeout_effect = {
+			#Spain Doesnt Have it's Shit Together
+			hidden_effect = {
+				
+			}
+		}
+	}
+#----------------------------------------------------------
+#Take Cochinchina
+#----------------------------------------------------------
+	SPR_cochinchina_expedition_take_port_mission = {
+		icon = generic_naval
+		ai_will_do = { factor = 100 }
+		available = {
+			if = {
+				limit = {
+					NOT = { TAG = VIN }
+				}
+				1386 = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_cochinchina_expedition_state_not_controlled_trigger
+						VIN = { NOT = { controls_state = PREV } }
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_cochinchina_expedition_state_controlled_trigger
+						any_country = {
+							controls_state = PREV
+							OR = {
+								AND = {
+									is_subject = yes
+									OVERLORD = {
+										OR = {
+											has_country_flag = SPR_cochinchina_intervention_flag
+											has_country_flag = FRA_cochinchina_intervention_flag
+										}
+									}
+								}
+								has_country_flag = SPR_cochinchina_intervention_flag
+								has_country_flag = FRA_cochinchina_intervention_flag
+							}
+						}
+					}
+				}
+				1336 = {
+					custom_trigger_tooltip = {
+						tooltip = SPR_cochinchina_expedition_state_not_controlled_trigger
+						VIN = { NOT = { controls_state = PREV } }
+					}
+					custom_trigger_tooltip = {
+						tooltip = SPR_cochinchina_expedition_state_controlled_trigger
+						any_country = {
+							controls_state = PREV
+							OR = {
+								AND = {
+									is_subject = yes
+									OVERLORD = {
+										OR = {
+											has_country_flag = SPR_cochinchina_intervention_flag
+											has_country_flag = FRA_cochinchina_intervention_flag
+										}
+									}
+								}
+								has_country_flag = SPR_cochinchina_intervention_flag
+								has_country_flag = FRA_cochinchina_intervention_flag
+							}
+						}
+					}
+				}
+			}
+			else = {
+				hidden_trigger = { always = no }
+				1386 = { VIN = { controls_state = PREV } }
+				1336 = { VIN = { controls_state = PREV } }
+			}
+		}
+		
+		allowed = { 
+			OR = { 
+				TAG = SPR
+				TAG = FRA
+				TAG = VIN
+			}
+		}
+		activation = { 
+			NOT = { has_global_flag = SPR_cochinchina_expedition_cochinchina_landing }
+			OR = {
+				has_country_flag = SPR_cochinchina_intervention_flag
+				has_country_flag = FRA_cochinchina_intervention_flag
+				has_country_flag = VIN_cochinchina_intervention_flag
+			}
+			VIN = { has_country_flag = VIN_cochinchina_intervention_flag }
+		}
+		selectable_mission = no
+		is_good = no
+		
+		fire_only_once = yes
+
+		#cost = 0
+		
+		days_mission_timeout = 1460
+		
+		highlight_states = {
+			STATE = 1386	
+		}
+		
+		complete_effect = {
+			#Europeans Take the Port
+			hidden_effect = {
+				if = {
+					limit = {
+						TAG = SPR
+						SPR = { has_country_flag = SPR_cochinchina_intervention_flag } 
+					}
+					SPR = { country_event = { id = cochinchina_expedition.364 } }
+					if = {
+						limit = { NOT = { has_global_flag = SPR_cochinchina_expedition_cochinchina_landing } }
+						set_global_flag = SPR_cochinchina_expedition_cochinchina_landing
+						VIN = { remove_mission = SPR_cochinchina_expedition_take_port_mission }
+					}
+				}
+				if = {
+					limit = {
+						TAG = FRA
+						FRA = { has_country_flag = FRA_cochinchina_intervention_flag } 
+					}
+					FRA = { country_event = { id = cochinchina_expedition.364 } }
+					if = {
+						limit = { NOT = { has_global_flag = SPR_cochinchina_expedition_cochinchina_landing } }
+						set_global_flag = SPR_cochinchina_expedition_cochinchina_landing
+						VIN = { remove_mission = SPR_cochinchina_expedition_take_port_mission }
+					}
+				}
+			}
+		}
+		timeout_effect = {
+			#Mexico Holds Out
+			hidden_effect = {
+				if = {
+					limit = {
+						TAG = SPR
+						SPR = { has_country_flag = SPR_cochinchina_intervention_flag } 
+					}
+					SPR = { country_event = { id = cochinchina_expedition.23 } }
+				}
+				if = {
+					limit = {
+						TAG = FRA
+						FRA = { has_country_flag = FRA_cochinchina_intervention_flag } 
+					}
+					FRA = { country_event = { id = cochinchina_expedition.23 } }
+				}
+				if = {
+					limit = { 
+						TAG = VIN
+						VIN = { 
+							exists = yes
+							has_country_flag = VIN_cochinchina_intervention_flag 
+						} 
+					}
+					VIN = { country_event = { id = cochinchina_expedition.24 } }
+				}
+			}
+		}
+	}
+}

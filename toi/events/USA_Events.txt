@@ -1,4 +1,5 @@
 ﻿add_namespace = usa
+add_namespace = usa_event_check
 add_namespace = usa_panic
 add_namespace = USA_utah_war
 add_namespace = USA_utah_war_start
@@ -81,9 +82,11 @@ country_event = {
 		name = usa_panic_of_1857.1.a
 		trigger = { tag = USA }
 		add_ideas = USA_1857Panic0
+		hidden_effect = { set_country_flag = na_b_monthly_economic_panic_countdown_flag }
+		activate_decision = na_b_monthly_economic_panic_countdown
 		hidden_effect = {
-			complete_national_focus = USA_under_panic
 			set_global_flag = Panic_of_1857
+			complete_national_focus = USA_under_panic
 			news_event = usa_panic_of_1857.2
 			country_event = {
 				id = usa.73
@@ -93,6 +96,7 @@ country_event = {
 #			days = 75
 			}
 		}
+		mark_focus_tree_layout_dirty = yes
 	}
 }
 
@@ -131,6 +135,11 @@ news_event = {
 					idea = Panic_of_1857_4
 					days = 300
 				}
+				hidden_effect = { 
+					set_country_flag = na_b_monthly_economic_panic_countdown_flag 
+					country_event = { id = na_b_monthly_economic_panic_report.2 days = 300 }
+				}
+				activate_decision = na_b_monthly_economic_panic_countdown
 			}
 			else_if = {#more than 20 factories
 				limit = {
@@ -140,6 +149,11 @@ news_event = {
 					idea = Panic_of_1857_3
 					days = 280
 				}
+				hidden_effect = { 
+					set_country_flag = na_b_monthly_economic_panic_countdown_flag 
+					country_event = { id = na_b_monthly_economic_panic_report.2 days = 280 }
+				}
+				activate_decision = na_b_monthly_economic_panic_countdown
 			}
 			else_if = {#more than 10 factories
 				limit = {
@@ -149,6 +163,11 @@ news_event = {
 					idea = Panic_of_1857_2
 					days = 260
 				}
+				hidden_effect = { 
+					set_country_flag = na_b_monthly_economic_panic_countdown_flag 
+					country_event = { id = na_b_monthly_economic_panic_report.2 days = 260 }
+				}
+				activate_decision = na_b_monthly_economic_panic_countdown
 			}
 			else_if = {#has 10 factories
 				limit = {
@@ -161,6 +180,11 @@ news_event = {
 					idea = Panic_of_1857_1
 					days = 240
 				}
+				hidden_effect = { 
+					set_country_flag = na_b_monthly_economic_panic_countdown_flag 
+					country_event = { id = na_b_monthly_economic_panic_report.2 days = 240 }
+				}
+				activate_decision = na_b_monthly_economic_panic_countdown
 			}
 			else={#has less than 10 factories
 				add_political_power = -10
@@ -563,6 +587,46 @@ country_event = {
 		name = usa_panic.6.a
 		remove_ideas = USA_1857Panic5
 		set_country_flag = USA_panic_recovery_flag
+		hidden_effect = {
+			clr_country_flag = na_b_monthly_economic_panic_countdown_flag
+			if = {
+				limit = { has_country_flag = na_b_economic_panic_industry_bankruptcy_protections_flag }
+				clr_country_flag = na_b_economic_panic_industry_bankruptcy_protections_flag
+			}
+		}
+		if = {
+			limit = { has_country_flag = na_b_economic_panic_temporary_tax_relief_flag }
+			custom_effect_tooltip = na_b_economic_panic_temporary_tax_relief_tooltip
+			if = { 
+				limit = { has_idea = very_low_taxes }
+				swap_ideas = {
+					remove_idea = very_low_taxes
+					add_idea = low_taxes
+				}
+			}
+			else_if = { 
+				limit = { has_idea = low_taxes }
+				swap_ideas = {
+					remove_idea = low_taxes
+					add_idea = normal_taxes
+				}
+			}
+			else_if = { 
+				limit = { has_idea = normal_taxes }
+				swap_ideas = {
+					remove_idea = normal_taxes
+					add_idea = high_taxes
+				}
+			}
+			else_if = { 
+				limit = { has_idea = high_taxes }
+				swap_ideas = {
+					remove_idea = high_taxes
+					add_idea = very_high_taxes
+				}
+			}
+			clr_country_flag = na_b_economic_panic_temporary_tax_relief_flag
+		}
 	}
 }
 
@@ -1158,6 +1222,7 @@ country_event = {#war goes hot, US wins
 				transfer_state = 1291
 			}
 		}
+		country_event = usa.65
 	}
 }
 
@@ -1174,6 +1239,7 @@ country_event = {#war goes hot, US loss
 		USA = {
 			white_peace = UTA
 		}
+		country_event = usa.66
 	}
 }
 
@@ -2047,25 +2113,39 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = usa_event_check.1
+	title = usa_event_check.1.t
+	desc = usa_event_check.1.d
+	picture = placeholder
+	hidden = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					has_war_with = ENG
+				}
+			}
+			country_event = {
+				id = usa_event_check.1
+				days = 30
+			}
+		}
+		else = {
+			country_event = usa.26
+		}
+	}
+}
+
 # Pig War
 country_event = {
 	id = usa.26
 	title = usa.26.t
 	desc = usa.26.d
 	picture = GFX_report_event_soldiers_marching
-
-	trigger = {
-		OR = {
-			TAG = USA
-			TAG = ENG
-		}
-		USA = { owns_state = 386 }
-		VAN = { owns_state = 740 }
-		date > 1859.6.15
-		NOT = {
-			USA = { has_war_with = ENG }
-		}
-	}
 
 	fire_only_once = yes
 
@@ -2260,11 +2340,6 @@ country_event = {
 
 	fire_only_once = yes
 
-	trigger = {
-		tag = USA
-		date > 1857.10.10
-	}
-
 	option = {
 		name = usa.31.a
 		add_political_power = -10
@@ -2396,44 +2471,72 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = usa_event_check.2
+	title = usa_event_check.2.t
+	desc = usa_event_check.2.desc
+	is_triggered_only = yes
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				AND = {
+					has_war_with = CSA
+					NOT = {
+						OR = {
+							has_government = autocracy
+							has_government = vanguard_communism
+							has_government = collectivist_socialism
+							has_government = anarchism
+						}
+					}
+				}
+			}
+			country_event = usa.36
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					OR = {
+						has_war_with = CSA
+						has_government = autocracy
+						has_government = vanguard_communism
+						has_government = collectivist_socialism
+						has_government = anarchism
+					}
+				}
+			}
+			country_event = usa.38
+		}
+		else = { }
+	}
+}
+
 #Election of 1864
 country_event = {
 	id = usa.36
 	title = usa.36.t
 	desc = {
-    text = usa.36.d
-    trigger = { has_country_flag = USA_LincolnElected }
-  }
-  desc =  {
-    text = usa.36.d_a
-    trigger = { has_country_flag = USA_DouglasElected }
-  }
-  desc =  {
-    text = usa.36.d_b
-    trigger = { has_country_flag = USA_Radical_Coup }
-  }
-  desc =  {
-    text = usa.36.d_c
-    trigger = { has_government = radical_democracy }
-  }
+		text = usa.36.d
+		trigger = { has_country_flag = USA_LincolnElected }
+	}
+	desc =  {
+		text = usa.36.d_a
+		trigger = { has_country_flag = USA_DouglasElected }
+	}
+	desc =  {
+		text = usa.36.d_b
+		trigger = { has_country_flag = USA_Radical_Coup }
+	}
+	desc =  {
+		text = usa.36.d_c
+		trigger = { has_government = radical_democracy }
+	}
 	picture = report_event_election_vote
 
 	fire_only_once = yes
 	is_triggered_only = yes
-
-	trigger = {
-		TAG = USA
-		has_war_with = CSA
-		CSA = { exists = yes }
-		NOT = {
-			has_government = autocracy
-			has_government = vanguard_communism
-			has_government = collectivist_socialism
-			has_government = anarchism
-		}
-		date < 1865.1.1
-		date > 1864.1.1
-	}
 
 	option = {
 		name = usa.36.a
@@ -2613,21 +2716,6 @@ country_event = {
 
 	fire_only_once = yes
 
-	trigger = {
-		TAG = USA
-		OR = {
-			CSA = { exists = no }
-			NOT = { has_war_with = CSA }
-		}
-		NOT = {
-			has_government = autocracy
-			has_government = vanguard_communism
-			has_government = collectivist_socialism
-			has_government = anarchism
-		}
-		date < 1865.1.1
-		date > 1864.1.1
-	}
 	option = {
 		name = usa.38.a
 		trigger = {
@@ -2846,14 +2934,7 @@ country_event = {
 	desc = usa.44.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		TAG = USA
-		has_country_flag = USASoaring_Eagle
-	}
-	fire_only_once = yes
-	mean_time_to_happen = {
-  	days = 3
-	}
+	is_triggered_only = yes
 
 	option = {
 		trigger = {
@@ -2945,6 +3026,29 @@ country_event = {
 	}
 }
 
+country_event = { #Event check for Jefferson Davis flees the Union
+	id = usa_event_check.3
+	title = usa_event_check.3.t
+	desc = usa_event_check.3.desc
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					NOT = { has_country_flag = USA_Confederate_Investigation }
+					NOT = { has_country_flag = Davis_Captured }
+				}
+			}
+			country_event = usa.48
+		}
+		else = { }
+	}
+}
+
 #Jefferson Davis flees the Union
 country_event = {
 	id = usa.48
@@ -2952,15 +3056,19 @@ country_event = {
 	desc = usa.48.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		TAG = USA
-		NOT = { has_country_flag = USA_Confederate_Investigation }
-		NOT = { has_country_flag = Davis_Captured }
-		has_country_flag = USASoaring_Eagle
-	}
+	is_triggered_only = yes
+
 	fire_only_once = yes
-	mean_time_to_happen = {
-		days = 200
+
+	immediate = {
+		hidden_effect = {
+			BRA = {
+				country_event = {
+					id = usa.49
+					days = 25
+				}
+			}
+		}
 	}
 
 	option = {
@@ -2982,14 +3090,9 @@ country_event = {
 	desc = usa.49.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		TAG = BRA
-		has_global_flag = Davis_Flees
-	}
+	is_triggered_only = yes
+
 	fire_only_once = yes
-	mean_time_to_happen = {
-  	days = 7
-	}
 
 	option = {
 		name = usa.49.a
@@ -3242,6 +3345,30 @@ country_event = {
 	}
 }
 
+country_event = {
+	id = usa_event_check.4
+	title = usa_event_check.4.t
+	desc = usa_event_check.4.desc
+	picture = placeholder
+	hidden = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					NOT = { has_country_flag = USA_Reconstruction_Ended }
+					NOT = { has_idea = full_equality }
+				}
+			}
+			USA = {
+				country_event = usa.58
+			}
+		}
+	}
+}
+
 #Liberia Emigration
 country_event = {
 	id = usa.58
@@ -3249,16 +3376,9 @@ country_event = {
 	desc = usa.58.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		NOT = { has_country_flag = USA_Reconstruction_Ended }
-		has_country_flag = USASoaring_Eagle
-		NOT = { has_idea = full_equality }
-	}
+	is_triggered_only = yes
+
 	fire_only_once = yes
-	mean_time_to_happen = {
-		days = 75
-	}
 
 	option = {
 		name = usa.58.a
@@ -3538,20 +3658,13 @@ country_event = {
 	desc = usa.65.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_country_flag = USA_UtahWar_Escalated
-		OR = {
-			NOT = { country_exists = UTA }
-			UTA = { is_puppet_of = USA }
-		}
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
-	mean_time_to_happen = {
-		days = 2
-	}
+	#mean_time_to_happen = {
+	#	days = 2
+	#}
 
 	option = {
 		name = usa.65.a
@@ -3594,12 +3707,7 @@ country_event = {
 	desc = usa.66.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_country_flag = USA_UtahWar_Escalated
-		UTA = { exists = yes }
-		NOT = { has_war_with = UTA }
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
@@ -3608,6 +3716,26 @@ country_event = {
 		add_political_power = -100
 		clr_country_flag = USA_UtahWar_Escalated
 		#remove_ideas = USA_UtahWar_2
+	}
+}
+
+country_event = {
+	id = usa_event_check.6
+	title = usa_event_check.6.t
+	desc = usa_event_check.6.desc
+	hidden = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					has_idea = USA_Spirit_Anti_Irish
+				}
+			}
+			country_event = usa.67
+		}
 	}
 }
 
@@ -3625,13 +3753,7 @@ country_event = {
 	}
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		has_idea = USA_Spirit_Anti_Irish
-		OR = {
-			has_global_flag = ACW_American_Civil_War_Avoided
-			has_global_flag = ACW_American_Civil_War
-		}
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
@@ -3664,11 +3786,7 @@ country_event = {
 	desc = usa.68.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_Spirit_Anti_Irish_ACW
-		has_war = no
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
@@ -3681,6 +3799,28 @@ country_event = {
 	}
 }
 
+country_event = { #Event check for 'USA Anti-Irish Sentiment not an issue anymore'
+	id = usa_event_check.7
+	title = usa_event_check.7.t
+	desc = usa_event_check.7.desc
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					has_idea = USA_Spirit_Anti_Irish2
+				}
+			}
+			country_event = usa.69
+		}
+		else = { }
+	}
+}
+
 #USA Anti-Irish Sentiment not an issue anymore
 country_event = {
 	id = usa.69
@@ -3688,11 +3828,7 @@ country_event = {
 	desc = usa.69.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_Spirit_Anti_Irish2
-		date > 1890.1.1
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
@@ -4325,6 +4461,33 @@ country_event = {
 		}
 	}
 }
+country_event = { # Event check for 'People Complain about Policies'
+	id = usa_event_check.8
+	title = usa_event_check.8.t
+	desc = usa_event_check.8.desc
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				AND = {
+					check_variable = { reconstruction_points > 14 }
+					has_idea = USA_recovery
+				}
+			}
+			country_event = usa.86
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.8
+				days = 30
+			}
+		}
+	}
+}
 #People Complain about Policies
 country_event = {
 	id = usa.86
@@ -4332,15 +4495,7 @@ country_event = {
 	desc = usa.86.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_recovery
-		check_variable = { reconstruction_points > 14 }
-	}
-
-	mean_time_to_happen = {
-		days = 1000
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = usa.86.a
@@ -4360,6 +4515,9 @@ country_event = {
 				factor = 100
 				has_government = social_egalitarianism
 			}
+		}
+		hidden_effect = {
+			country_event = usa_event_check.8
 		}
 	}
 	option = {
@@ -4382,6 +4540,31 @@ country_event = {
 		}
 	}
 }
+country_event = { #Event checks for KKK forms (hooray controversy)
+	id = usa_event_check.9
+	title = usa_event_check.9.t
+	desc = usa_event_check.9.desc
+	hidden = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					check_variable = { reconstruction_points > 19 }
+				}
+			}
+			country_event = usa.87
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.9
+				days = 30
+			}
+		}
+	}
+}
 #KKK forms (hooray controversy)
 country_event = {
 	id = usa.87
@@ -4389,16 +4572,20 @@ country_event = {
 	desc = usa.87.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_recovery
-		check_variable = { reconstruction_points > 19 }
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
-	mean_time_to_happen = {
-		days = 30
+	immediate =  {
+		hidden_effect = {
+			USA = {
+				country_event = {
+					id = usa_event_check.14
+					days = 1
+					random_days = 500
+				}
+			}
+		}
 	}
 
 	option = {
@@ -4406,24 +4593,71 @@ country_event = {
 		set_country_flag = USA_first_kkk
 	}
 }
-#KKK becomes violent (kotaku article incoming)
+country_event = { #Event check for KKK becomes violent
+	id = usa_event_check.10
+	title = usa_event_check.10.t
+	desc = usa_event_check.10.desc
+	hidden = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					check_variable = { reconstruction_points > 19 }
+					has_idea = USA_recovery
+					has_country_flag = USA_first_kkk
+				}
+			}
+			country_event = {
+				id = usa.88
+				days = 30
+				random_days = 60
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					USA = {
+						has_country_flag = USA_first_kkk
+					}
+				}
+			}
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.10
+				days = 45
+			}
+		}
+	}
+}
+#KKK becomes violent (PresidentStorm: kotaku article incoming) (Ormr1: Here it comes)
 country_event = {
 	id = usa.88
 	title = usa.88.t
 	desc = usa.88.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_recovery
-		check_variable = { reconstruction_points > 24 }
-		has_country_flag = USA_first_kkk
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
-	mean_time_to_happen = {
-		days = 60
+	immediate = {
+		hidden_effect = {
+			USA = {
+				country_event = {
+					id = usa.89
+					days = 45
+					random_days = 115
+				}
+				country_event = {
+					id = usa_event_check.12
+					days = 90
+				}
+			}
+		}
 	}
 
 	option = {
@@ -4466,6 +4700,36 @@ country_event = {
 		}
 	}
 }
+country_event = {
+	id = usa_event_check.11
+	title = usa_event_check.11.t
+	desc = usa_event_check.11.desc
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					has_country_flag = USA_first_kkk
+				}
+			}
+			country_event = usa.89
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					USA = {
+						has_country_flag = USA_first_kkk
+					}
+				}
+			}
+		}
+		else = { }
+	}
+}
 #KKK intimidates voters
 country_event = {
 	id = usa.89
@@ -4473,17 +4737,16 @@ country_event = {
 	desc = usa.89.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_recovery
-		has_country_flag = USA_first_kkk
-		date > 1868.11.1
-	}
+	is_triggered_only = yes
 
-	fire_only_once = yes
-
-	mean_time_to_happen = {
-		days = 2
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = usa_event_check.12
+				days = 20
+				random_days = 40
+			}
+		}
 	}
 
 	option = {
@@ -4531,6 +4794,60 @@ country_event = {
 		}
 	}
 }
+country_event = {
+	id = usa_event_check.12
+	title = usa_event_check.12.t
+	desc = usa_event_check.12.desc
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					AND = {
+						has_country_flag = USA_first_kkk
+						OR = {
+							any_owned_state = {
+								industrial_complex > 0
+								OR = {
+									state = 362
+									state = 363
+									state = 364
+									state = 365
+									state = 366
+									state = 367
+									state = 368
+									state = 370
+									state = 371
+									state = 372
+									state = 375
+								}
+							}
+						}
+					}
+				}
+			}
+			country_event = {
+				id = usa.90
+				days = 1
+				random_days = 30
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					USA = {
+						has_country_flag = USA_first_kkk
+					}
+				}
+			}
+		}
+		else = { }
+	}
+}
 #KKK disrupts southern factory
 country_event = {
 	id = usa.90
@@ -4538,32 +4855,7 @@ country_event = {
 	desc = usa.90.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_recovery
-		check_variable = { reconstruction_points > 24 }
-		any_owned_state = {
-			industrial_complex > 0
-			OR = {
-				state = 362
-				state = 363
-				state = 364
-				state = 365
-				state = 366
-				state = 367
-				state = 368
-				state = 370
-				state = 371
-				state = 372
-				state = 375
-			}
-		}
-		has_country_flag = USA_first_kkk
-	}
-
-	mean_time_to_happen = {
-		days = 400
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = usa.90.a
@@ -4675,6 +4967,42 @@ country_event = {
 		custom_effect_tooltip = USA_reconstruction_remove_2
 	}
 }
+country_event = {
+	id = usa_event_check.13
+	title = usa_event_check.13
+	desc = usa_event_check.13
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					check_variable = { reconstruction_points > 24 }
+					has_country_flag = USA_first_kkk
+				}
+			}
+			country_event = usa.91
+		}
+		else_if = {
+			limit = {
+				USA = {
+					NOT = {
+						has_country_flag = USA_first_kkk
+					}
+				}
+			}
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.13
+				days = 35
+			}
+		}
+	}
+}
 #KKK 'ghosts of Confederate soldiers'
 country_event = {
 	id = usa.91
@@ -4682,18 +5010,9 @@ country_event = {
 	desc = usa.91.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_recovery
-		check_variable = { reconstruction_points > 24 }
-		has_country_flag = USA_first_kkk
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
-
-	mean_time_to_happen = {
-		days = 250
-	}
 
 	option = {
 		name = usa.91.a
@@ -4742,6 +5061,39 @@ country_event = {
 		}
 	}
 }
+country_event = {
+	id = usa_event_check.14
+	title = usa_event_check.14.t
+	desc = usa_event_check.14.desc
+	hidden = yes
+	picture = placeholder
+	
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					check_variable = { reconstruction_points > 24 }
+				}
+			}
+			country_event = usa.92
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_country_flag = USA_first_kkk
+				}
+			}
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.14
+				random_days = 50
+			}
+		}
+	}
+}
 #KKK attacks Loyal Leagues
 country_event = {
 	id = usa.92
@@ -4749,17 +5101,9 @@ country_event = {
 	desc = usa.92.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_recovery
-		check_variable = { reconstruction_points > 24 }
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
-
-	mean_time_to_happen = {
-		days = 500
-	}
 
 	option = {
 		name = usa.92.a
@@ -4846,17 +5190,9 @@ country_event = {
 	desc = usa.94.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_idea = USA_recovery
-		has_idea = USA_black_wages
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
-
-	mean_time_to_happen = {
-		days = 40
-	}
 
 	option = {
 		name = usa.94.a
@@ -5800,6 +6136,35 @@ country_event = {
 		}
 	}
 }
+country_event = { #Event check for Sam Houston Elected Governor of Texas
+	id = usa_event_check.15
+	title = usa_event_check.15.t
+	desc = usa_event_check.15.desc
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					OR = {
+						owns_state = 1306
+						owns_state = 1305
+						owns_state = 375
+						owns_state = 1304
+						owns_state = 1303
+						owns_state = 1281
+						owns_state = 1280
+					}
+				}
+			}
+			country_event = usa.109
+		}
+		else = { }
+	}
+}
 # Texas ACW Events #
 #Sam Houston Elected Governor of Texas
 country_event = {
@@ -5808,17 +6173,21 @@ country_event = {
 	desc = usa.109.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		owns_state = 375
-		date > 1859.8.1
-	}
-
-	mean_time_to_happen = {
-		days = 20
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			USA = {
+				country_event = {
+					id = usa.110
+					days = 336
+					random_days = 459
+				}
+			}
+		}
+	}
 
 	option = {
 		name = usa.109.a
@@ -5837,16 +6206,7 @@ country_event = {
 	desc = usa.110.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		date > 1860.7.1
-		date < 1860.11.1
-		has_country_flag = USA_Houston_TX_Gov
-	}
-
-	mean_time_to_happen = {
-		days = 30
-	}
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
@@ -9112,6 +9472,72 @@ country_event = {
 	}
 }
 ### Gilded Age Events ###
+country_event = {
+	id = usa_event_check.19
+	title = usa_event_check.19.t
+	desc = usa_event_check.19.desc
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_global_flag = USA_gilded_age_ft
+				OR = {
+					check_variable = {
+						var = USA_steel_opinion
+						value = 40
+						compare = less_than_or_equals
+					}
+					check_variable = {
+						var = USA_standard_oil_opinion
+						value = 40
+						compare = less_than_or_equals
+					}
+				}
+				OR = {
+					AND = {
+						date > 1876.1.1
+						date < 1877.1.1
+					}
+					AND = {
+						date > 1880.1.1
+						date < 1881.1.1
+					}
+					AND = {
+						date > 1884.1.1
+						date < 1885.1.1
+					}
+					AND = {
+						date > 1888.1.1
+						date < 1889.1.1
+					}
+					AND = {
+						date > 1892.1.1
+						date < 1893.1.1
+					}
+					AND = {
+						date > 1896.1.1
+						date < 1897.1.1
+					}
+					AND = {
+						date > 1900.1.1
+						date < 1900.1.1
+					}
+				}
+			}
+			country_event = usa.151
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.19
+				days = 30
+			}
+		}
+	}
+}
 #Captians of Industry events
 country_event = {
 	id = usa.151
@@ -9764,6 +10190,84 @@ country_event = {
 		}
 	}
 }
+country_event = { #Recurring Event Check for Person dies from conditions
+	id = usa_event_check.16
+	title = usa_event_check.16.t
+	desc = usa_event_check.16.desc
+	hidden = yes
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				USA = {
+					NOT = {
+						has_idea = eight_hour_work_day
+					}
+					has_idea = cl_illegal
+				}
+			}
+			country_event = usa.152
+			country_event = {
+				id = usa_event_check.16
+				days = 30
+			}
+		}
+		else_if = {
+			limit = {
+				USA = {
+					NOT = {
+						has_idea = cl_illegal
+					}
+					has_idea = eight_hour_work_day
+				}
+			}
+			country_event = usa.153
+			country_event = {
+				id = usa_event_check.16
+				days = 30
+			}
+		}
+		else_if = {
+			limit = {
+				USA = {
+					NOT = {
+						has_idea = cl_illegal
+						has_idea = eight_hour_work_day
+					}
+				}
+			}
+			random_list = {
+				50 = {
+					country_event = usa.152
+				}
+				50 = {
+					country_event = usa.153
+				}
+			}
+			country_event = {
+				id = usa_event_check.16
+				days = 30
+			}
+		}
+		else_if = {
+			limit = {
+				USA = {
+					has_idea = cl_illegal
+					has_idea = eight_hour_work_day
+				}
+			}
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.16
+				days = 30
+			}
+		}
+	}
+}
 #Person dies from conditions
 country_event = {
 	id = usa.152
@@ -9771,11 +10275,7 @@ country_event = {
 	desc = usa.152.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		NOT = { has_idea = eight_hour_work_day }
-		has_global_flag = USA_gilded_age_ft
-	}
+	is_triggered_only = yes
 
 	immediate = {
 		hidden_effect = {
@@ -9785,14 +10285,6 @@ country_event = {
 				}
 				save_event_target_as = USA_gilded_facdeath_state
 			}
-		}
-	}
-
-	mean_time_to_happen = {
-		days = 500
-		modifier = {
-			factor = 0.75
-			NOT = { has_idea = ten_hour_work_day }
 		}
 	}
 
@@ -9879,11 +10371,7 @@ country_event = {
 	desc = usa.153.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		NOT = { has_idea = cl_illegal }
-		has_global_flag = USA_gilded_age_ft
-	}
+	is_triggered_only = yes
 
 	immediate = {
 		hidden_effect = {
@@ -9893,14 +10381,6 @@ country_event = {
 				}
 				save_event_target_as = USA_gilded_childlab_state
 			}
-		}
-	}
-
-	mean_time_to_happen = {
-		days = 600
-		modifier = {
-			factor = 0.75
-			NOT = { has_idea = cl_restricted }
 		}
 	}
 
@@ -9981,91 +10461,81 @@ country_event = {
 	}
 }
 country_event = {
+	id = usa_event_check.17
+	title = usa_event_check.17.t
+	desc =  usa_event_check.17.desc
+	picture = placeholder
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_global_flag = USA_gilded_age_ft
+				OR = {
+					check_variable = {
+						var = USA_steel_opinion
+						value = 60
+						compare = greater_than_or_equals
+					}
+					check_variable = {
+						var = USA_standard_oil_opinion
+						value = 60
+						compare = greater_than_or_equals
+					}
+				}
+				OR = {
+					AND = {
+						date > 1876.1.1
+						date < 1877.1.1
+					}
+					AND = {
+						date > 1880.1.1
+						date < 1881.1.1
+					}
+					AND = {
+						date > 1884.1.1
+						date < 1885.1.1
+					}
+					AND = {
+						date > 1888.1.1
+						date < 1889.1.1
+					}
+					AND = {
+						date > 1892.1.1
+						date < 1893.1.1
+					}
+					AND = {
+						date > 1896.1.1
+						date < 1897.1.1
+					}
+					AND = {
+						date > 1900.1.1
+						date < 1900.1.1
+					}
+				}
+			}
+			country_event = {
+				id = usa.154
+				days = 30
+				random_days = 90
+			}
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.17
+				days = 15
+			}
+		}
+	}
+}
+country_event = {
 	id = usa.154
 	title = usa.154.t
 	desc = usa.154.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_global_flag = USA_gilded_age_ft
-		OR = {
-			check_variable = {
-				var = USA_steel_opinion
-				value = 60
-				compare = greater_than_or_equals
-			}
-			check_variable = {
-				var = USA_standard_oil_opinion
-				value = 60
-				compare = greater_than_or_equals
-			}
-		}
-		OR = {
-			AND = {
-				date > 1876.1.1
-				date < 1877.1.1
-			}
-			AND = {
-				date > 1880.1.1
-				date < 1881.1.1
-			}
-			AND = {
-				date > 1884.1.1
-				date < 1885.1.1
-			}
-			AND = {
-				date > 1888.1.1
-				date < 1889.1.1
-			}
-			AND = {
-				date > 1892.1.1
-				date < 1893.1.1
-			}
-			AND = {
-				date > 1896.1.1
-				date < 1897.1.1
-			}
-			AND = {
-				date > 1900.1.1
-				date < 1900.1.1
-			}
-		}
-	}
-
-	mean_time_to_happen = {
-		days = 150
-		modifier = {
-			factor = 0.75
-			OR = {
-				check_variable = {
-					var = USA_steel_opinion
-					value = 70
-					compare = greater_than_or_equals
-				}
-				check_variable = {
-					var = USA_standard_oil_opinion
-					value = 70
-					compare = greater_than_or_equals
-				}
-			}
-		}
-		modifier = {
-			factor = 0.5
-			AND = {
-				check_variable = {
-					var = USA_steel_opinion
-					value = 70
-					compare = greater_than_or_equals
-				}
-				check_variable = {
-					var = USA_standard_oil_opinion
-					value = 70
-					compare = greater_than_or_equals
-				}
-			}
-		}
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = usa.154.a
@@ -10638,14 +11108,7 @@ country_event = {
 	desc = usa.155.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_global_flag = USA_gilded_age_ft
-	}
-
-	mean_time_to_happen = {
-		days = 900
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = usa.155.a
@@ -10697,6 +11160,45 @@ country_event = {
 		name = usa.155.c
 	}
 }
+country_event = {
+	id = usa_event_check.18
+	title = usa_event_check.18.t
+	desc = usa_event_check.18.desc
+	hidden = yes
+	picture = placeholder
+	
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_global_flag = USA_gilded_age_ft
+				OR = {
+					check_variable = {
+						var = USA_steel_popularity
+						value = 40
+						compare = less_than
+					}
+					check_variable = {
+						var = USA_standard_oil_popularity
+						value = 40
+						compare = less_than
+					}
+				}
+			}
+			country_event = usa.156
+		}
+		else_if = {
+			limit = { NOT = { has_global_flag = USA_gilded_age_ft } }
+		}
+		else = {
+			country_event = {
+				id = usa_event_check.18
+				days = 30
+			}
+		}
+	}
+}
 #Strike at a Factory
 country_event = {
 	id = usa.156
@@ -10704,22 +11206,7 @@ country_event = {
 	desc = usa.156.d
 	picture = GFX_report_event_german_reichstag_gathering
 
-	trigger = {
-		tag = USA
-		has_global_flag = USA_gilded_age_ft
-		OR = {
-			check_variable = {
-				var = USA_steel_popularity
-				value = 40
-				compare = less_than
-			}
-			check_variable = {
-				var = USA_standard_oil_popularity
-				value = 40
-				compare = less_than
-			}
-		}
-	}
+	is_triggered_only = yes
 
 	immediate = {
 		hidden_effect = {
@@ -10729,27 +11216,32 @@ country_event = {
 				}
 				save_event_target_as = USA_gilded_strike_state
 			}
-		}
-	}
-
-	mean_time_to_happen = {
-		days = 500
-		modifier = {
-			factor = 0.75
-			AND = {
-				check_variable = {
-					var = USA_steel_popularity
-					value = 40
-					compare = less_than
-				}
-				check_variable = {
-					var = USA_standard_oil_popularity
-					value = 40
-					compare = less_than
-				}
+			country_event = {
+				id = usa_event_check.18
+				days = 1
+				random_days = 500
 			}
 		}
 	}
+
+	#mean_time_to_happen = {
+	#	days = 500
+	#	modifier = {
+	#		factor = 0.75
+	#		AND = {
+	#			check_variable = {
+	#				var = USA_steel_popularity
+	#				value = 40
+	#				compare = less_than
+	#	#		}
+	#			check_variable = {
+	#				var = USA_standard_oil_popularity
+	#				value = 40
+	#				compare = less_than
+	#			}
+	#		}
+	#	}
+	#}
 
 	option = {
 		name = usa.156.a
@@ -13824,7 +14316,7 @@ news_event = {
 		id = usa_news.8
 		title = usa_news.8.t
 		desc = usa_news.8.d
-		picture = GFX_news_event_acw_avoided
+		picture = GFX_news_event_white_house
 
 		is_triggered_only = yes
 
@@ -13914,7 +14406,7 @@ news_event = {
 		id = usa_news.11
 		title = usa_news.11.t
 		desc = usa_news.11.d
-		picture = GFX_news_event_usa_monarchist_revolution
+		picture = GFX_news_event_white_house_storm
 
 		major = yes
 
@@ -13963,7 +14455,7 @@ news_event = {
             trigger = { CSA = { exists = no } }
         }
 
-		picture = GFX_news_event_usa_lincoln_2
+		picture = GFX_news_event_usa_lincoln_elected_2
 
 		major = yes
 
@@ -13991,7 +14483,7 @@ news_event = {
             trigger = { CSA = { exists = no } }
         }
 
-		picture = GFX_news_event_usa_douglas_2
+		picture = GFX_news_event_usa_douglas_elected_2
 
 		major = yes
 
@@ -14171,7 +14663,7 @@ news_event = {
 		title = usa_news.21.t
 		desc = usa_news.21.d
 
-		picture = GFX_news_event_usa_douglas_2
+		picture = GFX_news_event_usa_douglas_elected_2
 
 		major = yes
 
@@ -14226,7 +14718,7 @@ news_event = {
 		title = usa_news.23.t
 		desc = usa_news.23.d
 
-		picture = GFX_news_event_acw_radical_coup
+		picture = GFX_news_event_congress_vote
 
 		major = yes
 

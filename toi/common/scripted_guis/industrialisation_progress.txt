@@ -1194,7 +1194,17 @@ scripted_gui = {
 		}
 		triggers={
 			nmissle_toggle_production_click_enabled={
-				always = no#change to check if nmc production is enabled
+				check_variable = {NMC_research_array^29 >1}
+				#always = no#change to check if nmc production is enabled
+			}
+			nmissle_r_and_d_tab_button_visible={
+				NOT={check_variable = {NMC_opened_tab = 0}}
+			}
+			nmissle_production_tab_button_visible={
+				NOT={check_variable = {NMC_opened_tab = 2}}
+			}
+			nmissle_targeting_tab_button_visible={
+				NOT={check_variable = {NMC_opened_tab = 1}}
 			}
 		}
 	}
@@ -1256,6 +1266,7 @@ scripted_gui = {
 									zmissile_targeted_states_country_array = "NA" 
 									index = i
 								}
+								subtract_from_variable = {ROOT.num_prepared_nuclear_missiles = 1}
 							}
 						}
 					}
@@ -1418,45 +1429,132 @@ scripted_gui = {
 		effects={
 			nmissle_rd_research_1_1_click={
 				set_variable = {NMC_research_array^0 = 2}
+				add_command_power = -25
 			}
 			nmissle_rd_research_1_2_click={
 				set_variable = {NMC_research_array^1 = 2}
+				add_command_power = -25
 			}
 			nmissle_rd_research_2_1_click={
 				set_variable = {NMC_research_array^2 = 2}
+				add_command_power = -25
 			}
 			nmissle_rd_research_2_2_click={
 				set_variable = {NMC_research_array^3 = 2}
+				add_command_power = -25
 			}
 			nmissle_rd_extraction_1_click={
 				set_variable = {NMC_research_array^4 = 2}
+				if={
+					limit={
+						any_owned_state = {
+							has_uranium_deposits = yes
+						}
+					}
+					unlock_decision_tooltip = NMC_develop_uranium_extraction
+				}
+				else={
+					unlock_decision_tooltip = NMC_obtain_uranium_deals
+				}
 			}
 			nmissle_rd_extraction_2_click={
 				set_variable = {NMC_research_array^5 = 2}
 			}
+			nmissle_rd_refining_1_click={
+				set_variable = {NMC_research_array^6 = 2}
+			}
+			nmissle_rd_refining_2_click={
+				set_variable = {NMC_research_array^7 = 2}
+			}
+			nmissle_rd_fissile_material_1_click={
+				set_variable = {NMC_research_array^8 = 2}
+			}
+			nmissle_rd_fissile_material_2_click={
+				set_variable = {NMC_research_array^9 = 2}
+				set_variable = {NMC_research_array^29 = 2}
+				#country_event = { }#inform world of new nuclear power
+			}
+			nmissle_rd_electronics_1_click={
+				set_variable = {NMC_research_array^10 = 2}
+			}
+			nmissle_rd_electronics_2_click={
+				set_variable = {NMC_research_array^11 = 2}
+			}
+			nmissle_rd_radio_1_click={
+				set_variable = {NMC_research_array^12 = 2}
+			}
+			nmissle_rd_radio_2_click={
+				set_variable = {NMC_research_array^13 = 2}
+			}
+			nmissle_rd_servos_1_click={
+				set_variable = {NMC_research_array^14 = 2}
+			}
+			nmissle_rd_servos_2_click={
+				set_variable = {NMC_research_array^15 = 2}
+			}
+			nmissle_rd_gyros_1_click={
+				set_variable = {NMC_research_array^16 = 2}
+			}
+			nmissle_rd_gyros_2_click={
+				set_variable = {NMC_research_array^17 = 2}
+			}
+			nmissle_rd_propulsion_1_click={
+				set_variable = {NMC_research_array^18 = 2}
+			}
+			nmissle_rd_propulsion_2_click={
+				set_variable = {NMC_research_array^19 = 2}
+			}
+			nmissle_rd_casing_1_click={
+				set_variable = {NMC_research_array^20 = 2}
+			}
+			nmissle_rd_casing_2_click={
+				set_variable = {NMC_research_array^21 = 2}
+			}
+			nmissle_rd_launch_site_1_click={
+				set_variable = {NMC_research_array^22 = 2}
+			}
+			nmissle_rd_launch_site_2_click={
+				set_variable = {NMC_research_array^23 = 2}
+			}
+			nmissle_rd_mcontrol_1_click={
+				set_variable = {NMC_research_array^24 = 2}
+			}
+			nmissle_rd_mcontrol_2_click={
+				set_variable = {NMC_research_array^25 = 2}
+			}
+			nmissle_rd_security_1_click={
+				set_variable = {NMC_research_array^26 = 2}
+			}
+			nmissle_rd_security_2_click={
+				set_variable = {NMC_research_array^27 = 2}
+			}
+			nmissle_rd_launch_ready_click={
+				set_variable = {NMC_research_array^28 = 2}
+				set_variable = {NMC_research_array^29 = 3}
+			}
 		}
 		triggers={
 			nmissle_rd_research_1_1_click_enabled = {
-				has_political_power > 20
+				command_power > 25
 			}
 			nmissle_rd_research_1_1_visible = {
 				check_variable = {NMC_research_array^0 = 0}
 			}
 			nmissle_rd_research_1_2_click_enabled = {
-				has_political_power > 20
+				command_power > 25
 				check_variable = {NMC_research_array^0 = 2}
 			}
 			nmissle_rd_research_1_2_visible = {
 				check_variable = {NMC_research_array^1 = 0}
 			}
 			nmissle_rd_research_2_1_click_enabled = {
-				has_political_power > 20
+				command_power > 25
 			}
 			nmissle_rd_research_2_1_visible = {
 				check_variable = {NMC_research_array^2 = 0}
 			}
 			nmissle_rd_research_2_2_click_enabled = {
-				has_political_power > 20
+				command_power > 25
 				check_variable = {NMC_research_array^2 = 2}
 			}
 			nmissle_rd_research_2_2_visible = {
@@ -1464,22 +1562,229 @@ scripted_gui = {
 			}
 			nmissle_rd_extraction_1_click_enabled = {
 				has_political_power > 20
+				has_tech = mining_rig_11
 			}
 			nmissle_rd_extraction_1_visible = {
 				check_variable = {NMC_research_array^4 = 0}
 			}
 			nmissle_rd_extraction_2_click_enabled = {
-				has_political_power > 20
+				has_country_flag = HAS_URANIUM_SOURCE
 				check_variable = {NMC_research_array^4 = 2}
 			}
 			nmissle_rd_extraction_2_visible = {
 				check_variable = {NMC_research_array^5 = 0}
 			}
+			nmissle_rd_refining_1_click_enabled = {
+				has_political_power > 20
+				has_tech = gas_centrifuge
+			}
+			nmissle_rd_refining_1_visible = {
+				check_variable = {NMC_research_array^6 = 0}
+			}
+			nmissle_rd_refining_2_click_enabled = {
+				has_tech = machine_tools_8
+				has_political_power > 20
+				check_variable = {NMC_research_array^6 = 2}
+			}
+			nmissle_rd_refining_2_visible = {
+				check_variable = {NMC_research_array^7 = 0}
+			}
+			nmissle_rd_fissile_material_1_click_enabled = {
+				has_political_power > 100
+				has_country_flag = HAS_URANIUM_SOURCE
+			}
+			nmissle_rd_fissile_material_1_visible = {
+				check_variable = {NMC_research_array^8 = 0}
+			}
+			nmissle_rd_fissile_material_2_click_enabled = {
+				has_political_power > 100
+				check_variable = {NMC_research_array^8 = 2}
+			}
+			nmissle_rd_fissile_material_2_visible = {
+				check_variable = {NMC_research_array^9 = 0}
+			}
+			
+			nmissle_rd_electronics_1_click_enabled = {
+				has_tech = double_diode_triodes
+				has_tech = smith-putnam_wind_turbine
+			}
+			nmissle_rd_electronics_1_visible = {
+				check_variable = {NMC_research_array^10 = 0}
+			}
+			nmissle_rd_electronics_2_click_enabled = {
+				has_tech = programing_languages
+				check_variable = {NMC_research_array^10 = 2}
+			}
+			nmissle_rd_electronics_2_visible = {
+				check_variable = {NMC_research_array^11 = 0}
+			}
+			nmissle_rd_radio_1_click_enabled = {
+				has_tech = slotted_waveguide_radar_system
+			}
+			nmissle_rd_radio_1_visible = {
+				check_variable = {NMC_research_array^12 = 0}
+			}
+			nmissle_rd_radio_2_click_enabled = {
+				has_tech = point_contact_transistor
+				check_variable = {NMC_research_array^12 = 2}
+			}
+			nmissle_rd_radio_2_visible = {
+				check_variable = {NMC_research_array^13 = 0}
+			}
+			nmissle_rd_servos_1_click_enabled = {
+				has_tech = alkaline_battery
+				has_tech = industrial_robotics
+			}
+			nmissle_rd_servos_1_visible = {
+				check_variable = {NMC_research_array^14 = 0}
+			}
+			nmissle_rd_servos_2_click_enabled = {
+				has_tech = tunnel_diodes
+				has_tech = wind_turbine_1
+				check_variable = {NMC_research_array^14 = 2}
+			}
+			nmissle_rd_servos_2_visible = {
+				check_variable = {NMC_research_array^15 = 0}
+			}
+			nmissle_rd_gyros_1_click_enabled = {
+				has_tech = assembly_line_tools_1
+				has_tech = industrial_metalworks_1
+			}
+			nmissle_rd_gyros_1_visible = {
+				check_variable = {NMC_research_array^16 = 0}
+			}
+			nmissle_rd_gyros_2_click_enabled = {
+				has_tech = swept_wings
+				has_tech = variable_stators
+				check_variable = {NMC_research_array^16 = 2}
+			}
+			nmissle_rd_gyros_2_visible = {
+				check_variable = {NMC_research_array^17 = 0}
+			}
+			nmissle_rd_propulsion_1_click_enabled = {
+				has_tech = icbm
+			}
+			nmissle_rd_propulsion_1_visible = {
+				check_variable = {NMC_research_array^18 = 0}
+			}
+			nmissle_rd_propulsion_2_click_enabled = {
+				has_tech = modern_ceramics
+				has_tech = hydrocracking
+				check_variable = {NMC_research_array^18 = 2}
+			}
+			nmissle_rd_propulsion_2_visible = {
+				check_variable = {NMC_research_array^19 = 0}
+			}
+			
+			
+			nmissle_rd_casing_1_click_enabled = {
+				has_political_power > 100
+			}
+			nmissle_rd_casing_1_visible = {
+				check_variable = {NMC_research_array^20 = 0}
+			}
+			nmissle_rd_casing_2_click_enabled = {
+				has_political_power > 100
+				check_variable = {NMC_research_array^20 = 2}
+			}
+			nmissle_rd_casing_2_visible = {
+				check_variable = {NMC_research_array^21 = 0}
+			}
+			nmissle_rd_launch_site_1_click_enabled = {
+				has_political_power > 100
+			}
+			nmissle_rd_launch_site_1_visible = {
+				check_variable = {NMC_research_array^22 = 0}
+			}
+			nmissle_rd_launch_site_2_click_enabled = {
+				has_political_power > 100
+				check_variable = {NMC_research_array^22 = 2}
+			}
+			nmissle_rd_launch_site_2_visible = {
+				check_variable = {NMC_research_array^23 = 0}
+			}
+			
+			nmissle_rd_mcontrol_1_click_enabled = {
+				has_political_power > 100
+			}
+			nmissle_rd_mcontrol_1_visible = {
+				check_variable = {NMC_research_array^24 = 0}
+			}
+			nmissle_rd_mcontrol_2_click_enabled = {
+				has_political_power > 100
+				check_variable = {NMC_research_array^24 = 2}
+			}
+			nmissle_rd_mcontrol_2_visible = {
+				check_variable = {NMC_research_array^25 = 0}
+			}
+			
+			nmissle_rd_security_1_click_enabled = {
+				has_political_power > 100
+			}
+			nmissle_rd_security_1_visible = {
+				check_variable = {NMC_research_array^26 = 0}
+			}
+			nmissle_rd_security_2_click_enabled = {
+				has_political_power > 100
+				check_variable = {NMC_research_array^26 = 2}
+			}
+			nmissle_rd_security_2_visible = {
+				check_variable = {NMC_research_array^27 = 0}
+			}
+			nmissle_rd_launch_ready_click_enabled = {
+				has_political_power > 100
+				check_variable = {NMC_research_array^28 = 0}
+				check_variable = {NMC_research_array^29 = 2}
+			}
+			
 		}
 		properties = {
 			nmc_research_1_light = { frame = NMC_research_array^1}
 			nmc_research_2_light = { frame = NMC_research_array^3}
 			nmc_extraction_light = { frame = NMC_research_array^5}
+			nmc_refining_light = { frame = NMC_research_array^7}
+			nmc_fissile_light = { frame = NMC_research_array^9}
+			nmc_electronics_light = { frame = NMC_research_array^11}
+			nmc_radio_light = { frame = NMC_research_array^13}
+			nmc_servos_light = { frame = NMC_research_array^15}
+			nmc_gyros_light = { frame = NMC_research_array^17}
+			nmc_propulsion_light = { frame = NMC_research_array^19}
+			nmc_casing_light = { frame = NMC_research_array^21}
+			nmc_launch_site_light = { frame = NMC_research_array^23}
+			nmc_mcontrol_light = { frame = NMC_research_array^25}
+			nmc_security_light = { frame = NMC_research_array^27}
+			nmc_launch_ready_light = { frame = NMC_research_array^28}
+			nmissle_rd_launch_ready = { frame = NMC_research_array^28}
+		}
+	}
+	nuclear_missile_production_tab = {
+		window_name = "nmissle_production_tab"
+		
+		context_type = country_context
+		parent_window_name = nmissle_container
+	    ai_enabled={
+			always = no
+		}
+ 
+		visible = {
+			has_country_flag = NMC_opened
+			check_variable = { NMC_opened_tab = 2 }
+		}
+		
+		# effects={
+			
+		# }
+		# triggers={
+			
+			
+		# }
+		properties = {
+			nmissile_warhead_construction_bar = {
+				frame = 100
+			}
+			nmissile_warhead_construction_screen_bg = { 
+				frame = NMC_research_array^29
+			}
 		}
 	}
 	nuclear_missile_targeting = {
@@ -1523,14 +1828,14 @@ scripted_gui = {
 							}
 						}
 					}
-					ROOT = {subtract_from_variable = { num_prepared_nuclear_missiles = 1}}
+					#ROOT = {subtract_from_variable = { num_prepared_nuclear_missiles = 1}}
 				}
 			}
         }
         triggers = {
 			target_state_with_missle_click_enabled = {
 				NOT={owner = {tag = ROOT}}
-				ROOT={check_variable = { num_prepared_nuclear_missiles > 0}}
+				ROOT={check_variable = { num_prepared_nuclear_missiles > zmissile_targeted_states_array^num}}
 				NOT={
 					is_in_array = {
 						array = ROOT.zmissile_targeted_states_array

@@ -319,6 +319,8 @@ country_event = {
 	desc = DOM_1858_santana_coup.2.d
 	
 	is_triggered_only = yes
+	
+	trigger = { is_subject = no }
 
 	option = {
 		name = DOM_1858_santana_coup.2.a
@@ -1084,6 +1086,7 @@ country_event = {
 			else = { debt_level_increase_by_5 = yes }
 			hidden_effect = { ROOT = { country_event = { id = USA_hispaniola.2 days = 7 } } }
 			hidden_effect = { DOM = { add_ideas = normal_taxes } }
+			hidden_effect = { DOM = { set_variable = { most_favoured_country = USA.id } } }
 		#}
 		
 	}
@@ -1370,6 +1373,7 @@ country_event = {
 			hidden_effect = { FROM = { load_oob = "DOM_SPAIN_1861" } }
 			hidden_effect = { DOM = { add_ideas = normal_taxes } }
 			debt_level_increase_by_5 = yes
+			hidden_effect = { DOM = { set_variable = { most_favoured_country = FRA.id } } }
 		}
 	}
 	
@@ -1451,6 +1455,13 @@ country_event = {
 			hidden_effect = { ROOT = { country_event = { id = SPR_hispaniola.2 days = 7 } } }
 			hidden_effect = { DOM = { add_ideas = normal_taxes } }
 			hidden_effect = { load_oob = "DOM_SPAIN_1861" }
+			hidden_effect = {
+				SPR = { 
+					add_opinion_modifier = { target = DOM modifier = AFR_spanish_colony }
+					reverse_add_opinion_modifier = { target = DOM modifier = AFR_spanish_colony }
+				}
+				DOM = { set_variable = { most_favoured_country = SPR.id } }
+			}
 		}
 	    HAI = { country_event = { id = hispaniola.3 days = 3 } }
 		debt_level_increase_by_5 = yes
@@ -1784,12 +1795,26 @@ country_event = {
 	#	}
 	#}
 	
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { 
+					DOM = { is_ai = no }
+					HAI = { is_ai = yes }
+				}
+				HAI = { change_tag_from = DOM }
+			}
+		}
+	}
+	
 	option = {
 		name = hispaniola.4.a
-		add_political_power = 30
-		remove_ideas = HAI_liberation_of_hispaniola
-		transfer_state = 1318
-		transfer_state = 319
+		HAI = {
+			add_political_power = 30
+			remove_ideas = HAI_liberation_of_hispaniola
+			transfer_state = 1318
+			transfer_state = 319
+		}
 		hidden_effect = {
 			every_country = {
 				limit = { has_country_flag = HAI_spain_war }
@@ -1825,6 +1850,19 @@ country_event = {
 	#	}
 	#}
 	
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { 
+					HAI = { is_ai = no }
+					DOM = { is_ai = yes }
+					DOM = { is_subject_of = SPR }
+				}
+				HAI = { change_tag_from = DOM }
+			}
+		}
+	}
+	
 	option = {
 		name = hispaniola.5.a
 		add_political_power = 30
@@ -1840,7 +1878,7 @@ country_event = {
 			}
 		}
 		else = {
-			hidden_effect = {
+			SPR = {
 				transfer_state = 318
 				transfer_state = 790
 			}
@@ -1911,7 +1949,7 @@ country_event = {
 		}	
 	}	
 }
-
+#rich man's revolt against spain cuz la hispaniola has not been so welcoming
 country_event = {
 	id = hispaniola.7
 	title = hispaniola.7.t

@@ -11,6 +11,13 @@ focus_tree = {
 
 	default = no
 
+#------------------------------------------------------------------------------------------
+# BRITISH FOCUS TREE
+#------------------------------------------------------------------------------------------
+	#--------------------------------------------------------------------------------------
+	# SEPOY MUTINY BRANCH
+	#--------------------------------------------------------------------------------------
+	
 	focus = {
 		id = ENG_focus_sepoy_rebellion
 		icon = GFX_focus_RAJ_lions_of_the_great_war
@@ -997,6 +1004,10 @@ focus_tree = {
 		}
 	}
 
+	#------------------------------------------------------------------------------------------
+	# EAST-INDIA COMPANY BRACH
+	#------------------------------------------------------------------------------------------
+
 	focus = {
 		id = ENG_focus_viceroy_india_investigate
 		icon = GFX_focus_generic_home_defense
@@ -1367,6 +1378,10 @@ focus_tree = {
 			}
 		}
 	}
+
+	#------------------------------------------------------------------------------------------
+	# ARMY BRANCH
+	#------------------------------------------------------------------------------------------
 
 	focus = {
 		id = ENG_focus_volunteer_movement
@@ -2029,6 +2044,10 @@ focus_tree = {
 			add_tech_bonus = { bonus = 0.3 uses = 1 category = land_doctrine }
 		}
 	}
+
+	#-------------------------------------------------------------------------------------------------
+	# INDUSTRY BRANCH
+	#-------------------------------------------------------------------------------------------------
 
 	focus = {
 		id = ENG_focus_industrial_revolution
@@ -3378,6 +3397,10 @@ focus_tree = {
 		}
 	}
 
+	#-------------------------------------------------------------------------------------
+	# ECONOMIC RIGHTS BRANCH
+	#-------------------------------------------------------------------------------------
+
 	focus = {
 		id = ENG_focus_address_political_economic_matters
 		icon = GFX_goal_focus_freedom_press
@@ -3684,6 +3707,14 @@ focus_tree = {
 		}
 	}
 
+		#---------------------------------------------------------------------------------
+		# WORKERS RIGHTS BRANCH
+		#---------------------------------------------------------------------------------
+		
+			#-----------------------------------------------------------------------------
+			# PRO-WORKERS BRANCH
+			#-----------------------------------------------------------------------------
+
 	focus = {
 		id = ENG_focus_address_workforce_issues
 		icon = GFX_goal_focus_reform_government
@@ -3697,12 +3728,13 @@ focus_tree = {
 		prerequisite = { focus = ENG_focus_the_economic_debate }
 
 		completion_reward = {
+			add_political_power = 100
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_royal_commission_working_conditions
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_Focus_Worker_Appeal
 		x = 67
 		y = 7
 		cost = 60
@@ -3719,7 +3751,7 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_mines_regulation_act
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_coal_mines
 		x = 65
 		y = 8
 		cost = 60
@@ -3729,14 +3761,21 @@ focus_tree = {
 		}
 		prerequisite = { focus = ENG_focus_royal_commission_working_conditions }
 		mutually_exclusive = { } 
-
+		bypass = { has_idea = cl_restricted }
+		bypass = { has_idea = cl_illegal }
+			
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = cl_legal
+				add_idea = cl_restricted
+			}
+		    
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_further_regulations
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_government_control
 		x = 65
 		y = 9
 		cost = 60
@@ -3748,12 +3787,21 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_worker_unrest_decrease_3
+			hidden_effect = {
+				ENG = {
+					subtract_from_variable = {
+						var = ENG_worker_unrest
+						value = 3
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_childrens_employment_commision
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_generic_national_unity
 		x = 65
 		y = 10
 		cost = 60
@@ -3763,14 +3811,23 @@ focus_tree = {
 		}
 		prerequisite = { focus = ENG_focus_further_regulations }
 		mutually_exclusive = { } 
-
+        bypass = { has_idea = cl_illegal }
 		completion_reward = {
+		    if = {
+				limit = {
+					has_idea = cl_restricted
+				}
+				swap_ideas = {
+					remove_idea = cl_restricted
+					add_idea = cl_illegal
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_establish_trade_union_congress
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_the_workers
 		x = 67
 		y = 8
 		cost = 60
@@ -3780,14 +3837,18 @@ focus_tree = {
 		}
 		prerequisite = { focus = ENG_focus_royal_commission_working_conditions }
 		mutually_exclusive = { } 
-
+        bypass = { has_idea = tu_non_political}
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = tu_prohibited
+				add_idea = tu_non_political
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_trade_unions_act
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_enact_law
 		x = 67
 		y = 9
 		cost = 60
@@ -3797,14 +3858,27 @@ focus_tree = {
 		}
 		prerequisite = { focus = ENG_focus_establish_trade_union_congress }
 		mutually_exclusive = { } 
-
+		bypass = { has_idea = tu_free_unions}
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = tu_non_political
+				add_idea = tu_free_unions
+			}
+			custom_effect_tooltip = eoanb_tt_worker_unrest_decrease_1
+			hidden_effect = {
+				ENG = {
+					subtract_from_variable = {
+						var = ENG_worker_unrest
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_concessions_to_workers
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
 		x = 67
 		y = 10
 		cost = 60
@@ -3831,7 +3905,7 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_sanitary_act
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_enact_law
 		x = 69
 		y = 8
 		cost = 60
@@ -3843,12 +3917,21 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+			custom_effect_tooltip = eoanb_tt_worker_unrest_decrease_1
+			hidden_effect = {
+				ENG = {
+					subtract_from_variable = {
+						var = ENG_worker_unrest
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_reform_act
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_elections
 		x = 69
 		y = 9
 		cost = 60
@@ -3860,12 +3943,22 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+		    add_popularity = { ideology = traditional_conservatism popularity = 0.05 }
+			custom_effect_tooltip = eoanb_tt_worker_unrest_decrease_5
+			hidden_effect = {
+				ENG = {
+					subtract_from_variable = {
+						var = ENG_worker_unrest
+						value = 5
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_master_servant_act
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_enact_law
 		x = 69
 		y = 10
 		cost = 60
@@ -3877,12 +3970,21 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+			custom_effect_tooltip = eoanb_tt_worker_unrest_increase_1
+			hidden_effect = {
+				ENG = {
+					subtract_from_variable = {
+						var = ENG_worker_unrest
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_factories_workshop_act
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_enact_law
 		x = 67
 		y = 11
 		cost = 60
@@ -3896,12 +3998,21 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_worker_unrest_decrease_3
+			hidden_effect = {
+				ENG = {
+					subtract_from_variable = {
+						var = ENG_worker_unrest
+						value = -3
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_guarantee_fair_wages
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_increase_wages
 		x = 67
 		y = 12
 		cost = 60
@@ -3929,7 +4040,7 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_assist_the_poor
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_Focus_Worker_Pact
 		x = 67
 		y = 13
 		cost = 60
@@ -3987,10 +4098,10 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_persuade_the_royal_consort
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_focus_Usurp_Throne
 		x = 70
 		y = 11
-		cost = 60
+		cost = 30
 		available_if_capitulated = no
 		ai_will_do = {
 			factor = 40
@@ -3999,6 +4110,10 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+			add_political_power = 50
+			hidden_effect = {
+				country_event = { id = britainfocus.20 random = 12 }
+			}
 		}
 	}
 	
@@ -4022,7 +4137,7 @@ focus_tree = {
 				add_idea = ENG_idea_working_class_exploitation_4
 			}
 			hidden_effect = {
-				country_event = { id = britainfocus.10 random = 12 }
+				country_event = { id = britainfocus.7 random = 12 }
 			}
 		}
 	}
@@ -4045,9 +4160,13 @@ focus_tree = {
 		}
 	}
 	
+			#-------------------------------------------------------------------------------
+			# PRO-BUSINESS BRANCH
+			#-------------------------------------------------------------------------------
+	
 	focus = {
 		id = ENG_focus_provide_false_promises
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_Focus_Worker_Manipulation
 		x = 73
 		y = 7
 		cost = 60
@@ -4059,12 +4178,21 @@ focus_tree = {
 		mutually_exclusive = { focus = ENG_focus_royal_commission_working_conditions } 
 
 		completion_reward = {
+			custom_effect_tooltip = eoanb_tt_worker_unrest_increase_1
+			hidden_effect = {
+				ENG = {
+					add_to_variable = {
+						var = ENG_worker_unrest
+						value = 1
+					}
+				}		
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_justify_child_workers
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_Focus_State_of_the_People
 		x = 71
 		y = 8
 		cost = 60
@@ -4074,14 +4202,35 @@ focus_tree = {
 		}
 		prerequisite = { focus = ENG_focus_provide_false_promises }
 		mutually_exclusive = { } 
-
+        bypass = {
+            has_idea = cl_legal
+		}
 		completion_reward = {
+		    add_political_power = 100
+			if = {
+				limit = {
+					has_idea = cl_restricted
+				}
+				swap_ideas = {
+					remove_idea = cl_restricted
+					add_idea = cl_legal
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = cl_illegal
+				}
+				swap_ideas = {
+					remove_idea = cl_illegal
+					add_idea = cl_legal
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_ignore_the_accidents 
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_controlled_press
 		x = 71
 		y = 9
 		cost = 60
@@ -4093,12 +4242,22 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+			custom_effect_tooltip = eoanb_tt_worker_unrest_increase_1
+			hidden_effect = {
+				ENG = {
+					subtract_from_variable = {
+						var = ENG_worker_unrest
+						value = 1
+					}
+				}		
+			}
+			add_political_power = 50
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_mines_regulation_act_1
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_coal_mines
 		x = 71
 		y = 10
 		cost = 60
@@ -4109,13 +4268,18 @@ focus_tree = {
 		prerequisite = { focus = ENG_focus_ignore_the_accidents }
 		mutually_exclusive = { } 
 
+		bypass = { has_idea = cl_restricted }
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = cl_legal
+				add_idea = cl_restricted
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_weaken_trade_unions
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_stop_fund_partisans
 		x = 73
 		y = 8
 		cost = 60
@@ -4125,31 +4289,53 @@ focus_tree = {
 		}
 		prerequisite = { focus = ENG_focus_provide_false_promises }
 		mutually_exclusive = { } 
-
+		bypass = {
+            has_idea = tu_state_controlled
+		}
 		completion_reward = {
+				swap_ideas = {
+					remove_idea = tu_prohibited
+					add_idea = tu_state_controlled
+				}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_trade_unions_act_1
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_enact_law
 		x = 73
 		y = 9
 		cost = 60
 		available_if_capitulated = no
+		available = { has_idea = tu_state_controlled }
 		ai_will_do = {
 			factor = 40
 		}
 		prerequisite = { focus = ENG_focus_weaken_trade_unions }
 		mutually_exclusive = { } 
-
+        bypass = {
+            has_idea = tu_prohibited
+		}
 		completion_reward = {
+				swap_ideas = {
+					remove_idea = tu_state_controlled
+					add_idea = tu_prohibited
+				}
+			custom_effect_tooltip = eoanb_tt_worker_unrest_increase_3
+			hidden_effect = {
+				ENG = {
+					add_to_variable = {
+						var = ENG_worker_unrest
+						value = 3
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_lower_taxes_on_buisnesses
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_banks
 		x = 73
 		y = 10
 		cost = 60
@@ -4235,7 +4421,7 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_producivity_first
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_industrial_revolution
 		x = 75
 		y = 8
 		cost = 60
@@ -4257,7 +4443,7 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_crackdown_on_strikes
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_Focus_Worker_Strike_2
 		x = 75
 		y = 9
 		cost = 60
@@ -4269,12 +4455,22 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+			custom_effect_tooltip = eoanb_tt_worker_unrest_decrease_3
+			hidden_effect = {
+				ENG = {
+					subtract_from_variable = {
+						var = ENG_worker_unrest
+						value = 2
+					}
+				}
+			}
+			add_political_power = -200
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_master_servant_act_1
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_enact_law
 		x = 75
 		y = 10
 		cost = 60
@@ -4286,12 +4482,21 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+		    custom_effect_tooltip = eoanb_tt_worker_unrest_increase_1
+			hidden_effect = {
+				ENG = {
+					add_to_variable = {
+						var = ENG_worker_unrest
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_pro_employer_legislation
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_Focus_Refugee_Forced_Labor
 		x = 73
 		y = 11
 		cost = 60
@@ -4305,12 +4510,22 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+			#enables decisions#
+			custom_effect_tooltip = eoanb_tt_worker_unrest_increase_1
+			hidden_effect = {
+				ENG = {
+					add_to_variable = {
+						var = ENG_worker_unrest
+						value = 1
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_end_worker_rights
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_Focus_Working_Hours
 		x = 73
 		y = 12
 		cost = 60
@@ -4322,13 +4537,26 @@ focus_tree = {
 		mutually_exclusive = { } 
 
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = twelve_hour_work_day
+				add_idea = unlimited_work_day
+			}
 		    add_political_power = 50 
+			custom_effect_tooltip = eoanb_tt_worker_unrest_increase_5
+			hidden_effect = {
+				ENG = {
+					add_to_variable = {
+						var = ENG_worker_unrest
+						value = 5
+					}
+				}
+			}
 		}
 	}
 	
 	focus = {
 		id = ENG_focus_no_more_prudction_delays
-		icon = GFX_goal_focus_reform_government
+		icon = GFX_goal_focus_the_elite
 		x = 73
 		y = 13
 		cost = 60
@@ -4343,7 +4571,9 @@ focus_tree = {
 		}
 	}
 	
-	###NAVY
+	#----------------------------------------------------------------------
+	#NAVY
+	#----------------------------------------------------------------------
 	
 	focus = {
 		id = ENG_focus_royal_navy
@@ -4448,7 +4678,7 @@ focus_tree = {
 			} 
 			else_if = {
 			    limit = { 
-				    has_completed_focus = ENG_focus_go_with_coles
+				    NOT = { has_idea  = ENG_idea_dockyard_output }
 			    }
 			    add_timed_idea = {
 				idea = ENG_idea_dockyard_output
@@ -4461,7 +4691,7 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_begin_naval_drills
-		icon = GFX_goal_molotov_ribbentrop_pact
+		icon = GFX_goal_generic_navy_battleship
 		x = 83
 		y = 4
 		cost = 50
@@ -4478,7 +4708,7 @@ focus_tree = {
 
 	focus = {
 		id = ENG_focus_naval_arms_race
-		icon = GFX_goal_molotov_ribbentrop_pact
+		icon = GFX_goal_generic_construct_naval_dockyard
 		x = 83
 		y = 5
 		cost = 50
@@ -4502,7 +4732,7 @@ focus_tree = {
 			} 
 			else_if = {
 			    limit = { 
-				    has_completed_focus = ENG_focus_go_with_coles
+				    NOT = { has_idea  = ENG_idea_dockyard_output }
 			    }
 			    add_timed_idea = {
 				idea = ENG_idea_dockyard_output
@@ -4514,7 +4744,7 @@ focus_tree = {
 	
     focus = {
 		id = ENG_focus_lesson_acw
-		icon = GFX_goal_molotov_ribbentrop_pact
+		icon = GFX_goal_focus_american_civil_war
 		x = 83
 		y = 6
 		cost = 50
@@ -4754,7 +4984,7 @@ focus_tree = {
 
 	focus = {
 		id = ENG_focus_coles_turrets
-		icon = GFX_goal_focus_mass_produce_ships
+		icon = GFX_Focus_Turret_Early
 		x = 78
 		y = 9
 		cost = 50
@@ -4773,7 +5003,7 @@ focus_tree = {
 
 	focus = {
 		id = ENG_focus_ericsson_turrets
-		#icon = GFX_goal_generic_air_naval_bomber
+		icon = GFX_goal_generic_air_naval_bomber
 		x = 82
 		y = 9
 		cost = 50
@@ -4849,7 +5079,7 @@ focus_tree = {
 
 	focus = {
 		id = ENG_focus_player_choice_2
-		#icon = GFX_goal_focus_mass_produce_ships
+		icon = GFX_goal_focus_mass_produce_ships
 		x = 82
 		y = 10
 		cost = 50
@@ -4906,7 +5136,7 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_maintain_naval_race
-		icon = GFX_focus_gunboat_basic
+		icon = GFX_focus_generic_navy_battleship2
 		x = 83
 		y = 11
 		cost = 50
@@ -4929,7 +5159,7 @@ focus_tree = {
 	
 	focus = {
 		id = ENG_focus_britannia_rules_the_waves
-		icon = GFX_focus_gunboat_basic
+		icon = GFX_goal_focus_britannia_rules_waves
 		x = 83
 		y = 12
 		cost = 50
