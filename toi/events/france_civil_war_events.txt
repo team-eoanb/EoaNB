@@ -1,0 +1,124 @@
+add_namespace = fcw
+
+country_event = { # Armistice signed with the German Empire
+	id = fcw.001
+	title = fcw.001.t
+	desc = fcw.001.d
+	
+	fire_only_once = yes
+	
+	immediate = {
+		activate_mission = fcw_parisian_uprising
+		
+		set_variable = { 
+			var  = fcw_communard_artillery_units
+			value = 0
+		}
+	}
+	
+	option = { # the Third Republic will restore our greatness
+		name = fcw.001.a
+		custom_effect_tooltip = fcw.001.a.tt
+		
+		set_country_flag = fcw_monarchist_decisions
+	}
+	
+	option = { # The government has betrayed the nation
+		name = fcw.001.b
+		custom_effect_tooltip = fcw.001.b.tt
+		
+		set_country_flag = fcw_communist_decisions
+	}
+}
+
+country_event = { # Revolt in the Capital
+	id = fcw.002
+	title = fcw.002.t
+	desc = fcw.002.d
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	immediate = {
+		CPR = {
+			transfer_state = 814
+			add_state_core = 814
+			
+			country_event = {
+				id = fcw.003
+				days = 1
+			}
+		}
+		
+		FRA = {
+			set_capital = 1329
+		}
+	}
+	
+	option = { # We must prepare for the worst...
+		name = fcw.002.a
+		custom_effect_tooltip = fcw.002.a.tt
+		
+		add_stability = -0.05
+		
+		add_political_power = -20
+		
+		add_to_variable = {
+			var = political_legitimacypolitical_legitimacy
+			value = -10
+		}
+	}
+	
+	option = {
+		name = fcw.002.b
+		custom_effect_tooltip = fcw.002.b.tt
+		
+		CPR = {
+			change_tag_from = FRA
+		}
+	}
+}
+
+country_event = {
+	id = fcw.003
+	title = fcw.003.t
+	desc = fcw.003.d
+	
+	fire_only_once = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				OR = {
+					has_country_flag = fcw_blanqui_executed
+					has_country_flag = fcw_blanqui_arrested
+				}
+			}
+			
+			create_country_leader = {
+				name = "Commune Council"
+				picture = "Portrait_CPR_Commune_Council.dds"
+				ideology = anarchism_sub
+				traits = {
+		
+				}
+			}
+		}
+		
+		else = {
+			create_country_leader = {
+				name = "Auguste Blanqui"
+				picture = "Portrait_CPR_Auguste_Blanqui.dds"
+				ideology = anarchism_sub
+				traits = {
+	
+				}
+			}
+		}
+	}
+
+	option = { # I love democracy
+		name = fcw.003.a
+	}
+}
